@@ -28,16 +28,17 @@ integral twisted lifts. Layer 6 assembles the auxiliary forms and proves Theorem
 
 ## Conventions and notation
 
-**Roadmaps and sources.** A roadmap name of the family `ShortGRH` refers to that roadmap; every other roadmap name refers
-to the roadmap of that name in the family `RiemannHypothesisForDirichletLFunctions`, unless an area is named. A roadmap
-of `ShortGRH` is cited by section number: `Name §k.n (what is taken)` points to section `k.n` of the roadmap `Name`,
-and the words in the parenthesis say what is taken from it. `ShortGRH background (…)` names a standard result that the
-family uses and does not state as a target of its own roadmaps.
-`[ShortProof]` is the formal proof of the Riemann hypothesis for Dirichlet L-functions that the family follows; the pointer line of a
-section names the file under its directory `src/` and the declaration that proves the statement. The labels follow the
-family `RiemannHypothesisForDirichletLFunctions`: `*Origin:*` says where a statement comes from (published, adapted,
-particular to this proof, this roadmap's own formulation, or definitions and conventions), and `*Method of the formal
-proof:*` says how [ShortProof] proves it.
+**Roadmaps and sources.** A roadmap name of the family `ShortGRH` refers to that roadmap; every other roadmap name
+refers to a roadmap of the library, in the family `RiemannHypothesisForDirichletLFunctions` or in another area. A
+roadmap is cited by section number: `Name §k.n (what is taken)` points to section `k.n` of the roadmap `Name`, and the
+words in the parenthesis say what is taken from it. `ShortGRH background (…)` names a result that the family uses and
+that no roadmap section states in the form used; the words say which form, and the entry ends with the file and
+declaration of `[ShortProof]` that prove it. `[ShortProof]` is the formal proof of the Riemann hypothesis for Dirichlet
+L-functions whose route the family states (References); the pointer line of a section names the file under its
+directory `src/` and the declaration that proves the statement. The labels are those of the
+[index of the family](../README.md): `*Origin:*` says where a statement comes from (published, adapted, particular to
+this proof, this roadmap's own formulation, or definitions and conventions), and `*Method of the formal proof:*` says
+how [ShortProof] proves it.
 
 **The data.** Throughout, `D` denotes admissible data in the sense of OneSidedPrimeSumBoundsAndAdmissibleData §3.2,
 which, with §2.1 and §2.2 (the parameters and the field), §4.1 (the amounts `h_dir`, `h_main` and the error unit) and
@@ -55,8 +56,12 @@ budget. Inequalities between these numbers that follow from the inequalities of 
 character of `[U(1)]` is a continuous character of this compact group. It has weight `w : Φ_E → ℤ` and tame part
 `ψ = (ψ_v)` (a character `ψ_v` of `k_v^×` for each finite place `v`, almost all trivial) if it is `u ↦ ∏_τ u_τ^{w(τ)}` on
 the infinite part and `∏_v ψ_v(u mod v)` on integral finite parts. Its base change is the Hecke character
-`ν̃(x) = ν(x/x̄)` of `E`, and `L^S(z, ν)` is the Euler product of `ν̃` with the factors at `S` and at the conjugates of
-`S` removed. For a finite set `S` of finite places and `e ≥ 0`,
+`ν̃(x) = ν(x/x̄)` of `E`, and `L^S(z, ν)`, for real `z ≥ 1`, is the partial Hecke L-value of `ν̃` with the Euler factors
+at `S` and at the conjugates of `S` removed: the Euler product for `z > 1`, and at `z = 1` its limit as `z → 1⁺`,
+which is the value of the continued L-function. The product does not converge absolutely at `z = 1`; the limit exists
+and is nonzero when `ν` has nonzero weight and `S` contains its ramified places, because `ν̃` is then a nontrivial
+unitary Hecke character, and every `L^S(z, ν)` of this roadmap is of that kind. For a finite set `S` of finite places
+and `e ≥ 0`,
 `L_*(S, ν, e) = (∏_{v∈S} q_v)^{e²} · ∏_{z=1}^{e} |L^S(z, ν)|²`, `q_v` the norm of `v`.
 A modulus is a nonzero ideal `𝔪` of `O_E` divisible by no prime together with its conjugate; `ν` is tame for `(𝔪, χ)`
 with weight `w` if `𝔪 ≠ (1)`, `ν` has weight `w` and a tame part `ψ` with `ψ_v ≠ 1` exactly for the primes `v | 𝔪`, and
@@ -64,8 +69,8 @@ with weight `w` if `𝔪 ≠ (1)`, `ν` has weight `w` and a tame part `ψ` with
 restriction `υ₁` to the norm-one ideles has weight `1` and trivial tame part. A space of rank `n` that carries the
 character `α` of `[U(1)]` has the splitting character `α̃·υ^{−n}`.
 
-**Hermitian spaces and theta integrals.** `E` carries Weil data (ShortGRH background (the Weil representation of unitary
-dual pairs over a CM field)): a CM type, the splitting character `υ`, a skew element `j` with `j̄ = −j`, the additive
+**Hermitian spaces and theta integrals.** `E` carries Weil data (DivisibilityOfThetaDerivatives §1.4): a CM type, the
+splitting character `υ`, a skew element `j` with `j̄ = −j`, the additive
 character, and a primitive root of unity of order `5040` in `E`, so that `E/E⁺` is unramified at every finite place. A
 hermitian space of rank `n` with signs `s ∈ {±1}^n` is a hermitian matrix over `E` with an adelic frame that is
 orthonormal for `diag(s)` at every infinite place and for the identity at every finite place; `neg(s)` is the number of
@@ -79,8 +84,8 @@ the character `β` of `[U(1)]`; the theta integral over `[U(T)]` is a function o
 function `Φ` on matrices over `O_E/𝔪`, and a real vector `v`, the datum `(v, Φ)` is `v` at the infinite places, `Φ` (read
 through the frames) at the primes dividing `𝔪`, and the characteristic function of the standard lattice elsewhere. An
 edge from a type `e` to a type `e′` is a real datum whose theta lift carries forms of type `e` to forms of type `e′` and
-whose transposed lift carries forms of type `ē′` to forms of type `ē` (ShortGRH background (theta lifts of forms of a
-given discrete series type by joint harmonics)).
+whose transposed lift carries forms of type `ē′` to forms of type `ē`; the Fock vector of a joint harmonic polynomial
+of two corresponding parameters is an edge between their types (the background entry of 3.1).
 
 **Matched functions.** Let `R` be a commutative ring, `χ` a multiplicative character of `R`, and `σ : b ⊔ a ≃ n` a
 splitting of an index set. For `k ∈ GL_n(R)` let `y_k` be the columns of `k` indexed by `b` and `x_k` the rows of `k⁻¹`
@@ -131,7 +136,7 @@ twist `ϑ`, `Z(ϑ) = vol(Θ_ϑ|𝒯)` and, for `1 ≤ j ≤ m`, `Z_j(ϑ) = vol(�
 | `m, r, k, t, Δ, κ_j` | number of lifts, rank, `r + 1 − m`, `5r`, gap, weight of lift `j` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
 | `x, x₁, b, a, h_dir, h_main, β_tot` | scales, `a = xb`, cost of a direction, main amount `m k h_dir`, budget `f a (log b)³/(m k)` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2, §4.1; Conventions |
 | `[U(1)], ν̃, L^S(z, ν), L_*(S, ν, e)` | norm-one idele class group, base change, partial L-value, `(∏_S q_v)^{e²}∏_{z≤e}|L^S(z,ν)|²` | Conventions |
-| `υ, υ₁, j` | splitting character, its restriction to `[U(1)]`, skew element | Conventions; ShortGRH background |
+| `υ, υ₁, j` | splitting character, its restriction to `[U(1)]`, skew element | Conventions; DivisibilityOfThetaDerivatives §1.4 |
 | `Y_j, W_j, V_j` | spaces of the chain, of the single lifts, definite targets | ThetaLiftChainsAndTheSeesawIdentity §2.1 |
 | `J_M, 𝒜, 𝒢, e₀, 𝒯, d` | level, forms of level `J_M`, good forms, good idempotent, target forms, `dim 𝒯` | ThetaLiftChainsAndTheSeesawIdentity §2.5, §2.7; Conventions |
 | `ϑ, ξ, Q(ϑ), Nm Q(ϑ)` | tame character or twist, a twist of a family, its places, their norm | OneSidedPrimeSumBoundsAndAdmissibleData §3.4 |
@@ -209,8 +214,10 @@ some integer `k`, then `c` has modulus `1`.
 `O_E/𝔪` given by their tame parts), and for `s = ±1`
 `L_*(places of 𝔪, (νξ)^s, z) = L_*(𝒞, ν, z)·Nm Q(ξ)^{z²}·Λ(ν, z; ξ)²`.
 
-*Needs:* 1.1; ShortGRH background (Euler products of Hecke characters and the symmetry `|L^S(z, ν)| = |L^S(z, ν⁻¹)|` for
-characters of `[U(1)]`).
+*Needs:* 1.1; ShortGRH background (the partial L-value `L^S(z, ν)` of a character of `[U(1)]` for real `z ≥ 1`, as an
+Euler product and its limit at `1`; `L^S(z, ν⁻¹) = L^S(z, ν)` when the tame part of `ν` is trivial off `S`; no zero on
+`z ≥ 1` when the weight is not `0` and `S` is finite; [ShortProof] `Lib/ClassField/Avatar/HeckeBaseChange.lean`
+(`New.AutChar.L`, `New.AutChar.HasWeight.L_inv`, `New.AutChar.HasWeight.L_ne_zero`)).
 
 [ShortProof], `New/Determinant/Chain/Moduli.lean` (`New.Data.HasAbsUpToNormPower.exists_norm_div_eq`,
 `New.Data.CriticalPair.isTameFor_mul_and_lValueProd_eq`)
@@ -242,8 +249,9 @@ primes and `θ_ι^j` has denominators at most `γ(ℓ)` at every `ι` above `ℓ
 
 Numbers `e(ℓ) ≥ 0` are negligible with exponent `C` if `∑_{ℓ∈T} e(ℓ) log ℓ ≤ x^C` for every finite set of primes `T`.
 
-*Needs:* 1.1; 2.2; NormsOfThetaLiftsAndExchangeIdentities §1.3 (false lifts and test forms), §2.5 (the rank-one lifts of the
-main pairs); OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights of families indexed by the `ι`).
+*Needs:* 1.1; 2.1 (the lift of a descent pair, of which `Θ_{j,ϑ}` is a case); NormsOfThetaLiftsAndExchangeIdentities
+§1.3 (false lifts and test forms), §2.5 (the rank-one lifts of the main pairs);
+OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights of families indexed by the `ι`).
 
 [ShortProof], `New/Determinant/Twist/FitTwists.lean` (`New.Data.HasSmallRatios`, `New.Data.ClearsProjection`,
 `New.Data.HasDenominatorsLe`, `New.Data.IsDenominatorBound`, `New.Data.IsRegularFamily`, `New.Data.IsNegligible`)
@@ -273,9 +281,12 @@ prime to the prime of `ι`).
 
 ### 2.1 The lift of a descent pair, its kernel and its adjoint
 
-*Origin:* adapted from the published theory of theta lifting between a unitary group and a definite unitary group (lift
-and descent as adjoint integral operators): here for a descent pair, with a vector-valued kernel and the descent as a
-class sum.
+*Origin:* adapted from the theta lifting between a unitary group and a definite unitary group, with lift and descent
+as adjoint integral operators (J.-S. Li (1992); for the Hecke polynomials at split places, Rallis (1982) and Kudla
+(1986); the
+library states the lift from a definite group, its class-set formula and its Hecke equivariance at split places as
+ThetaLiftsForDefiniteUnitaryGroups §1.2 and §2.2): here for a descent pair, whose source group need not be definite,
+with a vector-valued kernel and the descent as a class sum.
 
 *Method of the formal proof:* the kernel of the datum attached to a weight vector `ζ` is linear in `ζ̄`, so it is the
 pairing of `ζ̄` with one vector-valued kernel; the lift is the integral of a form against this kernel, the descent is
@@ -311,11 +322,27 @@ characters of `E` made from the characters `a_W`, `a_V` of `[U(1)]` of the pair 
 `ϖ_w` a uniformiser at `w`. In particular this holds when `y` lies in a joint eigenspace of the Hecke operators at the
 split places off the level.
 
-*Needs:* ShortGRH background (theta kernels of unitary dual pairs: moderate growth, convergence of lifts of rapidly
-decreasing forms, adjointness of the lift and the transposed lift); ShortGRH background (class sums for definite groups:
-the Petersson product of algebraic forms as a sum over classes); ShortGRH background (Hecke polynomials of theta lifts at
-split unramified places); ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs, their weights, levels and block
-data), §2.17 (the edge of a parameter that fits the pair).
+*Needs:* ThetaKernelsForUnitaryDualPairs §4.4a (the global Weil representation of a
+unitary pair and its theta functional), §3.45 (the Fock model at the real places); ShortGRH background (the model of
+that representation that the statements use: for Weil data of a CM field unramified over its real subfield at every
+finite place, the representation of `U(S)(𝔸) × U(T)(𝔸)` on Schwartz functions of `Hom(S, T)(𝔸)` with the characters
+`(α, β)` of `[U(1)]`, the Fock model with its polynomial and Schwartz vectors at the infinite places, data given by a
+function on matrices modulo a modulus, their theta kernels, and the edge of the joint harmonic of two corresponding
+parameters; [ShortProof] `Lib/Weil/Construction/WeilData.lean` (`New.WeilData`), `Lib/Weil/DualPair/Defs.lean`
+(`New.pairWeil`, `New.pairTheta`, `New.modDatum`, `New.modKernel`), `Lib/Weil/Lift.lean` (`New.IsEdge`,
+`New.ParamsCorrespond.isEdge_jointHarmonic`)); ShortGRH background (theta kernels of
+unitary dual pairs over a CM field have moderate growth, the lift of a rapidly decreasing automorphic function
+converges, and the Petersson product of a lift with a rapidly decreasing function is that of the function with the
+transposed lift; [ShortProof] `Lib/Weil/DualPair/ThetaLiftConvergence.lean` (`New.ThetaKernel.moderate_growth`,
+`New.ThetaKernel.integrable_theta_mul`, `New.ThetaKernel.petersson_lift_eq_petersson_descent`));
+DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set integration on a definite group, and the Petersson
+product of algebraic forms as a class-set inner product); ShortGRH background (at a place `w` split in `E` with
+`w, w̄` unramified for both characters of a pair of ranks `n < m`, the lift of a spherical vector on which the Hecke
+polynomial operator of rank `n` acts by `p(X)` is spherical, and the operator of rank `m` acts on it by the
+`q`-Pochhammer polynomial of rank `m − n` at `αX` times `p(q^{m−n}αβ⁻¹X)`, with the normalisation of (d); [ShortProof]
+`Lib/Weil/Unramified/HeckeTransfer.lean` (`New.SiegelWeil.hasHeckePolynomial_formLift`,
+`New.SiegelWeil.hasHeckePolynomial_qPochhammer`)); ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs, their
+weights, levels and block data), §2.17 (the edge of a parameter that fits the pair).
 
 [ShortProof], `New/Determinant/Norms/VectorKernel.lean` (`New.DescentPair.vectorKernel`,
 `New.DescentPair.vectorKernelForm`, `New.DescentPair.normalizedDescent_eq_inner_vectorKernelForm`);
@@ -328,7 +355,10 @@ data), §2.17 (the edge of a parameter that fits the pair).
 *Origin:* adapted from the Rallis inner product formula in Weil's convergent range (Rallis (1984b), Proposition 1.1, for
 orthogonal–symplectic pairs; J.-S. Li (1992)): here for the lift `Θ_{j,ϑ}` from `W_j` to the definite `V_j` at the level
 `J_M`, for every tame twist, with the Gram operator a nonzero constant free of the twist times the factor `c_Q(ϑ)` of the
-twist places times the series of translates of Rallis' formula, not evaluated as an L-value.
+twist places times the series of translates of Rallis' formula, not evaluated as an L-value. The library states
+the formula for Hecke eigenforms, with the unramified integrals evaluated as an L-value, as
+ThetaKernelsForUnitaryDualPairs §6.13a (ii); the form used here holds for every form fixed by the level and keeps the
+series.
 
 *Method of the formal proof:* the block datum is sharp for the level `J_M` off the places of `π_M Q`: its Weil
 coefficient at integral points is its norm on `J_M` and vanishes elsewhere. The Rallis inner product formula for sharp
@@ -360,10 +390,17 @@ terms `mc_j(γ)⟨x, y(·γ)⟩`;
 `H_w(X) = ∑_i (−X)^i q^{i(i−1)/2} T_{w,i}` on forms on `V_j` at `X = (α q^{t−1})⁻¹` kills the range of `Θ_{j,ϑ}`, where `q`
 is the norm of `w` and `α` the Frobenius value at `w` of the character of `W_j`.
 
-*Needs:* 2.1; ShortGRH background (the Rallis inner product formula for sharp finite data in the range `rank V > 2 rank
-W`, as a convergent series of translates weighted by vacuum coefficients, with a nonzero constant depending only on the
-real data); SecondMomentsOfPoincareSeries §2.1a (Hecke eigenforms span the forms of level `J_M`);
-ThetaLiftChainsAndTheSeesawIdentity §2.18 (the descent pair of lift `j` and its parameters).
+*Needs:* 2.1; ShortGRH background (the Rallis inner product formula for sharp finite data, in the range `rank V > 2
+rank W`: if the finite datum `F` is a vacuum off a set `S₀` of places and its Weil coefficient `⟨F, ω(g)F⟩` at the
+finite points integral off `S₀` is `⟨F, F⟩` on a level `J` and `0` elsewhere, and the real datum is an edge, then the
+lift is injective on the forms of the type fixed by `J`, and the Petersson product of two lifts is a nonzero constant,
+depending only on the real data and the spaces, times the mass of `F`, times the Petersson product with the
+convergent series of translates over the cosets of the finite points integral off `S₀`, weighted by the vacuum
+coefficients; no Hecke eigenform and no L-value enters; [ShortProof] `Lib/SiegelWeil/RallisInner/SharpData.lean`
+(`New.SiegelWeil.exists_petersson_formLift_eq_rallisSeries`, `New.SiegelWeil.IsSharp.petersson_lift_eq_integral`,
+`New.SiegelWeil.IsSharpFn.isSharp`)); SecondMomentsOfPoincareSeries §2.1a (the Hecke operators away from the level
+are normal and commute, so Hecke eigenforms span the forms of level `J_M`); ThetaLiftChainsAndTheSeesawIdentity §2.18
+(the descent pair of lift `j` and its parameters).
 
 [ShortProof], `New/Determinant/Norms/AdjointThetaLift.lean` (`New.Data.singleLift_injective`,
 `New.Data.exists_adjoint_singleLift_comp_eq`, `New.Data.hasSum_inner_rallisOperator`,
@@ -407,8 +444,12 @@ number `c` with `C·|c|² = L_*(S, ν, rank V − n/2)·ℓ(𝔠)` (where `L_*(S
 (e) The equal-rank ratio of a space `X` of even rank at a Schwartz vector `v` is
 `r_X(𝔠, v) = |I_large(X, X; 𝔠, v, χ_𝔠⁻¹∘det)(1)|² / L_*(S, ν, rank X/2)`.
 
-*Needs:* ShortGRH background (the Weil representation of unitary dual pairs over a CM field, its Fock model, and theta
-kernels of Schwartz data); ShortGRH background (Hecke characters of `[U(1)]` tamely ramified at split places).
+*Needs:* ThetaKernelsForUnitaryDualPairs §4.4a, §3.45 and the background entry of 2.1 on the model of the Weil
+representation of a pair (same file and declarations of [ShortProof]); ShortGRH background (characters of `[U(1)]` of
+a given positive weight, tamely ramified exactly at a nonempty finite set `S` of finite places disjoint from its
+conjugate, with their local characters on `∏_{v∈S} E_v`; [ShortProof]
+`Lib/ClassField/HeckeCharacter/SplitTameCharacters.lean` (`New.Exchange.SplitTameChar`),
+`Lib/ClassField/HeckeCharacter/TameModulus.lean` (`New.Exchange.IsTameFor`)).
 
 [ShortProof], `New/Determinant/Exchange/LargeTriple.lean` (`New.Exchange.RowColExchangeIdentity`,
 `New.Exchange.equalRankThetaRatio`); `New/Determinant/Exchange/EquivariantDifference.lean` (`New.Exchange.thetaSmall`);
@@ -416,8 +457,8 @@ kernels of Schwartz data); ShortGRH background (Hecke characters of `[U(1)]` tam
 
 ### 3.2 Fourier coefficients of theta integrals vanish off negative forms
 
-*Origin:* adapted from the published theory of Fourier–Jacobi coefficients of theta integrals (only forms represented by
-the target space occur): here the vanishing of the coefficient at a non-negative index for a target with few positive
+*Origin:* adapted from the classical fact that a theta integral has Fourier coefficients only at the forms represented
+by the target space: here the vanishing of the coefficient at a non-negative index for a target with few positive
 directions, by averaging over a compact stabiliser.
 
 *Method of the formal proof:* after unfolding, the coefficient at `T` is an integral over the stabiliser of one rational
@@ -436,7 +477,11 @@ some real place, and assume that the terms of the unfolded theta integral are ab
 Fourier coefficient at `j·T` along the centre of the unipotent radical of the parabolic of the frame, of the theta
 integral of `(X, Y)` with the character `δ` on both sides, vanishes at `g`, for every Schwartz datum.
 
-*Needs:* 3.1; ShortGRH background (unfolding of theta integrals along a parabolic: the terms indexed by rational frames).
+*Needs:* 3.1; ShortGRH background (for a space split by dual isotropic frames, the Fourier coefficient at `T`, along
+the centre of the unipotent radical, of a theta integral with absolutely integrable terms is the sum of the terms at
+the rational frames with Gram matrix `T`, and an integral over the stabiliser of one such frame; [ShortProof]
+`Lib/Weil/Periods/DescentVanishing.lean` (`New.Space.Splitting.centreCoeff_integral_eq_tsum`,
+`New.Space.Splitting.centreCoeff_eq_integral_stabilizer`)).
 
 [ShortProof], `New/Determinant/Exchange/NegativeIndices.lean` (`New.Exchange.apply_eq_zero_of_forall_fixed_eq_zero`,
 `New.Exchange.centreCoeff_eq_zero_of_not_representedBy`)
@@ -505,8 +550,11 @@ kills every locally constant datum with a matched function;
 `I_large(W, V; 𝔠, v, Φ) = c·I_small(W, U; 𝔠, y, Ψ)` for all matched `(Φ, Ψ)` with `Ψ` locally constant, and such `Ψ` is a
 Schwartz–Bruhat function supported on left invertible matrices.
 
-*Needs:* 3.1, 3.2, 3.3; ShortGRH background (Fourier coefficients along the centre of a unipotent radical and their
-partial means; automorphy of theta integrals of bounded data).
+*Needs:* 3.1, 3.2, 3.3; ShortGRH background (Fourier coefficients along the centre of the unipotent radical of the
+parabolic of an isotropic frame, their partial means, and the criterion that an automorphic function of a level
+supported at a set of places, whose coefficients vanish at the unimodular test indices, has no coefficient at an
+invertible index; [ShortProof] `Lib/SiegelWeil/SingularForms/CentreCoefficients.lean`,
+`Lib/SiegelWeil/SingularForms/UnimodularCoefficients.lean` (`New.Exchange.centreCoeff_eq_zero_of_unimodular`)).
 
 [ShortProof], `New/Determinant/Exchange/EquivariantDifference.lean`
 (`New.Exchange.exists_isEquivariantLift_eq_thetaLarge_sub_smul`);
@@ -540,7 +588,12 @@ along one line, `V′` a hermitian space with basis indexed by `b`, `v` a Schwar
 data holds for `(X, V′ ⊕ W₁, V′)` at `(Φ, Λ)` with `ℓ(𝔠) = r_{W₁}(𝔠, v₁)`.
 
 *Needs:* 3.1, 3.2, 3.4; HermitianFormsAndLattices §1.1 (Witt extension); ShortGRH background (the mixed
-Schrödinger–Fock model of an adapted splitting and the unfolding of theta integrals along a parabolic).
+Schrödinger–Fock model of an adapted splitting of a hermitian space along isotropic lines, in which the theta
+functional is a sum of slices and the zero term is the datum of the smaller pair; and the constancy of an automorphic
+function that is invariant in equal rank, by strong approximation; [ShortProof]
+`Lib/Weil/MixedModel/AdaptedSplitting.lean` (`New.Exchange.IsBaseAdapted`), `Lib/Weil/MixedModel/ZeroTerm.lean`
+(`New.Space.Splitting.hasSum_theta_slice`), `Lib/SiegelWeil/Formula/StrongApproximation.lean`
+(`New.Exchange.IsAutFunction.apply_eq_apply_one`)).
 
 [ShortProof], `New/Determinant/Exchange/RealVectors.lean` (`New.Exchange.exists_contDiff_witt`,
 `New.Exchange.exists_rowColExchangeIdentity_sum`); `New/Determinant/Exchange/LargeTriple.lean`
@@ -550,7 +603,9 @@ Schrödinger–Fock model of an adapted splitting and the unfolding of theta int
 ### 3.6 Descent of the exchange identity by removing hyperbolic planes
 
 *Origin:* particular to this proof: the exchange identity on standard data descends from `(W ⊕ H^p, V′, U)` to
-`(W, V, U)`, with the same size function `ℓ`.
+`(W, V, U)`, with the same size function `ℓ`. The constant term of a theta integral along an isotropic line, with its
+cone maps, is ThetaKernelsForUnitaryDualPairs §5.7c in the library; the form used here is for standard row data at the
+places of a split tame character and carries the continuation of the Tate integral of that character.
 
 *Method of the formal proof:* one plane at a time: replace `V′` by a space with the same signs that splits over `V`, and
 take the constant term along the new isotropic line. A cone integral of the real vector (an integral over the maximal
@@ -568,8 +623,17 @@ than `V`, and `rank U + rank V = rank W`, `rank U + rank V′ = rank W′`. If t
 for `(W′, V′, U)` at `(x, y)` with `ℓ`, then it holds for `(W, V, U)` at some `x₀` and the zero term of `y` along `A`,
 with the same `ℓ`.
 
-*Needs:* 3.1, 3.5; ShortGRH background (Tate integrals and the analytic continuation of `L^S(s, ν)` with its functional
-equation); ShortGRH background (existence of adapted splittings with prescribed signs).
+*Needs:* 3.1, 3.5; ShortGRH background (for a split tame character `(ν, S)` of weight `μ` and an integer `k₀ ≥ 0`
+with `k₀ ≤ μ(τ)` at every `τ`: the constant term along an added isotropic line of the theta integral of a standard
+row datum is a Tate integral in a real variable; `L^S(x, ν)`, `x ≥ 1`, extends to an analytic function of real
+`x > −k₀` with no zero at the integers `j > −k₀`, and `|L^S(1 − z, ν)|·∏_{w∈S} q_w^{1/2−z}` is a positive number free
+of the character times `|L^S(z, ν)|·∏_{w∈S} q_w^{z−1/2}` for real `1 ≤ z < k₀ + 1`; [ShortProof]
+`Lib/SiegelWeil/Tower/LargeSideConstantTerm.lean` (`New.Exchange.exists_planeConstantTerm_eq_integral`),
+`Lib/SiegelWeil/Tower/FunctionalEquation.lean` (`New.Exchange.exists_analytic_extension_functional_equation`,
+`New.Exchange.exists_analytic_extension_ne_zero`)); ShortGRH background (every isotropic frame of a hermitian space
+over the CM field is part of a splitting into dual isotropic frames and a complement, adapted at every place;
+[ShortProof] `Lib/Adelic/Witt/IwasawaDecomposition.lean` (`New.Space.exists_splitting`,
+`New.Space.exists_splitting_of_perp_eq`)).
 
 [ShortProof], `New/Determinant/Exchange/ConeImage.lean` (`New.Exchange.exists_thetaLarge_cone_eq_mul`);
 `New/Determinant/Exchange/RemovingPlanes.lean` (`New.Exchange.exists_rowColExchangeIdentity_removing_planes`,
@@ -580,14 +644,17 @@ equation); ShortGRH background (existence of adapted splittings with prescribed 
 *Origin:* particular to this proof: if the theta integrals of `(W ⊕ H^j, V ⊕ H^j)` vanish on all Schwartz vectors and
 standard data, so do those of `(W, V)`.
 
-*Method of the formal proof:* the constant term along the new isotropic line is a Tate integral; for the vectors of
-3.6 (a) it is, by analytic continuation, the theta integral of `(W, V)` times factors that do not vanish at
-`rank V − rank W/2 + 1` in the range `≥ −k + 1`.
+*Method of the formal proof:* remove one plane at a time. For the vectors built in 3.6 (a), take the constant term of
+the larger theta integral along the added isotropic line. It is a Tate integral in an auxiliary real variable, and
+its continuation to the point `rank V − rank W/2 + 1`, which is at least `1 − k₀`, is the integral for `(W, V)`
+multiplied by local and archimedean factors that are not zero at that point; so vanishing above forces vanishing
+below.
 
-Say that `(W, V)` vanishes for `𝔠` and `σ` if `I_large(W, V; 𝔠, v, row datum of y)` is `0` at every point for every Schwartz
-`v` and every integral `y`. Let `W′` have the rank and the negative signs of `W ⊕ H^j`, `V′` the negative signs of
-`V ⊕ H^j`, `j ≥ 1`, `rank W` even, `k ≤ μ(τ)` for all `τ`, and `−k ≤ rank V − rank W/2`. If `(W′, V′)` vanishes for `𝔠`,
-then `(W, V)` vanishes for `𝔠`.
+Say that `(W, V)` vanishes for `𝔠` (and a splitting `σ : b ⊔ r ≃ n` of the index set of `W`, which fixes the standard
+row data) if `I_large(W, V; 𝔠, v, row datum of y)` is `0` at every point for every Schwartz `v` and every integral
+`y`. Let `W′` have the rank and the negative signs of `W ⊕ H^j`, `V′` the negative signs of `V ⊕ H^j`, `j ≥ 1`,
+`rank W` even, and let `k₀ ≥ 0` be an integer with `k₀ ≤ μ(τ)` for all `τ` and `−k₀ ≤ rank V − rank W/2`. If `(W′, V′)`
+vanishes for `𝔠`, then `(W, V)` vanishes for `𝔠`.
 
 *Needs:* 3.1, 3.6.
 
@@ -602,8 +669,8 @@ split tame characters of a given weight.
 
 *Method of the formal proof:* (a) the identity on standard data at the top of the tower `W, H ⊕ W, H ⊕ W ⊕ H^{rank U}`
 (3.5), descended by removing planes (3.6), extended to all matched functions (3.4), and translated from `(W, U⁻)` back to
-`(U, W)` by passing to adjoint maps. (b) Nonvanishing for the positive definite `J` of rank `2k`: if `r_{H⊕J}` vanished at
-every Schwartz vector, the periods of 3.5 would vanish, and 3.7 would carry the vanishing down `2k + 1` planes to the
+`(U, W)` by passing to adjoint maps. (b) Nonvanishing for the positive definite `J` of rank `2k₀`: if `r_{H⊕J}` vanished at
+every Schwartz vector, the periods of 3.5 would vanish, and 3.7 would carry the vanishing down `2k₀ + 1` planes to the
 pair `(J, 0)`, where the integral of the vacuum is a volume. Applying (a) twice, to `(J, J, 0)` and `(J, 0, J)`, and
 Fubini on the theta kernel of `(J, J)`, the square of `r_{H⊕J}` is a product of numbers free of the character; the value
 is then carried up one hyperbolic plane at a time, and it depends only on the signs.
@@ -614,11 +681,13 @@ every split tame character `𝔠` of weight `μ` has a number `c` with `C·|c|²
 for all matched `(Φ, Ψ)` over `∏_S O_v` with `Ψ` locally constant and all `g ∈ U(W)(𝔸)`,
 `∫_{[U(V)]} θ^{W,V}_{γ,1}((v, Φ))(g, h) dh = c·∫_{[U(U)]} θ^{U,W}_{γ,γ}((y, Ψ))(h, g) dh`, with `γ = ν⁻¹υ₁^{n/2}`.
 
-(b) Let `W` have rank `2k + 2q`, `q = neg(W)`, and `k ≤ μ(τ)` for all `τ`. There are a Schwartz vector `z` for
+(b) Let `W` have rank `2k₀ + 2q`, `q = neg(W)`, and `k₀ ≤ μ(τ)` for all `τ`. There are a Schwartz vector `z` for
 `(H ⊕ W, H ⊕ W)` and `C₀ ≠ 0` with `r_{H⊕W}(𝔠, z) = C₀` for every split tame character `𝔠` of weight `μ`.
 
-*Needs:* 3.1, 3.4, 3.5, 3.6, 3.7; ShortGRH background (the Weil representation under the flip
-`Hom(U, W) ≅ Hom(W, U⁻)`).
+*Needs:* 3.1, 3.4, 3.5, 3.6, 3.7; ShortGRH background (the flip `Hom(U, W) ≅ Hom(W, U⁻)` by adjoint maps intertwines
+the Weil representations of the two pairs, and the theta kernel of a datum modulo a modulus for `(U, W)` is a constant
+of modulus `1` times that of the transposed conjugate datum for `(W, U⁻)`; [ShortProof] `Lib/Weil/DualPair/Flip.lean`
+(`New.Modulus.exists_modKernel_flip`, `New.Exchange.exists_conj_modKernel_eq_swap`)).
 
 [ShortProof], `New/Determinant/Exchange/TheoremForPartners.lean` (`New.Exchange.exchange_of_matches`,
 `New.Exchange.exists_rowColExchangeIdentity_of_even_rank`, `New.Exchange.exists_equalRankThetaRatio_eq_const`,
@@ -629,12 +698,17 @@ for all matched `(Φ, Ψ)` over `∏_S O_v` with `Ψ` locally constant and all `
 *Origin:* particular to this proof: an identity, up to a nonzero constant of known size, between the theta integrals of
 two complementary hermitian spaces on matched data at the ramified places of a tame character; nearest published
 result: Kudla and Rallis (1994), the first term identity (with its extensions to other dual pairs, for a split `W`: Gan,
-Qiu and Takeda (2014), Theorem 7.3).
+Qiu and Takeda (2014), Theorem 7.3). In the library, ThetaLiftsForDefiniteUnitaryGroups §6.11 states an identity of
+the same kind, `I_V(Φ) = c·I_{V′}(Φ′)` with `c ≠ 0` for a complementary triple. The statement here is a variant and is
+not deduced from it: the matching is by explicit functions modulo a modulus for a tame character at split places,
+the ranks may be equal (`e = 0`) and `V′` may be `0` (`b = 0`), where §6.11 asks for `a′ < a` and `2(p + q) + 1 < a′`,
+and the size `|c|² = C·L_*` of the constant is part of the conclusion.
 
 *Method of the formal proof:* 3.8 (a) at a vector `z` for which the equal-rank ratio is a nonzero constant (3.8 (b));
 the constant then has the size `L_*` times that constant, and `C > 0` because the size is positive as soon as one tame
-character exists; matched functions modulo `𝔪` are lifted to matched functions on the completions at the primes of `𝔪`,
-and other splitting characters multiply both sides by the same factor `α(det g)⁻¹`.
+character exists; matched functions modulo `𝔪` are lifted to matched functions on the completions at the primes of `𝔪`;
+replacing the two splitting characters by others with the same product multiplies each side by the same character
+value at `det g`.
 
 Let `W`, `V`, `V′` be hermitian spaces over `E` of ranks `n = b + a`, `a = b + 2e` and `b` (`σ : b ⊔ a ≃ n`, `e ≥ 0`;
 `b = 0` allowed), with `neg(W) = neg(V) + neg(V′) = q`, `2q + 2 ≤ n`, and let `μ : Φ_E → ℤ` satisfy `n ≤ 2μ(τ) + 2q` for
@@ -649,7 +723,10 @@ all `τ`. Let `v` be a real Schwartz vector for `(V′, W)`. Then there are `C >
 
   `∫_{[U(V)]} θ^{W,V}_{γ,α}((x, Φ))(g, h) dh = c·∫_{[U(V′)]} θ^{V′,W}_{α′,γ}((v, Ψ))(h, g) dh`, with `γ = ν⁻¹·υ₁^{n/2}`.
 
-*Needs:* 3.1, 3.8; ShortGRH background (twisting a theta kernel by a character of `[U(1)]` on both spaces).
+*Needs:* 3.1, 3.8; ShortGRH background (multiplying the characters of the two spaces of a pair by characters `μ`, `μ′`
+of `[U(1)]` multiplies the Weil action, the theta functional and the kernel of a datum modulo a modulus at `(g, h)` by
+values of `μ`, `μ′` at `det g`, `det h`; [ShortProof] `Lib/Weil/DualPair/KernelLaws.lean` (`New.pairTheta_twist`,
+`New.modKernel_twist`)).
 
 [ShortProof], `New/Determinant/Exchange/TheoremForPartners.lean` (`New.Exchange.exchange_identity`,
 `New.Exchange.exchange_theorem`, `New.Exchange.exists_areMatched_modDatum_eq`)
@@ -678,8 +755,11 @@ used later: there is `C` such that for every `α` of weight `l − #ι(τ)` tame
 `|c|² = C/L_*(places of 𝔪, α⁻¹υ₁^{b+d}, d)` makes `c` times the class sum equal to the integral, with characters `α, β`
 on `(W, I_a)` and `α/β, α` on `(V′, W)`.
 
-*Needs:* 3.9; ShortGRH background (joint harmonic polynomials given by products of determinants under the real Weil
-representation); ShortGRH background (class sums for definite groups).
+*Needs:* 3.9; ShortGRH background (polarisation: for `p < n` and complex `p × n` matrices `η_{τ,κ}`, the product of
+the `det(η_{τ,κ}·Y_τ)` is a finite combination, with coefficients free of the `Y_τ`, of the products
+`∏_τ det(η₀·u_τ^T·Y_τ)^{#ι(τ)}` with `u_τ` unitary and `η₀` a matrix of `p` standard basis rows; [ShortProof] `Lib/GLn/SchurModule/Polarisation.lean`
+(`New.exists_pairedDetProd_eq_sum_unitary`)); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set
+integration on a definite group).
 
 [ShortProof], `New/Determinant/Exchange/ExplicitMatching.lean` (`New.Rows.exists_stdClassSum_eq_mul_integral_modKernel`,
 `New.Rows.exists_mul_stdClassSum_eq_integral_modKernel`, `New.Rows.exists_mul_apply_eq_apply_matchedPoly`)
@@ -719,10 +799,10 @@ space (Kudla and Rallis (1994); Ichino (2004)): here the two routes around a squ
 up to a factor `κ/c_i`, where `|c_i|²` is a fixed number times `L_*` and `κ`, independent of the character, is not shown
 to be nonzero.
 
-*Method of the formal proof:* 3.9 for `W = U₁ ⊕ U₂`, whose kernels are products of kernels for `U₁` and `U₂`; integrating a
-form on `U₁` against both sides and exchanging the order of integration turns the identity of theta integrals into an
-identity of composites of lifts, summed over matched point data; the real data are compared through the polynomial
-vectors of the four edges, which costs the factor `κ`.
+*Method of the formal proof:* apply 3.9 to `W = U₁ ⊕ U₂`. A theta kernel of `W` is a product of a kernel of `U₁` and one of
+`U₂`, so pairing both sides with a form on `U₁` and changing the order of the integrals gives, on each side, a lift
+followed by a transposed lift, summed over matched point data. The archimedean data of the two sides are polynomial
+vectors of the four edges; comparing them costs the factor `κ`, which may be `0`.
 
 Let `U₁`, `U₂`, `A`, `A′` be hermitian spaces with `W = U₁ ⊕ U₂`, `rank A = rank A′ + 2t`, `neg(W) = neg(A) + neg(A′) = N`,
 `2N + 2 ≤ rank W ≤ 2μ(τ) + 2N` for all `τ`, and `σ : A′ ⊔ A ≃ U₁ ⊔ U₂` (index sets). Let `I` be a set and, for `i ∈ I`,
@@ -737,8 +817,12 @@ the point data of the two blocks of `x`; for `y` with columns indexed by `A′`,
 matched `Ψ`, `Ψ′` modulo `𝔪_i`. For families indexed by finite sets this is the square law of 3.11, for every form on
 `U₁` and every functional on the forms on `U₂`.
 
-*Needs:* 3.9, 3.11; ShortGRH background (lifts and transposed lifts of rapidly decreasing forms; Fubini for theta
-kernels).
+*Needs:* 3.9, 3.11; ShortGRH background (for a family of characters over a real edge, the lift with a datum modulo a
+modulus and the transposed lift with the conjugate transposed datum are adjoint for the Petersson products of forms of
+the two types, and the integral of a rapidly decreasing function against a lift may be taken in either order;
+[ShortProof] `Lib/Weil/Seesaw.lean` (`New.Exchange.IsEdgeFamily`,
+`New.Exchange.IsEdgeFamily.petersson_lift_eq_mul_inner_modTransposedLift`),
+`Lib/Weil/DualPair/ThetaLiftConvergence.lean` (`New.ThetaKernel.integral_mul_lift_eq_integral_mul_lift_swap`)).
 
 [ShortProof], `New/Determinant/Exchange/OneSquare.lean`
 (`New.Exchange.exists_sum_pairLift_comp_pairTransposedLift_eq_smul`, `New.Exchange.IsSquare`,
@@ -769,7 +853,8 @@ for `y ∈ V` and `z ∈ F(i, 1)`, and `d∘a` maps `j_i(V)` into `j_{i+1}(V)` w
 length `n` of row `i`, a map `F(i, 0) → F(i, n)`, is injective on `j_i(V)`. The range `i + n ≤ m` is needed: beyond it
 nothing is assumed of the arrows.
 
-(c) Let `M(c, F)`, read "`c` has modulus `F`", be a unital multiplicative relation between functions on `I`; assume the
+(c) Let `M` be a relation between functions `c : I → ℂ` and `F : I → ℝ`, read "`c` has modulus `F`", such that the
+constant `1` has modulus `1` and, if `c` has modulus `F` and `c′` has modulus `F′`, then `cc′` has modulus `FF′`; assume the
 square constants `β` at `(i, n)` have modulus `L(i + 1, i + n + 2)` and every square obeys the adjoint law (every `z` has
 an `a`-adjoint vector `x` with `⟨d x, y⟩ = κ_t⟨d z, a y⟩`) with `κ` of modulus `1`. Let `s : U → V` and endomorphisms
 `S_t(i)` of `U` satisfy `w_t(0)⟨a(j_i x), a(j_i s y)⟩ = C_i(t)⟨x, s(S_t(i) y)⟩` with `C_i` of modulus `1`. Then for
@@ -811,7 +896,12 @@ integral away from `𝔪_z(ϑ)` and its conjugate;
 reversed pair edges, and for an edge lift and transposed lift with a datum `Ψ` there is a datum `Ψ′` making the
 transposed lift adjoint to the lift.
 
-*Needs:* 2.1, 3.1; ShortGRH background (the Rallis inner product formula for sharp finite data);
+*Needs:* 2.1, 3.1; ShortGRH background (the Rallis inner product formula for sharp finite data in the range
+`rank V > 2 rank W`, in the form stated in the *Needs:* line of 2.2; [ShortProof]
+`Lib/SiegelWeil/RallisInner/SharpData.lean` (`New.SiegelWeil.exists_petersson_formLift_eq_rallisSeries`,
+`New.SiegelWeil.isSharp_vacuumDatum_of_mul_eq_one`)); ShortGRH background (for a family of characters over a real
+edge, the lift with a datum modulo a modulus and the transposed lift with the conjugate transposed datum are adjoint;
+[ShortProof] `Lib/Weil/Seesaw.lean` (`New.Exchange.IsEdgeFamily.petersson_lift_eq_mul_inner_modTransposedLift`));
 ThetaLiftChainsAndTheSeesawIdentity §2.4 (index sets, signs and parameters of the grids; the parameters of every step
 correspond).
 
@@ -918,9 +1008,9 @@ with all `m²` squares `(i, j)`, `i, j < m`.
 
 ### 5.2 Weights of regular parameters
 
-*Origin:* adapted from the published theory of highest weights of unitary groups (Harish-Chandra parameters of
-discrete series and their lowest weights): here an explicit weight for each regular integral parameter, with bounds on
-its boxes and its determinant power.
+*Origin:* adapted from the classical dictionary between highest weights of `GL_n` and regular integral parameters
+(the Harish-Chandra parameter is the highest weight shifted by half the sum of the positive roots): here an explicit
+weight for each regular integral parameter, with bounds on its boxes and its determinant power.
 
 *Method of the formal proof:* the columns of the weight are read off from the gaps between consecutive entries of the
 sorted parameter.
@@ -985,9 +1075,9 @@ grids); 3.1.
 
 ### 5.4 Steep parameters and periods of Poincaré series of deep level
 
-*Origin:* adapted from the published theory of Poincaré series of compactly supported functions on adelic groups
-(unfolding and the main term of the identity coset): here the period over `[U(V)]` of a Poincaré series of deep level on
-`U(V ⊕ ⟨1⟩)` built from translated discrete series coefficients.
+*Origin:* adapted from the unfolding of Poincaré series on adelic groups, in which the identity coset gives the main
+term (for periods of Poincaré series of deep level: Prasad and Schulze-Pillot (2008); Muić (2015)): here the period
+over `[U(V)]` of a Poincaré series of deep level on `U(V ⊕ ⟨1⟩)` built from translated discrete series coefficients.
 
 *Method of the formal proof:* the cosets of `U(V)` in `U(V ⊕ ⟨1⟩)` are indexed by last columns, which are separated at deep
 level; the term of the identity coset is the main term, and the others decay like a power of the length of the last
@@ -1012,7 +1102,9 @@ restriction is `r ↦` its value at `r ⊕ 1` on `∏_τ U(V_τ)`, which is inte
 measure of `U(V_τ)` normalised as in SecondMomentsOfPoincareSeries (Conventions, **Normalisations**).
 
 *Needs:* PairsOfFramesAtOnePlace §8.1 (steep parameters and discrete series coefficients); ShortGRH background
-(Poincaré series on adelic unitary groups; the first minimum of a hermitian lattice).
+(the first minimum of the lattice of a point of the adelic unitary group of a hermitian space over a CM field, cut at
+`1`, with its bounds under translation; [ShortProof] `Lib/Adelic/Reduction/FirstMinimumShortBases.lean`
+(`New.Space.firstMinimum`)).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/DeepLevelPoincarePeriod.lean` (`New.Data.exists_isSteep`,
 `New.Exchange.norm_poincare_period_sub_le`)
@@ -1040,8 +1132,10 @@ coefficients). Then a form `y` of type `l` and level `J_M` on `V` is `0` if it i
 orthogonal to `x ↦ φ((x ⊕ 1)g)` for all `φ ∈ gridLevelForms(0)` is `0`.
 
 *Needs:* 5.3, 5.4; PairsOfFramesAtOnePlace §8.6 (a lower bound for the pairing of two steep discrete series
-coefficients at some point, by Laplace's method); ShortGRH background (decay of cusp forms near the cusp in terms of the
-first minimum).
+coefficients at some point, by Laplace's method); ShortGRH background (a form of a level and of a cuspidal type on
+the unitary group of a hermitian space over a CM field is bounded, at a point whose lattice has first minimum below a
+threshold given by the cusp constant of the rank and the conductor, by a fixed fraction of its supremum; [ShortProof]
+`Lib/Adelic/AutomorphicForms/Cuspidality.lean` (`New.Space.IsForm.norm_le_of_firstMinimum_lt`, `New.cuspConst`)).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/DeepLevelVanishing.lean`
 (`New.Exchange.eq_zero_of_petersson_translate_eq_zero`, `New.Exchange.exists_forall_eq_zero_of_petersson_restrict_eq_zero`,
@@ -1137,15 +1231,19 @@ transfers periods with factor `#(O_E/𝔪(ϑ))^{2n_m}` and constants `c`.
 (b) There are `c(ϑ) ≠ 0` of modulus `∏_{0≤i,j<m} R^turn_{ij}` up to a norm power such that the pair (first path, last
 path) transfers periods with factor `#(O_E/𝔪(ϑ))^{2n_m·m²}` and constants `c`.
 
-*Needs:* 5.1, 5.3, 5.8; 3.12; ShortGRH background (seesaw identities for theta integrals along an orthogonal sum with a
-line).
+*Needs:* 5.1, 5.3, 5.8; 3.12; ShortGRH background (the seesaw of periods for two families of characters over real
+edges and data modulo moduli: if the polynomials whose kernels are matched, up to moderate weights, with kernels of
+the first edge span all polynomials, then the weighted sums of the periods of forms against transposed lifts along
+the second edge are one constant times the given numbers; and the kernel of a line under the flip of the pair; [ShortProof] `Lib/Weil/Seesaw.lean` (`New.Exchange.seesaw_periods`), `Lib/Weil/DualPair/Flip.lean`
+(`New.exists_modKernel_flip_line`)).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/DiagonalTurns.lean` (`New.Data.exists_transfersPeriods_of_turn`,
 `New.Data.exists_transfersPeriods_first_last`, `New.Data.exists_columnLineKernel_eq`)
 
 ### 5.10 The branching pairing and the periods on the last path
 
-*Origin:* adapted from the published theory of branching from `GL_{n+1}` to `GL_n` for interlacing highest weights: here an
+*Origin:* adapted from the branching from `GL_{n+1}` to `GL_n` for interlacing highest weights, with multiplicity one
+(Goodman and Wallach (2009), Theorem 8.1.1; Zhelobenko (1973), Chapter X): here an
 integral pairing between the two Weyl modules, equivariant for block matrices, with explicit bounds, that computes
 periods over the smaller definite unitary group.
 
@@ -1168,8 +1266,14 @@ the class integral of the branching pairing of the lifts of `y′` and `φ` alon
 (c) For a path datum `Ψ` with bound `N` and forms fixed by the outer levels, `Ξ` is a sum of at most
 `N·(#(O_E/𝔪(ϑ))^{(2n_m)²})^{2m}·∏(class numbers of the 2m + 1 levels)` pairings of vectors reached by the lifts.
 
-*Needs:* 5.2, 5.3; ShortGRH background (branching of polynomial representations of `GL_{n+1}` to `GL_n` and integral
-duality of Weyl modules); ShortGRH background (class sums for definite groups).
+*Needs:* 5.2, 5.3; IntegralWeylModulesOfGeneralLinearGroups §1.1 (integral branching between the Weyl modules of
+two interlacing weights); ShortGRH background (the form of that branching used here: for a family of interlacing
+weights indexed by the infinite places, an integer matrix between the coordinate vectors of the two Weyl modules,
+equivariant over every field of characteristic `0`, with the norm bound `(M^M)³` when `M` bounds the boxes; and the
+duality pairing of a Weyl module with the module of the negated parameter, invariant and integral in coordinates;
+[ShortProof] `Lib/GLn/Branching/IntegralMap.lean` (`New.exists_branching_matrix`), `Lib/GLn/Dual.lean`
+(`New.exists_isDualPairing_of_isHCParam`)); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set
+integration on a definite group).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/LastPath.lean` (`New.Exchange.exists_isBranchingPairing`,
 `New.Data.isProportional_lastPathPeriod`, `New.Data.exists_lastPathPeriod_mem_smul_norm_le`)
@@ -1197,8 +1301,14 @@ automorphism `σ` of `ℂ` and every finite point, the squared norm of the `σ`-
 `Θ_1 y` is at most `exp(x^202 b²)`.
 
 *Needs:* 5.3, 5.7, 5.9, 5.10; CompositeThetaLiftsAndShortForms §5.6 (algebraic forms of a principal level are spanned
-by forms integral at every prime with conjugates of bounded squared norm); ShortGRH background (integral structure and
-gauges of Weyl modules; delta forms).
+by forms integral at every prime with conjugates of bounded squared norm); ShortGRH background (the `p`-adic gauge
+of a vector of a Weyl module at a finite point, the largest `p`-adic absolute value of a coordinate of the translated
+vector, and the squared norm of a conjugate; delta forms, supported on one class with a given value, with gauge at
+most `1` and bounded conjugates, by which the values of a form are read as class sums; [ShortProof]
+`Lib/Adelic/AutomorphicForms/SmoothAlgebraicForms.lean` (`New.weylGauge`),
+`Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean` (`New.deltaForm`, `New.classSum_deltaForm`),
+`Lib/Adelic/AutomorphicForms/PAdicGauge.lean` (`New.Rows.weylGauge_deltaForm_le`,
+`New.Rows.weylNormSq_deltaForm_le`)).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/SpanningForms.lean` (`New.Data.exists_mul_lastPathPeriod_mem_embValRing`,
 `New.Data.norm_lastPathPeriod_le`, `New.Data.exists_integral_lowerChainUpTo_eq_lastPathPeriod`,
@@ -1237,17 +1347,18 @@ ThetaLiftChainsAndTheSeesawIdentity §2.5 (the idempotent `e₀`), §2.7 (the ta
 *Method of the formal proof:* invert the factorisation 4.4 (c); the scalar costs at most `m²·t·x₁ ≤ b` by 1.4, and the `m`
 single-lift ratios, each of height at most `d·(f·a·(log b)⁴/m − k·h_dir)`, add up, since `m·k·h_dir = h_main`.
 
-(a) There is a family `θ` with small ratios such that for `1 ≤ j ≤ m` the family `ι ↦ Z_j(1)/Z_j(θ_ι^j)` has height at most
-`d·(f·a·(log b)⁴/m − k·h_dir)`.
+(a) There is a family `θ` with small ratios such that for `1 ≤ j ≤ m` the family `ι ↦ Z_j(1)/Z_j(θ_ι)` has height at most
+`d·(f·a·(log b)⁴/m − k·h_dir)`. Here `Z_j(θ_ι)` is the volume of the lift `j` twisted by `θ_ι^j` (Conventions): the
+`j`-th power is part of the definition of `Z_j`.
 
 (b) There is an integer `e` with `Z(1)/Z(ϑ) = ((Nm Q(ϑ)^{e/2}·∏_{1≤i<j≤m} R^quo_{ij}(ϑ))⁻¹)^d·∏_j Z_j(1)/Z_j(ϑ)` for every
 `m`-fold twist `ϑ`.
 
-(c) If `θ` has small ratios and the families `ι ↦ Z_j(1)/Z_j(θ_ι^j)` have height at most
+(c) If `θ` has small ratios and the families `ι ↦ Z_j(1)/Z_j(θ_ι)` have height at most
 `d·(f·a·(log b)⁴/m − k·h_dir)` for `1 ≤ j ≤ m`, then `ι ↦ Z(1)/Z(θ_ι)` has height at most `d·(b + f·a·(log b)⁴ − h_main)`.
 
 *Needs:* 1.3, 1.4, 4.4; CongruencesOfTwistedThetaLifts §7.3 (every data has a regular family of `m`-fold twists);
-NormsOfThetaLiftsAndExchangeIdentities §7.5 (the cost of one lift: along a regular family, `Z_j(1)/Z_j(ξ_ι^j)` has height at
+NormsOfThetaLiftsAndExchangeIdentities §7.5 (the cost of one lift: along a regular family, `Z_j(1)/Z_j(ξ_ι)` has height at
 most `d·k·(log b·β_tot − h_dir)`); OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights: products and powers).
 
 [ShortProof], `New/Determinant/Twist/LongForms.lean` (`New.Data.exists_hasSmallRatios_heightLe_liftDeterminant_div`,
@@ -1263,14 +1374,142 @@ of 6.2; the product formula for a twisted lattice gives `c + 2δ + n′(2x₁²b
 scalar `|γ(θ_ι)|^{−2}` costing at most `2m²t·x₁ ≤ b` by 1.4; the completion costs at most `d·b`, and `2d·b` is absorbed in
 `d·f·a·(log b)⁴`.
 
-Let `y₁, …, y_n` be linearly independent target forms with `n ≥ (1 − 4/b²)·d`. Suppose that the family `y` has index at
-most `δ` and covolume at most `c` in the twisted lattice of the target forms. Then
-`d·(h_main − 3·f·a·(log b)⁴) ≤ c + 2δ`. This is the statement of OneSidedPrimeSumBoundsAndAdmissibleData §5.5, proved
-here.
+Let `D` be admissible data, `𝒯` its space of target forms and `d = dim 𝒯` (written `d_T` in
+OneSidedPrimeSumBoundsAndAdmissibleData). Let `y₁, …, y_n` be linearly independent target forms with
+`n ≥ (1 − 4/b²)·d`. Suppose that the family `y` has index at most `δ` and covolume at most `c` in the target lattice,
+the twisted lattice of the target forms with the maps `Θ_ξ`, `ξ` an `m`-fold twist
+(OneSidedPrimeSumBoundsAndAdmissibleData §5.1; index and covolume as in its §1.3). Then
+`d·(h_main − 3·f·a·(log b)⁴) ≤ c + 2δ`. This is Theorem C of the family; the main inequality,
+OneSidedPrimeSumBoundsAndAdmissibleData §6.1, consumes it together with Theorems A and B.
 
-*Needs:* 1.4, 4.3, 6.1, 6.2; OneSidedPrimeSumBoundsAndAdmissibleData §1.4 (a twist for each prime: the product formula
+*Needs:* 1.4, 4.3, 6.1, 6.2; OneSidedPrimeSumBoundsAndAdmissibleData §1.3 (twisted lattices, index and covolume), §1.4 (a
+twist for each prime: the product formula
 `covolume + 2·index + completion cost + height of the volume ratio ≥ 0` for a twisted lattice with injective maps),
 §5.1 (the target forms as a twisted lattice, whose maps `Θ_ξ` are injective and whose volumes are the determinants
 `Z(ξ)`).
 
 [ShortProof], `New/Determinant/Twist/LongForms.lean` (`New.Data.integral_forms_long`, `New.Data.mul_completion_cost_le`)
+
+## Downstream consumers
+
+- OneSidedPrimeSumBoundsAndAdmissibleData §6.1 (the main inequality) uses Theorem C (6.3); its §5.1 uses the
+  injectivity of the chain `Θ_ξ` on the target forms (4.3 (d)).
+- CongruencesOfTwistedThetaLifts uses critical, ramified and main pairs and their ratios (1.1), regular families of
+  twists and negligible numbers (1.3), the lift of a descent pair with its Hecke polynomials (2.1) and the spanning
+  of the lifts by lifts of eigenforms (4.4 (d)); it proves the existence of the regular family that 6.2 takes.
+- SelmerBoundsForAnticyclotomicTwists uses the pairs and ratios of 1.1.
+- NormsOfThetaLiftsAndExchangeIdentities uses 1.1 to 1.4 (pairs, ratios, regular families, heights of inverse
+  ratios), 2.1 and 2.2 (the lift of a descent pair and its norm), 3.1 and 3.3 (theta integrals with finite data,
+  matched functions) and 3.10 (the exchange identity with determinant data), and the determinants `Z_j` of the
+  Conventions.
+- SecondMomentsOfPoincareSeries uses the series of translates of 2.2 (a) and the steep parameters of 5.4 (a).
+- PairsOfFramesAtOnePlace names 5.4 and 5.5 as the consumers of its steep parameters.
+
+## Scope and ownership
+
+### Owned here
+
+- Critical pairs, ratios of Hecke values, moduli up to norm powers, small ratios, denominators, regular families of
+  twists and negligible numbers (Layer 1).
+- The lift of a descent pair with its vector-valued kernel, its descent and its Hecke polynomials; the norm of the
+  single lift `Θ_{j,ϑ}` as a constant times a Rallis series (Layer 2).
+- The exchange identity between the theta integrals of two complementary hermitian spaces on matched data at the
+  places of a tame character, its form with determinant data, the finite square law and the identity on one square
+  (Layer 3).
+- The triangle of lifts, the Gram operator of the chain and the factorisation of its determinant `Z` through the
+  determinants `Z_j` of the single lifts (Layer 4).
+- The two grids, path data and their periods, the transfer of periods from the first path to the last, and the forms
+  with short integral lifts (Layer 5).
+- Auxiliary forms, the height of `Z(1)/Z(ξ_ι)` along a regular family, and Theorem C (Layer 6).
+
+### Not owned here
+
+- The data, heights, twisted lattices, the product formula for a twisted lattice and the target lattice:
+  OneSidedPrimeSumBoundsAndAdmissibleData §§1.2–1.4, 3.2–3.4, 5.1.
+- The spaces of the chain, the grids of parameters, levels, labels, good forms, descent pairs and the chain of lifts:
+  ThetaLiftChainsAndTheSeesawIdentity Layer 2.
+- The existence of a regular family of twists: CongruencesOfTwistedThetaLifts §7.3, with
+  SelmerBoundsForAnticyclotomicTwists.
+- False lifts, test forms, the rank-one lifts of the main pairs and the cost of one lift:
+  NormsOfThetaLiftsAndExchangeIdentities §1.3, §2.5, §7.5.
+- Steep parameters and the pairing of two steep discrete series coefficients: PairsOfFramesAtOnePlace §8.1, §8.6.
+- Equality of multiplicities of the good forms on the spaces `W_j`: SecondMomentsOfPoincareSeries §2.3, §2.4.
+- The Weil representation of a unitary pair, its Fock model, class-set integration on definite groups and integral
+  branching of Weyl modules, in their general forms: ThetaKernelsForUnitaryDualPairs §3.45, §4.4a;
+  DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a; IntegralWeylModulesOfGeneralLinearGroups §1.1.
+
+### Relation to roadmaps of RiemannHypothesisForDirichletLFunctions
+
+- ThetaKernelsForUnitaryDualPairs §6.13a states the Rallis inner product formula for Hecke eigenforms with an
+  L-value. Layer 2 and 4.2 use the formula for sharp finite data, for every form fixed by a level and with the
+  unramified integrals kept as a series of translates; no L-value of an eigensystem enters this roadmap.
+- ThetaLiftsForDefiniteUnitaryGroups §6.11 states a complementary-space identity under its hypotheses 1 to 4. The
+  exchange identity 3.9 is a variant with explicit matching modulo a modulus, the ranges `e ≥ 0` and `b ≥ 0`, and the
+  size of its constant; 3.9 says how the two differ.
+- RowTowerAndRallisIdentities Layer 5 computes `ι_ξι_ξ^*` for the descent of a chain on each Hecke eigensystem as a
+  product of L-values (its §§5.5–5.7), and builds a rational structure on the row space from a grid of complementary
+  triples and Bessel periods (its §§5.8a–5.8). Layers 4 and 5 here treat the chain of the data of this family
+  without eigensystems: the Gram operator of the chain is a product of Rallis series up to a constant whose modulus
+  is a product of ratios of Hecke values of characters of `U(1)` (4.4), and the grids of Layer 5 serve to build
+  auxiliary forms with integral twisted lifts (5.11), with periods moved by the square law of 3.12. Neither
+  development is deduced from the other.
+
+## Exact supplier contracts
+
+### From OneSidedPrimeSumBoundsAndAdmissibleData
+
+§1.2 (heights of families indexed by the pairs `ι`: products, powers, integers prime to the prime of `ι`); §1.3
+(twisted lattices, index and covolume); §1.4 (the product formula for a twisted lattice with injective maps); §2.1,
+§2.2 (the parameters and the field); §3.2, §3.3 (admissible data and their sizes); §3.4 (tame characters, twists,
+`m`-fold twists and the characters `μ_j⁰`); §4.1 (`h_dir`, `h_main` and the error unit); §5.1 (the target lattice).
+
+### From ThetaLiftChainsAndTheSeesawIdentity
+
+§2.1 (the spaces `Y_j`, `W_j`, `V_j`); §2.4 (index sets, signs and parameters of the grids, and the correspondence
+of the parameters of consecutive nodes); §2.5 (`G₀` and `e₀`); §2.6 (levels and the last level); §2.7 (good forms and
+target forms); §2.15 (the chain of lifts); §2.16 to §2.18 (descent pairs, the edge of a parameter that fits a pair,
+the descent pairs of the chain).
+
+### From NormsOfThetaLiftsAndExchangeIdentities
+
+§1.3 (false lifts; test forms in (c)); §2.5 (the rank-one lift of a main pair); §7.5 (d) (the cost of one lift: for
+a regular family `θ` and `1 ≤ j ≤ m`, the family `ι ↦ Z_j(1)/Z_j(θ_ι)` has height at most
+`d·k·(log b·β_tot − h_dir)`).
+
+### From other roadmaps of the family
+
+CongruencesOfTwistedThetaLifts §7.3 (every admissible data has a regular family of `m`-fold twists);
+DivisibilityOfThetaDerivatives §1.4 to §1.6 (Weil data, the chosen places and `ω`, characters of `U(1)` and pairs);
+SecondMomentsOfPoincareSeries §2.1a, §2.3, §2.4 (eigenforms span; equal multiplicities; the Rallis operator on good
+forms); CompositeThetaLiftsAndShortForms §5.5, §5.6 (the multiple of the projection to the target; short integral
+forms span); PairsOfFramesAtOnePlace §8.1, §8.6 (steep parameters; the pairing of two steep coefficients).
+
+### From roadmaps outside the family
+
+HermitianFormsAndLattices §1.1 (Witt extension); ThetaKernelsForUnitaryDualPairs §3.45, §4.4a (the Fock model; the
+global Weil representation of a unitary pair); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set
+integration and inner products); IntegralWeylModulesOfGeneralLinearGroups §1.1 (integral branching).
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/New/Determinant`.
+- W. T. Gan, Y. Qiu, S. Takeda, *The regularized Siegel–Weil formula (the second term identity) and the Rallis inner
+  product formula*, Invent. Math. 198 (2014), 739–831; cited as Gan, Qiu and Takeda (2014).
+- R. Goodman, N. Wallach, *Symmetry, Representations, and Invariants*, Springer (2009).
+- A. Ichino, *A regularized Siegel–Weil formula for unitary groups*, Math. Z. 247 (2004), 241–277.
+- S. Kudla, *Seesaw dual reductive pairs*, in Automorphic Forms of Several Variables, Progr. Math. 46 (1984), 244–268.
+- S. Kudla, *On the local theta-correspondence*, Invent. Math. 83 (1986), 229–255.
+- S. Kudla, S. Rallis, *A regularized Siegel–Weil formula: the first term identity*, Ann. of Math. 140 (1994), 1–80.
+- J.-S. Li, *Non-vanishing theorems for the cohomology of certain arithmetic quotients*, J. reine angew. Math. 428
+  (1992), 177–217.
+- G. Muić, *Fourier coefficients of automorphic forms and integrable discrete series* (2015).
+- D. Prasad, R. Schulze-Pillot, *Generalised form of a conjecture of Jacquet and a local consequence*, J. reine angew.
+  Math. 616 (2008).
+- S. Rallis, *Langlands' functoriality and the Weil representation*, Amer. J. Math. 104 (1982), 469–515.
+- S. Rallis, *Injectivity properties of liftings associated to Weil representations*, Compositio Math. 52 (1984),
+  139–169; cited as Rallis (1984b), after the numbering of NormsOfThetaLiftsAndExchangeIdentities.
+- D. P. Zhelobenko, *Compact Lie Groups and their Representations*, Amer. Math. Soc. (1973).
+
+The sources are those named in the heads of the files of `[ShortProof]` that this roadmap covers and of the files of
+its folder `src/Lib` that they use; its `REFERENCES.md` says which citations were compared with their sources.
