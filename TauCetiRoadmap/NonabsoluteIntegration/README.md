@@ -320,8 +320,9 @@ what "restricted" means.
   Chapter V, p. 83: on intervals AC and AC* coincide).
 - **AC* gives VB*** (`AbsContStarOn.eVariationStarOn_ne_top`): if `F` is continuous on `[a, b]`
   and AC* on `E ⊆ [a, b]`, its restricted variation on `E` is finite.
-- Target in prose: the four classes are monotone in `E`; VBG* and ACG* are closed under sums;
-  and for `F` continuous on `[a, b]`, AC* and VB* on `E ⊆ [a, b]` pass to the closure of `E`.
+- Target in prose: the restricted variation is nondecreasing in `E`, and each of the four classes
+  passes from `E` to its subsets; VBG* and ACG* are closed under sums; and for `F` continuous on
+  `[a, b]`, AC* and VB* on `E ⊆ [a, b]` pass to the closure of `E`.
 
 *Proof route.* On intervals: an oscillation of a continuous function on `[c, d]` is attained at
 two points of `[c, d]`, which span a subinterval, so a family's oscillation sum is a sum of
@@ -330,10 +331,10 @@ oscillation. AC* gives VB*: with `δ` for `ε = 1`, a family splits into at most
 `(b - a)/δ` intervals of length `≥ δ`, each of oscillation at most that of `F` on `[a, b]`
 (finite by continuity), and the intervals of length `< δ`, taken from left to right and grouped
 greedily so that each group has total length `< δ` and any two consecutive groups total `≥ δ`,
-form at most `2(b - a)/δ + 1` groups, each of oscillation sum `< 1`. Monotonicity in `E` is
-immediate, sums use the pieces `Sₙ ∩ S'ₘ` and the bound of the oscillation of a sum by the sum
-of the oscillations, and the closure follows by moving the endpoints of a family into `E` with
-continuity of `F`.
+form at most `2(b - a)/δ + 1` groups, each of oscillation sum `< 1`. Passage to subsets is
+immediate, since a subset of `E` admits fewer families; sums use the pieces `Sₙ ∩ S'ₘ` and the
+bound of the oscillation of a sum by the sum of the oscillations, and the closure follows by
+moving the endpoints of a family into `E` with continuity of `F`.
 
 *Needs:* nothing from this roadmap.
 
