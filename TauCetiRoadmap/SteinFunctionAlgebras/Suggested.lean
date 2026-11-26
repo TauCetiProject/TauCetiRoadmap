@@ -26,7 +26,9 @@ Stated here:
 * full faithfulness of the global-section functor (README §3.3),
   `bijective_pullbackAlgHom`;
 * algebra isomorphisms versus biholomorphisms (README §3.3),
-  `nonempty_algEquiv_iff_nonempty_biholomorphism`.
+  `nonempty_algEquiv_iff_nonempty_biholomorphism`;
+* the Gelfand reconstruction theorem (README §5.2), `exists_homeomorph_characterSpace`, with
+  `CharacterSpace` carrying the initial topology of the evaluation maps.
 
 Not stated here:
 
@@ -34,8 +36,6 @@ Not stated here:
   `H¹(X, O^*)`, no Picard group of holomorphic line bundles and no meromorphic function sheaf;
   these are ComplexKahlerGeometry K4.P and ComplexManifolds §7.3 targets. The theorem is stated in
   the roadmap against that API.
-* the Gelfand reconstruction theorem (README §5.2): it needs the topology on the character space,
-  which is built in the roadmap from Mathlib's initial topology; the statement is in the roadmap.
 * the countability and separation hypotheses of the embedding are explicit in the signatures below;
   the prototype does not prove the Stein criterion or the Cartan theorems it consumes.
 
@@ -90,6 +90,21 @@ noncomputable def evalAt {E X : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
   map_add' f g := by simp
   map_mul' f g := by simp
   commutes' c := by simp
+
+/-- The character space of the function algebra, with the Gelfand topology: the initial topology
+induced by the evaluation maps `φ ↦ φ f`, for `f : O(X)`. -/
+abbrev CharacterSpace (E X : Type) [NormedAddCommGroup E] [NormedSpace ℂ E]
+    [TopologicalSpace X] [ChartedSpace E X] : Type :=
+  HolFunctions E X →ₐ[ℂ] ℂ
+
+namespace CharacterSpace
+
+instance instTopologicalSpace {E X : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    [TopologicalSpace X] [ChartedSpace E X] : TopologicalSpace (CharacterSpace E X) :=
+  TopologicalSpace.induced (fun φ : CharacterSpace E X => fun f : HolFunctions E X => φ f)
+    Pi.topologicalSpace
+
+end CharacterSpace
 
 /-! ## SF1: the Remmert–Narasimhan embedding -/
 
@@ -187,6 +202,19 @@ theorem nonempty_algEquiv_iff_nonempty_biholomorphism {m n : ℕ} {X Y : Type}
     (hX : IsStein (Fin m → ℂ) X) (hY : IsStein (Fin n → ℂ) Y) :
     Nonempty (HolFunctions (Fin n → ℂ) Y ≃ₐ[ℂ] HolFunctions (Fin m → ℂ) X) ↔
       Nonempty (Biholomorphism (m := m) (n := n) X Y) := by
+  sorry
+
+/-! ## SF5: reconstruction -/
+
+/-- **Reconstruction of the manifold** (README Theorem 5.2). For a Stein manifold `X`, evaluation
+at points is a homeomorphism from `X` onto the character space of `O(X)` with the Gelfand
+topology. -/
+theorem exists_homeomorph_characterSpace {n : ℕ} {X : Type}
+    [TopologicalSpace X] [T2Space X] [SecondCountableTopology X]
+    [ChartedSpace (Fin n → ℂ) X] [IsManifold 𝓘(ℂ, Fin n → ℂ) ∞ X]
+    (hX : IsStein (Fin n → ℂ) X) :
+    ∃ e : X ≃ₜ CharacterSpace (Fin n → ℂ) X,
+      ∀ x, e x = evalAt x := by
   sorry
 
 end TauCetiRoadmap.SteinFunctionAlgebras
