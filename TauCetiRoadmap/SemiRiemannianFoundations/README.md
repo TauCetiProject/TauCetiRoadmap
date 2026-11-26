@@ -21,9 +21,9 @@ function `q(exp_p v) = g_p(v, v)` is `C^{1,1}` and `dq = 2g(P, ·)`, where `P` i
 vector field.
 
 This README is the roadmap. `Suggested.lean` gives the metric carrier, the vector characters
-and the extension predicates, states the existence half of the first of these theorems and the
-reduction of inextendibility to second-countable extensions against the pinned Mathlib and Tau
-Ceti, and names the headline theorems that are not statable there.
+and the extension predicates, states the existence and the uniqueness halves of the first of
+these theorems and the reduction of inextendibility to second-countable extensions against the
+pinned Mathlib and Tau Ceti, and names the headline theorems that are not statable there.
 
 ## How to read the build
 
@@ -378,14 +378,23 @@ with the Koszul
 identity. The existence statement, for `g` of class `C^{l+1}` with `l ≤ ∞` on a manifold
 modelled on a Banach space, is `ContMDiffNondegenerateMetric.exists_leviCivitaConnection`; it
 writes torsion-freeness as `∇_X Y − ∇_Y X = [X, Y]` on fields differentiable at the base point,
-since Mathlib's torsion tensor assumes a finite-dimensional model. The local construction uses
+since Mathlib's torsion tensor assumes a finite-dimensional model. The uniqueness statement,
+for `g` of any class, strong or weak, on a manifold modelled on any normed space, is
+`ContMDiffNondegenerateMetric.leviCivitaConnection_unique`: two covariant derivatives with these
+torsion and compatibility identities agree on every field differentiable at the base point.
+The local construction uses
 the inverse continuous flat map and Fréchet derivatives of `g` (for Riemannian metrics on
 Banach and Fréchet manifolds, Bruveris, §2.3, formula (1), pp. 8–9, which also notes that a weak
 metric needs the right-hand side of that formula in the image of its flat map); in finite
 dimensions it gives the Christoffel formula
 `Γ^k_ij = ½ g^{kl}(∂_i g_jl + ∂_j g_il − ∂_l g_ij)` of class `C^{k−1}`, and of class
 `C^{k−1,α}` when `g` is `C^{k,α}`. For `∞ ≤ k` it agrees with Tau Ceti's
-`ContMDiffNondegenerateMetric.leviCivitaConnection`. Generalize the existing Koszul
+`ContMDiffNondegenerateMetric.leviCivitaConnection`. For a positive-definite metric on a
+finite-dimensional model it agrees on differentiable fields with Mathlib's
+`CovariantDerivative.leviCivitaConnection`, the Levi-Civita connection of a `C¹` Riemannian
+metric on a `C²` manifold, of which Mathlib proves no regularity; for smooth metrics Tau Ceti's
+`isLeviCivitaConnection_ofRiemannianBundle_leviCivitaConnection` shows that it is a Levi-Civita
+connection of the metric. Generalize the existing Koszul
 construction of HopfRinow Layer 1 to finite order, and retain the Riemannian public interface
 as a specialization; LorentzianGeometry uses the same API for Lorentzian metrics. Prove compatibility with restriction,
 local isometries, products, constant scaling and lowering regularity.
@@ -972,8 +981,14 @@ completeness theorems are also outside this roadmap.
   (`Mathlib/Geometry/Manifold/IntegralCurve/`).
 - Connections: `CovariantDerivative`, `IsCovariantDerivativeOn`,
   `ContMDiffCovariantDerivative` (graded by `k : ℕ∞ω`) and the torsion API
-  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/`); the Lie bracket of vector
-  fields `VectorField.mlieBracket` (`Mathlib/Geometry/Manifold/VectorField/LieBracket.lean`),
+  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/`); the Levi-Civita connection
+  of a `C¹` Riemannian metric on a finite-dimensional `C²` manifold,
+  `CovariantDerivative.leviCivitaConnection`, with
+  `CovariantDerivative.isLeviCivitaConnection_leviCivitaConnection` and
+  `CovariantDerivative.IsLeviCivitaConnection.uniqueness`
+  (`.../CovariantDerivative/LeviCivita.lean`), positive definite and with no regularity theorem;
+  §2.4 identifies its connection with this one for positive-definite metrics; the Lie bracket of
+  vector fields `VectorField.mlieBracket` (`Mathlib/Geometry/Manifold/VectorField/LieBracket.lean`),
   in which §2.4 states torsion-freeness on Banach manifolds.
 - Analysis: `LipschitzOnWith`, `LocallyLipschitzOn`, `HolderOnWith`, `iteratedFDerivWithin`,
   Arzelà–Ascoli (`BoundedContinuousFunction.arzela_ascoli`), and the ODE API of
@@ -1017,8 +1032,9 @@ finite-dimensional public interfaces.
 - The nondegenerate Levi-Civita connection:
   `ContMDiffNondegenerateMetric.leviCivitaConnection`,
   `isLeviCivitaConnection_leviCivitaConnection`, `koszul`, `IsMetricCompatible`,
-  `IsLeviCivitaConnection.uniqueness`, `IsLeviCivitaConnection.christoffelSymbol_eq` and
-  `IsLeviCivitaConnection.contMDiffCovariantDerivative`
+  `IsLeviCivitaConnection.uniqueness`, `IsLeviCivitaConnection.christoffelSymbol_eq`,
+  `IsLeviCivitaConnection.contMDiffCovariantDerivative` and
+  `isLeviCivitaConnection_ofRiemannianBundle_leviCivitaConnection`
   (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/`).
 - Along curves: `TauCeti.Manifold.curveVelocityWithin`, `CovariantDerivative.accelerationWithin`
   and the nondegenerate compatibility theorems, in particular

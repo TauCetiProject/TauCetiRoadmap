@@ -14,10 +14,12 @@ roadmap's statable theorems need, against the pinned Mathlib and Tau Ceti:
   strongness predicate, and the reading of a smooth metric as Tau Ceti's;
 * extensions and `C^l`-inextendibility of a metric of any signature (§2.7);
 
-and states two theorems about them:
+and states three theorems about them:
 
 * a strong metric of class `C^{l+1}`, `l ≤ ∞`, on a manifold modelled on a Banach space has a
   torsion-free compatible covariant derivative of class `C^l` (§2.4);
+* two torsion-free covariant derivatives compatible with a metric of any class, strong or weak,
+  agree on vector fields differentiable at the base point (§2.4);
 * for a connected second-countable manifold without boundary, `C^l`-inextendibility needs to
   exclude only second-countable extensions (§2.7).
 
@@ -134,6 +136,28 @@ theorem exists_leviCivitaConnection [CompleteSpace E] {l : ℕ∞ω} (hl : l ≤
         ∀ v : TangentSpace I x,
           mfderiv I 𝓘(ℝ) (fun y ↦ g y (Y y) (Z y)) x v =
             g x (cov Y x v) (Z x) + g x (Y x) (cov Z x v)) := by
+  sorry
+
+/-- **§2.4.** Uniqueness of the Levi-Civita connection from nondegeneracy alone: two covariant
+derivatives on `TM` that are torsion free and compatible with a symmetric nondegenerate metric `g`
+of any class, strong or weak, in the sense of `exists_leviCivitaConnection`, agree on every vector
+field differentiable at the base point. By the Koszul formula, `2 g(∇_X Y, Z)` at that point is
+determined by `g` and the fields; fields constant in the trivialization there take every value at
+the point, and `g x` is injective. -/
+theorem leviCivitaConnection_unique (g : ContMDiffNondegenerateMetric (I := I) (M := M) k)
+    {cov cov' : CovariantDerivative I E (fun x : M ↦ TangentSpace I x)}
+    (htor : ∀ ⦃X Y : Π x : M, TangentSpace I x⦄ ⦃x : M⦄, MDiffAt (T% X) x → MDiffAt (T% Y) x →
+      cov Y x (X x) - cov X x (Y x) = VectorField.mlieBracket I X Y x)
+    (htor' : ∀ ⦃X Y : Π x : M, TangentSpace I x⦄ ⦃x : M⦄, MDiffAt (T% X) x → MDiffAt (T% Y) x →
+      cov' Y x (X x) - cov' X x (Y x) = VectorField.mlieBracket I X Y x)
+    (hcomp : ∀ ⦃Y Z : Π x : M, TangentSpace I x⦄ ⦃x : M⦄, MDiffAt (T% Y) x → MDiffAt (T% Z) x →
+      ∀ v : TangentSpace I x, mfderiv I 𝓘(ℝ) (fun y ↦ g y (Y y) (Z y)) x v =
+        g x (cov Y x v) (Z x) + g x (Y x) (cov Z x v))
+    (hcomp' : ∀ ⦃Y Z : Π x : M, TangentSpace I x⦄ ⦃x : M⦄, MDiffAt (T% Y) x → MDiffAt (T% Z) x →
+      ∀ v : TangentSpace I x, mfderiv I 𝓘(ℝ) (fun y ↦ g y (Y y) (Z y)) x v =
+        g x (cov' Y x v) (Z x) + g x (Y x) (cov' Z x v))
+    {Y : Π x : M, TangentSpace I x} {x : M} (hY : MDiffAt (T% Y) x) (v : TangentSpace I x) :
+    cov Y x v = cov' Y x v := by
   sorry
 
 /-- **§2.7.** An extension of `(M, g)` of class `C^l`, at any signature: a smooth embedding `ι`
