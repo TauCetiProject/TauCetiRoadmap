@@ -20,10 +20,13 @@ The following are not stated here.
   admissible data and their existence (Layer 3) and the prime sums (Layer 4). These are statable
   with Mathlib's number fields and lattices, but as long structures whose fields are fixed by the
   README; no signature is given for them in this file.
-* Theorems A and B (5.3, 5.4) and the main inequality (6.1), and with it 6.2 (a) and (b): they are
+* Theorems A and B (5.3, 5.4) and the main inequality (6.1), and with it 6.2 (a): they are
   statements about admissible data and about automorphic forms on definite unitary groups of
   Hermitian spaces over the CM field of the data, their theta lifts and Poincaré maps. Neither
   Mathlib nor Tau Ceti has these carriers at the pins.
+* 6.2 (b), the bound at the large integers with the constant `64 φ(q₀) + 3`: it mentions the
+  remainder only and is statable as 6.2 (c) is; it is a step towards 6.2 (c), which is the
+  headline stated here.
 -/
 
 namespace TauCetiRoadmap.ShortGRH.OneSidedPrimeSumBoundsAndAdmissibleData

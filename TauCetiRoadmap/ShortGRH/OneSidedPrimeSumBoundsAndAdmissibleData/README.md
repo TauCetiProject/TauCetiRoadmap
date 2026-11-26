@@ -12,7 +12,7 @@ The argument has this shape. Fix a positive multiple `q₀` of `18480` and a pri
 (0.1). An upper bound `R_{q₀}(y) ≤ y^{β−1}` for all large `y`, asked for every prime `d` of a residue class, excludes
 zeros of the L-functions modulo `q₀` in `Re s > β` (0.2): only an upper bound is needed, by Landau's theorem. To prove
 such a bound at a large integer `x`, one builds admissible data (Layers 2 and 3): a CM field `E = K(ζ_{q₁})` whose
-degree is a power of `x`, a weight `κ` on its infinite places, three scales `x ≤ x₁ ≤ b`, ranks, three auxiliary primes
+degree `2f` lies between `2x^{11}` and `2x^{12}`, a weight `κ` on its infinite places, three scales `x ≤ x₁ ≤ b`, ranks, three auxiliary primes
 and the twists. Prime sums restricted by the place of a Frobenius element (Layer 4) combine into a total remainder
 `rem`, which is a positive multiple of `R_{q₀}(x)` up to remainders at the much larger scale `x₁`. A lattice of theta
 lifts of automorphic forms on definite unitary groups carries an upper bound for its covolume (Theorems A and B) and a
@@ -38,15 +38,16 @@ parameters, the field `E` and its group of infinite places. Layer 3 defines admi
 twists and the characters of the lifts, and proves that admissible data exist at every large integer. Layer 4 defines
 the prime sums and writes the total remainder through `R_{q₀}` and `R₁`. Layer 5 defines the target lattice and the
 normalised Poincaré maps, states Theorems A and B, and names Theorem C, which DeterminantsOfThetaLiftChains §6.3
-states and proves. Layer 6 proves the main inequality, the one-sided bound and the
-end theorems in all their forms.
+states and proves. Layer 6 proves the main inequality and the one-sided bound, and from them the
+end theorems, which GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3 state, in all their forms.
 
 ## Conventions and notation
 
 **Labels.** Every section that states something carries, under its heading, `*Origin:*` (one of `published:`,
 `adapted from`, `particular to this proof:`, `this roadmap's own formulation:`, `definitions and conventions`) and
 `*Method of the formal proof:*`, how [ShortProof] proves it. The last line of a section names where [ShortProof] proves
-it, as `[ShortProof], path (declaration)`, with the path relative to its directory `src/`. Theorems A and B (5.3, 5.4)
+it, as `[ShortProof], path (declaration)`, with the path relative to its directory `src/`; the names on that line, which begin
+`New.`, are declarations of [ShortProof] and not names of this roadmap or of its `Suggested.lean`. Theorems A and B (5.3, 5.4)
 are stated here and proved from the sections named on their `*Needs:*` lines; Theorem C is
 DeterminantsOfThetaLiftChains §6.3. A section of another roadmap of the family is cited by number, `<Roadmap> §k.n`.
 
@@ -370,7 +371,7 @@ read through the action on `ζ`; the `a`-places, the `b`-places and the weights 
 congruences: every prime of `q₁` divides `q₀`, hence `2(d + 1)`, and `d ≡ −1` modulo `4p` gives `(p/d) = 1` by
 reciprocity for the Jacobi symbol; `d² ≡ 1 (mod q₀)` gives the last fact.
 
-*Parameters* `P = (q₀, d)` consist of an integer `q₀` divisible by `18480 = 16·3·5·7·11` and a prime `d` with
+*Parameters* `P = (q₀, d)` consist of a positive integer `q₀` divisible by `18480 = 16·3·5·7·11` and a prime `d` with
 `q₀ | 2(d + 1)` and `q₀ ∤ d + 1`, that is `d ≡ q₀/2 − 1 (mod q₀)`. Put `K = ℚ(√−d) ⊂ ℂ` and `χ_K = (·/d)`. For `s ≥ 0`
 let `l₀(s) = 3^{⌊log₃ s⌋+4}`, `T(s) = 3^{⌊log₃ s⌋+5}·2^s = 3 l₀(s) 2^s`, `q₁(s) = q₀T(s)` and `q₂(s) = (q₀d)^{s+6}`
 (with `⌊log₃ 0⌋ = 0`). Then:
@@ -400,7 +401,9 @@ quadratic character of conductor `d`, that is `(·/d)`, and a prime `p` ramifies
 
 ### 2.2 The field `E` and its infinite places
 
-*Origin:* definitions and conventions.
+*Origin:* definitions and conventions. With `K` and `ι₀`, the field `E` is an abelian CM host in the sense of
+FrobeniusRestrictedRieszSums §0.1, whose places are the elements of `Gal(E/K)`; this section fixes the one host
+`K(ζ_{q₁})` and the group of its infinite places, and that section is not a supplier.
 
 *Method of the formal proof:* the cyclotomic polynomial of order `q₁` stays irreducible over `K` because `K` embeds in
 `ℚ(ζ_d)` by a Gauss sum and `[ℚ(ζ_d, ζ_{q₁}) : ℚ] ≥ φ(d)φ(q₁)`, `q₁` being prime to `d`; `E` is totally complex because
@@ -628,7 +631,9 @@ weight `1` and trivial tame part; [ShortProof] `Lib/ClassField/HeckeCharacter/Ba
 *Origin:* adapted from Behrend (1946), large sets of integers without three-term arithmetic progressions, and Ruzsa
 (1993), sets without solutions of invariant linear equations: here all relations `(α + α′)e₂ ≡ αe₁ + α′e₃` with
 `α, α′ > 0`, `α + α′ ≤ L` are excluded at once, as congruences modulo `o`, with a free number of digits and the
-explicit count of points on a sphere.
+explicit count of points on a sphere. FrobeniusRestrictedRieszSums §0.8 states sets of integers with no relation of
+length `L`, by the same construction; here the relations are congruences modulo `o` with positive coefficients, and
+the count `H^n/(nH²)` is explicit because 3.6 uses it. Neither statement is deduced from the other.
 
 *Method of the formal proof:* the integers whose digits in base `LH` form a vector of `{0, …, H − 1}^n` on a sphere
 with the most points; in a congruence among three of them both sides have all digits below the base, so the
@@ -1025,7 +1030,9 @@ functional equation makes `1 − s` a zero of `L(·, χ⁻¹)`; by 6.3 neither `
 and `ζ` is the L-function of the character modulo `1`. Here the roadmap takes these passages from
 RiemannHypothesisStatementsAndConsequences §§9.3, 9.4, which state them as equivalences.
 
-Each of the following is a target.
+The statements (a)–(d) are those of GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3, which owns them and
+declares them in its `Suggested.lean`. The target of this section is their proof by the route of this family, from
+6.3.
 
 - (a) *Predicate form.* For every `N` with `NeZero N` and every `χ : DirichletCharacter ℂ N`,
   `χ.GeneralizedRiemannHypothesis`, that is `ZeroFreeRightOf (1/2) χ.LFunction`: the order of `χ.LFunction` at every `s`
@@ -1083,8 +1090,8 @@ statements are in `Statements`
 - the prime sums, the local prime sums `s_p` with their total `S_p`, the main amount, the total remainder and its
   expression through `R_{q₀}` and `R₁` (Layer 4);
 - the target lattice, the normalised Poincaré maps, and Theorems A and B (Layer 5);
-- the main inequality, the one-sided bound, the passage to all Dirichlet characters, and the end theorems in their
-  value, predicate and strip forms with Mathlib's `RiemannHypothesis` (Layer 6).
+- the main inequality, the one-sided bound, the passage to all Dirichlet characters, and the derivation of the end
+  theorems from 6.3 by this route (Layer 6).
 
 ### Not owned here
 
@@ -1096,6 +1103,8 @@ statements are in `Statements`
   CongruencesOfTwistedThetaLifts and SelmerBoundsForAnticyclotomicTwists;
 - the field arithmetic of `E` beyond 2.3 (its integers, its different, the chosen places and their characters):
   DivisibilityOfThetaDerivatives §§1.1–1.7;
+- the statements of the end theorems in their value, predicate and strip forms, with Mathlib's `RiemannHypothesis`:
+  GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3 (6.3 and 6.4 prove them by this route);
 - the transform of a Riesz sum (RiemannHypothesisStatementsAndConsequences §8.4a), Landau's theorem
   (PositivityOfDirichletSeriesWithKernels §6.4), the Siegel–Walfisz theorem (AnalyticNumberTheoryPartI §0.32), and the
   equivalences between the forms of the hypothesis, which 6.4 uses (RiemannHypothesisStatementsAndConsequences
