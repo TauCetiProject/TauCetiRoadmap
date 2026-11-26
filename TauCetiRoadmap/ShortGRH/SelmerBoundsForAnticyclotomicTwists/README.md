@@ -149,11 +149,22 @@ places of `E` and `g₀ ∈ G_E`.
   relative to every set contained in `(J ∖ {P₀}) ∪ {w | ℓ}`; `λ(φ) = 0`; `λ_v(φ) = 1` for `v = P₀` and `0` for the other
   `v ∈ J`; and `U_i` holds at `φ` and `φ^{−c}`.
 
-*Needs:* ShortGRH background (the Artin map from the finite ideles of a number field to its abelianised absolute Galois
-group, and, at a place of `Ω`, Frobenius elements, the inertia group and a chosen generator of tame inertia; [ShortProof]
-`Lib/ClassField/Local/ArtinMap.lean` (`New.artinMap`, `New.IsPlaceOver.tameGenerator`); the Selmer modules of
-cocycles unramified outside a set of places and obeying relations, [ShortProof] `Lib/GaloisRep/Main/SelmerModules.lean`
-(`New.selmerModule`)).
+*Needs:* ShortGRH background (the Artin map of a number field `K`, in the geometric normalisation: the continuous
+homomorphism `Art` from the finite ideles of `K` to the abelianised Galois group of `Ω/K` such that, for every
+continuous character `χ` of that group with values in `ℚ/ℤ` and every finite idele `a`, `χ(Art(a))` is the product over
+the finite places `v` of the values of `χ` at the local Artin symbols of the components `a_v`; the local Artin map at
+`v` sends a uniformiser to the class of the inverse of a Frobenius element and a unit to the class of an element of
+the inertia group, at the chosen place of `Ω` above `v`. At a place `A` of `Ω` above a finite place `w` of `K`: the
+decomposition group and the inertia group; the Frobenius elements, which lie in the decomposition group and act on
+the residue field as `x ↦ x^{Nw}`; and a chosen *tame generator*, an element `γ` of the inertia group such that for
+every `n` prime to the residue characteristic there are a uniformiser `π ∈ K` at `w` and `y ∈ Ω` with `y^n = π` and
+`γ(y)/y` a primitive `n`-th root of unity; [ShortProof] `Lib/ClassField/Local/ArtinMap.lean` (`New.artinMap`,
+`New.artinAt`, `New.IsLocalArtin.exists_frob_of_isUniformiser`, `New.IsTameGenerator`,
+`New.IsPlaceOver.exists_tameGenerator`, `New.IsPlaceOver.tameGenerator`), `Lib/ClassField/Global/ArtinMap.lean`
+(`New.abelianLift_artinMap_eq_finprod`, `New.continuous_artinMap`), `Lib/ClassField/Places/GaloisDefs.lean`
+(`New.IsFrob`, `New.IsPlaceOver`)); ShortGRH background (the module of the locally constant cocycles for `ρ` with
+values in `B^n` that vanish on the inertia groups above the places outside a set `S` and obey a set `L` of relations;
+[ShortProof] `Lib/GaloisRep/Main/SelmerModules.lean` (`New.selmerModule`)).
 
 [ShortProof], `New/Congruences/Selmer/SelmerData.lean` (`New.Selmer.SelmerDatum`, `New.Selmer.SelmerDatum.tiedSelmer`,
 `New.Selmer.IsNewAuxiliaryPrime`, `New.Selmer.SelmerDatum.sahGroup`), `New/Congruences/Selmer/AuxiliaryPrimes.lean`
@@ -269,11 +280,25 @@ be Selmer data for `(S₀, g₀)` of ranks `n_i`, and `M ≥ 0` with `#k_O > 2n_
 
 `len_O Sel(J)(T_i, i; ℓ^M) ≤ ` global term of `T_i` `+` places term of `T_i` for every `i`.
 
-*Needs:* 1.1, 1.2, 1.3, 1.4; ShortGRH background (global duality for a finite Galois module over a totally complex
-field in the form with relations at split primes, which stand for the dual Selmer group: the relations off a finite
-set of primes satisfy the reciprocity law `Σ_P y(φ_P)(z(γ_P)) = 0` against the cocycles with the local conditions,
-and a case of the formula of Greenberg and Wiles holds as a lower bound for the number of relations; [ShortProof]
-`Lib/ClassField/GreenbergWiles/Relations.lean` (`New.RelationSetting.IsRelation`,
+*Needs:* 1.1, 1.2, 1.3, 1.4; ShortGRH background (global duality for a Galois module `M` over a number field `K`, in
+the form with relations at split primes, which stand for the dual Selmer group. A *relation setting* modulo `m ≥ 1`
+is: a module `M` killed by `m` and fixed by the complex conjugations; an open normal subgroup `U` of `G_K` that fixes
+`M` and the `m`-th roots of unity and contains no complex conjugation; a finite set `S` of primes outside which `M`
+is unramified; and for each `v ∈ S` a module of allowed functions from a decomposition group at `v` to `M` that
+contains the coboundaries, whose cocycles form `A_v`. `Z(P)` is the module of the cocycles `G_K → M` that are allowed
+at each prime of `S`, vanish at the complex conjugations and are unramified outside `S ∪ P`. A *relation off* a
+finite set `T` of primes is a locally constant map `y : G_K → Hom(M, ℚ/ℤ)` that vanishes outside `U`, is additive on
+`U`, satisfies `y(gug^{−1})(a) = χ_m(g)·y(u)(g^{−1}a)` for `g ∈ G_K`, `u ∈ U`, with `χ_m` the cyclotomic character
+modulo `m`, vanishes on the inertia groups above the primes outside `T`, and obeys the reciprocity law
+`Σ_P y(φ_P)(z(γ_P)) = 0` for every finite family of distinct primes `P ∉ T`, each with a Frobenius element `φ_P ∈ U`
+and a tame generator `γ_P` for `m` at one place above `P`, and every `z ∈ Z(P)`, `P` here the set of these primes. The count, a case of the formula
+of Greenberg and Wiles as a lower bound: let `K` be totally complex, `m = ℓ^r` with `r ≥ 1`, `M` finite, and let some
+`σ ∈ G_K` fix the `ℓ`-power roots of unity, commute with every element of `G_K` modulo `U`, and fix no nonzero element
+of `M`; let `p ≥ 1` be prime to `m`, divisible by no prime of `S`, and such that the inertia groups above the primes
+dividing `p` lie in `U`. Then there is a finite set `T ⊇ S` of primes not dividing `p` with
+`#Z(∅)·#M^{#S + r₂} ≤ #{relations off T}·#M·∏_{v∈S} #A_v`, `r₂` the number of infinite places of `K`; [ShortProof]
+`Lib/ClassField/GreenbergWiles/Relations.lean` (`New.RelationSetting`, `New.SplitPrime`,
+`New.RelationSetting.cocycles`, `New.RelationSetting.IsRelation`, `New.RelationSetting.Avoids`,
 `New.RelationSetting.exists_card_cocycles_le`)).
 
 [ShortProof], `New/Congruences/Selmer/Descent.lean` (`New.Selmer.exists_isTiedPrimes_card_le_and_length_le`,
@@ -562,11 +587,20 @@ Colmez's period ring, and `Γ` acts on `B_max ⊗_{ℤ_p} L` diagonally, through
   `V ⊆ [−η, η] ∪ ε·[b, b + W]`. The *gap condition* `NoMult(p, n, b)` says that `p` divides no nonzero integer within
   distance `n` of `0`, `b` or `−b`.
 
-*Needs:* ShortGRH background (the period ring `B_max` with its Galois action; admissibility of a lattice along a
-filter and potentially crystalline lattices; the jump multiplicities of a lattice at an embedding; the polynomials
-that kill an inertia element on the periods fixed near `1`; [ShortProof]
-`Lib/PadicHodge/PeriodRings/CrystallineRings.lean` (`New.Period.Bmax`), `Lib/PadicHodge/Crystalline/Basic.lean`
-(`New.Period.IsAdmissible`, `New.Period.crysCocycles`, `New.Period.jump`, `New.Period.IsKilledBy`)).
+*Needs:* ShortGRH background (Colmez's period ring `B_max = B^+[1/μ]`, where `B^+ = A_max[1/p]`, `A_max` is the
+`p`-adic completion of `A_inf[X]/(pX − ξ)` and `μ = [ε] − 1`, with its actions of `G_{ℚ_p}` and of the Frobenius `φ`;
+it is used in place of Fontaine's `B_cris`. Over it, the definitions of this section: admissibility along a filter,
+potentially crystalline lattices, `Z_f(L)` and the jump multiplicities `j_γ(L, u)`. For a potentially crystalline
+`L`, `s ∈ Γ` and `m ≥ 0` such that `j(s)^{−1}` is a Frobenius element for `p^m` (for `m = 0`: `j(s)` is inertial),
+there is exactly one `B_max`-linear operator `β_{s,m}` of `B_max ⊗ L` that acts as `φ^m s ⊗ s` on the periods of `L`;
+`β_{st,m+k} = β_{s,m}β_{t,k}`; and `β_{s,0} = 1` for inertial `s` near `1`. A polynomial `Q` over `O` kills `(s, m)`
+on `L` if `L` is potentially crystalline and `Q(β_{s,m}) = 0`; this section uses `m = 0` and writes `β_s = β_{s,0}`;
+[ShortProof] `Lib/PadicHodge/PeriodRings/CrystallineRings.lean` (`New.Period.Amax`, `New.Period.BPlus`,
+`New.Period.Bmax`), `Lib/PadicHodge/Crystalline/Basic.lean` (`New.Period.IsAdmissible`,
+`New.Period.IsPotentiallyCrystalline`, `New.Period.crysCocycles`, `New.Period.jump`, `New.Period.HasJumps`,
+`New.Period.IsWeilPair`, `New.Period.linearFrob`, `New.Period.IsPotentiallyCrystalline.linearFrob_eq`,
+`New.Period.IsKilledBy`), `Lib/PadicHodge/Crystalline/Regularity.lean` (`New.Period.linearFrob_apply`,
+`New.Period.linearFrob_mul`, `New.Period.IsPotentiallyCrystalline.eventually_linearFrob_eq_one`)).
 
 [ShortProof], `Lib/ClassField/LocalDuality/CrystallineDuality.lean` (`New.Lift.InClass`, `New.Lift.Pairing`,
 `New.Lift.Pairing.IsCupCoboundary`, `New.Lift.cupOrthogonal`, `New.Lift.dualDefect`, `New.Lift.HasCupExponent`),
@@ -782,12 +816,35 @@ Let `S`, `S′` be sides of `k` over `(O, ζ)` with a pairing `P`, and `c ∈ C`
    unramified and every `U_{S′}(i)` lies in `[−η, 0]`. Then the pairing gives a scaled cup coboundary of exponent `H` at
    `(c, c′)` for every `H ≥ 3(κ + (48(a + η + W) + 4)d)`.
 
-*Needs:* 3.1, 3.2; ShortGRH background (Kisin modules of crystalline lattices over a Kummer chart: the module cut out
-by the `Γ′`-equivariant `B_dR`-valued forms is free over `Λ[[z]]` and spans after saturation by `τ` (the frame
-theorem), and the forms of a type at a letter are spanned according to the jump multiplicities; [ShortProof]
-`Lib/PadicHodge/Kisin/FrameTheorem.lean` (`New.Lift.KummerChart.JumpLattice.free_kisinModule`,
+*Needs:* 3.1, 3.2; ShortGRH background (Kisin modules of a lattice `L` that is crystalline over `Γ′`, over a Kummer
+chart with ring `Λ[[z]]`, in the notation of 3.3a. Let `a ≥ 0` be least such that the jumps of `L` over `Γ′` lie in
+`[−a, a]`; let `N_A(L)` be the `A_inf`-module of the `x ∈ M(L)` that a power of `τ` multiplies into `A_inf ⊗ L` and with
+`μ(φ^n x) ∈ B_dR^+` for all `n ≥ 1` and all forms `μ`, and `N(L)` the `Λ[[z]]`-module of the `x ∈ N_A(L)` with
+`μ(x) ∈ 𝒦₀` for all forms `μ`, so that `𝒩_A(L)` and `𝒩(L)` are obtained from them by allowing a product of elements
+`φ^b(E)`; a form is *crystalline* if its restriction to `1 ⊗ L` comes from a `ℤ_p`-linear map `L → B_max`; and `𝔅 ⊂ B^+`
+is the ring of the elements whose multiplication commutes with every `Λ[[z]]`-linear endomorphism of `B^+` that
+preserves the image of `A_max`. The frame theorem: (1) some `rank_{ℤ_p} L` vectors, linearly independent over `A_inf`,
+span `N(L)` over `Λ[[z]]` and `N_A(L)` over `A_inf`; in particular `N(L)` is free over `Λ[[z]]` and `N_A(L)` is its
+`A_inf`-span; (2) `τ^a` carries `N_A(L)` into `A_inf ⊗ L` and `A_inf ⊗ L` into `N_A(L)`; (3) `E^a·φ` maps `N(L)` into
+itself; (4) for a crystalline form `μ` and `y ∈ N(L)`, `E^a·μ(y)` lies in the image of `𝔅`, and `x ∈ M(L)` lies in
+`N(L)` exactly when a power of `τ` multiplies it into `A_inf ⊗ L` and, for some `n`, `E^n·μ(x)` lies in the image of `𝔅`
+for every crystalline form `μ`; (5) if `d ∈ A_inf` divides `r` whenever it divides some `E^m r` in `B^+`, then an
+`x ∈ N_A(L)` with, for one `n`, `E^n·μ(x) ∈ B^+·d` for every crystalline form `μ` lies in `d·N_A(L)`; (6) a
+`Λ[[z]]`-linear map `A_inf → Λ[[z]]`, applied to the coefficients, carries relations over `A_inf` among vectors with all
+form values in `𝒦₀` to relations; (7) if `3e ≤ p^l` and `eA ≤ p^l δ`, then `p^{4δ}` times an element of `φ^l N_A(L)`
+with all form values in `𝒦₀` lies in the `Λ[[z]]`-span of the elements `y` of that kind with `g·μ(y) − μ(y) ∈ Fil^A` for
+all forms `μ` and all `g ∈ Γ′`. The bound for the forms of a type: for a letter `i` and
+`u ∈ ℤ` there are `r` forms of type `u` at `i`, with `r` at most the sum of the jump multiplicities `j_γ(L, u)` over
+the embeddings `γ` over `i`, such that every form of type `u` at `i` is a `ℚ̄_p`-combination of them modulo a form of
+type `u − 1` at `i`; [ShortProof]
+`Lib/PadicHodge/Kisin/FrameTheorem.lean` (`New.Lift.KummerChart.JumpLattice.FrameProperties`,
+`New.Lift.KummerChart.JumpLattice.frame_theorem`, `New.Lift.KummerChart.JumpLattice.free_kisinModule`,
 `New.Lift.KummerChart.JumpLattice.mem_kisinModule_iff_crysForms`), `Lib/PadicHodge/Kisin/Modules.lean`
-(`New.Lift.KummerChart.JumpLattice.forms`, `New.Lift.KummerChart.JumpLattice.kisinLoc`)).
+(`New.Lift.KummerChart.JumpLattice.forms`, `New.Lift.KummerChart.JumpLattice.crysForms`,
+`New.Lift.KummerChart.JumpLattice.kisinAinf`, `New.Lift.KummerChart.JumpLattice.kisinModule`,
+`New.Lift.KummerChart.JumpLattice.kisinLoc`, `New.Lift.KummerChart.JumpLattice.jumpBound`,
+`New.Lift.KummerChart.JumpLattice.formsOfType`, `New.Lift.KummerChart.JumpLattice.jumpMultiplicity`,
+`New.Lift.KummerChart.JumpLattice.exists_span_formsOfType_mod_pred`)).
 
 [ShortProof], `New/Congruences/Lifting/SidePoints.lean` (`New.Lift.KummerChart.PairingSide.pointsOver`,
 `New.Lift.KummerChart.PairingSide.standardPoints`, `New.Lift.KummerChart.PairingSide.stopPoints`,
@@ -925,10 +982,22 @@ type for `(p, r, N)` for every `s` with `j(s)` inertial. Let `L ∈ 𝒞(F, K′
 `U(g)` fit `(η, −ε, b, W)` and every `U′(g)` fit `(η, ε, b, W)` for one sign `ε`. If
 `p > b + 6(W + η) + r²(N + 1)² + 2`, prove that `L` has cup exponent `3r²(N + 1)² + 150(η + W + 1)` for `𝒞(F, K, U)`.
 
-*Needs:* 3.1, 3.2, 3.3a (i); ShortGRH background (Kisin modules over a Kummer chart, as in the entry of 3.3a; the
-polynomials that kill an inertia element on potentially crystalline periods; [ShortProof]
-`Lib/PadicHodge/Kisin/FrameTheorem.lean` (`New.Lift.KummerChart.JumpLattice.mem_kisinModule_iff_crysForms`),
-`Lib/PadicHodge/Crystalline/Basic.lean` (`New.Period.IsKilledBy`)).
+*Needs:* 3.1, 3.2, 3.3a (i); ShortGRH background (the membership criterion for the Kisin module of a lattice `L`
+crystalline over `Γ′`, over a Kummer chart, in the notation of 3.3a: with `N(L)` the `Λ[[z]]`-module of the
+`x ∈ M(L)` that a power of `τ` multiplies into `A_inf ⊗ L`, with `μ(φ^n x) ∈ B_dR^+` for `n ≥ 1` and `μ(x) ∈ 𝒦₀` for
+all forms `μ`, an `x ∈ M(L)` lies in `N(L)` exactly when a power of `τ` multiplies it into `A_inf ⊗ L` and, for some
+`n`, `E^n·μ(x)` lies in the image of `𝔅` for every form `μ` whose restriction to `1 ⊗ L` comes from a `ℤ_p`-linear
+map `L → B_max`; here `𝔅 ⊂ B^+` is the ring of the elements whose multiplication commutes with every
+`Λ[[z]]`-linear endomorphism of `B^+` that preserves the image of `A_max`; [ShortProof]
+`Lib/PadicHodge/Kisin/FrameTheorem.lean` (`New.Lift.KummerChart.JumpLattice.mem_kisinModule_iff_crysForms`));
+ShortGRH background (for a potentially crystalline lattice `L` and `s ∈ Γ` with `j(s)` inertial, the `B_max`-linear
+operator `β_s` of `B_max ⊗ L` that acts as `s ⊗ s` on the periods of `L` exists and is unique, with
+`β_{s^n} = β_s^n`, `β_{st} = β_sβ_t` for inertial `s`, `t`, and `β_s = 1` for inertial `s` near `1`; a polynomial `Q`
+over `O` kills `s` on `L` if `L` is potentially crystalline and `Q(β_s) = 0`; [ShortProof]
+`Lib/PadicHodge/Crystalline/Basic.lean` (`New.Period.linearFrob`,
+`New.Period.IsPotentiallyCrystalline.linearFrob_eq`, `New.Period.IsKilledBy`),
+`Lib/PadicHodge/Crystalline/Regularity.lean` (`New.Period.linearFrob_apply`, `New.Period.linearFrob_mul`,
+`New.Period.linearFrob_pow`, `New.Period.IsPotentiallyCrystalline.eventually_linearFrob_eq_one`)).
 
 [ShortProof], `New/Congruences/Lifting/CupOrthogonalityBounds.lean` (`New.Lift.hasCupExponent_of_isTameType`),
 `New/Congruences/Lifting/TameCharts.lean` (`New.Lift.TameChart.killsCokernel_of_isKilledBy`, `New.Lift.exists_tameChart`)
@@ -1126,11 +1195,17 @@ homomorphism, `u_x : G → GL_n(R)` (`x` in a finite set) and `ρ : G → GL_d(R
 modulo its members whose restriction along `η` obeys all relations that hold on `Z_f(L)`, has length at most
 `δ_𝒞(L^∨(1))`.
 
-*Needs:* 3.1, 4.1, 4.3; ShortGRH background (local Tate duality for crystalline cocycles of potentially crystalline
-lattices, in the form of a divisibility of indices: the index of the cocycles orthogonal under cup product to the
-crystalline cocycles of the Tate dual divides the corresponding index for the dual; [ShortProof]
-`Lib/ClassField/LocalDuality/CrystallineDuality.lean`
-(`New.Period.IsPotentiallyCrystalline.relIndex_dvd_of_orthogonal`)).
+*Needs:* 3.1, 4.1, 4.3; ShortGRH background (local Tate duality for crystalline cocycles, as one divisibility of
+indices. Let `j : Γ → G_{ℚ_ℓ}` be an open embedding, `L` and `L′` potentially crystalline lattices over `ℤ_ℓ` with a
+perfect pairing `b : L′ × L → ℤ_ℓ` such that `b(gx, gy) = χ(g)·b(x, y)`, `m ≥ 0`, and `q : L → V` an equivariant
+surjection onto a finite discrete `Γ`-module with kernel `ℓ^mL`. A map `s : Γ → V` is *cup-orthogonal* to a subgroup
+`H` of the maps `Γ → L′` if it is a continuous cocycle and has a lift `a : Γ → L`, `q∘a = s`, such that for every
+`c ∈ H` the 2-cochain `(g, h) ↦ ε_m(b(g·c(h), a(g)))` with values in `ℚ̄_ℓ^×` is a continuous coboundary. Let `H` be
+any such subgroup and `S` any subgroup of the maps `Γ → V`. If `q∘z` for every `z ∈ Z_f(L)` and every member of `S`
+are cup-orthogonal to `H`, then `[S : S ∩ q(Z_f(L))]` divides `[Z_f(L′) : H ∩ Z_f(L′)]`, where `q(Z_f(L))` is the
+group of the maps `q∘z`; [ShortProof]
+`Lib/ClassField/LocalDuality/CrystallineDuality.lean` (`New.Period.cupModPow`, `New.Period.IsCupOrthogonal`,
+`New.Period.IsPotentiallyCrystalline.relIndex_dvd_of_orthogonal`)).
 
 [ShortProof], `New/Congruences/LocalLoss/TateDualBound.lean` (`New.Selmer.relLength_ribetCocycles_le`,
 `New.Selmer.comesFromClass_of_mem_ribetCocycles`, `New.Selmer.relLength_le_of_comesFromClass`)
