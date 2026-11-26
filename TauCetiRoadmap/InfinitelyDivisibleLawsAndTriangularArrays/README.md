@@ -884,11 +884,13 @@ Completion means:
   [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) §8.5; this
   roadmap owns Feller's weak law without integrability.
 - Free infinite divisibility is owned by [FreeProbability](../FreeProbability/README.md).
-- Quantitative Poisson approximation (Le Cam and Stein–Chen bounds) belongs to the roadmap
-  PoissonApproximation, local limit theorems to LocalLimitTheorems, the Berry–Esseen theorem,
-  Fourier–Stieltjes transforms and Pólya's criterion to the higher-order and resampling roadmap of
-  the MathematicalStatistics series, and series of independent variables (the three-series
-  theorem) to SeriesOfIndependentRandomVariables. This roadmap's Poisson theorem is the qualitative
+- Quantitative Poisson approximation (Le Cam's inequality and the Stein–Chen bounds) belongs to
+  [PoissonApproximation](../PoissonApproximation/README.md) (Layers 2–3), local limit theorems to
+  [LocalLimitTheorems](../LocalLimitTheorems/README.md), Pólya's theorem on the Kolmogorov
+  distance (§1.1), Fourier–Stieltjes transforms (§2.1) and the Berry–Esseen theorem (§2.3) to
+  [MathematicalStatisticsHigherOrderAndResampling](../MathematicalStatisticsHigherOrderAndResampling/README.md),
+  and series of independent variables (the three-series theorem) to the roadmap
+  SeriesOfIndependentRandomVariables. This roadmap's Poisson theorem is the qualitative
   limit in distribution and states no rate; its inversion theorem is the interval formula for an
   arbitrary law, which none of them states.
 - Lévy continuity with existence of the limit is in Tau Ceti at the pin and is consumed; the
