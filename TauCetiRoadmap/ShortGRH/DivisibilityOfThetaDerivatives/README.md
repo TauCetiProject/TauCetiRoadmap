@@ -228,10 +228,14 @@ places `w = w̄` exists on a CM field that contains a primitive `5040`-th root o
 is `δ/δ̄` for a unit `δ` of norm `1` to the product of the embeddings of the CM type; [ShortProof]
 `Lib/ClassField/Global/CMSplittingCharacters.lean` (`New.nonempty_splittingChar`,
 `New.Cohomology.upsilon_atUniformizer_eq_neg_one`), `Lib/Weil/Construction/WeilData.lean` (`New.SplittingChar`,
-`New.WeilData`)); ShortGRH background (the idele norm of a finite idele is positive, and the character
-`x ↦ υ(x)|x|^{−1/2}` of the finite ideles attached to a splitting character; [ShortProof]
-`Lib/Adelic/Adeles/IdeleModulus.lean` (`New.ideleAbs_nonneg_and_ne_zero`), `Lib/Weil/Construction/FiniteMultiplier.lean`
-(`New.chiAdelic`)).
+`New.WeilData`)); ShortGRH background (the idele norm `|x|` of an idele of `E`, the product of the squares of the
+absolute values at the infinite places and of the normalised absolute values at the finite places, is positive; a
+finite idele is read as the idele with component `1` at every infinite place, which defines its norm and the character
+`χ_f(x) := υ(x)|x|^{−1/2}` of the finite ideles attached to a splitting character `υ`; and, for Weil data on `E` and a
+finite idele `x`, there are `n > 0` and `y ∈ E^×` with the valuations of `x^n` at every finite place and
+`χ_f(x)^n = ∏_{τ∈Φ} τ(ȳ)`; [ShortProof] `Lib/Adelic/Adeles/IdeleModulus.lean` (`New.ideleAbs`,
+`New.ideleAbs_nonneg_and_ne_zero`, `New.finIdeleAbs`), `Lib/Weil/Construction/FiniteMultiplier.lean` (`New.chiAdelic`,
+`New.chiFin`), `Lib/ClassField/HeckeCharacter/AlgebraicValues.lean` (`New.WeilData.exists_chiFin_pow_eq_prod`)).
 
 [ShortProof], `New/Derivatives/Field/WeilData` (`New.Parameters.α`, `New.Parameters.inv_alpha_mem`,
 `New.Parameters.q₁_mul_alpha_mem`, `New.Parameters.v_alpha_mul_star_mul_relDifferentGen`,
@@ -365,12 +369,16 @@ the same formula gives a function with logarithmic derivative `ζ(t) − πt̄/A
 `Ω₀𝒪_K`; then `θ(pz)/θ(z)^{p²}` is not even at an inert `p`, and 2.2 (a) fails. For `p` inert,
 `γ_p = Σ_{e odd} p^{−e} = p/(p² − 1)`; for `p = d`, `γ_p = ½·Σ_{e≥1} p^{−e} = 1/(2p − 2)`.
 
-*Needs:* ShortGRH background (for a lattice `Λ` with a point `t` of order two: the odd theta function `σ` for `H` with
-the multiplier `ε` and `σ′(0) = 1` exists; `θ` is even with `θ(0) = 1`; `σ² = xθ²`; `x′² = x(4x² + a₁²x + 4)` and
-`y² + a₁xy = x³ + x` off `t + Λ`; `g″ = g″(0) + x`; and, for `d` a prime `≡ 7 (mod 8)` and `Λ` stable under `𝒪_K`, the
-part `T` of `y` in the degrees `≡ 1 (mod q_p − 1)` generates the ring `𝒪[[y]]`; [ShortProof] `Lib/CM/Sigma/Basic.lean`
+*Needs:* ShortGRH background (for a lattice `Λ` with a point `t` with `2t ∈ Λ`, `t ∉ Λ`, scaled so that
+`g₂(Λ) = 12℘(t)² − 4`, and `a₁` with `a₁² = 12℘(t)`: the odd entire function `σ` with `σ′(0) = 1` and
+`σ(z + l) = ε(l)·exp(H(l, z) + H(l, l)/2)·σ(z)` for `l ∈ Λ` exists; `θ` is even with `θ(0) = 1`;
+`θ² = (℘ − ℘(t))σ²` off `Λ` and `σ² = xθ²` off `t + Λ`; `x′² = x(4x² + a₁²x + 4)` and `y² + a₁xy = x³ + x` off
+`t + Λ`; as power series over `ℂ_p`, `g″ = g″(0) + x`; and, for `d` a prime `≡ 7 (mod 8)` and a CM lattice, the part
+`T` of `y` in the degrees `≡ 1 (mod q_p − 1)` lies in `𝒪[[y]]` and every series of `𝒪[[y]]` is an integral series in
+`T`; [ShortProof] `Lib/CM/Sigma/Basic.lean`
 (`PeriodPair.σ`, `New.CMLattice`, `New.CMLattice.θ`, `New.CMLattice.translatedX`, `New.CMLattice.translatedY`),
 `Lib/CM/Sigma/ThetaSections.lean` (`New.CMLattice.theta_neg`, `New.CMLattice.theta_sq`,
+`New.CMLattice.sigma_sq_eq_translatedX_mul_theta_sq`,
 `New.CMLattice.deriv_translatedX_sq`, `New.CMLattice.weierstrass_equation`), `Lib/CM/Integrality/LogTheta.lean`
 (`New.CMLattice.deriv_theta_zero`, `New.CMLattice.derivative_derivative_negLogTheta`, `New.CMLattice.multiSeriesRing`),
 `Lib/CM/FormalGroup/FormalParameter.lean` (`New.CMLattice.isSeriesGenerator_formalParam`),
@@ -399,14 +407,24 @@ Let `C` be a CM lattice and `p` a prime that does not split in `K`.
 (c) `q_p·g(z) − g(π_pz) = π_pH′` for some `H′ ∈ 𝒪[[y]]`.
 (d) If `p` is inert in `K`, the coefficient of `z^{p−1}` in `x` is a unit of `𝒪`.
 
-*Needs:* 2.1; ShortGRH background (for a CM lattice, `d` a prime `≡ 7 (mod 8)`: an even section of degree `m` whose
-values at torsion points are integral is `θ^m` times a polynomial in `x`, pulled back along an isogeny `z ↦ az` of
-`C`; `x ∈ 𝒪[[y]]`; a series of `𝒪[[y]]` is integral in the degrees below `q_p`; [ShortProof]
+*Needs:* 2.1; ShortGRH background (for CM lattices `C`, `C′`, `d` a prime `≡ 7 (mod 8)`, and a prime `p` with `ι_p`.
+A *section of degree `m`* of `C` is an entire function `f` with `T^m_lf = χ(l)^m·f` for `l ∈ Λ`, `χ` the multiplier
+of `θ`; its *torsion values* are the numbers `(T^m_uf)(0)`, `u ∈ ℚΛ`, and they are *integral* if their images under
+`ι_p` are. (i) `θ` is a section of degree `1` with integral torsion values. (ii) If `aΛ ⊂ Λ′` and
+`|a|²·area(Λ) = N·area(Λ′)` with `N` a natural number, and `g` is a section of degree `k` of `C′`, then `z ↦ g(az)` is
+a section of degree `kN` of `C`, with integral torsion values if `g` has them. (iii) An even section `f` of degree `m`
+with integral torsion values is `θ^m·R(x)`, as power series over `ℂ_p`, for a polynomial `R` with `2·deg R ≤ m` and
+coefficients integral under `ι_p`. (iv) `x ∈ 𝒪[[y]]`. (v) The coefficients of a series of `𝒪[[y]]` in the degrees
+below `q_p` are integral; [ShortProof]
+`Lib/CM/Sigma/ThetaSections.lean` (`New.CMLattice.theta_mem`, `New.CMLattice.comp_mul_mem_sections`),
+`Lib/CM/Integrality/TorsionValues.lean` (`New.CMLattice.hasIntegralValues_theta`,
+`New.CMLattice.HasIntegralValues.comp_isogeny`),
 `Lib/CM/Integrality/IntegralSections.lean` (`New.CMLattice.exists_polynomial_of_even`),
-`Lib/CM/Integrality/TorsionValues.lean` (`New.CMLattice.HasIntegralValues.comp_isogeny`),
-`Lib/CM/Sigma/ThetaSections.lean` (`New.CMLattice.comp_mul_mem_sections`),
 `Lib/CM/FormalGroup/IntegralParameter.lean` (`New.CMLattice.taylorVia_translatedX_mem_integralSeriesRing`),
-`Lib/CM/FormalGroup/FormalParameter.lean` (`New.CMLattice.norm_coeff_le_one_of_lt`)).
+`Lib/CM/FormalGroup/FormalParameter.lean` (`New.CMLattice.norm_coeff_le_one_of_lt`)); ShortGRH background (for a
+power series `G` in one variable over `ℂ_p` with `G(0) = 0`, `c ∈ ℂ_p` with `v(c) ≥ 1/(p − 1)` and `l ≥ 0`: if `c`
+divides the coefficients of `G` in the degrees below `l`, then `c` divides the coefficients of `exp(G) − 1` in the
+degrees below `l`; [ShortProof] `Lib/General/Algebra/SeriesBounds.lean` (`New.norm_coeff_expSubst_sub_one_le`)).
 
 [ShortProof], `New/Derivatives/FormalGroup/FrobeniusCongruence` (`New.CMLattice.exists_rescale_theta_eq_pow_mul_aeval`,
 `New.CMLattice.exists_rescale_theta_eq_pow_mul_one_add_smul`, `New.CMLattice.exists_negLogTheta_frobenius_congruence`,
@@ -481,10 +499,11 @@ maximal ideal of `𝒪`, `∂Ξ_λ/∂z_y` has only the monomials `z_x^{p^e}` wi
 coefficient of `z_x^{p^e}` in `∂Ξ_λ/∂z_{(pr_e x₁, x₂)}` is `λ_{e0}`.
 
 *Needs:* Mathlib (`MvPowerSeries`, substitution and its continuity); ShortGRH background (the exponential `exp(G)` of
-a power series `G` without constant term over `ℂ_p`, with `exp(G + G′) = exp(G)·exp(G′)`, and a bound for the
-coefficients of `exp(G) − 1` in the degrees where the coefficients of `G` have valuation at least `1/(p − 1)`;
+a power series `G` without constant term in any number of variables over `ℂ_p`, with `exp(G + G′) = exp(G)·exp(G′)`;
+and, for `l ≥ 0`, if the coefficients of `G` of total degree at most `l` have valuation at least `1/(p − 1)`, then the
+coefficients of `exp(G)` of total degree at most `l` are integral;
 [ShortProof] `Lib/General/Algebra/IntegralPowerSeries.lean` (`New.expSubst`, `New.expSubst_add`),
-`Lib/General/Algebra/SeriesBounds.lean` (`New.norm_coeff_expSubst_sub_one_le`)).
+`Lib/General/Algebra/SeriesBounds.lean` (`New.norm_coeff_expSubst_le_one`)).
 
 [ShortProof], `New/Derivatives/Divisibility/NormalForm` (`New.coupling`, `New.couplingSum`, `New.HasNormalForm`,
 `New.HasNormalForm.rescale`, `New.HasNormalForm.exists_of_norm_eq`, `New.HasNormalForm.exists_subst_eq_mul_expSubst`,
@@ -663,8 +682,11 @@ of boxes of `κ^{ev}`.
 heights (not only those that occur in `κ`), then
 `v(jet_{P_y}(F)) + W(i′) ≥ γ_p·B − v(π_p)·Σ_{e∈I_p°, e≤⌊log_p B⌋} Σ_τ ded_ev(τ, τ_e, e) − f·N³·(1 + ⌊log_p B⌋)`
 (`⌊log_p 0⌋ := 0`).
-The formal proof states (a)–(c) for the chosen standard fillings of the diagram; its argument uses only the rows that
-the filling puts into the boxes.
+The formal proof states (a)–(c) for its chosen fillings of the diagram, called the chosen standard fillings here and
+below: an unspecified finite set of fillings, not necessarily the semistandard ones, whose products of minors are a
+basis of the module spanned by all such products over every commutative ring; this basis of products of minors
+differs from the semistandard basis by an invertible integer matrix. The argument uses only the rows that the filling
+puts into the boxes.
 
 *Needs:* 2.4, 2.6 (a), 3.1, 3.2; TaylorBoundsAndDepthsOnHeightTwoFormalGroups §4.1 (Legendre's bound
 `v_p(κ!) ≥ |κ|/(p − 1) − #ι·(⌊log_p max(|κ|, 1)⌋ + 1)`, the sharper form of (e)).
@@ -749,12 +771,16 @@ tight frame of length `kM`; the union of two tight frames is one of the sum of t
 *Needs:* 1.4; ShortGRH background (the adelic Weil representation of a hermitian space `V` over a CM field with Weil
 data `(ȷ, α, υ)`, in the model generated by the vacuum under the adelic Heisenberg group with the cocycle
 `ψ(½ȷ·y*Sx)`: the space `𝒮(V)`, the vacuum, the Heisenberg operators `ϱ` and `ϱ_f`, the Weil operators `ω(g)` of the
-adelic unitary points, the theta functional `θ_V` with `θ_V(ϱ(γ)f) = θ_V(f)` for rational `γ`, the finite part, and the
-entire function `Θ_f` of a vector of the finite part; [ShortProof] `Lib/Weil/Construction/WeilData.lean`
+adelic unitary points, and the theta functional `θ_V`, a continuous linear form whose values
+`f(y) := θ_V(ϱ(y)f)` determine `f` and satisfy `β(γ′, x)·f(γ′ + x) = f(x)` for the adelic image `γ′` of a rational
+vector `γ` and every adelic `x`, with `β(x, y) = ψ(½ȷ·h(y, x))`; the finite part, every vector of which is fixed by the
+real vacuum projection `f ↦ ∫ exp(−|y|²/2)·ϱ(y)f dy`; and, when all signs are `+1` and `f` is fixed by the real vacuum
+projection, the function `Θ_f` is entire; [ShortProof] `Lib/Weil/Construction/WeilData.lean`
 (`New.adelicHeisenberg`, `New.vacuumFn`), `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.θ`,
-`New.Space.finHeisenbergOp`, `New.finVec`, `New.Space.theta_rho`), `Lib/Weil/Construction/VacuumProjections.lean`
-(`New.Space.finitePart`), `Lib/Weil/MixedModel/RealTheta.lean` (`New.Space.entireTheta`,
-`New.Space.differentiable_entireTheta`), `Lib/Weil/Construction/ThetaDictionary.lean` (`New.IsThetaFunction`),
+`New.Space.finHeisenbergOp`, `New.finVec`, `New.Space.theta_rho`, `New.Space.apply_vecAtPoint_add`,
+`New.Space.data_ext`), `Lib/Weil/Construction/VacuumProjections.lean`
+(`New.Space.finitePart`, `New.Space.projReal_eq_self_of_mem_finitePart`), `Lib/Weil/MixedModel/RealTheta.lean`
+(`New.Space.entireTheta`, `New.Space.differentiable_entireTheta`), `Lib/Weil/Construction/ThetaDictionary.lean` (`New.IsThetaFunction`),
 `Lib/Weil/Construction/ThetaJets.lean` (`New.Space.jetSeries`)).
 
 *Relation to the library.* The global Weil representation of a unitary pair, on a Schrödinger model with splitting
@@ -865,8 +891,11 @@ relations of the data).
 theta values of the vector tensored with polynomial Fock vectors, and a vector of the finite part is determined by its
 jet series.
 
-*Method of the formal proof:* on a line, `Θ_f(ct·v)` is an integral of `exp(t·L(w))` against a Gaussian density, and
-differentiation under the integral gives its Taylor coefficients as the integrals of `L(w)^k`, which are theta values of
+*Method of the formal proof:* the integral formula for `Θ_f` (background; it applies because the real vacuum projection
+fixes the finite part, 4.1) restricts to a line: `Θ_f(ct·v)` is an integral of `exp(t·L(w))` against a Gaussian density
+times `f(w)`, for the conjugate-linear form `L(w) = c·Σ_p v_p·w̄_p`. Expansion of the exponential under the integral,
+dominated by an integrable function of the form `exp(C‖w‖ − |w|²/2)`, gives its Taylor coefficients as the integrals of
+`L(w)^k`, which are theta values of
 Fock vectors; a vector of the finite part whose theta function vanishes on every line through `0` vanishes, since it is
 determined by its values at real vectors.
 
@@ -879,13 +908,19 @@ homogeneous of degree `l`, and `jet_Q(F(az)) = a^l·jet_Q(F)` for every series `
 (d) `Θ_f(0) = θ_V(f)`; if `Θ_f(cz) = ∏_i G_i(L_i(z))` for entire functions `G_i` and linear forms `L_i`, then `θ_V(f)` is
 `∏_i G_i(0)` and `J_c(f)` is the product of the Taylor series of the `G_i` at the forms `L_i`.
 
-*Needs:* 4.1; ShortGRH background (in the model of 4.1: the polynomial Fock vectors `v_Q` of the real Heisenberg
-group, the integrated action `v ⊗ f` of a Fock vector on `f ∈ 𝒮(V)`, the Gaussian integral formula for `Θ_f` along a
-line, and the fact that a vector of the finite part whose values at all real vectors vanish is `0`; [ShortProof]
-`Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.integrated`), `Lib/Weil/Construction/ThetaJets.lean`
-(`New.Space.jetSeries`), `Lib/Weil/Fock/Basic.lean`
-(`New.Fock.integrable_exp_mul_realVac`), `Lib/Weil/MixedModel/RealTheta.lean`
-(`New.Space.eq_zero_of_apply_realVec_eq_zero`)).
+*Needs:* 4.1; ShortGRH background (in the model of 4.1, with `y`, `w` real vectors in Fock coordinates and `dw`
+Lebesgue measure divided by `π` to the number of coordinates: the Fock vectors `v_Q(w) = Q(ζ(w))·exp(−|w|²/2)` of
+polynomials `Q`, where `ζ(w) = w̄` when all signs are `+1`; the integrated action `v ⊗ f = ∫ v(w)·ϱ(w)f dw` of a Fock
+vector on `f ∈ 𝒮(V)`, with `θ_V(v ⊗ f) = ∫ v(w)·f(w) dw`; the series with coefficient `c^{|k|}/k!·θ_V(v_{z^k} ⊗ f)` at
+`z^k`, whose jet along a polynomial `Q` is `θ_V(v_{Q(c·)} ⊗ f)`; if all signs are `+1` and `f` is fixed by the real
+vacuum projection, `Θ_f(y) = ∫ exp(Σ_p y_p·w̄_p)·exp(−|w|²/2)·f(w) dw`; the function `exp(C‖w‖ − |w|²/2)` is integrable
+for every real `C`, `‖w‖` the maximum norm; and a vector of `𝒮(V)` whose values at all real vectors vanish is `0`;
+[ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.integrated`), `Lib/Weil/Fock/Basic.lean`
+(`New.Fock.polyVector`, `New.Fock.integrable_exp_mul_realVac`), `Lib/Weil/Construction/ThetaJets.lean`
+(`New.Space.jetSeries`, `New.Space.jet_jetSeries_eq_theta`), `Lib/Weil/MixedModel/RealTheta.lean`
+(`New.Space.theta_integrated`, `New.Space.entireTheta_eq_integral`,
+`New.Space.eq_zero_of_apply_realVec_eq_zero`)). The restriction of the integral formula to a line, the derivatives of
+that integral at `0`, and (b) to (d) are proved in this section.
 
 *Relation to the library.* The Fock model of a real symplectic space, with its Bargmann transform, is stated in
 ThetaKernelsForUnitaryDualPairs §3.45; the integrated action on the adelic model above is not stated there.
@@ -973,10 +1008,17 @@ values of some automorphism over `K`.
 *Needs:* 1.4, 2.1, 4.1, 4.2, 4.3 (a), 4.5; ShortGRH background (for `d` a prime `≡ 7 (mod 8)` there is a bound,
 depending only on `d`, for `|(T^1_uθ)(0)|` over all CM lattices for `d` and all `u ∈ ℂ`; [ShortProof]
 `Lib/CM/FiniteLattices.lean` (`New.CMLattice.exists_norm_twistedTranslate_theta_le`)); ShortGRH background (complex
-multiplication for theta functions, in the form of 4.7; [ShortProof] `Lib/CM/ChowlaSelberg.lean`
-(`New.CMLattice.complex_multiplication_theta`)); ShortGRH background (Fourier inversion in the model of 4.1: for `F`
-whose theta function is a theta function for `δ̄𝔞₀^n`, `δδ̄ = N`, the vector `N^{f·n}·F` is a combination of translates of
-the vacuum, and each coefficient `c_j` makes `c_j·vac_V` a sum of `N^{f·n}` vectors `ϱ_f(a)ϱ(finVec(b))F`; [ShortProof]
+multiplication for theta functions, without the reciprocity law, for `d` a prime `≡ 7 (mod 8)`: if the lattice of `C` is
+`Ω₀𝒪_K` and `σ` is an automorphism of `ℂ` over `K`, there are `Ω`, a nonzero ideal `𝔠` and a finite adele `β` of `K`
+such that the conjugate lattice is `Ω𝔠²/N(𝔠)`, of area `|Ω|²√d/2`, some positive integer multiple of `Ω` is a period,
+and for `x ∈ K` and `x′ ∈ K` close to `βx` in the finite adeles `σ` maps the Taylor series of `T^1_{xΩ₀}θ` to that of
+`T^1_{x′Ω}θ` of the conjugate lattice; [ShortProof] `Lib/CM/ChowlaSelberg.lean`
+(`New.CMLattice.IsComplexMultiplicationData`, `New.CMLattice.complex_multiplication_theta`)); ShortGRH background
+(Fourier inversion in the model of 4.1: for standard `V` of rank `n`, `δ ∈ E` integral at every finite place with
+`δδ̄ = N ≠ 0`, and `F ∈ 𝒮(V)` whose theta function is a theta function for `δ̄𝔞₀^n`, there are finitely many `y_i ∈ E^n`
+with `δy_i ∈ 𝔞₀^n`, a family of `N^{f·n}` vectors `γ_j ∈ 𝔞₀^n` and numbers `c_i` such that
+`Σ_i c_i·ϱ(finVec(α^{−1}y_i))vac_V = N^{f·n}·F` and, for every `i`,
+`c_i·vac_V = Σ_j ϱ_f(α^{−1}γ_j)ϱ(finVec(−α^{−1}y_i))F`; [ShortProof]
 `Lib/Weil/Construction/FourierInversion.lean` (`New.Space.exists_fourier_coefficients`)).
 
 [ShortProof], `New/Derivatives/Vacuum/IntegralVacuum` (`New.Parameters.exists_norm_gal_torsion_value_le`,
@@ -1075,7 +1117,11 @@ coordinate `k`.
 `z ↦ δ̄z` is an isogeny of degree `N` of `C` to itself and `δy ∈ Λ`, then `(T^1_yθ)(δ̄z) = θ(z)^N·u(z)` with
 `u ∈ 𝒪[[y]]`; [ShortProof]
 `Lib/CM/Integrality/IsogenyIntegrality.lean` (`New.CMLattice.exists_rescale_twistedTranslate_eq_theta_pow_mul`));
-ShortGRH background (Fourier inversion, in the form of 4.6; [ShortProof] `Lib/Weil/Construction/FourierInversion.lean`
+ShortGRH background (Fourier inversion in the model of 4.1: for standard `V` of rank `n`, `δ ∈ E` integral at every
+finite place with `δδ̄ = N ≠ 0`, and `F ∈ 𝒮(V)` whose theta function is a theta function for `δ̄𝔞₀^n`, there are
+finitely many `y_i ∈ E^n` with `δy_i ∈ 𝔞₀^n`, a family of `N^{f·n}` vectors `γ_j ∈ 𝔞₀^n` and numbers `c_i` such that
+`Σ_i c_i·ϱ(finVec(α^{−1}y_i))vac_V = N^{f·n}·F` and, for every `i`,
+`c_i·vac_V = Σ_j ϱ_f(α^{−1}γ_j)ϱ(finVec(−α^{−1}y_i))F`; [ShortProof] `Lib/Weil/Construction/FourierInversion.lean`
 (`New.Space.exists_fourier_coefficients`)).
 
 [ShortProof], `New/Derivatives/Vacuum/StandardDataProducts` (`New.IsTightFrame.isResolution`,
@@ -1136,7 +1182,7 @@ Let `p` be a prime that does not split in `K`, `V` standard, `f ∈ 𝒟_p(V, 1)
 (b) There are `ϖ ∈ ℂ_p` with `v(ϖ) = ρ_p` and integral `λ_{ej}` such that `F` has the normal form `(I_p°, −p^e·, ϖ, λ)`
 in the variables `z_{τ,i}`.
 (c) Let `V = Hom(E^n, E^{n′})` with its standard form, so that the variables are the entries `z_{τ,r,a}` of matrices
-`z_τ` of size `n′ × n`, `N = |n′|`. For every diagram `κ`, standard filling `i′` and integral `y_τ`:
+`z_τ` of size `n′ × n`, `N = |n′|`. For every diagram `κ`, chosen standard filling `i′` (3.3) and integral `y_τ`:
 `v(jet_{P_y}(F)) ≥ D_p(κ) − f·N³·(1 + log_p max(B, 1))`.
 (d) In (c), let `κ` have no column of height strictly between `|n|` and `|n′|`, and let `w` be charges for `ev ⊂ Φ` at
 every `e ∈ I_p°`. Then for all chosen standard fillings `i′`, `i`:
@@ -1352,9 +1398,15 @@ a theta function for `π_M𝔞₀^{12}`, and with `ι_p J(F) = ∏_{b<12} (∏_i
 prime `p` and every `ι_p` there are `γ` with `Σ_bγ_{τ,b} = l_τ` and `y₀` with
 `v(ι_p(c_vac^{12}·∏_τ l_τ!·coeff_γ J(Ψ_{𝔪,y₀}))) ≤ S_p + v(ι_p(t))`.
 
-*Needs:* 1.5, 4.3a, 4.5, 4.6, 5.1, 5.5; ShortGRH background (Fourier inversion, in the form of 4.6, with the
-integrality that it gives: if `N^{f·n}·F = Σ_j c_j·ϱ_f(a_j)vac_V` as there and the values of `F` at finite points are
-integral at `p`, then every `c_j` times a value of the vacuum at a finite point is integral at `p`; [ShortProof]
+*Needs:* 1.5, 4.3a, 4.5, 4.6, 5.1, 5.5; ShortGRH background (Fourier inversion in the model of 4.1: for standard `V` of
+rank `n`, `δ ∈ E` integral at every finite place with `δδ̄ = N ≠ 0`, and `F ∈ 𝒮(V)` whose theta function is a theta
+function for `δ̄𝔞₀^n`, there are finitely many `y_i ∈ E^n` with `δy_i ∈ 𝔞₀^n`, a family of `N^{f·n}` vectors
+`γ_j ∈ 𝔞₀^n` and numbers `c_i` such that `Σ_i c_i·ϱ(finVec(α^{−1}y_i))vac_V = N^{f·n}·F` and, for every `i`,
+`c_i·vac_V = Σ_j ϱ_f(α^{−1}γ_j)ϱ(finVec(−α^{−1}y_i))F`; and
+the integrality that it gives, for any `V`, `φ ∈ 𝒮(V)` and prime `p` with `ι_p`: if the values of `φ` at the points
+`finVec(x)`, `x ∈ 𝔸_{E,f}^n`, are integral at `p` and `c·vac_V = Σ_j ϱ_f(a_j)ϱ(finVec(b))φ` for finitely many finite
+adelic vectors `a_j` and one `b`, then the values of `c·vac_V` at the points `finVec(x)` are integral at `p`;
+[ShortProof]
 `Lib/Weil/Construction/FourierInversion.lean` (`New.Space.exists_fourier_coefficients`,
 `New.Space.norm_mul_vacElem_le_one_of_eq_sum`)); OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.3 (their size
 relations), §4.1 (the total local prime sum `S_p`).
