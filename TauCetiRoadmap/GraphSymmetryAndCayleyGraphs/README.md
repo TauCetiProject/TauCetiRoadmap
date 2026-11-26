@@ -33,13 +33,15 @@ side of algebraic graph theory. This roadmap builds the theory of vertex-, edge-
 - Frucht's theorem: every finite group is the automorphism group of a finite cubic graph; and
   almost all graphs, labelled or up to isomorphism, have no nontrivial automorphism.
 
-The roadmap rests on GraphSpectra, which supplies the adjacency spectrum, the spectral projections
-and the Petersen, Johnson and Hamming graphs; on SpectralGraphBounds (the sorted adjacency
-eigenvalues) and TopologicalCombinatorics (the Kneser graphs); on Mathlib's Cayley graphs, line
-graphs, matchings and spectral theorem; on Tau Ceti's character theory of finite groups (complete
-families of irreducible representations, central characters, the Wedderburn decomposition of the
-group algebra), specified by [CharacterTheory](../RepresentationTheory/CharacterTheory/README.md);
-and on Tau Ceti's edge and vertex connectivity, the implementation of
+The roadmap rests on [GraphSpectra](../GraphSpectra/README.md), which supplies the adjacency
+spectrum, the spectral projections and the Petersen, Johnson and Hamming graphs; on
+[SpectralGraphBounds](../SpectralGraphBounds/README.md) (the sorted adjacency eigenvalues) and
+[TopologicalCombinatorics](../TopologicalCombinatorics/README.md) (the Kneser graphs); on
+Mathlib's Cayley graphs, line graphs, matchings and spectral theorem; on Tau Ceti's character
+theory of finite groups (complete families of irreducible representations, central characters,
+the Wedderburn decomposition of the group algebra), specified by
+[CharacterTheory](../RepresentationTheory/CharacterTheory/README.md); and on Tau Ceti's edge
+and vertex connectivity, the implementation of
 [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md). Later roadmaps on cocliques
 and colourings and on expanders cite it by section.
 
@@ -301,9 +303,8 @@ invertible, so the diagonals of the powers determine those of the projections an
 
 Not a target here: `G` is walk-regular exactly when all the vertex-deleted characteristic
 polynomials over `ℤ` coincide. This is the definition of walk-regularity in [G, Chapter 5, §3,
-p. 81]: "A graph G is walk-regular if φ(G\i, x) is the same for all vertices i." For two vertices
-it is the deleted-characteristic-polynomial formulation of cospectrality, owned by
-SpectralQuantumWalks (Layer 1). No statement of this roadmap rests on it.
+p. 81]. For two vertices it is the deleted-characteristic-polynomial formulation of
+cospectrality, owned by SpectralQuantumWalks (Layer 1). No statement of this roadmap rests on it.
 
 **Suggested proof:** Cramer's rule gives `((tI - A)⁻¹)_{xx} = p_{Γ-x}(t) / p_Γ(t)`, through
 Mathlib's `Matrix.adjugate_fin_succ_eq_det_submatrix` after reindexing `V` to `Fin n` with `x`
@@ -324,8 +325,8 @@ for `x` and `y` exactly when the rational functions `∑_θ (P_θ)_{xx} / (t - �
   left side is `p_{K₁}(1) = 1`, while the right side has the factor `p_{K₂}(1) = 0`.
 
 *Needs:* 2.1; Mathlib `Matrix.charpoly`, `Matrix.submatrix`,
-`Matrix.adjugate_fin_succ_eq_det_submatrix`, `Matrix.adjugate_submatrix_equiv_self`,
-`Matrix.charpoly_map`.
+`Matrix.adjugate_fin_succ_eq_det_submatrix`, `Matrix.adjugate_submatrix_equiv_self`. The fact
+recorded in prose above uses also `Matrix.charpoly_map`; the target does not.
 
 ### 2.3 Vertex-transitive and regular graphs
 
@@ -348,7 +349,8 @@ is twice the number of triangles at `x`.
   edges of a perfect matching of `K₈` is strongly regular with parameters `(28, 12, 6, 4)`, hence
   walk-regular, and is not vertex-transitive: walk-regularity is strictly weaker.
 
-*Needs:* 1.1, 2.1.
+*Needs:* 2.1. The vertex-transitive case recorded in prose above uses also 1.1; the target
+does not.
 
 ## Layer 3: Cayley graphs and regular actions
 
@@ -699,10 +701,9 @@ lemmas.
 - **Small `s`** (`isSArcTransitive_zero_iff_and_one_iff`). `0`-arc-transitivity is
   vertex-transitivity, and `1`-arc-transitivity is arc-transitivity [GR, §4.1, p. 59].
 - **Monotonicity** (`IsSArcTransitive.of_succ`). If every vertex has degree at least `2`, an
-  `(s + 1)`-arc-transitive graph is `s`-arc-transitive. [GR, §4.1, p. 59] states this without
-  the degree condition ("If s ≥ 1, then it is both obvious and easy to prove that an s-arc
-  transitive graph is also (s − 1)-arc transitive"), for the definition used here, transitivity
-  on `s`-arcs; for it the condition is needed (Checks). The second definition of [GR, §4.1,
+  `(s + 1)`-arc-transitive graph is `s`-arc-transitive. [GR, §4.1, p. 59] asserts this for every
+  `s ≥ 1` with no degree condition and without proof; for the definition used here, transitivity
+  on `s`-arcs, the condition is needed (Checks). The second definition of [GR, §4.1,
   p. 60], a transitive group whose vertex stabilizer is transitive on the `s`-arcs starting at
   the vertex, builds in vertex-transitivity, and for it no degree condition is needed: a
   vertex-transitive graph is regular, and in degree `1` it has no `2`-arcs.
@@ -918,10 +919,11 @@ Owned here:
 - Frucht's theorem and the asymmetry of almost all graphs.
 
 Consumed, not restated (see the supplier contracts):
-- GraphSpectra 1.2, 2.3, 2.4 and 3.9: the adjacency spectrum, the Hamming and Johnson graphs,
-  the Petersen graph, the spectral projections and the orbit bound on main eigenvalues.
-- SpectralGraphBounds 1.1: the sorted adjacency eigenvalues.
-- TopologicalCombinatorics 3.1: the Kneser graphs.
+- [GraphSpectra](../GraphSpectra/README.md) 1.2, 2.3, 2.4 and 3.9: the adjacency spectrum, the
+  Hamming and Johnson graphs, the Petersen graph, the spectral projections and the orbit bound on
+  main eigenvalues.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1: the sorted adjacency eigenvalues.
+- [TopologicalCombinatorics](../TopologicalCombinatorics/README.md) 3.1: the Kneser graphs.
 - [CharacterTheory](../RepresentationTheory/CharacterTheory/README.md) 2.1, 3.6 and 4.3: the
   Wedderburn decomposition and central characters, through their Tau Ceti implementation, and
   the Fourier map as an algebra isomorphism, as the statement of its 3.6.
@@ -934,10 +936,12 @@ Not owned here, and not used:
   with its locators, and states nothing that rests on it;
 - the perfect matching of a connected vertex-transitive graph of even order: MatchingTheory 5.2;
   6.2 here owns the odd-order statement and the maximum-matching statement;
-- the theta function of vertex-transitive graphs: LovaszThetaFunction 4.2, which states its
-  hypothesis as `∀ v w, ∃ φ : G ≃g G, φ v = w`, the defining lemma of `IsVertexTransitive`;
-- the uniqueness of the extremal Erdős–Ko–Rado families: AssociationSchemes 5.2; 4.2 here proves
-  the case of the Petersen graph directly;
+- the theta function of vertex-transitive graphs:
+  [LovaszThetaFunction](../LovaszThetaFunction/README.md) 4.2, which states its hypothesis as
+  `∀ v w, ∃ φ : G ≃g G, φ v = w`, the defining lemma of `IsVertexTransitive`;
+- the uniqueness of the extremal Erdős–Ko–Rado families:
+  [AssociationSchemes](../AssociationSchemes/README.md) 5.2; 4.2 here proves the case of the
+  Petersen graph directly;
 - the arc-transitivity and character eigenvectors of Paley graphs: PaleyGraphsAndCharacterSums
   1.4 and 2.1;
 - cospectral vertices, their formulations by local multiplicities, vertex-deleted characteristic
@@ -955,8 +959,9 @@ Not owned here, and not used:
 - random walks on finite groups and their analysis by characters: RandomWalksOnFiniteGroups;
   Cayley graphs of infinite groups and their spectral radius: KestenAmenabilityAndSpectralRadius;
   explicit expander and Ramanujan Cayley graphs: ExpanderConstructions and RamanujanGraphs;
-  non-backtracking walks and the Ihara zeta function: IharaZetaFunction; the spectra of strongly
-  regular graphs: StronglyRegularAndMooreGraphs;
+  non-backtracking walks and the Ihara zeta function:
+  [IharaZetaFunction](../IharaZetaFunction/README.md); the spectra of strongly regular graphs:
+  [StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md);
 - automorphism groups of Serre graphs and of trees: Tau Ceti and
   [FreeGroupsAndLimitGroups](../FreeGroupsAndLimitGroups/README.md).
 
@@ -977,7 +982,7 @@ expansion belongs to the expander roadmaps.
 - `Equiv.Perm.permMatrix` and `Equiv.Perm.exists_map_finset_eq`. Used in 1.2 and 1.3.
 - `Matrix.IsHermitian.spectral_theorem`, `Matrix.IsHermitian.eigenvectorBasis`,
   `Matrix.adjugate_fin_succ_eq_det_submatrix`, `Matrix.adjugate_submatrix_equiv_self`,
-  `Matrix.charpoly_map`. Used in Layer 2.
+  `Matrix.charpoly_map` (the last only for a fact recorded in prose in 2.2). Used in Layer 2.
 - `SimpleGraph.mulCayley` with `SimpleGraph.mulCayley_adj`,
   `SimpleGraph.mulCayley_adj_mul_iff_right` (left multiplication preserves adjacency) and
   `SimpleGraph.mulCayley_compl_singleton_one`; its additive version `SimpleGraph.addCayley`;
@@ -1013,7 +1018,8 @@ expansion belongs to the expander roadmaps.
 
 ### From GraphSpectra
 
-The roadmap GraphSpectra, whose definitions used here are copied verbatim in `Suggested.lean`:
+The roadmap [GraphSpectra](../GraphSpectra/README.md), whose definitions used here are copied
+verbatim in `Suggested.lean`:
 - 1.2: `adjSpectrum`, the adjacency spectrum as a multiset of reals. Used in Layers 2 and 5.
 - 2.3 and 2.4: the Hamming and Johnson graphs, and `petersenGraph`, the Kneser graph
   `K(5, 2)`. Used in 1.3, 4.2, 7.2 and 8.2.
@@ -1024,15 +1030,15 @@ The roadmap GraphSpectra, whose definitions used here are copied verbatim in `Su
 
 ### From SpectralGraphBounds
 
-The roadmap SpectralGraphBounds, 1.1: the sorted adjacency eigenvalues `adjEigenvalues G`, the
-`eigenvalues₀` of the real adjacency matrix, nonincreasing with index `0` the largest, copied
-verbatim in `Suggested.lean`. Used in 1.2.
+The roadmap [SpectralGraphBounds](../SpectralGraphBounds/README.md), 1.1: the sorted adjacency
+eigenvalues `adjEigenvalues G`, the `eigenvalues₀` of the real adjacency matrix, nonincreasing
+with index `0` the largest, copied verbatim in `Suggested.lean`. Used in 1.2.
 
 ### From TopologicalCombinatorics
 
-The roadmap TopologicalCombinatorics, 3.1: the Kneser graph `kneserGraph α k` on
-`{s : Finset α | s.card = k}`, two `k`-subsets adjacent when distinct and disjoint, copied
-verbatim in `Suggested.lean`. Used in 1.3, 4.2 and 7.2.
+The roadmap [TopologicalCombinatorics](../TopologicalCombinatorics/README.md), 3.1: the Kneser
+graph `kneserGraph α k` on `{s : Finset α | s.card = k}`, two `k`-subsets adjacent when
+distinct and disjoint, copied verbatim in `Suggested.lean`. Used in 1.3, 4.2 and 7.2.
 
 ### From CharacterTheory
 
