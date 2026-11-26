@@ -899,6 +899,11 @@ sets) there is `γ` with `|γ|²·#R^{#v(#v + 2#u)} = 1` such that, whenever `L`
 `y ↦ Ψ(g⁻¹y)`; and every `Ψ` that vanishes off the blocks of the columns `b` of invertible matrices and satisfies
 `χ(det h)·Ψ(yh) = Ψ(y)` for all `h ∈ GL_b(R)` has a match.
 
+**Checks.** The condition under `GL_b(R)` in (c) cannot be dropped. Take `R = 𝔽₃`, `n = 2`, `a = b = 1`, `χ = 1` and `Ψ`
+the indicator of the column `(1, 0)ᵀ`. The matrices `1` and `diag(2, 1)` have the same last row of the inverse,
+`(0, 1)`, and first columns `(1, 0)ᵀ` and `(2, 0)ᵀ`; a partner `Φ` would have to take the values `Ψ((1, 0)ᵀ) = 1` and
+`Ψ((2, 0)ᵀ) = 0` at `(0, 1)`.
+
 *Needs:* 3.1.
 
 [ShortProof], `New/Determinant/Chain/SquareLaw.lean` (`New.Exchange.SquareLaw`, `New.Exchange.SquareLaw.sum_eq_nextDatum`,
