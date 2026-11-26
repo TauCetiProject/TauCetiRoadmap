@@ -42,9 +42,10 @@ one of the substantial constructions specified in the roadmap:
 
 * The orbit–cone correspondence as an order isomorphism from the cones of a
   regular fan onto the order dual of the torus orbits of its complex analytic
-  realization, ordered by `O ≤ O'` when `O ⊆ closure O'` (§0.7), is data and
-  needs that partial order on `MulAction.orbitRel.Quotient`, which the pins lack.
-  Its one missing order axiom, antisymmetry, is stated below.
+  realization, ordered by `O ≤ O'` when `O ⊆ closure O'` (§0.7), is data. That
+  order is Mathlib's `specializationPreorder` on the orbit space
+  `MulAction.orbitRel.Quotient` with its quotient topology, and the theorem below
+  is its antisymmetry, equivalently `T0Space` of the orbit space.
 
 All remain headline targets in README.md. There are no weakened substitute
 statements, data axioms or API and boundary-case declarations here.
