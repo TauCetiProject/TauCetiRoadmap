@@ -2441,9 +2441,12 @@ Tate's theorem. With the local terms (finite places from ClassFieldTheory, archi
 unramified classes as exact annihilators, the restricted products `Pʳ_S` and their self-duality) it
 proves the Poitou–Tate nine-term sequence, finiteness of `Hⁱ(G_S, M)` for finite `S`, the bound on
 `cd_ℓ G_S`, surjectivity onto finitely many local `H²`, the high-degree cohomology of the `S`-units
-and Tate's global Euler characteristic formula. Without duality it also shows, for finite `S`, that
-all `1`-cocycles with values in modules of one exponent on which one open subgroup acts trivially
-vanish on a single open normal subgroup of `G_S`. It then gives the function-field counterparts
+and Tate's global Euler characteristic formula. Without duality it also shows that if an open
+subgroup `U` of a profinite group has finitely many continuous homomorphisms to `ℤ/m`, all
+`1`-cocycles with values in discrete modules killed by `m` on which `U` acts trivially vanish on a
+single open normal subgroup, and that every open subgroup of `G_S` for finite `S`, and of its
+function-field counterpart for `m` prime to the characteristic, satisfies this hypothesis. It then
+gives the function-field counterparts
 (nonempty `S`, coefficients prime to the characteristic), the finite compactly supported cochain
 complex, all-place `Ш` duality with its transfer adjunction, Grunwald–Wang with its exact dyadic
 obstruction, roots of characters and their local Brauer obstructions, totally real base change with
@@ -3080,47 +3083,61 @@ NoncommutativeAndEquivariantIwasawa §F.3 (`arithmeticPoitouTate`).
 
 ### R02.4.4 Finiteness, cohomological dimension and the Euler characteristic
 
-**Uniform vanishing of cocycles of bounded exponent.** Let `S` be a finite set of places of the
-number field `K` containing the archimedean places, `U` an open subgroup of `G_S` and `m ≥ 1`. Then
-there is an open normal subgroup `N` of `G_S` contained in `U` such that, for every discrete
-`G_S`-module `B` with `mB = 0` on which `U` acts trivially, every continuous `1`-cocycle
-`f : G_S → B` vanishes on `N`. Such an `f` is constant on the cosets of `N` and is the inflation of
-a `1`-cocycle of the finite group `G_S/N` with values in `B`, on which `G_S/N` acts because
-`N ⊆ U`; hence inflation `H¹(G_S/N, B) → H¹(G_S, B)` is an isomorphism for all these `B` at once,
-finite or not. Explicitly, let `L ⊆ K_S` be the fixed field of `U` and `V ⊆ U` the subgroup fixing
-the compositum of the abelian extensions of `L` of exponent dividing `m` that are unramified at
-every finite place of `L` not above `S`; this compositum is finite over `L`, and the normal core
-`⋂_{g∈G_S} gVg⁻¹` is such an `N`. It depends only on `K`, `S`, `U` and `m`. For `m = 2` the
-compositum is the field `L(T)` of *Exponent-two ramification fields* (Layer R02.3), with `T` the
-set of finite places of `L` above `S`. For finite `B` this
-refines *Finiteness of `H¹(G_{K,S}, M)`* (Layer R02.3), which it uses for the coefficients `ℤ/m`
-over `L`. Unlike *Finiteness of Galois cohomology with restricted ramification* below, which gives
-finiteness in every degree through Poitou–Tate duality when the order of `M` is a unit in `R_{K,S}`,
-this statement concerns degree one, puts no condition on the order of `B`, uses no duality and is
-uniform in `B`.
+**Uniform vanishing of cocycles of bounded exponent.** Let `G` be a profinite group, `U` an open
+subgroup of `G` and `m ≥ 1`, and assume that `Hom_cont(U, ℤ/m)` is finite. Let `V ⊆ U` be the
+intersection of the kernels of its elements and `N = ⋂_{g∈G} gVg⁻¹` the normal core of `V` in `G`.
+Then `N` is an open normal subgroup of `G` contained in `U`, depending only on `G`, `U` and `m`,
+and for every discrete `G`-module `B` with `mB = 0` on which `U` acts trivially, every continuous
+`1`-cocycle `f : G → B` vanishes on `N`. Such an `f` is constant on the cosets of `N` and is the
+inflation of a `1`-cocycle of the finite group `G/N` with values in `B`, on which `G/N` acts
+because `N ⊆ U`; hence inflation `H¹(G/N, B) → H¹(G, B)` is an isomorphism for all these `B` at
+once, finite or not. This isomorphism is inflation on `continuousCohomology 1` of the Conventions
+(`G/N` with the discrete topology), read on cocycles through the comparison of
+ProfiniteCohomology Layer 3 as `f̄ ↦ f̄ ∘ π` for the projection `π : G → G/N`; it is natural in
+`B`, and `R`-linear when `B` is an `R`-module on which the actions of `R` and `G` commute.
 
-The same holds over a global function field `F` of characteristic `ℓ`, for `G_{F,S}` with `S` a
-nonempty finite set of places of `F`, `U` an open subgroup of `G_{F,S}` and `m` prime to `ℓ`. For
-finite `B` of order prime to `ℓ` it gives, without duality, the finiteness of `H¹(G_{F,S}, B)`
-contained in *Prime-to-characteristic function-field Poitou–Tate duality*. For `ℓ ∣ m` the
-statement is false (Check).
+The statement is wanted in two instances, in which the finiteness of `Hom_cont(U, ℤ/m)` is proved.
 
-*Proof sketch.* The fixed field `L` of `U` is finite over `K`, `L_S = K_S` and `U = G_{L,S}`
-(*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*). By *Finiteness of
-`H¹(G_{K,S}, M)`* over `L` with trivial coefficients `ℤ/m`, the group `Hom_cont(U, ℤ/m)` is finite,
-so the intersection `V` of the kernels of its elements is open and normal in `U`; its fixed field is
-the compositum above, which is therefore finite over `L`. An open subgroup has finitely many
-conjugates, so `N = ⋂_{g∈G_S} gVg⁻¹` is open and normal in `G_S`, and `N ⊆ V ⊆ U`. Let `B` and `f`
-be given. For `σ, τ ∈ U` the cocycle identity gives `f(στ) = f(σ) + σf(τ) = f(σ) + f(τ)`, so `f|_U`
-is a continuous homomorphism. Its image is finite, being compact in a discrete group, and killed by
-`m`, so it embeds in `(ℤ/m)^r` for some `r`; thus `ker(f|_U)` is an intersection of kernels of
-elements of `Hom_cont(U, ℤ/m)`, and `f(V) = 0`. For `n ∈ N` and `σ ∈ G_S`,
+- *Number fields.* `G = G_S` for a finite set `S` of places of the number field `K` containing the
+  archimedean places, any open subgroup `U` of `G_S` and any `m ≥ 1`. If `L ⊆ K_S` is the fixed
+  field of `U`, the fixed field of `V` is the compositum of the abelian extensions of `L` of
+  exponent dividing `m` that are unramified at every finite place of `L` not above `S`, and it is
+  finite over `L`. For `m = 2` it is the field `L(T)` of *Exponent-two ramification fields*
+  (Layer R02.3), with `T` the set of finite places of `L` above `S`. For finite `B` this refines
+  *Finiteness of `H¹(G_{K,S}, M)`* (Layer R02.3), which it uses for the coefficients `ℤ/m` over
+  `L`. Unlike *Finiteness of Galois cohomology with restricted ramification* below, which gives
+  finiteness in every degree through Poitou–Tate duality when the order of `M` is a unit in
+  `R_{K,S}`, this statement concerns degree one, puts no condition on the order of `B`, uses no
+  duality and is uniform in `B`.
+- *Global function fields.* `G = G_{F,S}` for a global function field `F` of characteristic `ℓ`
+  and a nonempty finite set `S` of places of `F`, any open subgroup `U` of `G_{F,S}` and any `m`
+  prime to `ℓ`. For finite `B` of order prime to `ℓ` this gives, without duality, the finiteness
+  of `H¹(G_{F,S}, B)` contained in *Prime-to-characteristic function-field Poitou–Tate duality*.
+  For `ℓ ∣ m` the hypothesis and the conclusion can both fail (Check).
+
+*Proof sketch.* Every element of `Hom_cont(U, ℤ/m)` has open kernel, so `V`, the intersection of
+finitely many of these kernels, is open and normal in `U`. Since `U` normalises `V`, `V` has at
+most `[G : U]` conjugates, each open, so `N` is open and normal in `G`, and `N ⊆ V ⊆ U`. Let `B`
+and `f` be given. For `σ, τ ∈ U` the cocycle identity gives `f(στ) = f(σ) + σf(τ) = f(σ) + f(τ)`,
+so `f|_U` is a continuous homomorphism. Its image is finite, being compact in a discrete group,
+and killed by `m`, so it embeds in `(ℤ/m)^r` for some `r`; thus `ker(f|_U)` is an intersection of
+kernels of elements of `Hom_cont(U, ℤ/m)`, and `f(V) = 0`. For `n ∈ N` and `σ ∈ G`,
 `f(σn) = f(σ) + σf(n) = f(σ)` and `f(nσ) = f(n) + nf(σ) = f(σ)`, so `f` descends to a cocycle of
-`G_S/N`. Inflation on `H¹` is injective by inflation–restriction (ProfiniteCohomology Layer 5) and
-onto by what precedes.
+`G/N`. Inflation on `H¹` is injective by inflation–restriction (ProfiniteCohomology Layer 5) and
+onto by what precedes. Inflation on `continuousCohomology` is a natural transformation with
+`R`-linear components (ProfiniteCohomology Layer 1), and the comparison of ProfiniteCohomology
+Layer 3 carries it to `f̄ ↦ f̄ ∘ π` on cocycles.
 
-Over a function field the argument is the same once `Hom_cont(G_{L,S}, ℤ/m)` is finite for every
-finite extension `L` of `F` inside `F_S` and `ℓ ∤ m`. An extension of `L` unramified outside the
+For number fields, the fixed field `L` of `U` is finite over `K`, `L_S = K_S` and `U = G_{L,S}`
+(*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*). By *Finiteness of
+`H¹(G_{K,S}, M)`* over `L` with trivial coefficients `ℤ/m`, the group `Hom_cont(U, ℤ/m)` is
+finite. The kernel of each of its elements fixes a cyclic extension of `L` of degree dividing `m`
+inside `L_S`, and every abelian extension of `L` of exponent dividing `m` that is unramified at
+the finite places not above `S` lies in `L_S` and is fixed by `V`; so the fixed field of `V` is
+the compositum above, which is therefore finite over `L`.
+
+For function fields it remains to show that `Hom_cont(G_{L,S}, ℤ/m)` is finite for every finite
+extension `L` of `F` inside `F_S` when `ℓ ∤ m`. An extension of `L` unramified outside the
 places above `S` is unramified outside `S` over `F`, so `L_S = F_S` and the open subgroup fixing `L`
 is `G_{L,S}`. By *The class formation of a global function field*, the reciprocity map
 `rec : C_S(L) → G_{L,S}^ab` has cokernel `Ẑ/ℤ`, which is divisible (`Ẑ = ℤ + kẐ` for every
@@ -3132,7 +3149,23 @@ pro-`ℓ` group on which `x ↦ x^m` is bijective; so `L_wˣ/(L_wˣ)^m` is finit
 `C_S(L)/m`. *Needs:* *The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*
 (Layer R02.3); *Finiteness of `H¹(G_{K,S}, M)`* (Layer R02.3); *Function-field places, ideles and
 `S`-units* (Layer R02.3); *Restricted ramification over a global function field* (Layer R02.3);
-*The class formation of a global function field* (Layer R02.3); ProfiniteCohomology Layer 5.
+*The class formation of a global function field* (Layer R02.3); *Exponent-two ramification
+fields* (Layer R02.3); ProfiniteCohomology Layers 1, 3 and 5.
+
+*In Tau Ceti:* at Tau Ceti `2a9233e5`, three theorems give the finiteness of `Hom_cont(U, ℤ/m)` in
+the number-field instance: the first applied with `Ω = K^s`, the finite places of `S` and
+`n = [G_S : U] · m`, the other two with `Γ = G_S`, `Δ = U`, `n = m` and `Q = ℤ/m`.
+`TauCeti.RestrictedRamification.finite_setOf_isOpen_index_le`
+(`TauCeti/NumberTheory/NumberField/RestrictedRamification/Cohomology.lean`): for `Ω` normal over
+`K` and `S` a finite set of finite places of `K`, the group
+`RestrictedRamification.galoisGroupS K Ω S` has only finitely many open subgroups of index at most
+`n`. `TauCeti.finite_setOf_isOpen_index_le_of_isOpen`
+(`TauCeti/Topology/Algebra/Group/OpenSubgroup/BoundedIndex.lean`): if a group `Γ` with a topology
+has only finitely many open subgroups of finite index at most `[Γ : Δ] · n`, for `Δ` an open
+subgroup of finite index, then `Δ` has only finitely many open subgroups of finite index at most
+`n`. `TauCeti.finite_continuousMonoidHom_of_finite_setOf_isOpen_index_le` (the same file): if a
+group `Δ` with a topology has only finitely many open subgroups of finite index at most `#Q`, there
+are only finitely many continuous homomorphisms from `Δ` to the finite discrete group `Q`.
 
 **Checks.**
 
@@ -4289,7 +4322,7 @@ R02.3); ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function field
 ### Dependencies
 
 - Earlier layers of this roadmap: R02.2, R02.3.
-- TauCetiRoadmap ProfiniteCohomology: Layers 1, 4, 5, 7, 9, 10, 11, 12.
+- TauCetiRoadmap ProfiniteCohomology: Layers 1, 3, 4, 5, 7, 9, 10, 11, 12.
 - TauCetiRoadmap Chebotarev: Layer 10.
 - DerivedModuleAlgebra: §1.T.1 (tower algebra and Milnor).
 - TauCetiRoadmap ClassFieldTheory: Layers 3, 4, 5, 6, 10, 11, 12.
@@ -5011,13 +5044,27 @@ Cⁿ_cts(G, ρ) ⊗_A M → Cⁿ_cts(G, ρ ⊗_A M),   c ⊗ m ↦ ((g₁, …, 
 
 is an isomorphism of `A`-modules. These maps commute with the differentials, so they form an
 isomorphism of complexes `C_cts(G, ρ) ⊗_A M ≅ C_cts(G, ρ ⊗_A M)`, natural in `M` and in
-`G`-equivariant `A`-linear maps `ρ → ρ′`. If `ρ` is free, every `Cⁿ_cts(G, ρ)` is a flat
-`A`-module. Taking `M = A/I` for an ideal `I` of `A` gives an isomorphism of complexes
+`G`-equivariant `A`-linear maps `ρ → ρ′`. It is natural in the group as well. Let
+`φ : G′ → G` be a continuous homomorphism of profinite groups and let `G′` act on `ρ` through `φ`;
+this action is again continuous for the `𝔪`-adic topology. For `X = ρ` and `X = ρ ⊗_A M` the maps
+`φ^* : Cⁿ_cts(G, X) → Cⁿ_cts(G′, X)`, `c ↦ ((g′₁, …, g′ₙ) ↦ c(φ(g′₁), …, φ(g′ₙ)))`, form maps
+of complexes, and the isomorphism for `G′` composed with `φ^* ⊗ id_M` equals `φ^*` composed with
+the isomorphism for `G`. For the inclusion of a closed subgroup, `φ^*` is restriction; for a
+decomposition map `G_v → G_{K,S}`, it is the ordinary restriction `C_cts(G_{K,S}, X) → C_v^ord(X)`
+of the Conventions, at every place `v`; for the projection `G′ → G′/H = G` with `H` closed and
+normal, it is inflation. If `ρ` is free, every `Cⁿ_cts(G, ρ)` is a flat `A`-module. Taking
+`M = A/I` for an ideal `I` of `A` gives an isomorphism of complexes
 `C_cts(G, ρ)/I·C_cts(G, ρ) ≅ C_cts(G, ρ/Iρ)`, where the `𝔪`-adic topology of `ρ/Iρ` is its
 quotient topology. A module of finite length is finitely generated, and it is finite and discrete
 in its `𝔪`-adic topology, so these coefficients are included.
 
-The complexes are those of *Continuous cochains in the derived category*. For a flat `A`-module
+The isomorphisms are of complexes of inhomogeneous cochains, `Cⁿ_cts(G, X) = C(Gⁿ, X)` as in the
+Conventions, which are the complexes of *Continuous cochains in the derived category*. For `ρ` and
+`ρ ⊗_A M`, whose actions are jointly continuous, *Comparison with the canonical carrier for compact
+coefficients* (PerfectoidTowers §P9.0) transports the isomorphism to one between Mathlib's
+homogeneous cochain complex of `ρ`, tensored with `M`, and that of `ρ ⊗_A M`, and identifies
+`Hⁱ(C_cts(G, ρ) ⊗_A M)` with the underlying `A`-module of `continuousCohomology i` of `ρ ⊗_A M`.
+For a flat `A`-module
 `N` with trivial action, not necessarily finitely generated, and every ind-admissible `A[G]`-module
 `X` in place of `ρ`, the same formula gives an isomorphism of complexes
 `C_cts(G, X) ⊗_A N ≅ C_cts(G, X ⊗_A N)`, where the target is the ind-admissible complex, the
@@ -5042,12 +5089,16 @@ of the first tensored with `M`, hence bijective. For `ρ ≅ A^r`, `C(Y, ρ) ≅
 because `C(Y, A)` is. The action on `ρ ⊗_A M` is continuous: for each `k` an open subgroup acts
 trivially on `ρ/𝔪ᵏρ`, hence on `(ρ ⊗_A M)/𝔪ᵏ(ρ ⊗_A M) = ρ/𝔪ᵏρ ⊗_A M`. Since `g₁` acts on
 `ρ ⊗_A M` through `ρ`, the formula carries `dc ⊗ m` to the differential of the image of `c ⊗ m`.
+For `φ : G′ → G`, the preimage under `φ` of an open subgroup acting trivially on `ρ/𝔪ᵏρ` is open,
+`φ^*` commutes with the differentials because `G′` acts through `φ`, and both composites send
+`c ⊗ m` to `(g′₁, …, g′ₙ) ↦ c(φ(g′₁), …, φ(g′ₙ)) ⊗ m`.
 A module of finite length is killed by some `𝔪ᵏ`, so its adic topology is discrete, and it is
 finite because the residue field is. For flat `N`, write `N` as a filtered colimit of finite free
 modules (Lazard) and use that both sides commute with filtered colimits, as in Nekovář's proof.
 (Nekovář, *Selmer complexes*, §3.4.1, pp. 82–83, and Proposition 3.4.4 with its proof, p. 84.)
 *Needs:* *Adic continuous-map flatness*; *Admissible compact and cofinite coefficients*;
-*Continuous cochains in the derived category*.
+*Continuous cochains in the derived category*; *Comparison with the canonical carrier for compact
+coefficients* (PerfectoidTowers §P9.0).
 
 **Checks.**
 
@@ -6108,9 +6159,13 @@ TauCetiRoadmap.ProfiniteCohomology Layer 12.
 #### D7.7.3 Local conditions and derived orthogonal complements
 
 Given specified local complexes `C_X,C_Y` with the supplier perfect degree-two cup duality and maps
-`U_X^+→C_X`, `U_Y^+→C_Y`, include a chosen nullhomotopy of their cup product as orthogonality data. Put
-`U_Y^−=Cone(U_Y^+→C_Y)`. The adjoint `U_X^+→RHom(U_Y^−,J)[−2]` defines `Err_v` as its cone. Derived
-complementarity means `Err_v` is acyclic; `H¹`-annihilation alone does not imply it. The arithmetic
+`U_X^+→C_X`, `U_Y^+→C_Y`, include a chosen nullhomotopy of their cup product as orthogonality
+data; at a finite place `v` the product is the cup product `U_X^+⊗U_Y^+→C_cont(G_v,J(1))` through
+`X⊗Y→J(1)`, followed by the truncation onto `τ^{II}_{≥2}C_cont(G_v,J(1))`, and the adjoint below
+passes through the retraction `r_{v,J}:τ^{II}_{≥2}C_cont(G_v,J(1))→J[−2]` of §D7.4 (Nekovář
+6.2.1.2–6.2.1.3, 6.2.2). Put `U_Y^−=Cone(U_Y^+→C_Y)`. The adjoint `U_X^+→RHom(U_Y^−,J)[−2]`
+defines `Err_v` as its cone. Derived complementarity means `Err_v` is acyclic; `H¹`-annihilation
+alone does not imply it. The arithmetic
 instance uses `C_v^mod` on both sides: ordinary cochains at finite places, complete Tate cochains at
 real places and zero at complex places. Ordinary archimedean cochains do not supply the required
 degree-two duality. At finite places, for complementary finite-free coefficient subcomplexes `X^+,Y^+`
@@ -6147,9 +6202,9 @@ The operations and identities are:
 - At a real place with `T=𝔽_p` trivial and `p` odd, `C_v^ord` has `H⁰=𝔽_p` and `H²=0`, so it cannot have
   perfect degree-two self-duality; `C_v^mod` is acyclic.
 
-*Needs:* §D7.4 (*Derived local Tate duality*); §R02.4.2 (*Local duality at the archimedean places*);
-§D7.5 (*Duality when `p = 2` and `K` has real places*); §D7.7.1 (Perfect pairings and dual local
-conditions).
+*Needs:* §D7.4 (*The local invariant map as a quasi-isomorphism*; *Derived local Tate duality*);
+§R02.4.2 (*Local duality at the archimedean places*); §D7.5 (*Duality when `p = 2` and `K` has real
+places*); §D7.7.1 (Perfect pairings and dual local conditions).
 
 #### D7.7.4 Duality for a global mapping fibre with local conditions
 
