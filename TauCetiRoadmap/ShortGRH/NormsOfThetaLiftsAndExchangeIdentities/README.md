@@ -209,9 +209,17 @@ with the action of `G_O` preserves the image of every element of `ℂ[G_O]`;
 (d) for `g ∈ G_O` the number `∏_{w ∈ 𝒞_O} ψ_w(det g_w)` is a root of unity.
 
 *Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.16; OneSidedPrimeSumBoundsAndAdmissibleData §1.3; ShortGRH background
-(the spherical Hecke algebra of `GL_n` at a split place acting on algebraic forms, with its adjoints and its action on
-conjugates; [ShortProof] `Lib/Adelic/AutomorphicForms/PAdicGauge.lean` (`New.LevelPlaces.LevelForm.innerAt`,
-`New.LevelPlaces.LevelForm.normSqAt`)).
+(the conjugated pairings of the algebraic forms of a level and the Hecke operators at split places: for an automorphism
+`σ` of `ℂ`, `⟨φ, φ′⟩_σ` is `σ⁻¹` of the class sum at the level of the Gram form of `σ∘φ` and `σ∘φ′`, linear in `φ′`,
+semilinear for `σ⁻¹∘conj∘σ` in `φ`, Hermitian for that conjugation and definite, and `‖φ‖²_σ` is the class sum of the
+squared Gram norms of `σ∘φ`; for a split place `w`, a pairing `B` of two representations of the finite adelic group
+that is invariant and semilinear for a ring homomorphism `ς` of `ℂ` in the first variable has
+`B(H_w(X)y, z) = B(y, H_{w̄}(ςX)z)` on vectors spherical at `w`; and the Hecke operators at two split places, equal,
+conjugate or neither, commute on a vector spherical at both; [ShortProof]
+`Lib/Adelic/AutomorphicForms/PAdicGauge.lean` (`New.LevelPlaces.LevelForm.innerAt`,
+`New.LevelPlaces.LevelForm.innerAt_eq_stdClassSum`, `New.LevelPlaces.LevelForm.conj_innerAt`,
+`New.LevelPlaces.LevelForm.eq_zero_of_innerAt_self`, `New.LevelPlaces.LevelForm.normSqAt`),
+`Lib/Weil/Unramified/SplitHecke.lean` (`New.heckePolyOp_adjoint`, `New.heckeSplit_comm`)).
 
 [ShortProof], `New/OneLift/TestedForms.lean` (`New.LevelPlaces.LevelForm.innerAt_heckePolyOnForms`,
 `New.DescentPair.heckePolyOnForms_comm`, `New.DescentPair.groupAlgAction`, `New.DescentPair.innerAt_groupAlgAction`,
@@ -235,10 +243,11 @@ subspace.
 (b) A form `y ∈ 𝒜(O)` is orthogonal to the false lifts, for `e` and `Z`, if for every split place `w` off the level it
 is orthogonal, for the inner product of `𝒜(O)`, to the false lifts at `w` for `e` and `Z`.
 
-(c) Let `ℓ` be a prime. A test form at `ℓ` is a form `Ξ ∈ 𝒜(O)` that is integral at every embedding `ℂ → ℂ_ℓ` and
-orthogonal to the false lifts for `e = e_1` and `Z = ker(normalised descent of O)`, where `e_1` is the product over the
-chosen places of the idempotents of `GL_r(k_w)` of the label `X − 1` (FiniteReductiveGroups §5.7); for `r = 1` it is
-the mean over `G_O`.
+(c) Let `ℓ` be a prime and let `W` have rank `r = 1`. A test form at `ℓ` is a form `Ξ ∈ 𝒜(O)` that is integral at
+every embedding `ℂ → ℂ_ℓ` and orthogonal to the false lifts for `e = e_1` and `Z = ker(normalised descent of O)`, where
+`e_1` is the product over the chosen places of the idempotents of `GL_1(k_w)` of the label `X − 1`
+(FiniteReductiveGroups §5.7), that is, the mean over `G_O`. (For `r > 1` the polynomial `X − 1` is not a label of
+degree `r`; test forms are used only for the rank-one lifts of 2.5.)
 
 In the lower bound (b) is used with `Z` the orthogonal complement of a space of lifts: DeterminantsOfThetaLiftChains
 §1.3 takes `e = e₀` and the complement of the range of `Θ_{j,ϑ}` on `𝒢(W_j)`.
@@ -1017,10 +1026,22 @@ in the archimedean variable and has a peak, and `K₀` a bounded function on `G_
 and
 `∫_{G_∞} conj(F(xh))·K(h)·m_{u′}(h) dh = 0`. Then `|K₀(1)| ≤ (4b^{n_*} + 1)·δ`.
 
-*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.3; ShortGRH background (holomorphic functions of a weight on a real
-unitary group, their reproducing integral against the basic function, and the Haar measure in Cartan coordinates;
-[ShortProof] `Lib/DiscreteSeries/Holomorphic/ModelFunction.lean` (`New.isHolOfWeight_holMinorsPi`,
-`New.IsHolOfWeight.integral_mul_conj_holMinorsPi`), `Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean`
+*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.3; ShortGRH background (holomorphic functions of a weight on the real
+group `G_∞ = ∏_τ U(diag s)` of signs `s` on `n ≥ 1` indices, for an injective order that puts the signs `+1` first: a
+function is holomorphic of weight `u` if it extends to a function of tuples of matrices, analytic at the products of
+group elements with invertible triangular matrices, that takes the character of weight `u` of the triangular matrix as
+a factor; if each `u_τ` decreases weakly within each block of equal signs, the product `m_u` of the quotients of
+principal minors of the weights `u_τ` is holomorphic of weight `u`, and every `F` holomorphic of weight `u` with
+`F·conj(m_u)` integrable has `∫ F·conj(m_u) = F(1)·∫|m_u|²`; if moreover the entries of `u_τ` at the signs `−1` exceed
+those at the signs `+1` by more than `500n³ + A + n + 1`, the quotient of minors of weight `u_τ` is the discrete series
+coefficient `c_λ` of `2λ = 2u_τ + 2ρ`, a parameter of gap `500n³ + A`; for a parameter of gap `h` and `c ≤ h`,
+`|c_λ(g)| ≤ (2/‖g‖)^c` in the operator norm; and for a parameter of gap `500n³ + B` with `|2λ_a| ≤ L` and `c > 8n²`,
+the function `deg_λ·(2/‖g‖)^c` is integrable on `U(diag s)` with integral at most `8·(2000(n + L + 1)⁶)^{2n²}·2^c`,
+where `deg_λ > 0` is the inverse of `∫|c_λ|²`; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/Defs.lean`
+(`New.IsHolOfWeight`, `New.HCParam.formalDegree`), `Lib/DiscreteSeries/Holomorphic/ModelFunction.lean`
+(`New.isHolOfWeight_holMinorsPi`, `New.IsHolOfWeight.integral_mul_conj_holMinorsPi`, `New.dsCoeff_eq_holMinors`),
+`Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean` (`New.DiscreteSeries.norm_dsCoeff_le_pow`,
+`New.formalDegree_pos`, `New.integral_tail_le`), `Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean`
 (`New.Rows.IsPeak`)).
 
 [ShortProof], `New/OneLift/ComparisonOperator/ThetaKernelEstimates.lean`
@@ -1061,12 +1082,16 @@ with
 `i` and
 every `ζ`, then `y = 0`.
 
-*Needs:* 3.4, 4.2, 4.4, 4.5; ThetaLiftChainsAndTheSeesawIdentity §2.7, §3.5; ShortGRH background (a bounded nonzero form has a
-peak, a point where its absolute value exceeds half its supremum; at every peak of a bounded form that is holomorphic
-of a weight with gap `1` and entries in `[−A, A]`, `A ≥ 2`, and of a level `p = −p̄` with imaginary parts in
-`(0, A′]`, `A′ ≥ 1`, the first minimum of the lattice is at least `(A·A′)^{−1/2}`, so the peaks are not deep in a
-cusp; [ShortProof] `Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean`
-(`New.Rows.exists_isPeak_of_mem_rapidOfLevel`, `New.Rows.IsPeak.le_firstMinimum`)).
+*Needs:* 3.4, 4.2, 4.4, 4.5; ThetaLiftChainsAndTheSeesawIdentity §2.7, §3.5; ShortGRH background (a bounded nonzero function, in
+particular a nonzero rapidly decreasing form of a level, has a peak, a point where its absolute value exceeds half its
+supremum; let `F` be a function on the adelic unitary group of a hermitian space of signs `s` that is left invariant
+under the rational points, right invariant under the principal level of an integer `p` of `E` with `p̄ = −p` whose
+imaginary part at every infinite place is positive and at most `A′`, `A′ ≥ 1`, and holomorphic at every adelic
+translate, for an order that puts the signs `+1` first, of a weight `u` with `u_τ(i) + 1 ≤ u_τ(j)` whenever `s_i = +1`
+and `s_j = −1` and with entries of absolute value at most `A`, `A ≥ 2`; then at every peak `g` of `F` the first minimum
+of the lattice moved by `g`, the length of its shortest nonzero vector cut off at `1`, is at least `(A·A′)^{−1/2}`, so
+the peaks are not deep in a cusp; [ShortProof] `Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean`
+(`New.Rows.exists_isPeak`, `New.Rows.exists_isPeak_of_mem_rapidOfLevel`, `New.Rows.IsPeak.le_firstMinimum`)).
 
 [ShortProof], `New/OneLift/ComparisonOperator/ProductsSpan.lean` (`New.Data.exists_isPeak_carrierForm`,
 `New.Data.exists_sum_choiceFn_eq_integral`, `New.Data.integral_mul_sum_choiceFn_eq_zero`,
@@ -1118,10 +1143,18 @@ the hyperplane sums annihilate `y`, and the descents of the conjugate of the coe
 `v_P ⊗ Ψ_bl ⊗ vac` vanish for all polynomials `P`, then the descents of that function to `W` twisted by `ν_W` vanish
 off `S_O`.
 
-*Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.16, §2.17; ShortGRH background (the Schrödinger model at split places
-and
-the action of the level on indicators of cosets; vanishing of descents under translation; [ShortProof]
-`Lib/Weil/Periods/DescentVanishing.lean` (`New.SiegelWeil.DescentsVanish`)).
+*Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.16, §2.17; ShortGRH background (vanishing of theta descents as a
+predicate: for hermitian spaces `W′`, `V`, a character `a` of `[U(1)]`, a set `S` of finite places and a function `Y`
+on `U(V)(𝔸)`, the descents of `Y` to `W′` twisted by `a` vanish for the data that are vacua above `S` if for every
+datum `f` on `Hom(W′, V)(𝔸)` fixed by the vacuum projection at the places of `S` and their conjugates the function
+`g ↦ ∫_{[U(V)]} θ_f(g, h)·a(det h)·Y(h) dh` on `U(W′)(𝔸)` is zero; if `Y` is automorphic, this passes to the right
+translate of `Y` by an element that is integral at every place of `S`; and for `V` definite, `Y` automorphic and a set
+`A` of finite places disjoint from its conjugate, it holds for `S` the complement of `A ∪ Ā` as soon as the descents
+vanish for the data `v_P ⊗ Ψ ⊗ vac`, obtained from the vacuum by the Schrödinger operator of a Schwartz–Bruhat function
+`Ψ` above `A` and the Fock vector `v_P` of a polynomial `P` at the real places; [ShortProof]
+`Lib/Weil/MixedModel/SchwartzBruhat.lean` (`New.IsSchwartzBruhat`), `Lib/Weil/MixedModel/NamedData.lean`
+(`New.Space.schrodingerOp`), `Lib/Weil/Periods/DescentVanishing.lean` (`New.SiegelWeil.DescentsVanish`,
+`New.SiegelWeil.DescentsVanish.comp_mul_right`, `New.SiegelWeil.DescentsVanish.of_schrodingerOp`)).
 
 [ShortProof], `New/OneLift/FalseLifts/BottomOfTower.lean` (`New.DescentPair.HyperplaneSumsAnnihilate`,
 `New.HasIntegralBlockRatio`, `New.DescentPair.descentsVanish_of_hyperplaneSumsAnnihilate`,
@@ -1136,8 +1169,9 @@ Jiang and Soudry (2009); Jiang and Wu (2016)): here the step from `W` to `W ⊕ 
 large rank killed by a Hecke polynomial at a small point.
 
 *Method of the formal proof:* the constant term of the descent to `W ⊕ ℍ^l` along the Siegel parabolic of the planes
-is a descent to `W`, which vanishes, so the zero term contributes nothing; the rest is bounded; the descent inherits a
-Hecke equation at `w`, and its root is too small for a nonzero bounded spherical function (b).
+is a descent to `W`, which vanishes, so the zero term contributes nothing; the rest is bounded (the bound for the theta
+functional minus its zero term along one plane is proved here, as part of (a), not taken from the background); the
+descent inherits a Hecke equation at `w`, and its root is too small for a nonzero bounded spherical function (b).
 
 (a) Prove: let `W`, `V` be hermitian spaces of ranks `r′` and `r′ + t′`, `A` a set of finite places disjoint from its
 conjugate, `a` a character of `[U(1)]`, and `Y` an automorphic function on `U(V)(𝔸)` whose descents to `W` twisted by
@@ -1154,12 +1188,25 @@ off
 spherical at a split place `w` and killed by the Hecke polynomial at `w` at a point `X` with `q_w^{n′+1}·|X| ≤ 1` is
 zero.
 
-*Needs:* 5.1; ShortGRH background (the zero term of the Weil representation along a Lagrangian of a sum with
-hyperbolic planes, the bound for the theta functional minus its zero term, the vanishing of theta descents as a
-predicate on a function on the definite group, and the transfer of the Hecke polynomial through a theta lift at a
-split unramified place; [ShortProof] `Lib/SiegelWeil/Formula/LagrangianZeroTerms.lean`
-(`New.SiegelWeil.Lagrangian.zeroTerm`), `Lib/Weil/Periods/DescentVanishing.lean` (`New.SiegelWeil.DescentsVanish`),
-`Lib/Weil/Unramified/HeckeTransfer.lean` (`New.SiegelWeil.hasHeckePolynomial_formLift`)).
+*Needs:* 5.1; ShortGRH background (the mixed model of the Weil representation for a splitting of a hermitian space
+`W′` into `W` and `p` hyperbolic planes, and the transfer of the Hecke polynomial through the transposed theta lift:
+the slice `φ ↦ φ[x]`, for an adelic matrix `x`, is a continuous map from the data on `Hom(W′, V)` to the data on
+`Hom(W, V)`, and `φ[0]` is the zero term of `φ` along the isotropic frame; for a Levi element with components
+`m ∈ GL_p(𝔸)` and `g₀ ∈ U(W)(𝔸)`, `(ω_{aυ₁^p,b}(g, h)φ)[x] = χ_V(det m)⁻¹·|det m|^{n′/2}·ω_{a,b}(g₀, h)(φ[h⁻¹xm])`, with
+`n′` the rank of `V` and `χ_V(y) = b(y/ȳ)υ(y)^{−n′}`; an element `u` of the unipotent radical acts on the slices by
+`(ω(u, 1)φ)[x] = c(u, x)·ϱ(y(u, x))(φ[x])` with a number `c(u, 0) = 1` and a translation `y(u, 0) = 0`; every adelic
+point of `U(W′)` is a product of an element of the radical, a Levi element and an element of the stabiliser of the
+lattice that is unitary at the infinite places; and, for spaces `S`, `T` of ranks `n` and `m = n + k`, a split place
+`w` of norm `q`, characters `a`, `b` whose base changes are unramified at `w̄`, a datum `f` on `Hom(S, T)` that is the
+vacuum at `w̄`, and an automorphic function `y` of rapid decay on `U(T)(𝔸)` that is spherical at `w`, the transposed
+lift `F` of `y` with the datum `f` is spherical at `w`, and the transposed lift of `H_w(X)y` is
+`∏_{l<k}(1 − q^l αX)·H_w(q^k αβ⁻¹X)F` for every `X`, where `α` and `β` are the Frobenius values at `w̄` of `a` in rank
+`n` and of `b` in rank `m`, the value at a uniformiser of the Hecke character of the character in that rank times
+`q^{n/2}`, respectively `q^{m/2}`; [ShortProof] `Lib/Weil/DualPair/MixedModel.lean`
+(`New.Space.Splitting.homSlice`, `New.Space.Splitting.homSlice_levi`, `New.Space.Splitting.homSlice_radicalElement`),
+`Lib/SiegelWeil/Formula/LagrangianZeroTerms.lean` (`New.SiegelWeil.homSlice_zero`),
+`Lib/Adelic/Witt/IwasawaDecomposition.lean` (`New.Space.Splitting.iwasawa`), `Lib/Weil/Unramified/HeckeTransfer.lean`
+(`New.SiegelWeil.lift_swap_heckePolyOp`)).
 
 [ShortProof], `New/OneLift/FalseLifts/HyperbolicPlaneStep.lean` (`New.SiegelWeil.descentsVanish_add_planes`,
 `New.SiegelWeil.eq_zero_of_heckePolyOp_eq_zero`, `New.SiegelWeil.DescentsVanish.integral_homSlice_eq_zero`,
@@ -1417,7 +1464,7 @@ L-values of a main pair has height at most `6β_tot − h_dir`.
 has
 height `β_tot − Σ_τ s_∞(κ(τ))` (6.2 (d)), the inverse ratio of the ramified pair `q₂` height `x₁`, the constant `c₀`
 small
-conjugates, `Σ_ℓ S_ℓ log ℓ = Σ_τ s_fin(κ(τ), τ)`, and the powers of `Nm Q` cost nothing (2.6 (b)); the sum is
+conjugates, `2·Σ_ℓ S_ℓ log ℓ = Σ_τ s_fin(κ(τ), τ)`, and the powers of `Nm Q` cost nothing (2.6 (b)); the sum is
 `6β_tot − h_dir`.
 
 Prove: let `θ` be a regular family of `m`-fold twists (DeterminantsOfThetaLiftChains §1.3), `1 ≤ j ≤ m`, and `p` a main
@@ -1558,7 +1605,9 @@ series of the factors of a subgroup (Böcherer, Dummigan and Schulze-Pillot (201
 places (as every form in the image of `e₀` is), by the descent (it is orthogonal to the lifts, and the descent is the
 adjoint of the lift) and by `H_w(X_*(w))`, so its periods over `U(V°)` against theta kernels of `(W_j, V°)` vanish
 (5.4 (a), (d)); by 7.1 (c) the pairing of a glued form `glue_ϑ(Θ° y)` with it is a sum of such periods. (c) is "products
-span" (4.6 (d)). (d) follows from (a) and (c), `Θ_{j,ϑ}` being nonzero.
+span" (4.6 (d)). For (d): if `c′_ϑ = 0` then `Θ° = 0` by (a), so `𝒢(W_j) = 0` by (c); but `dim 𝒢(W_j)` is the
+dimension `d_T` of the target forms (SecondMomentsOfPoincareSeries §2.3 (b)), which is positive
+(SecondMomentsOfPoincareSeries §5.7 (c)).
 
 Let `c°_i = M^{l₁}·c_{γ_i}·#Γ·c″`, a nonzero number independent of the twist, and let `Θ° : 𝒢(W_j) → 𝒜^⊕` be the map
 whose inner
@@ -1574,7 +1623,8 @@ the range of `Θ_{j,ϑ}` on `𝒢(W_j)` (1.3); more generally the periods of 5.4
 
 (d) `c′_ϑ ≠ 0` for every twist `ϑ`; hence `Γ_j(ϑ)/Γ_j(1) = |c′_1|²/|c′_ϑ|²` is a nonzero real number.
 
-*Needs:* 1.3, 4.6, 5.4, 7.1; ThetaLiftChainsAndTheSeesawIdentity §2.5, §2.7; DeterminantsOfThetaLiftChains §2.1.
+*Needs:* 1.3, 4.6, 5.4, 7.1; ThetaLiftChainsAndTheSeesawIdentity §2.5, §2.7; DeterminantsOfThetaLiftChains §2.1;
+SecondMomentsOfPoincareSeries §2.3 (b) (`dim 𝒢(W_j) = d_T`), §5.7 (c) (`d_T > 0`).
 
 [ShortProof], `New/OneLift/ComparisonOperator/GluingMaps.lean` (`New.Rows.hyperplaneSum_apply_eq_zero`,
 `New.Rows.normalizedDescent_eq_zero_of_mem_orthogonal`, `New.Rows.tamePart_twistPlace_ne_one`,
