@@ -179,8 +179,10 @@ one `ξ`.
   `G_p` acts on `B_dR⁺` by continuity.
 - `θ` extends to a ring map `A_max → O_C` with `ξ/p ↦ 0`, to a `ℚ_p`-algebra map `B⁺ → ℂ_p` and to `B_dR⁺ → ℂ_p`.
 
-These are the rings `A_max`, `B⁺_max` and `B_max` of PadicHodgeTheory §0.5, where `B_max` is `B⁺_max[1/t]`; by 1.5 (a)
-`t` is a unit multiple of `pμ` in `A_max`, so the two localisations agree. `B_max` stands in for Fontaine's `B_cris`, and
+These are the rings `A_max`, `B⁺_max` and `B_max` of PadicHodgeTheory §0.5, where `B_max` is `B⁺_max[1/t]` for Fontaine's
+`t = log[ε]`. The period `t` of 1.5 (a) is a unit multiple of `pμ` in `A_max`, and Fontaine's `t` is a multiple of it by
+an element of `ℚ_p^×` (the quotient lies in `B_max`, is fixed by `φ`, and lies in `B_dR⁺` because `θ` kills Fontaine's
+`t`, so 1.5 (b), (c) apply); so the two localisations agree. `B_max` stands in for Fontaine's `B_cris`, and
 `B_dR⁺` for the ring `B_dR⁺` of PadicPeriodRings §1.5, built there from Mathlib's `BDeRhamPlus`; no comparison of `B_max`
 with `B_cris`, nor of the two constructions of `B_dR⁺`, is used.
 
@@ -304,9 +306,9 @@ that for every `a ∈ W` the vector `(χ(g)^{u_i}·g(a_i))_i` lies in `W` for `F
 (c) Let `(Γ, j)` be a group over `G_p`, `S ⊆ B_dR` a `B_dR⁺`-submodule and `x ∈ B_dR` with `j(g)(x) − x ∈ S` for every
 `g ∈ Γ`. Then `x − a ∈ S` for some `a ∈ K_Γ`. In particular the elements of `B_dR` fixed by `j(Γ)` are those of `K_Γ`.
 
-PadicPeriodRings §1.4 (`tateSen_H0`, `tateSen_H1`) also implies (a): it computes `H⁰` and `H¹` of `ℂ_p(i)` for `G_K`,
-`K/ℚ_p` finite, through Tate's normalised traces in the cyclotomic tower; the route uses only the vanishing of `H⁰` for
-`i ≠ 0`.
+PadicPeriodRings §1.3 (`tate_normalizedTrace`, the bounded normalised traces of the cyclotomic tower) and §1.4
+(`tateSen_H0`, `tateSen_H1`) also imply (a): §1.4 computes `H⁰` and `H¹` of `ℂ_p(i)` for `G_K`, `K/ℚ_p` finite, through
+these traces; the route uses only the vanishing of `H⁰` for `i ≠ 0`.
 
 *Needs:* 1.5; PadicPeriodRings §1.2
 
@@ -611,7 +613,10 @@ equivariant `R`-linear maps to finite free potentially crystalline representatio
 `jump_γ(S_i, u) ≠ 0` for some `i`.
 
 PadicHodgeTheory §3.3 and FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P7.1 state labelled Hodge–Tate weights for de
-Rham representations; the statements above are on the spaces `HT_γ(T, u)` of 3.1.
+Rham representations; the statements above are on the spaces `HT_γ(T, u)` of 3.1. The signs are opposite: there the
+cyclotomic character has weight `+1` (a weight `h` counts `ℂ_p(h)`, and the filtration jump of a de Rham object is `−h`:
+PadicHodgeTheory, Conventions and §3.2), while by (d) it has the single jump `−1` here; so a jump `u` of 3.1 is a
+weight `−u` there, and has the sign of the filtration jump.
 
 *Needs:* 1.6, 3.1, 3.3
 
@@ -797,7 +802,8 @@ case `a = 0`, then `c(s) = 0`.
 
 With `B_cris` in place of `B_max`, PadicHodgeRegulators §1.5 (`dim H¹_f(K, V) = dim D_dR(V)/Fil⁰ + dim H⁰(K, V)` for de Rham
 `V`) implies (a)–(c): `Z_f(T)` is then the preimage of `H¹_f(K, T[1/p])` in the continuous cocycles, of rank
-`(rk T − dim H⁰) + dim H¹_f`; the route proves only this count.
+`(rk T − dim H⁰) + dim H¹_f`; the route proves only this count. SelmerIwasawaCohomology §4.9 defines `H¹_f(K, V)` through
+`B_cris` and the condition on a lattice `T` by inverse image, and states the same dimension formula for crystalline `V`.
 
 *Needs:* 1.5, 1.6, 2.5, 3.4, 4.1
 

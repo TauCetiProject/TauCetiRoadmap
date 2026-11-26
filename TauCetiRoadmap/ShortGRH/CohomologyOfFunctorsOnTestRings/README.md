@@ -314,7 +314,13 @@ products (1.1 (g)), and a representable functor has cohomology in degree `0` onl
 (a) *Dévissage.* Let `D` be a category and `f : A → B` a morphism of contravariant cohomological δ-functors on
 `Fun(D, Ab)` (natural in the functor and compatible with the connecting maps of short exact sequences). If `f` is
 bijective in all degrees at `ℤ[⊔_i h_{c_i}]` for every family `(c_i)` of objects of `D`, then it is bijective in all
-degrees at every functor.
+degrees at every functor. [ShortProof] states the hypothesis on `f` without δ-functors, for a family of maps
+`f_{N,n} : A(N, n) → B(N, n)` indexed by the functors `N : D → Ab` and by `n ≥ 0`, through the two properties that the
+proof uses: (i) for every short exact sequence `0 → X₁ → X₂ → X₃ → 0`, the first `r` of the conditions "injective for
+`n = 0`, surjective for `n = 0`, injective for `n = 1`, …" at `X₂` and the first `r − 1` at `X₁` give the first `r` at
+`X₃`; (ii) the functors at which `f` is bijective for all `n` form a closed class (1.1 (d)). A morphism of δ-functors
+as above has both, by the four and five lemmas; in (b) the family is the Leray–Hirsch map restricted to total degree
+below `n`.
 (b) *Leray–Hirsch.* Let `φ : C → A` be a functor, `G : A → Ab`, `F : C → Ab`, and `θ_i ∈ Ext^{d_i}(G∘φ, F)` for `i` in a
 finite set `I`. For `S : A → Ab` the *Leray–Hirsch map* `⊕_{i∈I} H*(S, G) → H*(S∘φ, F)`, `(w_i) ↦ Σ_i φ*(w_i)·θ_i`
 (total Ext and Yoneda product, 2.2), is natural in `S`; `θ` is a *Leray–Hirsch basis at `S`* if it is bijective. If `θ`
@@ -618,8 +624,10 @@ inclusions and a filtered system of indices `a_j` with an upper bound `a` such t
 `New.Variety.IsCohomContinuous.isFilteredColimit_adjoin`, `New.Variety.IsCohomContinuous.isFilteredColimit_antitoneFamily`,
 `New.Variety.IsCohomContinuous.of_hasCohomDenseImage`)
 
-For étale cohomology of schemes, v-descent and arc-descent of torsion cohomology are stated in PrismaticCohomology §2.0
-and ArcTopologyAndDescent Layers 3–4; those sections do not apply to the cohomology of 1.3.
+For étale cohomology of schemes, v-descent and arc-descent of torsion cohomology are stated in PrismaticCohomology
+§2.0; ArcTopologyAndDescent Layers 3–4 state the general criteria behind them, for finitary functors on qcqs schemes
+(continuity along cofiltered limits with affine transition maps in §3.2, detection of v-descent on aic valuation rings
+in §3.10, the arc-descent criterion in §4.6). Those sections do not apply to the cohomology of 1.3.
 
 ### 3.3 The local-to-global principle and density criteria
 
@@ -1417,6 +1425,18 @@ cohomology of 6.1.
 ## What the library already provides
 
 - Ext groups in an abelian category, used for all the groups `Hⁿ(N, F)` of 1.1: Mathlib `CategoryTheory.Abelian.Ext`.
+- The Yoneda product of Ext classes and, degree by degree, the long exact sequence of a short exact sequence in the
+  first variable with its extension class (2.2 (a) is their sum over all degrees): Mathlib
+  `CategoryTheory.Abelian.Ext.comp`, `CategoryTheory.ShortComplex.ShortExact.extClass`,
+  `CategoryTheory.Abelian.Ext.contravariant_sequence_exact₁'`,
+  `CategoryTheory.Abelian.Ext.contravariant_sequence_exact₂'`,
+  `CategoryTheory.Abelian.Ext.contravariant_sequence_exact₃'`.
+- Absolutely integrally closed rings as in ArcTopologyAndDescent §0.1 (condition (i) of 1.2), with quotients,
+  localisations, products, the case of fields, and valuation subrings of algebraically closed fields:
+  `TauCeti.IsAbsolutelyIntegrallyClosed`, `TauCeti.IsAbsolutelyIntegrallyClosed.quotient`,
+  `TauCeti.IsAbsolutelyIntegrallyClosed.localization`, `TauCeti.IsAbsolutelyIntegrallyClosed.pi`,
+  `TauCeti.isAbsolutelyIntegrallyClosed_iff_isAlgClosed`, `ValuationSubring.isAbsolutelyIntegrallyClosed`. The
+  condition "of any two elements one divides the other" is Mathlib `PreValuationRing`. Test rings (1.2) are not there.
 - Derived completeness of modules by the telescope map `x ↦ (x_n − f·x_{n+1})`, with products and "adically complete
   implies derived complete" (the predicate of 3.4, for every element of an ideal): `TauCeti.IsDerivedComplete`,
   `TauCeti.IsDerivedComplete.of_isAdicComplete`, `TauCeti.IsDerivedComplete.pi`.

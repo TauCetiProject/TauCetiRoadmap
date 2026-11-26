@@ -499,7 +499,7 @@ and the tilted coefficients `S ↦ S♭ ⊗ M` as a theory along `S ↦ S[1/p]`.
 
 *Method of the formal proof:* a locally constant function on `Spec T` extends uniquely to `Spec S`, is restricted to
 `Spec(S/p)` and read as the element `x` of `S/p` with the given germs; `x^p = x` puts the constant sequence
-`(x, x, …)` in `S♭`. For (c), the maps of tests that kill an ideal `I` of `T` are those whose tilt factors, uniquely,
+`(x, x, …)` in `S♭`. For (b), the maps of tests that kill an ideal `I` of `T` are those whose tilt factors, uniquely,
 through the perfect quotient `S♭/J`, `J` the elements that die along every map making `1 − a` a unit for some `a ∈ I`;
 the acyclicity hypothesis applied to `S♭/J` gives the surjectivity of restriction.
 
@@ -615,8 +615,8 @@ it is bijective along `α` for `b ↦ K ⊗_Λ P_Λ(b)`.
 Then the natural map `K ⊗_{ℤ_p} W(LC(T)) → Ψ(S)`, `a ⊗ w ↦` the image of `a ⊗ 1 ⊗ W(LC(T) → S♭)(w)`, is bijective on
 cohomology along `α`. Here `Λ` and `K` are `ℤ_p`-algebras through `ℤ_p → A_inf → Λ → K`.
 
-*Needs:* 3.2, 5.1, 2.1, 1.2; CrystallineRepresentationsAndKisinModules §1.1 (the ideal `W(𝔪)` of `A_inf`);
-CrystallineRepresentationsAndKisinModules (`τ ∈ W(𝔪)`).
+*Needs:* 3.2, 5.1, 2.1, 1.2; CrystallineRepresentationsAndKisinModules §1.1 (the ideal `W(𝔪)` of `A_inf` and the
+element `τ`, which lies in it).
 
 [ShortProof], `Lib/PadicComparison/Primitive/PeriodCoefficients` (`New.Variety.exists_isReductionMod_wittOfMaxIdeal`,
 `New.Variety.exists_comp_eq_tau_smul_id`, `New.Variety.CoeffCompBijective.periodAlg_of_almostCoeff`),
@@ -929,6 +929,11 @@ bijective on `p`-adic completions, sends `b_{a,n}` to `u_a y_n`. Let `q ∈ A₀
 which `q` is a unit, and `γ` a `B`-algebra endomorphism of `E` with `γ(v) = (1 + q)v` and, for `a ≠ 0`,
 `γ(u_a) = (1 + η_a)u_a` with `η_a ∈ A₀` and `pη_a ∣ q`. Then `K ⊗_{A₀} B → K ⊗_{A₀} E` and `K ⊗_{A₀} γ` are
 Koszul-exact.
+
+The divided power envelope `D_(B,γ)(J)` of an ideal relative to a divided power ring, universal for divided power
+morphisms, is DerivedDeRhamCohomology §PD.6. The envelope `Env(T, J)` of (d) is another object: it is `p`-adically
+complete, carries no chosen divided power structure, and is universal only for maps to `p`-complete torsion-free
+algebras that send `J` into `𝔡`. No comparison of the two is stated or used.
 
 *Needs:* 3.1, 7.1; Mathlib `WittVector`, Mathlib `PerfectRing`.
 

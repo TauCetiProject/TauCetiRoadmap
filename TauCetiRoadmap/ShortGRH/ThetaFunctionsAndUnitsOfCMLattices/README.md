@@ -151,9 +151,16 @@ In particular `σ(z) = 0` exactly for `z ∈ Λ`.
 (d) *Addition.* `σ(u + v)σ(u − v) = (℘(v) − ℘(u))·σ(u)²σ(v)²` for `u, v ∉ Λ`.
 (e) *Duplication.* `σ(2z) = −℘′(z)·σ(z)⁴` for `z ∉ Λ`.
 
-Classically, `σ_Λ(z) = σ_W(z)·exp(−s₂z²/2)`, with `σ_W` the Weierstrass sigma function of `Λ` and `s₂ = s₂(Λ)` the
-constant for which `|σ_W(z)·exp(−s₂z²/2)|²·exp(−π|z|²/A)` is periodic (for `Λ = Λ_K`, the `s₂` of
-ThetaChainsOnDefiniteUnitaryGroups §3.1c); nothing below uses that description.
+*Relation to the sigma functions of other roadmaps.* `σ_Λ(z) = σ_W(z)·exp(−s₂z²/2)`, with `σ_W` the Weierstrass
+product of `Λ` (`latticeSigma` of ModularCurvesPartII §1.4a) and `s₂ = s₂(Λ)` the constant with
+`η(l) − s₂·l = (π/A)·l̄` for all `l ∈ Λ`, `η` the quasi-period of that section. Such an `s₂` exists by the oriented
+Legendre relation of that section (`η(ω₁)ω₂ − η(ω₂)ω₁ = 2πi = (π/A)(ω̄₁ω₂ − ω̄₂ω₁)` for a positive basis), and then
+`latticeSigma_quasiPeriod` says that `σ_W(z)·exp(−s₂z²/2)` is an odd element of `Th_1(Λ, ε)` with derivative `1` at
+`0` (the sign `(−1)^{a+b+ab}` is `ε`), so it is `σ_Λ` by (b). Hence `σ_Λ` is the *reduced theta function* `θ` of
+ThetaChainsOnDefiniteUnitaryGroups §3.1c, which that section takes for the lattice `Λ_K` of its §3.1a, with the same
+`s₂`; and for every lattice the twisted translation `T¹_y` of 1.1 is the *Fock translation* `U_y` of
+ThetaChainsOnDefiniteUnitaryGroups §3.1a on `ℂ`, `(U_yf)(z) = f(z + y)·exp(−(π/A)zȳ − (π/(2A))|y|²)`. [ShortProof]
+does not prove this comparison (it needs Legendre's relation), and nothing below uses it.
 
 *Needs:* 1.1; AbelianSchemesWithThetaStructuresAndTheirCohomology §§1.2, 1.3 (Frobenius's formula, base-point-free
 multiples); Mathlib `PeriodPair.weierstrassP_add_coe`, Mathlib `PeriodPair.analyticOnNhd_weierstrassP`, Mathlib
@@ -182,6 +189,17 @@ multiples); Mathlib `PeriodPair.weierstrassP_add_coe`, Mathlib `PeriodPair.analy
   degree `m`* form `Sect_m(C) := Th_m(Λ, χ_C)`.
 - For `e = (a, b, c) ∈ ℕ³` the *monomial* `M_e := θ^a·σ^{2b}·G^c` has *degree* `deg e := a + 2b + 3c`.
 - An isogeny from `C` to `C′` is an isogeny between their lattices.
+
+*Relation to the theta function `θ₀` of other roadmaps.* ThetaChainsOnDefiniteUnitaryGroups §3.1c (for the lattice
+`Λ_K`) and GluedTargetAndDivisionInequality §8.24d (for a lattice `Λ = δ·𝔠` in any ideal class) scale a lattice with
+complex multiplication by `𝒪_K` by `Δ(Λ) = 1`, and put `θ₀ := U_{t₀}θ/(U_{t₀}θ)(0)` for the point `t₀` of order two
+killed by neither `(1 ± √−d)/2`. A CM lattice is scaled by `℘″(t) = 2` instead, and has `Δ(Λ_C) = a₁⁴ − 64` (1.4 (c)).
+So `Λ_C = c·Λ` with `Δ(Λ) = 1` exactly when `c^{−12} = a₁⁴ − 64`; then `t = c·t₀` modulo `Λ_C` (the conditions
+`ωt, ω̄t ∉ Λ_C` single out one point of order two), `σ_{Λ_C}(cz) = c·σ_Λ(z)`, and, by the comparison of 1.2,
+`θ_C(cz) = θ₀(z)` and `(T¹_{cu}θ_C)(cz) = (U_uθ₀)(z)`. By 2.2 (d) the factor `c` is a unit at every prime. The theta
+function `θ_C` is thus the `θ₀` of those sections in another scaling of the lattice; the scaling by `℘″(t) = 2` is kept
+here because the model `y² + a₁xy = x³ + x` of 1.4 depends on it. As in 1.2, [ShortProof] does not prove this
+comparison and nothing below uses it.
 
 *Needs:* 1.1, 1.2.
 
@@ -245,7 +263,8 @@ Let `C`, `C′`, `D` be normalised pointed lattices, `A` the area of `Λ = Λ_C`
 (a) `f ∈ Sect_m(C)` if and only if `f` is entire and `T^m_lf = χ_C(l)^m·f` for all `l ∈ Λ`. `Sect_0(C)` consists of the
 constants.
 (b) If `C` is a CM lattice: for `l ∈ Λ` the number `n(l) := |l|²√d/(2A)` is an integer, `χ_C(l) = (−1)^{n(l)}`, and
-`χ_C(ωl) = χ_C(ω̄l) = 1`.
+`χ_C(ωl) = χ_C(ω̄l) = 1`. (For `Λ = u𝔞`, `n(ua) = N(a)/N(𝔞)` by 2.1 (c); for `Λ = δ_K𝒪_K` this is the semicharacter
+`(−1)^{N(·)}` that ThetaChainsOnDefiniteUnitaryGroups §3.1a, Check (i), and §3.1c name for `θ₀`.)
 (c) Let `a` be an isogeny of degree `N` from `C` to `C′`. Then `H_{C′}(au, av) = N·H_C(u, v)`, and
 `T^{nN}_u(G∘a) = (T^n_{au}G)∘a` for every function `G`, every `n` and every `u`. If `C`, `C′` are CM lattices (for the
 same `d`), then `χ_{C′}(al) = χ_C(l)^N` for `l ∈ Λ`, and `g∘a ∈ Sect_{kN}(C)` for every `g ∈ Sect_k(C′)`.
@@ -587,6 +606,14 @@ the closure of `{(ι(α), ι(αᾱ)) : α ∈ 𝒪_K}`: `y(δz) ∈ 𝒪[[y]]` a
 The library has the classical `(σ′/σ)′ = −℘` for the Weierstrass product (`PeriodPair.hasDerivAt_logDeriv_weierstrassSigma`);
 (a) is stated for the `σ` of 1.2 and as an identity of series over `ℂ_p`.
 
+The nearest existing statement to (c) is ThetaChainsOnDefiniteUnitaryGroups §3.1c (a). By the comparison of 1.2,
+`g″(0) = ℘(t) + s₂(Λ_C) = s₂ + b₂/12`, with `b₂ = a₁²` the coefficient of the model `y² + a₁xy = x³ + x`. For the
+lattice `Λ_K` scaled to discriminant `1` that section states `s₂ + b₂/12 ∈ 𝒪` at every prime `p ≠ d` other than `3`,
+and at `p = 3` when `3` splits in `K`, and `√−d·s₂ ∈ 𝒪` at `p = d`; by the comparison of 1.3 (the factor `c` is a unit,
+and `a₁²/12` is integral at `d`) this gives (c) for the CM lattices of the principal class at those primes. (c) is
+used for every CM lattice and at every prime, `3` included when `3` is inert in `K`, so it is a target here, with the
+proof above, which does not pass through the Weierstrass product.
+
 *Needs:* 1.4, 3.2, 3.4; Mathlib `PowerSeries.exp`, Mathlib `PowerSeries.log`, Mathlib `PowerSeries.subst`, Mathlib
 `PowerSeries.logOf` (`exp`, `log(1 + X)`, substitution, `log f`); Tau Ceti `PowerSeries.subst_exp_logOf`, Tau Ceti
 `PowerSeries.logOf_subst_exp`, Tau Ceti `PowerSeries.logOf_mul`, Tau Ceti `PowerSeries.logDeriv_mul` (rules for `exp`
@@ -816,7 +843,11 @@ are obtained from those of `x_C`, `y_C` by applying `σ` to the coefficients.
 `M_e(C′)` is `Q^{deg e}·σ(M_e(C))`.
 From here on `σ` fixes `K`, and `C`, `D` are CM lattices for `d`.
 (c) Every lattice `L` with `g₂(L) = σ(g₂(Λ_C))` and `g₃(L) = σ(g₃(Λ_C))` is the lattice of a CM lattice `C′` with
-`a₁(C′) = σ(a₁(C))`; in particular such `C′` exist. For each `σ`, fix one and call it `C^σ`.
+`a₁(C′) = σ(a₁(C))`; in particular such `C′` exist. For each `σ`, fix one and call it `C^σ`. (This is the conjugate
+lattice `Λ^ρ` of GluedTargetAndDivisionInequality §8.24e, "the lattice with invariants `ρ(g₂(Λ))`, `ρ(g₃(Λ))`", with
+its point `t_ρ`, in the scaling of 1.3: if `Λ_C = c·Λ` with `Δ(Λ) = 1` as in 1.3, then
+`Λ^σ = σ(c)^{−1}·Λ_{C^σ}` and one may take `t_σ = σ(c)^{−1}·t_{C^σ}`, because `g₂(Λ) = c⁴g₂(Λ_C)` and
+`g₃(Λ) = c⁶g₃(Λ_C)`.)
 (d) If `a` is an isogeny of degree `N` from `C` to `D`, and `C′`, `D′` are normalised pointed lattices with
 `a₁(C′) = σ(a₁(C))`, `a₁(D′) = σ(a₁(D))`, then `σ(a)Λ_{C′} ⊂ Λ_{D′}`; and if `σ(a)t_{C′} ∈ Λ_{D′}`, then `at_C ∈ Λ_D`.
 (e) If `a₁(D) = σ(a₁(C))`, then the Taylor series of `θ_D` is `σ` applied to that of `θ_C`; so `Q = 1`, and the Taylor
@@ -890,8 +921,12 @@ Let `d` be a prime `≡ 7 (mod 8)`, `w = 2` the number of units of `𝒪_K`, and
 `Σ_{𝒞} (2γ − log(A_𝒞·√d/(2π²)) − (1/6)·log|Δ(Λ_𝒞)|) = h·(γ + (L′/L)(1, χ_K))`.
 
 The formal proof proves (a) and (b) for lattices `Λ_𝒞` of CM lattices; the general case follows because both sides
-depend only on the homothety class. The statement is also the case `D = d` of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties
-§8.5 (a), whose route goes through the Faltings height of a CM elliptic curve.
+depend only on the homothety class. (b) is the case `D = d` of
+ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5 (a): the summand `log(A_𝒞/π) + (1/6)·log|Δ(Λ_𝒞)|` is
+the logarithmic period `Per(Λ_𝒞)` of that section and the right side is its `log Ω_K`. That section states it for
+every imaginary quadratic field of discriminant `−D`, `D > 4`, and its route goes through the Faltings height of a CM
+elliptic curve; the route here is through (a) and Kronecker's formula 5.1, and (a) is not stated there. It is kept as
+a target with this route so that the family does not depend on the heights of that section.
 
 *Needs:* 1.4 (c), 2.1, 5.1; Tau Ceti `TauCeti.NumberField.dedekindZeta_eq_riemannZeta_mul_LFunction`
 (`ζ_K = ζ·L(s, χ_K)`); Tau Ceti `TauCeti.LFunctions.sum_LSeries_rayClassCoeff_one` (class Dirichlet series sum to
@@ -916,6 +951,11 @@ times the ideal multiply lattices into lattices (3.4 (d)). Let `u` be a `12h`-th
 Let `d` be a prime `≡ 7 (mod 8)` and `C` a CM lattice. There is `u ∈ ℂ` such that `|ι(u)| = 1` for every prime `p` and
 every ring homomorphism `ι : ℂ → ℂ_p`, and such that for every automorphism `σ` of `ℂ` over `K`
 `area(ℂ/Λ_{C^σ})·|σ(u)|² = π·exp(γ − (L′/L)(1, χ_K))·2π/√d`, with `C^σ` of 5.2 (c).
+
+The right side is `π·Ω_K` in the notation of ArithmeticVolumesAndIntegralFormsOnUnitaryShimuraVarieties §8.5. That
+section's (c) is the mean form for a lattice `Λ₀` with `Δ(Λ₀) = 1`: the mean over the embeddings of
+`log(area(ℂ/Λ₀^s)/π)` is `log Ω_K`. The statement here is finer: one number `u`, a unit at every prime, gives the
+area of each conjugate lattice separately.
 
 *Needs:* 1.4 (c), 2.1, 2.2, 3.4, 5.2, 5.4.
 

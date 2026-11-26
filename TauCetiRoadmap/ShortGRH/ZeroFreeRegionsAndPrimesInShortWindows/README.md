@@ -61,7 +61,7 @@ the modulus `q₀` of its parameters, and OneSidedPrimeSumBoundsAndAdmissibleDat
 | `q, χ, χ₀, χ̄, j` | a modulus; a Dirichlet character modulo `q`, primitive or not; the principal character; the conjugate character; the parity | Conventions |
 | `L(s, χ), Γ_ℝ` | the continued L-function; `π^{−s/2}Γ(s/2)` | Conventions |
 | `τ(χ)` | the Gauss sum `Σ_{b mod q} χ(b)e^{2πib/q}` | Conventions |
-| `Λ, μ, φ` | the von Mangoldt, Möbius and Euler functions | — |
+| `Λ, μ, φ` | the von Mangoldt, Möbius and Euler functions | standard |
 | `E_χ` | `L(s, χ)`, or the entire continuation of `(s − 1)L(s, χ)` when `χ` is principal | 1.1 |
 | `f_χ` | `E_χ(s)`, or `E_χ(s)/s` when `χ` is principal; holomorphic on `Re s > 0` | 1.1 |
 | `δ_χ` | `1` if `χ` is principal, `0` otherwise | 1.1 |
@@ -131,8 +131,11 @@ and `L(1 − s, χ̄)` is `L(1 − s, ψ̄)` times Euler factors.
 Let `χ` be a Dirichlet character modulo `q ≥ 1`, primitive or not, of parity `j`, and let `s ∈ ℂ` with `Re s ≠ 0` and
 `s ≠ 1`. If `L(s, χ) = 0`, then `s + j ∈ {0, −2, −4, …}` (a pole of the gamma factor `Γ_ℝ(s + j)`) or `L(1 − s, χ̄) = 0`.
 
-RiemannHypothesisStatementsAndConsequences §9.4 (clauses *Reflection* and *Strip forms*) gives the part with
-`0 < Re s < 1`; the part with `Re s < 0` is used at the negative integers.
+RiemannHypothesisStatementsAndConsequences §9.4 has the part with `0 < Re s < 1`: its clause *Reflection* is the
+statement for primitive `χ`, with multiplicities, and its clause *Strip forms* records that an imprimitive character
+has the zeros of its primitive character in the open strip, from which the statement for every `χ` there follows as in
+the method above. It has nothing for `Re s < 0`, and that part is the one used at the negative integers
+(IdelicReciprocityCountsAndCyclotomicClassGroups §10.2); so the statement stays a target here.
 
 *Needs:* Mathlib `DirichletCharacter.primitiveCharacter`, `DirichletCharacter.LFunction_changeLevel`,
 `DirichletCharacter.IsPrimitive.completedLFunction_one_sub`, `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`.
@@ -465,8 +468,14 @@ zero `s` with `Re s ≥ β` and `|Im s| ≤ H`.
   that is not bad for `(β, H)`: no `L(s, ξ·(·/d))`, `ξ` modulo `q`, vanishes at a point with `Re s ≥ β` and
   `|Im s| ≤ H`. These twists are not principal (1.1 (d)), so `E_{ξ·(·/d)} = L(·, ξ·(·/d))`.
 
-QuadraticTwistSelectionOverPrimes §2.7c selects primes whose twists have a zero-free box `Re s > 1 − δ₀` with
-`δ₀ < 1/12`; it does not give (b) for `β` near `1/2`.
+No existing section gives (b) for `β` near `1/2`, which is the range OneSidedPrimeSumBoundsAndAdmissibleData §0.2 uses
+(every `β > 1/2`). AnalyticNumberTheoryPartI §1.7 bounds the number of zeros with `Re ρ ≥ σ`, `|Im ρ| ≤ T` of all
+primitive characters of conductor at most `Q` by `C_ε(Q^{5+ε}T^{3+ε})^{1−σ}`, for `1/2 ≤ σ ≤ 1`. Applied to the primitive
+characters `ψ·(·/d)` of the method above, of conductor at most `qX`, it bounds the number of bad primes `d ≤ X` by
+`O(X^{(5+ε)(1−β)})`; this is `O(X^{1−η})` for some `η > 0`, as the argument for (b) needs, exactly when `β > 4/5`. So
+this count gives (b) for `β > 4/5` only. QuadraticTwistSelectionOverPrimes §2.7c selects primes whose twists have a
+zero-free box `Re s > 1 − δ₀` with `δ₀ < 1/12`, under hypotheses on the scales `Y`, `U`, `F`; it does not give (b) for
+`β ≤ 11/12` either.
 
 *Needs:* 1.1, 3.3, 3.4; ClassicalArithmeticCompletion §§1.5–1.6 (primitive Legendre characters, coprime products);
 Mathlib `jacobiSym.quadratic_reciprocity`, `DirichletCharacter.LFunction_changeLevel`,
@@ -535,7 +544,7 @@ steps `New.legendreSym_eq_jacobiSym_ordCompl`, `New.isPrimitive_quadTwist`, `New
 - [ShortProof] The shorter Lean formalization of the Riemann hypothesis and of the Riemann hypothesis for Dirichlet
   L-functions, by the same method as the formal proof that the family RiemannHypothesisForDirichletLFunctions states;
   paths are relative to its directory `src/`.
-- H. Davenport, *Multiplicative Number Theory*, 3rd ed. rev. H. L. Montgomery, GTM 74 (2000) — chapters 5, 9 and 14:
+- H. Davenport, *Multiplicative Number Theory*, 3rd ed. rev. H. L. Montgomery, GTM 74 (2000), chapters 5, 9 and 14:
   primitive characters and the functional equation (1.2).
 - Matti Jutila, *On Linnik's constant*, Math. Scand. 41 (1977), 45–62: Theorem 1, the log-free zero-density estimate
   cited in AnalyticNumberTheoryPartI §1.7 (3.5).

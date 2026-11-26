@@ -877,8 +877,9 @@ Let `F` be a valued field with compact ring of integers, `σ` an endomorphism of
 (integral matrices upper unitriangular modulo the maximal ideal).
 (a) If some integer `c` of `F` has `Σ_{i<p} σ^i(c) = 1` and `s ∈ I₁` has `N_σ(s) = 1`, then `s·σ(t) = t` for some `t ∈ I₁`.
 (b) Let `σ` be continuous, `p > 0`, and `ι : F′ → F` a map whose image contains the `σ`-fixed points, along which the
-valuation restricts to one equivalent to that of `F′`, and such that every `x` with `|ι(x) − 1| < 1` is `Π_{i<p} σ^i(y)` for a
-unit `y` with `|y − 1| < 1`. Let `t` over `F` and `s` over `F′` be diagonal with `|t_i|` and `|s_i|` strictly increasing in `i` and
+valuation restricts to one equivalent to that of `F′`, and such that every `x` with `|ι(x) − 1| < 1` has
+`ι(x) = Π_{i<p} σ^i(y)` for a unit `y` with `|y − 1| < 1`. Let `t` over `F` and `s` over `F′` be diagonal with `|t_i|`
+and `|s_i|` strictly increasing in `i` and
 `ι(s) = N_σ(t)`. For every characteristic polynomial `P` of `ι(x)` with `x ∈ I′₁sI′₁`, or of `N_σ(δ)` with `δ ∈ I₁tI₁`, there
 is `z ∈ F[X]` with `N_σ(z) ≡ X mod P` such that, for `γ` of characteristic polynomial `P` and `a = z(γ)`: if `γ = ι(x)` is
 `N_σ(a)`, then `x ∈ I′₁sI′₁` exactly when `a ∈ I₁tI₁`; and every `δ ∈ I₁tI₁` with `N_σ(δ) = γ` lies in `aI₁`.
@@ -907,7 +908,7 @@ nonzero trace that 5.9 asks for, and the base change lies in the image of the li
 
 Let `E′/E` be a step with character `μ`, `E′` stably unramified, `w` split with `μ` trivial on `E_w^×`, and `u` the only
 place of `E′` above `w`, split, with `[k_u : k_w] = [E′ : E]`.
-(a) If `S` is a class function on `GL_n(k_u) ⋊ Gal(k_u/k_w)` that descends to a function `Ξ` on `GL_n(k_w)` (`S(a, φ) = Ξ(b)`
+(a) If `S` is a class function on `GL_n(k_u) ⋊ Gal(k_u/k_w)` that descends to a class function `Ξ` on `GL_n(k_w)` (`S(a, φ) = Ξ(b)`
 whenever `φ ≠ 1` and `(a, φ)^{ord φ}` is `b` read in `GL_n(k_u)`), then for some `φ` the inflations to `GL_n(𝒪_w)` and
 `GL_n(𝒪_u)` (extended by `0`) of `conj(Ξ)` and of `conj(S(·, φ))`, at the level of the first congruence subgroups, are
 matching local data above `{w}`.
@@ -917,8 +918,12 @@ label `Ξ` at `w`, then some eigenform `f′` of weight `κ_{E′}` over `E′` 
 at `u`.
 
 `RiemannHypothesisForDirichletLFunctions/BaseChangeAndGaloisRepresentationsForUnitaryGroups §10.33c` is the local
-matching of inflated class functions for `GL_n`, and its §10.33d the labels under unramified base change of prime degree
-for cuspidal representations of `GL_n`.
+matching for `GL_n` over an unramified extension of local fields of the inflation of a class function with the inflation
+of its Shintani lift, as an equality of twisted orbital integrals and orbital integrals at regular semisimple norms. Its
+§10.33d gives the label of the base change, along an unramified extension of prime degree, of an irreducible depth-zero
+representation of `GL_n` of a local field, and in its global form (b) the label at an inert unramified place of the
+cuspidal base change of a unitary cuspidal representation of `GL_n` over a number field. Here matching is the pointwise
+matching of 5.1 on the definite unitary groups, and the label is that of 1.1 on a form.
 
 *Needs:* 1.1, 5.1, 5.9; 5.4 (c); IntegralRepresentationsOfGeneralLinearGroups §§4.1, 5.1 (class functions; semidirect
 product, descent, lifts).
@@ -1042,7 +1047,8 @@ some `N_T`, then some representation of `G_E` is attached to `P`.
 
 `RiemannHypothesisForDirichletLFunctions/BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1` states the Galois
 representations of automorphic representations of definite unitary groups through weak base change to `GL_n`, with
-exact characteristic polynomials at the split places where the representation is unramified.
+exact characteristic polynomials at every place away from `ℓ` at which the base change is unramified; 7.3 says how the
+statements here are related to it.
 
 *Needs:* 1.4, 1.5, 1.6, 2.1, 5.1, 5.9, 6.1, 6.3; 1.2.
 
@@ -1124,8 +1130,44 @@ attached to `P` is, at every place `A` over `w`, unramified (crystalline if `A` 
 and, if `w` is split with Hecke polynomial `Q`, `ι(Q)` kills every geometric Frobenius at `A`.
 
 `RiemannHypothesisForDirichletLFunctions/BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1` is the form through
-weak base change to `GL_n`, with exact characteristic polynomials at split unramified places away from `ℓ` and
-crystallinity where the representation is unramified at every place above `ℓ`.
+weak base change to `GL_n`: for an automorphic representation `Π` of a definite unitary group with algebraic archimedean
+component, over a CM field with `[E⁺:ℚ] ≥ 2`, it gives a continuous semisimple `r_{ℓ,ι}(Π)`, unramified with the exact
+characteristic polynomial `P_w(BC(Π)_w; X)` of Frobenius at every `w ∤ ℓ` at which `BC(Π)_w` is unramified, split or not,
+de Rham with labelled weights `{i − 1 − λ_{τ,i}}` at every `w ∣ ℓ`, and crystalline at each `w ∣ ℓ` at which `BC(Π)_w` is
+unramified. (Its `ι` is an isomorphism `ℚ̄_ℓ ≅ ℂ`, the inverse of the `ι` of this roadmap.) Here `[E⁺:ℚ] ≥ 2` holds, since
+`E` contains `ℚ(ζ_5040)`. The route does not use §16.1, and the statement above is the target; it is nevertheless a
+consequence of §16.1, as follows, up to the two comparisons named in (iv).
+
+(i) *From `f` to `Π`.* By `AutomorphicFormsOnReductiveGroups §7.5` (automorphic realisation of the forms with
+`F(γg) = ρ(γ)F(g)`; `π_∞ ≅ V_ℂ^∨` for irreducible coefficients), an eigenform `f` has a nonzero component in an automorphic
+representation `Π` of the unitary group, and the projection commutes with right translation, so `Π` has a vector fixed by
+`K_w` wherever `f` is spherical at `w`, with the eigenvalues of `f` under the `T_{w,j}` at split such `w`. The coefficient
+representation `ρ_κ` lets a component act through its entrywise conjugate (AdelicUnitaryGroupsAndAlgebraicModularForms
+§6.1), so it is the dual of the representation of highest weight `λ_v` read through `Φ_v`, and `Π_v` has highest weight
+`λ_v` at `τ = Φ_v` and `−w₀λ_v` at the other embedding over `v`.
+(ii) *Existence.* `BC(Π)_w` is unramified wherever `Π` is, and at a split `w` it is the component of `Π` read on `GL_n(E_w)`
+(§16.1, with the local matching at unramified and split finite places of
+`EndoscopicTransferAndUnitaryTraceComparison §6.29`). At a split `w ∤ ℓ` where `f` has Hecke polynomial `Q`, the Satake
+parameters `α_i` of `Π_w` have `q_w^{j(n−j)/2}e_j(α)` as eigenvalue of `T_{w,j}`, so
+`P_w(BC(Π)_w; X) = Π_i (X − q_w^{(n−1)/2}α_i) = H_{q_w,n}(t) = Q`. Hence the characteristic polynomial of `r_{ℓ,ι}(Π)` at
+every geometric Frobenius over `w` is `ι(P_w)`, for all but finitely many `w` of prime norm, and `r_{ℓ,ι}(Π)` is attached
+to `P` in the sense of 1.5, with `O = V` in 1.2 and equality in place of the bound by `η`.
+(iii) *Every attached representation.* Two representations attached to `P` have the same traces (1.6 (b)), so they are
+conjugate (2.1 (b)), and the local conditions of 1.3 are unchanged by conjugation. So it is enough to treat
+`r_{ℓ,ι}(Π)`.
+(iv) *Local conditions at a place where `f` is spherical.* For `w ∤ ℓ`: `r_{ℓ,ι}(Π)` is unramified over `w` by §16.1, and
+at a split `w` the polynomial `ι(Q)` is the characteristic polynomial of geometric Frobenius, so it kills it. For `w ∣ ℓ`:
+§16.1 gives a crystalline representation with labelled weights `{i − 1 − λ_{v,i}}` at `Φ_v` and, since
+`λ_{τ∘c} = −w₀λ_τ`, `{λ_{v,i} + n − i}` at the other embedding, which are the jumps `J_κ` in rank `n`. Reading this in the
+terms of 1.3 needs the agreement of "crystalline" and of the Hodge–Tate jumps of
+CrystallineRepresentationsAndKisinModules §3.1, defined through `B_max`, with the notions of PadicHodgeTheory §§3.3–3.5;
+that agreement is a published theorem which no roadmap states. The signs agree as they stand: in §16.1 and in 3.1 of
+that roadmap the cyclotomic character has weight, respectively jump, `−1` (in PadicHodgeTheory it has weight `+1`, so
+a jump `u` is a weight `−u` there). The last clause at a split `w ∣ ℓ` (that `ι(Q)` kills the
+linearised Frobenius on the periods) is not in §16.1: it follows from §15.1 of that roadmap applied to each block
+`π_i ⊗ |det|^{s_{ij}}`, whose parameter at `w` is a sum of unramified characters with `N = 0`, which gives
+`WD(D_pst)^{F-ss} ≅ ι⁻¹rec^T` on all of `W_{E_w}`; reading it in the terms of 1.3 needs the comparison of the linearised
+Frobenius of CrystallineRepresentationsAndKisinModules §3.1 with the Frobenius of `WD(D_pst)`, again stated in no roadmap.
 
 *Needs:* 6.4, 7.1, 7.2; 1.6; IdelicReciprocityCountsAndCyclotomicClassGroups §§8.5, 9.1 (unramified `θ_{k,j}(μ)`;
 `ℓ`-adic avatars).
@@ -1211,8 +1253,11 @@ be attached to `P`, `A` a place over `w`, `s ∈ D_A` with `s⁻¹` acting on th
 `x ∈ E_w^×` of valuation `k` whose local Artin symbol at `A` is `s`. Then
 (a) `r` is of finite type at `A`, (b) `r` has the jumps `J_κ` at `A`, and (c) `Π_i (X − ι(ξ_i(x)))` kills `s` at `A`.
 
-`RiemannHypothesisForDirichletLFunctions/BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.2` and its §15.1 are the
-comparisons for cuspidal representations of `GL_n` away from `ℓ` and at `ℓ`.
+For regular algebraic polarized cuspidal representations of `GL_n` over a CM field,
+`RiemannHypothesisForDirichletLFunctions/BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.1` is the comparison of
+Weil–Deligne representations at every `w ∤ ℓ`, monodromy included, its §14.2 the form on inertia at a place `w ∤ ℓ` of
+depth zero up to twist with pairwise unlinked supercuspidal support, and its §15.1 the comparison at `w ∣ ℓ` for
+parameters with `N = 0` whose irreducible constituents are induced from characters of unramified extensions.
 
 *Needs:* 1.3, 1.5, 5.10, 6.4, 7.3; IdelicReciprocityCountsAndCyclotomicClassGroups §2.1 (local Artin map at a place);
 IntegralRepresentationsOfGeneralLinearGroups §§6.1, 6.5, 6.6, 6.7 (exponents, Satake, sorting, spherical vectors).
@@ -1237,7 +1282,8 @@ arithmetic Frobenius) and `τ ∈ I_A`, and `y ≠ 0` in `x` fixed by the pro-`p
 vanishing at all `ι(d_i)`, and there are characters `θ_i` of `E_w^×`, with an exponent of the torus character of `(θ_i)` not
 zero on `y`, such that `Π_i (X − ι(θ_i(ϖ)d_i^b))` kills `F·T^b` for every `b ≥ 0`.
 (b) If the stabiliser in `GL_n(𝒪_w)` of the first coordinate line modulo `w` acts on `y` by `χ` of the top left entry, with
-`χ(u) ≠ 0` and `χ(u)^{n!} ≠ 1`, and `U` is the Hecke operator of `diag(ϖ, 1, …, 1)`, then
+`χ(u) ≠ 0` and `χ(u)^{n!} ≠ 1`, and `U` is the Hecke operator of the pro-`p` Iwahori double coset of
+`diag(ϖ, 1, …, 1)`, then
 `tr((T − 1)M)·G(U)y = tr(G(F)(T − 1)M)·y` (through `ι`) for every complex polynomial `G` and every matrix `M`.
 
 *Needs:* 7.4, 8.2; IntegralRepresentationsOfGeneralLinearGroups §§6.1, 6.7 (parahoric subgroups, exponents, eigenspaces).
@@ -1268,7 +1314,9 @@ Let `E` be a CM field with Weil data, `f` a form of weight `κ` on `U(n)` (`n �
 kills `s` at `A`.
 
 `RiemannHypothesisForDirichletLFunctions/BaseChangeAndGaloisRepresentationsForUnitaryGroups §14.2` is the depth-zero
-comparison away from `ℓ` for cuspidal representations of `GL_n`, with the isomorphism class on inertia.
+comparison away from `ℓ` for regular algebraic polarized cuspidal representations of `GL_n` over a CM field, at a place
+of depth zero up to twist where the supercuspidal support is pairwise unlinked, with `N = 0` and the isomorphism class
+on inertia; the case above `ℓ` is its §15.1.
 
 *Needs:* 5.11, 8.1, 8.2; 5.1; IdelicReciprocityCountsAndCyclotomicClassGroups §§1.4, 2.1 (tame inertia; local Artin map);
 IntegralRepresentationsOfGeneralLinearGroups §§4.4, 5.3, 5.4 (names of characters, labels, Shintani lifts).
@@ -1310,6 +1358,14 @@ the integral forms with `Σ_{g∈Δ} g⁻¹Ψg = c`.
 The library has the converse direction of Higman's criterion (identity a norm and `V` projective over `k` gives `V`
 projective over `k[G]`), `Rep.projective_of_id_mem_range_norm_linHom`, which is how such an operator is consumed when `c` is
 invertible.
+
+`PotentialAutomorphyInfrastructurePartII §§3.2, 3.3` have the forms with values in a lattice over the integers of a
+finite extension of `ℚ_ℓ`, on a definite unitary group with the places above `ℓ` split, and the Hecke algebra generated
+by the operators `T_w^j` on them; its §3.4 gives freeness over the group ring of an abelian `ℓ`-group when no stabiliser
+has an element of order `ℓ`, and its §4.1 Taylor–Wiles data for a residual representation with a chosen eigenspace of
+Frobenius. The objects here are different: the forms are complex with an integrality condition through `ι`, the Hecke
+algebra consists of the functions on eigensystems whose action keeps the integral forms, the places carry no residual
+condition, and (b) holds with no hypothesis on the stabilisers.
 
 *Needs:* 1.2, 7.4, 8.1; AdelicUnitaryGroupsAndAlgebraicModularForms §§1.4, 3.9 (class sums, stabilisers; congruence
 levels); IntegralRepresentationsOfGeneralLinearGroups §6.1 (pro-`p` Iwahori operators `U_t`).

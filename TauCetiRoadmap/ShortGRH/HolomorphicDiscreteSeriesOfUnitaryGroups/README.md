@@ -145,7 +145,7 @@ is below the Gram fibre at `E`* if the image of `m` under `g ↦ gE` is below th
 
 [ShortProof], `Lib/DiscreteSeries/Haar/CayleyChart` (`New.cayleyChart`, `New.volU`, `New.haarU`),
 `Lib/DiscreteSeries/FlenstedJensen/Defs` (`New.maxCompactU`, `New.haarK`, `New.unitaryLie`),
-`Lib/DiscreteSeries/Haar/GramFibre` (`New.LeGramFibre`)
+`Lib/DiscreteSeries/Haar/GramFibre` (`New.LeGramFibre`), `Lib/General/Measure/FibreMeasure` (`New.LeFibreMeasure`)
 
 ### 1.2 The compact-dual measure is a Haar measure
 
@@ -1202,8 +1202,8 @@ square-integrable; the same holds for `e_λ`;
 
 The decay of (a) is used with exponents up to the gap itself. DiscreteSeriesCoefficientsAndAutomorphicMetrics
 §2.4a (c), (d) bound the same coefficient through `exp(−(h/8)·min(d(g)², d(g)/√(2q₀)))`, with `q₀ = min(p, q)` and
-`d(k·exp X) = ‖X‖_HS`. This gives only the exponent `h/(8√q₀)` in `‖g‖`, and only for `h ≥ 120·n·q₀^{3/2}`. So
-that section does not imply (a).
+`d(k·exp X) = ‖X‖_HS`. This gives only the exponent `h/(8√q₀)` in `‖g‖`, and only for `h ≥ 120·n·q₀^{3/2}` or, for
+the coefficient of one vector, `h > max(8nq₀, npq + 1)`. So that section does not imply (a).
 
 *Needs:* 1.5, 4.1, 4.2, 4.5, 5.2, 5.3.
 

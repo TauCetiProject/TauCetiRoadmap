@@ -152,7 +152,9 @@ Let `n ≥ 1`, `L = Ô^n` with the form `⟨x, z⟩ = x*z`, and `G_f`, `K₀` as
 (a) *Neighbour vectors.* A vector `x ∈ 𝔸_f^n` is a neighbour vector at the finite place `w` if its components
 at all places other than `w` vanish, `ϖ_w x_w ∈ O_w^n`, `x_w ∉ O_w^n`, and `x*x ∈ Ô`. Its *neighbour* is
 `L(x) = L₀(x) + Ôx` with `L₀(x) = {z ∈ L : x*z ∈ Ô}`, and its *line* is the line of the reduction of `ϖ_w x_w`
-in `k_w^n`. An element `ρ ∈ G_f` *maps the neighbour of `x` into `L`* if `ρL₀(x) ⊆ L` and `ρx ∈ L`.
+in `k_w^n`. An element `ρ ∈ G_f` *maps the neighbour of `x` into `L`* if `ρL₀(x) ⊆ L` and `ρx ∈ L`. The lattice
+`L(x)` is the neighbour `{y ∈ L : h(x, y) ∈ O_E} + O_E x` of `HermitianFormsAndLattices §5.4` (the metric form), read
+over the integral finite adeles for `x` supported at one place; no second notion of neighbour is introduced.
 
 (b) *Residues and steps.* `R_w ⊆ k_w` is the set of reductions of `ϖ_w s_w` for the finite adeles `s` supported
 at `w` with `ϖ_w s_w ∈ O_w` and `s + s̄ ∈ Ô`. The *steps* at `w` are the pairs `(ℓ, r)` with `ℓ` a line in

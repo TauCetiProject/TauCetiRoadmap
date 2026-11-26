@@ -327,7 +327,9 @@ whose common kernel is `E`; the same holds for `a ∈ M_{n×m}(E) ↦ (x ↦ ψ(
 (c) For CM `E`, `ψ(½(x + x̄)) = ψ(x)` for `x ∈ 𝔸`, and `ψ_f(½(x + x̄)) = ψ_f(x)` for `x ∈ 𝔸_f`.
 
 AnalyticNumberTheoryPartII §5.3h, a general theorem on Schwartz–Bruhat functions and Poisson summation over every
-number field, also implies (a) and (b).
+number field, also implies (a) and (b). The standard character of AnalyticNumberTheoryPartII §5.3g is `x ↦ ψ(−x)` for
+the `ψ` of 2.1 (it is `e(2 Re z)` at a complex place and `e(−Tr_{E/ℚ} a)` at `a ∈ E` in the finite adeles), and its
+self-dual measure on `𝔸` is the measure of 2.1; (a) and (b) are the same statements for `ψ` and for `ψ(−·)`.
 
 *Needs:* 2.1; Tau Ceti `TauCeti.GlobalNumberFields.discreteTopology_principalSubgroup`,
 `TauCeti.GlobalNumberFields.compactSpace_quotient_principalSubgroup`.
@@ -360,6 +362,13 @@ places and at the finite places outside `S`.
 (b) Let `F : 𝔸 → ℝ` be integrable with `F ≥ 0`, `T ⊂ E` finite with `F` lower semicontinuous at every point of `T`,
 and `S ≥ 0` such that `∑_{ξ∈Y} |∫_𝔸 ψ(−ξx)F(x) dx| ≤ S` for every finite `Y ⊂ E` (Haar measure of 2.1). Then
 `∑_{t∈T} F(t) ≤ S`.
+
+AdelicAlgebraicGroups §4.2 (strong approximation for unipotent groups: rational points are dense away from every
+nonempty set of places, which need not be finite nor contain the infinite places) states the first sentence of (a),
+for the additive group over every number field, once `𝔸` is identified with the adele ring of `E` (2.1); the second
+sentence follows from it for the vector group `M_{n×m}`, because `M_{n×m}(𝔸_S)` is stable under `GL_n(𝔸)`. The
+equality of Poisson summation for Schwartz–Bruhat functions is AnalyticNumberTheoryPartII §5.3h; (b) is an inequality
+for functions that need not be of that class.
 
 *Needs:* 1.1, 2.1, 2.2.
 
@@ -729,6 +738,10 @@ for every embedding `φ : E → ℂ` and all `i, j`.
 (d) (effective approximation) For `0 ≠ d ∈ 𝓞_E` in `𝔇` and every adele `(z, y) ∈ ℂ^Φ × 𝔸_f` there is `a ∈ E` with
 `y − a ∈ Ô` and `|z_w − Φ_w(a)| ≤ (2f)²·|Φ_w(d)|` at every infinite place `w`.
 
+HermitianFormsAndLattices §4.12 (a), applied to the lattice `E^n ∩ gÔ^n` of the standard form (self-dual, so `q = 1`),
+also implies (c), with `√f·n·rd_E` in place of `6N(fn)²`: `rd_E ≤ N` because `N ∈ 𝔇`. It does not give (a) or (b) for
+spaces that are not definite.
+
 *Needs:* 2.2, 3.1; GeometryOfNumbersAndQuadraticArithmetic §4.4 (item 4.4.14, covering-radius transference).
 
 [ShortProof], `Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.firstMinimum`, `New.Space.height`,
@@ -794,6 +807,12 @@ suppose `f(g) = ∫_{G_∞} F(z, g) dz` is right invariant under a level `K`. Th
 `I_{Γ_{V,f},K}(y) = [K₀ : K]·∫_{Γ_V\G} y(g_f) dg`.
 
 The *mass* of the standard space is `mass(n) = S_{Γ_{I_n,f},K₀}(1) = ∑_{Γ g K₀} 1/#(Γ_{I_n,f} ∩ gK₀g⁻¹)`.
+
+DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a states the integration formula of (d), for `F` right invariant
+under `K` and the quotient measure on `G(F)\G(𝔸)`, and the mass with the relation `mass J′ = [J : J′]·mass J`, for
+the connected reductive groups of AutomorphicFormsOnReductiveGroups §7.4 (compact at infinity modulo `A_∞`); with
+`vol(G_∞K) = [K₀ : K]⁻¹` it gives (d) for such `F` once the group and the quotient integral of 1.1 are identified with
+`U(V)(𝔸)` and its quotient measure.
 
 *Needs:* 1.1, 1.4, 1.5, 3.1, 3.2, 4.2, 4.3.
 
@@ -979,6 +998,15 @@ Let `E` be a CM field and `V` a space with an adelic frame of signs `(1, …, 1)
   off `S` for some Hecke polynomials, as in GaloisRepresentationsOfUnitaryEigenforms §1.1: nonzero, fixed by the
   elements of `K₀` trivial at `S`, and at every split place `w` with `w, w̄ ∉ S` fixed by `ι_w(GL_n(𝒪_w))` and an
   eigenvector of every `T_{w,j}`.
+
+At a fixed level these are the forms of Gross's rational model of AutomorphicFormsOnReductiveGroups §7.4
+(`F(γg) = ρ(γ)F(g)`, `F(gu) = F(g)`) for the unitary group of `(E^n, h_J)` over `E⁺`, its finite adelic points read in
+`G_f` through the frame, with complex coefficients and the coefficient representation `γ ↦ ρ((x⁻¹γx)_∞)` of
+`U(J)(E⁺)`; a form above is a function of that model for some open subgroup of `G_f` as the group of the `u`. This
+coefficient representation is, at each `τ`, the algebraic representation of highest weight `μ_τ` read through the
+conjugate embedding `x ↦ Φ_τ(x̄)`; on `U(J)` it is isomorphic to the contragredient of the one read through `Φ_τ`. So
+in the automorphic realisation of AutomorphicFormsOnReductiveGroups §7.5, where the component at infinity is the dual
+of the (irreducible) coefficient representation, the component at `τ` has highest weight `μ_τ` read through `Φ_τ`.
 
 [ShortProof], `Lib/Adelic/AutomorphicForms/SmoothAlgebraicForms.lean` (`New.SmoothForm`, `New.Space.weightRep`,
 `New.AlgForm`, `New.algFormRep`, `New.algFormCoeff`, `New.ofAlgForm`, `New.IsHCParam`, `New.hcParameter`);

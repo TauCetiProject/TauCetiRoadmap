@@ -1447,7 +1447,8 @@ signature `−t` with frame `x_{V′} = (1, cα/ᾱ)*·x_V`; let `D` be the flip
   Fourier transform of `D_𝔪` for the character `ψ_𝔪(−c̄·)`, `φ_𝔪` is a fixed scalar element of `G_{f,m}`, and `P^♭` is
   `P` with `X_{τ,i,j} ↦ −s_it_jX_{τ,j,i}`. Likewise there is `C′` with `|C′|²·#R_𝔪^{|n||m|} = 1` and
   `conj θ^{S,T}_{a,b}[D_𝔪, P](g, h) = C′·θ^{T,S}_{b,a}[F, P̄^♭](h, g·φ_𝔪)`, `F` the Fourier transform of `conj D_𝔪` for
-  `ψ_𝔪`. For lines: let `L`, `L′` be the standard lines of signs `−ε` and `ε` (`ε = ±1`; the rank-one spaces of
+  `ψ_𝔪`; in this second identity `D_𝔪` is a function on `M_{m×n}(R_𝔪)`, `g ∈ G_s`, `h ∈ G_t`, and `φ_𝔪` is the scalar
+  element of `G_{f,n}`. For lines: let `L`, `L′` be the standard lines of signs `−ε` and `ε` (`ε = ±1`; the rank-one spaces of
   3.6 (a)), `b`, `a′` automorphic characters of `U(1)` and `k ∈ G_{f,1}`. There are an additive character `ψ` of `R_𝔪`
   and `c ≠ 0` with `|c|²·#R_𝔪^{|n|} = 1`, both depending on `k`, `a′` and `b`, such that
   `θ^{L,S}_{1,b}[D_𝔪, P]((1, k), h) = c·θ^{S,L′}_{a′,υ_U}[D̂_𝔪, P^♭](h, (1, k·φ_𝔪))` for all `D_𝔪` on `M_{n×1}(R_𝔪)`,
