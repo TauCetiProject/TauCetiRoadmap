@@ -1,4 +1,4 @@
-# Composite theta lifts and short forms
+# Roadmap: composite theta lifts and short forms
 
 **Summary.** This roadmap proves the second half of the upper bound of the argument: the divisibility and
 the size of the composite theta lift on source forms, which together give Theorem A of

@@ -1,4 +1,4 @@
-# Divisibility of derivatives of theta functions of CM lattices
+# Roadmap: divisibility of derivatives of theta functions of CM lattices
 
 **Summary.** This roadmap is local arithmetic, prime by prime, of theta functions with complex multiplication. Its
 objects are the Taylor coefficients at the origin (the *jets*) of theta functions of vectors in the Weil representation
@@ -13,7 +13,7 @@ lattice of theta lifts (OneSidedPrimeSumBoundsAndAdmissibleData). The upper boun
 (CompositeThetaLiftsAndShortForms) asks that a lift be divisible by a large power of each prime; this roadmap supplies
 that divisibility for the jets that the lift is built from, as a lower bound for their valuations along products of
 minors whose main term, summed over the primes, is the prime sum. The lower bound for one lift
-(NormsOfThetaLiftsAndExchangeIdentities, the heights of Hecke values) uses the converse: a matching upper bound for the
+(NormsOfThetaLiftsAndExchangeIdentities §§6.4, 6.5, the heights of Hecke values) uses the converse: a matching upper bound for the
 valuation of one coefficient of an indicator datum, which this roadmap supplies. It also supplies the arithmetic of the field
 `E` (its different, the decomposition of primes, its Weil data, the chosen places and some characters of `U(1)`) that
 the other roadmaps of the family use.

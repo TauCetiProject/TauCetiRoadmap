@@ -1,4 +1,4 @@
-# Determinants of theta lift chains
+# Roadmap: determinants of theta lift chains
 
 **Summary.** The roadmaps of the family `ShortGRH` prove the Riemann hypothesis for Dirichlet L-functions by one
 route. A one-sided bound for a weighted sum over primes gives a zero-free half-plane
@@ -16,7 +16,7 @@ integral away from the twist after division by one explicit scalar, and whose un
 6). (ii) A twist for each prime: a family `ξ_ι`, one twist for each prime `ℓ` and each isomorphism `ι : ℂ ≃ ℚ̄_ℓ`, whose
 ratios of twisted to untwisted Hecke L-values have small height (Layer 1; the existence of such a family is proved in
 `CongruencesOfTwistedThetaLifts`). (iii) A height bound for the ratio `Z(1)/Z(ξ_ι)` of the Gram determinants of the
-chain: it factors into the Gram determinants `Z_j` of the single lifts, which `NormsOfThetaLiftsAndExchangeIdentities`
+chain: it factors into the Gram determinants `Z_j` of the single lifts, which NormsOfThetaLiftsAndExchangeIdentities §7.5
 bounds, times ratios of Hecke values (Layer 4). The Gram operator of one lift comes from the Rallis inner product
 formula (Layer 2); that of the chain comes from moving lifts past each other in the squares of a triangle of unitary
 groups, by an exchange identity between theta integrals of complementary spaces (Layer 3).
@@ -230,9 +230,9 @@ A family of `m`-fold twists `θ = (θ_ι)`, one for each `ι`, is said to have:
 `Θ_{j,ϑ}` on `𝒢(W_j)` and `pr` the orthogonal projection onto `Z`. First, some endomorphism `A` of `Z` with
 `|ι(det A)| ≥ exp(−dim Z·r·β)` makes `A(pr y)` integral at `ι` for every form `y` integral at `ι` and orthogonal to the
 false lifts (forms orthogonal to `Z`, in the image of `e₀`, killed by the Hecke polynomial operator at its test value at
-some split place off the level: `NormsOfThetaLiftsAndExchangeIdentities (false lifts)`). Second, for every main pair `p`
-for `j` and any two test forms `Ξ, Ξ′` of the rank-one lift of `p` twisted by `ϑ` (`NormsOfThetaLiftsAndExchangeIdentities
-(test forms and the lift of a character from U(1))`), the inner product of their projections to the line of that lift
+some split place off the level: NormsOfThetaLiftsAndExchangeIdentities §1.3). Second, for every main pair `p`
+for `j` and any two test forms `Ξ, Ξ′` of the rank-one lift of `p` twisted by `ϑ` (NormsOfThetaLiftsAndExchangeIdentities
+§1.3 (c) for test forms, §2.5 for the lift of a pair), the inner product of their projections to the line of that lift
 has `ι`-adic absolute value at most `exp(β)`;
 
 (c) a denominator bound `γ` for `1 ≤ j ≤ m` if `γ : primes → ℝ` has `∑_{ℓ∈T} γ(ℓ) ≤ β_tot` for every finite set `T` of
@@ -242,8 +242,8 @@ primes and `θ_ι^j` has denominators at most `γ(ℓ)` at every `ι` above `ℓ
 
 Numbers `e(ℓ) ≥ 0` are negligible with exponent `C` if `∑_{ℓ∈T} e(ℓ) log ℓ ≤ x^C` for every finite set of primes `T`.
 
-*Needs:* 1.1; 2.2; NormsOfThetaLiftsAndExchangeIdentities (false lifts, test forms and the rank-one lifts of the main
-pairs); OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights of families indexed by the `ι`).
+*Needs:* 1.1; 2.2; NormsOfThetaLiftsAndExchangeIdentities §1.3 (false lifts and test forms), §2.5 (the rank-one lifts of the
+main pairs); OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights of families indexed by the `ι`).
 
 [ShortProof], `New/Determinant/Twist/FitTwists.lean` (`New.Data.HasSmallRatios`, `New.Data.ClearsProjection`,
 `New.Data.HasDenominatorsLe`, `New.Data.IsDenominatorBound`, `New.Data.IsRegularFamily`, `New.Data.IsNegligible`)
@@ -994,7 +994,7 @@ level; the term of the identity coset is the main term, and the others decay lik
 column.
 
 (a) For one numbering of the indices, the parameter of `Y₀` and minus the parameter of `Ỹ^0_0` are steep at every
-infinite place in the sense of `NormsOfThetaLiftsAndExchangeIdentities (steep parameters)`: the lowest `K`-type vanishes
+infinite place in the sense of PairsOfFramesAtOnePlace §8.1 (a): the lowest `K`-type vanishes
 on a block of positive indices (the basis indices of `X₀` other than the last), and on the other `2ϱ + 2` indices (one
 more for `Ỹ^0_0`; `ϱ` the number of hyperbolic planes of `Y₀`) the signs alternate and the weight of the lowest `K`-type
 decreases strictly within `[−3B, −B]`, where `B = κ_0(τ)` is the weight of lift `0`.
@@ -1011,7 +1011,7 @@ restriction is `r ↦` its value at `r ⊕ 1` on `∏_τ U(V_τ)`, which is inte
 `C(A, α, ω) = ∏_τ (2(‖α_τ‖·‖ω_τ‖)²)^A·16^A·vol{r ∈ U(V_τ) : ‖r − 1‖ ≤ 1}`, with operator norms of matrices and the Haar
 measure of `U(V_τ)` normalised as in SecondMomentsOfPoincareSeries (Conventions, **Normalisations**).
 
-*Needs:* NormsOfThetaLiftsAndExchangeIdentities (steep parameters and discrete series coefficients); ShortGRH background
+*Needs:* PairsOfFramesAtOnePlace §8.1 (steep parameters and discrete series coefficients); ShortGRH background
 (Poincaré series on adelic unitary groups; the first minimum of a hermitian lattice).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/DeepLevelPoincarePeriod.lean` (`New.Data.exists_isSteep`,
@@ -1039,7 +1039,7 @@ coefficients). Then a form `y` of type `l` and level `J_M` on `V` is `0` if it i
 (b) For the data, there is a real point `g` of the unitary group of `Ỹ^0_0` such that every `y ∈ 𝒜(Y₀)` that is
 orthogonal to `x ↦ φ((x ⊕ 1)g)` for all `φ ∈ gridLevelForms(0)` is `0`.
 
-*Needs:* 5.3, 5.4; NormsOfThetaLiftsAndExchangeIdentities (a lower bound for the pairing of two steep discrete series
+*Needs:* 5.3, 5.4; PairsOfFramesAtOnePlace §8.6 (a lower bound for the pairing of two steep discrete series
 coefficients at some point, by Laplace's method); ShortGRH background (decay of cusp forms near the cusp in terms of the
 first minimum).
 
@@ -1247,7 +1247,7 @@ single-lift ratios, each of height at most `d·(f·a·(log b)⁴/m − k·h_dir)
 `d·(f·a·(log b)⁴/m − k·h_dir)` for `1 ≤ j ≤ m`, then `ι ↦ Z(1)/Z(θ_ι)` has height at most `d·(b + f·a·(log b)⁴ − h_main)`.
 
 *Needs:* 1.3, 1.4, 4.4; CongruencesOfTwistedThetaLifts §7.3 (every data has a regular family of `m`-fold twists);
-NormsOfThetaLiftsAndExchangeIdentities (the cost of one lift: along a regular family, `Z_j(1)/Z_j(ξ_ι^j)` has height at
+NormsOfThetaLiftsAndExchangeIdentities §7.5 (the cost of one lift: along a regular family, `Z_j(1)/Z_j(ξ_ι^j)` has height at
 most `d·k·(log b·β_tot − h_dir)`); OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights: products and powers).
 
 [ShortProof], `New/Determinant/Twist/LongForms.lean` (`New.Data.exists_hasSmallRatios_heightLe_liftDeterminant_div`,

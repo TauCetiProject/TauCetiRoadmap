@@ -1,4 +1,4 @@
-# One-sided prime sum bounds and admissible data
+# Roadmap: one-sided prime sum bounds and admissible data
 
 This roadmap states the frame of the shorter route [ShortProof] to the Riemann hypothesis for Dirichlet L-functions:
 the analytic step at the start and at the end, the data on which the arithmetic part is built, and the inequality in
@@ -887,7 +887,8 @@ This is the statement of DeterminantsOfThetaLiftChains §6.3, which proves it; i
 together with Theorems A and B. The letter `d` of that section is `d_T`.
 
 *Needs:* 1.4, 5.1; DeterminantsOfThetaLiftChains §6.3 (the proof of this statement, from auxiliary forms that span
-the target and from the height of the ratio of the chain determinants along a regular family of twists).
+the target and from the height of the ratio of the chain determinants along a regular family of twists, which rests
+on the cost of one lift, NormsOfThetaLiftsAndExchangeIdentities §7.5).
 
 [ShortProof], `New/Determinant/Twist/LongForms` (`New.Data.integral_forms_long`)
 

@@ -33,7 +33,7 @@ cyclotomic character.
 The roadmap rests on OneSidedPrimeSumBoundsAndAdmissibleData for the data (fields, places, sizes, level, twists,
 heights); on ThetaLiftChainsAndTheSeesawIdentity for the descent pairs and the good forms; on
 DeterminantsOfThetaLiftChains for the lifts `W_j → V_j` and the main pairs; on
-NormsOfThetaLiftsAndExchangeIdentities for the false lifts and the denominator predicate; and on
+NormsOfThetaLiftsAndExchangeIdentities §1.3 and §1.4 for the false lifts and the denominator predicate; and on
 SelmerBoundsForAnticyclotomicTwists for the twisting theorem and the local losses above `ℓ`. Its regular families are
 used by DeterminantsOfThetaLiftChains, which defines them and proves Theorem C with them.
 
@@ -393,8 +393,8 @@ with an injective `O`-algebra map `M_n(O) → M_n(ℚ̄_ℓ)` that sends `u(g)` 
 
 *Needs:* 1.4; ThetaLiftChainsAndTheSeesawIdentity §2.5 (good tuples of labels), §2.16 (descent pairs), §2.18 (the
 descent pairs `O_j(ϑ)` of the chain); DeterminantsOfThetaLiftChains §1.1 (main pairs);
-NormsOfThetaLiftsAndExchangeIdentities (the theta lift of a character of `U(1)` to `U(2z)` and its lifted
-form).
+NormsOfThetaLiftsAndExchangeIdentities §§2.1, 2.5 (the theta lift of a character of `U(1)` to `U(2z)`, its lifted
+form, and the lift of a pair).
 
 [ShortProof], `New/Congruences/GaloisRepresentations/AttachedRepresentations` (`New.Selmer.isLiftSetting_descentPair`, `New.Selmer.isLiftSetting_mainPair`, `New.Selmer.trivialLift_mem_range_typeProjection`, `New.Selmer.ellVal_levelPrime_pow_sub_one_le`)
 
@@ -1220,7 +1220,7 @@ Let `O` be a descent pair, `E′` an element of the group algebra of `∏_i GL_{
 generator* of `Z` for `(ϑ, sel)` is a form of `Z` in the range of a type projection `e_c` with `(O, c)` a lift setting for
 `ϑ` and `range e_c ⊂ range E′`, that lifts a system with a main summand `R` (for a pair `V′` with `μ_O = μ_{V′}·ϑ`)
 such that `R` has divisible Selmer length at most `sel` for `(ψ_ϑ, Q(ϑ), γ, ζ)`. The *false lifts* (for `E′` and `Z^⊥`) and
-"orthogonal to the false lifts" are those of NormsOfThetaLiftsAndExchangeIdentities (false lifts): forms in `Z^⊥` and
+"orthogonal to the false lifts" are those of NormsOfThetaLiftsAndExchangeIdentities §1.3: forms in `Z^⊥` and
 the range of `E′` killed by the Hecke polynomial at the root expected of a lift, at some split place off the level.
 (a) Let `ϑ` be auxiliary of ramification at most `ram`, `(O, c)` a lift setting, `Z` stable under the Hecke polynomial
 operators and under `e_c` with `range e_c ⊂ range E′`, and `y` orthogonal to the false lifts. If every nonzero form of
@@ -1228,7 +1228,7 @@ operators and under `e_c` with `range e_c ⊂ range E′`, and `y` orthogonal to
 (b) The span of the lift generators of `Z` is stable under the Hecke polynomial operators and under every `e_c` of a
 lift setting.
 
-*Needs:* 1.3, 1.4, 1.5, 4.1, 5.2; NormsOfThetaLiftsAndExchangeIdentities (false lifts);
+*Needs:* 1.3, 1.4, 1.5, 4.1, 5.2; NormsOfThetaLiftsAndExchangeIdentities §1.3 (false lifts);
 ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs and lifted Hecke polynomials).
 
 [ShortProof], `New/Congruences/FirstOrder/DenominatorBound` (`New.Selmer.IsLiftGenerator`, `New.Selmer.typeProjection_sub_starProjection_mem_of_isOrthogonalToFalseLifts`, `New.Selmer.span_isLiftGenerator_mem_invtSubmodule`)
@@ -1254,9 +1254,9 @@ for every `y` integral at `ι` and orthogonal to the false lifts.
 `Z` has `|ι(det Λ)| ≥ exp(−dim Z·r_O·β_ℓ·log ℓ)`, takes `pr_Z y` to a form integral at `ι` for every `y` integral at
 `ι` and orthogonal to the false lifts, and `|ι⟨y′, Λ pr_Z y⟩| ≤ 1` for every `y′` integral at all places above `ℓ`. That
 is, the projection to `Z` has denominator at most `β_ℓ log ℓ` in the sense of NormsOfThetaLiftsAndExchangeIdentities
-(the denominator predicate).
+§1.4.
 
-*Needs:* 2.6, 5.2, 6.1, 6.7, 6.8; NormsOfThetaLiftsAndExchangeIdentities (the denominator predicate; false lifts).
+*Needs:* 2.6, 5.2, 6.1, 6.7, 6.8; NormsOfThetaLiftsAndExchangeIdentities §1.4 (the denominator predicate), §1.3 (false lifts).
 
 [ShortProof], `New/Congruences/FirstOrder/DenominatorBound` (`New.Selmer.exists_operator_ellVal_le_liftValuationBound`, `New.Selmer.exists_operator_det_clearingBound`, `New.Selmer.denominatorLe_clearingBound`)
 
@@ -1326,12 +1326,13 @@ twist, `V` the definite space of rank `2z` of the lift of `νϑ` from `U(1)` (2.
 orthogonal projection to the line `ℂφ`. A *test form* at `ℓ` is a form on `V`, of the weight and level of that descent
 pair, that is integral at every embedding `ℂ → ℂ_ℓ` and orthogonal to the false lifts taken for the idempotent of the
 labels `X − 1` and for the kernel of the descent to `U(1)`, the adjoint of the lift
-(NormsOfThetaLiftsAndExchangeIdentities (test forms)). Suppose that the projection to `ℂφ` has denominator at most `β`
+(NormsOfThetaLiftsAndExchangeIdentities §1.3 (c)). Suppose that the projection to `ℂφ` has denominator at most `β`
 at `ι` for the idempotent of the labels `X − 1`, in the sense of 6.9 (b) with `Z = ℂφ` (there the false lifts are
 taken for `Z^⊥`, not for the kernel of the descent), and that the stabiliser in `U(1)(E⁺)` of every class of `U(1)` at
 the chosen level is trivial, as it is on the data. Then, for any two test forms `Ξ, Ξ′` at `ℓ`,
 `|ι(h_{U(1)}·⟨Ξ, pr Ξ′⟩)| ≤ e^β` and hence `|ι⟨pr Ξ, pr Ξ′⟩| ≤ exp(β + v_ℓ(h_{U(1)})·log ℓ)`, with `h_{U(1)}` the number
-of classes of `U(1)` at the chosen level. This is the second clause of the denominators of
+of classes of `U(1)` at the chosen level. This is NormsOfThetaLiftsAndExchangeIdentities §6.3 (b), which proves it, applied to the lift data of the
+main pair; it is restated here because 7.3 (a) uses it in this form. It gives the second clause of the denominators of
 DeterminantsOfThetaLiftChains §1.3 (b) (regular families of twists) for `ϑ` and `j`, with the bound
 `β + v_ℓ(h_{U(1)})·log ℓ`; the class number is the price of passing from the complement of the line to the kernel of
 the descent.
@@ -1340,9 +1341,9 @@ the descent.
 `W_j → V_j`), §2.7 (good forms), §2.16 (lifted Hecke polynomials), §2.10 (trivial stabilisers at levels inside the
 chosen level); SecondMomentsOfPoincareSeries §2.3 (equality of multiplicities of eigensystems in the good forms);
 DeterminantsOfThetaLiftChains §2.1 (the lifts `W_j → V_j` and the Hecke polynomials of a lifted eigenform), §1.1 (main
-pairs), §1.3 (regular families of twists); NormsOfThetaLiftsAndExchangeIdentities (test forms, false lifts and the
-denominator predicate; the lift of a character of `U(1)`, its lifted form and its descent; the central translations
-and the classes of `U(1)`).
+pairs), §1.3 (regular families of twists); NormsOfThetaLiftsAndExchangeIdentities §§1.3, 1.4, 2.1, 2.2, 6.3 (from §1.3 test forms and false
+lifts; from §1.4 the denominator predicate; from §§2.1, 2.2 the lift of a character of `U(1)`, its lifted form and its
+descent; from §6.3 (b) the statement of (e), proved there by the central translations).
 
 [ShortProof], `New/Congruences/FitTwistsExist` (`New.Selmer.isRepOfType_one`, `New.Selmer.exists_isMainSummand_mainPair`, `New.Selmer.range_goodLift_le_span_hasLiftHeckePolynomial`, `New.Selmer.denominatorLe_range_goodLift`, `New.Selmer.denominatorLe_span_trivialLift`, `New.Selmer.DenominatorLe.clearsProjection`); for (e), `New/OneLift/HeckeValues/CentralAction` (`New.Selmer.DenominatorLe.norm_card_mul_inner_starProjection_le`, `New.Selmer.DenominatorLe.norm_inner_starProjection_le`, `New.LValueData.isOrthogonalToFalseLifts_sum_normalizedCentralOp_inv`)
 

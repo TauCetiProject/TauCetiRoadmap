@@ -1,4 +1,4 @@
-# Selmer bounds for anticyclotomic twists
+# Roadmap: Selmer bounds for anticyclotomic twists
 
 The argument proves a one-sided bound for a sum over primes, and that bound gives a half-plane free of zeros. The bound
 comes from comparing an upper and a lower bound for the covolume of a lattice of theta lifts. The lower bound needs, at
@@ -1184,8 +1184,8 @@ Let `D` be the data and `(ν, z)` a ramified pair. Prove:
 2. (b) for an auxiliary set `I` for the bad places, every character `ψ : G_E → ℚ̄_ℓ` for `I` is `τ.invAvatar` for some tame
    character `τ` of modulus `I`, the `ℓ`-adic avatar of `τ^{−1}`.
 
-*Needs:* NormsOfThetaLiftsAndExchangeIdentities (Hecke `L`-values as squared norms: the integral algebraic part, the
-determinant theta period at `z = 1`, integral measures); DivisibilityOfThetaDerivatives §1.6 (pairs);
+*Needs:* NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7, 6.1 (Hecke `L`-values as squared norms: from §2.5 the integral
+algebraic part, from §2.7 the determinant theta period at `z = 1`, from §6.1 integral measures); DivisibilityOfThetaDerivatives §1.6 (pairs);
 DeterminantsOfThetaLiftChains §1.1 (ramified pairs and the ratio of a pair);
 OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (tame characters and twists); ShortGRH background (`ℓ`-adic avatars of
 algebraic Hecke characters; class field theory).

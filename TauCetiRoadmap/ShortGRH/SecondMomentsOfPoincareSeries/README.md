@@ -1,4 +1,4 @@
-# Second moments of Poincaré series
+# Roadmap: second moments of Poincaré series
 
 The argument proves the Riemann hypothesis for Dirichlet L-functions through a one-sided bound for a sum over primes:
 such a bound at arbitrarily large scales gives a zero-free half-plane. At each scale the bound comes from comparing an
@@ -571,7 +571,7 @@ the standard frame; its Bessel length is bounded by the size of the position. Th
 `l` and `μ` is then a datum of Laplace's method, whose lower bound for the period dominates the volume of a ball.
 
 Let `l` be a parameter of `U(diag ε)` that is steep with bound `B ≥ 1` for a splitting of the coordinates into a set `X`
-and `2n` further coordinates, in the sense of NormsOfThetaLiftsAndExchangeIdentities (steep parameters); let `μ` be a
+and `2n` further coordinates, in the sense of PairsOfFramesAtOnePlace §8.1 (steep parameters); let `μ` be a
 parameter of `U(k)` whose lowest `K`-type has weight `a` at one coordinate and `0` on `X` (`κ = X ⊔ {one coordinate}`).
 Let both have large gap `A` (3.1, in their own ranks), entries of modulus at most `L`, and let `β ≥ 10¹²`,
 `r + k + L ≤ β`, `10³⁰((r + k)² log β)³ ≤ A`, `3B + a ≤ b²` and `8nr ≤ b`. Then there is `x ∈ G₁` with `ℓ(x) ≤ b^{5n}`
@@ -579,8 +579,8 @@ and
 
 `vol{s ∈ R : ‖x⁻¹sx − 1‖ ≤ 1} ≤ β^{20(r+k)²}·|∫_R c_l(x⁻¹sx)·c̄_μ(h_s)·exp(σ̄(s) − σ(s)) ds|`.
 
-*Needs:* 3.1; NormsOfThetaLiftsAndExchangeIdentities (lower bound for periods by Laplace's method, and steep parameters
-with their stationary position); ShortGRH background (Witt's theorem for hermitian forms)
+*Needs:* 3.1; PairsOfFramesAtOnePlace §8.1 (steep parameters), §8.5 (their stationary position), §8.6 (the lower
+bound for periods by Laplace's method); ShortGRH background (Witt's theorem for hermitian forms)
 
 [ShortProof], `New/Spanning/Bessel/LargeFunction.lean` (`New.DiscreteSeries.IsSteep.exists_stationary_point`)
 
@@ -685,7 +685,7 @@ of `U(X₀)` of the weight of the source forms.
 
 *Method of the formal proof:* the point `x` of 3.9 makes the period large, so 3.8 (c) bounds the volume of the ball by
 `b^{60(r+k)²}·deg·‖W‖₂²`; 3.10 gives the normalised function and its cut, 3.6 its Schur bounds, and the local bounds of the
-cut come from the bounds for cut Bessel functions at `ℂ` of `PairsOfFramesAtOnePlace`.
+cut come from the bounds for cut Bessel functions at `ℂ` of PairsOfFramesAtOnePlace §4.3 (d).
 
 For each `v ∈ Φ` there is a Bessel system with parameters `(b, f)` for the shape of `Y₀` (`ϱ` planes, `κ` indexing a basis
 of `X₀`) with:
@@ -698,7 +698,7 @@ representation of `GL(X₀)` of the weight of the source forms at `v`;
 (c) full function fixed by convolution with `deg·c_{λ_v}`, and equal to `c·W` for a Bessel average `W` of 3.8 (some
 `c ∈ ℝ`, `x ∈ G₁`, unit `v`).
 
-*Needs:* 3.3, 3.6, 3.8, 3.9, 3.10; PairsOfFramesAtOnePlace (local bounds at `ℂ` for cut Bessel functions);
+*Needs:* 3.3, 3.6, 3.8, 3.9, 3.10; PairsOfFramesAtOnePlace §4.3 (local bounds at `ℂ` for cut Bessel functions);
 DeterminantsOfThetaLiftChains §5.4 (a) (the parameters are steep); ThetaLiftChainsAndTheSeesawIdentity §2.4 (the
 target parameter and its gap), §2.8 (the weight of the source forms); OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the
 sizes); ShortGRH background (Weyl's dimension formula for the formal degree)

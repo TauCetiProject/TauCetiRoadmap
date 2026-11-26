@@ -1,4 +1,4 @@
-# Remaining and main terms of second moments
+# Roadmap: remaining and main terms of second moments
 
 This roadmap bounds the second moment of Poincaré series term by term, after it has been unfolded. It is the second
 part of the spanning theorem (Theorem B) of the argument. The argument proves the Riemann hypothesis for Dirichlet
@@ -838,7 +838,7 @@ the integral points at a finite place.
 `𝖴 ∩ K(M)` in `𝖴` on both sides. The finite Bessel function is the character of `𝖴` on `uK(M)` and vanishes off
 `𝖴K(M)`, so only the pairs with `u⁻¹xu' ∈ sK(M)` contribute, each with the volume of `K(M)`.
 
-Let `F` be a place datum at a finite place in the sense of PairsOfFramesAtOnePlace (place data at a finite place),
+Let `F` be a place datum at a finite place in the sense of PairsOfFramesAtOnePlace §2.2 (place data at a finite place),
 coming from the lattice of integral vectors (*large lattice data*: unimodular form, integral basis and level, large rank,
 character trivial on traces, unimodular group), with principal congruence subgroup `K(M)` and Haar measure `μ`. Let `χ`
 be the finite Bessel function, `ψ_𝖴(u)` on `uK(M)` for `u ∈ 𝖴` and `0` off `𝖴K(M)`. For `x, s ∈ G` the *Kloosterman sum*
@@ -846,8 +846,8 @@ is `Kl(x, s) = Σ ψ_𝖴(u)·conj ψ_𝖴(u')` over the pairs of cosets `u, u' 
 a group between `K(M)` and the integral points, and `W_a(y) = χ(ya⁻¹)` for the cosets `a` of `K(M)` in `Z`. If
 `s⁻¹ab⁻¹ ∈ K(M)`, then `∫ W_a(y)·conj W_b(x⁻¹y) dμ(y) = μ(K(M))·Kl(x, s)`.
 
-*Needs:* PairsOfFramesAtOnePlace (place data at a finite place, large lattice data, the finite Bessel function and the
-Bessel vector of an intermediate group).
+*Needs:* PairsOfFramesAtOnePlace §2.2 (place data at a finite place), §5.1 (large lattice data), §5.2 (the finite Bessel
+function and the Bessel vector of an intermediate group).
 
 [ShortProof], `New/Spanning/MainTerm/KloostermanSum.lean`
 (`New.Floors.IntegralPlace.IsLargeLatticeData.besselOrbitalIntegral_besselVector_apply`,
@@ -875,12 +875,12 @@ the lattice basis and its inverse are integral.
 (c) If `u` is a finite idele with `u⁻¹` integral off `T`, then `x` is integral and `≡ 1` modulo `u` if and only if `x` is
 integral off `T` and its projection to `T` is integral and `≡ 1` modulo the projection of `u`.
 
-(d) `E_T` is a finite place, in the sense of PairsOfFramesAtOnePlace, with character `ψ_T`, and `G(E_T)` is unimodular.
+(d) `E_T` is a finite place, in the sense of PairsOfFramesAtOnePlace §2.1 (a), with character `ψ_T`, and `G(E_T)` is unimodular.
 There is a place datum on `E_T` with `3ϱ + 6` further hyperbolic pairs and an orthonormal part of size
 `k − (6ϱ + 13)`. It is large lattice data, its modulus is the component of `M` at `T`, and its character is `ψ_T` (a
 *filling datum at `T`*).
 
-*Needs:* PairsOfFramesAtOnePlace (place data at a finite place, large lattice data), AnalyticNumberTheoryPartII §5.3h,
+*Needs:* PairsOfFramesAtOnePlace §2.1 (finite places), §5.1 (large lattice data); AnalyticNumberTheoryPartII §5.3h,
 ShortGRH background (strong approximation for the finite adeles of a CM field: density of `E` off a nonempty finite set
 of places).
 
@@ -917,11 +917,11 @@ translation by them. Then the order of the image of `B ∩ K` in `Ḡ` times `μ
 (c) For `γ = w_pσ` with `p_a⁻¹` integral off `T` (`a < ϱ`) and `h_c⁻¹γh_{c'}` integral off `T`, and `k ∈ K`, the orbit
 sum of `γ` over `(c, k̄, c')` is `Kl(x, s)` (7.1, at `T`) times the orbital integral at infinity
 `∫ W(y) ⊗ W(γ⁻¹y)^* dy`, for `W` or `W♭`. Here `x` and `s` are the projections to `T` of `h_c⁻¹γh_{c'}` and of `k`.
-Hence the entry `(a, b)` of the scaled orbital integral at `T` (PairsOfFramesAtOnePlace) times this orbital integral at
+Hence the entry `(a, b)` of the scaled orbital integral at `T` (PairsOfFramesAtOnePlace §6.2) times this orbital integral at
 infinity is the head density times `μ(K(M))` times the orbit sum, whenever `k⁻¹ab⁻¹ ∈ K(M)`.
 
 *Needs:* 7.1, 7.2, SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes, blocks and links), §4.5 (the link isometry),
-PairsOfFramesAtOnePlace (the scaled orbital integral and the head density).
+PairsOfFramesAtOnePlace §6.2 (the scaled orbital integral), §3.2 (the head density).
 
 [ShortProof], `New/Spanning/MainTerm/GlobalToLocal.lean` (`New.Filling.exists_amplitudeSum_eq_sum_cosetAmplitude`,
 `New.Filling.IsFillingData.card_reducedImage_mul_measure_congruenceSubgroup_eq`,
@@ -948,9 +948,9 @@ pairs `z` of a finite set `𝔖` have `N·h(v, v) = tt̄ − N²` and `x_z` inte
 
 Here `π_T` is the component of `π` at `T` and `mod(π_T)` its modulus at the finite place `E_T`. `P^T_t` is `P_t` at `T`,
 with `π_T` and the image of `t`. The integral is over the sphere `h(y, y) = (tt̄ − N²)/N` in `E_T^κ`, for the fiber
-measure `μ_t` of PairsOfFramesAtOnePlace.
+measure `μ_t` of PairsOfFramesAtOnePlace §6.1.
 
-*Needs:* 7.2, HermitianFormsAndLattices §6.5 (Siegel's main theorem), PairsOfFramesAtOnePlace (fiber measures of the
+*Needs:* 7.2, HermitianFormsAndLattices §6.5 (Siegel's main theorem), PairsOfFramesAtOnePlace §6.1 (fiber measures of the
 standard form on spheres).
 
 [ShortProof], `New/Spanning/MainTerm/SiegelTopBound.lean` (`New.Filling.IsFillingData.siegel_sum_le_lintegral_sphere`,
@@ -976,9 +976,9 @@ matrix of the vectors `ρ_p·∫ W(y) ⊗ W((w_{a_p}σ_i)⁻¹y)^* dy` (the same
 
 `Σ_i r²·‖Σ_p O_{c_i,k̄_i,c'_i}(w_{a_p}σ_i)‖² ≤ (1 + b^(−6))·a_*·Re Σ_{p,q} R_{pq}·J^Z_top(a_p, a_q)/m(Z)`,
 
-where `J^Z_top` is the density at the last entry at `T` and `m(Z)` the mass ratio of `Z` (PairsOfFramesAtOnePlace).
+where `J^Z_top` is the density at the last entry at `T` and `m(Z)` the mass ratio of `Z` (PairsOfFramesAtOnePlace §6.3, §5.2 (b)).
 
-*Needs:* 7.3, 7.4, PairsOfFramesAtOnePlace (floor forms, the density at the last entry and mass ratios).
+*Needs:* 7.3, 7.4; PairsOfFramesAtOnePlace §3.2 (floor forms), §6.3 (the density at the last entry), §5.2 (mass ratios).
 
 [ShortProof], `New/Spanning/MainTerm/SiegelTopBound.lean`
 (`New.Filling.IsFillingData.sum_mul_norm_sum_cosetAmplitude_sq_le_lastEntryDensity`,
@@ -1007,8 +1007,9 @@ with the following properties.
 entry map is units, `ι(w) = M⁻¹w⁻¹`, its twist is `ψ_T` and its weights and decay are those of 6.4. Its mass bound is
 `(1 + b^(−6))/b^(6k·#𝔖g)`, and `0 ≤ J_0`.
 
-*Needs:* 6.1, 7.2, PairsOfFramesAtOnePlace (floor forms, the density at the last entry and mass ratios),
-PairsOfFramesAtOnePlace (groups fixing given vectors at chosen places have a small mass integral).
+*Needs:* 6.1, 7.2; PairsOfFramesAtOnePlace §3.2 (floor forms), §6.3 (the density at the last entry), §5.2 (mass ratios),
+§5.4 (shells, decay and the mass at the finite places), §7.2 (groups fixing given vectors at chosen places have a small
+mass integral).
 
 [ShortProof], `New/Spanning/MainTerm/FiniteSieveSystem.lean` (`New.Filling.IsFillingData.exists_intermediateGroup_sieveSystem`,
 `New.Filling.IsFillingData.exists_intermediateGroup_norm_floorForm_div_le`)

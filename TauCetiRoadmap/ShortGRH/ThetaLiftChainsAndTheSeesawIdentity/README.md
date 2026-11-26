@@ -1,4 +1,4 @@
-# Theta lift chains and the seesaw identity
+# Roadmap: theta lift chains and the seesaw identity
 
 This roadmap states the first half of the upper bound in the shorter proof of the Riemann hypothesis for Dirichlet
 L-functions. The argument has this shape. A one-sided bound for a sum over primes gives the zero-free half-plane; the
