@@ -306,9 +306,7 @@ Let `κ` be a weight for `n`.
 `z_τ ∈ M_{n′_τ×n_τ}(R)` and `ξ ∈ W_R(κ)`: `P_κ(S_κ(z)ξ)(y′) = (P_κ(ξ)·∏_τ det(y_τ)^{d_τ})(zᵀy′)` (the left side for
 `n′`, the right side substituted by `zᵀ`). Over `ℂ`, `P_κ` is onto `∇_ℂ(κ)`.
 
-*Needs:* 1.1, 1.2, 1.3; IntegralWeylModulesOfGeneralLinearGroups §0.1 (third and fourth items: `∇_ℤ` is free and
-spanned by the bideterminants of the column-strict fillings, which gives the integral left inverse of `ι_κ`);
-Mathlib `Matrix.PosDef`.
+*Needs:* 1.1, 1.2, 1.3; Mathlib `Matrix.PosDef`.
 
 [ShortProof], `Lib/GLn/SchurModule/TensorModel` (`New.fillingMatrixOver_mul_schur`, `New.span_fillingPoly`,
 `New.exists_fillingMatrix_leftInverse`); `Lib/GLn/SchurModule/Basic` (`New.sum_weylGram_smul_eq_weylKernel_of_exists`);
@@ -1264,10 +1262,11 @@ the same formal polynomial as `P_x`.
 
 ## Results taken from other roadmaps
 
-- The module `∇_ℤ(ν)` of one `GL_N` is free and spanned by the bideterminants of the column-strict fillings, so that the Weyl
-  lattice `W_ℤ = Hom(∇_ℤ, ℤ)` is a direct summand of the integral tensors (for products over places, applied over the
-  polynomial ring in the variables of the other places): IntegralWeylModulesOfGeneralLinearGroups §0.1 (third and fourth
-  items). Used in 2.1.
+No section takes a result from a roadmap outside this family. The sections cite these background roadmaps of the family:
+AdelicUnitaryGroupsAndAlgebraicModularForms §§1.4, 1.5, 3.1, 6.1 (in 2.3 and 6.1),
+HolomorphicDiscreteSeriesOfUnitaryGroups §4.1 (a) (in 2.4), GaloisRepresentationsOfUnitaryEigenforms §§1.1, 5.2 (c), (d)
+(in 5.1 and 6.1), WeilRepresentationsOnBanachSpacesOfData §9.1 (in 6.1, 6.5 and 6.8) and
+AuxiliaryAlgebraAndAnalysisForThetaLifts §2.2 (b) (in 6.8).
 
 ## What the library already provides
 

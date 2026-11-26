@@ -8,7 +8,7 @@ uniformity in the modulus, and several are weaker than the published theorems an
 The argument of the family has this shape. A one-sided upper bound for a weighted prime sum over a residue class gives a
 half-plane free of zeros of Dirichlet L-functions; the bound comes from comparing an upper and a lower bound for the
 covolume of a lattice of theta lifts (OneSidedPrimeSumBoundsAndAdmissibleData §§0.2, 6.1, 6.2). The results stated
-here enter that argument at four places.
+here enter that argument, as [ShortProof] proves it, at four places.
 
 - The criterion that turns the one-sided bound into a zero-free half-plane needs an auxiliary prime `d ≡ 7 (mod 8)` in
   a residue class such that no quadratic twist `ξ·(·/d)` of a character `ξ` of the modulus has a zero in a given box to
@@ -17,11 +17,13 @@ here enter that argument at four places.
   for which the Pólya–Vinogradov inequality suffices (3.4). The criterion also uses Landau's theorem in one-sided form,
   which is taken from PositivityOfDirichletSeriesWithKernels §6.4 (b).
 - The one-sided bound at a point `x` is completed by the prime number theorem for the remainder at a second, much larger
-  cut-off, with every power of the logarithm saved. It comes from a Tauberian theorem with a rate (2.1), fed by a
-  zero-free region with a bound for the logarithmic derivative (1.4), which rests on a growth bound near `Re s = 1`
-  (1.3).
+  cut-off, with every power of the logarithm saved. [ShortProof] proves it by a Tauberian theorem with a rate (2.1),
+  fed by a zero-free region with a bound for the logarithmic derivative (1.4), which rests on a growth bound near
+  `Re s = 1` (1.3); OneSidedPrimeSumBoundsAndAdmissibleData §6.2 cites the Siegel–Walfisz theorem for it
+  (AnalyticNumberTheoryPartI §0.32).
 - The construction of the data needs primes `≡ 1` modulo the powers `m^k` of a fixed modulus `m`, with logarithm in a
-  prescribed window, uniformly in `k` (2.2).
+  prescribed window, uniformly in `k`. [ShortProof] takes them from 2.2; OneSidedPrimeSumBoundsAndAdmissibleData §3.7
+  cites AnalyticNumberTheoryPartI §0.32 for them.
 - The passage from the half-plane to the critical line, and the trivial zeros of imprimitive characters, use the
   reflection of the zeros for every character (1.2).
 
@@ -52,7 +54,8 @@ is. `Γ_ℝ(s) = π^{−s/2}Γ(s/2)`; the gamma factor of `χ` is `Γ_ℝ(s + j)
 `τ(χ) = Σ_{b mod q} χ(b)e^{2πib/q}`.
 
 **Letters.** The letters `q`, `d`, `m` are general here. OneSidedPrimeSumBoundsAndAdmissibleData §0.2 applies 3.5 with
-the modulus `q₀` of its parameters, and OneSidedPrimeSumBoundsAndAdmissibleData §3.7 applies 2.2 with `m = q₀d`.
+the modulus `q₀` of its parameters, and [ShortProof] applies 2.2 with `m = q₀d` in its proof of
+OneSidedPrimeSumBoundsAndAdmissibleData §3.7.
 
 ### Table of symbols
 
@@ -246,7 +249,9 @@ and all large `l`, `F` is complex differentiable at every `s` with `Re s ≥ 1 �
 `|F(s)| ≤ l^A` there. Then for every natural number `B`, `|R(u)| ≤ u^{−B}` for all large `u`.
 
 The library's Tauberian theorems of Newman and of Wiener–Ikehara (`TauCeti.LSeries.newmanLaplace_tendsto_integral`,
-`TauCeti.LSeries.wienerIkehara_of_eventually_nonneg`) give limits without a rate and do not serve here.
+`TauCeti.LSeries.wienerIkehara_of_eventually_nonneg`) give limits without a rate and do not serve here; the prime number
+theorem for the remainders `R_q` of OneSidedPrimeSumBoundsAndAdmissibleData §0.1, which [ShortProof] draws from 2.1 and
+1.4 (c), also follows from AnalyticNumberTheoryPartI §0.32 by orthogonality and partial summation.
 
 *Needs:* Mathlib `Complex.norm_iteratedDeriv_le_of_forall_mem_sphere_norm_le` (Cauchy's estimates for iterated
 derivatives), `hasDerivAt_integral_of_dominated_loc_of_deriv_le` (differentiation under the integral sign),
@@ -490,11 +495,6 @@ steps `New.legendreSym_eq_jacobiSym_ordCompl`, `New.isPrimitive_quadTwist`, `New
 - OneSidedPrimeSumBoundsAndAdmissibleData §0.2 (the one-sided criterion for a zero-free half-plane): 3.5 (b), for the
   prime `d` of a class whose twists have no zero in the box below a given zero; and 1.1 (b)–(d), for the transform of
   the remainder of the prime sum and its residues.
-- OneSidedPrimeSumBoundsAndAdmissibleData §6.2 (the one-sided bound, which uses the prime number theorem for `R_q`):
-  2.1 with 1.4 (c), for the prime number theorem with every power of
-  the logarithm saved for the remainders `R_q` at the second cut-off; it applies 1.4 (c) to the characters modulo `q`
-  and to their twists by `(·/d)`.
-- OneSidedPrimeSumBoundsAndAdmissibleData §3.7 (admissible data exist at every large integer): 2.2 (c), with `m = q₀d`.
 - OneSidedPrimeSumBoundsAndAdmissibleData §6.3 (the half-plane and the critical line): 1.2 in the open strip.
 - IdelicReciprocityCountsAndCyclotomicClassGroups §10.2 (b) (the trivial zeros, for Voronoi-type congruences): 1.2 at
   the negative integers, for the trivial zeros of imprimitive characters.

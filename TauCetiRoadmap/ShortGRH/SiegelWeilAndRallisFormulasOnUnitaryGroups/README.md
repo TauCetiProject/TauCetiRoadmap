@@ -467,7 +467,10 @@ the zero terms `ev_Λ(f)` are summable over the Lagrangians `Λ` of `S`, and tha
 `g ↦ |ℓ(ω(g, 1)f)| − Σ_Λ |ev_Λ(ω(g, 1)vac)|` on `G(S)` is bounded above. Then `ℓ = 0`.
 
 *Needs:* 2.1; `WeilRepresentationsOnBanachSpacesOfData §§3.7, 9.3` (spanning by vacuum translates; Hecke
-transfer); `WeilRepresentationsOnBanachSpacesOfData (the maximum principle)`.
+transfer); ShortGRH background (a maximum principle: a real function `v` on a set `G`, bounded above, with
+`l·v(g) ≤ Σ_i |a_i|·v(r_i(g))` for all `g`, for finitely many complex `a_i` with `Σ_i |a_i| < l` and maps
+`r_i : G → G`, satisfies `v ≤ 0`; [ShortProof] `Lib/Weil/Unramified/HeckeTransfer.lean`
+(`New.SiegelWeil.maximum_principle`)).
 
 [ShortProof], `Lib/SiegelWeil/Formula/LagrangianZeroTerms.lean` (`New.SiegelWeil.eq_zero_of_le_tsum_zeroTerm`,
 `New.SiegelWeil.sum_norm_mul_norm_zeroTerm_le`)
@@ -539,7 +542,10 @@ Strong approximation for `SU` (`HermitianFormsAndLattices §2.5 (d)`) also gives
 the determinant, and the torus hypothesis removes that dependence.
 
 *Needs:* `AdelicUnitaryGroupsAndAlgebraicModularForms §§2.3, 3.6, 3.8` (strong and weak approximation, Iwasawa);
-`AdelicUnitaryGroupsAndAlgebraicModularForms (Witt's theorem and quasi-reflections)`.
+ShortGRH background (Witt's theorem by quasi-reflections: over a field with a nontrivial involution, let `J` be
+invertible hermitian and `H` a subgroup of `U(J)` that contains every quasi-reflection `x ↦ x − σ⁻¹(v*Jx)v`, `σ` a unit
+with `σ + σ̄ = v*Jv`; then left invertible `X`, `Y` with `X*JX = Y*JY` have `gX = Y` for some `g ∈ H`, so `H = U(J)`;
+[ShortProof] `Lib/Adelic/Witt/WittTheorem.lean` (`New.quasiReflection`, `New.witt_of_quasiReflection_mem`)).
 
 [ShortProof], `Lib/SiegelWeil/Formula/StrongApproximation.lean`
 (`New.Exchange.IsAutFunction.apply_eq_apply_one`, `New.Exchange.exists_torus_mul_rational_fixes`)
@@ -596,8 +602,13 @@ every `h ∈ G(T)` the sum `σ(h) = Σ_{ξ ∈ E^n, ξ*ξ = α} Ψ(h⁻¹ξ)` co
 quadratic extension, as an identity of fibre measures.
 
 *Needs:* 2.1, 2.6; `WeilRepresentationsOnBanachSpacesOfData §§5.3, 5.5, 6.9` (Schrödinger models, data with given
-values); `AdelicUnitaryGroupsAndAlgebraicModularForms §2.1` (Haar measures of the adeles);
-`AdelicUnitaryGroupsAndAlgebraicModularForms (a fundamental domain for E⁺ in its adeles)`.
+values); `AdelicUnitaryGroupsAndAlgebraicModularForms §2.1` (Haar measures of the adeles); ShortGRH background (`E⁺`,
+acting by translation on its adeles, read as the self-adjoint adeles `ℝ^f × 𝔸_f^+` of `E` (`𝔸_f^+` the self-adjoint
+finite adeles), has a fundamental domain `Ω × 𝔡`, with `Ω ⊂ ℝ^f` bounded and measurable and `𝔡` the `z ∈ 𝔸_f^+` with
+`ψ_f(zÔ) = 1`, such that `|D_E|^{1/4}·vol(Ω) = 1` and `|D_E|^{1/4}·∫_{Ω×𝔡} ψ(zβ/2) dz` is `1` for `β = 0` and `0` for
+the other `β ∈ E⁺`, for Lebesgue measure at the infinite places and the measure of 3.1 (c) at the finite ones;
+[ShortProof] `Lib/SiegelWeil/OneVector/SiegelClassSum.lean` (`New.exists_fundamentalDomain_real`,
+`New.exists_isAddFundamentalDomain_realAdele`)).
 
 [ShortProof], `Lib/SiegelWeil/OneVector/SiegelClassSum.lean` (`New.SiegelWeil.eq_lagrangian_of_notMem_range_shear`,
 `New.SiegelWeil.zeroTerm_shearSplitting`, `New.SiegelWeil.siegel_weil_one_vector`,
@@ -745,8 +756,7 @@ integrable, is at most `∫ f dl_t`.
 (d) With `(l_t)` as in (a): if `b ↦ G_J(g, x₀; δ⁻¹t, b)` is `ν`-integrable, its integral is `l_t(x₀ + gR^κ)`; in
 any case `l_t(x₀ + gR^κ) ≤ ∫ |G_J(g, x₀; δ⁻¹t, b)| dν(b)`.
 
-*Needs:* 3.6; `HolomorphicDiscreteSeriesOfUnitaryGroups §3.1` (disintegrations along a hermitian form);
-`AuxiliaryAlgebraAndAnalysisForThetaLifts (Hermite forms over products of valuation rings)`.
+*Needs:* 3.6; `HolomorphicDiscreteSeriesOfUnitaryGroups §3.1` (disintegrations along a hermitian form).
 
 [ShortProof], `Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean`
 (`New.Floors.IntegralPlace.setIntegral_eq_slab`, `New.Floors.Place.IsDisintegration.setLIntegral_slab`,
@@ -784,7 +794,9 @@ Let `A`, `R`, `ψ`, `ν` be as in 3.6, with `ψ(x + x̄) = 1` for all `x`, and `
 `∫_{{w : βw ∈ R^ι}} c_i((V*w)|_κ)^s dw ≤ ζ_R(μ)·|β|^{−d}`.
 
 *Needs:* 3.4 (a), 3.6, 3.7; `HolomorphicDiscreteSeriesOfUnitaryGroups §§3.1, 3.5` (quadric measures and their
-disintegration).
+disintegration); ShortGRH background (a Hermite form of one column over a product of valuation rings: for `A`, `R` as
+in 3.6, every `p ∈ A^ι` and every `i ∈ ι` there is `V ∈ GL_ι(R)` with `p = (V⁻¹p)_i·Ve_i`, `e_i` the `i`-th basis vector;
+[ShortProof] `Lib/General/LinearAlgebra/HermiteForm.lean` (`New.IsValuationPair.hermite`)).
 
 [ShortProof], `Lib/SiegelWeil/OneVector/SemilocalDensityBounds.lean`
 (`New.Floors.IntegralPlace.lintegral_enorm_classGaussSum_le_idealZeta`,
@@ -1126,8 +1138,8 @@ corresponding map of the Fock spaces at the real places.
 lies in `GL_n(O)`, and `0` otherwise. Functions `Φ` on `M_{a×n}(F)` and `Ψ` on `M_{n×b}(F)` are *partners* for `χ`
 if `Φ` vanishes off the matrices formed by the last `a` rows of some `k⁻¹`, `k ∈ GL_n(O)`, `Ψ` vanishes off the
 matrices formed by the first `b` columns of some `k ∈ GL_n(O)`, and `Φ(last rows of k⁻¹) = χ(det k)·Ψ(first columns
-of k)` (`AuxiliaryAlgebraAndAnalysisForThetaLifts (partner algebra)`). `χ` is *tame* if `χ⁻¹` on `O^×` is inflated
-from a primitive character of the residue ring, as in `WeilRepresentationsOnBanachSpacesOfData §3.9`.
+of k)`. `χ` is *tame* if `χ⁻¹` on `O^×` is inflated from a primitive character of the residue ring, as in
+`WeilRepresentationsOnBanachSpacesOfData §3.9`.
 
 (c) *Theta integrals of `𝔠`.* For a Fock vector `v` and a function `Φ` of `r × n` matrices over `E_S`, `D(v, Φ)` is
 the datum on `Hom(W, V)` that is `v` at the real places, `Φ` at `S` and the vacuum elsewhere, and
@@ -1273,7 +1285,9 @@ every tame `χ` there is `γ ∈ ℂ` with `|γ|² = 1/#(O/ϖ)` and, for every i
 `λ^ℝ_β(a_∞)v` at the real places and the row datum of `p` at `S` when the finite part of `a` is integral outside
 `S ∪ S̄` and `a_S`, `ϖ·(ā)_S` are units of `O`, and to `0` otherwise.
 
-*Needs:* 6.1, 6.3; `AuxiliaryAlgebraAndAnalysisForThetaLifts (partner algebra; finite Fourier analysis)`;
+*Needs:* 6.1, 6.3; ShortGRH background (for `O` in `F` as in 6.1 (b), an `n × b` matrix over `F` is the block of the
+first `b` columns of some `k ∈ GL_n(O)` exactly when it is integral with an integral left inverse; [ShortProof]
+`Lib/General/LinearAlgebra/PartnerAlgebra.lean` (`New.IsValuationPair.exists_firstCols_iff`));
 `WeilRepresentationsOnBanachSpacesOfData §§3.9, 6.10` (tame Gauss sums, data read at places).
 
 [ShortProof], `Lib/SiegelWeil/Tower/LineGaussSums.lean` (`New.areMatched_stdRowDatum_stdColDatum`,

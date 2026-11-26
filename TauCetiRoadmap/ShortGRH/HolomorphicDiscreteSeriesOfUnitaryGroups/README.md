@@ -283,8 +283,17 @@ Gram fibre at `(e_i)_{i∈p}`, `m′` fixes these `e_i` almost everywhere, and t
 fibre measure of `y ↦ (((Jy)_i)_{i∈p}, h(y, y))` over its value at `e_j`, then `m ∗ m′` is below the Gram fibre at
 `(e_i)_{i∈q}`.
 
-*Needs:* 1.1–1.3; AuxiliaryAlgebraAndAnalysisForThetaLifts (measures below a fibre measure: images, composition of
-two maps).
+*Needs:* 1.1–1.3; ShortGRH background (rules for the relation of 1.1 (e) with a measure `μ` on `X` in place of Lebesgue
+measure (`l` below the fibre measure of `π` for `μ` over `b`), for s-finite measures: if for `t` in a neighbourhood `V`
+of `b` the points `ψ_t(p)` of weight `w_t(p) ≠ 0` lie over `t`, `ψ` and `w` are continuous in `t` at `b`, and
+`∫_V ∫ w_t(p)K(ψ_t(p)) dρ(p) dt ≤ ∫ K dμ` for measurable `K ≥ 0`, then the image of `w_b·ρ` under `ψ_b` is below the
+fibre measure of `π` for `μ` over `b`; if `l` is below that of `π₀ ∘ φ`, `φ` continuous, then `φ_*l` is below that of
+`π₀` for `φ_*μ`; if `l` is below that of `π` and the maps `φ(p, ·)` are continuous with `π₀(φ(p, x)) = π(x)`, then
+`φ_*(ρ × l)` is below that of `π₀` for `φ_*(ρ × μ)`; a homeomorphism `e` of the base onto another that preserves
+Lebesgue measure makes `l` below that of `e ∘ π` over `e(b)`; if `l` is below that of `π` for `μ` over `b` and `l′` below
+that of a continuous `π₂` for `l` over `b′`, then `l′` is below that of `(π, π₂)` for `μ` over `(b, b′)`; [ShortProof]
+`Lib/General/Measure/FibreMeasure.lean` (`New.LeFibreMeasure.of_coordinates`, `New.LeFibreMeasure.map`,
+`New.LeFibreMeasure.map_prod`, `New.LeFibreMeasure.comp_homeomorph`, `New.LeFibreMeasure.trans`)).
 
 [ShortProof], `Lib/DiscreteSeries/Haar/GramFibre` (`New.LeGramFibre.le_haar`, `New.leGramFibre_haar`,
 `New.LeGramFibre.append`, `New.LeGramFibre.append_vector`, `New.LeGramFibre.insert`)
@@ -812,7 +821,9 @@ hyperbolic basis `(1 + i)/2·(x_{k₀} ± z)`, `x_i` (`i ≠ k₀`), of `V_ϱ`. 
 The assembly of these measures and of the lower floors into Haar measure of `G₁`, with a bound for the constant, is in
 PairsOfFramesAtOnePlace §4.1 (Haar measure of `G₁` from floors).
 
-*Needs:* 2.5, 3.2, 3.5; AuxiliaryAlgebraAndAnalysisForThetaLifts (uniqueness of disintegrations of quadric measures).
+*Needs:* 2.5, 3.2, 3.5; ShortGRH background (at a place `A`, two families that disintegrate one measure on `A^ι` along
+one form, in the sense of 3.1 (c), agree at every skew element; [ShortProof]
+`Lib/General/Measure/QuadricDisintegration.lean` (`New.Floors.Place.IsDisintegration.unique`)).
 
 [ShortProof], `Lib/DiscreteSeries/Bruhat/ComplexPlace` (`New.Floors.cellChart`, `New.Floors.cellDensity`,
 `New.Floors.realFrameGram_cellChart`, `New.Floors.cartan_decomposition`, `New.Floors.map_orbitPoint_cellLaw_top`,
@@ -841,8 +852,16 @@ measure of `y ↦ ((h(e_i, y))_{floor(i)<b}, h(y, y))` over its value at `f_b`;
 (c) `η_l` (at the place `ℂ`) and `ι_*(dh)` are invariant under inversion, and `(μ ∗ μ′)⁻¹ = μ′⁻¹ ∗ μ⁻¹` for
 s-finite measures.
 
-*Needs:* 1.1, 2.5, 3.5, 3.6; AuxiliaryAlgebraAndAnalysisForThetaLifts (measures below a fibre measure: images,
-composition of two maps).
+*Needs:* 1.1, 2.5, 3.5, 3.6; ShortGRH background (rules for the relation of 1.1 (e) with a measure `μ` on `X` in place
+of Lebesgue measure (`l` below the fibre measure of `π` for `μ` over `b`), for s-finite measures: if for `t` in a
+neighbourhood `V` of `b` the points `ψ_t(p)` of weight `w_t(p) ≠ 0` lie over `t`, `ψ` and `w` are continuous in `t` at
+`b`, and `∫_V ∫ w_t(p)K(ψ_t(p)) dρ(p) dt ≤ ∫ K dμ` for measurable `K ≥ 0`, then the image of `w_b·ρ` under `ψ_b` is
+below the fibre measure of `π` for `μ` over `b`, and so is the image of `ρ` under `φ(b, ·)` when `φ` carries `dt × ρ`
+to `μ`, `π(φ(t, p)) = t` and `φ(·, p)` is continuous at `b`; if `l` is below that of `π₀ ∘ φ`, `φ` continuous,
+then `φ_*l` is below that of `π₀` for `φ_*μ`; if `l` is below that of `π` for `μ` over `b` and `l′` below that of a
+continuous `π₂` for `l` over `b′`, then `l′` is below that of `(π, π₂)` for `μ` over `(b, b′)`; [ShortProof]
+`Lib/General/Measure/FibreMeasure.lean` (`New.LeFibreMeasure.of_coordinates`, `New.LeFibreMeasure.of_measurePreserving`,
+`New.LeFibreMeasure.map`, `New.LeFibreMeasure.trans`)).
 
 [ShortProof], `Lib/DiscreteSeries/Bruhat/FloorFibre` (`New.Floors.leFibreMeasure_frameVector`,
 `New.Floors.leFibreMeasure_dualVector`, `New.Floors.inv_mconv`)

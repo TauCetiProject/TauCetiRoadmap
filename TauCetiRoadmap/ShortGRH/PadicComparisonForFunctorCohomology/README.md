@@ -862,8 +862,8 @@ with `ℕ` acting trivially, and of `ℕ`, on which `ℕ` acts by translation. T
 `Hom(E, ψ(−))`, with `γ` given by precomposition with `g : E → E` and with the map `q : Y → Hom(A, −)` induced by
 `i : ψA → E`. If `F'` is acyclic at `E` along `ψ` and `F'(i)`, `F'(g)` are Koszul-exact, then `q` is a line for `F'∘ψ`.
 
-*Needs:* CohomologyOfFunctorsOnTestRings §2.2 (long exact sequences of `Ext`); CohomologyOfFunctorsOnTestRings
-(acyclicity at an object).
+*Needs:* CohomologyOfFunctorsOnTestRings §2.2 (long exact sequences of `Ext`). Acyclicity at an object along a
+functor is defined in the conventions.
 
 [ShortProof], `Lib/PadicComparison/ToricTower` (`New.Variety.TimesBNat`, `New.Variety.IsLine`,
 `New.Variety.TimesBNat.isLine_fst`, `New.Variety.TimesBNat.shortExact_induced`,

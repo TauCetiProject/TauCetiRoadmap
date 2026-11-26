@@ -1434,9 +1434,10 @@ with `∏_{w,i} η_{μ,w,i} = 1`, there is a permutation `e` of the `GL_n(E)`-or
 type `(ε, ν, F)`; (b) `U` commutes with every `z ∈ GL_n(E)` that commutes with `y`; (c) `e` maps the orbit of `(qK, y, μ)`
 to that of `(UqK, y, μ)`.
 
-*Needs:* 2.1, 3.1; IdelicReciprocityCountsAndCyclotomicClassGroups (class field theory for a CM field `L` over its
-totally real subfield: for signs at the infinite places of `L` with product one, an `a ∈ L^×` with `φ(a)` real of the
-prescribed sign for every complex embedding `φ`, and a finite idele `z` of `L` with `a·z·z̄ = 1`).
+*Needs:* 2.1, 3.1; ShortGRH background (class field theory for a CM field `L` over its totally real subfield: for
+signs at the infinite places of `L` with product one, there are an `a ∈ L^×` with `φ(a)` real of the prescribed sign
+for every complex embedding `φ`, and a finite idele `z` of `L` with `a·z·z̄ = 1`; [ShortProof]
+`Lib/ClassField/Global/CMSplittingCharacters.lean` (`New.Cohomology.exists_sign_principalIdele_mul_norm_eq_one`)).
 
 [ShortProof], `Lib/Adelic/TraceFormula/ChangingSigns.lean` (`New.Variety.IsEllipticSimilitude`,
 `New.Variety.HasSignType`, `New.Variety.exists_eigenbasis_diag_form`, `New.Variety.exists_aeval_hasSignType_mul_iff`,
