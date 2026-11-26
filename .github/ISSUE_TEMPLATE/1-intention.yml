@@ -189,6 +189,7 @@ body:
         - DirectSummandsAndBigCohenMacaulay
         - DirectedMatrixTreeAndBEST
         - DirichletPadicLFunctions
+        - DistanceRegularGraphsCodesAndPolygons
         - DrinfeldModulesAndTModulesPartII
         - DynamicalDegreesOfRationalMaps
         - DysonBrownianMotion
@@ -377,6 +378,7 @@ body:
         - LieGroupoidsPoisson
         - LieGroupsPartII
         - LieHighestWeightPartII
+        - LineSystemsAndSwitching
         - LinearAlgebraMethodInCombinatorics
         - LinearFormsInLogarithms
         - LinearSystemsAndControl
