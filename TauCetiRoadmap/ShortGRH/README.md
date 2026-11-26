@@ -12,7 +12,8 @@ The family states the route of a formal Lean proof of these theorems, cited in i
 `72fead102f663d5c7a407964a13dc0cf9d977207`
 ([the Lean source at that commit](https://github.com/lsernau/grh-lean/tree/72fead102f663d5c7a407964a13dc0cf9d977207/grh)).
 The roadmaps name its files by their path under `grh/src/` (for example
-`New/Reduction/MainInequality.lean`), with the declarations in parentheses. Its README describes it
+`New/Reduction/MainInequality.lean`; some roadmaps omit the extension `.lean`), with the declarations
+in parentheses. Its README describes it
 as a rewriting, by the same method, of the formal proof whose route the family
 [RiemannHypothesisForDirichletLFunctions](../RiemannHypothesisForDirichletLFunctions/README.md)
 states ([announcement](https://alpo.ge/remark.pdf)), with many steps proved by other arguments; it
@@ -24,11 +25,13 @@ with `0 < Re s < 1` has real part `1/2`; and the case of primitive `χ` of the l
 
 The family shares with RiemannHypothesisForDirichletLFunctions its end theorems and its general
 method, an upper bound for a sum over primes obtained by comparing the sizes and the divisibility of
-theta lifts between unitary groups, and departs from it in the set-up. Its end theorems are not
-planned a second time: they are those of GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3, the
-roadmap of that family that states them (the five theorems above are its §5.2 and the value and
-strip forms of its §5.3), and the further forms and consequences that roadmap draws from them stay
-there. This family states the route by which `[ShortProof]` reaches them. Where a section of
+theta lifts between unitary groups, and departs from it in the set-up. Its end theorems are those of
+GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3, the roadmap of that family that states them
+(the five theorems above are its §5.2 and the value and strip forms of its §5.3).
+OneSidedPrimeSumBoundsAndAdmissibleData §§6.3 and 6.4 state them as the targets that this route
+reaches: the value form, the predicate form `χ.GeneralizedRiemannHypothesis`, the strip form, and
+Mathlib's `RiemannHypothesis`. The further forms and consequences that
+GeneralizedRiemannHypothesisFromWindowBounds draws from them stay there. Where a section of
 RiemannHypothesisForDirichletLFunctions or of a general roadmap of the library states a result that
 this route uses, the roadmaps of this family cite that section rather than state the result again.
 Among the differences of set-up: the analytic reduction asks for an upper bound for one weighted
@@ -36,10 +39,10 @@ sum over primes at all large values of its length, where the reduction of
 RiemannHypothesisForDirichletLFunctions asks for bounds on windows `[Y, Y^λ]`; and the bound is read
 off from an upper and a lower bound for one covolume of a lattice of theta lifts.
 
-Each subdirectory is a roadmap of its own, with a definitive `README.md` and a `Suggested.lean` of
-target signatures; this page is the index of the family. Citations between the roadmaps are by
-section number, `<Roadmap> §k.n`, so the number of a section is part of its statement: a section
-keeps its number.
+Each subdirectory is a roadmap of its own, with a definitive `README.md`; some have a
+`Suggested.lean` for target signatures. This page is the index of the family. Citations between the
+roadmaps are by section number, `<Roadmap> §k.n`, so the number of a section is part of its
+statement: a section keeps its number.
 
 ## The proof in outline
 
@@ -203,7 +206,12 @@ its heading and, after its statement, a `*Needs:*` line and a pointer to `[Short
   the ideas of its route, not its Lean.
 - `*Needs:*` names the sections that the statement rests on: bare ids for sections of the same
   roadmap, `<Roadmap> §k.n` for a section of another roadmap of this family, of
-  RiemannHypothesisForDirichletLFunctions or of another area.
+  RiemannHypothesisForDirichletLFunctions or of another area. An entry `ShortGRH background (…)`
+  names, in words, a published result that `[ShortProof]` proves among its background results (its
+  folder `src/Lib`) and that no roadmap section states yet in the form used; the words in the
+  parenthesis say which form. Such an entry is a result still to be stated as a numbered target, in
+  an existing roadmap of the library or in a background roadmap of this family; it creates no
+  dependency in the umbrella until then.
 - The pointer, `[ShortProof], <file> (<declarations>)`, names where `[ShortProof]` proves the
   statement. A statement may be more general than the one `[ShortProof]` proves; it then says in a
   closing sentence which case `[ShortProof]` proves.
