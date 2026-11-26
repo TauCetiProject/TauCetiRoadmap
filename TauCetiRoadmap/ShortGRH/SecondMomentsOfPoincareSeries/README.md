@@ -1,6 +1,6 @@
 # Roadmap: second moments of Poincaré series
 
-The argument proves the Riemann hypothesis for Dirichlet L-functions through a one-sided bound for a sum over primes:
+**Summary.** The argument proves the Riemann hypothesis for Dirichlet L-functions through a one-sided bound for a sum over primes:
 such a bound at arbitrarily large scales gives a zero-free half-plane. At each scale the bound comes from comparing an
 upper and a lower bound for the covolume of a lattice of theta lifts of target forms. For that comparison the target
 forms must be reached by few maps of a fixed kind: by Theorem B of the argument, the images of a small number of
@@ -57,7 +57,7 @@ inner product space.
 | `d_T` | the dimension of the target forms | ThetaLiftChainsAndTheSeesawIdentity §2.7 |
 | source forms, `D_X` | algebraic modular forms on `U(X₀)` of the weight of the data and level `K_X` (principal at the chosen places, with last row `≡ (0, …, 0, 1)` modulo `π_N`); `D_X` their dimension | ThetaLiftChainsAndTheSeesawIdentity §2.8 (source forms), §2.6 (the level, there `K_0`) |
 | `𝒫` | the Poincaré map: source forms to principal forms on `Y₀`, the Riesz representative of a Bessel period | ThetaLiftChainsAndTheSeesawIdentity §2.19 |
-| `mass_l` | the mass `∑ 1/#Aut` of the genus of the standard hermitian lattice `𝒪_E^l` | ShortGRH background (masses of hermitian lattices) |
+| `mass_l` | the mass `∑ 1/#Aut` of the genus of the standard hermitian lattice `𝒪_E^l` | HermitianFormsAndLattices §5.5 (the mass of a genus) |
 | `G₁, J₁, f, 𝖴, 𝖴⁰, H, R` | the real group at one place, its form, its frame, its Bessel subgroups | 3.1 |
 | `ψ, σ` | the character of `𝖴` and the sum of the simple root entries | 3.1 |
 | `ℓ(y), B(ρ)` | the Bessel length and the frame box | 3.1 |
@@ -119,7 +119,7 @@ Let `S`, `T` be finite-dimensional complex inner product spaces and `A : S → T
 
 ### 1.2 One translate from a second moment
 
-*Origin:* adapted from the published theory of rank bounds from second moments of frames: here, for the translates of
+*Origin:* adapted from rank bounds from second moments of frames (Welch (1974)): here, for the translates of
 one map by a finite unitary group, followed by a projection that commutes with the group.
 
 *Method of the formal proof:* (a) and (b) are expansions of the Hilbert–Schmidt norm on an orthonormal basis and
@@ -147,7 +147,7 @@ with error `ε` and that `dim T₀ · ∑_{s ∈ Γ} ‖B* ρ(s) B‖² ≤ #Γ�
 
 ### 1.3 Few translates span almost all
 
-*Origin:* adapted from the published theory of greedy covering for submodular set functions: here, for the dimension of
+*Origin:* adapted from greedy covering for submodular set functions (Wolsey (1982)): here, for the dimension of
 a sum of images of a spreading family.
 
 *Method of the formal proof:* greedy choice: while the span `F` misses more than a share `16ε` of `W`, the spreading
@@ -196,8 +196,8 @@ Suppose that for every nonzero `v ∈ 𝔽^e` both `∑_{s : π(s)A₀v = A₀v}
 *Origin:* definitions and conventions.
 
 Let `G_f = U(V)(𝔸_f)`, the same group for all `V` of the Conventions, and `G^M ⊂ G_f` the subgroup of the elements whose
-component at every chosen place is `1`. The spaces of principal forms of `V` are finite-dimensional (ShortGRH background
-(finiteness of spaces of forms of a level)).
+component at every chosen place is `1`. The spaces of principal forms of `V` are finite-dimensional (the background
+result of the *Needs:* line).
 
 - A *spherical element away from `M`* is an element `a` of the group algebra `ℂ[G^M]` (finitely supported) whose image
   in `ℂ[G_f]` maps the vectors fixed by `J_M` to vectors fixed by `J_M` in every representation of `G_f`.
@@ -210,14 +210,18 @@ component at every chosen place is `1`. The spaces of principal forms of `V` are
   with `T_{w,i} y = p(w, i)·y` for all `(w, i)`.
 
 *Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.5 (the group `Ḡ` over the chosen places, there `𝖦`), §2.7 (the forms of
-principal level and the level `J_M`); ShortGRH background (finiteness of spaces of forms of a level).
+principal level and the level `J_M`); ShortGRH background (for a hermitian space `V` over `E`, an open subgroup `K`
+of `U(V)(𝔸_f)` and parameters `λ_v` whose entries at coordinates of different sign are at least `500r³` apart, the
+bounded automorphic functions on `U(V)` fixed by `K` and by right convolution with the product of the kernels
+`deg(λ_v)·c̄_{λ_v}` form a finite-dimensional space; [ShortProof] `Lib/Adelic/AutomorphicForms/Cuspidality.lean`
+(`New.Space.finite_levelSpace`), `Lib/Adelic/AutomorphicForms/RealConvolution.lean` (`New.isCuspKernel_typeKernel`)).
 
 [ShortProof], `New/Spanning/Multiplicities/HeckeEigensystems.lean` (`New.Data.sphericalAlgebra`,
 `New.Data.heckeAlgebra`, `New.Data.IsSplitOffLevel`, `New.Data.heckeOperator`, `New.Data.eigenPart`)
 
 ### 2.1a Properties of the Hecke algebra away from the level
 
-*Origin:* adapted from the published theory of spherical Hecke algebras of unramified unitary groups: here, for the
+*Origin:* adapted from the classical theory of spherical Hecke algebras of unramified unitary groups: here, for the
 operators away from the chosen places, acting at once on the principal forms of all inner forms `V`.
 
 *Method of the formal proof:* the operator `T_{w,i}` is a sum over the cosets of the double coset, which is one element
@@ -246,7 +250,9 @@ on `V_q` and zero on `V_d` for `d ∈ F`, `d ≠ q`.
 
 *Origin:* adapted from the comparison of simple trace formulas of inner forms (Arthur and Clozel (1989); Labesse
 (1999)): here, the traces of the spherical Hecke operators away from `M` on the good forms of two inner forms that differ
-only in their signs at the real places, under the gap `Δ` of the parameter.
+only in their signs at the real places, under the gap `Δ` of the parameter. The equality of cuspidal multiplicities of
+BaseChangeAndGaloisRepresentationsForUnitaryGroups §13.8a is the same comparison in the language of representations,
+for a jointly cuspidal family of types and the gap `100r⁴`; the form used here is an equality of traces.
 
 *Method of the formal proof:* `e₀` is the sum of the idempotents `e_c` of the good families of labels, so the trace of
 `T` on the good forms is `∑_c tr(T e_c)` on the principal forms. Every good family has a primitive label at some chosen
@@ -259,9 +265,20 @@ sign are at least `Δ` apart. Then for every `T ∈ 𝓗^M`, `T|_good` on `V` an
 characteristic polynomial and the same determinant.
 
 *Needs:* 2.1a; ThetaLiftChainsAndTheSeesawIdentity §2.5 (`e₀` as a sum over good families of labels, each with a
-primitive label), §2.7 (good forms); ShortGRH background (equality of traces on two unitary groups that differ only at
-the real places, for a test function cuspidal at a split place and parameters with gap at least `500r³ + 10r⁵`);
-ShortGRH background (the idempotent of a primitive label is cuspidal)
+primitive label), §2.7 (good forms); FiniteReductiveGroups §5.2 (the character of an irreducible label of degree `r`
+is cuspidal), §5.7 (the central idempotent of a label); ShortGRH background (let `E` be a CM field with a primitive
+`5040`-th root of unity and an even number of infinite places, `V`, `V′` hermitian spaces of rank `r ≥ 2` over `E` with
+the same finite adelic group, and `(λ_v)` parameters with gap at least `500r³ + 10r⁵` for the signs of both; let `K` be
+an open compact subgroup and `a` an element of the group algebra of the finite adelic group that preserves the
+`K`-fixed vectors of every representation, such that the test function `a ⋆ 1_K` is cuspidal at one split place, in
+the sense that its translates have sum zero over each coset of each proper unipotent radical there; then `a` has the
+same trace on the forms of parameter `(λ_v)` and level `K` on `V` and on `V′`; [ShortProof]
+`Lib/Adelic/TraceFormula/CuspidalComparison.lean` (`New.trace_eq_of_isCuspidalAt`)); ShortGRH background (for
+places `w_i`, none conjugate to another or to itself, and a tuple of labels whose member at `w_x` is irreducible of
+degree `r`, the product of any element of the group algebra with the lift of the idempotent of the tuple, convolved
+with the indicator of the principal level at the `w_i`, is cuspidal at `w_x` in that sense; [ShortProof]
+`Lib/Adelic/TraceFormula/CuspidalType.lean` (`New.isCuspidalAt_convIndicator_tupleIdem`)). On the data the number
+`f` of infinite places is even and `r ≥ 2`.
 
 [ShortProof], `New/Spanning/Multiplicities/EqualMultiplicities.lean` (`New.Data.trace_heckeOnGood_eq`,
 `New.Data.charpoly_heckeOnGood_eq`, `New.Data.det_heckeOnGood_eq`)
@@ -342,7 +359,7 @@ Euclidean structure in which the basis is orthonormal. `X₀ = ⟨x_i⟩`.
   (`a < ϱ`) and of `e_ϱ` in `g z`. The character of `𝖴` is `ψ(u) = exp(σ(u) − σ̄(u))`.
 - Haar measures: on `𝖴` and `𝖴⁰` the images of Lebesgue measure under the coordinates of the free entries, on `H` the
   probability measure, on `G₁` the Haar measure `μ_{G₁}` of the Conventions (**Normalisations**), which is the one of
-  ShortGRH background (Haar measures on the Bessel unipotent groups and on unitary groups); `∫_{𝖴\G₁}` is the quotient
+  the first background result of the *Needs:* line; `∫_{𝖴\G₁}` is the quotient
   integral, and on `R` the measure is `du dh`.
 - The *Bessel length* of `y` is `ℓ(y) = inf_{s ∈ R}(‖s y‖ + 1)`; it is left invariant under `R`. For `b > 0` the scaled
   length is `ℓ_b(y) = max(1, ℓ(y)/b^{6n})`, and `y` lies *in the cut* if `ℓ(y) ≤ b^{6n+2}`.
@@ -354,12 +371,20 @@ Euclidean structure in which the basis is orthonormal. `X₀ = ⟨x_i⟩`.
   (**Normalisations**).
 - Discrete series: for signs `ε` with `pᴴ J₁ p = diag(ε)` for a fixed unitary matrix `p`, and a doubled Harish-Chandra
   parameter `l = 2λ` for `ε`, `c_λ` is the coefficient of the discrete series of parameter `λ` on `U(diag ε)` and on `G₁`
-  through `p`, and `deg(λ) = (∫|c_λ|²)⁻¹` its formal degree (ShortGRH background (discrete series coefficients of
-  `U(p, q)` and their formal degrees)). `l` has *large gap `A`* if its entries are distinct, of the parity of `r − 1`,
+  through `p`, and `deg(λ) = (∫|c_λ|²)⁻¹` its formal degree (the second background result of the
+  *Needs:* line). `l` has *large gap `A`* if its entries are distinct, of the parity of `r − 1`,
   and entries of `λ` at coordinates of different sign are at least `500r³ + A` apart. Convolution is
   `(F ∗ φ)(y) = ∫ φ(a⁻¹)F(ya) da`.
 
-*Needs:* no section; the background results are named in the statement.
+*Needs:* ShortGRH background (the Haar measure of `U(J)` given by the Cayley chart, as in the Conventions, which has
+mass one on the compact group `U(r)`; the Haar measures of `𝖴` and `𝖴⁰` as images of Lebesgue measure under the free
+entries, both unimodular; [ShortProof] `Lib/DiscreteSeries/Haar/CayleyChart.lean` (`New.haarU`, `New.volU`),
+`Lib/DiscreteSeries/Haar/TotalMass.lean` (`New.isProbabilityMeasure_haarU`),
+`Lib/DiscreteSeries/Bessel/UnipotentHaarMeasure.lean` (`New.RealPlace.measurePreserving_freeEntries_besselHaar`,
+`New.RealPlace.measurePreserving_freeEntries_besselHaar₀`)); ShortGRH background (the function `c_λ` on `U(diag ε)`
+defined by Flensted-Jensen's integral over the maximal compact subgroup for the lowest `K`-type of `λ`, its formal
+degree `(∫|c_λ|²)⁻¹` and the kernel `deg(λ)·c̄_λ`; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/Defs.lean`
+(`New.HCParam.dsCoeff`, `New.HCParam.formalDegree`, `New.HCParam.dsKernel`, `New.HCParam.HasLargeGap`)).
 
 [ShortProof], `New/Spanning/Bessel/Basic.lean` (`New.besselLength`, `New.frameBox`, `New.frameDisc`,
 `New.RealPlace.gramDiscReal`, `New.Shape.openCellConst`, `New.scaledBesselLength`); `New/Spanning/Bessel/Average.lean`
@@ -451,7 +476,8 @@ for the frame and its image.
 (c) If `ρ > 0`, `P ≥ 8` and every `Y` within `ρ` of `Z` is bounded in the cell by `P`, then `‖γ_Z‖ ≤ P¹²` and the real
 derivative of `Y ↦ γ_Y` at `Z` has norm at most `2P¹²/ρ`.
 
-*Needs:* 3.1; ShortGRH background (Witt's theorem for hermitian forms)
+*Needs:* 3.1; HermitianFormsAndLattices §1.1 (b) (Witt extension, over `ℂ/ℝ`: two independent families of vectors with
+the same Gram matrix are carried to one another by an element of the unitary group)
 
 [ShortProof], `New/Spanning/Bessel/GramSection.lean` (`New.RealPlace.gramSection`,
 `New.RealPlace.measurable_gramSection`, `New.RealPlace.realFrameGram_gramSection`,
@@ -474,14 +500,19 @@ For every measurable `F ≥ 0` on `G₁`,
 
 with `dZ` Lebesgue measure on complex `n × n` matrices and `ds` the measure `du dh` on `R⁰ = 𝖴⁰H`.
 
-*Needs:* 3.1, 3.4; ShortGRH background (fibre measures of the Gram map of tuples of vectors in terms of Haar measure)
+*Needs:* 3.1, 3.4; ShortGRH background (for a tuple `E` of vectors, a measure on `U(J)` is below the fibre measure of the Gram map at `E`
+if its image under `g ↦ gE` is at most the fibre measure, over the Gram matrix of `E`, of Lebesgue measure on tuples;
+Haar measure is below the fibre measure of the empty tuple, the property passes to a tuple with one more vector, and
+for the frame the convolution with the Haar measure of the fixer `𝖴⁰H` is below the fibre measure; [ShortProof]
+`Lib/DiscreteSeries/Haar/GramFibre.lean` (`New.LeGramFibre`, `New.leGramFibre_haar`),
+`Lib/DiscreteSeries/Bessel/FrameFibre.lean` (`New.LeGramFibre.mconv_fixerHaar_le`))
 
 [ShortProof], `New/Spanning/Bessel/MeanValue.lean` (`New.RealPlace.lintegral_gramSection_le`,
 `New.RealPlace.leGramFibre_gramSectionMeasure`)
 
 ### 3.6 Schur's bound for a Bessel function fixed by a discrete series
 
-*Origin:* adapted from the published theory of Schur orthogonality for discrete series representations: here, for
+*Origin:* adapted from Schur's orthogonality relations for discrete series representations (Harish-Chandra), classical: here, for
 Bessel functions on `G₁` fixed by convolution with `deg·c_λ`, with explicit `L²(𝖴\G₁)` bounds for their right
 derivatives.
 
@@ -501,8 +532,10 @@ with `F ∗ X_∅ = F` the functions `F ∗ X_w` are its iterated right derivati
 
 (c) For such `F` and every `B ≥ (r + 1)⁴(L + r + 1 + 2n²)`, `F` has a Schur bound `(B, ‖F‖₂²/deg)`.
 
-*Needs:* 3.1, 3.3; ShortGRH background (discrete series coefficients: the kernel `deg·c_λ` is idempotent, with bounds for
-its derivatives, under a large gap)
+*Needs:* 3.1, 3.3; ShortGRH background (for a parameter `λ` of gap at least `500r³ + A`, the kernel `e_λ = deg(λ)·c̄_λ` is continuous and
+integrable with `e_λ(g⁻¹) = conj e_λ(g)` and `∫ e_λ(z)e_λ(x⁻¹z⁻¹y) dz = e_λ(x⁻¹)e_λ(y)/e_λ(1)`, and `β ∗ e_λ = e_λ` for
+a smooth compactly supported `β`; [ShortProof] `Lib/DiscreteSeries/Rigidity/KernelFixes.lean`
+(`New.HCParam.HasLargeGap.isIdempotentKernel_dsKernel`, `New.HCParam.HasLargeGap.exists_bump_conv_dsKernel`))
 
 [ShortProof], `New/Spanning/Bessel/SchurBound.lean` (`New.exists_derivative_kernels`,
 `New.IsBesselFunction.lintegral_enorm_sq_integral_inner_translate`, `New.IsBesselFunction.hasSchurBound_of_convolve_eq`)
@@ -534,7 +567,7 @@ the outer integral over the `(h, u) ∈ H × 𝖴⁰` with `‖u‖ ≤ P²⁰`,
 
 ### 3.8 The Bessel average of a discrete series coefficient
 
-*Origin:* adapted from the published theory of Bessel models of discrete series (Bessel functions as integrals of a
+*Origin:* adapted from the classical theory of Bessel models of discrete series (Bessel functions as integrals of a
 matrix coefficient against a character of the Bessel subgroup): here, with the norm given by a period and the volume of
 a ball bounded by the norm.
 
@@ -554,7 +587,13 @@ Let `l = 2λ` have large gap, `ρ` a continuous unitary representation of `U(k)`
 `{s ∈ R : ‖x⁻¹sx − 1‖ ≤ 1}` is at most `P ≥ 0` times `|∫_R c_λ(x⁻¹sx)·c̄_μ(h_s)·exp(σ̄(s) − σ(s)) ds|` (`h_s` the
 component of `s` in `H`), then it is at most `P·deg·‖W‖₂²`.
 
-*Needs:* 3.1, 3.3; ShortGRH background (discrete series coefficients: decay and idempotence under a large gap)
+*Needs:* 3.1, 3.3; ShortGRH background (for a parameter `λ` of gap at least `500r³ + A`: every function `F` obtained from `c_λ` by right
+derivatives has `|F(g)| ≤ K_F·(2/‖g‖)^c` for each `c ≤ 500r³ + A`; `‖g‖^c·e_λ(g)` is integrable for `c ≤ A + 1`; the
+kernel `e_λ` is idempotent as in the background result of 3.6; and Schur's orthogonality relation holds for `c_λ`;
+[ShortProof] `Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean`
+(`New.HCParam.HasLargeGap.exists_decay_bound`, `New.DiscreteSeries.norm_dsCoeff_le_pow`,
+`New.HCParam.HasLargeGap.integrable_dsKernel_mul_norm_pow`, `New.dsCoeff_schur_orthogonality`),
+`Lib/DiscreteSeries/Rigidity/KernelFixes.lean` (`New.HCParam.HasLargeGap.isIdempotentKernel_dsKernel`))
 
 [ShortProof], `New/Spanning/Bessel/LargeFunction.lean` (`New.DiscreteSeries.integrable_besselIntegrand`,
 `New.DiscreteSeries.isBesselFunction_besselAverage`, `New.DiscreteSeries.convolve_besselAverage`,
@@ -563,7 +602,7 @@ component of `s` in `H`), then it is at most `P·deg·‖W‖₂²`.
 
 ### 3.9 A point at which the Bessel period is large
 
-*Origin:* adapted from the published theory of Laplace's method for periods of products of matrix coefficients: here, at
+*Origin:* adapted from Laplace's method for periods of products of matrix coefficients (H. He (2017), through PairsOfFramesAtOnePlace §8.6): here, at
 an explicit point of bounded Bessel length, for steep parameters.
 
 *Method of the formal proof:* Witt's theorem gives a point `x` that carries the stationary position of `H` in `G₁` to
@@ -580,7 +619,9 @@ and
 `vol{s ∈ R : ‖x⁻¹sx − 1‖ ≤ 1} ≤ β^{20(r+k)²}·|∫_R c_l(x⁻¹sx)·c̄_μ(h_s)·exp(σ̄(s) − σ(s)) ds|`.
 
 *Needs:* 3.1; PairsOfFramesAtOnePlace §8.1 (steep parameters), §8.5 (their stationary position), §8.6 (the lower
-bound for periods by Laplace's method); ShortGRH background (Witt's theorem for hermitian forms)
+bound for periods by Laplace's method); HermitianFormsAndLattices §1.1 (b) (Witt extension, over `ℂ/ℝ`: two
+independent families of vectors with the same Gram matrix are carried to one another by an element of the unitary
+group)
 
 [ShortProof], `New/Spanning/Bessel/LargeFunction.lean` (`New.DiscreteSeries.IsSteep.exists_stationary_point`)
 
@@ -604,7 +645,11 @@ For `R > 0` let `χ_R(t) = max(0, min(1, 2 − 2t/R))` and `W♭(y) = χ_{b^{6n+
 and that `b ≥ 2000`, `r ≥ 100`, `f ≥ 1`, `m + 99r² ≤ 400r²`, `r + L + 1 ≤ b⁴` and `3r³f ≤ A`. Then for some real `c` the
 function `F = c·W` satisfies `F ∗ (deg·c_λ) = F`, and `(F, F♭)` is a cut pair of type `ρ` with parameters `(b, f)`.
 
-*Needs:* 3.1, 3.3, 3.8; ShortGRH background (decay of discrete series coefficients of `U(p, q)` under a large gap)
+*Needs:* 3.1, 3.3, 3.8; ShortGRH background (for a parameter `λ` of gap at least `500r³ + A`, `|c_λ(g)|` is at most a constant times
+`(2/‖g‖)^c` for each `c ≤ 500r³ + A`, and the integral over `G₁` of such a majorant outside a ball is bounded through
+the covering bound for norm balls; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean`
+(`New.HCParam.HasLargeGap.exists_decay_bound`), `Lib/DiscreteSeries/Haar/TotalMass.lean`
+(`New.DiscreteSeries.lintegral_decay_le`))
 
 [ShortProof], `New/Spanning/Bessel/CutTailBound.lean` (`New.IsDecayMajorant.lintegral_sq_besselCut_sub_le`,
 `New.exists_isDecayMajorant_besselAverage`, `New.exists_isCutPair_besselAverage`)
@@ -701,7 +746,11 @@ representation of `GL(X₀)` of the weight of the source forms at `v`;
 *Needs:* 3.3, 3.6, 3.8, 3.9, 3.10; PairsOfFramesAtOnePlace §4.3 (local bounds at `ℂ` for cut Bessel functions);
 DeterminantsOfThetaLiftChains §5.4 (a) (the parameters are steep); ThetaLiftChainsAndTheSeesawIdentity §2.4 (the
 target parameter and its gap), §2.8 (the weight of the source forms); OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the
-sizes); ShortGRH background (Weyl's dimension formula for the formal degree)
+sizes); DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3 (the formal degree of a discrete series, for the measure that
+corresponds to mass one on the compact dual, is the value of Weyl's dimension polynomial at its parameter); ShortGRH
+background (the same for `deg(λ) = (∫|c_λ|²)⁻¹` with the measure `μ_{G₁}` of the Conventions, for a parameter of gap
+at least `500r³ + 10r⁵`; [ShortProof] `Lib/DiscreteSeries/Character/FormalDegree.lean`
+(`New.Orbital.formalDegree_eq_weylDimensionPoly`))
 
 [ShortProof], `New/Spanning/Bessel/FillingData.lean` (`New.Data.exists_besselSystem`);
 `New/Spanning/Bessel/LargeFunction.lean` (`New.Filling.IsDiscreteSeriesBessel`)
@@ -789,12 +838,13 @@ Let `𝔉` be filling data.
 `New.Filling.classUnipotent`, `New.Filling.classUnipotent₀`, `New.Filling.IsResidueDomain`, `New.Filling.classCutoff`,
 `New.Filling.besselFn`, `New.Filling.amplitude`, `New.Filling.amplitudeSum`, `New.Filling.unipotentCovolume`,
 `New.Filling.mainSecondMoment`, `New.Filling.identitySecondMoment`, `New.Filling.unipotentChar`, `New.Filling.Agrees`,
-`New.Filling.IsStable`); `New/Spanning/Unfolding/Terms.lean` (`New.Filling.CharsAgree`);
-`New/Spanning/Bessel/Basic.lean` (`New.link`)
+`New.Filling.IsStable`, `New.Filling.reducedPoints`); `New/Spanning/Unfolding/Terms.lean` (`New.Filling.CharsAgree`);
+`New/Spanning/Bessel/Basic.lean` (`New.link`); `New/Spanning/RemainingTerms/Box.lean` (`New.Filling.boxedPoints`);
+`New/Spanning/RemainingTerms/Size.lean` (`New.Filling.secondMoment`)
 
 ### 4.3 Bessel level structure: Eichler maps and strong approximation for `𝖴`
 
-*Origin:* adapted from the published theory of strong approximation for unipotent groups and of Eichler transformations:
+*Origin:* adapted from the classical theory of strong approximation for unipotent groups and of Eichler transformations:
 here, for the Bessel unipotent group with the level `K(M)` at the class representatives, and the comparison of its
 character at the infinite and at the finite places.
 
@@ -932,7 +982,7 @@ on their support and `w_p ≤ t·β_{k_p}(γ_{p,∞}⁻¹y)`, then `∑_p w_p �
 
 ### 4.8 The integral of a class cutoff over the real unipotent group
 
-*Origin:* adapted from the published computation of covolumes of lattices in Heisenberg groups: here, the integral of
+*Origin:* adapted from the classical computation of covolumes of lattices in Heisenberg groups: here, the integral of
 the cutoff `β_c` over `𝖴_∞ = ∏_v 𝖴` for a fixed product Haar measure, independent of the class.
 
 *Method of the formal proof:* the group is unfolded one row of coordinates at a time; the integral becomes a product of
@@ -945,7 +995,9 @@ Let `E` contain a primitive root of unity of order `5040` and `𝔉` be admissib
 (b) The Bessel kernel `y ↦ W(y) ⊗ W(γ_∞⁻¹y)^*` is continuous, and the norm of an amplitude is at most the integral of the
 norm of its integrand.
 
-*Needs:* 4.1, 4.2, 4.6; ShortGRH background (Haar measures on the Bessel unipotent groups via coordinates)
+*Needs:* 4.1, 4.2, 4.6; ShortGRH background (the coordinates of the free entries carry the Haar measure of `𝖴`, and of `𝖴⁰`, to Lebesgue
+measure; [ShortProof] `Lib/DiscreteSeries/Bessel/UnipotentHaarMeasure.lean`
+(`New.RealPlace.measurePreserving_freeEntries_besselHaar`, `New.RealPlace.measurePreserving_freeEntries_besselHaar₀`))
 
 [ShortProof], `New/Spanning/Unfolding/CutoffIntegral.lean` (`New.Filling.lintegral_classCutoff_eq_unipotentCovolume`,
 `New.Filling.continuous_besselKernel`, `New.Filling.enorm_amplitude_le`)
@@ -1096,7 +1148,8 @@ of the cut function `W♭`. If the sum over `c, c′`, `s ∈ Ω` and links `Λ`
 
 *Needs:* 4.2, 4.4, 4.5, 4.9, 4.10, 4.11, 4.12; RemainingAndMainTermsOfSecondMoments §5.5 (c) (the bound for the remaining
 terms `Γ*`, given a bound for the link second moment of the terms with `𝗀 ≠ 0`), §5.5 (d) (the bound of that link second
-moment over reductions meeting at places of large norm)
+moment over reductions meeting at places of large norm), §3.6 (b) (passing from the Bessel function to its cut changes
+the second moment of any set of terms by at most `b⁻⁴⁰·𝒟_id`)
 
 [ShortProof], `New/Spanning/Unfolding/SquareExpansion.lean` (`New.Filling.AvoidsScalarCosets`,
 `New.Filling.sqrt_secondMoment_compl_besselS_le`, `New.Filling.secondMoment_compl_besselS_le`)
@@ -1122,8 +1175,9 @@ nonzero vector of the span of the frame modulo `w` or `w̄` the elements of `Γ`
 `∑_Γ β`. Then for `l < n` the `s ∈ Γ` with `D_l(Z(s_w)) = 0` carry at most a share `3b⁻¹⁰`, and the `s ∈ Γ` that are not
 open carry at most a share `b⁻⁴`.
 
-(c) If `E` carries Weil data (ShortGRH background (the Weil representation)), `u` is a map from `Ḡ` to an inner product
-space with `⟨u_a, u_c⟩ = 𝔼(A, {a⁻¹c})` for all `a, c`, and `𝔼(A, {1}) ≤ 2D_X`, then
+(c) Suppose that `E` has Weil data (DivisibilityOfThetaDerivatives §1.4 (c); the field of admissible data has them, and
+the conclusion does not involve them: they enter through RemainingAndMainTermsOfSecondMoments §8.1). If `u` is a map
+from `Ḡ` to an inner product space with `⟨u_a, u_c⟩ = 𝔼(A, {a⁻¹c})` for all `a, c`, and `𝔼(A, {1}) ≤ 2D_X`, then
 `∑_{s ∈ Ḡ} 𝔼(A, {s}) ≤ (1 + 9b⁻⁴)·𝒟_main`.
 
 *Needs:* 1.4, 4.2, 4.9, 4.10, 4.11, 4.13; RemainingAndMainTermsOfSecondMoments §8.1 (the main-term bound for the second
@@ -1153,7 +1207,7 @@ all terms.
 (a) If `E` contains a primitive root of unity of order `5040`: `‖P*P − 1‖² ≤ b⁻¹²·D_X`, and for `i ∈ {0, 1}`,
 `∑_{s ∈ Ω_i}‖P*ρ(s)P − r_ψ(s)‖² ≤ b⁻¹²·𝒟_id`, with `Ω_i` as in 4.13 (b).
 
-(b) If `E` carries Weil data and `ρ` is unitary: `∑_{s ∈ Ḡ}‖P*ρ(s)P‖² ≤ (1 + 9b⁻⁴)·𝒟_main`.
+(b) If `E` has Weil data (as in 4.14 (c)) and `ρ` is unitary: `∑_{s ∈ Ḡ}‖P*ρ(s)P‖² ≤ (1 + 9b⁻⁴)·𝒟_main`.
 
 (c) If moreover `g_i` (`i = 0, 1`) is a central idempotent of the group algebra of the factor of `Ḡ` above `p_i` with
 `Re (1 − g_i)(1) ≤ b⁻⁸/2`, and `e₀ = g₀ ⊗ g₁`, then `‖(1 − ρ(e₀))P‖² ≤ 4b⁻⁴·D_X` and `ρ(e₀)P` is a near isometry with
@@ -1197,8 +1251,8 @@ identification), and `0` otherwise; for `φ ∈ ℂ^{Classes × Coord}` put `�
 (c) The algebraic forms on `U(X₀)` of weight `kw` and level `K_X` have dimension `D_X = #Classes·dim(weight kw) > 0`, and
 their values at the class representatives give an isomorphism `φ ↦ (φ_{c,i})` with `ℂ^{Classes × Coord}`.
 
-*Needs:* 3.14, 4.1, 4.2, 4.6, 4.9; ShortGRH background (unfolding along Bessel subgroups; algebraic modular forms of a
-free level)
+*Needs:* 3.14, 4.1, 4.2, 4.6, 4.9; AutomorphicFormsOnReductiveGroups §7.5 (forms of a level with trivial stabilisers on the
+definite group `U(X₀)`: `S(J, M) ≅ M^h`, which gives (c))
 
 [ShortProof], `New/Spanning/Unfolding/PoincareSeries.lean` (`New.Filling.Fits`, `New.Filling.Fits.poincareSeries`,
 `New.Filling.Fits.poincareMap`, `New.Filling.Fits.coe_poincareMap`, `New.Filling.Fits.petersson_poincare`,
@@ -1236,7 +1290,7 @@ the Bessel group, the type kernel acts on `y` as the identity, and what is left 
 `𝖴_c(M)\R(E⁺_∞)`. The Bessel period decomposes in the same way, since the quotient of `[R]` by `R(𝔸_f) ∩ J` is the
 disjoint union of these spaces, so the two agree up to a nonzero constant, which is absorbed in `t`.
 
-(a) Let `E` carry Weil data (ShortGRH background (the Weil representation)). If `V` fits `𝔉` and the constant `c_Y` of the
+(a) Let `E` have Weil data (DivisibilityOfThetaDerivatives §1.4 (c)). If `V` fits `𝔉` and the constant `c_Y` of the
 generic character of the Bessel unipotent group of `V` satisfies `ȷ·c_Y = −(Mϖ)⁻¹`, `ȷ` the element of the Weil data (so
 that the character of `𝔉` is that of the Bessel period), there are `g₀` and `t` such that for every source form `φ` and every form `y` of the conjugate
 type and level `J`, `∫_{[G]} y·𝒫(φ_{c,i}) = ∫_{[R]} 𝒲_φ(r)·y(rg₀) dr`, with `𝒲_φ(uh) = ψ_U(u)·t(h_∞⁻¹·φ(h_f))` built from
@@ -1248,7 +1302,11 @@ Poincaré map of ThetaLiftChainsAndTheSeesawIdentity §2.19 at `(g, t)`, `𝒫^{
 representatives. The Poincaré map `𝒫` of the data is `𝒫_{g,t}` for such a choice.
 
 *Needs:* 5.1, 5.2, 5.5; ThetaLiftChainsAndTheSeesawIdentity §2.19 (the Poincaré map as the Riesz representative of the
-Bessel period); ShortGRH background (quotient integrals over the global Bessel group)
+Bessel period); DivisibilityOfThetaDerivatives §1.4 (the Weil data of `E` and its element `ȷ`); ShortGRH background
+(moving a quotient from one variable to the other: for a subgroup `R` of `G` with left invariant measures, a countable
+group `Λ` mapping to `R` and a weight on `G` whose `Λ`-translates add up to one, `∫_{Λ\G}∫_R F = ∫_{Λ\R}∫_G F` for `F`
+on `R × G` measurable, invariant under the diagonal action of `Λ` and integrable; [ShortProof]
+`Lib/Adelic/QuotientMeasure/MovingTheQuotient.lean` (`New.integral_cutoff_swap`))
 
 [ShortProof], `New/Spanning/Unfolding/SeriesPeriod.lean` (`New.Filling.Fits.exists_dotProduct_besselFn_eq_integral`,
 `New.Filling.Fits.exists_integral_besselMeasure_eq_sum`, `New.Filling.Fits.exists_integral_poincareSeries_eq_period`,
@@ -1269,8 +1327,13 @@ For `v ∈ Φ` let `sph_l(v) = (2π)^l/(|v(ϖ)|^{l−1/2}(l − 1)!)` and `fr_v 
 (b) `(∏_v fr_v)·c_G^f·|disc E|^{ϱ/2} = c_S·N^{2kf}·vol(Ô)^{ϱ+1+2ϱ(ϱ+k)}`, with `c_S` of 4.1.
 
 *Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data: `N`, the ranks, `b`), §3.3 (their sizes);
-DivisibilityOfThetaDerivatives §1.1 (b) (the generator `ϖ` of the different, there `δ_E`); ShortGRH background (masses
-of hermitian lattices and the ratio of masses in consecutive ranks)
+DivisibilityOfThetaDerivatives §1.1 (b) (the generator `ϖ` of the different, there `δ_E`);
+HermitianFormsAndLattices §5.5 (the mass of the genus of the standard lattice `𝒪_E^l`), §6.4 (b) (the ratio of the
+masses in consecutive ranks for unimodular lattices, `E/E⁺` unramified at the finite places:
+`mass_{j+1}/mass_j = (rd_E^{j+1/2}·j!/(2π)^{j+1})^f·L(j + 1, η^{j+1})`); ShortGRH background (the form used, which
+follows from that ratio on bounding `log L(j + 1, η^{j+1})`: for a CM field `E` with Weil data,
+`|log(mass_{j+1}/mass_j) − f·log(rd_E^{j+1/2}·j!/(2π)^{j+1})| ≤ 2/2^u` for `j ≥ 4u + 12` and `8f ≤ 2^u`; [ShortProof]
+`Lib/SiegelWeil/OneVector/SiegelClassSum.lean` (`New.abs_log_mass_ratio_sub_le`))
 
 [ShortProof], `New/Spanning/Unfolding/FrameMass.lean` (`New.Data.unitSphereMass`, `New.Data.frameMass`,
 `New.Data.prod_frameMass_mul_le`, `New.Data.prod_frameMass_mul_openCellConst_eq`)
@@ -1320,8 +1383,12 @@ number times the dimension of the weight, and the class sum of the principal lev
 of the `λ_v`). More precisely, the principal forms on `W_m` have dimension `#Ḡ·mass_r·∏_v d(λ_v)`, `d(λ_v)` the dimension
 of the representation of the compact group with that parameter.
 
-*Needs:* 2.3, 5.5; ShortGRH background (dimension of algebraic modular forms of a free level; masses of hermitian lattices;
-Weyl's dimension formula)
+*Needs:* 2.3, 5.5; 3.14 (a) (the degrees `deg_v` are the values of Weyl's dimension polynomial); AutomorphicFormsOnReductiveGroups §7.5
+(forms of a level with trivial stabilisers: `S(J, M) ≅ M^h`); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a
+(`mass J′ = [J : J′]·mass J`, so that the principal level, whose stabilisers are trivial, has `#Ḡ·mass_r` classes);
+HermitianFormsAndLattices §5.5 (the mass of the genus of `𝒪_E^r`); ShortGRH background (Weyl's dimension formula for
+`U(n)`: the dimension of the representation of parameter `λ` is the value of the dimension polynomial; [ShortProof]
+`Lib/DiscreteSeries/Character/WeylCharacterFormula.lean` (`New.weyl_dimension_formula`))
 
 [ShortProof], `New/Spanning/SecondMoment/SpanningTheorem.lean` (`New.Data.finrank_principalForms_spaceW`,
 `New.Data.targetDim_le_card_mul_besselDegree_mul_mass`)
@@ -1356,3 +1423,92 @@ polynomials and the bad share)
 `New.Data.bad_types_rare`, `New.Data.isNearIsometry_e₀_comp_scaledPoincare`,
 `New.Data.sum_hilbertSchmidtNorm_scaledPoincare_sq_le`, `New.Data.targetDim_mul_sum_hilbertSchmidtNorm_sq_le`,
 `New.Data.finrank_targetForms_ne_zero`, `New.Data.isSpread_goodPoincare`)
+
+## Downstream consumers
+
+- OneSidedPrimeSumBoundsAndAdmissibleData §5.3 (Theorem B) uses 1.3 (few translates span almost all) and 5.7 (the
+  second moment of the Poincaré map and one good translate).
+- DeterminantsOfThetaLiftChains uses 2.1a, 2.3 (equality of multiplicities: the good forms on every `W_j` have
+  dimension `d_T`) and 2.4 (the Rallis operator has the same determinant on the good forms of `Y₀` and of `W_j`).
+- CongruencesOfTwistedThetaLifts and NormsOfThetaLiftsAndExchangeIdentities use 2.3.
+- RemainingAndMainTermsOfSecondMoments uses the group at a real place and Bessel systems (3.1, 3.3), the open cell
+  bounds (3.12, 3.13), filling data (4.1), and the terms, cutoffs, amplitudes, near terms, links and remaining terms
+  of 4.2, 4.3, 4.4, 4.5, 4.10 and 4.12; it uses 5.5 for the letters of the data.
+- PairsOfFramesAtOnePlace uses 3.1, 3.3, 3.5, 3.6, 4.1, 4.3 and 4.10, and proves the local bounds that 3.14 needs.
+
+## Scope and ownership
+
+### Owned here
+
+- Spreading maps: near isometries, one translate from a second moment, few translates, and the bound for singular
+  minors under a function of positive type (Layer 1).
+- The Hecke algebra away from the level, equal traces and equal multiplicities on the good forms of inner forms, and
+  the Rallis operator on them (Layer 2).
+- The group at a real place, Bessel functions, cut pairs, Schur bounds, local bounds and Bessel systems, and the
+  Bessel systems of the data (Layer 3).
+- Filling data, terms, cutoffs, amplitudes and blocks; residue domains, reduced and boxed points, near terms, cell
+  ranks and links; the second moment of a family of blocks; the unfolded second moment (Layer 4).
+- The Poincaré series of a fitting space, the filling data of the data, the dimension of the target and the second
+  moment of the Poincaré map (Layer 5).
+
+### Not owned here
+
+- The data, their sizes and Theorem B: OneSidedPrimeSumBoundsAndAdmissibleData.
+- Source forms, target forms, good forms, the idempotent `e₀` and the Poincaré map as a Riesz representative:
+  ThetaLiftChainsAndTheSeesawIdentity.
+- The bounds for the remaining terms and for the main term, sieve systems, and the existence of residue domains:
+  RemainingAndMainTermsOfSecondMoments.
+- The local bounds at `ℂ` for cut Bessel functions, steep parameters and the lower bound for periods:
+  PairsOfFramesAtOnePlace.
+- The series of Rallis' inner product formula and the steepness of the parameters: DeterminantsOfThetaLiftChains.
+- Discrete series coefficients with a large gap, the comparison of traces for a test function cuspidal at a split
+  place, and the other entries marked ShortGRH background: stated in the form used on the *Needs:* lines, and not
+  targets of this roadmap.
+
+## Exact supplier contracts
+
+### From the other roadmaps of ShortGRH
+
+- OneSidedPrimeSumBoundsAndAdmissibleData: §3.2 (the data), §3.3 (their sizes), for 3.14, 5.4 and 5.5.
+- ThetaLiftChainsAndTheSeesawIdentity: §2.1 (`X₀`, `Y₀`, `W_j`), §2.4 (the target parameter and its gap), §2.5 (`𝖦`
+  and `e₀`), §2.6 (the level `K_0`), §2.7 (good forms and target forms), §2.8 (source forms), §2.19 (the Poincaré map).
+- DivisibilityOfThetaDerivatives: §1.1 (b) (the generator of the different), §1.4 (Weil data), §1.5 (the chosen
+  places).
+- DeterminantsOfThetaLiftChains: §2.2 (a) (the series of Rallis' inner product formula), for 2.4; §5.4 (a) (the
+  parameters are steep), for 3.14.
+- RemainingAndMainTermsOfSecondMoments: §6.1 (sieve systems), for 3.3; §3.6 (b), §5.5 (c), (d), for 4.13; §8.1 and
+  §5.5 (d), for 4.14; §8.2 (c), for 5.7.
+- PairsOfFramesAtOnePlace: §8.1, §8.5, §8.6, for 3.9; §4.3, for 3.14.
+
+### From other roadmaps
+
+- FiniteReductiveGroups §5.2 and §5.7 (the cuspidal character and the central idempotent of an irreducible label),
+  for 2.2.
+- HermitianFormsAndLattices §1.1 (b) (Witt extension), for 3.4 and 3.9; §5.5 (masses) and §6.4 (b) (ratios of masses
+  in consecutive ranks), for 5.4 and 5.6.
+- DiscreteSeriesCoefficientsAndAutomorphicMetrics §8.3 (formal degrees), for 3.14; §7.5a (the mass of a level), for
+  5.6.
+- AutomorphicFormsOnReductiveGroups §7.5 (forms of a level with trivial stabilisers), for 5.1 and 5.6.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/New/Spanning/SecondMoment`,
+  `src/New/Spanning/Multiplicities`, `src/New/Spanning/Bessel` and `src/New/Spanning/Unfolding`.
+- J. Arthur, L. Clozel, *Simple algebras, base change, and the advanced theory of the trace formula*, Annals of
+  Mathematics Studies 120 (1989).
+- R. Beuzart-Plessis, *A local trace formula for the Gan–Gross–Prasad conjecture for unitary groups: the Archimedean
+  case*, Astérisque 418 (2020), Lemma 7.3.1.
+- R. Godement, *Série de Poincaré et Spitzenformen*, Séminaire Henri Cartan 10 (1957–1958), exposé 10, §4.
+- H. He, *On the Gan–Gross–Prasad conjecture for U(p, q)* (2017).
+- H. Jacquet, *Sur un résultat de Waldspurger*, Ann. Sci. École Norm. Sup. 19 (1986), §§1, 7, 9.
+- J.-P. Labesse, *Cohomologie, stabilisation et changement de base*, Astérisque 257 (1999).
+- G. Muić, *On a construction of certain classes of cuspidal automorphic forms via Poincaré series*, Math. Ann. 343
+  (2009).
+- H. Petersson, *Theorie der automorphen Formen beliebiger reeller Dimension und ihre Darstellung durch eine neue Art
+  Poincaréscher Reihen*, Math. Ann. 103 (1930).
+- L. R. Welch, *Lower bounds on the maximum cross correlation of signals*, IEEE Trans. Inform. Theory 20 (1974).
+- L. A. Wolsey, *An analysis of the greedy algorithm for the submodular set covering problem*, Combinatorica 2 (1982).
+
+The sources are those named in the heads of the files of `[ShortProof]` that this roadmap covers; its `REFERENCES.md`
+says which citations were compared with their sources.
