@@ -116,7 +116,12 @@ columns of the minors `Δ` of these tuples.
 identity of polynomials in `y` and in the entries of generic upper triangular matrices `β_τ` (indexed by `ℕ`), where
 `(yβ)_{(τ,a),j} := Σ_{i≤j} y_{(τ,a),i}·β_{τ,ij}`: one upper triangular matrix for each colour, acting on the columns.
 More generally, for a colouring `c` of a finite set of rows and a finitely supported weight `l(τ, i)`, `∇_R(c, l)` is
-defined by the same identity.
+defined by the same identity. For one colour, `∇_R(κ)` is the module `∇_R(ν)` of
+IntegralWeylModulesOfGeneralLinearGroups §0.1 for the `N × (N − 1)` matrix of the variables in the first `N − 1`
+columns and `ν_i = λ_κ(i)` (when `N ≥ 2`): the identity for diagonal `β` says that `f` is homogeneous of degree `λ_κ(i)` in the column
+`i` (so that no later column occurs), and the identity for unitriangular `β` is the invariance under adding a multiple
+of an earlier column to a later one. That roadmap writes `λ` for the row lengths; with `λ = (λ_κ(0), …, λ_κ(N − 1))`,
+whose last entry is `0`, `∇_R(κ)` is its dual Weyl lattice `∇_R(λ)` (its Conventions).
 
 (d) *Standard basis.* For each `τ` fix a finite set `B_τ` of fillings of the one-place diagram of `κ_τ` by the rows
 `n_τ` such that, over every commutative ring, the products of minors `Π_T`, `T ∈ B_τ`, are linearly independent and
@@ -151,7 +156,12 @@ product over the columns of the minors of `g_τ` with rows from `T` and columns 
 
 (i) *Fock pairing and hook number.* For polynomials `p = Σ_α p_α y^α`, `p′ = Σ_α p′_α y^α`,
 `⟨p, p′⟩_F := Σ_α α!·p_α·p′_α` (`α! = ∏ α_x!`), which is `p(∂)p′` at `0`. The *hook number* is
-`H(κ) := ⟨v_κ, v_κ⟩_F ∈ ℤ`.
+`H(κ) := ⟨v_κ, v_κ⟩_F ∈ ℤ`. This pairing is bilinear over every `R`; the Fischer form of
+IntegralWeylModulesOfGeneralLinearGroups (Conventions), which is conjugate-linear in the first argument, is
+`(p, p′) ↦ ⟨p̄, p′⟩_F` on complex polynomials, and the two agree on real ones. For one colour, `v_κ` is the
+highest-weight vector `v_λ` of that roadmap, `λ` the row lengths of `κ`, and `H(κ)` is its `⟨v_λ, v_λ⟩_F`; for several
+colours `H(κ)` is the product of these numbers over `τ`, the pairing being multiplicative on products of polynomials
+in disjoint sets of variables.
 
 *Needs:* 1.2 (b), (c) (existence of the standard sets of (d)); Mathlib `MvPolynomial`, `Matrix.det`.
 
@@ -338,8 +348,18 @@ tensor `v ∈ ℤ^{CF(κ)}` there is `η ∈ W_ℤ(κ)` with `G_κη = H·ι_κ�
 lies in the `A`-span of the polynomials `∏_τ (|α_τ|!/α_τ!)·u_τ^{α_τ}`, `|α_τ| = κ_τ(1)`, where `u_τ` is the first
 column of the variables of colour `τ`.
 
-By IntegralWeylModulesOfGeneralLinearGroups §3.1, `H` is the product of the hook lengths of the diagrams; the formal
-proof uses only the bound (b).
+By IntegralWeylModulesOfGeneralLinearGroups §3.1 (for one colour, §3.2 (a)), `H` is the product of the hook lengths of
+the diagrams; the formal proof uses only the bound (b).
+
+*Relation to IntegralWeylModulesOfGeneralLinearGroups.* Let there be one colour and `λ` the row lengths of `κ`, a
+dominant weight of `GL_N` with last entry `0`. By (a), `P_κ` carries the Gram form `⟨·,·⟩_G` on `W_ℂ(κ)` to the
+normalised form `⟨·,·⟩_λ = ⟨·,·⟩_F/⟨v_λ, v_λ⟩_F` of that roadmap on `∇_ℂ(λ)`, and `⟨P_κ(ξ), f⟩_λ = ξ(f)` for
+`ξ ∈ W_ℚ(κ)` and `f ∈ ∇_ℚ(λ)`; so `P_κ(W_ℤ(κ))` is the dual of `∇_ℤ(λ)` for `⟨·,·⟩_λ`, which is the Weyl lattice
+`Δ_ℤ(λ)` by the duality recorded in its Conventions. By 2.1 (e), `P_κ` carries `S_κ(g)` to the action
+`f ↦ f(gᵀ·)` of that roadmap, and `ρ_{κ,e}(g)` to its action for the weight `λ + e·(1, …, 1)`. In these terms
+(a) is the duality of `Δ_ℤ(λ)` and `∇_ℤ(λ)` in coordinates, and (c) says `H·∇_R(λ) ⊂ Δ_R(λ)`, a bound for the same
+inclusion that IntegralWeylModulesOfGeneralLinearGroups §0.3 bounds prime by prime. The sections of this roadmap use
+the coordinates of 1.1 and do not use this identification.
 
 *Needs:* 1.1, 1.2, 2.1, 2.4 (a).
 
@@ -434,7 +454,11 @@ The library has Schur orthogonality for continuous representations of compact gr
 (`ContRepresentation.schur_orthogonality_self`) and irreducibility of its own Weyl modules under `U(n)`
 (`TauCeti.IsRationalRep.isIrreducible_comp_toUnits_iff` with `TauCeti.isIrreducible_rationalWeylRep`), to build on;
 (c) follows from the first once the Schur matrices are seen as a continuous representation for the Haar probability
-measure.
+measure. The corresponding roadmap sections are RepresentationTheory/CompactGroups §4.1 (Schur orthogonality for one
+irreducible unitary representation) and RepresentationTheory/ClassicalGroups §3.3 (the rational irreducible
+representations of `GL_n` by highest weight); (a)–(c) would follow from them, for a family by the external tensor
+product over `τ`, given a comparison of the model of 1.1 with the Weyl modules of the library, which no roadmap
+states (see 1.3).
 
 *Needs:* 1.3, 2.1, 2.3 (c); HolomorphicDiscreteSeriesOfUnitaryGroups §4.1 (a) (products of principal minors); Mathlib
 `MeasureTheory.Measure.haar`.
@@ -622,7 +646,8 @@ is `br ∈ M_{B_n(κ₀)×B_{n⁺}(κ)}(ℤ)` such that:
 
 That `br ≠ 0` is not part of the statement. IntegralWeylModulesOfGeneralLinearGroups §1.1 builds integral branching
 maps with an explicit nonzero constant; its norm bound goes through `dim V_λ` and grows with the length of the first
-row, so it does not give (b).
+row, so it does not give (b). The multiplicity one behind (c) is, for one `GL_n` and its own model,
+RepresentationTheory/ClassicalGroups §6.1 (`rationalWeyl_branching`).
 
 *Needs:* 1.3, 2.1, 2.2, 2.3 (c), 2.4 (a), 3.3.
 
@@ -1224,6 +1249,10 @@ for `0 ≤ j ≤ N`; `P := P_x`. Let `U` be the Hecke operator of `I₁·diag(ϖ
 
 (c) Let `d ≠ 0`, `k ≥ 0` and `R ∈ ℂ[X]`, and suppose `P(X/d) = ∏_{i=0}^{k}(X − q^i)·S(X)` with `S` dividing `R` (so `c, cq, …, cq^k` are roots
 of `P` for `c = 1/d`). Then `B(x, ((dU − q^k)·R(dU))y) = 0` for every `y ∈ V^{I₁}`.
+
+LocalFactorsOfTwistsAndTypes §3.4 and §7.2 (i) bound the Satake parameters of a
+spherical vector of a unitary representation in an annulus (`Q^{−(n−1)/2} ≤ |α_i| ≤ Q^{(n−1)/2}`); they give neither
+the bound (a) at the top of a chain nor (b) or (c).
 
 *Needs:* 6.1, 6.5 (c), (d); AuxiliaryAlgebraAndAnalysisForThetaLifts §2.2 (b) (adjoints of spherical Hecke operators);
 WeilRepresentationsOnBanachSpacesOfData §9.1 (b) (duality `T_i ↔ T_{N−i}`). The library's `TauCeti.glnHeckePolynomial` is
