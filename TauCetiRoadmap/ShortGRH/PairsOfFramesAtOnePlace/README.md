@@ -749,9 +749,12 @@ over the lifts; the real depth of `e_a` at `(g, g′)` is the infimum of `|ζ|_g
 in
 `Y^(a)`. Prove: `𝔡_a(x, y)` is a disc, and `depth_a(x, y)` is the real depth of `e_a` at `(x, xy)` divided by `π`.
 
-*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §3.1, §3.5; ShortGRH background (polar coordinates on `ℂ^κ`, the
-Cartan decomposition of a unitary group of rank one and the invariant measure of a hyperboloid; [ShortProof]
-`Lib/DiscreteSeries/Bruhat/ComplexPlace.lean`).
+*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §3.1, §3.5; ShortGRH background (polar coordinates on `ℂ^κ`:
+`∫ g(ω) dω = ∫₀^∞ π^k r^{k−1}/(k − 1)!·∫_{U(k)} g(h(√r·x)) dh dr` for a basis vector `x`; the Cartan decomposition
+`σ = h·w(c)·h′` of an isometry `σ` of `X₀ ⊕ ℂz` with `|h(z, σz)| = |c| > 1`, with `h, h′ ∈ U(X₀)` and `w(c)` a boost;
+and, for `k > 1`, measures on the hyperboloids `h(v, v) = t` that disintegrate Lebesgue measure of `X₀ ⊕ ℂz` along
+`h(v, v)`; [ShortProof] `Lib/DiscreteSeries/Bruhat/ComplexPlace.lean` (`New.Floors.lintegral_eq_polar`,
+`New.Floors.cartan_decomposition`, `New.Floors.isDisintegration_hyperboloidMeasure`)).
 
 [ShortProof], `New/Spanning/Frames/RealPlaceGauge.lean` (`New.Floors.ascConv_heisenbergMeasure_eq_besselHaar`,
 `New.Floors.dualColumnGaussian`, `New.Floors.RealPlaceSizes`, `New.Floors.RealPlaceSizes.complexData`,
@@ -877,9 +880,12 @@ lattice datum with level `g`, `m` further pairs and orthonormal part indexed by 
 `O` have
 volume at most `1/B`, then `𝖬(K) ≥ 2^{−n}`.
 
-*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §4.1, §4.3; ShortGRH background (local densities of quadrics over
-a
-finite place and the generalised index; [ShortProof] `Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean`).
+*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §4.1, §4.3; ShortGRH background (at a finite place with
+its integers: the generalised index and the volumes of the integral vectors and of the unitary level; and the one-sided
+form of Fourier inversion for the fibre integrals of a hermitian form, namely that the local density of a continuous
+`f ≥ 0` of compact support has norm at most the integral of `f` over the quadric; [ShortProof]
+`Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean` (`New.Floors.IntegralPlace`,
+`New.Floors.IntegralPlace.contentIndex`, `New.Floors.IntegralPlace.enorm_localDensity_le`)).
 
 [ShortProof], `New/Spanning/Frames/StandardLevel.lean` (`New.Floors.PlaceData.congruenceSubgroup`,
 `New.Floors.IntegralPlace.IsLatticeData`, `New.Floors.IntegralPlace.exists_isLatticeData`,
@@ -1172,7 +1178,8 @@ of integral points by a power of `b` at each such place.
 *Method of the formal proof:* the chosen places have norm `p₀` or `p₁`, at least `b¹⁰`, there are at most `2f` of them
 with their conjugates above each prime, and `f ≤ b/1000`.
 
-Let `𝔉` be admissible filling data over a CM field `E` with base `b` (SecondMomentsOfPoincareSeries §4.1), and `T` a
+Let `𝔉` be admissible filling data, with base `b`, over a CM field `E` that has Weil data
+(SecondMomentsOfPoincareSeries §4.1; RemainingAndMainTermsOfSecondMoments, Conventions), and `T` a
 finite set of finite places each of which is a chosen place of `𝔉` or the conjugate of one. Let `O_T` be the integers
 of the product `E_T` of the completions at `T`. Prove: `b⁹ ≥ 2`, and the set of the elements of `O_T` that are not units
 has volume at most `b^{−9}`.
@@ -1193,7 +1200,8 @@ modulo `w` under the reductions is large, while the mass integral of `Z` is boun
 of `K` is at least its main term. For several places the ring `E_T` is cut into the fibres over the places, the groups
 and the measures are products, and the factors multiply.
 
-Let `𝔉` be admissible filling data, `T` a finite conjugation-stable set of finite places, `F` a filling datum at `T`
+Let `𝔉` be admissible filling data over a CM field that has Weil data, `T` a finite conjugation-stable set of finite
+places, `F` a filling datum at `T`
 (RemainingAndMainTermsOfSecondMoments §7.2 (d)) with `M⁻¹` integral off `T`, `K_T` the integral points of `G(E_T)` and
 `K(M)_T` its principal congruence subgroup. Let `𝔖g` be a set of chosen places above `p₀`, and for each `w ∈ 𝔖g` let
 `D_w` be
@@ -1251,9 +1259,10 @@ has `g − 1` equal to `u − 1` on the coordinates `e(X)` and `g′ − 1` equa
 Laplace
 integrand is `θ(s) = c_l(g)·conj(c_k(g′))·exp(−φ(s))`.
 
-*Needs:* SecondMomentsOfPoincareSeries §3.1; ShortGRH background (discrete series coefficients of `U(p, q)` as
-Flensted-Jensen's integral over the maximal compact subgroup, and the lowest `K`-type; [ShortProof]
-`Lib/DiscreteSeries/FlenstedJensen/Defs.lean`).
+*Needs:* SecondMomentsOfPoincareSeries §3.1; ShortGRH background (the function `c_λ` on `U(diag ε)` defined by
+Flensted-Jensen's integral over the maximal compact subgroup for the lowest `K`-type `Λ = λ + ρ − 2ρ_c` of `λ`, as in
+SecondMomentsOfPoincareSeries §3.1; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/Defs.lean`
+(`New.HCParam.lowestKType`, `New.HCParam.flenstedJensen`, `New.HCParam.dsCoeff`)).
 
 [ShortProof], `New/Appendix/DiscreteSeries/SteepParameters.lean` (`New.DiscreteSeries.IsSteep`,
 `New.DiscreteSeries.IsLaplaceDatum`, `New.DiscreteSeries.subOnePair`, `New.HCParam.phase`,
