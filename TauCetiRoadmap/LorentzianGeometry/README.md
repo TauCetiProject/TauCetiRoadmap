@@ -222,7 +222,7 @@ case `b|W` is positive semidefinite, its radical `W ∩ W^⊥` is a line spanned
 of the radical. Also `W` is timelike iff `W^⊥` is spacelike, and `W` is null iff `W^⊥` is.
 
 For a nonzero covector `ξ`, let `ξ^♯ = (b.toDual _).symm ξ` and `b⁻¹(ξ, ξ) = b(ξ^♯, ξ^♯)`.
-Prove `(ker ξ)^⊥ = ℝ ξ^♯` and the hyperplane trichotomy: `ker ξ` is spacelike iff
+By SemiRiemannianFoundations §1.2, `(ker ξ)^⊥ = ℝ ξ^♯`; prove the hyperplane trichotomy: `ker ξ` is spacelike iff
 `b⁻¹(ξ, ξ) < 0` iff `ξ^♯` is timelike; timelike iff `b⁻¹(ξ, ξ) > 0` iff `ξ^♯` is spacelike;
 null iff `b⁻¹(ξ, ξ) = 0`, and then `ξ^♯` is null and lies in `ker ξ`. A hyperplane is null iff
 it contains a null vector and no timelike vector.
@@ -1316,7 +1316,7 @@ these same identities.
 Specialize to a Lorentzian spacelike hypersurface, with expansion `θ` and shear `σ`,
 to obtain the timelike Raychaudhuri equation
 `θ' = −θ²/n − |σ|² − Ric(u, u)`, `u` the unit tangent, in dimension `n + 1` (Minguzzi 2019,
-§1.2, pp. 161–163); for the generators
+§6.2, pp. 161–163); for the generators
 of a smooth null hypersurface, `θ' = −θ²/(n − 1) − |σ|² − Ric(L, L)` with `L` affinely
 parametrized, `n ≥ 2` (Minguzzi 2019, §6.3 and Proposition 6.11, pp. 164–167). Define the timelike convergence condition (`Ric(v, v) ≥ 0` for timelike
 `v`) and the null convergence condition (`Ric(ℓ, ℓ) ≥ 0` for null `ℓ`); vacuum metrics satisfy
