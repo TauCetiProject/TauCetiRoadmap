@@ -177,8 +177,9 @@ the representation are stated for every realization. Prove:
   `f ↦ f(· + π)`;
 - **Irreducibility of `T_R`, `R ≠ 0`** (`IsCircleRealization.irreducible`): for a realization of
   `T_R`, a closed invariant subspace is `0` or `L²(𝕋)`, for every nonzero complex `R`;
-- `T_R ≅ T_{R'}` by a bounded operator with bounded inverse intertwining them exactly when
-  `R'² = R²`, for `R, R' ≠ 0`; for real `R, R' > 0` and unitary equivalence this gives
+- **Equivalence classes of the `T_R`** (`IsCircleRealization.nonempty_intertwiner_iff`): for
+  `R, R' ≠ 0`, realizations of `T_R` and `T_{R'}` are intertwined by a bounded operator with
+  bounded inverse exactly when `R'² = R²`; for real `R, R' > 0` and unitary equivalence this gives
   SpecialFunctionsGroupModels §2.6's inequivalence at `n = 2`.
 
 Route for irreducibility, which [VK1, p. 167] and [M, Lemma 3.2] give only for unitary `T_R`
@@ -433,15 +434,17 @@ Casimir operator `C_{0,0} = −∂²_x − x⁻¹∂_x + x⁻²(t²∂²_t + t�
 is missing from the printed (3.33)) commutes with `T(g)`, so each Laurent coefficient `hₙ(x)` of
 `h` in `t` solves Bessel's equation of order `n` and is bounded at `x = 0`, hence is `cₙ Jₙ`: by
 SpecialFunctionsBessel 1.1 every solution is `c Jₙ + c′ Yₙ`, and `Yₙ` is unbounded at `0` by the
-leading behaviour 10.7.3–10.7.4 of its 2.2. The second eigen-equation (3.37) gives
-`c_{n+1} = (m − n) cₙ`, and `x = 0` gives `c₀ = 1/Γ(m + 1)`.
+leading behaviour of its 2.2: 10.7.1 for `n = 0`, 10.7.4 for `n ≥ 1` and 10.7.5 for `n ≤ −1`.
+The second eigen-equation (3.37) gives `c_{n+1} = (m − n) cₙ`, and `x = 0` gives
+`c₀ = 1/Γ(m + 1)`.
 
 **Checks.**
 - At `m = 0.7`, `x = 0.9`, `t = 0.6` both sides are `0.69013 27265`.
 - At `m = 0` only `n ≤ 0` survive, and the identity is
-  `Σ_{n ≥ 0} J_{−n}(x) t^{−n}/n! = J₀(√(x² + 2x/t))`, the case `ν = 0` of the multiplication
-  theorem 10.23.1 of SpecialFunctionsBessel 4.2; at `x = 0.9`, `t = 0.6` both sides are
-  `0.25168 55588`.
+  `Σ_{n ≥ 0} J_{−n}(x) t^{−n}/n! = J₀(√(x² + 2x/t))`, the multiplication theorem DLMF 10.23.1
+  for `J₀` at `λ² = 1 + 2/(xt)`; here `|λ² − 1| > 1`, outside the range `|λ² − 1| < 1` in which
+  SpecialFunctionsBessel 4.2 states it (for `J` the series converges for every `λ`), so the Check
+  does not use that statement; at `x = 0.9`, `t = 0.6` both sides are `0.25168 55588`.
 - Negative control: the theorem is not a case of the generating function of 3.1, whose
   coefficients carry no `1/Γ(m − n + 1)`; at `m = 0.7` the term `n = 1` has weight
   `1/Γ(0.7) = 0.77038 31839`, not `1`.
@@ -534,8 +537,9 @@ Sources: [VK1, §4.4.1 (1)–(7), pp. 193–195]; [VK2, §9.1.8 (1)–(4), p. 19
 with `ISO(n)`).
 
 `motionApply g x = a + k x` is the action of `M(n)` on `ℝⁿ`. Prove:
-- **Fourier transform of a translate-rotate** (`fourier_comp_motionApply`): for integrable `f`,
-  `𝓕(f ∘ g⁻¹)(ξ) = e^{−2πi⟨a, ξ⟩} 𝓕f(k⁻¹ξ)`;
+- **Fourier transform of a translate-rotate** (`fourier_comp_motionApply`): for every `f`,
+  `𝓕(f ∘ g⁻¹)(ξ) = e^{−2πi⟨a, ξ⟩} 𝓕f(k⁻¹ξ)` (for a non-integrable `f` both sides are `0`, since
+  `f ∘ g⁻¹` is then not integrable either);
 - **On the circle `|ξ| = ρ` the quasi-regular representation is `T_{−2πρ}`**
   (`fourier_comp_motionApply_circle`): `ρ e(ψ) ↦ 𝓕(f ∘ g⁻¹)(ρ e(ψ))` is `T_{−2πρ}(g)` applied to
   `ψ ↦ 𝓕f(ρ e(ψ))`;
@@ -613,7 +617,7 @@ with the integral identified with the unitary extension on these functions by tr
 - At `ν = 0.3`, `k = 2`, `λ = 1.3` both sides of the eigenfunction identity are
   `−0.44798 00523`; at `k = 0` they are `0.46473 37023`.
 - For `n = 2`, `φ(r) = r² e^{−r²}`, `ρ = 0.35`, `ψ = 0.6` both sides of the angular-mode identity
-  are `−0.41081 82347 − 1.05668 67890 i`.
+  are `−0.41081 82347 − 1.05668 67887 i`.
 - At `ν = −0.6`, `p = 0.8`, `r = 1.1`, `s = 0.7`, Weber's integral of the regularization step is
   `0.45984 68172` from both sides.
 - At `k = 1` the eigenvalue is `−1`: both sides are `0.18124 61439`.
@@ -843,10 +847,14 @@ SpecialFunctionsSU2MatrixElements §§2.3–2.4, 2.6; LaguerreJacobi §6.2; 6.1.
 - The three-Bessel integral
   `∫₀^∞ J_{n−m}(R r₁) J_m(R r₂) Jₙ(R r) R dR = (2/π) cos(nφ − mφ₂)/√Δ` for
   `|r₁ − r₂| < r < r₁ + r₂`, and `0` for `r` outside `[|r₁ − r₂|, r₁ + r₂]`
-  [VK1, §4.4.2 (8), pp. 197–198, with the cosine where the printed text has the exponential], from
-  2.2 by Hankel inversion (5.2). At `m = n = 0` it is DLMF 10.22.74 at `ν = 0` of
-  SpecialFunctionsBessel 11.3, `1/(2πA)` with `A = √Δ/4` the area of the triangle: at
-  `r₁ = 1.3`, `r₂ = 0.7`, `r = 1.5` both forms are `0.35005 00923`.
+  [VK1, §4.4.2 (8), pp. 197–198, with the cosine where the printed text has the exponential]. The
+  integrand is of size `R^{−1/2}`, so the integral is improper, `lim_{T→∞} ∫₀^T`. The general case
+  follows from 2.2 by the pointwise Hankel inversion theorem for functions integrable against
+  `r^{1/2} dr` and of bounded variation near `r`, which 5.2 does not contain: 5.2 inverts
+  functions in `L²((0, ∞), r dr)`, and `r ↦ (2/π) cos(nφ − mφ₂)/√Δ` is not square-integrable
+  there, its square having the singularity `1/Δ` at both ends. At `m = n = 0` it is DLMF 10.22.74
+  at `ν = 0` of SpecialFunctionsBessel 11.3, `1/(2πA)` with `A = √Δ/4` the area of the triangle:
+  at `r₁ = 1.3`, `r₂ = 0.7`, `r = 1.5` both forms are `0.35005 00923`.
 - `D_{00}(g) = J₀(R|a|)`: the zonal matrix element of `T_R` is the spherical function of 6.2 at
   `n = 2`; at `R = 1.7`, `|a| = 0.8` it is `J₀(1.36) = 0.58838 50403`.
 
@@ -891,7 +899,8 @@ of Layer 7, which are the integer-parameter and Gegenbauer cases of DLMF 18.11.5
   elements with Bessel functions, and the spherical functions of `(M(n), SO(n))`.
 - SpecialFunctionsSU2MatrixElements owns Wigner's `d`-functions in Edmonds's convention (its §2.3),
   their Jacobi and Legendre forms (§§2.4, 2.6) and the spherical harmonics as polynomials on `ℝ³`
-  (§6.1). SpecialFunctionsLegendre owns the addition theorem of spherical harmonics (its §3.2).
+  (§6.1). [SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md) owns the addition
+  theorem of spherical harmonics (its §3.2).
   Layer 7 and 6.3 consume them.
 - [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) owns the analytic theory of the
   cylinder functions for complex order: the generating function and the Jacobi–Anger expansions
@@ -967,13 +976,14 @@ of Layer 7, which are the integer-parameter and Gegenbauer cases of DLMF 18.11.5
 
 ### From SpecialFunctionsLegendre
 
-- §3.2: the addition theorem of spherical harmonics, DLMF 14.30.9, in 6.3.
+- [SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md) §3.2: the addition theorem of
+  spherical harmonics, DLMF 14.30.9, in 6.3.
 
 ### From SpecialFunctionsBessel
 
 - [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) 1.1 (every solution of Bessel's
-  equation is `c₁ J_ν + c₂ Y_ν`), 1.5 (recurrences), 2.2 (10.7.3–10.7.4, `Yₙ` unbounded at `0`),
-  4.1 (generating function and Jacobi–Anger, also for `n = 2` in 6.3), 4.2 (10.23.1,
+  equation is `c₁ J_ν + c₂ Y_ν`), 1.5 (recurrences), 2.2 (10.7.1, 10.7.4–10.7.5, `Yₙ` unbounded
+  at `0`), 4.1 (generating function and Jacobi–Anger, also for `n = 2` in 6.3), 4.2 (10.23.1,
   10.23.3–10.23.4, Graf's 10.23.7), 4.3 (10.23.9, for `ν ∉ {0, −1, −2, …}`), 5.1 (10.9.4 and the
   `cosh` integral 10.32.9), 6.2 (10.40.1), 11.2 (10.22.51 and 10.22.67), 11.3 (10.22.74) and 11.5
   (10.60.7), consumed as stated in the layers.
@@ -1064,7 +1074,8 @@ multiplication formula assumes `r₁ ≠ r₂`.
 
 Open there: `IsCircleRealization.irreducible` (1.1), `hasSum_besselJ_weisner` (3.3),
 `hankelTransform_hankelTransform` and `lintegral_hankelTransform` (5.2),
-`isSphericalFunction_motion_iff` (6.2) and `hasSum_planeWave_sphericalHarmonic` (6.3).
+`isSphericalFunction_motion_iff` (6.2) and `hasSum_planeWave_sphericalHarmonic` (6.3). Not in
+lean-SFVK: `IsCircleRealization.nonempty_intertwiner_iff` (1.1).
 
 ## References
 

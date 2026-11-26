@@ -428,6 +428,15 @@ theorem IsCircleRealization.irreducible {R : ℂ} (hR : R ≠ 0)
     (hinv : ∀ g, ∀ v ∈ V, U g v ∈ V) : V = ⊥ ∨ V = ⊤ := by
   sorry
 
+/-- README 1.1. **Equivalence classes of the `T_R`**: for `R, R' ≠ 0`, realizations of `T_R` and
+`T_{R'}` are intertwined by a bounded operator with bounded inverse exactly when `R'² = R²`. -/
+theorem IsCircleRealization.nonempty_intertwiner_iff {R R' : ℂ} (hR : R ≠ 0) (hR' : R' ≠ 0)
+    {U U' : ContRepresentation ℂ (MotionGroup 2) (Lp ℂ 2 (haarAddCircle (T := 2 * π)))}
+    (hU : IsCircleRealization R U) (hU' : IsCircleRealization R' U') :
+    (∃ A : Lp ℂ 2 (haarAddCircle (T := 2 * π)) ≃L[ℂ] Lp ℂ 2 (haarAddCircle (T := 2 * π)),
+        ∀ g v, A (U g v) = U' g (A v)) ↔ R' ^ 2 = R ^ 2 := by
+  sorry
+
 /-! ### 1.2 Matrix elements -/
 
 /-- README 1.2. **Bessel's integral on the circle**: the `n`-th Fourier coefficient of the plane
