@@ -4,13 +4,13 @@ This roadmap states the first half of the upper bound in the shorter proof of th
 L-functions. The argument has this shape. A one-sided bound for a sum over primes gives the zero-free half-plane; the
 bound comes from comparing an upper and a lower bound for the covolume of a lattice of theta lifts, the lattice of the
 images of the target forms on a unitary group `U(Y_0)` under the chains `Θ_ϑ` of `m` theta lifts `Y_0 → Y_1 → ⋯ → Y_m`,
-one chain for each twist `ϑ` (OneSidedPrimeSumBoundsAndAdmissibleData (the data)). For the upper bound the target forms
-are spanned by normalised Poincaré series of short integral source forms on the definite group `U(X_0)`
-(CompositeThetaLiftsAndShortForms, SecondMomentsOfPoincareSeries), and the image of a Poincaré series under `Θ_ϑ` is
-computed by the seesaw identity of this roadmap: it is a constant, the same for all twists, times a composite lift of the
-source form, a finite combination of chains of `m` theta lifts between definite spaces `X_0 → X_1 → ⋯ → X_m` restricted
-to the definite space `Y_m ⊂ X_m`, whose data have controlled support, denominators and size. The divisibility and the
-size of the composite lift (CompositeThetaLiftsAndShortForms) then bound the index of the lattice.
+one chain for each twist `ϑ` (OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.4 (the twists)). For the upper
+bound the target forms are spanned by normalised Poincaré series of short integral source forms on the definite group
+`U(X_0)` (CompositeThetaLiftsAndShortForms, SecondMomentsOfPoincareSeries), and the image of a Poincaré series under
+`Θ_ϑ` is computed by the seesaw identity of this roadmap: it is a constant, the same for all twists, times a composite
+lift of the source form, a finite combination of chains of `m` theta lifts between definite spaces `X_0 → X_1 → ⋯ → X_m`
+restricted to the definite space `Y_m ⊂ X_m`, whose data have controlled support, denominators and size. The
+divisibility and the size of the composite lift (CompositeThetaLiftsAndShortForms) then bound the index of the lattice.
 
 The roadmap has three layers. Layer 1 holds the estimates for one theta kernel between definite spaces: the Galois
 conjugates of the Taylor coefficients (jets) of theta functions, archimedean bounds for these conjugates, `p`-adic gauge
@@ -22,7 +22,7 @@ lift, the lower chain `Θ_ϑ` along the `Y_j`, the descent pairs `(W_j, V_j)`, a
 the seesaw identity by unfolding the pairing of `Θ_ϑ(𝒫φ)` with a form on `Y_m` one pair of lifts at a time, evaluating
 the finite data place by place through lattices of graded spaces, and summing the outer variables over finite cuts.
 
-**The seesaw identity (3.20).** For the data of OneSidedPrimeSumBoundsAndAdmissibleData (the data), a linear form `t` on
+**The seesaw identity (3.20).** For the data of OneSidedPrimeSumBoundsAndAdmissibleData §3.2, a linear form `t` on
 the values of the forms on `X_0` and an archimedean point `g` of `U(Y_0)` there is `c ∈ ℂ^×` such that every twist `ϑ`
 has a chain datum `Ψ` (support at the places dividing `M q_ϑ`, values integral away from `q_ϑ`, bounded by
 `M^{3 f m n_m²}` when `ϑ` is trivial, glued tensor invariant under the levels) with `Θ_ϑ(𝒫_{g,t}φ) = c·comp_ϑ(Ψ)(φ)`
@@ -40,8 +40,8 @@ sections the statement rests on: bare ids for this roadmap, `Name §k.n` for oth
 for a background result that the shorter proof proves in its folder of known results and that no roadmap section states
 in the form used.
 
-**The data.** Everything is relative to admissible data in the sense of OneSidedPrimeSumBoundsAndAdmissibleData (the
-data), whose letters are used throughout. `d` is a prime, `K = ℚ(√−d)` with quadratic character `χ_K`, `E = K(ζ)` with
+**The data.** Everything is relative to admissible data in the sense of OneSidedPrimeSumBoundsAndAdmissibleData
+§3.2, whose letters are used throughout. `d` is a prime, `K = ℚ(√−d)` with quadratic character `χ_K`, `E = K(ζ)` with
 `ζ` a root of unity of order `q₁`, `F = E⁺`; `E` contains a primitive root of unity of order `5040`, so `E/F` is
 unramified at every finite place. `Φ` is the set of infinite places of `E`, identified with a CM type of `E`, and
 `f = |Φ|`. `Φ_a ⊂ Φ` are the `a`-places. The integers `m` (even, the number of lifts), `r` (odd), `k = r + 1 − m`
@@ -53,11 +53,11 @@ of which the residue characters below are taken. The primes `p₀`, `p₁` and `
 places of `E` above `p₀` and above `p₁` (`f` above each); `𝔽_w` is the residue field at `w`. `π_N ∈ 𝒪_E` has
 `π_N π̄_N = N`; the set `P_N` of its prime divisors has `f` elements, all split of degree one over `N`, one of each
 conjugate pair of places above `N`. `ϖ_M` is a finite idele that generates `(π_M)` and is `1` away from the chosen
-places. `Ω = exp(γ − Re L′/L(1, χ_K))·2π/rd_E`, and `t₀` is the jet scale of DivisibilityOfThetaDerivatives (the scale at
-which Taylor series of theta functions are taken).
+places. `Ω = exp(γ − Re L′/L(1, χ_K))·2π/rd_E`, and `t₀` is the jet scale of DivisibilityOfThetaDerivatives §4.2 (the scale
+`𝔱_E` at which Taylor series of theta functions are taken).
 
-**Weil data.** `E` carries Weil data (OneSidedPrimeSumBoundsAndAdmissibleData (the data); ShortGRH background (Weil data
-of a CM field)): a splitting character `υ` (a unitary Hecke character with `υ(x̄) = υ(x)^{−1}` and infinity type
+**Weil data.** `E` carries Weil data (DivisibilityOfThetaDerivatives §1.4 (c); ShortGRH background (Weil data of a CM
+field)): a splitting character `υ` (a unitary Hecke character with `υ(x̄) = υ(x)^{−1}` and infinity type
 `∏_τ x_τ/|x_τ|`), a purely imaginary `ȷ ∈ E^×`, and a finite idele `α` such that the standard additive character `ψ`
 of `𝔸_{E,f}` makes `Ô` self-dual. `U(1)(𝔸)` is the group of norm-one ideles; a character of `U(1)(𝔸)/U(1)(F)` *has
 weight* `e : Φ → ℤ` and *tame part* `(ψ_w)_w` (characters of the `𝔽_w^×`) if on norm-one ideles with integral finite
@@ -68,7 +68,7 @@ is the character attached to a space of rank `|n|` (the rank twist).
 places (its modulus), disjoint from its conjugate, of norms prime to `MN`, outside which its tame part is trivial; a
 *twist* is a tame character whose tame part is nontrivial at every place of `Q(ϑ)`. `q_ϑ = ∏_{w ∈ Q(ϑ)} N(w)`.
 `ϑ = 1` is the twist with `Q = ∅`. The character of lift `j` for `ϑ` is `ν_j^ϑ := μ_j⁰·ϑ^j`, with `μ_j⁰` the untwisted
-character of lift `j` of OneSidedPrimeSumBoundsAndAdmissibleData (the data); it has weight `−κ_j` and tame part
+character of lift `j` of OneSidedPrimeSumBoundsAndAdmissibleData §3.4; it has weight `−κ_j` and tame part
 `ω^j ψ_ϑ^j`, where `ω` is the residue character of the data at the chosen places.
 
 **Hermitian spaces, groups and levels.** Hermitian forms are conjugate-linear in the first variable. A *space* is
@@ -146,15 +146,15 @@ if they satisfy the block rule at every `τ ∈ Φ`.
 
 | Symbol | Meaning | Defined |
 |---|---|---|
-| `E, K, F, d, χ_K, Φ, f, Φ_a` | the CM field, `ℚ(√−d)`, `E⁺`, the prime, its character, the infinite places (a CM type), their number, the `a`-places | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `m, r, k, t, n_j, ϱ` | number of lifts, ranks `k = r + 1 − m`, `t = 5r`, `n_j = k + j(t + 1)`, `ϱ = m/2 − 1` | OneSidedPrimeSumBoundsAndAdmissibleData (the data); Conventions |
-| `κ, Δ, κ_j, a, x, x₁, b` | weight, gap `2r⁸`, `κ + (j + ½)Δ`, order `xb`, scales | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
+| `E, K, F, d, χ_K, Φ, f, Φ_a` | the CM field, `ℚ(√−d)`, `E⁺`, the prime, its character, the infinite places (a CM type), their number, the `a`-places | OneSidedPrimeSumBoundsAndAdmissibleData §§2.1–2.2 (the field and its places), §3.2 (the `a`-places) |
+| `m, r, k, t, n_j, ϱ` | number of lifts, ranks `k = r + 1 − m`, `t = 5r`, `n_j = k + j(t + 1)`, `ϱ = m/2 − 1` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2; Conventions |
+| `κ, Δ, κ_j, a, x, x₁, b` | weight, gap `2r⁸`, `κ + (j + ½)Δ`, order `xb`, scales | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
 | `p₀, p₁, M, π_M, ϖ_M, J_M` | level primes, `M = p₀p₁`, `π_Mπ̄_M = M`, its idele, the chosen level | Conventions |
 | `N, π_N, P_N, ψ_N` | the level prime, `π_Nπ̄_N = N`, its prime divisors, `ψ_N(c) = ψ(−c/N)` | Conventions, 2.11 |
 | `υ, ȷ, α, ψ, ν_n` | Weil data, rank twist `ν·υ^{⌊|n|/2⌋}` | Conventions |
 | `ϑ, Q(ϑ), q_ϑ, ν_j^ϑ` | twist, modulus, norm of the modulus, character `μ_j⁰ϑ^j` of lift `j` | Conventions |
-| `t₀, Ω` | jet scale, `exp(γ − Re L′/L(1, χ_K))·2π/rd_E` | DivisibilityOfThetaDerivatives (the jet scale); Conventions |
-| `vac°, 𝒮_δ` | integral vacuum, standard data | 1.1; DivisibilityOfThetaDerivatives (the integral vacuum) |
+| `t₀, Ω` | jet scale, `exp(γ − Re L′/L(1, χ_K))·2π/rd_E` | DivisibilityOfThetaDerivatives §4.2 (the jet scale); Conventions |
+| `vac°, 𝒮_δ` | integral vacuum, standard data | 1.1; DivisibilityOfThetaDerivatives §4.6 (the integral vacuum), §4.8 (standard data) |
 | `X_j, Y_j, W_j, V_j` | the spaces of the chain | 2.1 |
 | `c_τ, e_j, μ(X_j), μ(Y_m), n_τ, br` | columns and last entry of the weights, the weights, the branching exponent and map | 2.2 |
 | `ς, l_Y(j)` | target parameter, doubled parameter of `Y_j` | 2.4 |
@@ -192,13 +192,13 @@ many `r_x ≠ 0`, all at points of `A`, each `d·r_x` integral away from `q`, an
 `Σ_x |σ(r_x)| ≤ B` for every automorphism `σ` of `ℂ`.
 
 (b) *The integral vacuum and vacuum combinations.* `vac° := c₀^n·vac` is the integral vacuum of `V`, with `c₀ ≠ 0` the
-scale of DivisibilityOfThetaDerivatives (the integral vacuum vector). A datum `F ∈ 𝒮(V)` is a *vacuum combination of
+scale of DivisibilityOfThetaDerivatives §4.6 (b) (the vacuum scale). A datum `F ∈ 𝒮(V)` is a *vacuum combination of
 size `B`* if `F = Σ_x r_x ϱ_f(x) vac°` (finitely many finite adelic vectors `x`) with `Σ_x |σ(r_x)| ≤ B` for every
 automorphism `σ` of `ℂ`.
 
 (c) *Standard data.* For a prime `p` and `δ ∈ 𝒪_K ∖ {0}`, the standard data `𝒮_δ(V)` are the `𝒪_{ι_p}`-combinations of
 the translates `ϱ_f(x) vac°` by the vectors `x` that `δ` makes integral at the places above `p`
-(DivisibilityOfThetaDerivatives (standard data)).
+(DivisibilityOfThetaDerivatives §4.8).
 
 (d) *Gauges.* For a weight `λ = (c, e)` of rank `n`, a finite point `g` of `U(I_n)` and `ξ ∈ V_λ`, the *gauge*
 `‖ξ‖_g` is the largest `p`-adic absolute value of a coordinate of `g^{−1}·ι_p(ξ)`, where `g` acts in weight `λ` at each
@@ -211,9 +211,9 @@ matrix), finite points `d`, `d′` and `c ∈ ℝ`, a datum `Φ` *raises gauges 
 `New.Seesaw.IsAdmissibleCoeffs`, `New.Seesaw.integralAway`), `New/UpperBound/Kernels/JetConjugatesAndBounds.lean`
 (`New.Parameters.IsVacuumCombination`), `New/UpperBound/Kernels/ThetaLiftGauge.lean` (`New.Kernel.raises`).
 
-*Needs:* DivisibilityOfThetaDerivatives (the integral vacuum vector and the standard data); ShortGRH background (the
-Weil representation of a unitary dual pair, its Fock model and the theta functional); ShortGRH background (the `p`-adic
-gauge of a vector of a Weyl module).
+*Needs:* DivisibilityOfThetaDerivatives §4.6 (the integral vacuum vector), §4.8 (the standard data); ShortGRH background
+(the Weil representation of a unitary dual pair, its Fock model and the theta functional); ShortGRH background (the
+`p`-adic gauge of a vector of a Weyl module).
 
 ### 1.2 Admissible combinations under substitution, products and the Weil action
 
@@ -285,9 +285,9 @@ that is Schwartz–Bruhat at `R`, `Ψ ⊗` denoting the Schrödinger operator of
 [ShortProof], `New/UpperBound/Kernels/JetConjugatesAndBounds.lean` (`New.Parameters.exists_isJetConjugation`,
 `New.Parameters.IsJetConjugation.exists_map_schrodingerOp`, `New.Parameters.IsJetConjugation.map_apply_finVec`).
 
-*Needs:* ShortGRH background (the Galois law of the finite Weil representation of a CM field); DivisibilityOfThetaDerivatives
-(the field and its characters; the jet scale); ShortGRH background (the Weil representation of a unitary dual pair, its
-Fock model and the theta functional).
+*Needs:* ShortGRH background (the Galois law of the finite Weil representation of a CM field);
+DivisibilityOfThetaDerivatives §1.4 (the field and its characters: the Weil data of `E`), §4.2 (the jet scale);
+ShortGRH background (the Weil representation of a unitary dual pair, its Fock model and the theta functional).
 
 ### 1.4 Archimedean bounds for the conjugates of jets
 
@@ -322,7 +322,7 @@ sum over the row lengths `l` of `λ`.
 `New.Parameters.sqrt_weylNormSq_schurJet_le_of_isVacuumCombination`,
 `New.Parameters.isVacuumCombination_of_isAdmissibleCombination`).
 
-*Needs:* 1.1, 1.3; DivisibilityOfThetaDerivatives (the integral vacuum vector and the bounds for its conjugates);
+*Needs:* 1.1, 1.3; DivisibilityOfThetaDerivatives §4.6 (the integral vacuum vector and the bounds for its conjugates);
 ShortGRH background (the Weil representation of a unitary dual pair, its Fock model and the theta functional).
 
 ### 1.5 `p`-adic gauge bounds for one theta lift
@@ -332,7 +332,8 @@ standard datum, from bounds for the jets of standard data.
 
 *Method of the formal proof:* the gauge is ultrametric, the Weil action of points integral above `p` preserves the
 standard data, and a translate by a point diagonal at the places above `p` changes the jets by the diagonal weight of
-the rows; the explicit bound for standard data comes from the divisibility of jets of DivisibilityOfThetaDerivatives.
+the rows; the explicit bound for standard data comes from the divisibility of jets of
+DivisibilityOfThetaDerivatives §§4.10–4.11.
 
 Let `k` be the theta kernel of the definite pair `(I_n, I_{n′})` over `E` at scale `c·t₀`, with characters `a`, `b`
 of weights `e_a`, `e_b` and a lift weight `λ = (κ, e)`, at any level; let `L` be the number of boxes of `κ` in columns of
@@ -347,13 +348,15 @@ whose image at each `τ` under `z ↦ ι_p(τ(z̄))` is a diagonal matrix `u_τ`
 (c) If `e′·f` is standard for `δ = N ≠ 0` (`e′, N ∈ ℕ`), `|ι_p(c)| ≤ 1`, and `e′(N·d)^L` divides `M′ ∈ ℕ` (`d` the prime
 with `K = ℚ(√−d)`), then `M′·f` raises gauges by at most `1`.
 (d) If `p` is not split in `K`, `c` is integral at `p` and `Φ ∈ 𝒮_1`, then `Φ` raises gauges by at most
-`p^{−(D − f|n′|³(1 + log_p max(L, 1)))}`, with `D` the predicted divisibility of DivisibilityOfThetaDerivatives.
+`p^{−(D − f|n′|³(1 + log_p max(L, 1)))}`, with `D` the predicted divisibility of
+DivisibilityOfThetaDerivatives §3.1.
 
 [ShortProof], `New/UpperBound/Kernels/ThetaLiftGauge.lean` (`New.Parameters.mem_raises_of_standardData`,
 `New.Parameters.omega_mem_raises_of_schurJet_le`, `New.Parameters.smul_mem_raises_of_dvd`,
 `New.Parameters.mem_raises_predictedDivisibility`, `New.Parameters.pairWeil_mem_standardData`).
 
-*Needs:* 1.1; DivisibilityOfThetaDerivatives (divisibility of jets that counts primes; the integral vacuum vector);
+*Needs:* 1.1; DivisibilityOfThetaDerivatives §3.1 (the predicted divisibility), §4.6 (the integral vacuum vector),
+§4.8 (stability of the standard data), §4.10 (integrality of their jets), §4.11 (divisibility of jets that counts primes);
 ShortGRH background (the `p`-adic gauge of a vector of a Weyl module).
 
 ### 1.6 Data from functions modulo an ideal
@@ -376,7 +379,7 @@ modulo `𝔪`; and if `Ψ` is the indicator of one matrix, `F_Ψ` is a vacuum co
 `New.Parameters.isAdmissibleCombination_vacuumDatum`, `New.Parameters.isVacuumCombination_vacuumDatum`,
 `New.Parameters.isAdmissibleCombination_vacuumDatum_indicator`).
 
-*Needs:* 1.1, 1.2; DivisibilityOfThetaDerivatives (the integral vacuum vector and the standard data).
+*Needs:* 1.1, 1.2; DivisibilityOfThetaDerivatives §4.6 (the integral vacuum vector), §4.8 (the standard data).
 
 ### 1.7 Rational equivariance, integrality and size of definite theta kernels
 
@@ -443,7 +446,8 @@ is definite of rank `n_m − 1`. (b) `W_j` has `m − j` signs `−1`, and `W_m`
 `New.Data.spaceY_gram_eq`, `New.Data.exists_spaceY_xFin_eq`, `New.Data.isStd_spaceY_of_le`, `New.Data.card_Y_le`),
 `New/UpperBound/Objects/Columns.lean` (`New.Data.lastIndexEquiv`).
 
-*Needs:* 3.2; OneSidedPrimeSumBoundsAndAdmissibleData (the data).
+*Needs:* 3.2; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks `m`, `r`, `k`, `t`, `n_j`, the prime `N` and `π_N`),
+§3.3 (b) (the parities and `r + 1 = k + m`).
 
 ### 2.2 Weights of the definite spaces and the branching map
 
@@ -478,8 +482,8 @@ A fixed such `br` is the *branching map*.
 `New.Data.exists_isBranchingMap`, `New.Data.isLiftWeight_columnCount`), `New/UpperBound/Objects/Rows.lean`
 (`New.Data.isHCParam_paramY`).
 
-*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData (the data); ShortGRH background (integral branching matrices for Weyl
-modules of `GL_n`).
+*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks, the weights `κ_j`, the gap `Δ` and the order `a`),
+§3.3 (their parities and sizes); ShortGRH background (integral branching matrices for Weyl modules of `GL_n`).
 
 ### 2.3 Inserting a block into a parameter
 
@@ -548,8 +552,8 @@ parameters of `(i, j)` and `(i, j + 1)` correspond for the weights `⌊N/2⌋ �
 `New.Data.paramsCorrespond_grid_succ_left`, `New.Data.paramsCorrespond_grid_succ_right`), `New/UpperBound/Objects/RowChain.lean`
 (`New.Data.paramsCorrespond_paramY`).
 
-*Needs:* 2.3; OneSidedPrimeSumBoundsAndAdmissibleData (the data); ShortGRH background (theta lifts between
-discrete-series types; the block rule).
+*Needs:* 2.3; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks, the weights `κ_j` and the gap `Δ`), §3.3 (their
+sizes); ShortGRH background (theta lifts between discrete-series types; the block rule).
 
 ### 2.5 Labels, the group `𝖦` and the good idempotent
 
@@ -574,7 +578,7 @@ hyperplane sum `Σ_h χ(det h)^{−1}h` over the invertible `h = 1 + u lᵀ` (`l
 `New.Data.chosenGL`, `New.Data.goodTupleFamilies`, `New.Data.e₀`, `New.Data.isCentralProj_e₀`,
 `New.Data.hyperplaneSum_mul_e₀`).
 
-*Needs:* FiniteReductiveGroups §5.7; OneSidedPrimeSumBoundsAndAdmissibleData (the data).
+*Needs:* FiniteReductiveGroups §5.7; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (`r`, `q₂` and the primes `p₀`, `p₁`).
 
 ### 2.6 Characters and levels of the lifts
 
@@ -601,7 +605,7 @@ Let `ϑ` be a tame character.
 (`New.Data.levelX`, `New.Data.principalLevel_le_levelX`), `New/UpperBound/Objects/RowChain.lean`
 (`New.Data.lastLevel`, `New.Data.lastLevelChar`).
 
-*Needs:* 2.1; OneSidedPrimeSumBoundsAndAdmissibleData (the data; the twists and the characters `μ_j⁰`).
+*Needs:* 2.1; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.4 (the twists and the characters `μ_j⁰`).
 
 ### 2.7 Forms of principal level, good forms and target forms
 
@@ -640,15 +644,16 @@ jet matrix of the theta function of the translated datum.
   scalar `z_w`.
 - For a tame character `ϑ` and `j ≥ 0`, the *lift* `L_j^ϑ(Φ) : 𝒜_j → 𝒜_{j+1}` with finite datum `Φ` in the finite part of
   `𝒮(Hom(X_j, X_{j+1}))` is the theta lift of the definite pair `(X_j, X_{j+1})` with characters `(ν_{j+1}^ϑ)_{X_j}`,
-  `(ν_{j+1}^ϑ)_{X_{j+1}}`, level `K_j`, the lift weight of 2.2 (a), and derivatives scaled by `π̄′_M·t₀`, where `π′_M ∈ 𝒪_K`
-  has norm `M`: the class sum over `[U(X_j)]` against the jet matrix of `ω(g, h)Φ` (ThetaLiftsForDefiniteUnitaryGroups
+  `(ν_{j+1}^ϑ)_{X_{j+1}}`, level `K_j`, the lift weight of 2.2 (a), and derivatives scaled by `π_M·t₀`, where `π_M` is
+  the element of `𝒪_K` with `π_M π̄_M = M` fixed by the data (the conjugate of the `π̄_M` chosen there, not any other
+  element of norm `M`): the class sum over `[U(X_j)]` against the jet matrix of `ω(g, h)Φ` (ThetaLiftsForDefiniteUnitaryGroups
   §1.2). The finite groups act on its data by `ω`.
 
 [ShortProof], `New/UpperBound/Objects/Columns.lean` (`New.Data.SourceForm`, `New.Data.FormX`, `New.Data.liftKernel`,
 `New.Data.homX`), `New/UpperBound/Size/ShortColumns.lean` (`New.Data.IsScalingAt`, `New.Data.scalingGenerator`,
 `New.Data.ramifiedSourceForms`).
 
-*Needs:* 2.2, 2.6; ThetaLiftsForDefiniteUnitaryGroups §1.2; DivisibilityOfThetaDerivatives (the jet scale).
+*Needs:* 2.2, 2.6; ThetaLiftsForDefiniteUnitaryGroups §1.2; DivisibilityOfThetaDerivatives §4.2 (the jet scale).
 
 ### 2.9 Chains of theta lifts and jointly invariant combinations
 
@@ -703,7 +708,7 @@ places above `p_i` are `f` in number and the product of the norms of all chosen 
 `New.Data.log_chosenGroupOrder_le`, `New.Data.prod_q_chosenPlace`), `New/UpperBound/Objects/Columns.lean`
 (`New.Data.classAut_levelX_zero_eq_bot`).
 
-*Needs:* HermitianFormsAndLattices §5.2; OneSidedPrimeSumBoundsAndAdmissibleData (the data; the sizes).
+*Needs:* HermitianFormsAndLattices §5.2; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.3 (the sizes).
 
 ### 2.11 Direct and mirror data modulo `N`, and the operator `Up`
 
@@ -824,7 +829,7 @@ first `m` lifts is fixed, on one factor `j < m`, by `ω(1, z_w)`, then the chain
 `New.Data.liftKernel_lift_sub_scaling_eq_zero`, `New.Data.tensorChainLift_sub_scaling_eq_zero`,
 `New.Data.tensorChainLift_eq_zero_of_ramified`).
 
-*Needs:* 2.8, 2.9; OneSidedPrimeSumBoundsAndAdmissibleData (the twists and the characters `μ_j⁰`).
+*Needs:* 2.8, 2.9; OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (the twists and the characters `μ_j⁰`).
 
 ### 2.15 The lower chain: level, character and `𝖦`-equivariance
 
@@ -868,8 +873,8 @@ ShortGRH background (the Weil representation of a unitary dual pair, its Fock mo
 
 *Method of the formal proof:* definitions.
 
-A *descent pair* consists of: level places — finitely many chosen places and twist places of `E`, pairwise distinct
-and none conjugate to another; a space `W` of rank `r` (finite set `r`) with signs `ε` and a numbering of its basis; an
+A *descent pair* consists of: level places, namely finitely many chosen places and twist places of `E`, pairwise
+distinct and none conjugate to another; a space `W` of rank `r` (finite set `r`) with signs `ε` and a numbering of its basis; an
 embedding `r ↪ n` into the basis of `V := I_n` with `|r| < |n|`; column counts `k^+(τ, i)`, `k^-(τ, i)`; and a character `μ`
 of `U(1)(𝔸)/U(1)(F)` with weight `e_μ` and tame part `(ψ_w)` trivial off the level places. Attached to it:
 - the *level* `K_O ⊂ K°(V)`: elements whose reductions fix the basis vectors of `r` at the chosen places and preserve the
@@ -942,7 +947,7 @@ Then `2ς` fits this pair: `2ς` (signs of `W_j`) and `l_O` correspond for the w
 [ShortProof], `New/UpperBound/Objects/Rows.lean` (`New.Data.descentPair`, `New.Data.paramsCorrespond_descentPair`,
 `New.Data.fitsParams_descentPair`).
 
-*Needs:* 2.3, 2.4, 2.16; OneSidedPrimeSumBoundsAndAdmissibleData (the twists and the characters `μ_j⁰`).
+*Needs:* 2.3, 2.4, 2.16; OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (the twists and the characters `μ_j⁰`).
 
 ### 2.19 The Poincaré map
 
@@ -1443,7 +1448,7 @@ twist `ϑ` there is a chain datum `Ψ` for `ϑ` (2.12) with
 
 [ShortProof], `New/UpperBound/Seesaw/SeesawIdentity.lean` (`New.Data.seesaw_identity`).
 
-*Needs:* 2.12, 2.15, 2.19, 3.17, 3.19; OneSidedPrimeSumBoundsAndAdmissibleData (the data; the twists).
+*Needs:* 2.12, 2.15, 2.19, 3.17, 3.19; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.4 (the twists).
 
 ## References
 
