@@ -27,16 +27,18 @@ consequences of the integrality of multiplicities. Among its theorems:
 - two supplements to the theory of schemes: the absolute bound of Neumaier with the bounds on
   the eigenmatrices, and the equivalence of the cometric and `Q`-polynomial properties.
 
-The scheme theory is AssociationSchemes: schemes, eigenmatrices, Krein parameters, Delsarte's
-inequalities, the equivalence of the metric and `P`-polynomial properties, and distance-regular
-graphs as the graphs whose distance classes form a scheme. Its statements are consumed, not
-restated. The Hamming scheme with its Krawtchouk eigenmatrices and the cometric schemes are
-DelsarteTheoryOfCodesAndDesigns, the Moore bound is StronglyRegularAndMooreGraphs, perfect codes
-in Hamming spaces are BoundsOnCodes, the Krein conditions for strongly regular graphs and the
-designs are StronglyRegularGraphsAndDesigns, and the spectra and standard graphs are GraphSpectra.
-The sources are Brouwer–Haemers [BH, Chapters 11–12], Brouwer–Cohen–Neumaier [BCN, §§2.3, 2.5,
-2.7 and 6.5], Godsil–Royle [GR, §§4.5, 5.6, 5.8, 5.10 and 10.8], Biggs [Biggs, Chapter 23],
-Godsil [Godsil, §§11.7 and 12.3] and Brouwer–Van Maldeghem [BVM, §§1.2–1.3].
+The scheme theory is [AssociationSchemes](../AssociationSchemes/README.md): schemes, eigenmatrices,
+Krein parameters, Delsarte's inequalities, the equivalence of the metric and `P`-polynomial
+properties, and distance-regular graphs as the graphs whose distance classes form a scheme. Its
+statements are consumed, not restated. The Hamming scheme with its Krawtchouk eigenmatrices and the
+cometric schemes are DelsarteTheoryOfCodesAndDesigns, the Moore bound is
+[StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md), perfect codes in
+Hamming spaces are [BoundsOnCodes](../BoundsOnCodes/README.md), the Krein conditions for strongly
+regular graphs and the designs are StronglyRegularGraphsAndDesigns, and the spectra and standard
+graphs are [GraphSpectra](../GraphSpectra/README.md). The sources are Brouwer–Haemers [BH, Chapters
+11–12], Brouwer–Cohen–Neumaier [BCN, §§2.3, 2.5, 2.7 and 6.5], Godsil–Royle [GR, §§4.5, 5.6, 5.8,
+5.10 and 10.8], Biggs [Biggs, Chapter 23], Godsil [Godsil, §§11.7 and 12.3] and Brouwer–Van
+Maldeghem [BVM, §§1.2–1.3].
 
 ## How to read the build
 
@@ -1036,7 +1038,7 @@ Owned here:
   graphs of diameter three (Layer 8);
 - `Q`-polynomial schemes and their equivalence with cometric schemes (Layer 9).
 
-The boundary with AssociationSchemes, section by section:
+The boundary with [AssociationSchemes](../AssociationSchemes/README.md), section by section:
 - 1.1, 1.2, 2.1, 2.3, 3.1, 4.1, 6.2 (definitions): copied. 1.2, 2.1, 2.2, 2.3, 3.1, 4.1 and 6.2
   (theorems and the API it states in prose): consumed in Layers 1, 3, 6 and 9, not restated.
 - 4.2, 4.3 (clique–coclique and clique bounds), 5.1 (the Johnson scheme), 5.2 (Erdős–Ko–Rado):
@@ -1057,13 +1059,16 @@ The boundary with DelsarteTheoryOfCodesAndDesigns, section by section:
   not used.
 
 Consumed from other roadmaps, not restated (see the supplier contracts):
-- GraphSpectra 1.2 and 3.1; 2.3 and 2.4 (definitions copied, distance formulas used); 2.6 cited.
-- SpectralGraphBounds 1.1: the sorted eigenvalues, copied as GraphSpectra copies them.
-- StronglyRegularAndMooreGraphs 1.2–1.3 and 3.1 (definition copied), 3.3. Its 3.2 is the
-  odd-girth bound; the even-girth bound, which it places outside its scope, is 7.2 here.
-- BoundsOnCodes 1.2 and 5.1 (definitions copied). It owns perfect codes, the Hamming and Golay
-  codes and the sphere-packing bound; Lloyd's theorem is 6.3 here, and the classification of
-  perfect codes is outside both.
+- [GraphSpectra](../GraphSpectra/README.md) 1.2 and 3.1; 2.3 and 2.4 (definitions copied, distance
+  formulas used); 2.6 cited.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1: the sorted eigenvalues, copied as
+  GraphSpectra copies them.
+- [StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md) 1.2–1.3 and 3.1
+  (definition copied), 3.3. Its 3.2 is the odd-girth bound; the even-girth bound, which it places
+  outside its scope, is 7.2 here.
+- [BoundsOnCodes](../BoundsOnCodes/README.md) 1.2 and 5.1 (definitions copied). It owns perfect
+  codes, the Hamming and Golay codes and the sphere-packing bound; Lloyd's theorem is 6.3 here, and
+  the classification of perfect codes is outside both.
 - StronglyRegularGraphsAndDesigns 2.4, 5.1 and 5.3 (definitions copied), 5.2.
 
 Neighbouring roadmaps, not used here:
@@ -1106,7 +1111,7 @@ beyond perfect codes; and the results of the section "Beyond this roadmap".
 
 ### From GraphSpectra
 
-The roadmap GraphSpectra:
+The roadmap [GraphSpectra](../GraphSpectra/README.md):
 - 1.2: the definition `adjSpectrum`, copied verbatim; the spectrum is the root multiset of the
   characteristic polynomial, and the count of `θ` is the dimension of its eigenspace. Used in
   3.1, 3.2, 5.1 and 8.4.
@@ -1120,13 +1125,13 @@ The roadmap GraphSpectra:
 
 ### From SpectralGraphBounds
 
-The roadmap SpectralGraphBounds, 1.1: the sorted adjacency eigenvalues `adjEigenvalues`
-(Mathlib's `eigenvalues₀` of `G.adjMatrix ℝ`, index `0` the largest), copied verbatim as
-GraphSpectra copies it, under `adjSpectrum`. No theorem of it is used.
+The roadmap [SpectralGraphBounds](../SpectralGraphBounds/README.md), 1.1: the sorted adjacency
+eigenvalues `adjEigenvalues` (Mathlib's `eigenvalues₀` of `G.adjMatrix ℝ`, index `0` the largest),
+copied verbatim as GraphSpectra copies it, under `adjSpectrum`. No theorem of it is used.
 
 ### From AssociationSchemes
 
-The roadmap AssociationSchemes:
+The roadmap [AssociationSchemes](../AssociationSchemes/README.md):
 - 1.1, 1.2, 2.1, 2.3, 3.1, 4.1 and 6.2: the definitions `IsAssocScheme`, `adjMat`, `bmAlgebra`,
   `valency`, `IsPrimitiveIdempotents`, `eigenmatrix`, `dualEigenmatrix`, `intersectionNumber`,
   `intersectionMatrix`, `kreinParam`, `innerDistribution`, `IsDistanceRegular` and `distRel`,
@@ -1151,7 +1156,7 @@ The roadmap DelsarteTheoryOfCodesAndDesigns:
 
 ### From StronglyRegularAndMooreGraphs
 
-The roadmap StronglyRegularAndMooreGraphs:
+The roadmap [StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md):
 - 1.2–1.3: a strongly regular graph with `0 < μ` that is not complete has the eigenvalues `k`,
   `r`, `s`, with `k` simple and the multiplicities of `r` and `s` given by the parameters; used in
   8.4.
@@ -1161,8 +1166,8 @@ The roadmap StronglyRegularAndMooreGraphs:
 
 ### From BoundsOnCodes
 
-The roadmap BoundsOnCodes, 1.2 and 5.1: the definitions `IsPerfect` and `distanceDistribution`,
-copied verbatim; used in 6.3. No theorem of it is used.
+The roadmap [BoundsOnCodes](../BoundsOnCodes/README.md), 1.2 and 5.1: the definitions `IsPerfect`
+and `distanceDistribution`, copied verbatim; used in 6.3. No theorem of it is used.
 
 ### From StronglyRegularGraphsAndDesigns
 
