@@ -17,7 +17,9 @@ over every finite set of primes, such that for every prime `p` and every embeddi
 integral ramified source forms has a submodule `S` of colength at most `err(p)·dim` on which every composite
 lift `B_ϑ` with a twist `ϑ` of modulus prime to `p` has `ι`-adic valuation at least `gain(p) − err(p)`; the
 gain `gain(p) = m(Σ_{τ∈Φ_a} s_p(a, τ) + k·F(p))` is the divisibility that the jets of the theta kernels
-predict. At the inert primes `p < x₁` whose partners collide (the exceptional primes) the sublattice is the
+predict. At the exceptional primes `p < x₁` (2.1 (f): the inert primes `p ≢ ±1 (mod m)` for which the order
+`o₀(p)` of `−p` modulo `q₀` is odd and at most `𝔯(p)`, so that the partner `(−p^e)τ` of every a-place `τ` is an
+a-place already at the exponent `e = o₀(p)`) the sublattice is the
 image of the `m`-th power of a product of scaled Hecke operators above `p`, enlarged by a power of `p`; its
 colength comes from a theorem on the elementary divisors of an edge Hecke operator over a Frobenius cycle
 (1.14). (2) *Size* (5.4). For the trivial twist, if all Galois conjugates of the values of `φ` have squared
@@ -93,31 +95,36 @@ over it has a Smith normal form.
 | `m, ϱ, k, t, n_j, s, l₀` | number of lifts (a power of `2`, `m = 2ϱ + 2`); rank of `X₀`; `n_j = k + j(t + 1)`; `2^s = m^{22}`; `l₀` the least power of `3` above `27s` | OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (`l₀`), §3.2 |
 | `M = p₀p₁, π̄_M` | the two level primes and an integer of `K` of norm `M` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
 | `N, π_N` | the level prime and an integer of `E` with `π_N π̄_N = N`; `N ≥ x₁` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2, §3.3 (e) (`N ≥ x₁`) |
-| `e_U` | the error unit `f·a·(log b)³` | OneSidedPrimeSumBoundsAndAdmissibleData §4.1 |
+| `u_E` | the error unit `f·a·(log b)³` | OneSidedPrimeSumBoundsAndAdmissibleData §4.1 |
 | `ϑ, Q(ϑ), q(ϑ)` | a twist; its set of ramified places; `q(ϑ) = Π_{w∈Q(ϑ)} Nw` | OneSidedPrimeSumBoundsAndAdmissibleData §3.4 |
 | `s_fin(y, σ)` | the prime sum `Σ_{1≤ν≤a} Λ(ν)(1 − χ_K(ν))(y/ν − κ((−ν)σ))₊` | OneSidedPrimeSumBoundsAndAdmissibleData §4.1 |
 | `s_∞(j), s_main, h_main, rem` | the jet size `log j! + j log(M/Ω)`; the expected value of `s_fin(a, τ)`; the main amount; the total remainder `Σ_{τ∈Φ_a}(s_fin(a, τ) − s_main)` | OneSidedPrimeSumBoundsAndAdmissibleData §4.1 |
 | `X_j, K_j, Y_m` | the definite hermitian spaces of rank `n_j` (standard form on a basis), their levels, and `Y_m ⊂ X_m` | ThetaLiftChainsAndTheSeesawIdentity §2.1 (the spaces), §2.6 (the levels `K_j`) |
-| `𝒮, D_X` | source forms: algebraic forms on `U(X₀)` of the source weight and level `K₀`; `D_X = dim_ℂ 𝒮` | ThetaLiftChainsAndTheSeesawIdentity §2.8 |
-| lift diagrams | the column numbers of the weights of the chain: at `τ`, the number of columns of height `h` | ThetaLiftChainsAndTheSeesawIdentity §2.2 |
-| `Θ_j^ϑ` | the theta kernel of the lift `X_j → X_{j+1}` for `ϑ` | ThetaLiftChainsAndTheSeesawIdentity §2.8 |
+| `𝒮, D_X` | source forms (there `𝒮_X`): algebraic forms on `U(X₀)` of the source weight and level `K₀`; `D_X = dim_ℂ 𝒮` | ThetaLiftChainsAndTheSeesawIdentity §2.8 |
+| `K°` | the stabiliser of the standard lattice in the finite adelic points of a standard definite space; `K₀ ⊂ K°` | ThetaLiftChainsAndTheSeesawIdentity, Conventions |
+| lift diagrams | the lift diagram of step `j` at `τ`: the Young diagram with `c_τ(h)` columns of height `h ≤ n_j`, whose rows are `μ(X_j)_τ + κ_{j+1}(τ) − n_{j+1}/2` | ThetaLiftChainsAndTheSeesawIdentity §2.2 |
+| `Θ_j^ϑ` | the theta kernel of the lift `X_j → X_{j+1}` for `ϑ` (the lift is written `L_j^ϑ` there) | ThetaLiftChainsAndTheSeesawIdentity §2.8 |
 | `t_x(j)` | the integral vacuum of `Hom(X_j, X_{j+1})` translated by the `j`-th entry of a tuple `x` of translations | ThetaLiftChainsAndTheSeesawIdentity §2.12 |
-| `Ψ, R_ϑ^Ψ, B_ϑ^Ψ` | chain data and weak chain data; the restricted chain (the combination `Ψ` of chains of `m` lifts with data `t_x(j)`, restricted to `Y_m`); the composite lift | ThetaLiftChainsAndTheSeesawIdentity §2.12 |
+| `Ψ, R_ϑ^Ψ, B_ϑ^Ψ` | chain data and weak chain data; the restricted chain (the combination `Ψ` of chains of `m` lifts with data `t_x(j)`, restricted to `Y_m`); the composite lift (there `comp_ϑ(Ψ)`) | ThetaLiftChainsAndTheSeesawIdentity §2.12 |
+| `𝖦, e₀, Θ_ϑ` | the group `∏_w GL_r(𝔽_w)` over the chosen places, the good idempotent, the lower chain | ThetaLiftChainsAndTheSeesawIdentity §2.5, §2.15 |
 | `p, ι, 𝒪_ι` | a prime, an embedding `ℂ → ℂ_p`, the `ι`-integral complex numbers | Conventions |
 | `𝓜_ι` | the integral source forms at `ι` | 2.4 |
-| `I_p, v(π_p), γ_p` | exponents and constants of a prime `p` | 2.1 |
-| `s_p(y, σ), F(p), gain(p), loss(p), err` | local prime sums, the gain, the loss, the allowed loss | 2.1 |
+| `I_p, v(π_p), γ_p` | exponents and constants of a prime `p` | DivisibilityOfThetaDerivatives §2.1 |
+| `s_p(y, σ), F(p), gain(p), loss(p), err` | local prime sums and their total (OneSidedPrimeSumBoundsAndAdmissibleData §4.1, where `F(p)` is written `S_p`), the gain, the loss, the allowed loss | 2.1 |
 | `𝔯(p), ν_p, j_p, o₀(p)` | `⌈log_p m⌉`, `𝔯f(n_m + 𝔯)`, `⌈2mfa/p⌉`, the order of `−p` modulo `q₀` | 2.1 |
 | `w_σ, Λ, A_𝔩, Y_𝔩` | induced primes, marked sets, scaling exponents, scaled Hecke operators | 2.4, 2.6 |
 | `D_p(j, S), λ_j(Λ)` | the divisibility bound of a lift; the loss of a lift at a neighbour | 2.7, 3.4 |
-| `z_w, 𝒮^ram` | scalings above `N`; ramified source forms | 2.9, 2.10 |
+| `z_w, 𝒮^ram` | scalings above `N`; ramified source forms | ThetaLiftChainsAndTheSeesawIdentity §2.8; 2.9 |
 | `Σ_N, δ_j, Up, 𝒜′` | the set-up at the level prime | 4.4 |
 | `T, P, q, w, ρ_n, depth, defect` | a Frobenius cycle and its invariants | 1.1 |
 | `c_div, c₀, c*` | the divisor constant, the multinomial exponent, the defect threshold | 1.4, 1.7, 1.10 |
 
 ## Layer 1: Elementary divisors of an edge Hecke operator
 
-This layer uses nothing of the data. A Frobenius cycle is a circle of ring maps from a local ring `W`, each
+This layer uses nothing of the data, and its letters are its own: here `N` is the number of letters of a cycle (not
+the level prime), `K` a field of characteristic `p` (not `ℚ(√−d)`), `T` a Frobenius cycle, and `E`, `m` exponents where
+a statement says so. A form of degree `n` in each letter is identified with its family of coefficients, indexed by the
+set `Exp(N, k, n)` of exponents (1.1). A Frobenius cycle is a circle of ring maps from a local ring `W`, each
 congruent modulo `p` to the `P`-th power of the one before; `GL_k(W)` acts on polynomials in one block of
 `k` variables per map, through the map or its inverse transpose. The theorem (1.14) bounds the colength of the
 image of an edge Hecke operator: the deep forms and the forms of large defect are rare (1.4, 1.12), forms in
@@ -166,7 +173,7 @@ some letter. The *deep forms* `Deep(r, d)` are `Tr_0(0, {β : depth_r(β) < d})`
 
 ### 1.2 Stepanov's count
 
-*Origin:* adapted from the published theory of Stepanov's method (a polynomial with zeros of multiplicity at
+*Origin:* adapted from Stepanov's method (Bombieri (1973): a polynomial with zeros of multiplicity at
 least `E` at `q` points has degree at least `Eq`): here over a commutative ring, at the images of
 representatives of the residue classes of a local ring.
 
@@ -241,16 +248,18 @@ variable `x_{b,s}` the weight `ω(b, s) = P^{−2r}` if it is deep and `b ≥ 2r
 (a) Every non-zero `F ∈ Deep(r, δ)` has a coefficient `F_β ≠ 0` with `Σ_x β(x)ω(x) ≥ δ`.
 (b) For every `M`, `Σ_{δ=1}^{M} dim_K Deep(r, δ) ≤ c_div(k, n, r)·#Exp(N, k, n)`.
 
-*Needs:* 1.1; ShortGRH background (a non-zero polynomial vanishing to order `δ` at the points of a finite
-product set cut out by equations with prescribed leading powers has a monomial of weighted degree at least
-`δ`).
+*Needs:* 1.1; ShortGRH background (the combinatorial Nullstellensatz with multiplicity, over a field: give the
+variable `u` the cost `1/κ_u`; at a set of at least `Π_u κ_u` points at which each `X_u^{κ_u}` agrees with a
+polynomial all of whose monomials cost less than `1`, a non-zero polynomial vanishing to order `δ` has a
+monomial of cost at least `δ`; [ShortProof] `Lib/General/Algebra/MultivariatePolynomials.lean`
+(`New.exists_le_weight_of_mem_vanishingIdeal_pow`)).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/Depth.lean` (`New.FrobeniusCycle.exists_le_weight_of_mem_deepForms`,
 `New.FrobeniusCycle.sum_finrank_deepForms_le`, `New.FrobeniusCycle.divisorConstant`)
 
 ### 1.5 Adjoint weights and the Schur algebra of a Levi subgroup
 
-*Origin:* adapted from the published theory of Schur algebras, in which the points of a general linear group
+*Origin:* adapted from the theory of Schur algebras (Green (1980); Benson and Doty (2009)), in which the points of a general linear group
 over a field span its Schur algebra in degrees below the size of the field: here for a Levi subgroup over a
 local ring, in degree `d` with `d + k` at most the size of the residue field, together with integral weights
 that make substitution by a matrix and by its transpose adjoint.
@@ -278,8 +287,10 @@ tensor powers `ι(g)^{⊗d}`, `g ∈ L_τ(W)`, span the image of `Sch_d`; precis
 contains every form with the same image under `Sch_d` as the evaluation at some `ι(g)`, `g ∈ L_τ(W)`, is
 everything.
 
-*Needs:* 1.1; Mathlib (multinomial coefficients, valuation rings); ShortGRH background (the Fock pairing on
-polynomials, for which substitution by a matrix and by its transpose are adjoint).
+*Needs:* 1.1; Mathlib (multinomial coefficients, valuation rings); ShortGRH background (the Fock pairing
+`(f, g) ↦ f(∂)g(0)` on polynomials in finitely many variables over a commutative ring, for which substitution
+of the variables by a matrix and by its transpose are adjoint; [ShortProof] `Lib/GLn/SchurModule/Basic.lean`
+(`New.fockPairing`, `New.fockPairing_linSubst`)).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/InvariantAverage.lean` (`New.Average.exists_isAdjointWeight`,
 `New.Average.eq_top_of_eval_monomial`, `New.Average.eq_top_of_schurMap_eq_leviMonomialValues`)
@@ -380,7 +391,11 @@ edge restriction, and `det d` dividing `w^l` with `l = |X|·Σ_{δ=1}^{x} dim De
 taken for the reduction of `T` modulo the maximal ideal of `O`. Every origin function `ψ` satisfies
 `QRψ = ψ`.
 
-*Needs:* 1.1, 1.3, 1.4, 1.5, 1.7; ShortGRH background (Hermite and Smith normal forms over a valuation domain).
+*Needs:* 1.1, 1.3, 1.4, 1.5, 1.7; ShortGRH background (over a valuation domain: a matrix with more rows than
+columns is an invertible matrix times a square matrix placed in chosen rows, and a square matrix is a product
+of an invertible matrix, a diagonal matrix and an invertible matrix; [ShortProof]
+`Lib/General/LinearAlgebra/HermiteForm.lean` (`New.IsValuationPair.hermite`),
+`Lib/General/LinearAlgebra/IntegralLattices.lean` (`New.IsValuationPair.smith_normal_form`)).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/Edges.lean` (`New.FrobeniusCycle.exists_isEdgePairing`,
 `New.FrobeniusCycle.IsEdgePairing.dotProduct_letterRep_mulVec`, `New.FrobeniusCycle.pow_dvd_letterRep_mulVec_of_mem_allEdgesForms`,
@@ -495,8 +510,9 @@ letter.
 (b) If `n > 0`, `θ ≤ 1` and `8·N·k·t·P^{2a′} ≤ θn`, then
 `[GL_k(W) : P_{τ_{a′}}(W)]·dim_K S ≤ (1 + θ)·#Exp(N, k, n)`.
 
-*Needs:* 1.1, 1.3, 1.11; ShortGRH background (the number of points of a lattice `m⁻¹ℤ^d` in a bounded convex
-set, divided by `m^d`, tends to its volume; counts of flags over a finite field).
+*Needs:* 1.1, 1.3, 1.11; Mathlib `BoxIntegral.unitPartition.tendsto_card_div_pow_atTop_volume` (the number of
+points of `m⁻¹ℤ^d` in a bounded measurable set with null frontier, divided by `m^d`, tends to its volume) and
+`Matrix.card_GL_field` (the order of `GL_k` of a finite field, which gives the index of a parabolic subgroup).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/DefectCount.lean`
 (`New.FrobeniusCycle.exists_finrank_defectConditions_le_volume`, `New.FrobeniusCycle.index_mul_finrank_defectConditions_le`,
@@ -550,7 +566,9 @@ valuation ring, the length of `L/(YL + p^mL)`, `L` the image of `f`, is at most 
 length of `O/pO`.
 
 *Needs:* 1.7, 1.8, 1.13; OneSidedPrimeSumBoundsAndAdmissibleData §1.1 (colength of modules); ShortGRH background
-(Hermite and Smith normal forms over a valuation domain).
+(over a valuation domain a square matrix is a product of an invertible matrix, a diagonal matrix and an
+invertible matrix; [ShortProof] `Lib/General/LinearAlgebra/IntegralLattices.lean`
+(`New.IsValuationPair.smith_normal_form`)).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/ElementaryDivisorTheorem.lean`
 (`New.FrobeniusCycle.elementary_divisors`, `New.FrobeniusCycle.elementary_divisors_length`,
@@ -559,8 +577,11 @@ length of `O/pO`.
 ## Layer 2: Gains, losses, marks and ramified source forms
 
 This layer fixes, prime by prime, the divisibility asked of the chain (the gain) and what may be lost; it
-defines the primes at which the partner of an a-place is an a-place (the exceptional primes), the marked sets
-of primes above them and the scaled Hecke operators there, and the ramified source forms.
+defines the exceptional primes (2.1 (f)), the marked sets
+of primes above them and the scaled Hecke operators there, and proves what it needs of the ramified source forms.
+Partners of a-places can be a-places at other inert primes too, for instance when `p ≡ −1` modulo `q₀` and
+modulo `m`; those collisions are paid by the loss, which is `m` times larger at `p ≡ ±1 (mod m)` (2.1 (d),
+2.7 (b)).
 
 ### 2.1 Definitions: local prime sums, the gain, the loss and exceptional primes
 
@@ -569,15 +590,17 @@ of primes above them and the scaled Hecke operators there, and the ramified sour
 *Method of the formal proof:* none: these are definitions.
 
 Let `p` be a prime.
-(a) `I_p` is the set of odd `e ≥ 1` if `χ_K(p) = −1`, of all `e ≥ 1` if `p = d`, and empty if `χ_K(p) = 1`;
-`v(π_p) := 1/2` if `p = d` and `1` otherwise; `γ_p := p/(p² − 1)` if `p` is inert in `K`, `1/(2d − 2)` if
-`p = d`, and `0` if `p` splits.
-(b) The *local prime sum* is `s_p(y, σ) := v(π_p)·Σ_{e∈I_p} (y/p^e − κ((−p^e)σ))₊`, and
-`F(p) := Σ_{σ∈Φ} s_p(κ(σ), σ)`.
+(a) `I_p`, `v(π_p)` and `γ_p` are the numbers at `p` of DivisibilityOfThetaDerivatives §2.1: `I_p` is the set
+of odd `e ≥ 1` if `p` is inert in `K` (`χ_K(p) = −1`), of all `e ≥ 1` if `p = d`, and empty if `p` splits;
+`v(π_p)` is `1/2` if `p = d` and `1` otherwise; and `γ_p = v(π_p)·Σ_{e∈I_p} p^{−e}`, which is `p/(p² − 1)`,
+`1/(2d − 2)`, `0` for `p` inert, `p = d`, `p` split.
+(b) The *local prime sum* `s_p(y, σ)` and its total are those of
+OneSidedPrimeSumBoundsAndAdmissibleData §4.1; this roadmap writes `F(p)` for the total `S_p` of that section.
 (c) The *gain* is `gain(p) := m·(Σ_{τ∈Φ_a} s_p(a, τ) + k·F(p))`.
 (d) `p` is *small non-split* if `p < x₁` and `χ_K(p) ≠ 1`. The *loss* is
 `loss(p) := f·a·(log b)²/p`, multiplied by `m` if `p ≡ ±1 (mod m)`. The *allowed loss* `err₀(p)` is
-`2·loss(p)` if `p` is small non-split, `2mfb` if `p = N`, and `0` otherwise.
+`2·loss(p)` if `p` is small non-split, `2mfb` if `p = N`, and `0` otherwise; for a natural number `n` that
+is not prime, `err₀(n) := 0` (the sums of 2.3 and 4.9 run over sets of natural numbers).
 (e) `𝔯(p)` is the least `r` with `m ≤ p^r`; `ν_p := 𝔯(p)·f·(n_m + 𝔯(p))`; `j_p := ⌈2mfa/p⌉`; `o₀(p)` is the
 order of the class of `u(−p)` in `(ℤ/q₀)ˣ`.
 (f) `p` is *exceptional* if `χ_K(p) = −1`, `p ≢ ±1 (mod m)`, and `o₀(p)` is odd and at most `𝔯(p)`.
@@ -585,10 +608,11 @@ order of the class of `u(−p)` in `(ℤ/q₀)ˣ`.
 `Φ_a ∖ S`; `coll_p(S) := Σ_τ Σ_{e : (τ,e) collision} a/p^e`.
 
 *Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters and `χ_K`), §2.2 (the infinite places and
-the place of an integer), §3.2 (admissible data: the weight, the a-places, the scales and the ranks).
+the place of an integer), §3.2 (admissible data: the weight, the a-places, the scales and the ranks), §4.1 (the
+local prime sums `s_p` and their total);
+DivisibilityOfThetaDerivatives §2.1 (the numbers `I_p`, `v(π_p)`, `γ_p` at a prime).
 
-[ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.Data.localPrimeSum`, `New.Data.localPrimeSumTotal`,
-`New.Data.gain`, `New.Data.IsSmallNonsplit`, `New.Data.loss`, `New.Data.ceilLogLifts`, `New.Data.transferExponent`,
+[ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.Data.gain`, `New.Data.IsSmallNonsplit`, `New.Data.loss`, `New.Data.ceilLogLifts`, `New.Data.transferExponent`,
 `New.Data.collisionExponent`, `New.Data.o₀`, `New.Data.IsExceptional`, `New.Data.IsCollision`, `New.Data.collisionSum`);
 `New/UpperBound/Size/Estimates.lean` (`New.Data.allowedLoss`)
 
@@ -604,7 +628,7 @@ every weight is at least `a/x₁`; grouping it by primes and using `Λ(p^e) = lo
 (a) For a prime `p`, `s_p(y, σ) = Σ_{e≥1} ((1 − χ_K(p^e))/2)·(y/p^e − κ((−p^e)σ))₊`.
 (b) If `x₁ ≤ p` and `y ≤ a`, then `s_p(y, σ) = 0`; hence `gain(p) = 0` if `χ_K(p) = 1` or `p ≥ x₁`.
 (c) For `y ≤ a` and every integer `U ≥ ⌈x₁⌉`, `s_fin(y, σ) = Σ_{p<U prime} 2·s_p(y, σ)·log p`.
-(d) For every finite set `T` of primes, `Σ_{p∈T} 2F(p)·log p ≤ Σ_{τ∈Φ} s_fin(κ(τ), τ)`, and `F(p) ≥ 0`.
+(d) For every finite set `U` of primes, `Σ_{p∈U} 2F(p)·log p ≤ Σ_{τ∈Φ} s_fin(κ(τ), τ)`, and `F(p) ≥ 0`.
 
 *Needs:* 2.1; OneSidedPrimeSumBoundsAndAdmissibleData §4.1 (the prime sums).
 
@@ -619,7 +643,7 @@ every weight is at least `a/x₁`; grouping it by primes and using `Λ(p^e) = lo
 with `p = mc ± 1` when `p ≡ ±1 (mod m)` (then `m ≤ 2p/c`), or `c = 1` for `p = N`; each `c` serves at most four
 numbers, so the sum is at most `4T` times a harmonic sum up to `x₁`, and the size inequalities finish.
 
-For every finite set `U` of natural numbers, `Σ_{p∈U} err₀(p)·log p ≤ e_U = f·a·(log b)³`.
+For every finite set `U` of natural numbers, `Σ_{p∈U} err₀(p)·log p ≤ u_E = f·a·(log b)³`.
 
 *Needs:* 2.1; OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the size inequalities), §4.1 (the error unit).
 
@@ -692,8 +716,10 @@ double coset of `diag(ϖ·1_i, 1_{n−i})` at `𝔩` (and its conjugate at `𝔩
 2.5 (e) source forms are spherical at `𝔩`, and `T_{𝔩,i}` preserves `𝒮`. The *scaled Hecke operator* is
 `Y_𝔩 := p^{A_𝔩}·T_{𝔩,𝔯(p)}`, an `𝒪_ι`-linear endomorphism of `𝒮`; `Y_Λ := Π_{𝔩∈Λ} Y_𝔩`.
 
-*Needs:* 2.4, 2.5; ShortGRH background (Hecke operators of a double coset at a split place, on forms spherical
-there).
+*Needs:* 2.4, 2.5; AutomorphicFormsOnReductiveGroups §7.4 (the operator `T_η` of a double coset `JηJ` on the
+algebraic forms of level `J`, here for `η = diag(ϖ·1_i, 1_{n−i})` at a split place and `J` containing the
+maximal compact subgroup there; [ShortProof] `Lib/Weil/Unramified/SplitHecke.lean` (`New.heckeSplit`,
+`New.sphericalAt`)).
 
 [ShortProof], `New/UpperBound/Divisibility/MarkedPrimes.lean` (`New.Data.IsMarked.scaledHeckeOperator`)
 
@@ -758,34 +784,26 @@ is trivial elsewhere and generates the units of its residue field.
 field (of order `N − 1`) and divide the corresponding idele by its conjugate; as `w` is split, the component
 at `w` is the unit itself.
 
-Let `w` be a prime of `E` dividing `π_N`. A *scaling at `w`* is an integral finite idele `z` with `zz̄ = 1`
-whose components are `1` away from `w` and `w̄`.
-(a) There is a scaling `z_w` at `w` with `z_{w,w}^i ≡ 1 (mod w)` if and only if `(N − 1) | i`; fix one.
+Let `w` be a prime of `E` dividing `π_N`. Scalings at `w`, the scaling `z_w` and the ramified source forms
+`𝒮^ram` are those of ThetaLiftChainsAndTheSeesawIdentity §2.8: a scaling is an integral finite idele `z` with
+`zz̄ = 1` whose components are `1` away from `w` and `w̄`, and `z_w` is a fixed scaling whose component at `w`
+generates the units of the residue field.
+(a) Such a scaling exists, so that `z_w` can be fixed; `z_{w,w}^i ≡ 1 (mod w)` if and only if `(N − 1) | i`.
 (b) The scalar matrix of `z_w` lies in the standard maximal compact subgroup at `w` and in the principal
 congruence subgroup at the chosen places, and its `i`-th power lies in `K_j` if and only if `(N − 1) | i`.
 (c) Right translation by the scalar matrix of `z_w` is an operator of order dividing `N − 1` on the forms of
 level `K_j` on `X_j`.
 
 *Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the level prime `N` and `π_N`);
-ThetaLiftChainsAndTheSeesawIdentity §2.1 (the definite spaces `X_j`), §2.6 (their levels `K_j`).
+ThetaLiftChainsAndTheSeesawIdentity §2.1 (the definite spaces `X_j`), §2.6 (their levels `K_j`), §2.8 (scalings
+and the ramified source forms).
 
 [ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.Data.exists_isScalingAt_valuation_pow_iff`,
 `New.Data.scalingGenerator`, `New.Data.scalarFin_scalingGenerator_mem_chosenLevel`,
 `New.Data.scalarFin_scalingGenerator_pow_mem_levelX_iff`, `New.Data.algFormCentralRep_scalingGenerator_pow`)
 
-### 2.10 Definition: ramified source forms
-
-*Origin:* definitions and conventions.
-
-*Method of the formal proof:* none: this is a definition.
-
-With the scalings `z_w` of 2.9, acting on `𝒮` by right translation by their scalar matrices, the *ramified
-source forms* are `𝒮^ram := {φ ∈ 𝒮 : Σ_{i=0}^{N−2} z_w^i·φ = 0 for every prime w | π_N}`.
-
-*Needs:* 2.9.
-
-[ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.Data.centralRep`, `New.Data.ramifiedSourceForms`,
-`New.Data.ramifyingOp`)
+The ramified source forms `𝒮^ram = {φ ∈ 𝒮 : Σ_{i=0}^{N−2} z_w^i·φ = 0 for every prime w | π_N}` are defined in
+ThetaLiftChainsAndTheSeesawIdentity §2.8; there is no section 2.10.
 
 ### 2.11 Ramified source forms: an image, and their codimension
 
@@ -802,11 +820,15 @@ some `ψ` of the same level. `𝒮^ram` is the image of `Π_{w|π_N}(1 − z_w)`
 (b) `dim ker(1 − z_w) ≤ D_X/(N − 1)`, so `dim ker Π_{w∈s}(1 − z_w) ≤ #s·D_X/(N − 1)`.
 (c) `dim 𝒮^ram ≥ (1 − f/(N − 1))·D_X`, and `f/(N − 1) ≤ b^{−8}`.
 
-*Needs:* 2.9, 2.10; OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the size inequalities); ShortGRH background (at
-a free level the dimension of a space of algebraic forms is the number of classes times the dimension of the
-weight).
+*Needs:* 2.9; ThetaLiftChainsAndTheSeesawIdentity §2.8 (the ramified source forms);
+OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the size inequalities); AutomorphicFormsOnReductiveGroups §7.4,
+§7.5 (evaluation at representatives of the classes identifies the forms of a level with trivial stabilisers
+with one vector of the weight for each class, so that their dimension is the number of classes times the
+dimension of the weight; [ShortProof] `Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean`
+(`New.freeLevelEquiv`, `New.finrank_levelSpace_smoothFormRep`)).
 
-[ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.Data.sum_scalingGenerator_pow_eq_zero_iff_exists_eq_sub`,
+[ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.Data.centralRep`, `New.Data.ramifyingOp`,
+`New.Data.sum_scalingGenerator_pow_eq_zero_iff_exists_eq_sub`,
 `New.Data.ramifiedSourceForms_eq_range`, `New.Data.exists_eq_sub_scalingGenerator`, `New.Data.finrank_ker_one_sub_scalingGenerator_le`,
 `New.Data.finrank_ker_ramifyingOp_le`, `New.Data.le_finrank_ramifiedSourceForms`, `New.Data.f_div_N_sub_one_le`)
 
@@ -842,7 +864,9 @@ for `δ = π̄_M`, and for every `δ` if `p ∤ M` (DivisibilityOfThetaDerivativ
 
 *Needs:* ThetaLiftChainsAndTheSeesawIdentity §1.1 (d) (gauges and the bound "raises"), §2.8 (the theta kernels
 of the lifts), §2.12 (chain data, weak chain data and the composite lift);
-DivisibilityOfThetaDerivatives §4.8 (standard data at `p`); ShortGRH background (sums over classes of a free level).
+DivisibilityOfThetaDerivatives §4.8 (standard data at `p`); ThetaLiftsForDefiniteUnitaryGroups §1.2 (the lift
+between definite groups as a sum over the classes of the level, here at levels with trivial stabilisers, where
+every class has weight `1`).
 
 [ShortProof], `New/UpperBound/Divisibility/ChainValuation.lean` (`New.Data.chainCombination_eq_sum`,
 `New.Data.gaugeLe_chainCombination`, `New.Data.IsWeakChainDatum.gaugeLe_chain`,
@@ -950,8 +974,12 @@ are sent to forms spherical at `𝔩`, and:
 there are `c_i ∈ 𝒪_ι` with `p^{ν_p}·C_{j+1}(T_{𝔩,𝔯(p)}φ) = Σ_{i≤𝔯(p)} c_i·T_{𝔩,i}(C_{j+1}φ)`.
 
 *Needs:* 2.5, 2.6; ThetaLiftChainsAndTheSeesawIdentity §2.8 (the theta kernels of the lifts), §2.12 (weak chain
-data and the data `t_x(j)`); ShortGRH background (at a split place where the datum is the vacuum and the
-characters are unramified, Hecke polynomials pass through a theta lift).
+data and the data `t_x(j)`); ShortGRH background (Hecke polynomials pass through a theta lift at a split place
+`w` of norm `q` where the two characters are unramified and the datum is the vacuum: for spaces of ranks `n` and
+`n + k` and a pairing `B` of data with vectors that is equivariant for the Weil action,
+`P_w(X)·B(f, v) = Π_{l<k}(1 − q^l αX)·B(f, P_{w̄}(q^k αβ⁻¹X)·v)` for `v` spherical at `w`, with `P` the Hecke
+polynomial operators and `α`, `β` the values of the two characters at a uniformiser; [ShortProof]
+`Lib/Weil/Unramified/HeckeTransfer.lean` (`New.SiegelWeil.hecke_transfer_of_pairing`)).
 
 [ShortProof], `New/UpperBound/Divisibility/ValuationAtNonSplitPrimes.lean`
 (`New.Data.IsWeakChainDatum.exists_heckePolyOp_lift`, `New.Data.IsWeakChainDatum.exists_sum_heckeSplit_lift_eq_smul`,
@@ -1031,8 +1059,10 @@ of the edge.
 (b) If `(k, a, 𝔯(p), θ)` is of large degree (1.13), then for every `j₀ ∈ ℕ`, `Y_𝔩` is onto `𝓜_ι` modulo `p^{j₀}`
 up to colength `(3c_div(k, a, 𝔯(p)) + θj₀)·D_X`.
 
-*Needs:* 1.13, 1.14, 2.5, 2.6; ShortGRH background (Hecke operators of a double coset at a split place,
-written as sums over the classes of a free level).
+*Needs:* 1.13, 1.14, 2.5, 2.6; AutomorphicFormsOnReductiveGroups §7.4 (the operator of a double coset as a sum
+over its right cosets), §7.5 (at a level with trivial stabilisers a form is the family of its values at
+representatives of the classes; [ShortProof] `Lib/Adelic/Hecke/Basic.lean` (`New.heckeFun_eq_sum_pullback`),
+`Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean` (`New.freeLevelEquiv`)).
 
 [ShortProof], `New/UpperBound/Divisibility/HeckeEdges.lean` (`New.Columns.HeckeEdges.heckeSplit_apply_rep`,
 `New.Columns.nonempty_heckeEdges`, `New.Columns.isOntoUpToColength_scaledHeckeOperator_of_frobeniusCycle`)
@@ -1125,8 +1155,8 @@ place lies above `N` if and only if it or its conjugate lies in `Σ_N`, and `Σ_
 (c) Every `φ ∈ 𝒮^ram` is, at each `w ∈ Σ_N`, of the form `ψ − x·ψ` with `x` an integral unit scalar matrix
 (in a basis of `L₀`) that is `1` modulo `N` at the other places of `Σ_N`.
 
-*Needs:* 2.9, 2.10, 4.4; ThetaLiftChainsAndTheSeesawIdentity §2.11 (the operator `Up` and the lift laws modulo
-`N`).
+*Needs:* 2.9, 4.4; ThetaLiftChainsAndTheSeesawIdentity §2.8 (the ramified source forms), §2.11 (the operator
+`Up` and the lift laws modulo `N`).
 
 [ShortProof], `New/UpperBound/Divisibility/SetupAtLevel.lean` (`New.Data.isSplitLevel_nonInducedPlaces`,
 `New.Data.upOperator_mem_sourceForm`, `New.Data.mem_ramified_of_mem_ramifiedSourceForms`, `New.Data.conjEmbedGL_mem_levelX`)
@@ -1154,7 +1184,8 @@ and commutes with `ω(a, b)` for `a ∈ K_j`, `b ∈ K_{j+1}`.
 gauge at most `N^{2mfb}` at the base point `1`.
 
 *Needs:* 3.1, 3.2, 3.3, 4.4, 4.5; ThetaLiftChainsAndTheSeesawIdentity §2.11 (the operator `Up` and the lift laws
-modulo `N`), §2.14 (characters of the lifts above `N`).
+modulo `N`), §2.13 (the glued datum of a double lift in the Schrödinger model at `Σ_N`), §2.14 (characters of
+the lifts above `N`).
 
 [ShortProof], `New/UpperBound/Divisibility/ValuationAtLevel.lean`
 (`New.Data.doubleLiftChain_gluedDoubleLiftDatum_eq_smul_chain`, `New.Data.schrodingerOpAtN_directDatum_mem_raises`,
@@ -1231,8 +1262,8 @@ There are real numbers `err(p)`, one for each natural number `p`, such that:
 
 ### 5.1 An explicit bound for the number of classes in a genus
 
-*Origin:* adapted from the published theory of the finiteness of the class number of a genus of hermitian
-lattices: here an explicit bound for the genus of the standard lattice over a CM field.
+*Origin:* adapted from the classical finiteness of the class number of a genus of hermitian lattices (Borel
+(1963)): here an explicit bound for the genus of the standard lattice over a CM field.
 
 *Method of the formal proof:* a class is determined by the Gram matrix `G` of a short basis `Y` of its lattice
 together with `GX`, where `X` is a rational matrix approximating the inverse change of basis modulo the
@@ -1246,23 +1277,27 @@ infinite place of `E` has at most `(1 + 2r)^{2·#ι·f′}` elements: two distin
 absolute value at least `1`.
 
 (b) Let `E` be a CM field with `f` infinite places, `N ≥ 1` an integer that lies in the different of `E`, `n ≥ 1`
-and `c := 6N(fn)²`. Then the number of classes `Γ\G_f/K₀` of the standard definite hermitian space of rank
-`n` over `E` (`K₀` the stabiliser of the standard lattice) is at most `(1 + 2c³)^{4fn²}`.
+and `c := 6N(fn)²`. Then the number of classes `Γ\G_f/K°` of the standard definite hermitian space of rank
+`n` over `E` (`K°` the stabiliser of the standard lattice in `G_f`, as in
+ThetaLiftChainsAndTheSeesawIdentity, Conventions; not the level `K₀` of the source forms) is at most `(1 + 2c³)^{4fn²}`.
 
-*Needs:* ShortGRH background (every lattice in the genus of the standard lattice has a basis with entries of
-absolute value at most `c` at every complex embedding).
+*Needs:* ShortGRH background (for a CM field `E` with `f` infinite places and an integer `N ≥ 1` in the
+different of `E`, every lattice in the genus of the standard lattice of rank `n` has a basis in `E^n` with
+entries of absolute value at most `6N(fn)²` at every complex embedding; [ShortProof]
+`Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.exists_short_basis_stdSpace`,
+`New.Space.shortBasisConst`)).
 
 [ShortProof], `New/UpperBound/Size/ClassCount.lean` (`New.Space.card_stdClasses_le`, `New.Space.stdClasses_eq_of_gram_eq`,
 `New.Space.norm_gram_apply_le_cube`); for (a), `New/Spanning/RemainingTerms/Box.lean`
-(`New.Filling.encard_le_of_isIntegral_norm_le`), which RemainingAndMainTermsOfSecondMoments also uses
+(`New.Filling.encard_le_of_isIntegral_norm_le`)
 
 ### 5.2 Class counts, rows of the lift diagrams and jet sizes on the data
 
 *Origin:* particular to this proof: explicit bounds on the data for the number of classes at levels that
 contain a principal level, for the rows of the lift diagrams and for jet sizes.
 
-*Method of the formal proof:* the number of classes is at most the class number of `K₀` (5.1, with
-`q₁d` in the different) times the index of the level in `K₀`; the rows are the weights of the lifts plus the
+*Method of the formal proof:* the number of classes is at most the class number of `K°` (5.1, with
+`q₁d` in the different) times the index of the level in `K°`; the rows are the weights of the lifts plus the
 gaps; `(r + e)!` is `r!` times `e` factors at most `r + e + 1`.
 
 (a) If `G ≥ 1`, `n ≤ 2n_m` and a subgroup `K ⊆ G_f(X)` (`X` standard of rank `n` over `E`) contains the
@@ -1296,7 +1331,7 @@ Let `rs_j := Σ_τ Σ_{i<n_j} s_∞(length of row i of the lift diagram of step 
 `m(s_∞(a) − s_main) − a·log N ≤ 32a·log b`.
 (b) `2Σ_{p small non-split} gain(p)·log p = m·Σ_{τ∈Φ_a} s_fin(a, τ) + mk·Σ_τ s_fin(κ(τ), τ)`.
 (c) `h_main − m·rem + 2Σ_{p small non-split} gain(p)·log p = m·#Φ_a·s_main + mk·Σ_τ s_∞(κ(τ))`.
-(d) `Σ_{j<m} rs_j ≤ cs + e_U/2`, and `cs − #Φ_a·a·log N ≤ h_main − m·rem + 2Σ_p gain(p)·log p + 32fa·log b`.
+(d) `Σ_{j<m} rs_j ≤ cs + u_E/2`, and `cs − #Φ_a·a·log N ≤ h_main − m·rem + 2Σ_p gain(p)·log p + 32fa·log b`.
 
 *Needs:* 2.1, 2.2, 5.2; OneSidedPrimeSumBoundsAndAdmissibleData §3.1 (the lower end `N₋`), §3.2 (admissible data
 and the window for `log N`), §3.3 (the size inequalities), §4.1 (the prime sums); Mathlib (Stirling's formula).
@@ -1308,7 +1343,7 @@ and the window for `log N`), §3.3 (the size inequalities), §4.1 (the prime sum
 ### 5.4 The size of one kernel and of the composite lift
 
 *Origin:* particular to this proof: for the trivial twist the composite lift multiplies the squared norms of
-all conjugates by at most `exp(h_main − m·rem + 2Σ_p gain(p) log p + e_U)`.
+all conjugates by at most `exp(h_main − m·rem + 2Σ_p gain(p) log p + u_E)`.
 
 *Method of the formal proof:* a value of the restricted chain is a sum over tuples of classes and tuples of
 translations of products of `m` kernels (3.1 (a)); each kernel is bounded by the archimedean jet bound with
@@ -1322,7 +1357,7 @@ Let `1` denote the trivial twist and `σ ∈ Aut(ℂ)`.
 `σ`-conjugates by at most `exp(x^{50} + rs_j/2)`.
 (b) Let `Ψ` be a weak chain datum for `1` and `φ ∈ 𝒮` with `‖σ∘φ(g)‖² ≤ exp(B)` for all `g`. Then for all
 `y ∈ G_f(Y_m)`, `‖σ∘R_1^Ψ(φ)(y)‖² ≤ exp(B + β)`, with
-`β := h_main − m·rem + 2Σ_{p small non-split} gain(p)·log p + e_U`.
+`β := h_main − m·rem + 2Σ_{p small non-split} gain(p)·log p + u_E`.
 (c) The same bound holds for `B_1^Ψ(φ)` when `Ψ` is a chain datum for `1`.
 
 *Needs:* 3.1, 3.2, 3.3, 5.2, 5.3; ThetaLiftChainsAndTheSeesawIdentity §1.4 (the archimedean bound for jets of a
@@ -1333,28 +1368,29 @@ translate of the vacuum), §2.12 (chain data and the composite lift).
 
 ### 5.5 Passage to target forms by the good projection
 
-*Origin:* particular to this proof: replacing a form of principal level on `Y₀` by `#Ḡ·e₀ s z` keeps
+*Origin:* particular to this proof: replacing a form of principal level on `Y₀` by `#𝖦·e₀ s z` keeps
 integrality of the lifted form and enlarges the size of its values by at most `exp(x^{99})` after summing over
 classes.
 
-*Method of the formal proof:* the lift of `#Ḡ e₀ s z` is a combination of right translates of the lift of `z`
-with coefficients `#Ḡ·e₀(t)`, which are algebraic integers (values of a character) and have conjugates of
-absolute value at most `1`; the gauge is ultrametric, and the class sum has at most `exp(x^{30})` classes
-(5.2 (a)), with `x^{30} + 4 log #Ḡ < x^{99}`.
+*Method of the formal proof:* the lift of `#𝖦 e₀ s z` is a combination of right translates of the lift of `z`
+with coefficients `#𝖦·e₀(t)`, which are algebraic integers (values of a character of degree at most `#𝖦`) and
+have conjugates of absolute value at most `#𝖦`, the coefficients `e₀(t)` themselves having conjugates of
+absolute value at most `1`; the gauge is ultrametric; each value is a sum of `#𝖦` terms, and the class sum has
+at most `exp(x^{30})` classes (5.2 (a)), with `x^{30} + 4 log #𝖦 < x^{99}`.
 
-Let `Ḡ`, `e₀` and the lower chain `ι_ϑ : forms of principal level on Y₀ → forms on Y_m` be those of
-ThetaLiftChainsAndTheSeesawIdentity §2.5 (the group `Ḡ` and the idempotent `e₀`), §2.7 (the forms of principal
-level and the action of `Ḡ` on them) and §2.15 (the lower chain), `s ∈ Ḡ` and `z` a form of principal level on
+Let `𝖦`, `e₀` and the lower chain `Θ_ϑ` (from the forms of principal level on `Y₀` to the forms on `Y_m`) be those of
+ThetaLiftChainsAndTheSeesawIdentity §2.5 (the group `𝖦` and the idempotent `e₀`), §2.7 (the forms of principal
+level and the action of `𝖦` on them) and §2.15 (the lower chain), `s ∈ 𝖦` and `z` a form of principal level on
 `Y₀`.
-(a) For every prime `l`, every `ι : ℂ → ℂ_l` and every `c ∈ ℂ`: if `c·ι_ϑ(z)` is integral at `ι`, so is
-`c·ι_ϑ(#Ḡ·e₀ s z)`; and `ι_ϑ(#Ḡ e₀ s z)(g) = Σ_{t∈Ḡ} #Ḡ·e₀(t)·ι_ϑ(z)(g·γ_ϑ(ts))` for an integral lift `γ_ϑ` of
-`Ḡ` to `G_f(Y_m)`.
-(b) For `σ ∈ Aut(ℂ)`: if `‖σ∘ι_1(z)(g)‖² ≤ exp(B)` for all `g`, then the class sum of the squared norms of the
-`σ`-conjugates of the values of `ι_1(#Ḡ·e₀ s z)` is at most `exp(x^{99} + B)`.
+(a) For every prime `l`, every `ι : ℂ → ℂ_l` and every `c ∈ ℂ`: if `c·Θ_ϑ(z)` is integral at `ι`, so is
+`c·Θ_ϑ(#𝖦·e₀ s z)`; and `Θ_ϑ(#𝖦 e₀ s z)(g) = Σ_{t∈𝖦} #𝖦·e₀(t)·Θ_ϑ(z)(g·γ_ϑ(ts))` for an integral lift `γ_ϑ` of
+`𝖦` to `G_f(Y_m)`.
+(b) For `σ ∈ Aut(ℂ)`: if `‖σ∘Θ_1(z)(g)‖² ≤ exp(B)` for all `g`, then the class sum of the squared norms of the
+`σ`-conjugates of the values of `Θ_1(#𝖦·e₀ s z)` is at most `exp(x^{99} + B)`.
 
-*Needs:* 5.2; ThetaLiftChainsAndTheSeesawIdentity §2.5 (the group `Ḡ` and the idempotent `e₀`), §2.7 (the forms
-of principal level and the action of `Ḡ` on them, which give the good part `#Ḡ·e₀ s z` of a translate),
-§2.15 (the lower chain and its equivariance for `Ḡ`).
+*Needs:* 5.2; ThetaLiftChainsAndTheSeesawIdentity §2.5 (the group `𝖦` and the idempotent `e₀`), §2.7 (the forms
+of principal level and the action of `𝖦` on them, which give the good part `#𝖦·e₀ s z` of a translate),
+§2.15 (the lower chain and its equivariance for `𝖦`).
 
 [ShortProof], `New/UpperBound/Size/ArchimedeanSize.lean` (`New.Data.lowerChain_goodProjTranslate_apply`,
 `New.Data.goodProjTranslate_mem_integralForms`, `New.Data.normSqAt_goodProjTranslate_le`)
@@ -1371,18 +1407,24 @@ every conjugate, and these span because the evaluation vectors span the Weyl mod
 invertible.
 
 Let `E` be a CM field with `f` infinite places, `X` the standard definite hermitian space of rank `n ≥ 1` over
-`E`, `K ⊆ K₀` an open subgroup that is free (`Γ ∩ gKg⁻¹ = 1` for all `g`), and `(κ, e)` a weight.
-(a) If `φ` is `B`-short and `g ∈ K₀`, then `φ − g·φ` is `4B`-short.
+`E`, `K°` the stabiliser of the standard lattice in `G_f`, `K ⊆ K°` an open subgroup that is free
+(`Γ ∩ gKg⁻¹ = 1` for all `g`), and `(κ, e)` a weight.
+(a) If `φ` is `B`-short and `g ∈ K°`, then `φ − g·φ` is `4B`-short.
 (b) The delta form at `y` made from `v` (supported on `ΓyK`, with value `Σ γ⁻¹·v` at `g` over the rational
 `γ` with `y⁻¹γg ∈ K`) is `B`-short if `v` has gauge at most `1` at `y` for every prime and every `ι`, and every
 conjugate of `v` has squared norm at most `B`.
 (c) Let `N ≥ 1` lie in the different of `E`, `M ≥ n·f + (number of boxes of κ in columns of height below n)`
 and `B ≥ (6N(fn)²)^{6M}`. Then the forms of level `K` and weight `(κ, e)` are spanned by `B`-short forms.
 
-*Needs:* ShortGRH background (every lattice in the genus of the standard lattice has a basis with entries of
-absolute value at most `6N(fn)²` at every complex embedding); ShortGRH background (the evaluation vectors at
-families of roots of unity span a Weyl module); ShortGRH background (at a free level a form is a sum of delta
-forms, one for each class).
+*Needs:* ShortGRH background (for `N ≥ 1` in the different of `E`, every lattice in the genus of the standard
+lattice has a basis in `E^n` with entries of absolute value at most `6N(fn)²` at every complex embedding;
+[ShortProof] `Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.exists_short_basis_stdSpace`));
+ShortGRH background (two linear maps on a Weyl module over a domain that agree on the evaluation vectors at
+the matrices with entries in an infinite set and nonzero determinants are equal, so that these vectors span;
+[ShortProof] `Lib/GLn/SchurModule/WeylKernel.lean` (`New.GL.ext_weylEval`)); AutomorphicFormsOnReductiveGroups
+§7.4, §7.5 (at a level with trivial stabilisers a form is the sum, over the classes, of the delta forms of its
+values at representatives; [ShortProof] `Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean` (`New.deltaForm`,
+`New.freeLevelEquiv`)).
 
 [ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.IsShort`, `New.IsShort.sub_translate`,
 `New.isShort_deltaForm`, `New.span_isShort_eq_top`, `New.weylNormSq_det_smul_weylRep_mulVec_weylEval_le`)
@@ -1392,15 +1434,99 @@ forms, one for each class).
 *Origin:* particular to this proof: the source forms, and the ramified source forms, are spanned by short
 forms whose size is bounded by the error unit.
 
-*Method of the formal proof:* 5.6 (c) for `K₀` (free) and `N = q₁d`, which lies in the different of `E`; the
+*Method of the formal proof:* 5.6 (c) for the level `K₀` of the source forms (free, and contained in `K°`) and
+`N = q₁d`, which lies in the different of `E`; the
 source weight has at most `fa` boxes, and the size inequalities give the bound. For the ramified forms, apply
 `Π_w(1 − z_w)` (2.11 (a)), which keeps integrality and multiplies the bound by `4` for each of the `f` primes
-`w | π_N` (5.6 (a)).
+`w | π_N` (5.6 (a), applied to the scalar matrix of `z_w`, which lies in `K°` by 2.9 (b) though not in `K₀`).
 
-(a) `𝒮` is spanned by the `(exp(e_U)/4^f)`-short source forms.
-(b) `𝒮^ram` is spanned by the `exp(e_U)`-short ramified source forms.
+(a) `𝒮` is spanned by the `(exp(u_E)/4^f)`-short source forms.
+(b) `𝒮^ram` is spanned by the `exp(u_E)`-short ramified source forms.
 
-*Needs:* 2.11, 5.6; OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the size inequalities), §4.1 (the error unit).
+*Needs:* 2.9, 2.11, 5.6; OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the size inequalities), §4.1 (the error unit).
 
 [ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.Data.span_isShort_eq_top`, `New.Data.isShort_ramifyingOp`,
 `New.Data.span_isShort_ramifiedSourceForms_eq_top`, `New.Data.sum_height_mul_columnCount_le`)
+
+## Downstream consumers
+
+- OneSidedPrimeSumBoundsAndAdmissibleData §5.3 (Theorem A) uses the divisibility of the composite lift (4.9), its
+  size (5.4), the passage to target forms (5.5), the codimension of the ramified source forms (2.11) and the
+  short forms that span them (5.7); its §5.2 uses the gain (2.1 (c)), the integral source forms (2.4) and 4.9; its
+  §5.4 uses 2.11.
+- NormsOfThetaLiftsAndExchangeIdentities uses the local prime sums and their sums over primes (2.1, 2.2).
+- DeterminantsOfThetaLiftChains uses the passage to target forms (5.5) and short forms at a free level (5.6).
+- CongruencesOfTwistedThetaLifts uses the class counts on the data (5.2 (a)).
+
+## Scope and ownership
+
+### Owned here
+
+- The elementary divisors of an edge Hecke operator over a Frobenius cycle (Layer 1).
+- The local prime sums, the gain, the loss, exceptional primes, marked sets and scaled Hecke operators, and the
+  codimension of the ramified source forms (Layer 2).
+- The valuation of the chain of lifts and of the composite lift at every prime, and the divisibility of the
+  composite lift (Layers 3 and 4).
+- The explicit class count of the genus of the standard lattice, the size of the composite lift, the passage to
+  target forms and the spanning by short forms (Layer 5).
+
+### Not owned here
+
+- The data, colength of modules, the prime sums `s_fin` and Theorem A:
+  OneSidedPrimeSumBoundsAndAdmissibleData.
+- The spaces, weights, theta kernels and their gauges, source forms and ramified source forms, chain data, the
+  composite lift, the operator `Up`, the lower chain and the seesaw identity:
+  ThetaLiftChainsAndTheSeesawIdentity.
+- The numbers `I_p`, `v(π_p)`, `γ_p`, the predicted divisibility of a family of Young diagrams and the standard
+  data: DivisibilityOfThetaDerivatives.
+- ThetaLiftsForDefiniteUnitaryGroups §2.2 states the Hecke equivariance of a theta lift at a split place in Satake
+  form, in every residue characteristic and for every conductor, through the type-II models of the metaplectic
+  theory. Section 3.5 uses only the case of the vacuum datum with unramified characters, in the form of an
+  identity of Hecke polynomial operators, which [ShortProof] proves directly; its *Needs:* line therefore names
+  that case as background and does not cite §2.2.
+- LocalGainOfThetaChains §§4.12–4.16c state the corresponding stage for the chain of
+  ThetaChainsOnDefiniteUnitaryGroups: the Hecke operators at an inert prime and their commutation with the chain
+  (§§4.12, 4.13), the colength of the Hecke image through elementary divisors at an edge (§§4.14–4.15f) and the
+  gain sublattice with the colength at the level prime (§§4.16–4.16c). Layers 1–4 here are the same stage for
+  the data and the chain of this family (a Frobenius cycle in place of the progression of §4.14a, the scaled
+  Hecke operators of marked sets, the operator `Up` at `N`); neither development is deduced from the other.
+
+## Exact supplier contracts
+
+### From OneSidedPrimeSumBoundsAndAdmissibleData
+
+§1.1 (colength of modules and its behaviour under images, preimages and products); §2.1, §2.2 (the parameters,
+`χ_K`, the infinite places and the place of an integer); §3.1 to §3.4 (the window for `log N`, admissible data,
+the size inequalities, twists); §4.1 (the prime sums `s_fin`, `s_∞`, `s_main`, `h_main`, `rem` and the error unit
+`u_E`).
+
+### From ThetaLiftChainsAndTheSeesawIdentity
+
+§1.1 (d) (gauges and the bound "raises"); §1.4 (the archimedean bound for jets of a translate of the vacuum);
+§1.5 (`p`-adic gauge bounds for one lift); §2.1, §2.2, §2.6 (the spaces `X_j`, `Y_m`, their weights, the lift
+diagrams, the branching map and the levels `K_j`); §2.5, §2.7, §2.15 (the group `𝖦`, the idempotent `e₀`, the
+forms of principal level and the lower chain); §2.8 (source forms, scalings, ramified source forms and the lifts);
+§2.11 to §2.14 (the operator `Up` and the lift laws modulo `N`, chain data, the glued datum at `N`, the lifts
+above `N`).
+
+### From DivisibilityOfThetaDerivatives
+
+§2.1 (the numbers at a prime); §3.1 (the predicted divisibility of a family of Young diagrams); §4.8 (standard
+data at `p`); §4.11 (d) (divisibility of Schur entries of jets with charges).
+
+### From other roadmaps
+
+AutomorphicFormsOnReductiveGroups §7.4, §7.5 (algebraic forms of a level, Hecke operators of double cosets, levels
+with trivial stabilisers); ThetaLiftsForDefiniteUnitaryGroups §1.2 (the lift between definite groups as a class
+sum).
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/New/UpperBound/ElementaryDivisors`,
+  `src/New/UpperBound/Divisibility` and `src/New/UpperBound/Size`.
+- D. Benson, S. Doty, *Schur–Weyl duality over finite fields*, Arch. Math. 93 (2009).
+- E. Bombieri, *Counting points on curves over finite fields (d'après S. A. Stepanov)*, Séminaire Bourbaki 430
+  (1973).
+- A. Borel, *Some finiteness properties of adele groups over number fields*, Publ. Math. IHES 16 (1963).
+- J. A. Green, *Polynomial representations of `GL_n`*, Lecture Notes in Mathematics 830 (1980).
