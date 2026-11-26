@@ -331,9 +331,15 @@ The library has ideles of number fields, ray subgroups and finiteness statements
 ## Layer 2: Artin maps at a fixed algebraic closure
 
 The library has local and global class field theory for complete local fields, the full idele class group and the
-arithmetic normalisation of the Artin map. The route reads class field theory at places of `Ω`, on finite ideles, in
-the geometric normalisation (uniformisers go to inverses of arithmetic Frobenius elements). This layer states the form
-needed; each statement is a consequence of the library's theory through 1.3.
+arithmetic normalisation of the Artin map (ClassFieldTheory C.6: "All local and global Artin maps use arithmetic
+Frobenius"). Its local Artin map is absolute, with values in the abelianised absolute Galois group (ClassFieldTheory
+§7.1); its global Artin map is stated at finite layers only, `C_K → Gal(L/K)^ab` for a finite Galois extension `L/K`
+(ClassFieldTheory §11.1), and existence is a statement about open subgroups of finite index of `C_K`
+(ClassFieldTheory §12.1). The route reads class field theory at places of `Ω`, on finite ideles, in the geometric
+normalisation (uniformisers go to inverses of arithmetic Frobenius elements), with one absolute global map into
+`G_K^ab`. This layer states the form needed. The statements of 2.1 are those of the library transported by 1.3 and
+composed with inversion; those of 2.2 and 2.3 follow from the library's theory once the absolute global map is
+assembled from the finite layers, which 2.2 has to do.
 
 ### 2.1 The local Artin map at a place of `Ω`
 
@@ -342,8 +348,12 @@ the abelianised decomposition group of `A`, in the geometric normalisation.
 
 *Method of the formal proof:* the shorter proof builds the invariant `ℚ/ℤ ≅ H²(D_A, Ω^×)` from its own cocycles and
 pins the local Artin map down by a cup-product formula with cyclic classes, then reads its properties in `ℚ̄_p` through
-1.3. With the library, `Art_A` is the composite of the library's local Artin map of `K_v` with inversion and the
-isomorphism of 1.3 (b).
+1.3. With the library, `Art_A` is the composite of the library's local Artin map of `K_v` with inversion
+(`TauCeti.ClassFieldTheory.geometricArtinMap`, ClassFieldTheory §7.1) and the isomorphism of 1.3 (b). Then (a) and
+(b) are the transports of `denseRange_artinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`,
+`mem_inertiaSubgroup_of_mk_eq_artinMap` and `map_artinMap_unitFiltration_zero` of ClassFieldTheory §7.1, read after
+inversion (a uniformiser goes to the class of the inverse of an arithmetic Frobenius), and the first statement of (c)
+is the transport of `artinMap_norm`; (d), (e) and the last statement of (c) are not stated there.
 
 Let `K` be a number field, `A` a place of `Ω` above the finite place `v` of `K`, `D_A ⊂ G_K` its decomposition group
 and `D_A^ab` its topological abelianisation. Let `Art_A : K_v^× → D_A^ab` be the local Artin map of `K_v`, transported
@@ -386,9 +396,14 @@ positivity.
 
 *Method of the formal proof:* the shorter proof proves the second inequality from densities of primes of degree one
 (8.1, 8.4), Albert–Brauer–Hasse–Noether from it with Tate's index formula for `S`-units, and Artin's reciprocity law
-from cyclotomic characters of prime conductor. With the library, `Art_K` is the restriction to finite ideles of the
-library's global Artin map on the idele class group, composed with inversion; the statements below are the library's
-reciprocity law, product formula and surjectivity read at finite ideles.
+from cyclotomic characters of prime conductor. The library's global Artin map is defined for each finite Galois
+extension `L/K`, on the idele class group, with values in `Gal(L/K)^ab` (ClassFieldTheory §11.1, `globalArtinMap`); it
+has no map into `G_K^ab`. With the library, `Art_K` is therefore the inverse limit over the finite Galois `L/K` in `Ω` of
+these maps (compatible in towers by ClassFieldTheory §11.1), restricted to the ideles with archimedean components `1`
+and composed with inversion. Its local components are those of 2.1 by `globalArtinMap_local`, the reciprocity law (b)
+comes from `globalArtinMap_principal` with the archimedean symbols of ClassFieldTheory §10.1 (`infiniteArtinAt`,
+trivial at complex places, the complex conjugation at a real place where the element is negative), and continuity,
+surjectivity and (c)–(f) have to be deduced at the limit; they are not statements of ClassFieldTheory.
 
 Let `K` be a number field and `Art_K : 𝔸_{K,f}^× → G_K^ab` the homomorphism with `χ(Art_K(a)) = ∑_v χ(Art_v(a_v))` for
 every character `χ` of `G_K` (2.1 (d); the sum is finite). Prove:
@@ -436,8 +451,11 @@ finite ideles, for totally positive elements, and with existence only for totall
 *Method of the formal proof:* the shorter proof deduces Hasse's theorem from Albert–Brauer–Hasse–Noether and the
 cyclic symbols, and existence by Kummer theory when `K` contains `μ_n`, passing otherwise to a cyclic extension inside
 `K(μ_n)` and composing with the norm; the detecting points are Artin symbols of representatives of a finite quotient of
-the ideles. With the library, (a)–(c) are the library's norm index, cyclic Hasse norm theorem and existence theorem
-read at finite ideles.
+the ideles. With the library, (a) and (b) are the library's norm index (ClassFieldTheory §12.1,
+`card_ideleClassNormQuotient`) and cyclic Hasse norm theorem (ClassFieldTheory §13.1, `cyclicHasseNorm`) read at
+finite ideles, total positivity accounting for the real places; (c) is not the library's existence theorem but a
+deduction from it (ClassFieldTheory §12.1, `globalAbelianExistence`, for the open subgroups of finite index) together
+with the surjectivity of `Art_K` and the separation of the points of `G_K^ab` by characters.
 
 Let `K` be a number field.
 
