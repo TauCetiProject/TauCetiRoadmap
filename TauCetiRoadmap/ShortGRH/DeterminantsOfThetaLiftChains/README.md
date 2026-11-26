@@ -93,7 +93,7 @@ function `Φ` on matrices over `O_E/𝔪`, and a real vector `v`, the datum `(v,
 through the frames) at the primes dividing `𝔪`, and the characteristic function of the standard lattice elsewhere. An
 edge from a type `e` to a type `e′` is a real datum whose theta lift carries forms of type `e` to forms of type `e′` and
 whose transposed lift carries forms of type `ē′` to forms of type `ē`; the Fock vector of a joint harmonic polynomial
-of two corresponding parameters is an edge between their types (the background entry of 3.1).
+of two corresponding parameters is an edge between their types (the background entry of 2.1).
 
 **Matched functions.** Let `R` be a commutative ring, `χ` a multiplicative character of `R`, and `σ : b ⊔ a ≃ n` a
 splitting of an index set. For `k ∈ GL_n(R)` let `y_k` be the columns of `k` indexed by `b` and `x_k` the rows of `k⁻¹`
@@ -113,8 +113,9 @@ of `G₀` given by the good families of labels, the good forms are `𝒢(Y) = e�
 `Q(ϑ)` of finite places, prime to `M·N` and disjoint from its conjugate; `Nm Q(ϑ) = ∏_{v∈Q(ϑ)} q_v`. A twist is a tame
 character whose tame part is nontrivial at every place of `Q(ϑ)`; an `m`-fold twist is one whose tame part has
 nontrivial `n`-th power at every place of `Q(ϑ)` for `1 ≤ n ≤ m`; `1` is the trivial twist. `μ_j⁰` is the character of
-lift `j` at the trivial twist (weight `−κ_j`, tame part `ω^j` for a fixed family `ω` of residue characters, trivial off the
-chosen places and of order above `8m` at them); lift `j` of the chain at the twist `ϑ` carries `μ_j⁰·ϑ^j`. The single lift
+lift `j` at the trivial twist (weight `−κ_j` and tame part `ω^j`, where `ω` is a fixed family of characters of the
+residue fields whose member at each chosen place has order exceeding `8m` and whose other members are trivial); lift `j`
+of the chain at the twist `ϑ` carries `μ_j⁰·ϑ^j`. The single lift
 `Θ_{j,ϑ} : 𝒜(W_j) → 𝒜(V_j)` is the theta lift of the descent pair `(W_j, V_j)` of lift `j` with the twist `ϑ`
 (ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs), §2.18 (the descent pairs `(W_j, V_j)` of the chain); the
 lift of a descent pair is that of 2.1), where `𝒜(V_j)` denotes the
@@ -226,10 +227,9 @@ some integer `k`, then `c` has modulus `1`.
 `O_E/𝔪` given by their tame parts), and for `s = ±1`
 `L_*(places of 𝔪, (νξ)^s, z) = L_*(𝒞, ν, z)·Nm Q(ξ)^{z²}·Λ(ν, z; ξ)²`.
 
-*Needs:* 1.1; ShortGRH background (the partial L-value `L^S(z, ν)` of a character of `[U(1)]` for real `z ≥ 1`, as an
+*Needs:* 1.1; IdelicReciprocityCountsAndCyclotomicClassGroups §8.5 (the partial L-value `L^S(z, ν)` of a character of `[U(1)]` for real `z ≥ 1`, as an
 Euler product and its limit at `1`; `L^S(z, ν⁻¹) = L^S(z, ν)` when the tame part of `ν` is trivial off `S`; no zero on
-`z ≥ 1` when the weight is not `0` and `S` is finite; [ShortProof] `Lib/ClassField/Avatar/HeckeBaseChange.lean`
-(`New.AutChar.L`, `New.AutChar.HasWeight.L_inv`, `New.AutChar.HasWeight.L_ne_zero`)).
+`z ≥ 1` when the weight is not `0` and `S` is finite).
 
 [ShortProof], `New/Determinant/Chain/Moduli.lean` (`New.Data.HasAbsUpToNormPower.exists_norm_div_eq`,
 `New.Data.CriticalPair.isTameFor_mul_and_lValueProd_eq`)
@@ -336,7 +336,7 @@ characters of `E` made from the characters `a_W`, `a_V` of `[U(1)]` of the pair 
 split places off the level.
 
 *Needs:* ThetaKernelsForUnitaryDualPairs §4.4a (the global Weil representation of a unitary pair and its theta
-functional), §3.45 (the Fock model at the real places); ShortGRH background (the model of that representation that the
+functional), §3.45 (the Fock model at the real places); WeilRepresentationsOnBanachSpacesOfData §§3.1, 6.1, 7.2 (the model of that representation that the
 statements use. Let `E` be a CM field that contains a primitive `5040`-th root of unity, with Weil data: an element `ȷ`
 with `ȷ̄ = −ȷ`, positive imaginary part at every place of the CM type and `(1 − ȷ⁻¹)/2` integral, a finite idele `α` for
 which the integral finite adeles are self-dual under `(z, u) ↦ ψ_f(ȷαᾱzu)`, and a splitting character `υ` with value
@@ -352,15 +352,12 @@ to the type of `l′`, that is, the kernel of the type of `l` is a cusp kernel o
 points of `⟨Φ, ω(x, 1)Φ⟩` against the conjugate of that kernel is not zero, the lift with `Φ` of a form of type `l` that
 has a level is a form of type `l′`, the lift with any Fock polynomial is a real convolution, with one continuous
 function of compact support, of the lift with `Φ`, and the same holds with the two groups exchanged and the conjugate
-kernels in reverse order; [ShortProof] `Lib/Weil/Construction/WeilData.lean` (`New.WeilData`),
-`Lib/Weil/DualPair/Defs.lean` (`New.Modulus`, `New.pairWeil`, `New.pairTheta`, `New.modDatum`, `New.modKernel`),
-`Lib/Weil/Lift.lean` (`New.IsHalfEdge`, `New.IsEdge`, `New.ParamsCorrespond.isEdge_jointHarmonic`));
-ShortGRH background (theta kernels of unitary dual pairs over a CM field have moderate growth, the lift of a rapidly decreasing automorphic
+kernels in reverse order);
+WeilRepresentationsOnBanachSpacesOfData §6.4 (theta kernels of unitary dual pairs over a CM field have moderate growth, the lift of a rapidly decreasing automorphic
 function converges, and the Petersson product of a lift with a rapidly decreasing function is that of the function with
-the transposed lift; [ShortProof] `Lib/Weil/DualPair/ThetaLiftConvergence.lean` (`New.ThetaKernel.moderate_growth`,
-`New.ThetaKernel.integrable_theta_mul`, `New.ThetaKernel.petersson_lift_eq_petersson_descent`));
+the transposed lift);
 DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set integration on a definite group, and the Petersson
-product of algebraic forms as a class-set inner product); ShortGRH background (at a place `w` split in `E` at which the
+product of algebraic forms as a class-set inner product); WeilRepresentationsOnBanachSpacesOfData §9.3 (at a place `w` split in `E` at which the
 base changes `x ↦ a(x/x̄)` of both characters of a pair of ranks `n ≤ m` are unramified, let the datum `f` be fixed by
 the vacuum projection at `w` and be an arrow from a type `e` to a type `e′`, so that the lift with `f` maps forms of
 type `e` to forms of type `e′` and commutes with the finite points of the two groups. Then the lift of a form of type
@@ -419,15 +416,13 @@ terms `mc_j(γ)⟨x, y(·γ)⟩`;
 is the norm of `w` and `α = χ_W(ϖ_w)·q^{r/2}` is the number `α` of 2.1 (d) for the pair of lift `j` (`r′ = r`, `t′ = t`), so
 that the first factor of 2.1 (d) vanishes at this `X`.
 
-*Needs:* 2.1; ShortGRH background (the Rallis inner product formula for sharp finite data, in the range `rank V > 2
+*Needs:* 2.1; SiegelWeilAndRallisFormulasOnUnitaryGroups §§4.4, 4.5 (the Rallis inner product formula for sharp finite data, in the range `rank V > 2
 rank W`: if the finite datum `F` is a vacuum off a set `S₀` of places and its Weil coefficient `⟨F, ω(g)F⟩` at the
 finite points integral off `S₀` is `⟨F, F⟩` on a level `J` and `0` elsewhere, and the real datum is an edge, then the
 lift is injective on the forms of the type fixed by `J`, and the Petersson product of two lifts is a nonzero constant,
 depending only on the real data and the spaces, times the mass of `F`, times the Petersson product with the
 convergent series of translates over the cosets of the finite points integral off `S₀`, weighted by the vacuum
-coefficients; no Hecke eigenform and no L-value enters; [ShortProof] `Lib/SiegelWeil/RallisInner/SharpData.lean`
-(`New.SiegelWeil.exists_petersson_formLift_eq_rallisSeries`, `New.SiegelWeil.IsSharp.petersson_lift_eq_integral`,
-`New.SiegelWeil.IsSharpFn.isSharp`)); SecondMomentsOfPoincareSeries §2.1a (the Hecke operators away from the level
+coefficients; no Hecke eigenform and no L-value enters); SecondMomentsOfPoincareSeries §2.1a (the Hecke operators away from the level
 are normal and commute, so Hecke eigenforms span the forms of level `J_M`); ThetaLiftChainsAndTheSeesawIdentity §2.18
 (the descent pair of lift `j` and its parameters).
 
@@ -474,7 +469,7 @@ number `c` with `C·|c|² = L_*(S, ν, rank V − n/2)·ℓ(𝔠)` (where `L_*(S
 `r_X(𝔠, v) = |I_large(X, X; 𝔠, v, χ_𝔠⁻¹∘det)(1)|² / L_*(S, ν, rank X/2)`.
 
 *Needs:* ThetaKernelsForUnitaryDualPairs §4.4a, §3.45 and the background entry of 2.1 on the model of the Weil
-representation of a pair (same file and declarations of [ShortProof]); ShortGRH background (a character `ν` of `[U(1)]`
+representation of a pair (same file and declarations of [ShortProof]); IdelicReciprocityCountsAndCyclotomicClassGroups §§7.1, 7.6 (a character `ν` of `[U(1)]`
 has weight `e` and tame part `ψ`, a family of characters `ψ_w` of the residue fields at the finite places, almost all
 trivial, if `ν(u) = ∏_τ u_τ^{e(τ)}·∏_w ψ_w(u mod w)` for every `u` with integral finite part. A split tame character of
 weight `e` is such a `ν` with `e(τ) > 0` at every `τ` and `ψ_w ≠ 1` exactly at the places of a nonempty finite set `S`
@@ -482,7 +477,7 @@ that contains no place together with its conjugate; its local character is `t �
 `∏_{v∈S} E_v`, with `t` read as an idele of `E` that is `1` off `S`, and `0` on the non-invertible elements;
 [ShortProof] `Lib/ClassField/HeckeCharacter/SplitTameCharacters.lean` (`New.Exchange.SplitTameChar`,
 `New.Exchange.SplitTameChar.semilocalChar`), `Lib/ClassField/HeckeCharacter/Basic.lean` (`New.AutChar.HasWeight`));
-ShortGRH background (characters tame for a modulus: a character `ν` of `[U(1)]` with tame part `ψ`, in the sense of
+IdelicReciprocityCountsAndCyclotomicClassGroups §7.6 (characters tame for a modulus: a character `ν` of `[U(1)]` with tame part `ψ`, in the sense of
 the previous entry, is tame for a modulus `𝔪` if the prime divisors of `𝔪` are the places with `ψ_w ≠ 1`; then, with
 `χ = ∏_{w∣𝔪} ψ_w` on `O_E/𝔪`, `ν(det k) = χ(det(k mod 𝔪))` for `k` in the stabiliser of the standard lattice;
 [ShortProof] `Lib/ClassField/HeckeCharacter/TameModulus.lean` (`New.Exchange.IsTameFor`,
@@ -514,15 +509,13 @@ some real place, and assume that the terms of the unfolded theta integral are ab
 Fourier coefficient at `ȷ·T` along the centre of the unipotent radical of the parabolic of the frame, of the theta
 integral of `(X, Y)` with the character `δ` on both sides, vanishes at `g`, for every Schwartz datum.
 
-*Needs:* 3.1; ShortGRH background (let `X` be split by dual isotropic frames of rank `#b`, `y` a continuous function on
+*Needs:* 3.1; WeilRepresentationsOnBanachSpacesOfData §8.9 (let `X` be split by dual isotropic frames of rank `#b`, `y` a continuous function on
 `U(Y)(𝔸)`, and let the terms of the theta kernel at `g`, indexed by the rational `#b`-frames `x` of `Y`, be absolutely
 integrable against `y`. Then the Fourier coefficient at `ȷ·T` and `g`, along the centre of the unipotent radical, of the
 theta integral of `y` is the sum, over the rational frames `x` with Gram matrix `T`, of the integrals over `[U(Y)]` of
 the term of `x` times `y`. If moreover `y` is left invariant under the rational points and `T` is invertible, then for
 one such frame `x₀` the term of `x₀` times `y` is left invariant under the group of rational points that fix `x₀` and
-integrable modulo that group, and the coefficient is its integral modulo that group; [ShortProof]
-`Lib/Weil/Periods/DescentVanishing.lean` (`New.Space.Splitting.centreCoeff_integral_eq_tsum`,
-`New.Space.Splitting.centreCoeff_eq_integral_stabilizer`)).
+integrable modulo that group, and the coefficient is its integral modulo that group).
 
 [ShortProof], `New/Determinant/Exchange/NegativeIndices.lean` (`New.Exchange.apply_eq_zero_of_forall_fixed_eq_zero`,
 `New.Exchange.centreCoeff_eq_zero_of_not_representedBy`)
@@ -595,7 +588,7 @@ kills every locally constant datum with a matched function;
 `I_large(W, V; 𝔠, v, Φ) = c·I_small(W, U; 𝔠, y, Ψ)` for all matched `(Φ, Ψ)` with `Ψ` locally constant, and such `Ψ` is a
 Schwartz–Bruhat function supported on left invertible matrices.
 
-*Needs:* 3.1, 3.2, 3.3; ShortGRH background (a singular function is governed by its unimodular coefficients, after
+*Needs:* 3.1, 3.2, 3.3; SiegelWeilAndRallisFormulasOnUnitaryGroups §§5.1, 5.3 (a singular function is governed by its unimodular coefficients, after
 Freitag. Let `S` be a set of finite places, `f` an automorphic function on the adelic unitary group of `X`, right
 invariant under the integral points supported on `S ∪ S̄`. Let `A` split `X` over a space `X₀` along one isotropic line
 and `B` split `X₀` along `#b` lines, both adapted, and let `D` be the splitting of `X` whose frame is that of `B` inside
@@ -644,7 +637,7 @@ along one line, `V′` a hermitian space with basis indexed by `b`, `v` a Schwar
 (its value at `0` in the mixed model of `D` with the frames exchanged) is `v`, and the exchange identity on standard
 data holds for `(X, V′ ⊕ W₁, V′)` at `(Φ, Λ)` with `ℓ(𝔠) = r_{W₁}(𝔠, v₁)`.
 
-*Needs:* 3.1, 3.2, 3.4; HermitianFormsAndLattices §1.1 (Witt extension); ShortGRH background (the mixed model of a
+*Needs:* 3.1, 3.2, 3.4; HermitianFormsAndLattices §1.1 (Witt extension); SiegelWeilAndRallisFormulasOnUnitaryGroups §2.7, WeilRepresentationsOnBanachSpacesOfData §§5.2, 5.5 (the mixed model of a
 splitting. Let `D` split a hermitian space `V` into dual isotropic frames `l`, `k` of rank `p` and a complement `V₀`;
 `D` is adapted if the adelic matrix of the three frames has orthonormal columns at every infinite place and integral
 entries at every finite place. The zero term along `k` is the continuous linear map from the data space of `V` to that
@@ -691,7 +684,7 @@ than `V`, and `rank U + rank V = rank W`, `rank U + rank V′ = rank W′`. If t
 for `(W′, V′, U)` at `(x, y)` with `ℓ`, then it holds for `(W, V, U)` at some `x₀` and the zero term of `y` along `A`,
 with the same `ℓ`.
 
-*Needs:* 3.1, 3.5; ShortGRH background (the constant term along an added line. Let adapted splittings split a hyperbolic
+*Needs:* 3.1, 3.5; SiegelWeilAndRallisFormulasOnUnitaryGroups §§6.8, 6.9 (the constant term along an added line. Let adapted splittings split a hyperbolic
 plane off `W′` over `W` and off `V′` over `V`, `rank W` even, `e = rank V − rank W/2`, and fix the weight `μ`. There are
 two positive numbers `C₊`, `C₋`, free of the character, such that for every split tame character `𝔠 = (ν, S)` of weight
 `μ` there are complex numbers `ε₊`, `ε₋` of these moduli with the following property. For every Schwartz vector `v` for
@@ -709,15 +702,12 @@ function `L^S(x, ν)` of `x ≥ 1` extends to an analytic function of real `x > 
 [ShortProof] `Lib/SiegelWeil/Tower/LargeSideConstantTerm.lean` (`New.Exchange.exists_zetaIntegral`, with the unfolding
 `New.Exchange.exists_planeConstantTerm_eq_integral`), `Lib/SiegelWeil/Tower/FunctionalEquation.lean`
 (`New.Exchange.exists_analytic_extension_functional_equation`, `New.Exchange.exists_analytic_extension_ne_zero`));
-ShortGRH background (every isotropic frame of a hermitian space `V` over the CM field is part of a splitting: a rational
-`n × p` matrix `k` with a left inverse and `k^H J k = 0` is the isotropic frame of a splitting of `V` into dual
-isotropic frames and a complement `V₀`; and if `i` is an isometric embedding of a given space `V₀` such that the
-orthogonal complement of the span of `k` is that span plus `iV₀`, then the splitting can be taken over `V₀` with
-embedding `i`. Every splitting has adapted points: for each `t ∈ GL_p(𝔸_E)` there is a point `γ` of the adelic group
-such that `γ⁻¹` carries the frames, scaled by `t`, to a matrix with orthonormal columns at the infinite places and
-integral entries at the finite places; [ShortProof] `Lib/Adelic/Witt/IwasawaDecomposition.lean`
-(`New.Space.exists_splitting`, `New.Space.exists_splitting_of_perp_eq`), `Lib/Weil/MixedModel/IsotropicSplitting.lean`
-(`New.Space.Splitting.exists_isAdapted_and_frame_eq`)).
+AdelicUnitaryGroupsAndAlgebraicModularForms §3.5, WeilRepresentationsOnBanachSpacesOfData §5.1 (every isotropic frame
+of a hermitian space `V` over the CM field is part of a splitting: a rational `n × p` matrix `k` with a left inverse and
+`k^H J k = 0` is the isotropic frame of a splitting of `V` into dual isotropic frames and a complement `V₀`. Every
+splitting has adapted points: for each `t ∈ GL_p(𝔸_E)` there is a point `γ` of the adelic group such that `γ⁻¹`
+carries the frames, scaled by `t`, to a matrix with orthonormal columns at the infinite places and integral entries at
+the finite places).
 
 [ShortProof], `New/Determinant/Exchange/ConeImage.lean` (`New.Exchange.exists_thetaLarge_cone_eq_mul`);
 `New/Determinant/Exchange/RemovingPlanes.lean` (`New.Exchange.exists_rowColExchangeIdentity_removing_planes`,
@@ -769,7 +759,7 @@ for all matched `(Φ, Ψ)` over `∏_S O_v` with `Ψ` locally constant and all `
 (b) Let `W` have rank `2k₀ + 2q`, `q = neg(W)`, and `k₀ ≤ μ(τ)` for all `τ`. There are a Schwartz vector `z` for
 `(H ⊕ W, H ⊕ W)` and `C₀ ≠ 0` with `r_{H⊕W}(𝔠, z) = C₀` for every split tame character `𝔠` of weight `μ`.
 
-*Needs:* 3.1, 3.4, 3.5, 3.6, 3.7; ShortGRH background (the flip of a pair, on theta kernels of data modulo a modulus
+*Needs:* 3.1, 3.4, 3.5, 3.6, 3.7; WeilRepresentationsOnBanachSpacesOfData §6.8 (the flip of a pair, on theta kernels of data modulo a modulus
 `𝔪`; `N𝔪 = #(O_E/𝔪)`. Let `c` be a unit of the integral finite adeles with `c̄c = −1`, `T` a space of rank `m`, `V` a
 space with the opposite signs whose point is `c`, at the finite places, times that of `T`, and `S` a space of rank `n`.
 For characters `a`, `b` of `[U(1)]` there is a complex `C` with `|C|²·N𝔪^{mn} = 1` such that, for every function `D` on
@@ -781,8 +771,7 @@ for the primitive additive character `ψ` of `O_E/𝔪`, `P′` is the signed tr
 Reversal of a pair: for spaces `S`, `T` of ranks `n`, `m` and characters `a`, `b` there is a complex `c′` with
 `|c′|²·N𝔪^{nm} = 1` such that the complex conjugate of the kernel of `(S, T)` with characters `(a, b)` on `(D, P)` at
 `(g, h)` is `c′` times the kernel of `(T, S)` with characters `(b, a)` on `(D′, P′)` at `(h, gu)`, with `D′` the Fourier
-transform of `D̄` for `ψ` and `P′` the signed transpose of `P̄`; [ShortProof] `Lib/Weil/DualPair/Flip.lean`
-(`New.Modulus.exists_modKernel_flip`, `New.Exchange.exists_conj_modKernel_eq_swap`)).
+transform of `D̄` for `ψ` and `P′` the signed transpose of `P̄`).
 
 [ShortProof], `New/Determinant/Exchange/TheoremForPartners.lean` (`New.Exchange.exchange_of_matches`,
 `New.Exchange.exists_rowColExchangeIdentity_of_even_rank`, `New.Exchange.exists_equalRankThetaRatio_eq_const`,
@@ -818,13 +807,11 @@ all `τ`. Let `v` be a real Schwartz vector for `(V′, W)`. Then there are `C >
 
   `∫_{[U(V)]} θ^{W,V}_{γ,α}((x, Φ))(g, h) dh = c·∫_{[U(V′)]} θ^{V′,W}_{α′,γ}((v, Ψ))(h, g) dh`, with `γ = ν⁻¹·υ₁^{n/2}`.
 
-*Needs:* 3.1, 3.8; ShortGRH background (multiplying the characters of the two spaces of a pair by characters `μ`, `μ′`
+*Needs:* 3.1, 3.8; WeilRepresentationsOnBanachSpacesOfData §6.7 (multiplying the characters of the two spaces of a pair by characters `μ`, `μ′`
 of `[U(1)]` multiplies the Weil action, the theta functional and the kernel of a datum modulo a modulus at `(g, h)` by
-values of `μ`, `μ′` at `det g`, `det h`; [ShortProof] `Lib/Weil/DualPair/KernelLaws.lean` (`New.pairTheta_twist`,
-`New.modKernel_twist`)); ShortGRH background (base change is injective: a character `μ` of `[U(1)]` is determined by
+values of `μ`, `μ′` at `det g`, `det h`); IdelicReciprocityCountsAndCyclotomicClassGroups §7.1 (base change is injective: a character `μ` of `[U(1)]` is determined by
 the Hecke character `x ↦ μ(x/x̄)` of `E`, because every point of `U(1)(𝔸)` is `y/ȳ` for an idele `y`; used to turn the
-condition on the splitting characters into `α·α′ = ν⁻¹·υ₁^{n/2}`; [ShortProof]
-`Lib/ClassField/HeckeCharacter/Basic.lean` (`New.AutChar.baseChange_injective`)).
+condition on the splitting characters into `α·α′ = ν⁻¹·υ₁^{n/2}`).
 
 [ShortProof], `New/Determinant/Exchange/TheoremForPartners.lean` (`New.Exchange.exchange_identity`,
 `New.Exchange.exchange_theorem`, `New.Exchange.exists_areMatched_modDatum_eq`)
@@ -859,10 +846,9 @@ times the class sum equal to the integral, now with the characters `α, β` on `
 without the factors `α(det h)`, `α(det g)`, `α(det x)⁻¹`, for every character `β` of `[U(1)]`, with the same polynomials
 and level and all matched `Φ`, `Ψ` modulo `𝔪` for `χ⁻¹`.
 
-*Needs:* 3.9; ShortGRH background (polarisation: for `p < n` and complex `p × n` matrices `η_{τ,i}`, the product of
+*Needs:* 3.9; IntegralRepresentationsOfGeneralLinearGroups §2.4 (polarisation: for `p < n` and complex `p × n` matrices `η_{τ,i}`, the product of
 the `det(η_{τ,i}·Y_τ)` is a finite combination, with coefficients free of the `Y_τ`, of the products
-`∏_τ det(η₀·u_τ^T·Y_τ)^{#ℐ(τ)}` with `u_τ` unitary and `η₀` a matrix of `p` standard basis rows; [ShortProof] `Lib/GLn/SchurModule/Polarisation.lean`
-(`New.exists_pairedDetProd_eq_sum_unitary`)); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set
+`∏_τ det(η₀·u_τ^T·Y_τ)^{#ℐ(τ)}` with `u_τ` unitary and `η₀` a matrix of `p` standard basis rows); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set
 integration on a definite group).
 
 [ShortProof], `New/Determinant/Exchange/ExplicitMatching.lean` (`New.Rows.exists_stdClassSum_eq_mul_integral_modKernel`,
@@ -937,7 +923,7 @@ forms of type `e₂` on `U₂`, the functions `L(x) = l(Θ_i(x)f)` and `L′(y) 
 for `χ_i` and `σ` with constant `κ/c_i`; in particular `Θ_i(kx) = χ_i(det k)·Θ_i(x)` and `Θ′_i(yk′) = χ_i(det k′)·Θ′_i(y)`
 for invertible matrices `k`, `k′` modulo `𝔪_i` indexed by `A`, resp. `A′`.
 
-*Needs:* 3.9, 3.11; ShortGRH background (a family of characters over a real edge is a family of pairs of characters of
+*Needs:* 3.9, 3.11; WeilRepresentationsOnBanachSpacesOfData §§6.4, 7.4 (a family of characters over a real edge is a family of pairs of characters of
 `[U(1)]`, all of one pair of weights and, in each pair, of one tame part, together with two pairs of conjugate cuspidal
 types and a polynomial `P` whose Fock vector is an edge between the types, in the sense of the background entry of 2.1,
 for the real Weil representation of these weights. For such a family and an arbitrary polynomial `Q` there is one
@@ -946,10 +932,7 @@ function `x` on matrices modulo `𝔪` and all forms `y` on `S` and `z` on `T` o
 Petersson product of `z` with the conjugate of the lift of `ȳ`, formed with the datum of `(x, Q)`, is `κ` times the
 inner product of the transposed lift of `z`, formed with the datum of `(x, P)`, with `y`. The number `κ` may be `0`, and
 this is adjointness up to the factor `κ`, not adjointness. For automorphic functions `y` on `S` and `y′` on `T` of rapid
-decay and any theta kernel and datum, `∫_{[T]} y′·(lift of y) = ∫_{[S]} y·(transposed lift of y′)`; [ShortProof]
-`Lib/Weil/Seesaw.lean` (`New.Exchange.IsEdgeFamily`,
-`New.Exchange.IsEdgeFamily.petersson_lift_eq_mul_inner_modTransposedLift`),
-`Lib/Weil/DualPair/ThetaLiftConvergence.lean` (`New.ThetaKernel.integral_mul_lift_eq_integral_mul_lift_swap`)).
+decay and any theta kernel and datum, `∫_{[T]} y′·(lift of y) = ∫_{[S]} y·(transposed lift of y′)`).
 
 [ShortProof], `New/Determinant/Exchange/OneSquare.lean`
 (`New.Exchange.exists_sum_pairLift_comp_pairTransposedLift_eq_smul`, `New.Exchange.IsSquare`,
@@ -1035,10 +1018,8 @@ a modulus there is a function `Ψ′` with `⟨x, Θ_{Φ,Ψ} y⟩ = ⟨Θ^T_{Φ�
 and `x` of type `e` on `T`, where `Θ_{Φ,Ψ}` is the lift from `S` to `T`, `Θ^T_{Φ′,Ψ′}` the transposed lift from `T` to `S⁻`,
 and `y⁻` is `y` read on `S⁻`.
 
-*Needs:* 2.1, 2.2, 3.1; ShortGRH background (the Rallis inner product formula for sharp finite data in the range
-`rank V > 2 rank W`, in the form stated in the *Needs:* line of 2.2; [ShortProof]
-`Lib/SiegelWeil/RallisInner/SharpData.lean` (`New.SiegelWeil.exists_petersson_formLift_eq_rallisSeries`,
-`New.SiegelWeil.isSharp_vacuumDatum_of_mul_eq_one`)); ShortGRH background (the background entry of 3.12 on families of
+*Needs:* 2.1, 2.2, 3.1; SiegelWeilAndRallisFormulasOnUnitaryGroups §§4.4, 4.5 (the Rallis inner product formula for sharp finite data in the range
+`rank V > 2 rank W`, in the form stated in the *Needs:* line of 2.2); WeilRepresentationsOnBanachSpacesOfData §§6.7, 7.4 (the background entry of 3.12 on families of
 characters over a real edge: for such a family with polynomial `P` and an arbitrary polynomial `Q` there is one complex
 `κ`, free of the member of the family, of the spaces, of the modulus, of the datum `x` and of the forms, such that the
 Petersson product of `z` with the conjugate of the lift of `ȳ` with the datum of `(x, Q)` is `κ` times the inner product
@@ -1047,10 +1028,8 @@ spaces `S`, `T` of ranks `n`, `n′` there is a complex `c` of modulus `1` such 
 `(S, T)` with characters `(a, b)` on `(Ψ, P)` at `(g, h)` is `c` times the kernel of `(S⁻, T)` with characters
 `(a⁻¹υ₁^n, b⁻¹υ₁^{n′})` on `(Ψ′, P̄)` at `(g, h)`, where `S⁻` has the negated form, `Ψ′(x)` is the conjugate of
 `Ψ(u⁻¹x)` for a fixed unit `u` of `O_E/𝔪` that is the reduction of an element of norm `−1`, and `P̄` has the conjugate
-coefficients; [ShortProof] `Lib/Weil/Seesaw.lean` (`New.Exchange.IsEdgeFamily`,
-`New.Exchange.IsEdgeFamily.petersson_lift_eq_mul_inner_modTransposedLift`), `Lib/Weil/DualPair/KernelLaws.lean`
-(`New.exists_conj_modKernel_eq_mul_modKernel_neg`)); ThetaLiftChainsAndTheSeesawIdentity §2.4 (index sets, signs and
-parameters of the grids; the parameters of every step correspond).
+coefficients); ThetaLiftChainsAndTheSeesawIdentity §2.4 (the grids of spaces with their index sets, signs and
+parameters, and the correspondence of the parameters of consecutive nodes).
 
 [ShortProof], `New/Determinant/Chain/TriangleLifts.lean` (`New.Data.triangleLift`,
 `New.Data.exists_hasSum_inner_triangleFirstLift`, `New.Exchange.IsEdgeFamily.exists_inner_modLift_eq_inner_modTransposedLift`,
@@ -1118,12 +1097,12 @@ of 2.2 on the forms on `Y₀`, which preserves `𝒯`. Prove:
 (c) there is an integer `e` such that for every `m`-fold twist `ϑ`: `Z(ϑ) > 0`, `Z_j(ϑ) > 0` for `1 ≤ j ≤ m`, and
 `Z(ϑ)/Z(1) = (Nm Q(ϑ)^{e/2}·∏_{1≤i<j≤m} R^quo_{ij}(ϑ))^d·∏_{j=1}^{m} Z_j(ϑ)/Z_j(1)`;
 
-(d) the range of `Θ_{j,ϑ}` on `𝒢(W_j)` is spanned by the lifts of good Hecke eigenforms whose lifts lie in the range of
-the idempotent of a good family of labels.
+(d) the range of `Θ_{j,ϑ}` on `𝒢(W_j)` is spanned by the forms `Θ_{j,ϑ} y` with `y` a good Hecke eigenform for which
+`Θ_{j,ϑ} y` lies in the image of the idempotent attached to some good family of labels.
 
 *Needs:* 1.1, 1.2, 2.2, 4.1, 4.2, 4.3; SecondMomentsOfPoincareSeries §2.3 (equality of multiplicities: the
-good forms on every `W_j` have dimension `d`), §2.4 (the Rallis series preserves the good forms and has the same
-determinant on `𝒢(Y₀)` and on `𝒢(W_j)`).
+good forms on every `W_j` have dimension `d`), §2.4 (the Rallis series maps good forms to good forms, and its
+determinants on `𝒢(Y₀)` and on `𝒢(W_j)` are equal).
 
 [ShortProof], `New/Determinant/Chain/NormOfChain.lean` (`New.Data.exists_adjoint_chain_comp_eq_smul_rallisProduct`,
 `New.Data.exists_normDet_goodLift_sq_eq`, `New.Data.exists_chainDeterminant_pos_and_div_chainDeterminant_one_eq`,
@@ -1262,14 +1241,15 @@ restriction is `r ↦` its value at `r ⊕ 1` on `∏_τ U(V_τ)`, which is inte
 `C(A, α, ω) = ∏_τ (2(‖α_τ‖·‖ω_τ‖)²)^A·16^A·vol{r ∈ U(V_τ) : ‖r − 1‖ ≤ 1}`, with operator norms of matrices and the Haar
 measure of `U(V_τ)` normalised as in SecondMomentsOfPoincareSeries (Conventions, **Normalisations**).
 
-*Needs:* PairsOfFramesAtOnePlace §8.1 (steep parameters and discrete series coefficients); ShortGRH background (the
-first minimum cut at `1`. For a hermitian space `V` over a CM field with point `x`, and a point `g` of the adelic
-unitary group, the lattice at `g` is the set of rational vectors `y` for which `(xg)⁻¹y` has integral finite part, the
-length of `y` is the Euclidean norm of the archimedean components of `(xg)⁻¹y`, and `λ(g)` is the minimum of `1` and of
-the least length of a nonzero vector of the lattice. Then `0 < λ(g) ≤ 1`; `λ = 1` at every point if `V` is definite; and
-for the block sum of points `g`, `h` of two spaces, `min(λ_V(g), λ_W(h)) ≤ λ_{V⊕W}(g ⊕ h)`; [ShortProof]
-`Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.firstMinimum`, `New.Space.firstMinimum_pos`,
-`New.Space.firstMinimum_le_one`, `New.Space.one_le_firstMinimum`, `New.Rows.inf_le_firstMinimum_sum`)).
+*Needs:* PairsOfFramesAtOnePlace §8.1 (steep parameters and discrete series coefficients);
+AdelicUnitaryGroupsAndAlgebraicModularForms §4.2 (the first minimum cut at `1`. For a hermitian space `V` over a CM
+field with point `x`, and a point `g` of the adelic unitary group, the lattice at `g` is the set of rational vectors `y`
+for which `(xg)⁻¹y` has integral finite part, the length of `y` is the Euclidean norm of the archimedean components of
+`(xg)⁻¹y`, and `λ(g)` is the minimum of `1` and of the least length of a nonzero vector of the lattice, so that
+`λ(g) ≤ 1`); ShortGRH background (if `V` is definite, `λ = 1` at every point; for the block sum of points `g`, `h` of
+two spaces `V`, `W`, `min(λ_V(g), λ_W(h)) ≤ λ_{V⊕W}(g ⊕ h)`; [ShortProof]
+`Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.one_le_firstMinimum`,
+`New.Space.firstMinimum_move_eq_one`, `New.Rows.inf_le_firstMinimum_sum`)).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/DeepLevelPoincarePeriod.lean` (`New.Data.exists_isSteep`,
 `New.Exchange.norm_poincare_period_sub_le`)
@@ -1299,14 +1279,13 @@ principal level of `𝔟` on `V ⊕ ⟨1⟩`.
 orthogonal to `x ↦ φ((x ⊕ 1)g)` for all `φ ∈ gridLevelForms(0)` is `0`.
 
 *Needs:* 5.3, 5.4; PairsOfFramesAtOnePlace §8.6 (a lower bound for the pairing of two steep discrete series coefficients
-at some point, by Laplace's method); ShortGRH background (a cuspidal form at a point with a short lattice vector is
+at some point, by Laplace's method); AdelicUnitaryGroupsAndAlgebraicModularForms §5.4 (a cuspidal form at a point with a short lattice vector is
 bounded by its oscillation under small real translations. Let `V` be a hermitian space of rank `n` over a CM field `E`
 with `f` infinite places and root discriminant `rd`, let `N ≠ 0` be a natural number in the different of `E`, and
 `C_cusp = 8fn·rd + 48n⁶f²N + 1`. Let `F` be a form on `V` whose type is a cusp kernel, right invariant under the
 principal level of a natural number `M ≠ 0`, let `0 < δ ≤ 1`, and let `g` be a point whose first minimum, cut at `1` as
-in the background entry of 5.4, is less than `(δ/(M·C_cusp²))^n`. If `|F(g·x) − F(g)| ≤ C` for every real point `x` at
-distance at most `δ` from `1`, then `|F(g)| ≤ C`; [ShortProof] `Lib/Adelic/AutomorphicForms/Cuspidality.lean`
-(`New.Space.IsForm.norm_le_of_firstMinimum_lt`, `New.cuspConst`)).
+in AdelicUnitaryGroupsAndAlgebraicModularForms §4.2, is less than `(δ/(M·C_cusp²))^n`. If `|F(g·x) − F(g)| ≤ C` for
+every real point `x` at distance at most `δ` from `1`, then `|F(g)| ≤ C`).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/DeepLevelVanishing.lean`
 (`New.Exchange.eq_zero_of_petersson_translate_eq_zero`, `New.Exchange.exists_forall_eq_zero_of_petersson_restrict_eq_zero`,
@@ -1409,7 +1388,7 @@ transfers periods with factor `#(O_E/𝔪(ϑ))^{2n_m}` and constants `c`.
 (b) There are `c(ϑ) ≠ 0` of modulus `∏_{0≤i,j<m} R^turn_{ij}` up to a norm power such that the pair (first path, last
 path) transfers periods with factor `#(O_E/𝔪(ϑ))^{2n_m·m²}` and constants `c`.
 
-*Needs:* 5.1, 5.3, 5.8; 3.12; ShortGRH background (the seesaw of periods. Take two families of characters over real
+*Needs:* 5.1, 5.3, 5.8; 3.12; WeilRepresentationsOnBanachSpacesOfData §§6.8, 7.4 (the seesaw of periods. Take two families of characters over real
 edges, in the sense of the background entry of 3.12: one with polynomial `Φ` for a pair `S → T`, one with polynomial
 `Φ′` for a pair `T′ → S′`. Let the index `o` run over a set and `i` over finite sets `W_o`, with moduli `𝔪_o`,
 coefficients `u_{o,i}`, numbers `c_o`, forms `y_{o,i}` on `S` and `f_{o,i}` on `S′` of the types of the edges, moderate
@@ -1475,7 +1454,7 @@ Then for some `L ≤ N·(#(O_E/𝔪(ϑ))^{(2n_m)²})^{2m}`, `Ξ` is a sum of `L�
 path)` numbers `a` with `|σ(C₁·a)| ≤ R`.
 
 *Needs:* 5.2, 5.3; IntegralWeylModulesOfGeneralLinearGroups §1.1 (integral branching between the Weyl modules of
-two interlacing weights); ShortGRH background (the form of that branching used here: for families of weights indexed
+two interlacing weights); IntegralRepresentationsOfGeneralLinearGroups §§3.1, 3.4 (the form of that branching used here: for families of weights indexed
 by the infinite places `τ`, `(κ, e)` of `GL_{n+1}` and `(κ₀, e₀)` of `GL_n`, where `κ₀` is obtained from `κ` by
 removing one box from some of the columns, among them all columns of height below a given `q`, and the columns of
 height `n` that keep their box are counted in `e₀`: there is an integer matrix `br` between the coordinate vectors of
@@ -1487,8 +1466,7 @@ the unitary block group; and the duality pairing of the Weyl module of a weight 
 weight whose doubled Harish-Chandra parameter is the negative: an integer matrix `A` with `v′·A·v` invariant over
 every field of characteristic `0` and with an integral left inverse up to the hook number; the further clause of the
 [ShortProof] structure, which reads the function of an algebraic form of the dual weight as this pairing with a
-translate of the highest vector, is a statement about forms of a type and not about Weyl modules; [ShortProof] `Lib/GLn/Branching/IntegralMap.lean` (`New.exists_branching_matrix`), `Lib/GLn/Dual.lean`
-(`New.IsDualPairing`, `New.exists_isDualPairing_of_isHCParam`)); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set
+translate of the highest vector, is a statement about forms of a type and not about Weyl modules); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set
 integration on a definite group).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/LastPath.lean` (`New.Exchange.exists_isBranchingPairing`,
@@ -1520,20 +1498,19 @@ automorphism `σ` of `ℂ` and every finite point, the squared norm of the `σ`-
 `Θ_1 y` is at most `exp(x^202 b²)`.
 
 *Needs:* 5.3, 5.7, 5.9, 5.10; CompositeThetaLiftsAndShortForms §5.6 (algebraic forms of a principal level are spanned by
-forms integral at every prime with conjugates of bounded squared norm); ShortGRH background (on the definite standard
-space of rank `n`, with its Weyl module of a weight: the `p`-adic gauge of a vector `ξ` at a finite point `g`, for a
-prime `p` and an embedding `ℂ → ℂ_p`, is the largest `p`-adic absolute value of a coordinate of the image of `g⁻¹ξ`, and
-the squared norm of the `σ`-conjugate of `ξ`, for an automorphism `σ` of `ℂ`, is that of `σ∘ξ`. Let `K` be a level
-inside the stabiliser of the standard lattice, with finitely many classes, and `χ` a character of `K` with values of
-finite order, trivial near `1`. The delta form at a finite point `x` made from a vector `v` is the form of level
-`(K, χ)` supported on the class of `x` whose value at `y` is the sum of `χ(x⁻¹γy)·γ⁻¹v` over the rational `γ` with
-`x⁻¹γy ∈ K`. At every point its gauge is at most the gauge of `v` at `x`, and the squared norm of the `σ`-conjugate of
-its value is at most `#Aut(x)²` times that of `σ∘v`, where `Aut(x)` is the group of rational points that stabilise the
-coset `xK`. For additive functionals `L_g` with `L_{γxk}(χ(k)·γv) = L_x(v)` for all rational `γ` and `k ∈ K`, the class
-sum of `g ↦ L_g(value of the delta form at g)` is `L_x(v)`; [ShortProof]
-`Lib/Adelic/AutomorphicForms/SmoothAlgebraicForms.lean` (`New.weylGauge`),
-`Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean` (`New.deltaForm`, `New.classSum_deltaForm`),
-`Lib/Adelic/AutomorphicForms/PAdicGauge.lean` (`New.Rows.weylGauge_deltaForm_le`, `New.Rows.weylNormSq_deltaForm_le`)).
+forms integral at every prime with conjugates of bounded squared norm); AdelicUnitaryGroupsAndAlgebraicModularForms
+§6.6 (on the definite standard space of rank `n`, with its Weyl module of a weight: the `p`-adic gauge of a vector `ξ`
+at a finite point `g`, for a prime `p` and an embedding `ℂ → ℂ_p`, is the largest `p`-adic absolute value of a
+coordinate of the image of `g⁻¹ξ`, and the squared norm of the `σ`-conjugate of `ξ`, for an automorphism `σ` of `ℂ`, is
+that of `σ∘ξ`. Let `K` be a level inside the stabiliser of the standard lattice, with finitely many classes, and `χ` a
+character of `K` with values of finite order, trivial near `1`. The delta form at a finite point `x` made from a vector
+`v` is the form of level `(K, χ)` supported on the class of `x` whose value at `y` is the sum of `χ(x⁻¹γy)·γ⁻¹v` over
+the rational `γ` with `x⁻¹γy ∈ K`. At every point its gauge is at most the gauge of `v` at `x`, and the squared norm of
+the `σ`-conjugate of its value is at most `#Aut(x)²` times that of `σ∘v`, where `Aut(x)` is the group of rational
+points that stabilise the coset `xK`); ShortGRH background (in this setting, for additive functionals `L_g` with
+`L_{γxk}(χ(k)·γv) = L_x(v)` for all rational `γ` and `k ∈ K`, the class sum of `g ↦ L_g(value of the delta form at g)`,
+in which the term of the class of `g` is divided by `#Aut(g)`, is `L_x(v)`; [ShortProof]
+`Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean` (`New.classSum_deltaForm`)).
 
 [ShortProof], `New/Determinant/AuxiliaryForms/SpanningForms.lean` (`New.Data.exists_mul_lastPathPeriod_mem_embValRing`,
 `New.Data.norm_lastPathPeriod_le`, `New.Data.exists_integral_lowerChainUpTo_eq_lastPathPeriod`,

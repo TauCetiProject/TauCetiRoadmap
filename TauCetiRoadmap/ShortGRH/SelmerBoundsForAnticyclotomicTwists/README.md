@@ -96,9 +96,10 @@ sizes of complex numbers occur.
 A *pair* `(ν, z)` is a character `ν` of `U(1)(𝔸)` of weight `−c`, with tame part trivial off the chosen places, and an
 integer `1 ≤ z ≤ t` with `z ≤ c(v) ≤ 4b` at every infinite place `v` (DivisibilityOfThetaDerivatives §1.6 (b)); it is
 *ramified* if its tame part is nontrivial exactly at the chosen places (DeterminantsOfThetaLiftChains §1.1 (a)). Its *ratio* at a tame character `ϑ` and a sign `s` is
-`|L(z, (νϑ^s)^{−1})| / |L(z, ν^{−1})|`, the Euler factors at the chosen places, in the numerator also at the modulus of
-`ϑ`, and at their conjugates being omitted (DeterminantsOfThetaLiftChains §1.1 (b)). Tame characters of `U(1)`, twists and
-`m`-fold twists are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.4.
+`|L(z, (νϑ^s)^{−1})| / |L(z, ν^{−1})|`, a quotient of partial `L`-values (DeterminantsOfThetaLiftChains §1.1 (b)): with
+`𝒞` the set of chosen places and `Q_ϑ` the modulus of `ϑ`, the denominator is taken without the Euler factors over
+`𝒞 ∪ 𝒞̄`, and the numerator without those over `𝒞 ∪ Q_ϑ ∪ 𝒞̄ ∪ Q̄_ϑ`. Tame characters of `U(1)`, twists and `m`-fold
+twists are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.4.
 
 ## Layer 1: Selmer data and the descent
 
@@ -155,20 +156,16 @@ places of `E` and `g₀ ∈ G_E`.
   relative to every set contained in `(J ∖ {P₀}) ∪ {w | ℓ}`; `λ(φ) = 0`; `λ_v(φ) = 1` for `v = P₀` and `0` for the other
   `v ∈ J`; and `U_i` holds at `φ` and `φ^{−c}`.
 
-*Needs:* ShortGRH background (the Artin map of a number field `K`, in the geometric normalisation: the continuous
+*Needs:* IdelicReciprocityCountsAndCyclotomicClassGroups §§1.1, 1.4, 2.1, 2.2 (the Artin map of a number field `K`, in the geometric normalisation: the continuous
 homomorphism `Art` from the finite ideles of `K` to the abelianised Galois group of `Ω/K` such that, for every
-continuous character `χ` of that group with values in `ℚ/ℤ` and every finite idele `a`, `χ(Art(a))` is the product over
+continuous character `χ` of that group with values in `ℚ/ℤ` and every finite idele `a`, `χ(Art(a))` is the finite sum over
 the finite places `v` of the values of `χ` at the local Artin symbols of the components `a_v`; the local Artin map at
 `v` sends a uniformiser to the class of the inverse of a Frobenius element and a unit to the class of an element of
 the inertia group, at the chosen place of `Ω` above `v`. At a place `A` of `Ω` above a finite place `w` of `K`: the
 decomposition group and the inertia group; the Frobenius elements, which lie in the decomposition group and act on
 the residue field as `x ↦ x^{Nw}`; and a chosen *tame generator*, an element `γ` of the inertia group such that for
 every `n` prime to the residue characteristic there are a uniformiser `π ∈ K` at `w` and `y ∈ Ω` with `y^n = π` and
-`γ(y)/y` a primitive `n`-th root of unity; [ShortProof] `Lib/ClassField/Local/ArtinMap.lean` (`New.artinMap`,
-`New.artinAt`, `New.IsLocalArtin.exists_frob_of_isUniformiser`, `New.IsTameGenerator`,
-`New.IsPlaceOver.exists_tameGenerator`, `New.IsPlaceOver.tameGenerator`), `Lib/ClassField/Global/ArtinMap.lean`
-(`New.abelianLift_artinMap_eq_finprod`, `New.continuous_artinMap`), `Lib/ClassField/Places/GaloisDefs.lean`
-(`New.IsFrob`, `New.IsPlaceOver`)); ShortGRH background (the module of the locally constant cocycles for `ρ` with
+`γ(y)/y` a primitive `n`-th root of unity); GaloisRepresentationsOfUnitaryEigenforms §9.2 (the module of the locally constant cocycles for `ρ` with
 values in `B^n` that vanish on the inertia groups above the places outside a set `S` and obey a set `L` of relations;
 [ShortProof] `Lib/GaloisRep/Main/SelmerModules.lean` (`New.selmerModule`)).
 
@@ -197,11 +194,14 @@ Let `E` be a CM field, `ℓ` a prime, `N ≥ 0`, `S` a finite set of finite plac
 data `(φ, γ, λ)` with `λ : G_E → ℤ/ℓ^N`, such that `φ ∈ W`, `λ(φ) = 0`, and the data are auxiliary prime data at `P` for
 `ℓ^N` relative to every set `T′ ⊆ S ∪ {w | ℓ}`.
 
-*Needs:* 1.1; ShortGRH background (Chebotarev's density theorem in its existence form: the Frobenius elements at
-primes of degree one outside a finite set are dense in the absolute Galois group; the existence theorem of class
-field theory for a totally complex field: a continuous homomorphism from the finite ideles to a `T₁` group that is
-trivial on the principal ideles factors through the Artin map; [ShortProof] `Lib/ClassField/Global/Chebotarev.lean`
-(`New.chebotarev`), `Lib/ClassField/Global/ExistenceTheorem.lean` (`New.exists_comp_artinMap`)).
+*Needs:* 1.1; ArithmeticGaloisRepresentations §5.1 (Chebotarev's density theorem for the Frobenius elements above a
+set of places of Dirichlet density one, applied to the places of prime norm: for every nonempty open set `W ⊆ G_E`
+and every finite set `S` of finite places, some place `v ∉ S` of prime norm has a place `A` of `Ω` above it all of
+whose arithmetic Frobenius elements lie in `W`); Tau Ceti `TauCeti.hasDirichletDensity_compl_higherDegreePrimes` (the
+places of residue degree one over `ℚ`, that is of prime norm, have Dirichlet density one);
+IdelicReciprocityCountsAndCyclotomicClassGroups §2.3 (c) (existence, for the totally complex field `E`: if a continuous
+homomorphism `θ` of the finite ideles into a `T₁` group kills `E^×`, then `θ(x) = μ(g)` whenever `g` represents
+`Art(x)`, for some continuous homomorphism `μ` on `G_E`).
 
 [ShortProof], `New/Congruences/Selmer/AuxiliaryPrimes.lean` (`New.Selmer.exists_isAuxPrimeDataAt`,
 `New.Selmer.exists_anticyclotomicChar_of_frob_fixes_roots`)
@@ -289,7 +289,7 @@ be Selmer data for `(S₀, g₀)` of ranks `n_i`, and `M ≥ 0` with `#k_O > 2n_
 
 `len_O Sel(J)(T_i, i; ℓ^M) ≤ ` global term of `T_i` `+` places term of `T_i` for every `i`.
 
-*Needs:* 1.1, 1.2, 1.3, 1.4; ShortGRH background (global duality for a Galois module `M` over a number field `K`, in
+*Needs:* 1.1, 1.2, 1.3, 1.4; IdelicReciprocityCountsAndCyclotomicClassGroups §4.5 (global duality for a Galois module `M` over a number field `K`, in
 the form with relations at split primes, which stand for the dual Selmer group. A *relation setting* modulo `m ≥ 1`
 is: a module `M` killed by `m` and fixed by the complex conjugations; an open normal subgroup `U` of `G_K` that fixes
 `M` and the `m`-th roots of unity and contains no complex conjugation; a finite set `S` of primes outside which `M`
@@ -305,10 +305,7 @@ of Greenberg and Wiles as a lower bound: let `K` be totally complex, `m = ℓ^r`
 `σ ∈ G_K` fix the `ℓ`-power roots of unity, commute with every element of `G_K` modulo `U`, and fix no nonzero element
 of `M`; let `p ≥ 1` be prime to `m`, divisible by no prime of `S`, and such that the inertia groups above the primes
 dividing `p` lie in `U`. Then there is a finite set `T ⊇ S` of primes not dividing `p` with
-`#Z(∅)·#M^{#S + r₂} ≤ #{relations off T}·#M·∏_{v∈S} #A_v`, `r₂` the number of infinite places of `K`; [ShortProof]
-`Lib/ClassField/GreenbergWiles/Relations.lean` (`New.RelationSetting`, `New.SplitPrime`,
-`New.RelationSetting.cocycles`, `New.RelationSetting.IsRelation`, `New.RelationSetting.Avoids`,
-`New.RelationSetting.exists_card_cocycles_le`)).
+`#Z(∅)·#M^{#S + r₂} ≤ #{relations off T}·#M·∏_{v∈S} #A_v`, `r₂` the number of infinite places of `K`).
 
 [ShortProof], `New/Congruences/Selmer/Descent.lean` (`New.Selmer.exists_isTiedPrimes_card_le_and_length_le`,
 `New.Selmer.tilting`, `New.Selmer.exists_slope_totalTiedLength_lt`), `New/Congruences/Selmer/Count.lean`
@@ -410,10 +407,9 @@ Let `E` be a CM field, `ℓ` a prime, `S₀` a finite set of finite places and `
   character for `Q`, and `φ` is a Frobenius element at a place above `P`.
 - The *number* of `Y` is `β_Y = v(1(Θ_∅)) + 2r·v(ϑ(g₀) − 1)`; it is finite.
 
-*Needs:* 1.1; ShortGRH background (the Artin map on finite ideles, and Hilbert's Theorem 90 for the finite ideles of a
-CM field: a finite idele of norm one to the totally real subfield is `x/x̄`; [ShortProof]
-`Lib/ClassField/Local/ArtinMap.lean` (`New.artinMap`), `Lib/GaloisRep/Hilbert90/UnitaryGroups.lean`
-(`New.hilbert90_finite_idele`)).
+*Needs:* 1.1; IdelicReciprocityCountsAndCyclotomicClassGroups §2.2 (the Artin map on finite ideles);
+GaloisRepresentationsOfUnitaryEigenforms §5.3 (Hilbert's Theorem 90 for the finite ideles, applied to the conjugation
+of a CM field: a finite idele of norm one to the totally real subfield is `x/x̄`).
 
 [ShortProof], `New/Congruences/Selmer/StickelbergerSystems.lean` (`New.Selmer.StickelbergerSystem`,
 `New.Selmer.StickelbergerSystem.β`, `New.Selmer.U1ClassGroup`, `New.Selmer.groupRingEval`, `New.Selmer.eulerFactor`)
@@ -458,13 +454,17 @@ radius `r` with `s₀r < 1` and all large `N`, auxiliary primes with characters 
 polynomial that controls its twists at `ℓ^N`-th roots of unity and has, at a point of radius `r`, valuation at most
 `β + s₀r`.
 
-*Method of the formal proof:* apply the descent (1.5) to all data at once, with the Frobenius element of the first prime
-so close to `g₀` that `ρ_i(φ_{P₀}^{±})` agrees with `ρ_i(g₀^{±})` modulo `ℓ^M` and `ϑ_k(φ_{P₀}) ≡ ϑ_k(g₀)` modulo a high
-power of `ℓ`. For a datum take `P = P⁰·P¹`. Here `P⁰` is a polynomial sharp at `0` (2.1 (d)) for the module tied at
-`J ∖ {P₀}`, restricted to the line; its value at `0` has valuation at most `β_T` by 2.2 (b) and the descent. `P¹` is the
-polynomial of 2.2 (a), whose Gauss valuation of radius `r` is at most `2n·#J·r`. The point is taken on the line at a
-parameter that is generic for both. For a system, take 2.4 (c). Since `M > β_T + 1`, a bound below `β_T + 1` for the module
-modulo `ℓ^M` bounds the module with divisible coefficients.
+*Method of the formal proof:* a single descent (1.5), run for all the Selmer data together, supplies the tied primes;
+its neighbourhood `W` of `g₀` is taken so small that, at the first prime, `ρ_i(φ_{P₀}^{±})` is congruent to
+`ρ_i(g₀^{±})` modulo `ℓ^M` and `ϑ_k(φ_{P₀})` to `ϑ_k(g₀)` modulo a large power of `ℓ`. For a datum, two polynomials in
+the parameter `Y` of the line of 2.2 are formed. By 2.2 (b) and the bound of the descent, the module with ties at
+`J ∖ {P₀}` has length at most `β_T` modulo `ℓ^M`; `P⁰` is a polynomial of 2.1 (d) for that module attaining this length
+at the origin, read on the line. `P¹` is the polynomial of 2.2 (a), whose Gauss valuation at radius `r` is at most
+`2n·#J·r`. Choose `y` with `v(y) ≥ r` such that `P⁰(y)` and `P¹(y)` have the valuations that the Gauss valuations
+predict, and let `x⁰` be the point of the line with parameter `y`. The polynomial `P` of the datum is a polynomial of
+2.1 (d) for the module that carries no ties, exact at `x⁰`; the bound of 2.1 (d) for the tied module and 2.2 (a) give
+`v(P(x⁰)) ≤ v(P⁰(y)) + v(P¹(y))`, which is at most `β_T + s₀r`. For the systems, 2.4 (c) gives the polynomial and the
+point. As `M > β_T + 1`, a length below `β_T + 1` modulo `ℓ^M` bounds the length with divisible coefficients as well.
 
 Let `E`, `ℓ`, `S₀`, `g₀` be as in 1.5, `O` a coefficient ring, `T_i` (`i` in a finite set) Selmer data for `(S₀, g₀)` over
 `O`, and `Y_k` (`k` in a finite set) Stickelberger systems for `(S₀, g₀)`. Let `M` be a *torsion level*:
@@ -605,7 +605,7 @@ Colmez's period ring, and `Γ` acts on `B_max ⊗_{ℤ_p} L` diagonally, through
   `V ⊆ [−η, η] ∪ ε·[b, b + W]`. The *gap condition* `NoMult(p, n, b)` says that `p` divides no nonzero integer within
   distance `n` of `0`, `b` or `−b`.
 
-*Needs:* ShortGRH background (Colmez's period ring `B_max = B^+[1/μ]`, where `B^+ = A_max[1/p]`, `A_max` is the
+*Needs:* CrystallineRepresentationsAndKisinModules §§1.3, 3.1, 3.7 (Colmez's period ring `B_max = B^+[1/μ]`, where `B^+ = A_max[1/p]`, `A_max` is the
 `p`-adic completion of `A_inf[X]/(pX − ξ)` and `μ = [ε] − 1`, with its actions of `G_{ℚ_p}` and of the Frobenius `φ`;
 it is used in place of Fontaine's `B_cris`. Over it, the definitions of this section: admissibility along a filter,
 potentially crystalline lattices, `Z_f(L)` and the jump multiplicities `j_γ(L, u)`. For a potentially crystalline
@@ -651,9 +651,8 @@ compatible system of primitive `p^n`-th roots of unity, `n ≥ 0`.
   subgroup `j(Γ)` of `G_{ℚ_p}`), the cup product of `α_S(c)` and `p^N·α_{S′}(c′)` under it is a coboundary; so the
   condition is empty when `j` is not injective.
 
-*Needs:* 3.1; ShortGRH background (existence of a Kummer chart for every `Γ`, with `ef = [G_{ℚ_p} : j(Γ)]`, unramified
-when `j(Γ)` contains inertia; [ShortProof] `Lib/PadicHodge/Kisin/KummerChartExistence.lean`
-(`New.Lift.exists_kummerChart`)).
+*Needs:* 3.1; CrystallineRepresentationsAndKisinModules §2.4 (existence of a Kummer chart for every `Γ`, with `ef = [G_{ℚ_p} : j(Γ)]`, unramified
+when `j(Γ)` contains inertia).
 
 [ShortProof], `Lib/PadicHodge/Kisin/KummerChartExistence.lean` (`New.Lift.KummerChart`,
 `New.Lift.KummerChart.IsUnramified`, `New.Lift.KummerChart.differentBound`, `New.Lift.exists_kummerChart`),
@@ -836,7 +835,7 @@ Let `S`, `S′` be sides of `k` over `(O, ζ)` with a pairing `P`, and `c ∈ C`
    unramified and every `U_{S′}(i)` lies in `[−η, 0]`. Then the pairing gives a scaled cup coboundary of exponent `H` at
    `(c, c′)` for every `H ≥ 3(κ + (48(a + η + W) + 4)d)`.
 
-*Needs:* 3.1, 3.2; ShortGRH background (Kisin modules of a lattice `L` that is crystalline over `Γ′`, over a Kummer
+*Needs:* 3.1, 3.2; CrystallineRepresentationsAndKisinModules §§2.3, 5.6, 5.7, 5.8, 5.9 (Kisin modules of a lattice `L` that is crystalline over `Γ′`, over a Kummer
 chart with ring `Λ[[z]]`, in the notation of 3.3a. Let `a ≥ 0` be least such that the jumps of `L` over `Γ′` lie in
 `[−a, a]`; let `N_A(L)` be the `A_inf`-module of the `x ∈ M(L)` that a power of `τ` multiplies into `A_inf ⊗ L` and with
 `μ(φ^n x) ∈ B_dR^+` for all `n ≥ 1` and all forms `μ`, and `N(L)` the `Λ[[z]]`-module of the `x ∈ N_A(L)` with
@@ -856,15 +855,7 @@ with all form values in `𝒦₀` lies in the `Λ[[z]]`-span of the elements `y`
 all forms `μ` and all `g ∈ Γ′`. The bound for the forms of a type: for a letter `i` and
 `u ∈ ℤ` there are `r` forms of type `u` at `i`, with `r` at most the sum of the jump multiplicities `j_γ(L, u)` over
 the embeddings `γ` over `i`, such that every form of type `u` at `i` is a `ℚ̄_p`-combination of them modulo a form of
-type `u − 1` at `i`; [ShortProof]
-`Lib/PadicHodge/Kisin/FrameTheorem.lean` (`New.Lift.KummerChart.JumpLattice.FrameProperties`,
-`New.Lift.KummerChart.JumpLattice.frame_theorem`, `New.Lift.KummerChart.JumpLattice.free_kisinModule`,
-`New.Lift.KummerChart.JumpLattice.mem_kisinModule_iff_crysForms`), `Lib/PadicHodge/Kisin/Modules.lean`
-(`New.Lift.KummerChart.JumpLattice.forms`, `New.Lift.KummerChart.JumpLattice.crysForms`,
-`New.Lift.KummerChart.JumpLattice.kisinAinf`, `New.Lift.KummerChart.JumpLattice.kisinModule`,
-`New.Lift.KummerChart.JumpLattice.kisinLoc`, `New.Lift.KummerChart.JumpLattice.jumpBound`,
-`New.Lift.KummerChart.JumpLattice.formsOfType`, `New.Lift.KummerChart.JumpLattice.jumpMultiplicity`,
-`New.Lift.KummerChart.JumpLattice.exists_span_formsOfType_mod_pred`)).
+type `u − 1` at `i`).
 
 [ShortProof], `New/Congruences/Lifting/SidePoints.lean` (`New.Lift.KummerChart.PairingSide.pointsOver`,
 `New.Lift.KummerChart.PairingSide.standardPoints`, `New.Lift.KummerChart.PairingSide.stopPoints`,
@@ -1003,22 +994,17 @@ such that `K(s, ·)` is a tame type for `(p, r, N)` for every `s` with `j(s)` in
 `K′(s, Q) = K(s^{−1}, Q)`, and let every `U(g)` fit `(η, −ε, b, W)` and every `U′(g)` fit `(η, ε, b, W)` for one sign `ε`. If
 `p > b + 6(W + η) + r²(N + 1)² + 2`, prove that `L` has cup exponent `3r²(N + 1)² + 150(η + W + 1)` for `𝒞(F, K, U)`.
 
-*Needs:* 3.1, 3.2, 3.3a (i); ShortGRH background (the membership criterion for the Kisin module of a lattice `L`
+*Needs:* 3.1, 3.2, 3.3a (i); CrystallineRepresentationsAndKisinModules §§2.3, 5.9 (the membership criterion for the Kisin module of a lattice `L`
 crystalline over `Γ′`, over a Kummer chart, in the notation of 3.3a: with `N(L)` the `Λ[[z]]`-module of the
 `x ∈ M(L)` that a power of `τ` multiplies into `A_inf ⊗ L`, with `μ(φ^n x) ∈ B_dR^+` for `n ≥ 1` and `μ(x) ∈ 𝒦₀` for
 all forms `μ`, an `x ∈ M(L)` lies in `N(L)` exactly when a power of `τ` multiplies it into `A_inf ⊗ L` and, for some
 `n`, `E^n·μ(x)` lies in the image of `𝔅` for every form `μ` whose restriction to `1 ⊗ L` comes from a `ℤ_p`-linear
 map `L → B_max`; here `𝔅 ⊂ B^+` is the ring of the elements whose multiplication commutes with every
-`Λ[[z]]`-linear endomorphism of `B^+` that preserves the image of `A_max`; [ShortProof]
-`Lib/PadicHodge/Kisin/FrameTheorem.lean` (`New.Lift.KummerChart.JumpLattice.mem_kisinModule_iff_crysForms`));
-ShortGRH background (for a potentially crystalline lattice `L` and `s ∈ Γ` with `j(s)` inertial, the `B_max`-linear
+`Λ[[z]]`-linear endomorphism of `B^+` that preserves the image of `A_max`);
+CrystallineRepresentationsAndKisinModules §§3.1, 3.7 (for a potentially crystalline lattice `L` and `s ∈ Γ` with `j(s)` inertial, the `B_max`-linear
 operator `β_s` of `B_max ⊗ L` that acts as `s ⊗ s` on the periods of `L` exists and is unique, with
 `β_{s^n} = β_s^n`, `β_{st} = β_sβ_t` for inertial `s`, `t`, and `β_s = 1` for inertial `s` near `1`; a polynomial `Q`
-over `O` kills `s` on `L` if `L` is potentially crystalline and `Q(β_s) = 0`; [ShortProof]
-`Lib/PadicHodge/Crystalline/Basic.lean` (`New.Period.linearFrob`,
-`New.Period.IsPotentiallyCrystalline.linearFrob_eq`, `New.Period.IsKilledBy`),
-`Lib/PadicHodge/Crystalline/Regularity.lean` (`New.Period.linearFrob_apply`, `New.Period.linearFrob_mul`,
-`New.Period.linearFrob_pow`, `New.Period.IsPotentiallyCrystalline.eventually_linearFrob_eq_one`)).
+over `O` kills `s` on `L` if `L` is potentially crystalline and `Q(β_s) = 0`).
 
 [ShortProof], `New/Congruences/Lifting/CupOrthogonalityBounds.lean` (`New.Lift.hasCupExponent_of_isTameType`),
 `New/Congruences/Lifting/TameCharts.lean` (`New.Lift.TameChart.killsCokernel_of_isKilledBy`, `New.Lift.exists_tameChart`)
@@ -1133,10 +1119,8 @@ embedding onto the elements fixing `e(E)`, `O` a coefficient ring and `L` a pote
 [ShortProof] proves (a) for a CM field that contains a primitive `5040`-th root of unity, which is the case of the
 data and the only one used; the rank formula does not need the root of unity.
 
-*Needs:* 3.1, 4.1; ShortGRH background (the rank formula for crystalline cocycles: for a potentially crystalline
-`ℤ_ℓ`-lattice `T` with jumps `J` over a group of index `n`, `rank Z_f(T) = rank T + n·#{u ∈ J : u < 0}`; [ShortProof]
-`Lib/PadicHodge/BlochKato.lean` (`New.Period.crysCocycles.finrank_eq`),
-`Lib/PadicHodge/Crystalline/HodgeTateJumps.lean` (`New.Period.IsPotentiallyCrystalline.sum_jump_eq_jump_overZp`)).
+*Needs:* 3.1, 4.1; CrystallineRepresentationsAndKisinModules §§3.4, 4.2 (the rank formula for crystalline cocycles: for a potentially crystalline
+`ℤ_ℓ`-lattice `T` with jumps `J` over a group of index `n`, `rank Z_f(T) = rank T + n·#{u ∈ J : u < 0}`).
 
 [ShortProof], `New/Congruences/LocalLoss/CrystallineCocycles.lean` (`New.Selmer.finrank_crysCocycles_eq_add_neg_jumps`,
 `New.Selmer.normLength_dualDefect_le_of_hasCupExponent`)
@@ -1221,7 +1205,7 @@ homomorphism, `u_x : G → GL_n(R)` (`x` in a finite set) and `ρ : G → GL_d(R
 modulo its members whose restriction along `η` obeys all relations that hold on `Z_f(L)`, has length at most
 `δ_𝒞(L^∨(1))`.
 
-*Needs:* 3.1, 4.1, 4.3; ShortGRH background (local Tate duality for crystalline cocycles, as one divisibility of
+*Needs:* 3.1, 4.1, 4.3; IdelicReciprocityCountsAndCyclotomicClassGroups §5.2 (local Tate duality for crystalline cocycles, as one divisibility of
 indices. Let `j : Γ → G_{ℚ_ℓ}` be an open embedding, `L` and `L′` potentially crystalline lattices over `ℤ_ℓ` with a
 perfect pairing `b : L′ × L → ℤ_ℓ` such that `b(gx, gy) = χ(g)·b(x, y)`, `m ≥ 0`, and `q : L → V` an equivariant
 surjection onto a finite discrete `Γ`-module with kernel `ℓ^mL`. A map `s : Γ → V` is *cup-orthogonal* to a subgroup
@@ -1229,9 +1213,7 @@ surjection onto a finite discrete `Γ`-module with kernel `ℓ^mL`. A map `s : �
 `c ∈ H` the 2-cochain `(g, h) ↦ ε_m(b(g·c(h), a(g)))` with values in `ℚ̄_ℓ^×` is a continuous coboundary. Let `H` be
 any such subgroup and `S` any subgroup of the maps `Γ → V`. If `q∘z` for every `z ∈ Z_f(L)` and every member of `S`
 are cup-orthogonal to `H`, then `[S : S ∩ q(Z_f(L))]` divides `[Z_f(L′) : H ∩ Z_f(L′)]`, where `q(Z_f(L))` is the
-group of the maps `q∘z`; [ShortProof]
-`Lib/ClassField/LocalDuality/CrystallineDuality.lean` (`New.Period.cupModPow`, `New.Period.IsCupOrthogonal`,
-`New.Period.IsPotentiallyCrystalline.relIndex_dvd_of_orthogonal`)).
+group of the maps `q∘z`).
 
 [ShortProof], `New/Congruences/LocalLoss/TateDualBound.lean` (`New.Selmer.relLength_ribetCocycles_le`,
 `New.Selmer.comesFromClass_of_mem_ribetCocycles`, `New.Selmer.relLength_le_of_comesFromClass`)
@@ -1261,9 +1243,12 @@ Prove:
    every member of `𝓡`, restricted to the decomposition group at `w`.
 
 *Needs:* 3.1, 4.1; CongruencesOfTwistedThetaLifts §1.1 (the local conditions: finite type, jumps and killing polynomials
-at a place), §1.2 (conjugate self-dual representations of given level); ShortGRH background (Teichmüller lifts in the
-Witt vectors of a finite field, embedded in `ℚ̄_ℓ`: every root of `y^{ℓ^a − 1} = 1` is one; [ShortProof]
-`Lib/PadicHodge/Kisin/KummerChartExistence.lean` (`New.Lift.wittToQpBar`, `New.Lift.exists_flatFq_teichmuller_eq`)).
+at a place), §1.2 (conjugate self-dual representations of given level); CrystallineRepresentationsAndKisinModules §2.4 (the
+Witt vectors `W(𝔽_{ℓ^a})` embedded injectively in `ℚ̄_ℓ`); ShortGRH background (Teichmüller lifts under that embedding:
+every root of `y^{ℓ^a − 1} = 1` in `ℚ̄_ℓ` is the image of the Teichmüller lift of an element of `𝔽_{ℓ^a}`, and
+`W(𝔽_{ℓ^a})` is free of rank `a` over `ℤ_ℓ`; [ShortProof] `Lib/PadicHodge/Kisin/KummerChartExistence.lean`
+(`New.Lift.exists_flatFq_teichmuller_eq`), `Lib/PadicHodge/Kisin/Modules.lean`
+(`New.Lift.KummerChart.JumpLattice.finrank_wittFq`)).
 
 [ShortProof], `New/Congruences/LocalLoss/LocalLattices.lean` (`New.Selmer.isTameType_of_roots`,
 `New.Selmer.hasJumps_and_inClass_localLattice`, `New.Selmer.IsConjSelfDualOfLevel.inClass_localLattice`)
@@ -1320,20 +1305,19 @@ Let `D` be the data and `(ν, z)` a ramified pair. Prove:
    `u_a ∈ U(1)(𝔸)` and coefficients `c_a ∈ ℂ`, integral at every prime `l` not dividing the norm of `Q` under every
    embedding `ℂ → ℂ_l`, with `F(ϑ′) = Σ_a c_a ϑ′(u_a)` for all `ϑ′` of modulus `Q`; for `v` not in the modulus `Q_ϑ` of `ϑ`
    and `ϑ′` equal to `ϑ` with `v` added to the modulus, `F(ϑ′) = F(ϑ)·∏_{k∈I} ∏_{δ=±1}(1 − (νϑ)_v(ϖ_v)^δ/Nv^k)`, the base
-   change of `νϑ` read at a uniformiser at `v`; and `F(ϑ) = F(1)·N(Q_ϑ)^{m₀}·r(ϑ)^{m₀+1}` at every twist `ϑ`, with
-   `N(Q_ϑ) = ∏_{w∈Q_ϑ} Nw` and `r` the ratio of the pair. Here `(I, m₀) = ({z}, 0)` for `z ≥ 2` and `({0, 1}, 1)` for
-   `z = 1`;
+   change of `νϑ` read at a uniformiser at `v`; and `F(ϑ) = F(1)·N(Q_ϑ)^{m₀}·(|L(z, (νϑ)^{−1})|/|L(z, ν^{−1})|)^{m₀+1}`
+   at every twist `ϑ`, with `N(Q_ϑ) = ∏_{w∈Q_ϑ} Nw` and the quotient the ratio of the pair at `ϑ` and the sign `+1`
+   (Conventions). Here `(I, m₀) = ({z}, 0)` for `z ≥ 2` and `({0, 1}, 1)` for `z = 1`;
 2. (b) for an auxiliary set `Q` for the bad places, every character `ψ : G_E → ℚ̄_ℓ` for `Q` is, for some tame
    character `τ` of modulus `Q`, the `ℓ`-adic avatar of the base change of `τ^{−1}` to `E`.
 
 *Needs:* NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7, 6.1 (Hecke `L`-values as squared norms: from §2.5 the
 integral algebraic part, from §2.7 the determinant theta period at `z = 1`, from §6.1 integral measures);
 DivisibilityOfThetaDerivatives §1.6 (pairs); DeterminantsOfThetaLiftChains §1.1 (ramified pairs and the ratio of a
-pair); OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (tame characters and twists); ShortGRH background (the `ℓ`-adic
+pair); OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (tame characters and twists); IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 (the `ℓ`-adic
 avatar of an algebraic Hecke character: a continuous character of `G_E` whose value at most geometric Frobenius elements
 is `ι` of the value of the Hecke character at a uniformiser, and which is given on the image of the Artin map by the
-Hecke character; [ShortProof] `Lib/PadicHodge/Characters.lean` (`New.AlgHeckeChar.avatar`,
-`New.AlgHeckeChar.avatar_apply_of_artinMap_eq`, `New.AlgHeckeChar.eventually_avatar_frob`)).
+Hecke character).
 
 [ShortProof], `New/Congruences/Selmer/ClassSums.lean` (`New.Data.CriticalPair.exists_isTwistMeasure`,
 `New.Data.CriticalPair.IsTwistMeasure`, `New.Selmer.exists_tameChar_invAvatar_eq`)
@@ -1353,17 +1337,18 @@ Let `D` be the data, `ι : ℂ ≅ ℚ̄_ℓ`, `δ = ±1`, `(ν, z)` a ramified 
 generator. Prove that there is a Stickelberger system `Y` for (the bad places, `g₀`) with:
 
 1. (a) `β_Y ≤ v(1(Θ_∅)) + 4v(Nw − 1)`;
-2. (b) for every twist `ξ` whose modulus `Q` is auxiliary for the bad places and whose inverse avatar `ψ`, the `ℓ`-adic avatar of the base change of `ξ^{−1}` to `E`, is a
-   character for `Q`: `|ψ(Θ_Q)| = |1(Θ_∅)|·|ι(r)|^i`, where `r = |L(z, (νξ^δ)^{−1})|/|L(z, ν^{−1})|` is the ratio of the pair
-   at `ξ^δ`, and `i = 2` if `z = 1`, `i = 1` otherwise;
-3. (c) consequently, for such `ξ` and every `c ≥ 0`, `v(ψ(Θ_Q)) ≤ β_Y + c` implies `v(ι(r)) ≤ 4v(Nw − 1) + c`.
+2. (b) for every twist `ξ` whose modulus `Q` is auxiliary for the bad places and whose inverse avatar `ψ`, the `ℓ`-adic
+   avatar of the base change of `ξ^{−1}` to `E`, is a character for `Q`:
+   `|ψ(Θ_Q)| = |1(Θ_∅)|·|ι(|L(z, (νξ^δ)^{−1})|/|L(z, ν^{−1})|)|^i`, the quotient being the ratio of the pair at `ξ` and
+   `δ` (Conventions, with `Q_ξ = Q`), and `i = 2` if `z = 1`, `i = 1` otherwise;
+3. (c) consequently, for such `ξ` and every `c ≥ 0`, `v(ψ(Θ_Q)) ≤ β_Y + c` implies
+   `v(ι(|L(z, (νξ^δ)^{−1})|/|L(z, ν^{−1})|)) ≤ 4v(Nw − 1) + c`.
 
 *Needs:* 2.3, 5.2; DivisibilityOfThetaDerivatives §1.5 (the chosen places), §1.6 (pairs); DeterminantsOfThetaLiftChains
-§1.1 (ramified pairs and the ratio of a pair); OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (twists); ShortGRH
-background (the `ℓ`-adic avatar of an algebraic Hecke character: a continuous character of `G_E` whose value at most
-geometric Frobenius elements is `ι` of the value of the Hecke character at a uniformiser, and which is given on the
-image of the Artin map by the Hecke character; [ShortProof] `Lib/PadicHodge/Characters.lean` (`New.AlgHeckeChar.avatar`,
-`New.AlgHeckeChar.avatar_apply_of_artinMap_eq`, `New.AlgHeckeChar.eventually_avatar_frob`)).
+§1.1 (ramified pairs and the ratio of a pair); OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (twists);
+IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 (the `ℓ`-adic avatar of an algebraic Hecke character: a
+continuous character of `G_E` whose value at most geometric Frobenius elements is `ι` of the value of the Hecke
+character at a uniformiser, and which is given on the image of the Artin map by the Hecke character).
 
 [ShortProof], `New/Congruences/Selmer/LValueSystems.lean` (`New.Selmer.exists_stickelbergerSystem_β_le_and_norm_eq`,
 `New.Selmer.exists_stickelbergerSystem_ellVal_ratio_le`, `New.Data.CriticalPair.stickelbergerChar`)
@@ -1391,8 +1376,8 @@ Let `D` be the data, `ℓ` a prime, `ι : ℂ ≅ ℚ̄_ℓ`, and `R_i` (`i` in 
    lattice over `O` on whose twist by `ψ` the element `γ` acts by the scalar `ζ`, with `ζ − 1` a unit. For the twisted
    lattice, the module of locally constant cocycles with values in `Frac(O)/O` that are unramified outside `ℓ p₀ p₁`, `Q`,
    `Q̄`, obey the crystalline relations of the twisted lattice above `ℓ` and vanish at `γ` has `len_ℓ ≤ e'_ℓ`;
-3. (c) for every ramified pair `(ν, z)` and every sign `s`, `v(ι(|L(z, (νξ^s)^{−1})|/|L(z, ν^{−1})|)) ≤ e'_ℓ`, the Euler
-   factors at the chosen places, in the numerator also at `Q`, and at their conjugates being omitted.
+3. (c) for every ramified pair `(ν, z)` and every sign `s`, its ratio at `ξ` and `s` (Conventions, with `Q_ξ = Q`)
+   satisfies `v(ι(|L(z, (νξ^s)^{−1})|/|L(z, ν^{−1})|)) ≤ e'_ℓ`.
 
 *Needs:* 2.7, 5.1, 5.2, 5.3; CongruencesOfTwistedThetaLifts §1.3 (main summands), §1.5 (the crystalline Selmer length with
 divisible coefficients; the number `e'_ℓ`), §4.1 (auxiliary twists);
@@ -1431,10 +1416,15 @@ OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (`m`-fold twists).
 - Conjugate self-dual representations of a level, main summands, Ribet cocycles, twisted lattices and Selmer lengths
   with divisible coefficients, and the use of the bounds of this roadmap in Ribet's method:
   CongruencesOfTwistedThetaLifts.
-- The results named `ShortGRH background` on the *Needs:* lines: the Artin map, Chebotarev's theorem and the existence
-  theorem, global duality with relations at split primes, lengths of kernels by maximal minors, Gauss valuations,
-  the period ring `B_max` and crystalline cocycles, Kummer charts and Kisin modules, the rank formula, local Tate
-  duality for crystalline cocycles, and avatars. Each entry names the form used and where `[ShortProof]` proves it.
+- The background results cited on the *Needs:* lines: places of `Ω`, Frobenius elements, tame generators, the Artin
+  map and the existence theorem, global duality with relations at split primes, local Tate duality for crystalline
+  cocycles and avatars (IdelicReciprocityCountsAndCyclotomicClassGroups); Selmer modules and Hilbert's Theorem 90 for
+  finite ideles (GaloisRepresentationsOfUnitaryEigenforms); the period ring `B_max` and crystalline cocycles, Kummer
+  charts and Kisin modules, and the rank formula (CrystallineRepresentationsAndKisinModules); Chebotarev's theorem
+  (ArithmeticGaloisRepresentations §5.1, with the density of the places of prime norm from Tau Ceti).
+- The results named `ShortGRH background` on the *Needs:* lines: lengths of kernels by maximal minors, Gauss
+  valuations, and Teichmüller lifts in the Witt vectors of a finite field with the rank of those Witt vectors. Each
+  entry names the form used and where `[ShortProof]` proves it.
 - Twist selection and the local bounds in the forms of SelmerLengthBoundsAndLocalLifting, which owns them for the route
   of RiemannHypothesisForDirichletLFunctions. That roadmap states results with the same purpose as four sections here,
   in other forms; none of them is cited as a supplier, and the sections here are not restatements of them.
@@ -1466,18 +1456,25 @@ OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (`m`-fold twists).
 
 §1.1 (the local conditions at a place: finite type, jumps, killing polynomials; bad places); §1.2 (conjugate
 self-dual representations of a level); §1.3 (main summands); §1.5 (Selmer lengths with divisible coefficients, twisted
-lattices, the twist allowance `e′_ℓ`); §3.1 (2) (Ribet cocycles).
+lattices, the twist allowance `e′_ℓ`); §3.1 (2) (Ribet cocycles); §4.1 (auxiliary twists).
 
 ### From OneSidedPrimeSumBoundsAndAdmissibleData
 
-§2.1, §2.2 (the parameters, the field, its infinite places and CM type); §3.2, §3.3 (the data and their sizes); §3.4
-(tame characters, twists and `m`-fold twists).
+§2.1, §2.2 (the parameters, the field, its infinite places and CM type); §3.1 (sparse sets of places); §3.2, §3.3 (the
+data and their sizes); §3.4 (tame characters, twists and `m`-fold twists).
 
 ### From other roadmaps
 
 DivisibilityOfThetaDerivatives §1.5 (the chosen places), §1.6 (pairs); DeterminantsOfThetaLiftChains §1.1 (ramified
 pairs and ratios); NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7, 6.1 (`L`-values as squared norms and integral
-measures); ThetaLiftChainsAndTheSeesawIdentity §2.10 (the order `n_GL`).
+measures); ThetaLiftChainsAndTheSeesawIdentity §2.10 (the order `n_GL`); IdelicReciprocityCountsAndCyclotomicClassGroups
+§§1.1, 1.4, 2.1, 2.2 (places of `Ω`, Frobenius elements, tame generators, the Artin map), §2.3 (the existence theorem),
+§4.5 (global duality with relations at split primes), §5.2 (local Tate duality for crystalline cocycles), §9.1 (the
+`ℓ`-adic avatar); GaloisRepresentationsOfUnitaryEigenforms §5.3 (Hilbert's Theorem 90 for finite ideles), §9.2 (Selmer
+modules); CrystallineRepresentationsAndKisinModules §1.3 (the period rings), §§2.3, 2.4 (the ring `S_B` as a commutant,
+Kummer charts, the Witt vectors of a finite field in `ℚ̄_ℓ`), §§3.1, 3.4, 3.7 (admissibility, jumps, the linear
+Frobenius), §4.2 (the rank of crystalline cocycles), §§5.6, 5.7, 5.8, 5.9 (Kisin modules);
+ArithmeticGaloisRepresentations §5.1 (Chebotarev's density theorem).
 
 ## References
 

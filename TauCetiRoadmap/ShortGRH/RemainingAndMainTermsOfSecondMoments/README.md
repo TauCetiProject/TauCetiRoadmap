@@ -55,7 +55,7 @@ multiplication by `a` scales Haar measure on `𝔸_f`, and `0` if `a` is not a u
 `vol(Ô) = (2/rd_E)^f`. It is the measure of `Ô` for the Haar measure on `𝔸_f` for which `𝔸_E/E` has mass `1` when each
 `E_v = ℂ` carries Lebesgue measure, and it is the normalisation of SecondMomentsOfPoincareSeries (Conventions,
 **Normalisations**); the constants of 6.3 and 6.4 hold with this value. `ψ_f` is the standard character of `𝔸_f`: it is
-trivial on `Ô` and `ψ_f(a) = exp(2πi·Tr_{E/ℚ} a)` for `a ∈ E`.
+trivial on `Ô` and `ψ_f(a) = exp(2πi·Tr_{E/ℚ} a)` for `a ∈ E` (AdelicUnitaryGroupsAndAlgebraicModularForms §2.1).
 
 **The filling data.** The data `S` are those of SecondMomentsOfPoincareSeries §4.1 (the filling data and its standing
 hypotheses). A *shape* gives `ϱ` and a finite set `κ` with `k = #κ`; `n = ϱ + 1`. The space is
@@ -106,8 +106,8 @@ of a lattice in 1.1, 5.2 and 5.3, a real number or a tuple of scales in 6.2, 6.3
 ### 1.1 Lattices in the finite adeles, discriminants and sums over sublattices
 
 *Origin:* adapted from the classical theory of the zeta function of a lattice (Hey's formula for the number of
-sublattices of given index): here, an upper bound for the sum of a negative power of the index over the sublattices of
-finite index, for lattices over the integral finite adeles of a CM field.
+sublattices of given index): here, an upper bound for the series `Σ_M [L : M]^(−s)` over the submodules `M` of finite
+index of a lattice `L` over the integral finite adeles `Ô` of a CM field.
 
 *Method of the formal proof:* a submodule of finite index of `R × N` is determined by its ideal of first coordinates,
 which is principal, by its intersection with `N`, and by one class modulo that intersection. This gives
@@ -141,10 +141,11 @@ index of `Ô` (both sides in `[0, ∞]`).
 
 ### 1.2 Siegel's lemma and a height zeta function of subspaces
 
-*Origin:* adapted from Siegel's lemma over number fields (Bombieri and Vaaler (1983)): here, for the lattices of the genus
-of the standard hermitian lattice over a stably unramified CM field. The subspace is cut out as a hermitian orthogonal,
-lengths are Euclidean over all infinite places together, and the constant is explicit but not sharp. A bound for the
-height zeta function of the subspaces of given codimension follows.
+*Origin:* adapted from Siegel's lemma over number fields (Bombieri and Vaaler (1983)): here, over a stably unramified CM
+field `E`, for the lattices `E^κ ∩ uÔ^κ` with `u` unitary at the finite places, which make up the genus of `𝒪_E^κ` with
+its standard hermitian form. The subspace is cut out as a hermitian orthogonal, lengths are Euclidean over all infinite
+places together, and the constant is explicit but not sharp. A bound for the height zeta function of the subspaces of
+given codimension follows.
 
 *Method of the formal proof:* take lattice bases of `U` and of its orthogonal complement. By Jacobi's identity between
 a lattice and its orthogonal complement their discriminants agree. Minkowski's second theorem for an adelic matrix gives
@@ -331,9 +332,9 @@ first `i` rows of the block.
 
 ### 3.2 Schur's test: Cauchy–Schwarz and integration in stages
 
-*Origin:* adapted from Schur's test for integral operators, classical: here, Cauchy–Schwarz with a weight
-that is inverted when the two frames are exchanged, followed by an integration over the unipotent group fixing the
-frame.
+*Origin:* adapted from Schur's test for integral operators, classical: here, the Cauchy–Schwarz inequality weighted on
+one side by a power of the volume ratio of 3.1 and on the other by its reciprocal, which is the same ratio for the
+interchanged frames; the two integrals are then bounded by integrating in stages along the frame-fixing unipotent group.
 
 *Method of the formal proof:* where the cut kernel is nonzero, both `y` and `γ⁻¹y` lie in the cut, so the cutoffs agree
 with their restrictions to the boxed points. Cauchy–Schwarz with the weight `ν^(−(k+i))` and its inverse after
@@ -599,9 +600,9 @@ otherwise.
 
 ### 5.1 Moves between frames of near terms
 
-*Origin:* particular to this proof: near terms are determined by their frames modulo moves, the vectors shared by the
-two frames of a near term are short, and two frames with the same products and shared vectors whose `A`-parts are
-congruent modulo `M·det(YY^*)` are joined by a move.
+*Origin:* particular to this proof: a near term is determined by its frame up to moves; for a near term, the vectors
+that `f` and `γf` share have bounded coordinates along `A`; and frames with equal products and equal common vectors
+whose `A`-parts agree modulo `M·det(YY^*)` differ by a move.
 
 *Method of the formal proof:* at boxed points the frames are uniformly independent, so the coefficients of shared vectors
 are bounded by the adjugate of the padded leading block `Y`, and a short vector of `Λ_c ∩ X₀` is `0`. A difference of
@@ -820,11 +821,11 @@ integral off `T`. Let `F ≥ 0` be integrable and lower semicontinuous at the po
 `β(P_{r'}(y))` over nonzero `T`-integers `y`, where `r'_v = 2πi/(Φ_v(ϖ)r_v)`. Then
 `Σ_{t∈V} F(P_r(t)) ≤ (vol(Ô)/∏_v r_v²)·(εB₀ + ∫F)`.
 
-*Needs:* AnalyticNumberTheoryPartII §5.3h (Poisson summation on the adeles; the self-dual measure), ShortGRH background
-(one-sided Poisson summation on the adeles of a totally complex field `E`, for the measure in which `𝔸_E/E` has mass
-one: if `F ≥ 0` is integrable and lower semicontinuous at the points of a finite set `T` of rational points, and `S`
-bounds every finite sum of `|F̂(ξ)|` over `ξ ∈ E`, then `Σ_{t∈T} F(t) ≤ S`; [ShortProof]
-`Lib/Adelic/Adeles/StrongApproximation.lean` (`New.IsDualFamily.sum_le_of_fourier`)).
+*Needs:* AnalyticNumberTheoryPartII §5.3h (Poisson summation on the adeles; the self-dual measure),
+AdelicUnitaryGroupsAndAlgebraicModularForms §2.3 (b) (one-sided Poisson summation on the adeles of a totally complex
+field `E`, for the measure of its §2.1, in which `𝔸_E/E` has mass one: if `F ≥ 0` is integrable and lower
+semicontinuous at the points of a finite set `T` of rational points, and `S` bounds every finite sum of `|F̂(ξ)|` over
+`ξ ∈ E`, then `Σ_{t∈T} F(t) ≤ S`).
 
 [ShortProof], `New/Spanning/MainTerm/GlobalSieve.lean` (`New.Filling.sum_ratPoint_le_mul_add_integral_of_fourier_le`)
 
@@ -892,10 +893,11 @@ function and the Bessel vector of an intermediate group).
 *Origin:* particular to this proof: the passage between the finite adeles and the completions at a finite set `T` of
 places, and the place datum at `T` that the filling data induce.
 
-*Method of the formal proof:* the given finitely many elements are units at almost all places. The density of `E` in the
-finite adeles (strong approximation off `T`) lifts points of `T` to points integral off `T`, inside `𝖴` and `U(X₀)`
-through their parametrisations. The place datum is built from the lattice of integral vectors, and the unitary group
-over `E_T` is shown to be unimodular.
+*Method of the formal proof:* the given finitely many elements are units at almost all places. A point `y` at `T` is
+lifted to the finite adelic matrix equal to `y` at the places of `T` and to `1` at all others; it is integral off `T`,
+and it is unitary, and in `𝖴` or `U(X₀)` when `y` is, because each of these conditions holds at `T` for `y` and
+elsewhere for `1`. The place datum is built from the lattice of integral vectors, and the unitary group over `E_T` is
+shown to be unimodular.
 
 Let `S` be filling data over a field `E` that has Weil data, `T` a finite conjugation-stable set of
 finite places, `E_T` the product of the completions at `T` with integers `O_T`.
@@ -914,10 +916,8 @@ There is a place datum on `E_T` with `3ϱ + 6` further hyperbolic pairs and an o
 `k − (6ϱ + 13)`. It is large lattice data, its modulus is the component of `M` at `T`, and its character is `ψ_T` (a
 *filling datum at `T`*).
 
-*Needs:* PairsOfFramesAtOnePlace §2.1 (finite places), §5.1 (large lattice data); AnalyticNumberTheoryPartII §5.3h,
-ShortGRH background (strong approximation for the adeles of a totally complex field `E`: for a nonempty set `S` of
-finite places, the sums of an element of `E` and an adele that vanishes at infinity and at the finite places outside
-`S` are dense in the adeles; [ShortProof] `Lib/Adelic/Adeles/StrongApproximation.lean` (`New.strong_approximation`)); DivisibilityOfThetaDerivatives §1.4 (c) (Weil data).
+*Needs:* PairsOfFramesAtOnePlace §2.1 (finite places), §5.1 (large lattice data); AnalyticNumberTheoryPartII §5.3h;
+DivisibilityOfThetaDerivatives §1.4 (c) (Weil data).
 
 [ShortProof], `New/Spanning/MainTerm/FillingLevel.lean` (`New.Filling.exists_places_integralOff`,
 `New.Filling.exists_isIntegralOff_toPlaces_eq`, `New.Filling.mem_unitaryLevel_iff`, `New.Filling.exists_integralPlace`,
@@ -929,10 +929,17 @@ finite places, the sums of an element of `E` and an adele that vanishes at infin
 of heads with entries in a fixed finite set, and each orbit sum is a Kloosterman sum at `T` times an orbital integral at
 the infinite places.
 
-*Method of the formal proof:* a contributing term `γ₀` is written `u₀⁻¹w_{p₀}σu₀'` in the big cell, and all contributing
-terms of the same link are among the `uw_pσu'⁻¹`, each once. The nonzero leading minors of a term with nonzero cut
-amplitude are bounded integers, so the entries lie in a finite set. Each orbit sum unfolds, double coset by double coset,
-into one integral at infinity. The double cosets correspond to the pairs of the Kloosterman sum at `T` (7.1).
+*Method of the formal proof:* (a) rests on the big cell (HolomorphicDiscreteSeriesOfUnitaryGroups §2.4): with the
+minors nonzero, every term over the block factors uniquely as `u⁻¹w_pσu'`, and the link pins down `σ`, so the terms of
+one link are indexed once each by `(p, u, u')`. A term with nonzero cut amplitude has a near translate under the
+unipotent groups of the two classes, so its minors are integers bounded as in SecondMomentsOfPoincareSeries §4.4 (b),
+(c), and the entries `p_a`, ratios of consecutive minors, fall in `𝒯`. For (b), lift each element of the image to
+`B ∩ K`. Read at `T`, the right translates of `K(M)_T` by the inverses of the lifts are pairwise disjoint and, by the
+right invariance of `μ`, all have the measure of `K(M)_T`; as `μ` is carried by projections of elements of `B`
+integral off `T`, their union is `G(O_T)` up to a `μ`-null set. For (c), rational representatives of the cosets of
+`𝖴 ∩ K(M)` at `T` (7.2 (b), then SecondMomentsOfPoincareSeries §4.3 (b)) turn the orbit sum into a sum of orbital
+integrals at infinity indexed by pairs of cosets; 7.2 (c) selects the pairs of `Kl(x, s)`, and the behaviour of the
+Bessel function at infinity under rational unipotents supplies its phases. The last assertion follows by 7.1.
 
 Let `S` be admissible over a CM field that has Weil data, and let `𝒯 ⊂ E^×` be the finite
 set of quotients of two nonzero integers `δ` with `|Φ_vδ|² ≤ b^(270n²)` at every `v`. For `p : ℕ → E^×` let `w_p ∈ G(E)`
@@ -959,9 +966,11 @@ infinity `∫ W(y) ⊗ W(γ⁻¹y)^* dy`, for `W` or `W♭`. Here `x` and `s` ar
 this orbital integral at infinity, is the head density `κ_ϱ(q, 1)` times the measure of `K(M)_T` for the Haar measure
 of `F` (7.1) times the orbit sum.
 
-*Needs:* 7.1, 7.2, SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes, blocks and links), §4.5 (the link isometry),
-PairsOfFramesAtOnePlace §6.2 (the scaled orbital integral), §3.2 (the head density); DivisibilityOfThetaDerivatives
-§1.4 (c) (Weil data).
+*Needs:* 7.1, 7.2, SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes, blocks and links), §4.3 (b) (for
+`x ∈ 𝖴(𝔸_f)` and `y ∈ G(𝔸_f)`, a rational `u ∈ 𝖴` with `y⁻¹x⁻¹uy ∈ K(M)`), §4.4 (b), (c) (the bounds on a near term
+and the integrality of `Z(γ)` for a term), §4.5 (the link isometry), PairsOfFramesAtOnePlace §6.2 (the scaled orbital
+integral), §3.2 (the head density); HolomorphicDiscreteSeriesOfUnitaryGroups §2.4 (a), (b) (the big cell: existence
+and uniqueness of the factorisation `u⁻¹w_pσu′`); DivisibilityOfThetaDerivatives §1.4 (c) (Weil data).
 
 [ShortProof], `New/Spanning/MainTerm/GlobalToLocal.lean` (`New.Filling.exists_amplitudeSum_eq_sum_cosetAmplitude`,
 `New.Filling.IsFillingData.card_reducedImage_mul_measure_congruenceSubgroup_eq`,
@@ -1090,8 +1099,9 @@ data).
 ### 8.2 The share of non-allowed polynomials and the bad share
 
 *Origin:* adapted from the counts of squarefree, irreducible and primitive polynomials over a finite field (Lidl and
-Niederreiter (1983), ch. 3), and from the degree formula for the irreducible characters of `GL_r(𝔽_q)` (Green (1955)): here, a bound for the coefficient at the
-identity of one minus the sum of the idempotents of the good tuples of labels.
+Niederreiter (1983), ch. 3), and from the degree formula for the irreducible characters of `GL_r(𝔽_q)` (Green (1955)):
+here, a bound for the coefficient at the identity of the element `1 − Σ e_{(c_w)}` of `ℂ[∏_w GL_n(k_w)]`, the sum over
+the good tuples of labels (c).
 
 *Method of the formal proof:* a monic polynomial that is not allowed has a square factor or a root that is `0` or an
 `M`-th root of unity, which bounds their number. There are at least `φ(q^r − 1)/r` primitive polynomials, and
@@ -1163,8 +1173,10 @@ this gives the bound `Ξ_c(1)²/|GL_r(𝔽_q)| ≥ (1 − r/q)/q^r` that is used
 §3.1 (the group at a real place, the Bessel length, the frame box, leading minors), §3.2 (the Gram–Schmidt frame),
 §3.3 (Bessel systems, cut pairs, the band-limit forms), §3.12 (b), §3.13 (the open cell bounds), §4.1 (filling data,
 the lattice basis and the standing hypotheses), §4.2 (classes, terms, amplitudes, blocks, the second moment, residue
-domains, reduced and boxed points, links, agreeing reductions), §4.3 (a), §4.4 (cell ranks and near terms), §4.5 (the
-link isometry), §4.6 (reduced points), §4.9 (a), §4.10 (c), (d), §4.12 (the remaining terms), §5.5 (the filling data of the data).
+domains, reduced and boxed points, links, agreeing reductions), §4.3 (a), (b) (Eichler shifts; strong approximation
+for `𝖴`), §4.4 (cell ranks and near terms; the bounds on near terms and the integrality of `Z(γ)`), §4.5 (the link
+isometry), §4.6 (reduced points), §4.9 (a), §4.10 (c), (d), §4.12 (the remaining terms), §5.5 (the filling data of
+the data).
 
 ### From PairsOfFramesAtOnePlace
 
@@ -1174,9 +1186,16 @@ the last entry), used in Layers 7 and 8.
 
 ### From other roadmaps
 
+- AdelicHeightsAndSuccessiveMinima §3.1 (Minkowski's second theorem over a number field), for 1.2.
+- AdelicUnitaryGroupsAndAlgebraicModularForms §2.3 (b) (one-sided Poisson summation on the adeles of a totally complex
+  field), for 6.3.
 - AnalyticNumberTheoryPartII §5.3h (Poisson summation on the adeles; the self-dual measure), for 6.3 and 7.2.
+- DivisibilityOfThetaDerivatives §1.4 (c) (Weil data), for 7.2 to 7.6 and 8.1.
 - FiniteReductiveGroups §5.7 (the character and the central idempotent of a squarefree label, with its degree), for
   8.2.
+- HermitianFormsAndLattices §6.5 (Siegel's main theorem), for 7.4.
+- HolomorphicDiscreteSeriesOfUnitaryGroups §2.4 (a), (b) (the big cell: existence and uniqueness of the factorisation),
+  for 7.3.
 
 ## References
 

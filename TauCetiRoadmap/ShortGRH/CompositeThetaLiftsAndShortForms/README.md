@@ -254,11 +254,10 @@ variable `x_{b,s}` the weight `ω(b, s) = P^{−2r}` if it is deep and `b ≥ 2r
 (a) Every non-zero `F ∈ Deep(r, δ)` has a coefficient `F_β ≠ 0` with `Σ_x β(x)ω(x) ≥ δ`.
 (b) For every `M`, `Σ_{δ=1}^{M} dim_K Deep(r, δ) ≤ c_div(k, n, r)·#Exp(N, k, n)`.
 
-*Needs:* 1.1; ShortGRH background (the combinatorial Nullstellensatz with multiplicity, over a field: give the
+*Needs:* 1.1; AuxiliaryAlgebraAndAnalysisForThetaLifts §1.3 (the combinatorial Nullstellensatz with multiplicity, over a field: give the
 variable `u` the cost `1/κ_u`; at a set of at least `Π_u κ_u` points at which each `X_u^{κ_u}` agrees with a
 polynomial all of whose monomials cost less than `1`, a non-zero polynomial vanishing to order `δ` has a
-monomial of cost at least `δ`; [ShortProof] `Lib/General/Algebra/MultivariatePolynomials.lean`
-(`New.exists_le_weight_of_mem_vanishingIdeal_pow`)).
+monomial of cost at least `δ`).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/Depth.lean` (`New.FrobeniusCycle.exists_le_weight_of_mem_deepForms`,
 `New.FrobeniusCycle.sum_finrank_deepForms_le`, `New.FrobeniusCycle.divisorConstant`)
@@ -294,10 +293,11 @@ tensor powers `ι(g)^{⊗d}`, `g ∈ L_τ(W)`, span the image of `Sch_d`; precis
 contains every form with the same image under `Sch_d` as the evaluation at some `ι(g)`, `g ∈ L_τ(W)`, is
 everything.
 
-*Needs:* 1.1; Mathlib (multinomial coefficients, valuation rings); ShortGRH background (the Fock pairing
-`(f, g) ↦ f(∂)g(0)` on polynomials in finitely many variables over a commutative ring, for which substitution
-of the variables by a matrix and by its transpose are adjoint; [ShortProof] `Lib/GLn/SchurModule/Basic.lean`
-(`New.fockPairing`, `New.fockPairing_linSubst`)).
+*Needs:* 1.1; Mathlib (multinomial coefficients, valuation rings); IntegralRepresentationsOfGeneralLinearGroups
+§1.1 (i) (the Fock pairing `(f, g) ↦ f(∂)g(0)`); ShortGRH background (the Fock pairing on polynomials in finitely
+many variables over a commutative ring is symmetric, and for every matrix `z` over the ring, with rows and columns
+indexed by two finite sets of variables, substitution of the variables by `z` and by its transpose are adjoint for
+it; [ShortProof] `Lib/GLn/SchurModule/Basic.lean` (`New.fockPairing_linSubst`, `New.fockPairing_comm`)).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/InvariantAverage.lean` (`New.Average.exists_isAdjointWeight`,
 `New.Average.eq_top_of_eval_monomial`, `New.Average.eq_top_of_schurMap_eq_leviMonomialValues`)
@@ -374,10 +374,11 @@ F(origin(x, b))`, read through `J`.
 
 ### 1.8 Edge pairings, the defect of forms in all halfway lattices, and functions on origins
 
-*Origin:* particular to this proof: pairings of an edge with its dual exist, a form that lies in the halfway
-lattices of all edges from its origin has its Levi translates divisible by `w^j` at the monomials of defect
-at least `3j`, and the functions on edges that depend only on the origin form a direct summand in which the
-integral functions on origins have colength controlled by the deep forms.
+*Origin:* particular to this proof: every edge can be paired with its dual; if a form lies in the halfway
+lattices of every edge leaving its origin, then `w^j` divides the coefficients of its Levi translates at each
+monomial of defect at least `3j`; and the origin functions split off from all functions on edges as a direct
+summand, inside which the restrictions of integral functions on origins have a colength bounded through the
+dimensions of the deep forms.
 
 *Method of the formal proof:* (a) in each letter the weights of 1.5 (a), times a power of `p`, give the
 pairing. (b) A Levi translate commutes with `Δ_r`; at a monomial of large defect the root lemma 1.3 (c),
@@ -400,10 +401,10 @@ edge restriction, and `det d` dividing `w^l` with `l = |X|·Σ_{δ=1}^{x} dim De
 taken for the reduction of `T` modulo the maximal ideal of `O`. Every origin function `ψ` satisfies
 `QRψ = ψ`.
 
-*Needs:* 1.1, 1.3, 1.4, 1.5, 1.7; ShortGRH background (over a valuation domain: a matrix with more rows than
-columns is an invertible matrix times a square matrix placed in chosen rows, and a square matrix is a product
-of an invertible matrix, a diagonal matrix and an invertible matrix; [ShortProof]
-`Lib/General/LinearAlgebra/HermiteForm.lean` (`New.IsValuationPair.hermite`),
+*Needs:* 1.1, 1.3, 1.4, 1.5, 1.7; ShortGRH background (over a valuation domain: a matrix with at least as many
+rows as columns is an invertible matrix, restricted to chosen columns, times a square matrix, and a square
+matrix is a product of an invertible matrix, a diagonal matrix and an invertible matrix; [ShortProof]
+`Lib/General/LinearAlgebra/HermiteForm.lean` (`New.isValuationPair_top`, `New.IsValuationPair.hermite`),
 `Lib/General/LinearAlgebra/IntegralLattices.lean` (`New.IsValuationPair.smith_normal_form`)).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/Edges.lean` (`New.FrobeniusCycle.exists_isEdgePairing`,
@@ -519,7 +520,7 @@ letter.
 (b) If `n > 0`, `θ ≤ 1` and `8·N·k·t·P^{2a′} ≤ θn`, then
 `[GL_k(W) : P_{τ_{a′}}(W)]·dim_K S ≤ (1 + θ)·#Exp(N, k, n)`.
 
-*Needs:* 1.1, 1.3, 1.11; Mathlib `BoxIntegral.unitPartition.tendsto_card_div_pow_atTop_volume` (the number of
+*Needs:* 1.1, 1.3, 1.11; Mathlib `tendsto_card_div_pow_atTop_volume` (the number of
 points of `m⁻¹ℤ^d` in a bounded measurable set with null frontier, divided by `m^d`, tends to its volume) and
 `Matrix.card_GL_field` (the order of `GL_k` of a finite field, which gives the index of a parabolic subgroup).
 
@@ -797,9 +798,10 @@ inequalities).
 *Origin:* particular to this proof: each prime above `N` dividing `π_N` carries a norm-one integral idele that
 is trivial elsewhere and generates the units of its residue field.
 
-*Method of the formal proof:* the component at `w` of `z_w` generates the cyclic group of units of the residue
-field, which has order `N − 1`, and this gives (a); a scalar matrix with integral unit entries, equal to `1`
-away from `w` and `w̄`, lies in the groups of (b), and its powers are tested in `K_j` at `w`.
+*Method of the formal proof:* the residue field at `w` has `N` elements, so its unit group is cyclic of order
+`N − 1`, and `z_{w,w}` reduces to a generator of it; this is (a). For (b), the scalar matrix of `z_w` has
+integral unit entries and is `1` at every place other than `w` and `w̄`, so it lies in both groups named there;
+whether one of its powers lies in `K_j` is decided by the component at `w`, where (a) applies.
 
 Let `w` be a prime of `E` dividing `π_N`. Scalings at `w`, the scaling `z_w` and the ramified source forms
 `𝒮^ram` are those of ThetaLiftChainsAndTheSeesawIdentity §2.8: a scaling is an integral finite idele `z` with
@@ -995,15 +997,14 @@ lift `X_e → X_{e+1}` with datum `t_x(e)`. Forms spherical at `𝔩` are sent t
 there are `c_i ∈ 𝒪_ι` with `p^{ν_p}·C_{j+1}(T_{𝔩,𝔯(p)}φ) = Σ_{i≤𝔯(p)} c_i·T_{𝔩,i}(C_{j+1}φ)`.
 
 *Needs:* 2.5, 2.6; ThetaLiftChainsAndTheSeesawIdentity §2.8 (the theta kernels of the lifts), §2.12 (weak chain
-data and the data `t_x(j)`); ShortGRH background (Hecke polynomials pass through a theta lift at a split place
+data and the data `t_x(j)`); WeilRepresentationsOnBanachSpacesOfData §9.3 (Hecke polynomials pass through a theta lift at a split place
 `w` of norm `q` where the two characters `a`, `b` are unramified and the datum `f` is fixed by the vacuum projection
 at `w`: let `S`, `T` be spaces of ranks `n` and `n + k`, `π` a representation of `G_f(S)` on `W`, `ρ` a representation
 of `G_f(T)` on `Z`, and `B` a bilinear map from data and `W` to `Z` with `ρ(h)B(f, v) = B(ω(g, h)f, π(g)v)` for all
 finite `g`, `h` and all `v`, `ω` the Weil action; if `v` is spherical at `w`, then so is `B(f, v)`, and
 `P_w^ρ(X)·B(f, v) = Π_{l<k}(1 − q^l αX)·B(f, P_w^π(q^k αβ⁻¹X)·v)`, with `P_w^π`, `P_w^ρ` the Hecke polynomial
 operators at the same place `w`, `α = χ_a(ϖ_w)·q^{n/2}` and `β = χ_b(ϖ_w)·q^{(n+k)/2}`, where
-`χ_a(x) = a(x/x̄)·υ(x)^{−n}`, `χ_b(x) = b(x/x̄)·υ(x)^{−(n+k)}` and `ϖ_w` is the chosen uniformiser at `w`; [ShortProof]
-`Lib/Weil/Unramified/HeckeTransfer.lean` (`New.SiegelWeil.hecke_transfer_of_pairing`, `New.AutChar.frobValue`)).
+`χ_a(x) = a(x/x̄)·υ(x)^{−n}`, `χ_b(x) = b(x/x̄)·υ(x)^{−(n+k)}` and `ϖ_w` is the chosen uniformiser at `w`).
 
 [ShortProof], `New/UpperBound/Divisibility/ValuationAtNonSplitPrimes.lean`
 (`New.Data.IsWeakChainDatum.exists_heckePolyOp_lift`, `New.Data.IsWeakChainDatum.exists_sum_heckeSplit_lift_eq_smul`,
@@ -1068,11 +1069,16 @@ Let `Ψ` be a weak chain datum for `ϑ`, `p ∤ q(ϑ)`, and `v ∈ 𝓜_ι`.
 the scaled Hecke operator on integral source forms factors through an edge Hecke operator, so 1.14 bounds its
 colength.
 
-*Method of the formal proof:* the cosets of the Hecke operator at `𝔩` are indexed by edges, determined by
-their origin and their change of basis there because the rational points act freely on the classes of the
-level; at an a-place inducing `𝔩` or `𝔩̄` an edge acts by the matrices of the letters and powers of `p`; the
-Weyl module splits into the monomials at these a-places and a factor on which the edges act integrally; and
-integral source forms are families of integral vectors indexed by the classes.
+*Method of the formal proof:* (a) is the decomposition of the double coset at `𝔩` into right cosets
+(AutomorphicFormsOnReductiveGroups §7.4), evaluated at the chosen representatives. For (b) the proof brings
+`Y_𝔩` into the shape of 1.14. The map `f` there is the inverse of evaluation at the representatives (§7.5 of the
+same roadmap), on the functions from the classes to the integral vectors of the source weight; as the
+representatives are integral above `p`, its image is `𝓜_ι`. The edges of 1.7 (e) are the pairs `(x, b)`, and
+the injectivity asked there holds because the level of the source forms has trivial stabilisers in the rational
+points. In the source weight, the variables at the a-places that induce `𝔩` or `𝔩̄` play the letters of `T`:
+there an edge, with the factor `p^{A_𝔩}`, acts by the twisted action (1.1 (b)) of its two changes of basis with the
+depth scaling `diag(p^{depth_r(β)})` between them, as in 1.7 (f); on the remaining tensor factor it acts
+integrally.
 
 Let `Λ` be marked, `𝔩 ∈ Λ`, `W` the valuation ring of `E` at `𝔩`, and `T` a Frobenius cycle over `W` and `𝒪_ι`
 with prime `p`, letters `ℤ/N_T` in bijection `i ↦ σ_i` with the a-places that induce `𝔩` or `𝔩̄`, letter maps
@@ -1435,12 +1441,14 @@ of principal level and the action of `𝖦` on them, which give the good part `#
 *Origin:* particular to this proof: at a free level, algebraic forms on a definite unitary group over a CM
 field are spanned by forms that are integral at every prime and have values of explicitly bounded size.
 
-*Method of the formal proof:* at a free level a form is a sum of delta forms, one for each class; for each
-class, the action of a short basis of `E^n` contained in its lattice (and of such bases for the determinant twists)
-on the
-evaluation vectors at families of roots of unity gives vectors that are integral at every `ι` and small at
-every conjugate, and these span because the evaluation vectors span the Weyl module and the action is
-invertible.
+*Method of the formal proof:* (c) is proved class by class, at a representative `y` of each class. A short basis
+of `E^n` lying in the lattice of `y` (HermitianFormsAndLattices §4.12 (a)) acts on the Weyl module, with further
+short bases for the powers of the determinant in the weight, and carries the evaluation vectors at arrays of
+roots of unity to vectors of gauge at most `1` at `y` for every prime and every `ι`, with the squared norm of every
+conjugate at most `B`; by (b) their delta forms at `y` are `B`-short. As this action is invertible and the evaluation
+vectors span the Weyl module (the background result on evaluation vectors on the *Needs:* line), these delta forms
+span all delta forms at `y`; and by AutomorphicFormsOnReductiveGroups §7.5 every form of the free level `K` is the
+sum of its delta forms at the representatives.
 
 Let `E` be a CM field with `f` infinite places, `X` the standard definite hermitian space of rank `n ≥ 1` over
 `E`, `K°` the stabiliser of the standard lattice in `G_f`, `K ⊆ K°` an open subgroup that is free
@@ -1556,8 +1564,11 @@ data at `p`); §4.11 (d) (divisibility of Schur entries of jets with charges).
 ### From other roadmaps
 
 AutomorphicFormsOnReductiveGroups §7.4, §7.5 (algebraic forms of a level, Hecke operators of double cosets, levels
-with trivial stabilisers); ThetaLiftsForDefiniteUnitaryGroups §1.2 (the lift between definite groups as a class
-sum).
+with trivial stabilisers); AuxiliaryAlgebraAndAnalysisForThetaLifts §1.3 (the weighted combinatorial
+Nullstellensatz with multiplicity); HermitianFormsAndLattices §4.12 (a) (short vectors, linearly independent over
+`E`, in a lattice of the genus of the standard lattice); IntegralRepresentationsOfGeneralLinearGroups §1.1 (i) (the
+Fock pairing); ThetaLiftsForDefiniteUnitaryGroups §1.2 (the lift between definite groups as a class sum);
+WeilRepresentationsOnBanachSpacesOfData §9.3 (Hecke polynomials pass through a theta lift at a split place).
 
 ## References
 

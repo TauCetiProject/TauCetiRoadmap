@@ -164,10 +164,9 @@ Let `q₀ ≥ 1` with `8 | q₀`, let `d₀ ≡ 7 (mod 8)` be prime to `q₀`, a
 character `ψ` modulo `q₀` and every `ρ ≠ 1` with `Re ρ > β`.
 
 *Needs:* 0.1; RiemannHypothesisStatementsAndConsequences §8.4a (the transform of a Riesz sum and its poles at zeros);
-PositivityOfDirichletSeriesWithKernels §6.4 (Landau's theorem in one-sided form); ShortGRH background (for `β > 1/2`,
+PositivityOfDirichletSeriesWithKernels §6.4 (Landau's theorem in one-sided form); ZeroFreeRegionsAndPrimesInShortWindows §3.5 (for `β > 1/2`,
 real `H` and an invertible class modulo `N` all of whose primes are `≡ 7 (mod 8)` and prime to `N`, some prime `d` of
-the class has no zero of any `L(s, ξ·(·/d))`, `ξ` modulo `N`, in `β ≤ Re s`, `|Im s| ≤ H`; [ShortProof]
-`Lib/Analytic/QuadraticTwist.lean` (`New.exists_entireL_quadTwist_ne_zero`)).
+the class has no zero of any `L(s, ξ·(·/d))`, `ξ` modulo `N`, in `β ≤ Re s`, `|Im s| ≤ H`).
 
 [ShortProof], `New/Reduction/Zeros/Criterion` (`New.LFunction_ne_zero_of_primeRemainder_le`);
 `New/Reduction/Zeros/PrimeError` (`New.LSeries_lambdaKResidueClass_eq_add_logDerivMean`,
@@ -215,8 +214,9 @@ integer `0 ≤ l ≤ c`.
 *Needs:* Mathlib `Ring.ord_eq_addVal` (over a discrete valuation ring, the length of `O/(z)` is the valuation of
 `z`; [ShortProof] `Lib/General/Algebra/FittingIdealsAndLengths.lean` (`New.relLength`,
 `New.length_quot_span_eq_addVal`)); ShortGRH background (the Smith normal form of a square matrix over a valuation
-domain: `A = L·diag(a)·R` with `L`, `R` invertible; [ShortProof] `Lib/General/LinearAlgebra/IntegralLattices.lean`
-(`New.IsValuationPair.smith_normal_form`)).
+domain `O`: `A = L·diag(a)·R` with `L`, `R` invertible over `O`, the `a_j` not required to divide one another;
+[ShortProof] `Lib/General/LinearAlgebra/IntegralLattices.lean` (`New.IsValuationPair.smith_normal_form`),
+`Lib/General/LinearAlgebra/HermiteForm.lean` (`New.isValuationPair_top`)).
 
 *Relation to the library.* Tau Ceti `Matrix.exists_smith_normal_form_of_isDiscreteValuationRing` gives the Smith normal
 form over a discrete valuation ring. Item (f) is used over the valuation rings `𝒪_ι`, which are not discrete, so the
@@ -314,10 +314,11 @@ orthonormal basis. Facts:
 `Matrix.PosSemidef.det_fromBlocks_le` (Fischer's inequality: the determinant of a positive semidefinite Hermitian
 matrix in block form is at most `det(A)·det(D)` for the diagonal blocks `A`, `D`; [ShortProof]
 `Lib/General/LinearAlgebra/MinorProducts.lean` (`New.fischer_det_inequality`, `New.hadamard_det_inequality`),
-`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_formGram_le`)); ShortGRH background (for a positive
-semidefinite Hermitian matrix `G` and two families `(a_i)`, `(b_i)` of vectors with the same finite index set:
-`|det(a_i^* G b_k)|² ≤ |det(a_i^* G a_k)|·|det(b_i^* G b_k)|`; [ShortProof]
-`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_pairing_sq_le`)).
+`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_formGram_le`)); ShortGRH background (the
+Cauchy–Schwarz inequality for determinants: for a positive semidefinite Hermitian matrix `G` and two families `(a_i)`,
+`(b_i)` of vectors with the same finite index set, `|det(a_i^* G b_k)|² ≤ |det(a_i^* G a_k)|·|det(b_i^* G b_k)|`;
+[ShortProof] `Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_pairing_sq_le`),
+`Lib/General/LinearAlgebra/HermitianMatrices.lean` (`New.norm_det_sq_le_of_posSemidef`)).
 
 [ShortProof], `New/Reduction/Lattices/TwistedLattice` (`New.TwistedLattice`, `New.TwistedLattice.integralVectors`,
 `New.TwistedLattice.IndexLe`, `New.TwistedLattice.normSqAt`, `New.TwistedLattice.CovolumeLe`,
@@ -614,12 +615,10 @@ points `U(1)(E⁺)` the `u ∈ E^×` with `uū = 1`. An *automorphic character* 
 Fact: `μ_j⁰` has weight `−κ_j` and tame part `ω^j`; `μ_j⁰ξ` has weight `−κ_j` and tame part `ω^jψ`.
 
 *Needs:* 3.2, 3.3; DivisibilityOfThetaDerivatives §1.5 (the chosen places and the residue characters `ω` of order `q₂`
-at them), §1.6 (the characters `μ♭` and `χ`), §1.4 (the splitting character `υ` of the Weil data of `E`); ShortGRH background
-(automorphic characters of `U(1)` of a CM field with a weight and a tame part in the sense above: weights add and tame
-parts multiply under products and powers, and the restriction to `U(1)` of the splitting character of Weil data has
-weight `1` and trivial tame part; [ShortProof] `Lib/ClassField/HeckeCharacter/Basic.lean` (`New.AutChar.HasWeight`),
-`Lib/ClassField/HeckeCharacter/SplitTameCharacters.lean` (`New.WeilData.hasWeight_upsilonU1_zpow`),
-`Lib/Weil/DualPair/Defs.lean` (`New.WeilData.upsilonU1`)).
+at them), §1.6 (the characters `μ♭` and `χ`), §1.4 (the splitting character `υ` of the Weil data of `E`);
+IdelicReciprocityCountsAndCyclotomicClassGroups §7.1 (automorphic characters of `U(1)` of a CM field with a weight and a
+tame part in the sense above; weights add and tame parts multiply under products and powers), §7.6 (b) (the restriction
+to `U(1)` of the splitting character of Weil data has weight `1` and trivial tame part).
 
 [ShortProof], `New/Reduction/Data/LevelAndTwists` (`New.Data.targetParameter`, `New.Data.targetParameter_eq`,
 `New.Data.TameChar`, `New.Data.TameChar.pow`, `New.Data.Twist`, `New.Data.MFoldTwist`, `New.Data.MFoldTwist.powTwist`,
@@ -628,12 +627,14 @@ weight `1` and trivial tame part; [ShortProof] `Lib/ClassField/HeckeCharacter/Ba
 
 ### 3.5 Sets with no relation of bounded length modulo an integer
 
-*Origin:* adapted from Behrend (1946), large sets of integers without three-term arithmetic progressions, and Ruzsa
-(1993), sets without solutions of invariant linear equations: here all relations `(α + α′)e₂ ≡ αe₁ + α′e₃` with
-`α, α′ > 0`, `α + α′ ≤ L` are excluded at once, as congruences modulo `o`, with a free number of digits and the
-explicit count of points on a sphere. FrobeniusRestrictedRieszSums §0.8 states sets of integers with no relation of
-length `L`, by the same construction; here the relations are congruences modulo `o` with positive coefficients, and
-the count `H^n/(nH²)` is explicit because 3.6 uses it. Neither statement is deduced from the other.
+*Origin:* adapted from Behrend (1946), large sets of integers without three-term arithmetic progressions, and Shapira
+(2006), Behrend-type constructions for sets of linear equations (compare Alon and Shapira (2006), Lemma 4.1 in the
+preprint numbering): here one set avoids simultaneously every relation `(α + α′)e₂ ≡ αe₁ + α′e₃` with positive
+`α, α′` of sum at most `L`, read modulo `o`; the length `n` of the digit vectors is a parameter, and the lower bound for
+the size of the set is given in closed form.
+FrobeniusRestrictedRieszSums §0.8 states sets of integers with no relation of length `L`, by the same construction;
+here the relations are congruences modulo `o` with positive coefficients, and the count `H^n/(nH²)` is explicit
+because 3.6 uses it. Neither statement is deduced from the other.
 
 *Method of the formal proof:* the integers whose digits in base `LH` form a vector of `{0, …, H − 1}^n` on a sphere
 with the most points; in a congruence among three of them both sides have all digits below the base, so the
@@ -805,7 +806,7 @@ Petersson inner product, whose twists are the `m`-fold twists (3.4), with:
 
 - `S_ξ` the space of algebraic forms on `Y_m` of the weight of the chains, of level `J_m(ξ)` (trivial at the chosen
   places, block upper triangular at the places of `Q(ξ)`) and of the character formed by the tame characters of the
-  lifts, with the class-sum inner product
+  lifts, with the class-sum inner product of AdelicUnitaryGroupsAndAlgebraicModularForms §6.6 (f),
   `⟨φ, φ′⟩ = Σ_c ⟨φ(g_c), φ′(g_c)⟩`, the sum over representatives `g_c` of the classes `c ∈ Γ\G_f/J_m(ξ)` of the Gram
   pairings of the values in the Weyl module, `G_f` the finite adelic points of `U(Y_m)` and `Γ` its rational points (the
   stabilisers `Γ ∩ g_cJ_m(ξ)g_c^{−1}` are trivial); for `ξ = 1` this is the form `coord(φ)^* G coord(φ′)` below; and
@@ -826,17 +827,20 @@ Gram norms of the conjugates by `σ` of the values of `Θ₁y`; (d) `Z(ξ) = det
 the chain `Θ_ξ` of `m` lifts on the target forms, there the lower chain, with its level `J_m(ξ)` and character on
 `Y_m`; from §2.10 trivial stabilisers at levels inside the chosen level; from §1.1 the gauge of a vector of a Weyl
 module at an embedding `ℂ → ℂ_ℓ`, through which integrality of an algebraic form is read);
-DeterminantsOfThetaLiftChains §4.3 (the chain `Θ_ξ` is injective on the target forms); ShortGRH background (algebraic
-forms of a given level on a definite unitary group: the coordinates of a form are its values at representatives of the
-classes in the coordinates of the Weyl module dual to a basis of products of minors; the matrix `G` with one copy, for each class, of the Gram matrix of
-the invariant Hermitian form in that basis is rational and positive definite; if every stabiliser of a class is
-trivial, the class-sum product `⟨φ, φ′⟩` is `coord(φ)^* G coord(φ′)` and the conjugate norm `‖φ‖²_σ` is
-`(σ coord(φ))^* G (σ coord(φ))`; and, with no condition on the stabilisers, `n` times the class-sum product of a form
-integral at `ῑ` and a form integral at `ι` is integral at `ι`, `n` a common multiple of the orders of the stabilisers
-of the classes; [ShortProof] `Lib/Adelic/AutomorphicForms/PAdicGauge.lean`
-(`New.LevelPlaces.LevelForm.valueCoord`, `New.LevelPlaces.LevelForm.valueMetric`,
-`New.LevelPlaces.LevelForm.posDef_valueMetric`, `New.LevelPlaces.LevelForm.inner_eq_valueCoord`,
-`New.LevelPlaces.LevelForm.normSqAt_eq_re_valueCoord`, `New.LevelPlaces.LevelForm.norm_nsmul_inner_le_one`)).
+DeterminantsOfThetaLiftChains §4.3 (the chain `Θ_ξ` is injective on the target forms);
+AdelicUnitaryGroupsAndAlgebraicModularForms §§3.1, 6.6 (algebraic forms of a given level on a definite unitary group,
+with the finite adelic points `G_f`, the rational points and the levels of §3.1; from §6.6 (f) the class-sum product
+`⟨φ, φ′⟩` on them and, with no condition on the stabilisers, that `n` times the class-sum product of a form integral at
+`ῑ` and a form integral at `ι` is integral at `ι`, `n` a common multiple of the orders of the stabilisers of the
+classes); IntegralRepresentationsOfGeneralLinearGroups §2.1 (b) (the Gram matrix of the basis of products of minors of
+the Weyl module, an integer matrix, is positive definite); ShortGRH background (for algebraic forms of a level at which
+every stabiliser of a class is trivial, with `coord(φ)` the values of `φ` at representatives of the classes in the
+coordinates of the Weyl module dual to a basis of products of minors, and `G` the rational matrix with one copy, for
+each class, of the Gram matrix in that basis, which is positive definite: the class-sum product `⟨φ, φ′⟩` is
+`coord(φ)^* G coord(φ′)` and the conjugate norm `‖φ‖²_σ` is `(σ coord(φ))^* G (σ coord(φ))`; [ShortProof]
+`Lib/Adelic/AutomorphicForms/PAdicGauge.lean` (`New.LevelPlaces.LevelForm.valueCoord`,
+`New.LevelPlaces.LevelForm.valueMetric`, `New.LevelPlaces.LevelForm.posDef_valueMetric`,
+`New.LevelPlaces.LevelForm.inner_eq_valueCoord`, `New.LevelPlaces.LevelForm.normSqAt_eq_re_valueCoord`)).
 
 [ShortProof], `New/Reduction/IntegralTargetForms` (`New.Data.targetLattice`,
 `New.Data.mem_integralVectors_targetLattice`, `New.Data.normSqAt_targetLattice`, `New.Data.volume_targetLattice`,
@@ -1024,11 +1028,13 @@ are the targets of 6.4.
 by the functional equation. The statements are the end theorems of the family; they are those of GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3, reached here from
 6.3, without the window bounds of that roadmap.
 
-*Method of the formal proof:* a zero `s` of `L(·, χ)` with `0 < Re s < 1` is not a pole of the gamma factor, so the
-functional equation makes `1 − s` a zero of `L(·, χ⁻¹)`; by 6.3 neither `s` nor `1 − s` has real part above `1/2`. For
-`ζ`, a zero outside `{1, −2, −4, …}` is a zero of the completed zeta function, which is symmetric under `s ↦ 1 − s`,
-and `ζ` is the L-function of the character modulo `1`. Here the roadmap takes these passages from
-RiemannHypothesisStatementsAndConsequences §§9.3, 9.4, which state them as equivalences.
+*Method of the formal proof:* the statements on the critical line reflect a zero `s` to `1 − s` and apply 6.3 at both
+points, which gives `Re s ≤ 1/2` and `1 − Re s ≤ 1/2`. For `L(·, χ)` in `0 < Re s < 1` the reflection is the
+functional equation, which applies there because the gamma factor has no pole in `Re s > 0`; it carries the zero to
+`L(1 − s, χ⁻¹) = 0`. For `ζ`, with `s` neither `1` nor one of `−2, −4, …`, the reflection goes through the completed
+zeta function, which vanishes at `s` and is invariant under `s ↦ 1 − s`; 6.3 applies to `ζ` as the L-function of the
+trivial character modulo `1`. Here the roadmap takes these passages from RiemannHypothesisStatementsAndConsequences
+§§9.3, 9.4, which state them as equivalences.
 
 The statements (a)–(d) are those of GeneralizedRiemannHypothesisFromWindowBounds §§5.1–5.3, which owns them and
 declares them in its `Suggested.lean`. The target of this section is their proof by the route of this family, from
@@ -1119,6 +1125,7 @@ statements are in `Statements`
 - E. Landau, *Über einen Satz von Tschebyschef*, Math. Ann. 61 (1905), 527–550: Landau's theorem on Laplace and Mellin
   transforms of functions bounded on one side (0.2, through PositivityOfDirichletSeriesWithKernels §6.4).
 - F. A. Behrend, *On sets of integers which contain no three terms in arithmetical progression*, Proc. Nat. Acad. Sci.
-  USA 32 (1946), 331–332; I. Z. Ruzsa, *Solving a linear equation in a set of integers I*, Acta Arith. 65 (1993),
-  259–282: 3.5.
+  USA 32 (1946), 331–332; Shapira, *Behrend-type constructions for sets of linear equations*, Acta Arith. (2006);
+  Alon and Shapira, *A characterization of easily testable induced subgraphs* (2006), Lemma 4.1 (preprint
+  numbering): 3.5.
 - L. C. Washington, *Introduction to Cyclotomic Fields*, second edition, Springer (1997), Chapter 2: 2.3.
