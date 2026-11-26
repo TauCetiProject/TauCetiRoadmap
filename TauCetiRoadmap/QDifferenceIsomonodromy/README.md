@@ -1,7 +1,8 @@
 # Roadmap: q-difference equations and isomonodromic deformations
 
-**Summary.** This roadmap develops rational `q`-connections of arbitrary finite rank, their local
-analytic classification, and deformations that preserve their connection data. The algebra uses the
+**Summary.** For a fixed complex `q` with `0 < |q| < 1`, this roadmap develops rational
+`q`-connections of arbitrary finite rank, their local analytic classification, and deformations
+that preserve their connection data. The algebra uses the
 shared category of linearized modules and compares it with invertible semilinear operators for an
 automorphic shift. On the projective line a
 rational `q`-connection is a vector bundle `E` with a rational isomorphism
@@ -54,9 +55,8 @@ as in `x_(i,j)` and `q^(−kᵢ)`.
   projective category includes rank zero, and over a field this means finite dimension.
   Spectral, cyclic-vector and polynomial-factorization statements use positive rank. Geometric
   ranks may be locally constant and may be fixed on the components used in a given statement.
-- **The shift.** Write `σ_q f(z) = f(qz)`. Use a fixed complex `q` with `|q| > 1` for the analytic
-  classification and comparison. For `0 < |r| < 1`, show that `Y(rz) = Aᵣ(z)Y(z)` becomes
-  `Y(qz) = Aᵣ(qz)⁻¹Y(z)` for `q = r⁻¹`. Algebraic targets state their own hypotheses, including
+- **The shift.** Write `σ_q f(z) = f(qz)`. Fix `0 < |q| < 1` for the complex analytic
+  classification and comparison. Algebraic targets state their own hypotheses, including
   infinite multiplicative order where used.
 - **Matrices.** A system `σ_q Y = AY` has semilinear operator `Φ_A = A⁻¹σ_q`. A
   horizontal matrix `H: A → A′` satisfies `(σ_q H)A = A′H`. An invertible horizontal matrix `G`
@@ -64,12 +64,12 @@ as in `x_(i,j)` and `q^(−kᵢ)`.
 - **Endpoints.** At `0` use `K = ℂ({z})`, the field of meromorphic germs, and
   `K̂ = ℂ((z))`. At `∞` first use `w = z⁻¹` and write the system as
   `Z(q⁻¹w) = C(w)Z(w)`. For local classification use `Z(qw) = C(qw)⁻¹Z(w)`. A raw slope at
-  infinity refers to the original action in coordinate `w`. For `A = cz^m`, the slopes at zero, at
-  infinity before reversal, and at infinity after reversal are `m,−m,m`. The order of `det A` at
-  infinity is taken before reversal.
-- **Slopes and ramification.** Use the lower Newton polygon of the annihilator for `Φ_A`, so
-  `A = z^μ C` has slope `μ`. To ramify by `z = u^r`, choose `p` with `p^r = q` and let `u ↦ pu`.
-  Record changes of root using descent.
+  infinity refers to the original action in coordinate `w`. For `A = cz^(−m)`, the slopes at
+  zero, at infinity before reversal, and at infinity after reversal are `m, −m, m`. The order of
+  `det A` at infinity is taken before reversal.
+- **Slopes and ramification.** A slope is the negative of the geometric slope of a lower Newton
+  edge for the annihilator of `Φ_A`. Thus `A = z^(−μ) C` has slope `μ`. To ramify by
+  `z = u^r`, choose `p` with `p^r = q` and let `u ↦ pu`. Record changes of root using descent.
 - **Transport.** The time shift `T` preserves `q`. For `Y(z,Tt) = B(z,t)Y(z,t)` the compatibility
   equation is `A(z,Tt)B(z,t) = B(qz,t)A(z,t)`. Connection preservation specifies isomorphisms and
   their composition. Local lattices, formal markings, fundamental-solution normalizations, and time
@@ -201,8 +201,8 @@ companion matrix construction and its inverse on cyclic presentations. [RSZ13, L
 
 ### Examples
 
-- In rank one, `G = z^m` sends `A = c` to `q^mc`. Reversing the `r = 1/2` system with `A = z − 1` gives `q = 2`
-  and `A^rev = (2z − 1)⁻¹`.
+- In rank one, `G = z^m` sends `A = c` to `q^mc`. For `q = 1/2` and `A = z − 1`, the
+  matrix for the inverse action is `(2z − 1)⁻¹`.
 - For `q = 1`, the identity on a two-dimensional space has no cyclic vector. Over `ℂ[x]`,
   multiplication by `x` has a nonprojective cokernel.
 
@@ -435,18 +435,18 @@ ComplexKahlerGeometry §§4.1 and 4.4.
 
 ### 2.2 Multiplicative theta, characters, and the q-logarithm
 
-Convert the theta theory to
+Use the multiplicative theta function, character and logarithm
 
 ```
-Θ_q(z) = Σ_(m ∈ ℤ) q^(−m(m + 1)/2)z^m,
-e_c(z) = Θ_q(z)/Θ_q(z/c),
-ℓ_q(z) = (z Θ′_q(z))/Θ_q(z).
+Θ_q(z) = Σ_(m ∈ ℤ) q^(m(m − 1)/2) z^m,
+e_c(z) = Θ_q(z)/Θ_q(cz),
+ℓ_q(z) = −z Θ′_q(z)/Θ_q(z).
 ```
 
-For `c ∈ ℂˣ`, prove `σ_q Θ_q = zΘ_q`, `σ_q e_c = ce_c`, and
+For `c ∈ ℂˣ`, prove `σ_q Θ_q = z⁻¹Θ_q`, `σ_q e_c = ce_c`, and
 `σ_q ℓ_q = ℓ_q + 1`. The series converges locally uniformly on `ℂˣ`, and its
 zeros are the simple zeros `−q^ℤ`. Compute the polar behavior of `ℓ_q` and the
-character shift `e_qc = (z/(qc))e_c`. Give the tensor comparison using the elliptic factor
+character shift `e_(qc) = cz e_c`. Give the tensor comparison using the elliptic factor
 `e_ce_d/e_cd`. Right multiplication by an invertible matrix of elliptic functions is the freedom
 in a meromorphic fundamental solution. [S00, §1.1.2][S00], [S03, §1.2.2][S03].
 
@@ -476,8 +476,9 @@ invertible. For the gauge from `C` to `A`, solve with `H₀ = I`
 q^m HₘC − CHₘ = Σ_(j = 1)^m Aⱼ H_(m − j).
 ```
 
-Prove convergence by a majorant estimate and local invertibility. Give uniqueness with that
-normalization, and the regular singular subcategory's closure under direct sums, tensor, dual,
+For large `m` the coefficient operator tends to `X ↦ −CX`, so its inverse is bounded.
+Use the finitely many remaining inverses and a convergent majorant to prove convergence and local
+invertibility. Give uniqueness with that normalization, and the regular singular subcategory's closure under direct sums, tensor, dual,
 subobjects, and quotients. [S00, §§1.1.1, 1.1.3–1.1.4, 1.3][S00], [S03, §§1.2 and 2.1][S03].
 
 *Needs:* Layer 0, §2.3, and convergent Laurent expansions and finite-dimensional estimates.
@@ -487,7 +488,7 @@ subobjects, and quotients. [S00, §§1.1.1, 1.1.3–1.1.4, 1.3][S00], [S03, §§
 For constant systems `C,D`, classify horizontal maps by finite Laurent sums `H = Σₘ Hₘ z^m` with
 `q^mHₘ C = DHₘ`. Only finitely many `m` contribute by eigenvalue comparison. With these morphisms
 the constant systems are equivalent to the regular singular category. Produce a quasi-inverse and
-the tensor and exact comparisons. If eigenvalues are chosen in `1 ≤ |c| < |q|`, maps between these
+the tensor and exact comparisons. If eigenvalues are chosen in `|q| < |c| ≤ 1`, maps between these
 normalized systems are constant. Account for normalization and the induced comparisons on tensor
 products. [S03, Lemma 2.1.3.2 and §2.1][S03].
 
@@ -498,7 +499,7 @@ products. [S03, Lemma 2.1.3.2 and §2.1][S03].
 - For `C = [[1, 1], [0, 1]]` the fundamental solution is
   `[[1, ℓ_q], [0, 1]]`. From `c` to `qc` the map `z`
   is horizontal.
-- At `q = 2`, `Θ_q(3z)Θ_q(5z)/(Θ_q(z)Θ_q(15z))` is an elliptic function with
+- At `q = 1/2`, `Θ_q(3z)Θ_q(5z)/(Θ_q(z)Θ_q(15z))` is an elliptic function with
   distinct zero and pole orbits.
 
 ### Dependencies
@@ -511,21 +512,21 @@ slope-zero characterization of regular singularity is proved in Layer 3.
 ### 3.1 Newton polygons and degree
 
 For a cyclic presentation `D/DP`, with `P = Σᵢ aᵢΦ^i`, take the lower convex hull of the
-upward rays at `(i,v₀(aᵢ))`. Define `r_M(μ)` as the horizontal length at slope `μ`, with empty
-support for the zero module. Prove independence of cyclic presentation and invariance under
+upward rays at `(i,v₀(aᵢ))`. Define `r_M(μ)` as the horizontal length at geometric slope
+`−μ`, with empty support for the zero module. Prove independence of cyclic presentation and invariance under
 translation by multiplication of the operator by a unit. Prove additivity in short exact sequences,
 convolution for tensor products, and the sign rule for duals. Show
 
 ```
 Σ_μ r_M(μ) = rank M,
-deg M = Σ_μ μ r_M(μ) = v₀(det A).
+deg M = Σ_μ μ r_M(μ) = −v₀(det A).
 ```
 
 The denominator of `μ` divides `r_M(μ)`. Ramification of degree `r` multiplies slopes by `r` and
 preserves their multiplicities. Reversal at a fixed valuation negates slopes. The annihilator of the
 module and the scalar operator on solutions have opposite slopes under the companion-system
-comparison. In [VPR07, §1.3][VPR07] the opposite shift and the polygon using `−v₀` together give
-the same slopes as used here. [RSZ13, §2.2.1 and Theorem 2.2.1][RSZ13].
+comparison. The upper edges in [VPR07, §1.3][VPR07], using ordinates `−v₀(aᵢ)`, give
+the same slope labels. [RSZ13, §2.2.1 and Theorem 2.2.1][RSZ13].
 
 *Needs:* §§0.1–0.5 and Laurent valuations.
 
@@ -533,23 +534,25 @@ the same slopes as used here. [RSZ13, §2.2.1 and Theorem 2.2.1][RSZ13].
 
 Call a nonzero module pure of slope `μ` if its only slope is `μ`. Construct the unique finite
 filtration `M_(≤ μ)` with pure quotients in strictly increasing slope order. Characterize
-`M_(≤ μ)` by the separation of slopes of the submodule and quotient at `μ`. Use convergent
-factorization at the least slope and formal factorization at all slopes. Show that every map is
+`M_(≤ μ)` by the separation of slopes of the submodule and quotient at `μ`. In a cyclic
+presentation, a right factor for the greatest slope gives the pure quotient at that slope.
+Use the convergent factorization in increasing slope order to obtain the filtration, and formal
+factorization at all slopes for the formal decomposition. Show that every map is
 strict and that the associated graded functor is exact, faithful, and compatible with tensor,
 internal Hom, and dual. Over `K̂` give the natural direct-sum decomposition by maximal pure
 submodules, identified with the completed associated graded. For pure modules, analytic-to-formal
 scalar extension is fully faithful and every pure formal module has an analytic model. Prove regular
 singularity exactly in the all-zero slope case. [RSZ13, §§2.2.2–2.3, Theorem 2.2.4][RSZ13],
-[VPR07, Proposition 1.3 and Corollaries 1.5–1.6][VPR07].
+[VPR07, §§1.3–1.4, Proposition 1.3 and Corollaries 1.5–1.6][VPR07].
 
 *Needs:* §3.1, Layer 0's subobjects and scalar changes, and Layer 2's regular singular
 classification.
 
 ### 3.3 Pure normal forms
 
-For integral slope `μ`, give the normal form `A = z^μ C`, with `C` determined up to similarity
+For integral slope `μ`, give the normal form `A = z^(−μ) C`, with `C` determined up to similarity
 after normalizing eigenvalues in the fundamental annulus. For slope `a/r` in lowest terms, fix
-`p^r = q`, use `z = u^r`, and restrict scalars on the rank-one system `Y(pu) = cu^aY(u)`. This gives a
+`p^r = q`, use `z = u^r`, and restrict scalars on the rank-one system `Y(pu) = cu^(−a)Y(u)`. This gives a
 simple rank-`r` module `E(r,a,c)` whose isomorphism type for the fixed root is determined by `r,a`
 and the class of `c^r` in `ℂˣ/q^ℤ`. The indecomposables of this slope are
 `E(r,a,c) ⊗ Uₘ`, where `Uₘ` is one unipotent Jordan block of rank `m`. Give the direct-sum
@@ -594,9 +597,16 @@ finite-dimensional middle term. The cocycle from a `K`-linear splitting `s` is
 connecting maps, zero class and Baer sum.
 
 For a pure analytic module of slope `μ < 0`, prove `Γ⁰ = 0` and
-`dim_ℂ Γ¹ = −μ rank M`, using the coefficient or `q`-Borel calculation
-and finite descent. For positive slopes give both vanishings, and for slope zero give Euler
-characteristic zero with the resonant terms. In the formal case give vanishing of both groups at
+`dim_ℂ Γ¹ = −μ rank M`. In the integral case put `d = −μ` and use `A = z^d C`.
+Multiplication by `z^d C` changes `Φ − 1` into `σ_q − z^d C`. On Laurent coefficients
+the equation is `q^n xₙ − C x_(n − d) = yₙ`. Solve the principal part with finite negative
+support and solve the positive tail backwards, using `q^n → 0`. Match the two solutions
+over the band `0 ≤ n < d`. This band gives the cokernel and the homogeneous equation has
+no nonzero meromorphic germ solution. For slope `d > 0` use `Φ = z^d C⁻¹σ_q`.
+The forward recurrence starts at the lowest Laurent exponent and defines a convergent solution,
+since its coefficient multiplying `x_(n − d)` tends to zero. At slope zero give Euler characteristic
+zero with the resonant terms. Use ramification
+and finite descent for rational slopes. In the formal case give vanishing of both groups at
 nonzero slope. Thus for pure `Pᵢ,Pⱼ` of ranks `rᵢ,rⱼ` and slopes `μᵢ < μⱼ`,
 
 ```
@@ -617,11 +627,10 @@ For `R = ℂ[z,z⁻¹]` and `K = ℂ({z})`, use the model category of §0.2 alon
 For pure `P` of slope `a/r` in lowest terms, construct a model `(P_global,P,α)`.
 Finite projective modules over the Laurent PID `R` are free, and
 `P_global → K ⊗_R P_global` is injective. Use `α` to realize the model in `P` as the
-submodule of elements whose orbits under `z^a Φ^r` span finite-dimensional complex vector
+submodule of elements whose orbits under `z^(−a) Φ^r` span finite-dimensional complex vector
 spaces. Prove this characterization using pure normal forms and generalized eigenspaces,
 and show stability under `Φ` and `Φ⁻¹`. A nonzero constant multiple of the orbit
-operator gives the same condition. In [VPR07, Definition 1.8][VPR07] the operator is
-`z^(−a)(Φ⁻¹)^r`, whose inverse differs from `z^a Φ^r` by a constant factor.
+operator gives the same condition. [VPR07, Definition 1.8][VPR07].
 
 Compare all maps of pure modules with the Laurent models, and give the tensor, dual,
 split direct-sum, ramification and descent comparisons. A matrix of the model belongs to
@@ -634,8 +643,9 @@ generalized eigenspaces.
 
 Descend the pure Laurent model to a holomorphic bundle `V(P)` on `E_q`. Give the faithful tensor
 comparison on pure blocks and their split sums. Its rank is the module rank, and the bundle degree
-for slope `μ` and rank `r` is `rμ`. Derive the sign from the theta line and extend it to
-rational slopes using ramification and determinant. Prove `H⁰(E_q,V(P)) = 0` for `μ < 0` by the
+for slope `μ` and rank `r` is `rμ`. The equation `σ_q Θ_q = z⁻¹Θ_q` gives a
+section of the line with factor `z⁻¹` and one simple zero on `E_q`. Derive the degree formula
+from this line, determinant and ramification. Prove `H⁰(E_q,V(P)) = 0` for `μ < 0` by the
 section equation. Use the Dolbeault comparison and the Cauchy–Riemann index to prove
 `χ(V(P)) = deg V(P)` and `H² = 0`. Compare the difference extension cokernel with `H¹` of the
 negative-slope Hom bundle for integral gaps. [VPR07, §2, Lemma 2.1 and Theorem 2.5][VPR07],
@@ -678,12 +688,11 @@ ComplexKahlerGeometry §§2.3, 2.5, 4.1, 5.10 and 7.8, and finite descent along 
 
 ### Examples
 
-- `A = [[0, z], [1, 0]]` has cyclic operator
-  `Φ² − q⁻¹z⁻¹`, slope `1/2` twice, and degree one. Ramifying by degree two preserves rank
-  and gives slope one.
-- From `diag(1,z)` to `[[1, 1], [0, z]]`
-  the upper unipotent gauge solves `zσ_q f − f = 1`. Its formal solution is
-  `−Σ_(m ≥ 0) q^(m(m − 1)/2)z^m`, with radius zero. In the reverse slope order the extension splits.
+- `A = [[0, z⁻¹], [1, 0]]` has cyclic operator `Φ² − qz`, slope `1/2` twice, and
+  degree one. Ramifying by degree two preserves rank and gives slope one.
+- From `diag(1,z⁻¹)` to `[[1, z⁻¹], [0, z⁻¹]]` the upper unipotent gauge solves
+  `σ_q f − zf = 1`. Its formal solution is `Σ_(m ≥ 0) q^(−m(m + 1)/2) z^m` and has
+  radius zero. In the reverse slope order the extension splits.
 - The trivial rank-one module has both difference cohomology spaces of dimension one. For ranks
   `1,2` and slopes `0,1/2` the increasing-slope extension space has dimension one.
 - The degree-one theta bundle has a nonzero section from the trivial bundle. The local pure modules
@@ -715,10 +724,15 @@ and construct the change of marking action.
 
 ### 4.2 Birkhoff–Guenther normal form and representability
 
-For integral slopes choose systems `z^(μᵢ)Cᵢ` for the graded factors and write `A₀` for the
-block diagonal matrix. Each marked class has a unique Birkhoff–Guenther matrix `A_U`, with diagonal
-`A₀` and upper blocks `U_ij` supported at exponents `μᵢ ≤ ℓ < μⱼ`. Construct the unique
-change to this form with identity diagonal in compatible filtered frames.
+For integral slopes choose systems `z^(−μᵢ)Cᵢ` for the graded factors and write `A₀` for the
+block diagonal matrix. Each marked class has a unique Birkhoff–Guenther matrix `A_U`, with
+diagonal `A₀` and upper blocks `U_ij` supported at exponents `−μⱼ ≤ ℓ < −μᵢ`.
+Construct the unique change to this form with identity diagonal in compatible filtered frames.
+At the gap `δ = μⱼ − μᵢ`, multiply the block gauge equation by `z^(μⱼ)` to use the
+operator `X ↦ (σ_q X)Cⱼ − z^δ CᵢX`. Its Laurent coefficient equation has the same
+two tails as §3.5, with cokernel represented by degrees `0 ≤ n < δ`. Increasing the
+gap makes the cross terms depend on blocks already determined. In the formal Laurent field
+the coefficient equation is invertible by the forward recurrence.
 
 Show that the coefficient functor of §4.1 for arbitrary rational slopes is represented by a scheme
 isomorphic to affine space of dimension
@@ -739,13 +753,28 @@ terms. [RSZ13, Theorems 3.1.4 and 3.3.5, Propositions 3.3.1 and 3.3.4, and Appen
 
 For integral slopes and the models of §4.2 there is a unique upper block unipotent formal gauge
 `F̂` from `A₀` to `A_U`. For `c ∈ E_q` exclude the directions for which there are `i < j`
-and eigenvalues `α` of `Cᵢ` and `β` of `Cⱼ` with
-`c^(μᵢ)α ≡ c^(μⱼ)β mod q^ℤ`. Prove that these directions form a
-finite set. For every other `c`, construct the unique upper block unipotent gauge `F_c` from `A₀`
-to `A_U` meromorphic on `ℂˣ`, with the `(i,j)` block's poles on `−c q^ℤ`
-of order at most `μⱼ − μᵢ`. Use the theta multiplier and block recurrences, and check the bound
-under multiplication and inversion. If `A_U,A_V` have the same graded model, their corresponding
-gauge is `F_(V,c)F_(U,c)⁻¹`. [S24, Theorem 3.1 and Lemma 3.2][S24], [RSZ13, Chapters 5–6][RSZ13].
+and eigenvalues `α` of `Cᵢ` and `β` of `Cⱼ` with `c^(μⱼ − μᵢ) α ≡ β mod q^ℤ`.
+The excluded set is finite since multiplication by each nonzero integral gap has finite fibres
+on `E_q`. For every other `c`, construct the unique upper block unipotent gauge `F_c` from
+`A₀` to `A_U` meromorphic on `ℂˣ`, with the `(i,j)` block's poles on `−c q^ℤ` of order
+at most `μⱼ − μᵢ`.
+
+For a representative `c` put `θ_c(z) = Θ_q(z/c)`, so that `σ_q θ_c = (c/z)θ_c`.
+On a block of gap `δ = μⱼ − μᵢ` write `X_ij = θ_c^δ (F_c)_ij`. In increasing gap order,
+the equation for `X_ij` is
+
+```
+(σ_q X_ij)Cⱼ − c^δ Cᵢ X_ij = c^δ z^(μᵢ) θ_c^δ Σ_(i < k ≤ j) U_ik (F_c)_kj .
+```
+
+Here `(F_c)_jj = I`. The right side is holomorphic on `ℂˣ` by the bounds on smaller gaps.
+The operator on its `n`-th Laurent coefficient is `X ↦ q^n XCⱼ − c^δ Cᵢ X`.
+It is invertible by admissibility. Its inverse stays bounded as `n → +∞` and is
+`O(|q|^(−n))` as `n → −∞`. Laurent coefficient estimates on compact annuli give a
+holomorphic solution. Dividing by `θ_c^δ` gives the required poles. Check independence
+of the representative and the pole bounds under multiplication and inversion. If `A_U,A_V`
+have the same graded model, their corresponding gauge is `F_(V,c)F_(U,c)⁻¹`.
+[S24, Theorem 3.1 and Lemma 3.2][S24], [RSZ13, Chapters 5–6][RSZ13].
 
 *Needs:* §§2.2, 3.6 and 4.2.
 
@@ -753,7 +782,7 @@ gauge is `F_(V,c)F_(U,c)⁻¹`. [S24, Theorem 3.1 and Lemma 3.2][S24], [RSZ13, C
 
 For `π:ℂˣ → E_q`, define the group sheaf `Λ_I(A₀)` on `U ⊂ E_q` by
 holomorphic upper block unipotent matrices `S` on `π⁻¹(U)` satisfying `(σ_q S)A₀ = A₀S`.
-The `(i,j)` block satisfies `σ_q S_ij = z^(μᵢ − μⱼ)Cᵢ S_ijCⱼ⁻¹` in the integral
+The `(i,j)` block satisfies `σ_q S_ij = z^(μⱼ − μᵢ) Cᵢ S_ij Cⱼ⁻¹` in the integral
 model. For admissible directions put `U_c = E_q ∖ {−c}` and use `S_cd = F_c⁻¹F_d` on
 `U_c ∩ U_d`. Verify its cocycle, the comparison under changes of trivialization, covering
 refinement, and its pointed torsor class in `H¹(E_q,Λ_I(A₀))`. Show that the sheaf is the
@@ -828,15 +857,17 @@ description includes nontrivial graded forms. [RSZ13, §3.1.2 and Appendices A.5
 
 ### Examples
 
-- For ranks `(1,1)` and slopes `(0,3)` the upper block has three coefficients. For ranks `(1,1,1)`
+- For ranks `(1,1)` and slopes `(0,3)` the upper block has exponents `−3, −2, −1`.
+  For ranks `(1,1,1)`
   and slopes `(0,1,2)` there are four coefficients, and the product in the `(1,3)` block contains
   the cross term `S₁₂S′₂₃`.
 - With ranks `(1,1)` and slopes `(0,1)` the marked parameters `u = 1,2` are related by a change of
   marking. Over the dual numbers `u = 0,ε` are distinct with the same reduction. For a
   single slope the marked classes form a point and the unmarked groupoid retains the full
   automorphism group.
-- For `A₀ = diag(1,az)` the forbidden direction is `a⁻¹ mod q^ℤ`. For
-  ranks `(1,2)` and slopes `(0,1/2)` the marked space has dimension one, whereas the ramified space
+- For `A₀ = diag(1,a/z)` the forbidden direction is `a mod q^ℤ`. With upper block
+  `z⁻¹` and representative `c = a`, the constant coefficient of the right side in §4.3 is
+  one and the constant coefficient of the left side is zero. For ranks `(1,2)` and slopes `(0,1/2)` the marked space has dimension one, whereas the ramified space
   for `r = 2` has dimension two before taking invariants.
 
 ### Dependencies
@@ -865,9 +896,9 @@ At infinity use the reversed shift: a normalized Laurent matrix `D(w)` gives the
 original-shift model `B_∞(z) = D(1/(qz))⁻¹`.
 [VPR07, §4, Lemma 4.2, Theorem 4.3 and Observations 4.5][VPR07].
 
-For rational `A` and Laurent model `B`, extend a local horizontal meromorphic map `H` from zero by
-iterating `H(qz) = B(z)H(z)A(z)⁻¹`. This gives a unique meromorphic map on `ℂ`. At
-infinity the analogous map extends to `ℙ¹ ∖ {0}`. Include maps of arbitrary ranks
+For rational `A` and Laurent model `B`, extend a local horizontal meromorphic map `H` from zero
+using `H(z) = B(z)⁻¹H(qz)A(z)`. Iterate from a sufficiently small `q^k z` to obtain a unique
+meromorphic map on `ℂ`. From infinity use `H(qz) = B(z)H(z)A(z)⁻¹` to extend to `ℙ¹ ∖ {0}`. Include maps of arbitrary ranks
 and compare their compositions and inverses where defined.
 
 *Needs:* §§0.2–0.4, 3.2–3.6 and 4.1–4.2, and meromorphic continuation by the identity principle.
@@ -989,13 +1020,13 @@ conditions using the natural comparisons of endpoint localization and formal typ
 
 ### Examples
 
-- For `A = z − a`, `a ≠ 0`, the endpoint slopes after normalization are zero and one. A rank-two
+- For `A = z − a`, `a ≠ 0`, the endpoint slopes after normalization are zero and minus one. A rank-two
   extension `0 → 𝒪 → V → L → 0` for a degree-one line `L`, if nontrivial, has stable
   underlying bundle of slope `1/2`. Its specified filtration has slopes zero and one, and the pure
   object with underlying bundle `V` has only the slope `1/2`.
-- At `q = 2`, the constant systems `1` and `3` have `P = 1` if the same fundamental solution is used at
-  both endpoints of each system. They are not rationally gauge equivalent, since
-  `3 ∉ 2^ℤ`.
+- At `q = 1/2`, the constant systems `1` and `3` have `P = 1` if the same fundamental solution
+  is used at both endpoints of each system. Rational gauge equivalence would require
+  `3 ∈ (1/2)^ℤ`.
 
 ### Dependencies
 
@@ -1088,11 +1119,10 @@ On a complex manifold `S`, assume `A(z,s)` is jointly holomorphic near `{0}× S`
 `C(s) = A(0,s)` is invertible, and each operator `X ↦ q^mXC(s) − C(s)X` is invertible for `m ≥ 1`.
 Near each `s` construct the unique jointly holomorphic gauge `H` with `H(0,s) = I` and
 `(σ_q H)C = AH`, on a common positive-radius `z`-disk. Apply the recurrence in §2.4 with Cauchy
-bounds. On relatively compact parameter neighborhoods, the inverse operators are `O(|q|^(−m))` for
-large `m`, and finitely many small `m` are controlled by nonresonance. Prove local openness of the
-nonresonance locus and naturality under holomorphic pullback. The proof allows Jordan blocks and
-repeated eigenvalues. For an input with the contracting shift, apply reversal to the whole family
-and compare the recurrence for the same normalized gauge. [S00, §§1.1.1 and 1.1.3][S00].
+bounds. The operators tend uniformly to `X ↦ −C(s)X` on compact parameter neighborhoods.
+Use the local bound on `C(s)⁻¹` to bound the inverses for large `m`, and use nonresonance for
+the finitely many small `m`. Prove local openness of the nonresonance locus and naturality under
+holomorphic pullback. The proof allows Jordan blocks and repeated eigenvalues. [S00, §§1.1.1 and 1.1.3][S00].
 
 *Needs:* §2.4, finite-dimensional holomorphic families, Cauchy estimates, and ComplexKahlerGeometry
 §3.1.
@@ -1138,7 +1168,8 @@ fundamental matrix.
 
 - For `A = I₂` and two identity time shifts, the constant gauges `I + E₁₂,I + E₂₁` satisfy the
   spatial equations. Their different products show that they fail the time square.
-- For `q = 2`, take `B = z²/(z² − s)`, `A = 4(z² − s)/(4z² − s)` and `Ω = 1/(z² − s)`. Check `AB = B(2z,s)`
+- For `q = 1/2`, take `B = z²/(z² − s)`, `A = (z² − s)/(z² − 4s)` and
+  `Ω = 1/(z² − s)`. Check `AB = B(z/2,s)`
   and the compatibility derivative. The pole bounds `z² − s = 0` and `2[0]` satisfy §6.6 even at the
   collision. The moving divisor meets the zero section, so the endpoint hypothesis of §1.8 fails
   there.
@@ -1158,8 +1189,7 @@ endpoint data, and a normalized trivialization in the stated domains.
 Let `n,d ≥ 1` and `L ∈ GLₙ(ℂ)`. Fix `d` labelled spectral groups
 `Sᵢ = {a_(i,α) | 1 ≤ α ≤ n} ⊂ ℂˣ` whose distinct labels belong to
 distinct `q^ℤ`-orbits. The algebraic statements use any nonzero infinite-order `q`, with
-no semisimplicity assumption on `L`. For the analytic interpretation use the convention `|q| > 1` or
-reverse the contracting shift on the rational system.
+no semisimplicity assumption on `L`. The analytic interpretation uses `0 < |q| < 1`.
 
 ### 7.1 Reordering linear matrix factors
 
@@ -1264,10 +1294,8 @@ give path-independent gauges `Rₖ` with
 R_(k + ℓ)(z,t) = Rₖ(z,T_ℓ t)R_ℓ(z,t).
 ```
 
-Via §§5.4 and 6.1 they give coherent isomorphisms of the connection data, including all endpoint
-analytic invariants. For the contracting shift, make this comparison after reversing the rational
-system, with the same gauge and time shifts. For `|q| = 1` of infinite order the algebraic action is
-defined on the stated domains. Prove the endpoint spectral scaling `q^(−Σᵢ kᵢ)` at zero and
+For `0 < |q| < 1`, apply §§5.4 and 6.1 to these systems and gauges to obtain coherent
+isomorphisms of the connection data, including all endpoint analytic invariants. Prove the endpoint spectral scaling `q^(−Σᵢ kᵢ)` at zero and
 preservation of `L`. In the sum-zero sublattice the zero spectrum and `det A(0)` are fixed. On each
 finite time range provide uniform bounds on the poles of both gauge directions from zero and the
 finitely many shifted roots. Compare this family with §6.6.
@@ -1278,7 +1306,7 @@ finitely many shifted roots. Compare this family with §6.6.
 
 - In rank one, `A = λ∏ⱼ (z − aⱼ)` and `Rᵢ = (z − aᵢ)/z`. The step changes the single factor to
   `z − q⁻¹aᵢ`. For degree one, `C(k) = q^(−k)L^(−k)C(0)L^k` for every integer `k`.
-- For a noncommuting rank-two, degree-two check, use `q = 2` and
+- For a noncommuting rank-two, degree-two check, use `q = 1/2` and
 
   ```
   L = [[1, 1], [0, 1]],
@@ -1289,9 +1317,7 @@ finitely many shifted roots. Compare this family with §6.6.
   The first right factor has
   `B₁ = (1/7) [[27, 24], [2, 29]]`. Check both
   spatial equations and the square. Both orders of the two steps give
-  `C′₁ = [[3/2, −1/2], [0, 5/2]]` and
-  `C′₂ = [[5/2, −3], [1, 13/2]]`, in agreement with
-  `2⁻¹L⁻¹CᵢL`.
+  `C′₁ = [[6, −2], [0, 10]]` and `C′₂ = [[10, −12], [4, 26]]`, in agreement with `2L⁻¹CᵢL`.
 
 ### Dependencies
 
@@ -1332,7 +1358,7 @@ described by the following inputs and hypotheses.
 | Complex linear `q`-difference systems | Local and global comparison in arbitrary finite rank, with resonance, nonsemisimple factors and rational slopes | A specified singular type, framing, stability condition or polynomial condition supplies the corresponding restriction. |
 | Relative `q`-connections on possibly nonreduced bases and nontrivial bundles | Linearized algebra, scalar extension models, and §§1.6–1.8 for finite-pole connections, decorations, descent and endpoint constructions | §4.7 gives fixed-graded-type coefficient families. The analytic family results of §§6.5–6.7 use their stated hypotheses. A relative local or global classification requires its own comparison theorem. |
 | Additive differences and other automorphisms of curves | The algebra of §§0.1–0.3, rational difference connections of §1.1, and relative finite-pole connections of §1.6 | Each shift has its own local and global analytic theory. The elliptic quotient, the `q`-Stokes sheaf and the comparison using zero and infinity belong to the multiplicative shift. |
-| Mahler systems `z ↦ z^ℓ` with `ℓ ≥ 2` | Linearized modules for a unital endomorphism over the rational coefficient ring. The germ at `z = 1` uses `z = exp(u)` and the local shift `u ↦ ℓu` at zero. [R16, §1, p. 2][R16] | At zero and infinity the local classification and the Puiseux and Hahn extensions are Mahler-specific. |
+| Mahler systems `z ↦ z^ℓ` with `ℓ ≥ 2` | Linearized modules for a unital endomorphism over the rational coefficient ring. The germ at `z = 1` uses `z = exp(u)`; the inverse local action has shift `u ↦ u/ℓ` at zero. [R16, §1, p. 2][R16] | At zero and infinity the local classification and the Puiseux and Hahn extensions are Mahler-specific. |
 | Frobenius modules, isocrystals and (φ,Γ)-modules | Finite projective linearized modules, their tensor, dual and scalar extension, and the two-term complex over fixed scalars | Coefficient topologies, étaleness, Frobenius slopes and the Γ-action with its cohomology come from the respective theories. |
 
 The Laurent models of §§3.6 and 5.1 globalize local analytic modules. To retain finite singularities
@@ -1421,8 +1447,8 @@ These inputs are the general algebra of the cited sections.
 - **RSZ13.** J.-P. Ramis, J. Sauloy, and C. Zhang, *Local analytic classification of q-difference
   equations*, Astérisque **355** (2013). [Published text][RSZ13]
 - **S24.** J. Sauloy, *Classification analytique locale des équations aux q-différences de pentes
-  arbitraires*, Ann. Fac. Sci. Toulouse **33** (2024), 647–679. §4.6 uses the average of the `r`
-  distinct iterates in Proposition 3.11. [Published text][S24]
+  arbitraires*, Ann. Fac. Sci. Toulouse **33** (2024), 647–679. The summation formulas use an expanding shift. The contracting coefficient equation is in §4.3.
+  §4.6 uses the average of the `r` distinct iterates in Proposition 3.11. [Published text][S24]
 - **B04.** A. Borodin, *Isomonodromy transformations of linear systems of difference equations*,
   Ann. Math. **160** (2004), 1141–1182. Layer 7 uses the refactorization theorem and its
   multiplicative version in Remark 4.14.
@@ -1447,7 +1473,7 @@ These inputs are the general algebra of the cited sections.
 [VPR07]: https://www.numdam.org/item/AFST_2007_6_16_3_665_0/
 [S09]: https://www.numdam.org/item/AST_2009__323__397_0/
 [RSZ13]: https://www.numdam.org/item/AST_2013__355__R1_0/
-[S24]: https://afst.centre-mersenne.org/articles/10.5802/afst.1784/
+[S24]: https://www.numdam.org/articles/10.5802/afst.1784/
 [B04]: https://arxiv.org/abs/math/0209144v2
 [K16]: https://arxiv.org/abs/1506.06718v2
 [A57]: https://math.berkeley.edu/~nadler/atiyah.classification.pdf
