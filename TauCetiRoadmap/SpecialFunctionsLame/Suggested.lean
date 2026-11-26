@@ -24,8 +24,9 @@ Other headlines of the README have no statement here because their carriers are 
 the eigenfunction limits of 3.3 need the Ferrers functions of SpecialFunctionsLegendre and the
 Mathieu functions `ce_m`, `se_m` of SpecialFunctionsMathieu; the integral equations of 3.4 need
 the Ferrers and Legendre functions `P_ν` of non-integer degree; the Hermite–Halphen form of 5.1
-needs Weierstrass's `σ`, a target of the README; and the ellipsoidal coordinates and harmonics of
-6.1 need ellipsoidal coordinates on `ℝ³`, which are not defined.
+needs the Weierstrass sigma function of ModularCurvesPartII §1.4a, which is not at the pins; and
+the ellipsoidal coordinates and harmonics of 6.1 need ellipsoidal coordinates on `ℝ³`, which are
+not defined.
 
 `nthLeast`, `IsHillSolution`, `hillWI`, `hillWII`, `hillDiscriminant`, `realRootCount`,
 `hillPeriodicEigenvalue` and `hillAntiperiodicEigenvalue` are local copies of the definitions of
@@ -509,6 +510,8 @@ theorem lame_integral_equation {k : ℝ} (hk : k ∈ Ioo (0 : ℝ) 1) {n : ℕ} 
 #check @PeriodPair.derivWeierstrassP
 #check @PeriodPair.derivWeierstrassP_sq
 #check @PeriodPair.weierstrassZeta
+#check @PeriodPair.hasDerivAt_weierstrassZeta
+#check @PeriodPair.weierstrassZeta_neg
 #check @Polynomial.shiftedLegendre
 #check @Matrix.charpoly
 #check @Matrix.IsHermitian.eigenvalues

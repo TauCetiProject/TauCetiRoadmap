@@ -51,15 +51,17 @@ The roadmap covers:
 - ellipsoidal coordinates, ellipsoidal harmonics, their orthogonality, and the integral equations of
   Lamé functions (Layer 6).
 
-The roadmap rests on Mathlib, Tau Ceti, the roadmap
+The roadmap rests on Mathlib, Tau Ceti, the roadmaps
 [EllipticIntegrals](../EllipticIntegrals/README.md),
 [AsymptoticExpansions](../AsymptoticExpansions/README.md) and
 [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md) (the
 recessive solution of a three-term recurrence and Pincherle's theorem, for the continued fraction),
-and four further roadmaps: SpecialFunctionsMathieu (Hill's equation), SpecialFunctionsHeun (the
-algebraic form and Heun polynomials), SpecialFunctionsJacobiElliptic (the Jacobi functions of a
-complex variable and their relation to `℘`) and SpecialFunctionsLegendre (Ferrers functions and
-spherical harmonics, for the limits).
+[SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md) (Ferrers functions and spherical
+harmonics, for the limits) and [ModularCurvesPartII](../ModularCurvesPartII/README.md) (the
+Weierstrass sigma function, for the Hermite–Halphen form), and three further roadmaps:
+SpecialFunctionsMathieu (Hill's equation), SpecialFunctionsHeun (the algebraic form, Heun
+polynomials and their double orthogonality) and SpecialFunctionsJacobiElliptic (the Jacobi
+functions of a complex variable and their relation to `℘`).
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Lame/`.
 
@@ -709,9 +711,15 @@ p. 571, there in powers of `℘ − e₂`), whose top equation vanishes identica
 derivative of the invariant is `−2X` times the left side of the product equation. Degree and leading
 coefficient: the coefficient of `℘^{n−r}` in `F` is a polynomial of degree `r` in `B`; comparison
 with Gesztesy–Holden's monic `F_n` and `R_{2n+1}` ((1.12)–(1.14), p. 23) gives the normalization.
-The criterion for `R(B) = 0` is Whittaker–Watson's case (I) on p. 571. The `σ`-form uses Tau Ceti's
-`PeriodPair.weierstrassZeta`; `σ` itself is a target here, as the entire function with `σ′/σ = ζ`
-and `σ(u)/u → 1`.
+The criterion for `R(B) = 0` is Whittaker–Watson's case (I) on p. 571. In the `σ`-form, `σ` is the
+lattice sigma function of [ModularCurvesPartII](../ModularCurvesPartII/README.md) §1.4a, which
+constructs it for any period pair by the canonical product and proves it entire and odd with
+`σ′(0) = 1`, with simple zeros exactly on the lattice, and with `−(σ′/σ)′ = ℘` off the lattice. The
+`σ`-form also needs `σ′/σ = ζ` off the lattice, with `ζ` Tau Ceti's `PeriodPair.weierstrassZeta`,
+which §1.4a does not state; it is an auxiliary result here. Both sides are odd and have derivative
+`−℘` on the complement of the lattice, which is connected (Tau Ceti
+`PeriodPair.hasDerivAt_weierstrassZeta`, `PeriodPair.weierstrassZeta_neg`), so their difference is
+a constant, and oddness makes it `0`.
 
 **Checks.**
 - `n = 1`: `F = ℘ − B`, `R(B) = 4B³ − g₂B − g₃`, with roots `e₁, e₂, e₃`.
@@ -724,7 +732,7 @@ and `σ(u)/u → 1`.
   fails already at `n = 2`.
 
 *Needs:* 1.3; Mathlib `PeriodPair.weierstrassP`, `PeriodPair.derivWeierstrassP_sq`; Tau Ceti
-`PeriodPair.weierstrassZeta`.
+`PeriodPair.weierstrassZeta`; ModularCurvesPartII §1.4a.
 
 ### 5.2 The roots of the invariant are the polynomial eigenvalues
 
@@ -843,7 +851,7 @@ degenerate exactly for `m > n` by 5.3.
 
 ### Dependencies
 
-Layers 1–4; SpecialFunctionsMathieu 2.5; Mathlib `PeriodPair`; Tau Ceti
+Layers 1–4; SpecialFunctionsMathieu 2.5; ModularCurvesPartII §1.4a; Mathlib `PeriodPair`; Tau Ceti
 `PeriodPair.weierstrassZeta`.
 
 ## Layer 6: ellipsoidal harmonics and integral equations
@@ -893,13 +901,21 @@ Prove:
   §29.14, online for the other types; Dassios Theorem 4.1);
 - the surface ellipsoidal harmonics are orthogonal on each ellipsoid `ρ = const` with Dassios's
   weight `l_ρ` (Dassios Theorem 4.1, (4.87), p. 81), and complete (4.91), p. 82;
-- for two Lamé functions of the same class and the same degree with `p ≠ p′`,
-  `∫_{h₃}^{h₂} E E′ /√((μ² − h₃²)(h₂² − μ²)) dμ = 0`, and of the same class with `p = p′` and
-  `n ≠ n′`, the same with the weight `μ²` (Dassios Theorem 4.2, (4.94)–(4.95), p. 83); and the
-  analogues on `[0, h₃]` for the same class and parity (Theorem 4.3, (4.101)–(4.102), p. 84).
+- for two Lamé functions of the same class, with separation constants `p`, `p′` (that of 1.2,
+  `B = (h₃² + h₂²)p`, which is Dassios's `p_n^m` in (4.96)): if they have the same degree and
+  `p ≠ p′`, then `∫_{h₃}^{h₂} E E′ /√((μ² − h₃²)(h₂² − μ²)) dμ = 0`; if they have the same
+  separation constant `p = p′` and `n ≠ n′`, the same holds with the weight `μ²` (Dassios
+  Theorem 4.2, (4.93)–(4.95), p. 83); and the analogues on `[0, h₃]` for the same class and parity
+  (Theorem 4.3, (4.101)–(4.102), p. 84).
 
-The double orthogonality is Green's identity for the product `E(s)E(K + it)`, which by 1.2 is the
-separated form of a harmonic function on an ellipsoid (Dassios's proof of Theorem 4.1, pp. 81–82).
+The double orthogonality for type `u` is the case `a = k⁻²`, `γ = δ = ε = ½` of the double
+orthogonality of Heun polynomials, SpecialFunctionsHeun 6.2: with `ξ = sn²(s, k)` on `(0, 1)` and
+`ξ = dn(t, k′)⁻²` on `(1, a)` its weight `ρ` gives `ρ(ξ) dξ = 2k ds` and `ρ(ξ) dξ = 2k dt`, so its
+integral is `4k²` times the one displayed, and `q = −ah/4` (1.2) turns its hypothesis
+`(n₁, q₁) ≠ (n₂, q₂)` into `(n, h) ≠ (n′, h′)` (Heun degree `n/2`). The statement in elliptic
+variables is kept here as the form 6.1 uses. An alternative route is Green's identity for the
+product `E(s)E(K + it)`, which by 1.2 is the separated form of a harmonic function on an ellipsoid
+(Dassios's proof of Theorem 4.1, pp. 81–82); it also gives the other seven types.
 The one-dimensional relations are the Lagrange identity on `[h₃, h₂]`, whose boundary terms vanish
 for two functions of the same class (Dassios (4.98)–(4.99), p. 84).
 
@@ -912,8 +928,13 @@ for two functions of the same class (Dassios (4.98)–(4.99), p. 84).
   `dμ/√((μ² − h₃²)(h₂² − μ²)) = dt/h₂`), the `n = 1` functions of classes `K` (`sE`), `L` (`cE`),
   `M` (`dE`) give `∫₀^{K′} sE·cE dt = √2`, `∫₀^{K′} sE·dE dt = 1`, `∫₀^{K′} cE·dE dt = √2 − 1` at
   `k² = ½`, none zero, while the two type-`u` functions of degree `2` give `6 · 10⁻¹⁶`.
+- Negative control for the hypothesis `p = p′` of the weighted relation: at `k² = ½`, the class-`K`
+  functions `E = 1` (`n = 0`) and `E = 1 − (h/2)ξ` (`n = 2`, `h = 3 − √3`, `ξ = dn(t, k′)⁻²`) have
+  different separation constants, and `∫₀^{K′} ξ E₀E₂ dt = 0.05982`, `∫₀^{K′} E₀E₂ dt = 0.14153`;
+  only the combination `h · 0.14153 − 6k² · 0.05982` of the Lagrange identity vanishes (below
+  `10⁻³⁰`).
 
-*Needs:* 1.2, 4.1, 6.1.
+*Needs:* 1.2, 4.1, 6.1; SpecialFunctionsHeun 6.2.
 
 ### 6.3 Whittaker's integral equation
 
@@ -948,7 +969,7 @@ multiple of `E`. The multiple is nonzero because `P_n` has nonzero coefficients 
 
 ### Dependencies
 
-Layers 1–5; SpecialFunctionsLegendre 3.3.
+Layers 1–5; SpecialFunctionsHeun 6.2; SpecialFunctionsLegendre 3.3.
 
 ## Downstream consumers
 
@@ -984,7 +1005,9 @@ inputs, not targets:
   continuity and logarithmic singularity at `k = 1`: EllipticIntegrals 2.1 and 3.1, consumed in 3.3;
 - Weierstrass's `℘`, `℘′` and the differential equation: Mathlib `PeriodPair.weierstrassP`,
   `PeriodPair.derivWeierstrassP_sq`; Weierstrass's `ζ`: Tau Ceti `PeriodPair.weierstrassZeta`;
-  consumed in Layer 5;
+  Weierstrass's `σ`: ModularCurvesPartII §1.4a; consumed in Layer 5;
+- the Ferrers and Legendre functions, their hypergeometric forms and spherical harmonics:
+  SpecialFunctionsLegendre 1.1, 3.3, 4.3, consumed in 3.3, 3.4 and 6.1;
 - the spectral theorem for Hermitian matrices (Mathlib `Matrix.IsHermitian.eigenvalues`) and the
   Legendre polynomials (Mathlib `Polynomial.shiftedLegendre`), consumed in 4.2 and 6.3;
 - recessive solutions of three-term recurrences and Pincherle's theorem: AsymptoticExpansions §12.1
@@ -995,8 +1018,8 @@ consumed roadmap provides in this form:
 - `sn(K − x) = sn(K + x)` for real `x`, and the reflection of solutions about `K` (1.1, 2.1);
 - the Wronskian of two solutions of the Weierstrass form and Appell's equation for their products
   (5.1);
-- Weierstrass's `σ` as the entire function with `σ′/σ = ζ` and `σ(u)/u → 1`, for the Hermite–Halphen
-  form in 5.1;
+- `σ′/σ = ζ` off the lattice, for the sigma function of ModularCurvesPartII §1.4a and Tau Ceti's
+  `ζ`, for the Hermite–Halphen form in 5.1;
 - the monodromy of a second-order equation on a punctured torus (the loop around the puncture is the
   commutator of the period loops) and the degenerate perturbation expansion of `a^m − b^m` at
   `k = 0` (5.3).
@@ -1006,11 +1029,13 @@ consumed roadmap provides in this form:
   Sturm–Liouville problems and the stability criterion belong to SpecialFunctionsMathieu (its 1.1,
   2.1, 2.5, 3.1, 3.3); this roadmap applies them to `lameHillPotential` and restates none of them.
 - *Heun's equation.* The algebraic form of Lamé's equation as Heun's equation, the polynomial
-  criterion and the reality of Heun polynomial eigenvalues belong to SpecialFunctionsHeun (its 2.4,
-  4.1–4.3); 1.2 and 4.1 consume them.
+  criterion, the reality of Heun polynomial eigenvalues and their double orthogonality belong to
+  SpecialFunctionsHeun (its 2.4, 4.1–4.3, 6.2); 1.2, 4.1 and 6.2 consume them.
 - *The Jacobi functions of a complex variable.* Their poles, periods, the imaginary transformation,
   the limits in `k` and the relation to `℘` belong to SpecialFunctionsJacobiElliptic (its 2.1–2.3,
   3.4–3.5, 4.1, 7.1); 1.1, 1.3, 3.3 and 4.4 consume them.
+- *Weierstrass's `σ`.* The lattice sigma function, its product, oddness, normalization `σ′(0) = 1`,
+  zeros and `−(σ′/σ)′ = ℘` belong to ModularCurvesPartII (its §1.4a); 5.1 consumes them.
 - *Ferrers and Legendre functions, spherical harmonics.* These belong to SpecialFunctionsLegendre
   (its 1.1, 3.3, 4.3); 3.3, 3.4 and 6.1 consume them.
 - *Mathieu functions.* `ce_m`, `se_m` belong to SpecialFunctionsMathieu (its 4.1); 3.3 consumes them
@@ -1027,8 +1052,9 @@ polynomials with their counts, matrices and zeros, Hermite's product and invaria
 finite-gap property, ellipsoidal harmonics with their orthogonality, and the integral equations; it
 consumes Hill's equation from SpecialFunctionsMathieu, Heun's equation from SpecialFunctionsHeun,
 the complex Jacobi functions and `℘` relation from SpecialFunctionsJacobiElliptic, Ferrers functions
-and spherical harmonics from SpecialFunctionsLegendre, `K` from EllipticIntegrals, and the
-recurrence theory from AsymptoticExpansions and SpecialFunctionsEiLiErfIncompleteGamma.
+and spherical harmonics from SpecialFunctionsLegendre, `σ` from ModularCurvesPartII, `K` from
+EllipticIntegrals, and the recurrence theory from AsymptoticExpansions and
+SpecialFunctionsEiLiErfIncompleteGamma.
 
 ## Exact supplier contracts
 
@@ -1054,6 +1080,10 @@ recurrence theory from AsymptoticExpansions and SpecialFunctionsEiLiErfIncomplet
 - 4.1: the polynomial matrix and the polynomial criterion (hypotheses `a ≠ 0`, `γ ∉ {0, −1, …}`).
 - 4.2: the reality of the polynomial eigenvalues (hypotheses real `a > 1`, `δ > 0`, `β > 0`).
 - 4.3: the eight classes and the F-homotopic reduction.
+- 6.2: for real `a > 1` and `γ, δ, ε > 0`, Heun polynomials `w₁`, `w₂` of degrees `n₁`, `n₂`, with
+  `q₁`, `q₂` eigenvalues of the matrices of its 4.1 and `(n₁, q₁) ≠ (n₂, q₂)`, satisfy
+  `∫₀¹ ∫₁^a (t − s) ρ(s) ρ(t) w₁(s) w₁(t) w₂(s) w₂(t) dt ds = 0`,
+  `ρ(x) = x^{γ−1}|1 − x|^{δ−1}|a − x|^{ε−1}` (for 6.2, with `γ = δ = ε = ½`).
 
 ### From SpecialFunctionsJacobiElliptic
 
@@ -1070,7 +1100,7 @@ its 3.4 reconciles them with Tau Ceti's real functions.
   `L = UpperHalfPlane.periodPair τ`, with the half-period values `(2 − k²)/3`, `(2k² − 1)/3`,
   `−(1 + k²)/3`.
 
-### From SpecialFunctionsLegendre
+### From [SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md)
 
 - 1.1: the Ferrers function `𝖯^μ_ν` on `(−1, 1)` and the Legendre function `P^μ_ν` off `(−∞, 1]`.
 - 3.3: spherical harmonics as harmonic polynomials.
@@ -1088,6 +1118,13 @@ its 3.4 reconciles them with Tau Ceti's real functions.
 - §4.1: minimal solutions of a three-term recurrence with nonzero `a n`, and Pincherle's theorem:
   the continued fraction converges to `−f(1)/f(0)` for the minimal solution `f` with `f(0) ≠ 0`
   (for 3.2).
+
+### From [ModularCurvesPartII](../ModularCurvesPartII/README.md)
+
+- §1.4a: for any period pair `L`, the lattice sigma function
+  `σ(z) = z ∏ (1 − z/λ) exp(z/λ + z²/(2λ²))` over the nonzero lattice points `λ`, normally
+  convergent, entire and odd, with `σ′(0) = 1`, simple zeros exactly at the lattice points, and
+  `−(σ′/σ)′ = ℘` off the lattice (for 5.1).
 
 ### From [EllipticIntegrals](../EllipticIntegrals/README.md)
 
