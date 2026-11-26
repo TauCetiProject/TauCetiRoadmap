@@ -21,14 +21,17 @@ Systems*). The layers follow proof dependency: the usual order first, then the o
 it, then the orders of variability built on the convex order, and last the orders read off
 quantile functions.
 
-The nearest roadmaps are these. MeansMajorizationAndDiscreteInequalities owns the convex order on
-the line with its stop-loss characterisation and its identification with majorization; this
-roadmap takes those and builds the other orders around them. StandardDistributions owns the usual
-order through distribution functions, quantiles and the quantile coupling, with the parameter
-comparisons of the classical families, and survival and hazard functions; those are consumed
-here. MathematicalStatisticsFoundations owns Strassen's theorem on compact convex sets, which is
-the compact step of the martingale coupling here, and monotone likelihood ratio families for
-testing. OptimalTransport owns couplings, their compactness and the quantile coupling.
+The nearest roadmaps are these.
+[MeansMajorizationAndDiscreteInequalities](../MeansMajorizationAndDiscreteInequalities/README.md)
+owns the convex order on the line with its stop-loss characterisation and its identification with
+majorization; this roadmap takes those and builds the other orders around them.
+[StandardDistributions](../StandardDistributions/README.md) owns the usual order through
+distribution functions, quantiles and the quantile coupling, with the parameter comparisons of the
+classical families, and survival and hazard functions; those are consumed here.
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) owns Strassen's
+theorem on compact convex sets, which is the compact step of the martingale coupling here, and
+monotone likelihood ratio families for testing. [OptimalTransport](../OptimalTransport/README.md)
+owns couplings, their compactness and the quantile coupling.
 
 ## How to read the build
 
@@ -66,7 +69,8 @@ Locators give the theorem or equation number and the printed page.
   `Integrable id` for both laws in their definition, so a Bochner integral of a non-integrable
   function never enters a comparison. The stop-loss integrand `max (x − t) 0` is integrable
   whenever `id` is.
-- **Convex order.** `ConvexOrderLE` is the definition of MeansMajorizationAndDiscreteInequalities
+- **Convex order.** `ConvexOrderLE` is the definition of
+  [MeansMajorizationAndDiscreteInequalities](../MeansMajorizationAndDiscreteInequalities/README.md)
   §6.1, copied verbatim; its theorems in §6.1–6.2 there are consumed, not restated.
 - **Kernels and mixtures.** A mixture of a Markov kernel `κ` over a law `ρ` is `κ ∘ₘ ρ`
   (`MeasureTheory.Measure.bind`); `ν = κ ∘ₘ μ` with barycentre `x` under `κ x` is a martingale
@@ -708,9 +712,9 @@ empirical laws.
 - The roadmap RiskMeasures works with stop-loss premiums and comonotone sums; the
   increasing convex order and the decomposition of 4.2 are the stop-loss order of actuarial
   science.
-- The roadmap GibbsMeasuresAndTheIsingModel uses Holley's inequality (Mathlib's
-  `holley`) on finite distributive lattices; 2.2 gives the coupling form of the resulting
-  stochastic domination on product spaces.
+- The roadmap [GibbsMeasuresAndTheIsingModel](../GibbsMeasuresAndTheIsingModel/README.md) uses
+  Holley's inequality (Mathlib's `holley`) on finite distributive lattices; 2.2 gives the coupling
+  form of the resulting stochastic domination on product spaces.
 
 ## Scope and ownership
 
@@ -743,10 +747,11 @@ Owned here:
   (`Probability/StochasticOrder.lean` and the `StochasticOrder.lean` files of the distribution
   families) and is consumed. Its §7.9 owns survival and hazard functions, consumed in 3.3, and
   the hazard formulas of the exponential, Gamma, Weibull, log-normal and generalized Pareto laws.
-- MeansMajorizationAndDiscreteInequalities owns, in its §6.1, the convex order `ConvexOrderLE`
-  with its stop-loss characterisation, its strong form and its order properties, and in §6.2 the
-  identification of majorization with the convex order of empirical laws; in §4.1 majorization
-  `Majorizes`. These are consumed and copied, not restated.
+- [MeansMajorizationAndDiscreteInequalities](../MeansMajorizationAndDiscreteInequalities/README.md)
+  owns, in its §6.1, the convex order `ConvexOrderLE` with its stop-loss characterisation, its
+  strong form and its order properties, and in §6.2 the identification of majorization with the
+  convex order of empirical laws; in §4.1 majorization `Majorizes`. These are consumed and copied,
+  not restated.
 - [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) §7.5 owns
   Strassen's theorem for laws on a compact convex subset of `ℝ^d`, consumed in 4.2, and §6.3
   owns monotone likelihood ratio families of densities for testing (Karlin–Rubin); the
@@ -831,13 +836,13 @@ Owned here:
 
 ### From other roadmaps
 
-- MeansMajorizationAndDiscreteInequalities §6.1: the definition `ConvexOrderLE` (copied
-  verbatim), its stop-loss characterisation for probability measures (both integrable, equal
-  means, ordered stop-loss transforms), its strong form and its order properties. Used in 4.1,
-  4.2, 4.4, 5.1, 5.3.
-- MeansMajorizationAndDiscreteInequalities §4.1 and §6.2: the definitions `maxSubsetSum` and
-  `Majorizes` (copied verbatim), and, for a nonempty index type, majorization as the convex order
-  of the empirical laws. Used in 5.4.
+- [MeansMajorizationAndDiscreteInequalities](../MeansMajorizationAndDiscreteInequalities/README.md)
+  §6.1: the definition `ConvexOrderLE` (copied verbatim), its stop-loss characterisation for
+  probability measures (both integrable, equal means, ordered stop-loss transforms), its strong form
+  and its order properties. Used in 4.1, 4.2, 4.4, 5.1, 5.3.
+- [MeansMajorizationAndDiscreteInequalities](../MeansMajorizationAndDiscreteInequalities/README.md)
+  §4.1 and §6.2: the definitions `maxSubsetSum` and `Majorizes` (copied verbatim), and, for a
+  nonempty index type, majorization as the convex order of the empirical laws. Used in 5.4.
 - [StandardDistributions](../StandardDistributions/README.md) §7.9 and §7.13: survival and
   hazard, the usual order, through the Tau Ceti declarations above. Used in Layers 1, 3 and 5.
 - [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) §7.5:
