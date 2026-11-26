@@ -693,8 +693,7 @@ Owned here:
   which for nonnegative functions is the case `w(s) = s` with constant `f` of §6.2. Mathlib owns
   the differential Grönwall inequality `le_gronwallBound_of_liminf_deriv_right_le` and a discrete
   Grönwall inequality. The non-strict weighted Hardy inequalities that §2.3 consumes are targets
-  of §2.2 here; later library work on real interpolation may supply them in the form with the
-  measure `dt/t`, which is not used here.
+  of §2.2 here; the form with the measure `dt/t` used in real interpolation is not stated here.
 - [UnboundedOperators](../OperatorTheory/UnboundedOperators/README.md) §4.8 (UO-D07) owns the
   half-line Hardy inequality `∫|u′|² ≥ ¼ ∫|u/r|²` with its sharpness for `u ∈ C_c^∞(0, ∞)`, as an
   input to its Sturm–Liouville theory. This roadmap owns the inequality for all `p > 1` and
