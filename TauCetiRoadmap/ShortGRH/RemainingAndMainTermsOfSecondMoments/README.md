@@ -30,9 +30,10 @@ entries one at a time by one-sided Poisson summation (Layer 6). The factor `b^(�
 reduction fixes a given vector. The roadmap ends with the share of bad types in the regular representation of
 `∏ GL_r(𝔽_q)` (8.2), which the spanning theorem needs for the dimension of the good forms.
 
-The statements are made for filling data over a CM field, the abstract structure of SecondMomentsOfPoincareSeries, and
-not on the admissible data directly. SecondMomentsOfPoincareSeries builds filling data from the admissible data of
-OneSidedPrimeSumBoundsAndAdmissibleData (the data) and applies the results of this roadmap there.
+The statements are made for filling data over a CM field, the abstract structure of SecondMomentsOfPoincareSeries §4.1,
+and not on the admissible data directly. SecondMomentsOfPoincareSeries §5.5 builds filling data from the admissible data
+of OneSidedPrimeSumBoundsAndAdmissibleData §3.2, and SecondMomentsOfPoincareSeries applies the results of this roadmap
+there.
 
 ## Conventions and notation
 
@@ -48,8 +49,12 @@ complex embedding at the infinite place `v`, `rd_E` its root discriminant, `𝔸
 integral elements. *Stably unramified* means that `E` contains a primitive root of unity of order `5040`; then `E/E⁺` is
 unramified at the finite places. For an adele `a`, `[a]` is the generalised index: the inverse of the factor by which
 multiplication by `a` scales Haar measure on `𝔸_f`, and `0` if `a` is not a unit. For `a ∈ E^×`, `[a] = |N_{E/ℚ} a|`.
+`vol(Ô)` is the number `2^{r₂}/√|disc E|`, `r₂` the number of complex places of `E`; for a CM field, `r₂ = f` and
+`vol(Ô) = (2/rd_E)^f`. It is the measure of `Ô` for the Haar measure on `𝔸_f` for which `𝔸_E/E` has mass `1` when each
+`E_v = ℂ` carries Lebesgue measure, and it is the normalisation of SecondMomentsOfPoincareSeries (Conventions,
+**Normalisations**); the constants of 6.3 and 6.4 hold with this value.
 
-**The filling data.** The data `S` are those of SecondMomentsOfPoincareSeries (the filling data and its standing
+**The filling data.** The data `S` are those of SecondMomentsOfPoincareSeries §4.1 (the filling data and its standing
 hypotheses). A *shape* gives `ϱ` and a finite set `κ` with `k = #κ`; `n = ϱ + 1`. The space is
 `V = H^ϱ ⊕ X₀ ⊕ E z` over `E`: `ϱ` hyperbolic planes with bases `e_a, e*_a` (`1 ≤ a ≤ ϱ`), a positive definite `X₀`
 with orthonormal basis indexed by `κ`, and `z` with `h(z, z) = −N`. The data give a prime `N = ππ̄` (with `π` a finite
@@ -64,28 +69,29 @@ coordinates, that the level is the preimage of `K(M)`, and that reduction `K →
 | Symbol | Meaning | Defined |
 |---|---|---|
 | `f = (e₁, …, e_ϱ, z)`, `A`, `A⁺` | the frame, of `n = ϱ + 1` vectors; `A = ⟨e₁, …, e_ϱ⟩` (isotropic); `A⁺ = A + Ez` | Conventions |
-| `G`, `G(E)`, `G₁`, `G_∞` | the unitary group of `V`; its rational points; the real unitary group of the normalised form at one infinite place; `G_∞ = ∏_v G₁` | SecondMomentsOfPoincareSeries (the filling data) |
-| `K`, `K(M)`, `Ḡ`, `s̄` | the integral points of `G(𝔸_f)` in the lattice basis, the kernel of reduction at the chosen places, the product `∏ GL_r` over the residue fields at the chosen places (`r = 2ϱ + k + 1`), reduction | SecondMomentsOfPoincareSeries (the filling data) |
-| `c`, `h_c`, `Λ_c`, `n_X` | a class of `U(X₀)(E)\U(X₀)(𝔸_f)/level`, its chosen representative and its image in `G(𝔸_f)`, the lattice `h_cΛ₀` of the class, the number of classes | SecondMomentsOfPoincareSeries (the filling data) |
-| `𝖴`, `𝖴⁰`, `U⁰_c`, `R̄₀` | the Bessel unipotent group; its elements fixing every frame vector; the rational `u ∈ 𝖴⁰` with `h_c⁻¹uh_c ∈ K(M)`; the image in `Ḡ` of the integral points of the Bessel subgroup | SecondMomentsOfPoincareSeries (the filling data) |
-| `W`, `W♭`, `d`, `deg` | the Bessel vector at the infinite places and its cut (product of the local ones), the number of its coordinates, the product of the local degrees | SecondMomentsOfPoincareSeries (Bessel systems at the real places) |
-| `β_c`, `a_{c,c'}(γ)`, `\|a\|_{c,c'}(γ)` | the cutoff of the class `c` at infinity; the amplitude `∫ β_c(y)β_{c'}(γ⁻¹y) W(y) ⊗ W(γ⁻¹y)^* dy`; the same integral of the norm of the tensor | SecondMomentsOfPoincareSeries (the filling data) |
-| `A_T(c, s, c')`, `A♭_T` | the block: the sum of `a_{c,c'}(γ)` over `γ ∈ T` with `h_c⁻¹γh_{c'} ∈ K` of reduction `s` (the terms over `(c, s, c')`); with `W♭` | SecondMomentsOfPoincareSeries (the filling data) |
-| `Z(γ)`, `D_l(γ)`, `𝗀(γ)`, `Nm𝗀(γ)` | the matrix `(h(f_a, γf_b))` of frame products; its leading minors; `𝗀 = \|D_n\|² − N²\|D_ϱ\|² ∈ E`; `∏_v \|Φ_v 𝗀\|` | SecondMomentsOfPoincareSeries (the filling data) |
-| `ν`, `𝒟_main`, `𝒟_id`, `τ`, `n_p` | the covolume of the unipotent groups, `(n_X d)²/(deg·mass_r)`, `#R̄₀·n_X d`, `b^(kf/4)`, `#R̄₀ n_X N^(−kf)` | SecondMomentsOfPoincareSeries (the filling data); 2.4 |
-| `c_S`, `a_*` | `((2π)^k rd_E^(1/2−k)/((k−1)! N^k))^f`; `#R̄₀·M^(fϱ(2k+2ϱ+1))·n_X·c_S` | SecondMomentsOfPoincareSeries (the filling data) |
-| `link(γ)`, `Υ_γ`, `z⁺` | the pairs (class of `t`, class of `γ⁻¹t`) in `(A^⊥/A)²` for `t ⊥ A + γA`; the isometry of `X₀ ⊥ Ez⁺` it defines; `z⁺` of norm `N` | SecondMomentsOfPoincareSeries (links and the link isometry) |
-| cell rank `j` | `0 ≤ j ≤ ϱ + 1`: norm-one pairs occur from `j`, `D_j ≠ 0`, and `j = ϱ + 1` exactly when `𝗀 ≠ 0` | SecondMomentsOfPoincareSeries (cell ranks and near terms); 2.4 |
-| `Γ*`, agrees, stable | the remaining terms; `s` agrees with the unipotent character; a set of terms invariant under `𝖴(E)` on both sides | SecondMomentsOfPoincareSeries (the remaining terms) |
-| meets, `meet(s)` | `s` meets at a place above `M` if there the spans of `f` and `sf` share a nonzero vector; the product of the norms of these places | SecondMomentsOfPoincareSeries (the remaining terms) |
+| `G`, `G(E)`, `G₁`, `G_∞` | the unitary group of `V`; its rational points; the real unitary group of the normalised form at one infinite place; `G_∞ = ∏_v G₁` | SecondMomentsOfPoincareSeries §3.1 (`G₁`), §4.1 |
+| `K`, `K(M)`, `Ḡ`, `s̄` | the integral points of `G(𝔸_f)` in the lattice basis, the kernel of reduction at the chosen places, the product `∏ GL_r` over the residue fields at the chosen places (`r = 2ϱ + k + 1`), reduction | SecondMomentsOfPoincareSeries §4.1 |
+| `c`, `h_c`, `Λ_c`, `n_X` | a class of `U(X₀)(E)\U(X₀)(𝔸_f)/level`, its chosen representative and its image in `G(𝔸_f)`, the lattice `h_cΛ₀` of the class, the number of classes | SecondMomentsOfPoincareSeries §4.2 |
+| `𝖴`, `𝖴⁰`, `U⁰_c`, `R̄₀` | the Bessel unipotent group; its elements fixing every frame vector; the rational `u ∈ 𝖴⁰` with `h_c⁻¹uh_c ∈ K(M)`; the image in `Ḡ` of the integral points of the Bessel subgroup | SecondMomentsOfPoincareSeries §3.1 (`𝖴`, `𝖴⁰`), §4.2 (`U⁰_c`), §4.1 (`R̄₀`) |
+| `W`, `W♭`, `d`, `deg` | the Bessel vector at the infinite places and its cut (product of the local ones), the number of its coordinates, the product of the local degrees | SecondMomentsOfPoincareSeries §3.3 (Bessel systems at the real places), §4.2 (the products) |
+| `β_c`, `a_{c,c'}(γ)`, `\|a\|_{c,c'}(γ)` | the cutoff of the class `c` at infinity; the amplitude `∫ β_c(y)β_{c'}(γ⁻¹y) W(y) ⊗ W(γ⁻¹y)^* dy`; the same integral of the norm of the tensor | SecondMomentsOfPoincareSeries §4.2 |
+| `A_T(c, s, c')`, `A♭_T` | the block: the sum of `a_{c,c'}(γ)` over `γ ∈ T` with `h_c⁻¹γh_{c'} ∈ K` of reduction `s` (the terms over `(c, s, c')`); with `W♭` | SecondMomentsOfPoincareSeries §4.2 |
+| `Z(γ)`, `D_l(γ)`, `𝗀(γ)`, `Nm𝗀(γ)` | the matrix `(h(f_a, γf_b))` of frame products; its leading minors; `𝗀 = \|D_n\|² − N²\|D_ϱ\|² ∈ E`; `∏_v \|Φ_v 𝗀\|` | SecondMomentsOfPoincareSeries §3.1 (leading minors, `𝗀_N`), §4.1 (frame products, `𝗀(γ)`) |
+| `ν`, `𝒟_main`, `𝒟_id`, `τ`, `n_p` | the covolume of the unipotent groups, `(n_X d)²/(deg·mass_r)`, `#R̄₀·n_X d`, `b^(kf/4)`, `#R̄₀ n_X N^(−kf)` | SecondMomentsOfPoincareSeries §4.2 (`ν`, `𝒟_main`, `𝒟_id`); 2.4 |
+| `c_S`, `a_*` | `((2π)^k rd_E^(1/2−k)/((k−1)! N^k))^f`; `#R̄₀·M^(fϱ(2k+2ϱ+1))·n_X·c_S` | SecondMomentsOfPoincareSeries §4.1 |
+| `link(γ)`, `Υ_γ`, `z⁺` | the pairs (class of `t`, class of `γ⁻¹t`) in `(A^⊥/A)²` for `t ⊥ A + γA`; the isometry of `X₀ ⊥ Ez⁺` it defines; `z⁺` of norm `N` | SecondMomentsOfPoincareSeries §4.2 (links), §4.5 (the link isometry) |
+| cell rank `j` | `0 ≤ j ≤ ϱ + 1`: norm-one pairs occur from `j`, `D_j ≠ 0`, and `j = ϱ + 1` exactly when `𝗀 ≠ 0` | SecondMomentsOfPoincareSeries §4.4 (cell ranks and near terms); 2.4 |
+| `Γ*`, agrees, stable | the remaining terms; `s` agrees with the unipotent character; a set of terms invariant under `𝖴(E)` on both sides | SecondMomentsOfPoincareSeries §4.12 (the remaining terms), §4.2 (agrees, stable) |
+| meets, `meet(s)` | `s` meets at a place above `M` if there the spans of `f` and `sf` share a nonzero vector; the product of the norms of these places | SecondMomentsOfPoincareSeries §4.10 (c) |
 | boxed, near | 2.2 | 2.2 |
 | `L_γ`, `L₁₂`, `d₁₂`, `c⁺`, `𝗀♯`, `𝗀*`, `D_j`, `σ_j(x)`, `size(γ)` | the data of a term and of a pair | 2.4 |
 | `𝖤(A, Ω)`, `𝖤_link(T, Ω)` | second moments of blocks | 2.1 |
 | `E_T`, `O_T` | the product of the completions of `E` at a finite conjugation-stable set `T` of finite places, and its integers | 7.2 |
 
-**Letters of the data.** For filling data built from admissible data, the letters agree with those of
-OneSidedPrimeSumBoundsAndAdmissibleData (the data): `E`, `f`, `b`, `M = p₀p₁`, `N`, the chosen places, `ϱ` (with
-`m = 2ϱ + 2` lifts), `k` (the rank of `X₀`) and `r = 2ϱ + k + 1` (the rank of `Y₀ = V`).
+**Letters of the data.** For filling data built from admissible data (SecondMomentsOfPoincareSeries §5.5), the letters
+agree with those of OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (`E`, `f`) and §3.2 (`b`, `M = p₀p₁`, `N`, `m`, `k`,
+`r`), and the chosen places are those of DivisibilityOfThetaDerivatives §1.5: `E`, `f`, `b`, `M = p₀p₁`, `N`, the chosen
+places, `ϱ` (with `m = 2ϱ + 2` lifts), `k` (the rank of `X₀`) and `r = 2ϱ + k + 1` (the rank of `Y₀ = V`).
 
 ## Layer 1: Lattices over a CM field
 
@@ -172,7 +178,7 @@ the `E`-subspaces `Λ` of `(X₀ ⊕ Ez)²`.
 
 (a) `𝖤(A + B, Ω)^(1/2) ≤ 𝖤(A, Ω)^(1/2) + 𝖤(B, Ω)^(1/2)`.
 
-*Needs:* SecondMomentsOfPoincareSeries (terms, amplitudes and blocks).
+*Needs:* SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes and blocks).
 
 [ShortProof], `New/Spanning/RemainingTerms/Size.lean` (`New.Filling.secondMoment`, `New.Filling.linkSecondMoment`,
 `New.Filling.sqrt_secondMoment_add_le`)
@@ -201,8 +207,8 @@ boxed point every frame vector `y_v⁻¹f_a` has length at most `b^(37n)`.
 (c) `γ ∈ G(E)` is *near* if some `y` has `y` and `γ⁻¹y` both boxed. Nearness is invariant under `γ ↦ uγu'` with
 `u ∈ U⁰_c`, `u' ∈ U⁰_{c'}`.
 
-*Needs:* SecondMomentsOfPoincareSeries (the filling data and its standing hypotheses), SecondMomentsOfPoincareSeries
-(Bessel systems at the real places: the Bessel length and the frame box).
+*Needs:* SecondMomentsOfPoincareSeries §3.1 (the Bessel length and the frame box), §3.2 (the Gram–Schmidt frame),
+§4.1 (the filling data and its standing hypotheses), §4.2 (the groups `U⁰_c`, residue domains, reduced points).
 
 [ShortProof], `New/Spanning/RemainingTerms/Box.lean` (`New.Filling.exists_isResidueDomain`, `New.Filling.boxedPoints`,
 `New.Filling.mul_mem_boxedPoints_iff`, `New.Filling.mem_frameBox_of_mem_boxedPoints`)
@@ -219,13 +225,14 @@ lattice and the covolume is at least `1`.
 Let `S` be admissible and `c` a class with chosen representative `g_c ∈ U(X₀)(𝔸_f)`.
 
 (a) `Λ_c ∩ X₀` is the set of `v ∈ 𝔸_f^κ` such that `g_c⁻¹v` is integral and its entry at the distinguished index `k₀`
-is divisible by the idele that the data fix above `N` (in the lattice basis of SecondMomentsOfPoincareSeries, where
+is divisible by the idele that the data fix above `N` (in the lattice basis of SecondMomentsOfPoincareSeries §4.1, where
 `e_{k₀}` is replaced by `e_{k₀}/π̄ + z/N`). Any two vectors of `Λ_c ∩ X₀` have an integral product.
 
 (b) For a finite set `ι`, the image of `(Λ_c ∩ X₀ ∩ E^κ)^ι` in `∏_v (ℂ^κ)^ι` under the conjugates of the embeddings
 `Φ_v` is a discrete subgroup. It has a measurable fundamental domain of finite Lebesgue measure at least `1`.
 
-*Needs:* 1.1, SecondMomentsOfPoincareSeries (the filling data and its standing hypotheses).
+*Needs:* 1.1, SecondMomentsOfPoincareSeries §4.1 (the filling data, the lattice basis and the standing hypotheses),
+§4.2 (classes and their representatives).
 
 [ShortProof], `New/Spanning/RemainingTerms/ColumnLattice.lean` (`New.Filling.exists_isAddFundamentalDomain_columnLattice`),
 `New/Spanning/RemainingTerms/Data.lean` (`New.Filling.classLatticeX₀`,
@@ -239,7 +246,7 @@ is divisible by the idele that the data fix above `N` (in the lattice basis of S
 
 Let `S` be filling data, `c, c'` classes, `γ, γ' ∈ G(E)`, and `k_γ = h_c⁻¹γh_{c'} ∈ G(𝔸_f)`.
 
-- *Norm-one pairs and cell rank* (SecondMomentsOfPoincareSeries (cell ranks and near terms)). Norm-one pairs occur for
+- *Norm-one pairs and cell rank* (SecondMomentsOfPoincareSeries §4.4). Norm-one pairs occur for
   `γ` from `j` if for one `ζ` with `ζζ̄ = 1` and every `a ≥ j` the flags `⟨f_0, …, f_a⟩` and `⟨γf_0, …, γf_a⟩` share a
   vector whose leading coefficients at `a` are `ζ` and `1` (frame indexed from `0`). `γ` has *cell rank* `j ≤ ϱ + 1` if
   moreover `D_j(γ) ≠ 0` and `j = ϱ + 1` exactly when `𝗀(γ) ≠ 0`. There is at most one such `j`. Put `j' = min(ϱ, j)`.
@@ -264,8 +271,8 @@ Let `S` be filling data, `c, c'` classes, `γ, γ' ∈ G(E)`, and `k_γ = h_c⁻
   `(c, s, c')` whose `s` agrees. The *label* of a term over `(c, s, c')` is the class of `s` in `Ḡ/R̄₀` (through fixed
   coset representatives).
 
-*Needs:* 1.1, 2.2, 2.3, SecondMomentsOfPoincareSeries (cell ranks and near terms), SecondMomentsOfPoincareSeries (links
-and the link isometry), SecondMomentsOfPoincareSeries (the remaining terms).
+*Needs:* 1.1, 2.2, 2.3, SecondMomentsOfPoincareSeries §4.2 (links, agreeing reductions), §4.4 (cell ranks and near
+terms), §4.5 (the link isometry), §4.12 (the remaining terms).
 
 [ShortProof], `New/Spanning/RemainingTerms/Data.lean` (`New.Filling.termLattice`, `New.Filling.pairLattice`,
 `New.Filling.pairDiscriminant`, `New.Filling.linkCorank`, `New.Filling.levelGauge`, `New.Filling.termSize`,
@@ -303,7 +310,7 @@ subframe `(e₁, …, e_i, z)` be nonzero. There is a measurable `φ ≥ 0` on `
 pairs from `j` and `Z(γ) = Z` whose subframe images have `X₀`-parts differing from those of `γ₀` by `A^*` times the
 first `i` rows of the block.
 
-*Needs:* SecondMomentsOfPoincareSeries (Bessel systems at the real places: the Bessel length and the frame box).
+*Needs:* SecondMomentsOfPoincareSeries §3.1 (the group at a real place, its frame, the Bessel length and the frame box).
 
 [ShortProof], `New/Spanning/RemainingTerms/OneRealPlace.lean` (`New.RealPlace.IsNegativeBasis.volumeRatio_eq`,
 `New.RealPlace.exists_majorant_volumeRatio_inv_pow`)
@@ -329,7 +336,7 @@ put `w_{c',γ,i}(y) = β^□_{c'}(γ⁻¹y)·∏_v ν_{γ_v}(y_v)^(−(k+i))` (3
 `∏_v 𝖴⁰(ℝ)`, and let `B` have finite positive measure. If `∫_B F(u·s(x)·y) dx ≤ |B|·C` for all `u ∈ ∏_v 𝖴⁰(ℝ)` and all
 boxed `y`, then `∫ β^□_c ‖W♭‖² F ≤ C·ν·d`.
 
-*Needs:* 2.2, 3.1, SecondMomentsOfPoincareSeries (terms, amplitudes and blocks; the cutoffs `β_c`).
+*Needs:* 2.2, 3.1, SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes and blocks; the cutoffs `β_c`).
 
 [ShortProof], `New/Spanning/RemainingTerms/SchurTest.lean` (`New.Filling.amplitudeMajorant_sq_le`,
 `New.Filling.lintegral_boxCutoff_le_of_average`)
@@ -350,7 +357,7 @@ Let `S` be admissible and `γ` a term over `(c, s, c')` of cell rank `j ≥ 1`, 
 
 (b) If moreover `Nm𝗀(γ) ≤ N^f·minor_j(γ)`, then `Σ_{δ ∈ U⁰_c γ U⁰_{c'}} |a|♭_{c,c'}(δ) ≤ ν·σ_j(𝗀_max(γ))`.
 
-*Needs:* 2.3, 2.4, 3.1, 3.2, SecondMomentsOfPoincareSeries (Eichler shifts and reduced points).
+*Needs:* 2.3, 2.4, 3.1, 3.2, SecondMomentsOfPoincareSeries §4.3 (a) (Eichler shifts), §4.6 (reduced points).
 
 [ShortProof], `New/Spanning/RemainingTerms/SchurOrbit.lean` (`New.Filling.sq_tsum_amplitudeMajorant_doubleCoset_le`,
 `New.Filling.tsum_amplitudeMajorant_orbit_le`)
@@ -361,8 +368,8 @@ Let `S` be admissible and `γ` a term over `(c, s, c')` of cell rank `j ≥ 1`, 
 a near term of large discriminant.
 
 *Method of the formal proof:* at a near term the minors of the frame products are at most `b^(135n²)` at every place,
-which bounds `Nm𝗀`. The open-cell bound of SecondMomentsOfPoincareSeries is a product over the places of explicit
-local constants; its part independent of `γ` is compared with `𝒟_main` through the standing hypotheses.
+which bounds `Nm𝗀`. The open-cell bound of SecondMomentsOfPoincareSeries §3.12 (b) is a product over the places of
+explicit local constants; its part independent of `γ` is compared with `𝒟_main` through the standing hypotheses.
 
 Let `S` be admissible and `γ ∈ G(E)`.
 
@@ -373,7 +380,7 @@ Let `S` be admissible and `γ ∈ G(E)`.
 (c) If `Nm𝗀(γ) ≥ 1`, the product over the infinite places of the open-cell bounds at the images of `γ` is at most
 `(ν·σ_{ϱ+1}(Nm𝗀(γ))/2)²`.
 
-*Needs:* 2.2, 2.4, SecondMomentsOfPoincareSeries (the open-cell pairing bound).
+*Needs:* 2.2, 2.4, SecondMomentsOfPoincareSeries §3.12 (b) (the open-cell bound at one place).
 
 [ShortProof], `New/Spanning/RemainingTerms/OrbitSize.lean` (`New.Filling.IsNear.termDiscNorm_le`,
 `New.Filling.IsNear.inv_pow_le_orbitBound`, `New.Filling.prod_pairingBoundSq_le`)
@@ -395,8 +402,8 @@ Let `S` be admissible.
 (b) Let `T ⊂ Γ*` be stable. For all `c, s, c'`, `‖A♭_T(c, s, c')‖ ≤ ν·Σ_γ size(γ)`, the sum over the near
 representatives `γ` of `T` over `(c, s, c')`.
 
-*Needs:* 2.4, 3.3, 3.4, SecondMomentsOfPoincareSeries (the remaining terms), SecondMomentsOfPoincareSeries (the
-open-cell pairing bound).
+*Needs:* 2.4, 3.3, 3.4, SecondMomentsOfPoincareSeries §3.13 (the open-cell pairing bound), §4.12 (the remaining
+terms).
 
 [ShortProof], `New/Spanning/RemainingTerms/Size.lean` (`New.Filling.hasCellRank_cellRank_of_mem`,
 `New.Filling.enorm_amplitudeSum_le_tsum_termSize`,
@@ -418,7 +425,8 @@ Let `S` be admissible and `U ⊂ G(E)`.
 
 (b) For every `Ω ⊂ Ḡ`, `𝖤(A_U − A♭_U, Ω) ≤ b^(−40)𝒟_id`.
 
-*Needs:* 2.1, SecondMomentsOfPoincareSeries (Bessel systems at the real places: the cut pair).
+*Needs:* 2.1, SecondMomentsOfPoincareSeries §3.3 (Bessel systems at the real places: the cut pair), §4.9 (a) (absolute
+convergence of the amplitudes and the difference of the kernels).
 
 [ShortProof], `New/Spanning/RemainingTerms/Size.lean` (`New.Filling.sum_norm_amplitudeSum_sub_cut_le`,
 `New.Filling.secondMoment_sub_cut_le`)
@@ -443,7 +451,7 @@ them and `I_γ`.
 (b) If `E` is stably unramified, the same holds for `e₁, …, e_j, z` and `A⁺/I_γ`, and `δ_*^j(γ) ≠ 0`; so the two
 quotients pair perfectly. The rank of `A/I_γ` is `min(j, ϱ)`.
 
-*Needs:* 2.4, SecondMomentsOfPoincareSeries (cell ranks and near terms).
+*Needs:* 2.4, SecondMomentsOfPoincareSeries §4.4 (cell ranks and near terms).
 
 [ShortProof], `New/Spanning/RemainingTerms/Denominators.lean`
 (`New.Filling.HasCellRank.linearIndependent_mkQ_frameImage_and_sup_eq`),
@@ -473,8 +481,8 @@ lifts and `d_link(ve)²·(i_j(k)·i_j(k⁻¹)·t(k))² ≤ minor_j(γ)²`.
 (b) There is `e ∈ GL(𝔸_f)` such that the columns of `ve` have level lifts and
 `t(k)²·d_link(ve)² ≤ (M^(2if)·𝗀♯_j(γ)/N^f)²`.
 
-*Needs:* 1.1, 2.4, 4.1, SecondMomentsOfPoincareSeries (links and the link isometry), ShortGRH background (Jacobi's
-identity between the discriminants of a lattice and of its orthogonal complement, for adelic lattices).
+*Needs:* 1.1, 2.4, 4.1, SecondMomentsOfPoincareSeries §4.2 (links), §4.5 (the link isometry), ShortGRH background
+(Jacobi's identity between the discriminants of a lattice and of its orthogonal complement, for adelic lattices).
 
 [ShortProof], `New/Spanning/RemainingTerms/OrthogonalLifts.lean` (`New.Filling.exists_orthogonal_lift`,
 `New.Filling.abs_norm_det_gram_eq_abs_norm_subframeMinor_sq`), `New/Spanning/RemainingTerms/LinkLattice.lean`
@@ -500,7 +508,7 @@ of `Λ_c` orthogonal to `A` and `γA` are integral.
 (c) If `γ` has cell rank `j` and `𝗀(γ) = 0`, the two vectors are proportional. If `𝗀(γ) ≠ 0`, they are independent and,
 for `E` stably unramified, `∏_v |Φ_v det Gram(z⁺, Υ_γ⁻¹z⁺)| = N^f·Nm𝗀(γ)/𝗀♯_{ϱ+1}(γ)`.
 
-*Needs:* 2.4, 4.2, SecondMomentsOfPoincareSeries (links and the link isometry).
+*Needs:* 2.4, 4.2, SecondMomentsOfPoincareSeries §4.2 (links), §4.5 (the link isometry).
 
 [ShortProof], `New/Spanning/RemainingTerms/LinkVectors.lean` (`New.Filling.linkVectors_mulVec_perpToPositive_mem`,
 `New.Filling.linkVectors_mulVec_eq_zero_iff`, `New.Filling.exists_lift_mem_linkedX₀_iff_exists_orthogonal`,
@@ -532,7 +540,7 @@ and the links are equal.
 `X₀ ⊕ Ez`. The form `M⁻¹·diag(Q, −Q)` on `(X₀ ⊕ Ez)²` takes integral values on a column with an integral lift for `γ`
 paired with a column with an integral lift for `γ'`.
 
-*Needs:* 2.4, 4.2, 4.3, SecondMomentsOfPoincareSeries (the remaining terms: agreeing reductions and meeting places).
+*Needs:* 2.4, 4.2, 4.3, SecondMomentsOfPoincareSeries §4.2 (agreeing reductions), §4.10 (c) (meeting places).
 
 [ShortProof], `New/Spanning/RemainingTerms/Cut.lean` (`New.Filling.nonempty_linkSplitting`,
 `New.Filling.HasCellRank.finrank_link_inf_le`, `New.Filling.HasCellRank.finrank_link_inf_eq_add_two`,
@@ -643,7 +651,7 @@ Let `S` be admissible and `E` stably unramified, and let `r + l = k`. Then
 `Σ_c Σ_L d_r(L)^(−k) ≤ τ^(l+1)·n_X/N^(kf)`, the inner sum over the lattices `L ⊂ Λ_c ∩ X₀` of rank `r` with
 `d_r(L) ≤ b^(n³f)`.
 
-*Needs:* 1.1, 1.2, 2.3, SecondMomentsOfPoincareSeries (the filling data and its standing hypotheses).
+*Needs:* 1.1, 1.2, 2.3, SecondMomentsOfPoincareSeries §4.1 (the filling data and its standing hypotheses).
 
 [ShortProof], `New/Spanning/RemainingTerms/LatticesOfCorank.lean` (`New.Filling.sum_discriminant_inv_le`)
 
@@ -694,7 +702,7 @@ blocks `(c, s, c')` in the same link class with `meet(s) ≥ z`.
 (d) *One link at a time.* Let `z ≥ 1` with `meet(s) ≥ z` for all `s ∈ Ω`. Then
 `𝖤_link({𝗀 ≠ 0}, Ω) ≤ (b^(2f)/z)^k·𝒟_main·ν²`.
 
-*Needs:* 2.1, 2.4, 3.5, 4.5, 5.4, SecondMomentsOfPoincareSeries (the remaining terms).
+*Needs:* 2.1, 2.4, 3.5, 4.5, 5.4, SecondMomentsOfPoincareSeries §4.10 (c) (meeting places), §4.12 (the remaining terms).
 
 [ShortProof], `New/Spanning/RemainingTerms/Sum.lean` (`New.Filling.sum_termSize_mul_not_inSameLinkClass_le`,
 `New.Filling.sum_termSize_mul_inSameLinkClass_le`, `New.Filling.secondMoment_remainingTerms_le`,
@@ -753,8 +761,9 @@ Let `E` be a totally complex number field with `f` infinite places. For `ν ∈ 
 
 (b) Let `S` be filling data, `T` a finite set of finite places, `O_T` the integers of `E_T`, `k ∈ ℕ`, `1 ≤ B`, and
 `c ∈ ℂ^{places}`, `x ∈ ℝ^{places}` with `|c_v|^(−1) ≤ |x_v| ≤ B`. For every finite set `X` of nonzero `T`-integers of
-`E`, `Σ_{y∈X} ∏_v ρ_k(|c_vΦ_v y|^(−1))·[y]_T^(k/2)/[O_T : O_T ∩ y⁻¹O_T]³ ≤ ∏_v |x_v|^k(bB²)³`, where
-`ρ_k(r) = r^k·min(1, r)⁶` and `[y]_T` is the generalised index at `T`.
+`E`, `Σ_{y∈X} (∏_v ρ_k(|c_vΦ_v y|^(−1)))·[y]_T^(k/2)/[O_T : O_T ∩ y⁻¹O_T]³ ≤ ∏_v (|x_v|^k·(bB²)³)`, where
+`ρ_k(r) = r^k·min(1, r)⁶` and `[y]_T` is the generalised index at `T`. Both products are over the infinite places `v`
+of `E`; on the right the factor `(bB²)³` is inside the product, so the bound is `(bB²)^{3f}·∏_v |x_v|^k`.
 
 *Needs:* none.
 
@@ -811,8 +820,8 @@ Bessel systems at the infinite places, which form sieve systems on `ℂ` with ma
 
 `Re Σ_{t∈U} Σ_{p,q∈A^ϱ} ∏_v J^v_n(heads of p, q at v)·J_{T,n}(heads of p, q at T) ≤ (∏_{i<n} P_i)·((∏_v (1 + b^(−10))/deg_v)·mass_T + b^(2403n⁹f)·C_decay)`.
 
-*Needs:* 6.1, 6.2, 6.3, SecondMomentsOfPoincareSeries (Bessel systems at the real places: the band-limit forms, a sieve
-system on `ℂ` at each infinite place), SecondMomentsOfPoincareSeries (the filling data and its standing hypotheses).
+*Needs:* 6.1, 6.2, 6.3, SecondMomentsOfPoincareSeries §3.3 (Bessel systems at the real places: the band-limit forms, a
+sieve system on `ℂ` at each infinite place), §4.1 (the filling data and its standing hypotheses).
 
 [ShortProof], `New/Spanning/MainTerm/GlobalSieve.lean` (`New.Filling.sieve`, `New.Filling.densitySum_le`,
 `New.Filling.boundsDecay_prod`)
@@ -911,8 +920,8 @@ sum of `γ` over `(c, k̄, c')` is `Kl(x, s)` (7.1, at `T`) times the orbital in
 Hence the entry `(a, b)` of the scaled orbital integral at `T` (PairsOfFramesAtOnePlace) times this orbital integral at
 infinity is the head density times `μ(K(M))` times the orbit sum, whenever `k⁻¹ab⁻¹ ∈ K(M)`.
 
-*Needs:* 7.1, 7.2, SecondMomentsOfPoincareSeries (terms, amplitudes and blocks), SecondMomentsOfPoincareSeries (links
-and the link isometry), PairsOfFramesAtOnePlace (the scaled orbital integral and the head density).
+*Needs:* 7.1, 7.2, SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes, blocks and links), §4.5 (the link isometry),
+PairsOfFramesAtOnePlace (the scaled orbital integral and the head density).
 
 [ShortProof], `New/Spanning/MainTerm/GlobalToLocal.lean` (`New.Filling.exists_amplitudeSum_eq_sum_cosetAmplitude`,
 `New.Filling.IsFillingData.card_reducedImage_mul_measure_congruenceSubgroup_eq`,
@@ -1026,7 +1035,8 @@ for every `w ∈ 𝔖g`. Then
 
 `𝖤_link({γ : 𝗀(γ) ≠ 0}, Ω) ≤ (1 + b^(−4))·b^(−6k·#𝔖g)·𝒟_main·ν²`.
 
-*Needs:* 2.1, 6.4, 7.2, 7.3, 7.5, 7.6, SecondMomentsOfPoincareSeries (the remaining terms: open reductions and fixers).
+*Needs:* 2.1, 6.4, 7.2, 7.3, 7.5, 7.6, SecondMomentsOfPoincareSeries §4.1 (the group `Ḡ` and reduction at the chosen
+places), §4.10 (d) (the fixers of frame vectors at the chosen places).
 
 [ShortProof], `New/Spanning/MainTerm/EnergyEstimate.lean` (`New.Filling.linkSecondMoment_isOpenElement_le`,
 `New.Filling.sum_norm_sum_cosetAmplitude_sq_le`)
