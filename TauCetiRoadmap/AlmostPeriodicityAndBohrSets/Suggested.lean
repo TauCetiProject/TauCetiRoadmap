@@ -23,11 +23,16 @@ The headline theorems are:
 * Layer 4: the measure of Bohr sets of unitary representations, and Bogolyubov's lemma on
   compact groups;
 * Layer 5: Sanders' quasi-polynomial Bogolyubov–Ruzsa lemma on compact abelian groups;
-* Layer 7: the quasi-polynomial Freiman–Ruzsa theorem in arbitrary abelian groups;
+* Layer 7: Ruzsa modelling and the quasi-polynomial Freiman–Ruzsa theorem in torsion-free abelian
+  groups and in vector spaces over `𝔽_p`;
 * Layer 9: Grothendieck's double-limit criterion, in `C(K)` and for groups, and Eberlein's
   theorem;
 * Layer 10: Ellis's theorem and the unique invariant mean on weakly almost periodic functions;
 * Layer 11: the qualitative Bogolyubov theorem and the Følner–Bogolyubov theorem.
+
+Two results of the Summary are not stated here: the factorisation of almost periodic functions
+through the Bohr compactification (Layer 8.3), which needs the carrier `BohrCompactification`, a
+README target; and the de Leeuw–Glicksberg decomposition (Layer 10.5).
 
 Conventions: general groups are multiplicative; abelian layers are additive. Convolution is
 `mconvolution f g μ x = ∫ y, f y * g (y⁻¹ * x) ∂μ`. Bohr sets use the operator-norm (chord)
@@ -59,8 +64,9 @@ the convolution of their indicators. For the counting measure it is `Finset.mulE
 noncomputable def mulEnergy (μ : Measure G) (A B : Set G) : ℝ :=
   ∫ x, ‖mconvolution (A.indicator 1) (B.indicator 1) μ x‖ ^ 2 ∂μ
 
-/-- Counting measure: the convolution of indicators of finite sets counts representations, as in
-Mathlib's `Finset.convolution`. -/
+/-- Sanity check of the convolution convention (the first Check of Layer 0.1), not a headline:
+for the counting measure, the convolution of indicators of finite sets counts representations,
+as in Mathlib's `Finset.convolution`. -/
 theorem mconvolution_indicator_count [MeasurableSingletonClass G] [Countable G] [DecidableEq G]
     (A B : Finset G) (x : G) :
     mconvolution ((A : Set G).indicator 1) ((B : Set G).indicator 1) Measure.count x =
@@ -191,12 +197,14 @@ noncomputable def rank (B : BohrSet G) : ℕ :=
 end BohrSet
 
 /-- **Quasi-polynomial Bogolyubov–Ruzsa** (a weak form of Sanders' lemma) on second-countable
-compact abelian groups, with `μ` the Haar probability measure. With `L = log (e/α)`, `2A − 2A` contains a Bohr set of rank at
-most `C L⁴` whose widths are at least `e^{−CL}`, of measure at least `e^{−CL⁵}`. -/
+compact abelian groups, with `μ` the Haar probability measure. With `L = log (e/α)`, `2A − 2A`
+contains a Bohr set of rank at most `C L⁴` whose widths are at least `e^{−CL}`, of measure at
+least `e^{−CL⁵}`. -/
 theorem bogolyubov_ruzsa :
     ∃ C ≥ (1 : ℝ), ∀ (G : Type u) [AddCommGroup G] [TopologicalSpace G]
       [IsTopologicalAddGroup G] [CompactSpace G] [T2Space G] [SecondCountableTopology G]
-      [MeasurableSpace G] [BorelSpace G] (μ : Measure G) [μ.IsAddHaarMeasure] [IsProbabilityMeasure μ] (A : Set G),
+      [MeasurableSpace G] [BorelSpace G] (μ : Measure G) [μ.IsAddHaarMeasure]
+      [IsProbabilityMeasure μ] (A : Set G),
       MeasurableSet A → ∀ α : ℝ, 0 < α → α ≤ μ.real A →
       ∃ B : BohrSet G,
         (B.rank : ℝ) ≤ C * Real.log (Real.exp 1 / α) ^ 4 ∧
@@ -238,16 +246,49 @@ def IsProper (P : CosetProgression G) : Prop :=
 
 end CosetProgression
 
-/-- **The quasi-polynomial Freiman–Ruzsa theorem** in an arbitrary abelian group: a finite set
-with `#(A + A) ≤ K #A` is covered by `e^{C L⁵}` translates of a coset progression of rank
-`≤ C L⁴` and size `≤ e^{C L⁵} #A`, where `L = 1 + log K`. -/
+/-- **Ruzsa modelling in torsion-free groups** (Layer 7.3; Ruzsa 2009, Theorem 3.5): for
+`q ≥ #(k • A - k • A)`, a subset `A' ⊆ A` with `#A ≤ k #A'` is Freiman `k`-isomorphic to a subset
+of `ZMod q`. -/
+theorem exists_isAddFreimanIso_zmod {G : Type*} [AddCommGroup G] [IsAddTorsionFree G]
+    [DecidableEq G] (A : Finset G) (hA : A.Nonempty) {k : ℕ} (hk : 2 ≤ k) (q : ℕ)
+    (hq : (k • A - k • A).card ≤ q) :
+    ∃ A' ⊆ A, ∃ φ : G → ZMod q, A.card ≤ k * A'.card ∧
+      IsAddFreimanIso k (A' : Set G) (φ '' A') φ := by
+  sorry
+
+/-- **Ruzsa modelling in vector spaces over `𝔽_p`** (Layer 7.3): a finite set is Freiman
+`s`-isomorphic, through a linear map, to a subset of a finite `𝔽_p`-vector space of size at most
+`p * #(s • A - s • A)`. -/
+theorem exists_linearMap_isAddFreimanIso {p : ℕ} [Fact p.Prime] {G : Type*} [AddCommGroup G]
+    [Module (ZMod p) G] [DecidableEq G] (A : Finset G) (hA : A.Nonempty) (s : ℕ) :
+    ∃ (G' : Type u) (_ : AddCommGroup G') (_ : Module (ZMod p) G') (_ : Fintype G')
+      (φ : G →ₗ[ZMod p] G'), Fintype.card G' ≤ p * (s • A - s • A).card ∧
+      IsAddFreimanIso s (A : Set G) (φ '' A) φ := by
+  sorry
+
+/-- **The quasi-polynomial Freiman–Ruzsa theorem in torsion-free abelian groups** (Layer 7.5): a
+finite set with `#(A + A) ≤ K #A` is covered by `e^{C L⁵}` translates of a coset progression of
+rank `≤ C L⁴` and size `≤ e^{C L⁵} #A`, where `L = log (2K)`. -/
 theorem freiman_ruzsa :
-    ∃ C > (0 : ℝ), ∀ (G : Type u) [AddCommGroup G] [DecidableEq G] (A : Finset G) (K : ℝ),
-      A.Nonempty → 1 ≤ K → ((A + A).card : ℝ) ≤ K * A.card →
+    ∃ C > (0 : ℝ), ∀ (G : Type u) [AddCommGroup G] [IsAddTorsionFree G] [DecidableEq G]
+      (A : Finset G) (K : ℝ), A.Nonempty → 1 ≤ K → ((A + A).card : ℝ) ≤ K * A.card →
       ∃ (Q : CosetProgression G) (X : Finset G), X ⊆ A ∧
-        (Q.rank : ℝ) ≤ C * (1 + Real.log K) ^ 4 ∧
-        (Q.carrier.ncard : ℝ) ≤ Real.exp (C * (1 + Real.log K) ^ 5) * A.card ∧
-        (X.card : ℝ) ≤ Real.exp (C * (1 + Real.log K) ^ 5) ∧
+        (Q.rank : ℝ) ≤ C * Real.log (2 * K) ^ 4 ∧
+        (Q.carrier.ncard : ℝ) ≤ Real.exp (C * Real.log (2 * K) ^ 5) * A.card ∧
+        (X.card : ℝ) ≤ Real.exp (C * Real.log (2 * K) ^ 5) ∧
+        (A : Set G) ⊆ (X : Set G) + Q.carrier := by
+  sorry
+
+/-- **The quasi-polynomial Freiman–Ruzsa theorem in vector spaces over `𝔽_p`** (Layer 7.5), with
+`L = log (2pK)`; the constant `C` is absolute. -/
+theorem freiman_ruzsa_zmod :
+    ∃ C > (0 : ℝ), ∀ (p : ℕ) [Fact p.Prime] (G : Type u) [AddCommGroup G] [Module (ZMod p) G]
+      [DecidableEq G] (A : Finset G) (K : ℝ), A.Nonempty → 1 ≤ K →
+      ((A + A).card : ℝ) ≤ K * A.card →
+      ∃ (Q : CosetProgression G) (X : Finset G), X ⊆ A ∧
+        (Q.rank : ℝ) ≤ C * Real.log (2 * p * K) ^ 4 ∧
+        (Q.carrier.ncard : ℝ) ≤ Real.exp (C * Real.log (2 * p * K) ^ 5) * A.card ∧
+        (X.card : ℝ) ≤ Real.exp (C * Real.log (2 * p * K) ^ 5) ∧
         (A : Set G) ⊆ (X : Set G) + Q.carrier := by
   sorry
 
@@ -297,11 +338,11 @@ def IsWAPMean (m : (G →ᵇ ℂ) →ₗ[ℂ] ℂ) : Prop :=
     (∀ f, IsWeaklyAlmostPeriodic f → (∀ x, 0 ≤ f x) → 0 ≤ m f) ∧
     ∀ x f, IsWeaklyAlmostPeriodic f → m (leftTranslate x f) = m f
 
-/-- **Existence of the invariant mean** on weakly almost periodic functions (Layer 10.4). -/
+/-- **Existence of the invariant mean** on weakly almost periodic functions (Layer 10.2). -/
 theorem exists_isWAPMean : ∃ m : (G →ᵇ ℂ) →ₗ[ℂ] ℂ, IsWAPMean m := by
   sorry
 
-/-- **Uniqueness of the invariant mean** on weakly almost periodic functions (Layer 10.4). -/
+/-- **Uniqueness of the invariant mean** on weakly almost periodic functions (Layer 10.2). -/
 theorem IsWAPMean.eq {m m' : (G →ᵇ ℂ) →ₗ[ℂ] ℂ} (hm : IsWAPMean m) (hm' : IsWAPMean m')
     {f : G →ᵇ ℂ} (hf : IsWeaklyAlmostPeriodic f) : m f = m' f := by
   sorry
@@ -340,7 +381,7 @@ theorem isCompact_closure_toWeakSpace_iff_doubleLimit {K : Type*} [TopologicalSp
           a = b := by
   sorry
 
-/-- **Ellis's theorem** (Layer 10.2): a compact Hausdorff group with separately continuous
+/-- **Ellis's theorem** (Layer 10.4): a compact Hausdorff group with separately continuous
 multiplication is a topological group. -/
 theorem ellis {G : Type*} [Group G] [TopologicalSpace G] [SeparatelyContinuousMul G]
     [CompactSpace G] [T2Space G] : ContinuousMul G ∧ ContinuousInv G := by

@@ -25,10 +25,12 @@ compact abelian group, Rudin's inequality, Chang's lemma and the Croot–Sisask 
 Sanders' quasi-polynomial Bogolyubov–Ruzsa lemma. Write `L = log(e/α)`. Then `2A − 2A` contains a Bohr set
 of rank at most `C L⁴` and radius at least `e^{−CL}`, of measure at least `e^{−CL⁵}`, for an
 absolute constant `C`. On a finite abelian group, Minkowski's second theorem turns Bohr sets into
-proper coset progressions. Ruzsa modelling then transports the lemma to every finite set of small
-doubling in an arbitrary abelian group. The endpoint is the quasi-polynomial Freiman–Ruzsa
-theorem: if `|A + A| ≤ K|A|` then `A` is covered by `e^{O(log⁵ 2K)}` translates of a coset
-progression of rank `O(log⁴ 2K)`.
+proper coset progressions. Ruzsa modelling then transports the lemma to finite sets of small
+doubling in torsion-free abelian groups and in vector spaces over a prime field `𝔽_p`, where a
+large part of the set is Freiman isomorphic to a dense subset of a finite group. The endpoint is
+the quasi-polynomial Freiman–Ruzsa theorem in those groups: if `|A + A| ≤ K|A|` then `A` is
+covered by `e^{O(L⁵)}` translates of a coset progression of rank `O(L⁴)`, where `L = log 2K` for
+torsion-free groups and `L = log 2pK` over `𝔽_p`.
 
 The qualitative side works on an arbitrary topological group `G` and its bounded continuous
 functions. Almost periodic functions are exactly the functions that factor through the Bohr
@@ -50,7 +52,9 @@ The roadmap builds on several neighbours:
 
 - **RepresentationTheory/CompactGroups** supplies the Haar probability measure, irreducible
   unitary models and the Peter–Weyl theorem. Every Fourier statement here, abelian or not, rests
-  on them.
+  on them. Its continuation **CompactGroupsPartII** supplies the character theory of compact
+  abelian groups: continuous characters as the unitary dual, Fourier coefficients against
+  characters, and Parseval.
 - **AmenableGroups** supplies means and amenability. The qualitative Følner–Bogolyubov theorem
   consumes them.
 - **BanachSpaceTheory** supplies the Eberlein–Šmulian theorem, reflexivity and the duality between
@@ -72,7 +76,7 @@ The roadmap builds on several neighbours:
 | 4 | Peter–Weyl Fourier analysis, Bohr sets of unitary representations, their measure, and the non-abelian Bogolyubov lemma on compact groups |
 | 5 | Compact abelian groups: characters, Rudin's inequality, Chang's lemma and the quasi-polynomial Bogolyubov–Ruzsa lemma |
 | 6 | Regular Bohr sets, local Chang and Bohr-local almost periodicity |
-| 7 | Finite abelian groups: coset progressions in Bohr sets, Ruzsa modelling, the Bogolyubov–Ruzsa lemma for small doubling and the Freiman–Ruzsa theorem |
+| 7 | Coset progressions in Bohr sets of finite abelian groups; Ruzsa modelling, the Bogolyubov–Ruzsa lemma for small doubling and the Freiman–Ruzsa theorem in torsion-free groups and vector spaces over `𝔽_p` |
 | 8 | Almost periodic functions and the Bohr compactification of a topological group |
 | 9 | Weakly almost periodic functions and Grothendieck's double-limit criterion |
 | 10 | Krein's and Ryll-Nardzewski's theorems, the invariant mean, the weakly almost periodic compactification, Ellis's theorem and the de Leeuw–Glicksberg decomposition |
@@ -107,7 +111,7 @@ Bohr sets, and Layer 11 uses Layer 0's convolution to compare with the compact c
 - **Convolution.** For `f g : G → ℂ`,
   `mconvolution f g μ x = ∫ y, f y * g (y⁻¹ * x) ∂μ`, written `f ⋆ₘ[μ] g`. This is the Bochner
   counterpart of Mathlib's `MeasureTheory.mlconvolution` and is the first target of Layer 0. On an
-  additive group the same object is Mathlib's
+  additive commutative group the same object is Mathlib's
   `MeasureTheory.convolution f g (ContinuousLinearMap.mul ℂ ℂ) μ`. No second additive definition
   is introduced: Layer 0 proves the agreement on `Multiplicative G`.
 - **Normalised indicators and translates.** The normalised indicator of `A` with `0 < μ A < ∞` is
@@ -144,7 +148,8 @@ Bohr sets, and Layer 11 uses Layer 0's convolution to compare with the compact c
     `f = Σ_m m.dim • tr (m.fourierCoeff f ∘L m.rep ·)` over an irreducible skeleton.
   - On a compact abelian group, the Fourier coefficient of `f` at a continuous character `ψ` is
     `cft f ψ = ∫ x, f x * conj (ψ x) ∂μ` for the Haar probability measure `μ` of Layer 5
-    ("compact Fourier transform", following LeanAPAP).
+    ("compact Fourier transform", following LeanAPAP). It is CompactGroupsPartII §5.1's
+    coefficient `f̂(χ)`, read on `Multiplicative G` through the additive form of the character.
   - The large spectrum is `largeSpec f η = {ψ | η * ‖f‖₁ ≤ ‖cft f ψ‖}`.
   - Dissociation is Mathlib's `MulDissociated` in the group `AddChar G Circle` under pointwise
     multiplication, and spans are `Finset.mulSpan`: products of the elements raised to exponents
@@ -190,7 +195,8 @@ Prove agreement with:
 
 - Mathlib's `mlconvolution` on nonnegative real functions;
 - `MeasureTheory.convolution f g (ContinuousLinearMap.mul ℂ ℂ) μ` on `Multiplicative G` of an
-  additive group;
+  additive commutative group. Mathlib integrates `f t * g (x - t)`; commutativity identifies
+  `x - t` with `-t + x`, and without it the two orders of the factors are exchanged;
 - on a compact second-countable group, Tau Ceti's `TauCeti.convolutionOperator` on continuous
   kernels.
 
@@ -243,7 +249,8 @@ On a probability space, prove the following.
 State independence with Mathlib's `ProbabilityTheory.iIndepFun`. Derive Marcinkiewicz–Zygmund from
 Khintchine by symmetrisation with an independent copy; the complex case of Khintchine follows from
 the real one by Minkowski's inequality in `L^m` applied to the real and imaginary parts.
-*Needs:* Mathlib `ProbabilityTheory.iIndepFun`, `ProbabilityTheory.IndepFun.integral_mul_eq_mul_integral`.
+(Sanders 2013, Theorems 7.2 and 7.3, state both with constant `O(√p)` in `Lᵖ`; the constants here
+are the even-moment forms.) *Needs:* Mathlib `ProbabilityTheory.iIndepFun`, `ProbabilityTheory.IndepFun.integral_mul_eq_mul_integral`.
 
 **Checks.**
 
@@ -290,7 +297,8 @@ Proof:
 2. The map `(s, a) ↦ (s a₁, …, s aₖ)` lands in `(S A)^k`.
 3. Pigeonholing in measure finds a fibre `T` of the required size.
 
-*Needs:* 1.2, Layer 0.
+This is Croot–Sisask (2010), Proposition 3.3, and Sanders (2012), Lemma 4.3, there for discrete
+groups and with unspecified constants. *Needs:* 1.2, Layer 0.
 
 **Checks.**
 
@@ -342,7 +350,9 @@ Proof: integrate over `w` the pointwise bound `μ Y ≤ (1_{X Y⁻¹} ⋆ₘ[μ]
 **Ruzsa covering lemma for measures.** If `B` is measurable with `0 < μ B < ∞` and
 `μ (A * B) ≤ K μ B`, then `A ⊆ F * (B * B⁻¹)` for a finite `F ⊆ A` with `#F ≤ K`.
 
-*Needs:* Layer 0; Mathlib `Finset.ruzsa_covering_mul` for the shape of the statement.
+Both are Tao (2008), Lemmas 3.2 and 3.6, stated there for open precompact sets of a unimodular
+locally compact group. *Needs:* Layer 0; Mathlib `Finset.ruzsa_covering_mul` for the shape of the
+statement.
 
 **Checks.**
 
@@ -378,6 +388,10 @@ Proof:
    non-popular products carry at most half of the energy.
 2. Apply 3.2 to `{(a, b) ∈ A × B | a b ∈ P}`, with the measures normalised on `A` and `B`.
 3. A path of length three represents `a b'` in many ways as `x y⁻¹ z` with `x, y, z ∈ P`.
+
+This is Tao (2008), Theorem 5.2, there for open precompact sets of a unimodular group, with
+`A'`, `B'` of measure `≳ μ(A)/K`, `μ(B)/K` and product set `≲ K⁸ μ(A)^{1/2} μ(B)^{1/2}`; the
+measurable-set generality is this roadmap's.
 
 Also state the symmetric corollary, obtained from 3.1. If `μ.real A ^ 3 ≤ K * μ.mulEnergy A A`, then
 there is a measurable `A' ⊆ A` with `μ.real A ≤ C K^C μ.real A'` and
@@ -542,18 +556,20 @@ measure; Layer 4 applies to `Multiplicative G`.
 
 ### 5.1 Characters and the compact Fourier transform
 
-The continuous additive characters `ψ : AddChar G Circle` form a subgroup of the group
-`AddChar G Circle`, and are identified with Mathlib's `PontryaginDual (Multiplicative G)`; prove
-this identification.
+CompactGroupsPartII §5.1 supplies, for every compact Hausdorff abelian group, the bijection between
+`TauCeti.IrrepClass ℂ` and `PontryaginDual` (irreducible continuous unitary representations are
+one-dimensional), the Hilbert basis of characters of Haar `L²`, the coefficient
+`f̂(χ) = ∫ conj (χ g) f g ∂(haarProb)` and Parseval. It is stated multiplicatively and is applied
+here to `Multiplicative G`. This section adds the additive reading and the identities used below.
 
-- Prove that every irreducible continuous unitary representation of `G` is one-dimensional
-  (Schur's lemma). This gives a bijection between `𝓘` and the continuous characters, and turns
-  Layer 4 into the scalar statements below.
-- Define `cft f ψ`. Prove:
+- The continuous additive characters `ψ : AddChar G Circle` form a subgroup of the group
+  `AddChar G Circle`. Prove that it is identified with `PontryaginDual (Multiplicative G)`, and that
+  under this identification `cft f ψ` is CompactGroupsPartII's `f̂` and Parseval reads
+  `‖f‖₂² = Σ_ψ |cft f ψ|²`.
+- Prove:
   - orthogonality `∫ ψ dμ = 0` for `ψ ≠ 1`;
-  - Parseval `‖f‖₂² = Σ_ψ |cft f ψ|²`;
   - the convolution identity `cft (f ⋆ g) = cft f * cft g`;
-  - reflection `cft f̃ = conj (cft f)`;
+  - reflection `cft f̃ = conj (cft f)`, with `f̃ x = conj (f (-x))`;
   - pointwise absolutely convergent inversion for `u ⋆ v` with `u, v ∈ L²`.
 - Define `largeSpec f η` and prove `#(largeSpec (A.indicator 1) η) ≤ 1/(η² α)` for
   `α = μ.real A > 0`.
@@ -561,7 +577,8 @@ this identification.
   LeanAPAP's `cft` under `AddChar.circleEquivComplex`. On `ZMod N` this is `N⁻¹ • ZMod.dft f`,
   evaluated at the frequency corresponding to `ψ`.
 
-*Needs:* Layer 4; Mathlib `AddChar`, `Circle`, `AddChar.circleEquivComplex`.
+*Needs:* CompactGroupsPartII §5.1 (`exists_irrepClass_characterEquiv`, `exists_characterBasis`);
+Layer 4; Mathlib `AddChar`, `Circle`, `AddChar.circleEquivComplex`.
 
 **Checks.**
 
@@ -640,10 +657,12 @@ following property. Let `G` be a second-countable compact abelian group and `A �
 - `B.chordSet ⊆ 2 • A - 2 • A`;
 - `e^{−C L⁵} ≤ μ.real B.chordSet`.
 
-Sanders' theorem has radius polynomial in `1/L`. The form stated here is the one used downstream,
-and the measure bound follows from the rank and width bounds by 5.4.
+The measure bound follows from the rank and width bounds by 5.4. Sanders proves the corresponding
+statements with coset progressions in place of Bohr sets (Sanders 2012, Theorems 10.1 and 11.3);
+the Bohr-set form with these bounds is the one stated here.
 
-The proof follows Sanders (2012) and the survey Sanders (2013, §5):
+The proof is the argument for densely modelled sets sketched in Sanders (2012), §3 ("the case of
+good modelling"), with the Croot–Sisask lemma in the form of Sanders (2013), §§7–8:
 
 1. Apply Croot–Sisask (2.2) with `S = A`, so that `K ≤ 1/α`, to a triple convolution of normalised
    indicators of `A` and `−A`. This gives a set `T` of measure `e^{−O(L⁴)}`. Its iterated differences
@@ -675,7 +694,9 @@ Call `B` *regular* if, for all `0 ≤ κ ≤ 1/(200 r(B))`:
 
 **Theorem (Bourgain).** For every `B` with positive widths there is `ρ ∈ [1/2, 1]` with `ρ • B`
 regular. The proof is the Vitali-covering argument on `t ↦ log μ (t • B)`, using the doubling
-bound of 5.4.
+bound of 5.4. (Bourgain 1999; Sanders 2012, Lemma 5.2, with dilates in `[1, 2]` and an
+unspecified constant. The constant `200` is the one of the `ℤ/N` formalization under
+Provenance.)
 
 Prove the standard consequences:
 - for `B` regular, `y ∈ (κ • B).chordSet` and `κ ≤ 1/(200 r(B))`,
@@ -699,9 +720,26 @@ Then there are `Δ ⊆ largeSpec (X.indicator 1) η` and `ν ∈ [1/2, 1]` such 
 - every `ψ ∈ largeSpec (X.indicator 1) η` has the form `δ * φ` with `δ ∈ Δ.mulSpan` and
   `φ ∈ largeSpec (B'.chordSet.indicator 1) (1/2)`.
 
-The proof is Chang's argument (5.3), with the moments taken relative to `B`. Regularity (6.1)
-controls the error from translating by the narrower `B'`. This is Sanders' local Chang lemma
-(Sanders 2012). *Needs:* 6.1, 5.2, 5.3.
+Proof:
+
+1. Choose `ν` by 6.1 so that `B'` is regular. Put `S = largeSpec (B'.chordSet.indicator 1) (1/2)`,
+   which contains `1` and is closed under inversion.
+2. Call `Δ ⊆ largeSpec (X.indicator 1) η` *dissociated modulo `S`* if no nontrivial product
+   `Π_{δ ∈ Δ} δ^{σ_δ}`, `σ ∈ {−1, 0, 1}^Δ`, lies in `S`. A maximal such `Δ` gives the
+   decomposition `ψ = δ φ`, by maximality applied to `Δ ∪ {ψ}`.
+3. Let `k = ⌈D⌉ + 1` and let `w` be the probability density
+   `μ_{B⁺} ⋆ μ_{B'} ⋆ ⋯ ⋆ μ_{B'}`, with `2k` factors `μ_{B'}`, where `B⁺` is the dilate of `B`
+   by `1 + 2k ν/(C r(B) D)`. By regularity (6.1), `w` is constant on `B.chordSet`, equal to
+   `1/μ(B⁺) ≥ 1/(2 μ B.chordSet)`. Every character outside `S` has Fourier coefficient at most
+   `1/2` against `μ_{B'}`, hence at most `4^{−k}` against `w`. So every `Δ` dissociated modulo
+   `S` with `#Δ ≤ k` has Riesz products `Π (1 + Re (d_δ δ))`, `|d_δ| ≤ 1`, of `w`-mass at most
+   `1 + 4^{−k} 2^k ≤ 2` (weighted randomisation, as in 5.2).
+4. Chang's argument (5.3), with the moments taken against `w`, then bounds `#Δ` by `D`, because
+   `X ⊆ B.chordSet` has `w`-mass at least `τ/2`.
+
+This is a variant of Sanders' local Chang lemma (Sanders 2012, Lemmas 6.2 and 6.3, phrased there
+with relative entropy and an annihilation bound); the form here, with its constants, is the one
+formalized over `ℤ/N` under Provenance. *Needs:* 6.1, 5.2, 5.3.
 
 ### 6.3 Bohr-local almost periodicity
 
@@ -715,10 +753,13 @@ The proof: `X + B'.chordSet ⊆ ((1 + κ) • B).chordSet`, whose measure is at 
 by regularity. This is the form in which Croot–Sisask is iterated inside Bohr sets. *Needs:* 2.1,
 2.2, 6.1.
 
-## Layer 7: finite abelian groups, coset progressions and the Freiman–Ruzsa theorem
+## Layer 7: coset progressions, Ruzsa modelling and the Freiman–Ruzsa theorem
 
-`G` is an abelian group, written additively. It is arbitrary except in 7.2 and in the dense
-theorem of 7.4, where it is finite with the discrete topology.
+`G` is an abelian group, written additively. It is arbitrary in 7.1. It is finite, with the
+discrete topology, in 7.2 and in the dense theorem of 7.4. In 7.3, in the small-doubling theorem
+of 7.4 and in 7.5 it is either torsion-free (`IsAddTorsionFree G`) or a vector space over `𝔽_p`
+for a prime `p` (`Module (ZMod p) G`): the two classes in which a large part of a set of small
+doubling has a dense Freiman model.
 
 ### 7.1 Coset progressions
 
@@ -738,8 +779,9 @@ Its carrier is `H + {Σ i, n i • gen i | ∀ i, |n i| ≤ len i}`, with `n : F
 - `P.carrier + P.carrier ⊆ (2 • P).carrier`, where `2 • P` has the lengths doubled;
 - the image under an injective additive map is a proper coset progression of the same rank;
 - the image of a proper coset progression under a Freiman 2-isomorphism defined on its carrier is
-  a proper coset progression of the same rank, the subgroup going to a coset. A Freiman
-  2-isomorphism is affine on the carrier.
+  a translate of the carrier of a proper coset progression of the same rank, the subgroup going to
+  a coset of a subgroup. A Freiman 2-isomorphism is affine on the carrier, so the image is the
+  carrier itself when `0 ↦ 0`.
 
 *Needs:* Mathlib `AddSubgroup`, `IsAddFreimanIso`.
 
@@ -771,25 +813,42 @@ The proof:
 
 ### 7.3 Ruzsa modelling
 
-**Theorem.** For every `s ≥ 2` there is a constant `c s ≥ 1`, depending only on `s`, with the
-following property. For every finite `A ⊆ G` there are:
+**Theorem (torsion-free groups; Ruzsa).** Let `G` be torsion-free, `A ⊆ G` finite and nonempty,
+`k ≥ 2`, and `q ≥ #(k • A − k • A)`. Then there are `A' ⊆ A` with `#A ≤ k * #A'` and a map
+`φ : G → ZMod q` that is a Freiman `k`-isomorphism from `A'` onto its image.
 
-- `A' ⊆ A` with `#A ≤ c s * #A'`;
-- a finite abelian group `G'` with `#G' ≤ c s * #(s • A − s • A)`;
-- a map `φ : G → G'` that is a Freiman `s`-isomorphism from `A'` onto its image.
+Proof:
 
-This is Green–Ruzsa's modelling lemma; their Proposition 1.2 gives explicit `c s`. The proof:
+1. Reduce to `G` finitely generated, hence `G ≅ ℤʳ`. A homomorphism `ℤʳ → ℤ` that is injective on
+   the finite set `k • A − k • A` is a Freiman `k`-isomorphism on `A`; so reduce to `G = ℤ`.
+2. For `A ⊆ ℤ`, take a prime `P > 2k max |a|`, so that reduction mod `P` is a Freiman
+   `k`-isomorphism on `A`, and compose a dilation `a ↦ λa` of `ℤ/P` with a rescaling of `[0, P)`
+   onto `ZMod q`. Split `[0, P)` into `k` arcs of equal length. On the part of `A` mapped into one
+   arc, the composite is a Freiman `k`-homomorphism; pigeonholing gives an arc holding at least
+   `#A/k` points, and averaging over `λ` gives one for which the composite is also injective on
+   `k • A' − k • A'`.
 
-1. Reduce to finitely generated `G = ℤ^r ⊕ T`.
-2. Map to `(ℤ/q)^r ⊕ T` injectively on `s • A − s • A`.
-3. Cut down by a random homomorphism and pigeonhole on a colour class, as in the cyclic case.
+This is Ruzsa (2009), Theorem 3.5, as quoted in Sanders (2012), Lemma 11.2.
 
-*Needs:* Mathlib `IsAddFreimanIso`, `IsAddFreimanHom`.
+**Theorem (vector spaces over `𝔽_p`).** Let `p` be prime, `G` a `ZMod p`-module, `A ⊆ G` finite
+and nonempty, and `s ≥ 1`. Then there are a finite `ZMod p`-module `G'` with
+`#G' ≤ p * #(s • A − s • A)` and a `ZMod p`-linear map `φ : G →ₗ[ZMod p] G'` that is a Freiman
+`s`-isomorphism from `A` onto its image.
+
+Proof: project onto the span of `A`, then quotient by lines. A line `ℓ` with
+`ℓ ∩ (s • A − s • A) = {0}` exists while the number `(pᵐ − 1)/(p − 1)` of lines exceeds
+`#(s • A − s • A) − 1`, and the quotient map by such a line is a Freiman `s`-isomorphism on `A`.
+At the end `pᵐ ≤ (p − 1) #(s • A − s • A) + 1`. This is the argument of Green–Ruzsa (2007),
+Proposition 6.1, there for `p = 2` and `s = 2`.
+
+*Needs:* Mathlib `IsAddFreimanIso`, `IsAddFreimanHom`, `IsAddTorsionFree`.
 
 **Checks.**
 
-- If `A` is a finite subgroup, then `s • A − s • A = A`. Taking `A' = A`, `G' = A` and any map
-  `G → A` that restricts to the identity on `A` is admissible.
+- `G = 𝔽_p^n` and `A` a subspace: `s • A − s • A = A`, and the projection onto `A` is admissible
+  with `#G' = #A ≤ p #A`.
+- `G = ℤ`, `A = {0, 1, …, n − 1}`, `k = 2`: `#(2 • A − 2 • A) = 4n − 3`, and reduction mod `q`
+  is a Freiman 2-isomorphism on all of `A` for every `q ≥ 4n − 3`.
 
 ### 7.4 Bogolyubov–Ruzsa for dense sets and for sets of small doubling
 
@@ -797,21 +856,27 @@ This is Green–Ruzsa's modelling lemma; their Proposition 1.2 gives explicit `c
 finite, with the discrete topology, and `A ⊆ G` with `#A = α #G > 0`, and put `L = log (e/α)`. Then
 `2 • A − 2 • A` contains a proper coset progression of rank `≤ C L⁴` and size `≥ e^{−C L⁵} #G`.
 
-This is 5.5 followed by 7.2.
+This is 5.5 followed by 7.2, with the widths capped at `2`.
 
 **Theorem (small doubling).** There is an absolute constant `C` with the following property. Let
-`G` be an arbitrary abelian group, `A ⊆ G` finite and nonempty, and `K ≥ 1` with
-`#(A + A) ≤ K #A`, and put `L = 1 + log K`. Then `2 • A − 2 • A` contains a proper coset
-progression `P` of rank `≤ C L⁴` with `e^{−C L⁵} #A ≤ #P.carrier`.
+`A ⊆ G` be finite and nonempty, and `K ≥ 1` with `#(A + A) ≤ K #A`. Put `L = log (2K)` if `G` is
+torsion-free and `L = log (2pK)` if `G` is a vector space over `𝔽_p`. Then `2 • A − 2 • A`
+contains a proper coset progression `P` of rank `≤ C L⁴` with `e^{−C L⁵} #A ≤ #P.carrier`.
 
 Proof:
 
-1. Apply 7.3 with `s = 8`. By Plünnecke–Ruzsa, the model `A'' = φ(A')` has density at least
-   `1 / (c 8 ² K^{16})` in `G'`.
+1. By Plünnecke–Ruzsa, `#(8 • A − 8 • A) ≤ K^{16} #A`. Apply 7.3 with `k = s = 8`: in the
+   torsion-free case with `q = #(8 • A − 8 • A)`, to get `A' ⊆ A` with `8 #A' ≥ #A`; over `𝔽_p`
+   with `A' = A`. The model `A'' = φ(A')` has density at least `1/(8 K^{16})`, respectively
+   `1/(p K^{16})`, in its group `G'`, so `log (e/α) ≤ 16 L`.
 2. Apply the dense theorem to `A''`.
 3. `φ` is an 8-isomorphism on `A'`, so its inverse induces a Freiman 2-isomorphism from
    `2 • A'' − 2 • A''` to `2 • A' − 2 • A'`.
-4. Transport the progression through this 2-isomorphism (7.1).
+4. This 2-isomorphism sends `0 = a'' + a'' − a'' − a''` to `0`, so by 7.1 it maps the progression
+   onto the carrier of a proper coset progression of the same rank inside `2 • A − 2 • A`.
+
+Sanders (2012) proves the torsion-free case with the sharper size `e^{−O(L⁴ log L)}` (Theorem 11.3)
+and the bounded-exponent case with a subgroup in place of `P` (Theorem 11.1).
 
 *Needs:* 5.5, 7.1–7.3, and the additive form of Mathlib's
 `Finset.pluennecke_ruzsa_inequality_pow_div_pow_mul`.
@@ -831,8 +896,8 @@ Take `Q = P − P` for the `P` of 7.4. Mathlib's Ruzsa covering lemma applies si
 
 **Checks.**
 
-- `A` a finite subgroup: `K = 1`, `L = 1`, and `Q` the progression of rank `0` on `H = A` with
-  `X = {0}` is admissible.
+- `A` a finite subgroup of an `𝔽_p`-vector space: `K = 1`, and `Q` the progression of rank `0` on
+  `H = A` with `X = {0}` is admissible.
 - `A = {0, …, n − 1} ⊆ ℤ`: `K < 2`, and an arithmetic progression of rank 1 is admissible.
 
 ## Layer 8: almost periodic functions and the Bohr compactification
@@ -867,7 +932,9 @@ in 8.3.
 
 Define `BohrCompactification G := WeakDual.characterSpace ℂ (almostPeriodicFunctions G)`. Construct:
 
-- the group structure, with `(χ ψ) f = χ (x ↦ ψ (L_x f))`;
+- the group structure, with `(χ ψ) f = χ (x ↦ ψ (y ↦ f (x * y)))`, that is
+  `χ (x ↦ ψ (L_{x⁻¹} f))`. The inner function is almost periodic by 8.1, and
+  `(ι g * ι h) f = f (g * h)`;
 - a compact Hausdorff topological group structure;
 - the continuous homomorphism `BohrCompactification.ι : G →* BohrCompactification G`, with dense
   range.
@@ -889,6 +956,8 @@ through Mathlib's `gelfandStarTransform`.
 
 **Checks.**
 
+- On `G = ℤ`, written additively, with `f n = e(nθ)`: `(ι 1 · ι 1) f = f (1 + 1) = e(2θ) = (ι 2) f`.
+  The variant `χ (x ↦ ψ (L_x f))` would give `f (−1 + 1) = 1` instead.
 - If `G` is compact Hausdorff, `ι` is an isomorphism of topological groups and
   `almostPeriodicFunctions G` is all of `G →ᵇ ℂ`.
 - For `G = ℤ`, `ι n = ι 0` only for `n = 0`, since characters separate points of `ℤ`.
@@ -1024,15 +1093,16 @@ counterpart, on weakly almost periodic functions, of AmenableGroups' `TauCeti.Co
 ### 10.1 Krein's theorem and the Ryll-Nardzewski fixed-point theorem
 
 **Theorem (Krein).** In a Banach space, the closed convex hull of a weakly compact set is weakly
-compact. *Needs:* BanachSpaceTheory B2 (`krein_smulian`, the weak-star closedness criterion for
-convex sets, applied in the bidual) and Mathlib `NormedSpace.inclusionInDoubleDualWeak`.
+compact. *Needs:* BanachSpaceTheory B2 (the Krein–Šmulian weak-star closedness criterion for
+convex sets, `Convex.isClosed_iff_forall_isClosed_inter_closedBall`, applied in the bidual) and
+Mathlib `NormedSpace.inclusionInDoubleDualWeak`.
 
 **Theorem (Ryll-Nardzewski).** Let `Q` be a nonempty weakly compact convex subset of a Banach space,
 and `𝒮` a semigroup of affine maps `Q → Q` that are weakly continuous. Suppose `𝒮` is
 norm-distal: for `x ≠ y` in `Q`, `0` is not in the norm closure of `{s x − s y | s ∈ 𝒮}`. Then the
 maps of `𝒮` have a common fixed point in `Q`. *Needs:* Mathlib Krein–Milman
 (`IsCompact.extremePoints_nonempty`), the weak topology `WeakSpace`. The standard proof is
-Namioka–Asplund's.
+Namioka–Asplund's (Namioka–Asplund 1967).
 
 **Check.** `𝒮` is the group generated by a single isometry of `ℂ²` swapping the coordinates,
 acting on the segment from `(1, 0)` to `(0, 1)`. The fixed point is `(1/2, 1/2)`.
@@ -1067,8 +1137,9 @@ continuous function is constant. Prove:
 
 Define `WAPCompactification G := WeakDual.characterSpace ℂ (weaklyAlmostPeriodicFunctions G)`,
 with the continuous map `WAPCompactification.ι` of dense range. Construct a monoid structure on it
-extending `G`, with `SeparatelyContinuousMul` (Mathlib). The separately continuous extension of
-multiplication exists by 9.3. Prove:
+extending `G`, with `SeparatelyContinuousMul` (Mathlib), by the formula of 8.2:
+`(χ ψ) f = χ (x ↦ ψ (y ↦ f (x * y)))`. The inner function is weakly almost periodic, and the
+product is separately continuous, by 9.3; `(ι g * ι h) f = f (g * h)`. Prove:
 
 - the universal property for continuous homomorphisms into compact Hausdorff monoids with
   separately continuous multiplication;
@@ -1219,16 +1290,17 @@ This roadmap owns the following:
   and doubling on compact groups;
 - Bogolyubov's lemma on compact groups;
 - on compact abelian groups:
-  - the compact Fourier transform and large spectra;
+  - the additive reading of characters and Fourier coefficients, the convolution, reflection and
+    inversion identities, and large spectra;
   - dissociated characters and Rudin's inequality;
   - Chang's lemma;
   - abelian Bohr sets and regular Bohr sets;
   - local Chang and Bohr-local almost periodicity;
   - the quasi-polynomial Bogolyubov–Ruzsa lemma;
 - coset progressions in abelian groups and Bohr sets containing them;
-- Ruzsa modelling in arbitrary abelian groups;
-- the Bogolyubov–Ruzsa lemma for small doubling;
-- the quasi-polynomial Freiman–Ruzsa theorem in arbitrary abelian groups;
+- Ruzsa modelling in torsion-free abelian groups and in vector spaces over `𝔽_p`;
+- the Bogolyubov–Ruzsa lemma for small doubling and the quasi-polynomial Freiman–Ruzsa theorem in
+  those two classes of groups;
 - almost periodic and weakly almost periodic functions on topological groups;
 - the Bohr and weakly almost periodic compactifications;
 - Grothendieck's weak compactness criterion in `C(K)` and its group form;
@@ -1246,6 +1318,10 @@ It does not own the following.
 - **RepresentationTheory/CompactGroups:** Haar probability measures on compact groups,
   unitarizability, complete reducibility, Schur orthogonality, matrix coefficients and the
   Peter–Weyl theorem.
+- **RepresentationTheory/CompactGroupsPartII §5.1:** for compact Hausdorff abelian groups, the
+  bijection between irreducible classes and continuous characters, the Hilbert basis of
+  characters, the Fourier coefficient against a character, Parseval and the `L²` expansion.
+  Layer 5.1 consumes these and adds only the additive reading and the identities listed there.
 - **AmenableGroups:** means, amenability, Følner sets and Reiter's condition.
 - **BanachSpaceTheory:**
   - Eberlein–Šmulian, Krein–Šmulian and reflexivity (B2);
@@ -1260,8 +1336,8 @@ It does not own the following.
   Balog–Szemerédi–Gowers for probability masses with an approximate-subgroup conclusion. Layer 3
   owns the energy form for sets; §5.4 may consume Gowers' path lemma 3.2.
 - **VonNeumannAlgebras V11:** Pontryagin duality for locally compact abelian groups. Layer 5 uses
-  continuous characters of compact abelian groups only through Peter–Weyl and needs no duality
-  theorem.
+  continuous characters of compact abelian groups only through Peter–Weyl and CompactGroupsPartII
+  §5.1, and needs no duality theorem.
 - **FourierAnalyticAdditiveCombinatorics:** character sums of sets in finite abelian groups with
   their Parseval identity (its 1.1), and Bogolyubov's lemma in finite abelian groups and in
   `𝔽_pⁿ` (its Layer 4): `A + A − A − A` contains the set where fewer than `|G|²/|A|²` characters
@@ -1281,6 +1357,11 @@ It does not own the following.
 
 The following are outside this roadmap:
 - quasi-polynomial Bogolyubov–Ruzsa for non-abelian groups;
+- the Bogolyubov–Ruzsa lemma for small doubling and the Freiman–Ruzsa theorem in abelian groups
+  that are neither torsion-free nor vector spaces over a prime field. There a set of small
+  doubling need not have a Freiman model of density `K^{−O(1)}` (Green–Ruzsa 2007,
+  Proposition 6.4), and the proof (Sanders 2012, Theorem 1.1; Sanders 2013, Theorem 1.4) passes
+  through relative polynomial growth and convex coset progressions instead;
 - polynomial Freiman–Ruzsa;
 - arithmetic regularity lemmas;
 - Markov–Kakutani;
@@ -1319,7 +1400,8 @@ At Mathlib `1b1ccf4b`:
   - `Finset.ruzsa_triangle_inequality_div_div_div`,
     `Finset.pluennecke_ruzsa_inequality_pow_div_pow_mul` and their additive forms
     (Combinatorics/Additive/PluenneckeRuzsa.lean);
-  - `IsAddFreimanHom`, `IsAddFreimanIso` (Combinatorics/Additive/FreimanHom.lean).
+  - `IsAddFreimanHom`, `IsAddFreimanIso` (Combinatorics/Additive/FreimanHom.lean);
+  - `IsAddTorsionFree` (Algebra/Group/Monoid.lean).
 - **Characters.** `AddChar`, `AddChar.instCommGroup` (Algebra/Group/AddChar.lean); `Circle`;
   `AddChar.circleEquivComplex` (Analysis/Fourier/FiniteAbelian/PontryaginDuality.lean);
   `AddCircle.haarAddCircle`, `fourierCoeff` (Analysis/Fourier/AddCircle.lean).
@@ -1377,6 +1459,13 @@ At Tau Ceti `2fd255d`:
 
 All of these are implemented at the pin, under the names above.
 
+### From TauCetiRoadmap.RepresentationTheory/CompactGroupsPartII
+
+- §5.1: for a compact Hausdorff abelian group, the identification of `TauCeti.IrrepClass ℂ G` with
+  `PontryaginDual G` (`exists_irrepClass_characterEquiv`), the Hilbert basis of characters of Haar
+  `L²` (`exists_characterBasis`), the coefficient `f̂(χ) = ∫ conj (χ g) f g ∂(haarProb G)` and
+  Parseval.
+
 ### From TauCetiRoadmap.AmenableGroups
 
 - Layer 1: means on `UCB G` and left invariance.
@@ -1387,7 +1476,9 @@ All of these are implemented at the pin, under the names above.
 
 - B2: the Eberlein–Šmulian theorem in its relative form (implemented as
   `TauCeti.isCompact_closure_toWeakSpace_iff`), the Krein–Šmulian weak-star closedness criterion
-  (`krein_smulian`), reflexivity of Hilbert spaces and weak compactness of their closed balls.
+  (implemented as `Convex.isClosed_iff_forall_isClosed_inter_closedBall`, in
+  Analysis/Normed/Module/Dual/KreinSmulian.lean at the Tau Ceti pin), reflexivity of Hilbert
+  spaces and weak compactness of their closed balls.
 - B5: the isometric duality between `C(K, 𝕜)` and finite regular `𝕜`-valued Borel measures on a
   compact Hausdorff `K`, with the integration pairing.
 
@@ -1400,7 +1491,7 @@ The upper half of Minkowski's second theorem, implemented in Tau Ceti as above. 
 Quantitative versions over `ℤ/N` of the following were formalized in openai/math (Apache-2.0,
 commit `adc7f124`):
 - the Croot–Sisask lemma, local and global;
-- relative Chang;
+- relative Chang, in the form of 6.2;
 - regular Bohr sets in the chord metric with constant `200 · max 1 rank`;
 - the Bogolyubov lemma with rank `1 + C(p+1)⁴` and radius `e^{−C(p+1)}` for density `e^{−p}`;
 - Bohr sets containing proper GAPs;
@@ -1410,8 +1501,8 @@ commit `adc7f124`):
 
 Finite-abelian versions of the Croot–Sisask lemma, Chang's lemma, Rudin's inequality, Bohr sets
 and regular Bohr sets are in LeanAPAP. The roadmap generalises both: measured groups in Layers 0–3,
-compact and compact abelian groups in Layers 4–6, arbitrary abelian groups in Layer 7. Neither
-source is prescriptive; Layers 4 and 8–11 have no formal precursor.
+compact and compact abelian groups in Layers 4–6, torsion-free groups and vector spaces over `𝔽_p`
+in Layer 7. Neither source is prescriptive; Layers 4 and 8–11 have no formal precursor.
 
 ## References
 
@@ -1420,10 +1511,11 @@ source is prescriptive; Layers 4 and 8–11 have no formal precursor.
 - E. Følner, *Generalization of a theorem of Bogoliouboff to topological abelian groups*,
   Math. Scand. 2 (1954) 5–18.
 - E. Croot and O. Sisask, *A probabilistic technique for finding almost-periods of convolutions*,
-  Geom. Funct. Anal. 20 (2010) 1367–1396 (Layer 2).
-- T. Sanders, *On the Bogolyubov–Ruzsa lemma*, Anal. PDE 5 (2012) 627–655 (Layers 5–7).
+  Geom. Funct. Anal. 20 (2010) 1367–1396 (Layer 2; Propositions 1.3 and 3.3).
+- T. Sanders, *On the Bogolyubov–Ruzsa lemma*, Anal. PDE 5 (2012) 627–655 (Layers 2, 5–7;
+  Lemma 4.3, Lemma 5.2, Lemmas 6.2–6.3, §3, Lemma 11.2, Theorems 1.1, 10.1 and 11.3).
 - T. Sanders, *The structure theory of set addition revisited*, Bull. Amer. Math. Soc. 50 (2013)
-  93–127 (survey of Layers 2, 5–7).
+  93–127 (Theorems 7.2–7.3 for Layer 1, §§7–8 for Layers 2 and 5, Theorem 1.4).
 - M.-C. Chang, *A polynomial bound in Freiman's theorem*, Duke Math. J. 113 (2002) 399–419
   (Chang's lemma).
 - W. Rudin, *Fourier Analysis on Groups*, Interscience 1962, Ch. 5 (dissociated sets and
@@ -1431,12 +1523,16 @@ source is prescriptive; Layers 4 and 8–11 have no formal precursor.
 - J. Bourgain, *On triples in arithmetic progression*, Geom. Funct. Anal. 9 (1999) 968–984
   (regular Bohr sets).
 - B. Green and I. Z. Ruzsa, *Freiman's theorem in an arbitrary abelian group*, J. London Math.
-  Soc. 75 (2007) 163–175 (coset progressions, modelling).
+  Soc. 75 (2007) 163–175 (coset progressions; models in `𝔽₂ⁿ`, Proposition 6.1; the absence of
+  dense models in general, Proposition 6.4).
+- I. Z. Ruzsa, *Sumsets and structure*, in *Combinatorial Number Theory and Additive Group
+  Theory*, Adv. Courses Math. CRM Barcelona, Birkhäuser 2009, 87–210 (Theorem 3.5: modelling in
+  torsion-free groups).
 - T. Tao and V. Vu, *Additive Combinatorics*, Cambridge University Press 2006, Ch. 2 (Ruzsa
   calculus, Balog–Szemerédi–Gowers), Ch. 3 (geometry of numbers), Ch. 4 (Bohr sets and
   progressions).
 - T. Tao, *Product set estimates for non-commutative groups*, Combinatorica 28 (2008) 547–594
-  (non-abelian Ruzsa calculus and Balog–Szemerédi–Gowers).
+  (Lemmas 3.2 and 3.6, Theorem 5.2: non-abelian Ruzsa calculus and Balog–Szemerédi–Gowers).
 - W. F. Eberlein, *Abstract ergodic theorems and weak almost periodic functions*, Trans. Amer.
   Math. Soc. 67 (1949) 217–240 (Layer 9).
 - A. Grothendieck, *Critères de compacité dans les espaces fonctionnels généraux*, Amer. J. Math.
@@ -1445,6 +1541,8 @@ source is prescriptive; Layers 4 and 8–11 have no formal precursor.
   105 (1961) 63–97 (Layer 10).
 - R. Ellis, *Locally compact transformation groups*, Duke Math. J. 24 (1957) 119–125; I. Namioka,
   *Separate continuity and joint continuity*, Pacific J. Math. 51 (1974) 515–531 (Layer 10.4).
+- I. Namioka and E. Asplund, *A geometric proof of Ryll-Nardzewski's fixed point theorem*,
+  Bull. Amer. Math. Soc. 73 (1967) 443–445 (Layer 10.1).
 - R. B. Burckel, *Weakly Almost Periodic Functions on Semigroups*, Gordon and Breach 1970;
   J. F. Berglund, H. D. Junghenn and P. Milnes, *Analysis on Semigroups*, Wiley 1989;
   W. Ruppert, *Compact Semitopological Semigroups: An Intrinsic Theory*, Lecture Notes in Math.
