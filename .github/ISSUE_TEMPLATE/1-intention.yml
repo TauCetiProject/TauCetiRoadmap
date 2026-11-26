@@ -565,6 +565,7 @@ body:
         - SeibergWittenTheory
         - SelmerIwasawaCohomology
         - SequentCalculusAndCutElimination
+        - SeriesOfIndependentRandomVariables
         - SerreModularityByCompatibleSystems
         - SerreWeightAndLevelOptimisation
         - SheafConvolutionOnAbelianVarieties
