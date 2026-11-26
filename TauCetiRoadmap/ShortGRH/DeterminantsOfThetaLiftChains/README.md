@@ -70,8 +70,10 @@ restriction `υ₁` to the norm-one ideles has weight `1` and trivial tame part.
 character `α` of `[U(1)]` has the splitting character `α̃·υ^{−n}`.
 
 **Hermitian spaces and theta integrals.** `E` carries Weil data (DivisibilityOfThetaDerivatives §1.4): a CM type, the
-splitting character `υ`, a skew element `j` with `j̄ = −j`, the additive
-character, and a primitive root of unity of order `5040` in `E`, so that `E/E⁺` is unramified at every finite place. A
+splitting character `υ`, an element `ȷ` with `ȷ̄ = −ȷ`, `Im τ(ȷ) > 0` for every `τ` of the CM type and `(1 − ȷ⁻¹)/2` an
+algebraic integer, a finite idele `α` with `v_w(ȷαᾱ) = −v_w(𝔇_E)` at every finite place `w`, which is the condition
+that the integral finite adeles are self-dual under `(z, u) ↦ ψ_f(ȷαᾱzu)` for the standard additive character `ψ_f`,
+and a primitive root of unity of order `5040` in `E`, so that `E/E⁺` is unramified at every finite place. A
 hermitian space of rank `n` with signs `s ∈ {±1}^n` is a hermitian matrix over `E` with an adelic frame that is
 orthonormal for `diag(s)` at every infinite place and for the identity at every finite place; `neg(s)` is the number of
 signs `−1`, and the space is positive definite if all signs are `+1`. `U(S)(𝔸)` is its adelic unitary group, `[U(S)]` the
@@ -437,7 +439,7 @@ forms in which the rest of the argument uses it.
 
 (a) A split tame character `𝔠` of weight `μ` (with `μ(τ) > 0` for all `τ`) is a character `ν` of `[U(1)]` of weight `μ`,
 tamely ramified exactly at a nonempty finite set `S` of finite places with `S ∩ S̄ = ∅`; its local character is
-`χ_𝔠(t) = ν(t/t̄)` on `∏_{v∈S} E_v`, extended by `0` to non-units.
+`χ_𝔠(t) = ν(t/t̄)` on `∏_{v∈S} E_v`, extended by `0` to non-invertible elements.
 
 (b) For hermitian spaces `W` (rank `n`, even) and `V` (index set `r`), and a real vector `v` for `(W, V)`,
 `I_large(W, V; 𝔠, v, Φ)` is the theta integral over `[U(V)]`, as a function on `U(W)(𝔸)`, of the datum with real part
@@ -464,12 +466,15 @@ representation of a pair (same file and declarations of [ShortProof]); ShortGRH 
 has weight `e` and tame part `ψ`, a family of characters `ψ_w` of the residue fields at the finite places, almost all
 trivial, if `ν(u) = ∏_τ u_τ^{e(τ)}·∏_w ψ_w(u mod w)` for every `u` with integral finite part. A split tame character of
 weight `e` is such a `ν` with `e(τ) > 0` at every `τ` and `ψ_w ≠ 1` exactly at the places of a nonempty finite set `S`
-that contains no place together with its conjugate; its local character is `t ↦ ν(t/t̄)` on `∏_{v∈S} E_v`, with `t` read
-as an idele of `E` that is `1` off `S`. For a modulus `𝔪` whose prime divisors are the places with `ψ_w ≠ 1`, and
-`χ = ∏_{w∣𝔪} ψ_w` on `O_E/𝔪`: `ν(det k) = χ(det(k mod 𝔪))` for `k` in the stabiliser of the standard lattice;
+that contains no place together with its conjugate; its local character is `t ↦ ν(t/t̄)` on the invertible elements of
+`∏_{v∈S} E_v`, with `t` read as an idele of `E` that is `1` off `S`, and `0` on the non-invertible elements;
 [ShortProof] `Lib/ClassField/HeckeCharacter/SplitTameCharacters.lean` (`New.Exchange.SplitTameChar`,
-`New.Exchange.SplitTameChar.semilocalChar`), `Lib/ClassField/HeckeCharacter/Basic.lean` (`New.AutChar.HasWeight`),
-`Lib/ClassField/HeckeCharacter/TameModulus.lean` (`New.Exchange.IsTameFor`, `New.Exchange.IsTameFor.apply_det`)).
+`New.Exchange.SplitTameChar.semilocalChar`), `Lib/ClassField/HeckeCharacter/Basic.lean` (`New.AutChar.HasWeight`));
+ShortGRH background (characters tame for a modulus: a character `ν` of `[U(1)]` with tame part `ψ`, in the sense of
+the previous entry, is tame for a modulus `𝔪` if the prime divisors of `𝔪` are the places with `ψ_w ≠ 1`; then, with
+`χ = ∏_{w∣𝔪} ψ_w` on `O_E/𝔪`, `ν(det k) = χ(det(k mod 𝔪))` for `k` in the stabiliser of the standard lattice;
+[ShortProof] `Lib/ClassField/HeckeCharacter/TameModulus.lean` (`New.Exchange.IsTameFor`,
+`New.Exchange.IsTameFor.apply_det`)).
 
 [ShortProof], `New/Determinant/Exchange/LargeTriple.lean` (`New.Exchange.RowColExchangeIdentity`,
 `New.Exchange.equalRankThetaRatio`); `New/Determinant/Exchange/EquivariantDifference.lean` (`New.Exchange.thetaSmall`);
@@ -796,7 +801,10 @@ all `τ`. Let `v` be a real Schwartz vector for `(V′, W)`. Then there are `C >
 *Needs:* 3.1, 3.8; ShortGRH background (multiplying the characters of the two spaces of a pair by characters `μ`, `μ′`
 of `[U(1)]` multiplies the Weil action, the theta functional and the kernel of a datum modulo a modulus at `(g, h)` by
 values of `μ`, `μ′` at `det g`, `det h`; [ShortProof] `Lib/Weil/DualPair/KernelLaws.lean` (`New.pairTheta_twist`,
-`New.modKernel_twist`)).
+`New.modKernel_twist`)); ShortGRH background (base change is injective: a character `μ` of `[U(1)]` is determined by
+the Hecke character `x ↦ μ(x/x̄)` of `E`, because every point of `U(1)(𝔸)` is `y/ȳ` for an idele `y`; used to turn the
+condition on the splitting characters into `α·α′ = ν⁻¹·υ₁^{n/2}`; [ShortProof]
+`Lib/ClassField/HeckeCharacter/Basic.lean` (`New.AutChar.baseChange_injective`)).
 
 [ShortProof], `New/Determinant/Exchange/TheoremForPartners.lean` (`New.Exchange.exchange_identity`,
 `New.Exchange.exchange_theorem`, `New.Exchange.exists_areMatched_modDatum_eq`)
