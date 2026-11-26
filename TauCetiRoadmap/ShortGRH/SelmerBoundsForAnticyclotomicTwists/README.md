@@ -17,15 +17,17 @@ roots of unity of `ℓ`-power order gives the twist. The `L`-values enter throug
 of group rings of class groups of `U(1)` with Euler-factor norm relations. Second, at a place above `ℓ`, it bounds the
 length by which the crystalline cocycles of the dual of a summand fail to be orthogonal, under cup products, to the
 crystalline cocycles of a class of lattices whose Hodge–Tate jumps lie in windows near `0` and near large weights (Layers
-3 and 4). The bound is explicit, does not depend on the rank of the lattice in the essential cases, and is uniform in `ℓ`.
-Its proof uses Kisin modules over Kummer charts.
+3 and 4). The bound is explicit, linear in the rank of the lattice and uniform in `ℓ`; the power of `ℓ` that makes the
+cup products vanish does not depend on the rank in the essential cases. The proof uses Kisin modules over Kummer charts.
 
 ## Conventions and notation
 
 The data of the argument are those of OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters), §2.2 (the field and
 its infinite places), §3.2 (admissible data: ranks, weights, places, level), §3.3 (sizes) and §3.4 (tame characters and
 twists); the letters below follow it, except where the table says otherwise. Layers 1–3 do not use the data: they hold for
-any CM field and any prime. Layers 4 and 5 are stated on the data.
+any CM field and any prime. Sections 4.1, 4.2, 4.6, 4.8 (b) and Layer 5 are stated on the data; 4.3–4.5, 4.7 and
+4.8 (a) are general statements about lattices over a local Galois group, placed in Layer 4 because the local loss is
+their use.
 
 **Galois groups and cocycles.** `Ω` is an algebraic closure of `ℚ`, and every number field is a subfield of `Ω`. For a CM
 field `E`, `G_E = Gal(Ω/E)`, `c` is a fixed complex conjugation, `g^c = cgc`, and `g^{−c} = (g^c)^{−1}`. For a finite place
@@ -261,7 +263,8 @@ localisation of Selmer classes.
 *Method of the formal proof:* start from one prime `P₀` with Frobenius element in `W` and slope `0` (1.2). Let
 `ℓ^M = ϖ^e` up to a unit. As long as, for some datum `i`, some level `1 ≤ k ≤ e` and some new auxiliary prime, a tied class
 modulo `ϖ^k` has values at `φ, φ^{−c}` that are not the values at `γ, γ^{−c}` of a tied class allowed to ramify at the new
-prime, the tilting lemma gives a unit slope. The tilting lemma: for `a` outside at most `n` residue classes, the kernel of
+prime, the tilting lemma gives a unit slope. The tilting lemma: for `a` outside at most as many residue classes as the
+evaluations have coordinates (`2n` here, the values at an element and at its `−c`-conjugate being taken together), the kernel of
 `a·ev_γ − ev_φ` is no longer than the part of the kernel of `ev_γ` that `ev_φ` maps into its image. The size of the residue
 field leaves room for this slope. Adding the prime with this slope (1.4 (b)) lowers the total length
 `Σ_{i,k} len Sel(J) mod ϖ^k` by at least `1`. When no such prime exists, take a level at which the group has a class with a
@@ -577,8 +580,11 @@ Colmez's period ring, and `Γ` acts on `B_max ⊗_{ℤ_p} L` diagonally, through
   bilinear form is `b_P(y, x) = f(ψ(y ⊗ x)) mod p^m`.
 - For `a : Γ → Y` and `c : Γ → L`, the *cup product of `a` and `c` under `P` is a coboundary* if the 2-cochain
   `(g, h) ↦ ε_m(b_P(a(g), g·c(h)))` with values in `ℚ̄_p^×` is the coboundary of a continuous 1-cochain `Γ → ℚ̄_p^×`, `Γ`
-  acting through `j`. Here `ε_m` is a fixed embedding of `ℤ/p^m(1)` into `ℚ̄_p^×`, `j` is injective, and `Γ` has the
-  topology of its image, an open subgroup of `G_{ℚ_p}`.
+  acting through `j`. Here `ε_m` is a fixed embedding of `ℤ/p^m(1)` into `ℚ̄_p^×`, and continuity refers to a topology
+  on `Γ`, on which this notion and the three that follow depend. When `j` is an open embedding, as in every statement
+  of Layers 3 and 4 that bounds a cup exponent, the topology is that of the open subgroup `j(Γ)` of `G_{ℚ_p}`. The
+  statements that do not assume this (4.4 (b)) hold for every topology on `Γ`, and the scaled condition of 3.2 is
+  imposed only for topologies that make `j` an open embedding.
 - For a class `𝒬`, the *cup-orthogonal module* `L^{⊥𝒬}` consists of the maps `c : Γ → L` (not necessarily cocycles) such
   that, for every `Y ∈ 𝒬`, every pairing `P` of `Y` and `L` and every `a ∈ Z_f(Y)`, the cup product of `a` and `c` under `P` is
   a coboundary. The *dual defect* is `δ_𝒬(L) = len_O(Z_f(L)/(Z_f(L) ∩ L^{⊥𝒬}))`. `L` has *cup exponent* `e` for `𝒬` if
@@ -627,9 +633,10 @@ Let `Γ`, `j` be as in 3.1, `K` the fixed field of `j(Γ)`, `A_inf = W(O_{ℂ_p}
   integers, one for each embedding, containing the jumps of `Y` there, and one for each letter, `U_S(i) ∋ 0`, containing
   those of the embeddings over `i`. A lattice `C` (the parameters). An `O`-linear map `α_S : C → Z_f(Y)`. The *jump
   multiplicity* of `S` at `(i, u)` is `Σ_{g over i} j_g(Y, u)`. A *pairing of sides* `S`, `S′` is a pairing of their
-  lattices `Y`, `Y′`. For `c ∈ C`, `c′ ∈ C′` and `N ≥ 0`, the pairing gives a *scaled cup coboundary of exponent* `N` if `j` is not
-  injective or, for the topology that `Γ` has as an open subgroup of `G_{ℚ_p}` through `j`, the cup product of
-  `α_S(c)` and `p^N·α_{S′}(c′)` under it is a coboundary.
+  lattices `Y`, `Y′`. For `c ∈ C`, `c′ ∈ C′` and `N ≥ 0`, the pairing gives a *scaled cup coboundary of exponent* `N` if, for every
+  topology on `Γ` that makes `j` an open embedding (there is one exactly when `j` is injective, the topology of the open
+  subgroup `j(Γ)` of `G_{ℚ_p}`), the cup product of `α_S(c)` and `p^N·α_{S′}(c′)` under it is a coboundary; so the
+  condition is empty when `j` is not injective.
 
 *Needs:* 3.1; ShortGRH background (existence of a Kummer chart for every `Γ`, with `ef = [G_{ℚ_p} : j(Γ)]`, unramified
 when `j(Γ)` contains inertia; [ShortProof] `Lib/PadicHodge/Kisin/KummerChartExistence.lean`
@@ -1099,13 +1106,16 @@ complex embeddings read through that place; and the passage from a cup exponent 
 in two ways and the ranks divided by `[O : ℤ_ℓ]`. For (b), the defect is the length of a quotient of `Z_f(L)/ℓ^k`, which is
 free over `O/ℓ^k` of rank `rank Z_f(L)`. By the rank formula this rank is at most `2[G_ℓ : j(Γ)]·rank L`.
 
-Let `E` be a CM field containing a primitive `5040`-th root of unity, `e : E → ℚ̄_ℓ`, `Γ` with `j : Γ → G_{ℚ_ℓ}` an open
+Let `E` be a CM field, `e : E → ℚ̄_ℓ`, `Γ` with `j : Γ → G_{ℚ_ℓ}` an open
 embedding onto the elements fixing `e(E)`, `O` a coefficient ring and `L` a potentially crystalline lattice. Prove:
 
 1. (a) if for every `g ∈ G_{ℚ_ℓ}` the lattice `L` has the jumps `J(σ_e(g))` at `γ_g`, then
    `rank_O Z_f(L) = rank_O L + Σ_σ #{u ∈ J(σ) : u < 0}`, the sum over the distinct complex embeddings `σ = σ_e(g)`;
 2. (b) (for any `Γ` with `j` of open image) if `L` has cup exponent `k` for a class `𝒬` and `y ≥ 2k·rank L`, then
    `len_ℓ δ_𝒬(L) ≤ [G_{ℚ_ℓ} : j(Γ)]·y`.
+
+[ShortProof] proves (a) for a CM field that contains a primitive `5040`-th root of unity, which is the case of the
+data and the only one used; the rank formula does not need the root of unity.
 
 *Needs:* 3.1, 4.1; ShortGRH background (the rank formula for crystalline cocycles: for a potentially crystalline
 `ℤ_ℓ`-lattice `T` with jumps `J` over a group of index `n`, `rank Z_f(T) = rank T + n·#{u ∈ J : u < 0}`; [ShortProof]
@@ -1223,7 +1233,9 @@ admissibility and killing polynomials pass from `ℚ̄_ℓ` to a lattice over `O
 Prove:
 
 1. (a) let `M` be a multiset of at most `N` elements of `ℚ̄_ℓ`, each with `y^{ℓ^a − 1} = 1` for some `1 ≤ a ≤ r`, and let a
-   property `K` of polynomials over `O` hold for every polynomial vanishing on `M`. Then `K` is a tame type for
+   property `K` of polynomials over `O` hold for every polynomial `Q` with `Q(y) = 0` for each element `y` of `M`
+   (no multiplicity is asked: `X^e − 1`, which has simple roots, is such a polynomial when its roots include the
+   elements of `M`). Then `K` is a tame type for
    `(ℓ, r, Nr)`;
 2. (b) let `R` be a conjugate self-dual representation of level `S` with jumps `τ`, in a class `𝓡` of such representations,
    `u` a lattice in `R` over `O`, and `w | ℓ` a place of `E`. Then `u`, restricted to the decomposition group at `w`, has
@@ -1376,8 +1388,6 @@ OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (`m`-fold twists).
   main summand weights of 4.1; its §6.1 uses the defect bound `B_ℓ` (4.1); its §§6.2 and 6.4 use classes of local
   lattices and dual defects (3.1), the defect of the dual of a summand (4.6), the bound by the Tate dual (4.7) and the
   class of a lattice read at a place above `ℓ` (4.8); its §7.3 uses the twisting theorem (5.4).
-- NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7 and 6.1 supply the `L`-values that 5.2 turns into integral
-  measures.
 
 ## Scope and ownership
 
@@ -1406,6 +1416,30 @@ OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (`m`-fold twists).
   theorem, global duality with relations at split primes, lengths of kernels by maximal minors, Gauss valuations,
   the period ring `B_max` and crystalline cocycles, Kummer charts and Kisin modules, the rank formula, local Tate
   duality for crystalline cocycles, and avatars. Each entry names the form used and where `[ShortProof]` proves it.
+- Twist selection and the local bounds in the forms of SelmerLengthBoundsAndLocalLifting, which owns them for the route
+  of RiemannHypothesisForDirichletLFunctions. That roadmap states results with the same purpose as four sections here,
+  in other forms; none of them is cited as a supplier, and the sections here are not restatements of them.
+  - Its §3.25b (one specialisation for finitely many polynomials) and 2.6 here. There the polynomials have a
+    coefficient of valuation at most `v₀` on a monomial of bounded degree (or are of a second kind), the roots of unity
+    are powers of one primitive root, and the bound `v₀ + ε` holds for every power prime to `p`. In 2.6 (b) no
+    coefficient or degree is prescribed: each polynomial comes with a point of radius `ρ`, and the loss `ε` is against
+    its value there; the powers `j ≤ m` enter in 2.7 by composing with `X ↦ (1 + X)^j − 1`.
+  - Its §3.26 (twist selection) and 2.7, 5.4 here. There the data are lattices with balanced saturated local conditions
+    under the hypotheses of its §3.22, the bound is `ν_s + ε′` with `ν_s` the valuation of the order of
+    `H⁰(F, ℚ_p/ℤ_p(t_sr_s))`, it holds for every power prime to `p`, and the side conditions are polynomial conditions
+    of the two kinds of its §3.25b. Here the data are Selmer data given by relations on cocycles (1.1), the bound is
+    `β_T + ε` with `β_T` the global term plus the places term, the side conditions are Stickelberger systems (2.3), and
+    the powers are `1 ≤ j ≤ m`.
+  - Its §4.10b (defect and colength under local duality) and 4.7 here. There, for a de Rham representation of the
+    Galois group of a finite extension of `ℚ_p`, the length of the annihilator of a submodule `I ⊆ H¹_f` of the dual
+    modulo the finite classes equals the colength of `I`. In 4.7 the statement is about cocycles, not classes: the
+    module of Ribet cocycles modulo those that obey the crystalline relations is bounded by the dual defect
+    `δ_𝒞(L^∨(1))`, which is defined by cup products with the crystalline cocycles of every lattice of a class (3.1).
+  - Its §4.10f (lifting with loss for lattices of tame type over `ℚ_p`) and 3.7 here. There a surjection `T₁ ↠ T₂` of
+    lattices of tame inertial type has `p^k·H¹_f(T₂) ⊆ f(H¹_f(T₁))` with `k = 40(N·r′ + η(N + r′))`, for weights in
+    `[−η, η′]` and `40(η′N² + N³) < p`. In 3.7 the exponent `3r²(N + 1)² + 150(η + W + 1)` is a cup exponent, for two
+    lattices whose jumps fit opposite windows `(η, ∓ε, b, W)`, with the tame type given by polynomials that kill
+    inertia on the periods, for `p > b + 6(W + η) + r²(N + 1)² + 2`.
 
 ## Exact supplier contracts
 
