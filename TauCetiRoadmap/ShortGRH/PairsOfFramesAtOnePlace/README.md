@@ -163,18 +163,20 @@ most `L^i` at `g`, and some `ζ` orthogonal below `a` with `⟨e_a, ζ⟩ = 1` (
 
 (c) For a sequence of units `p = (p_a)` and `j ≤ ϱ`, the Weyl element `w_p` of length `j` sends `e_a ↦ p_a e*_a` and
 `e*_a ↦ p̄_a⁻¹ e_a` for `a < j` and fixes the other basis vectors. Prove: `w_q⁻¹w_p` is diagonal, with entries
-`p_a/q_a` at `e*_a` and `q̄_a/p̄_a` at `e_a` for `a < j`. The sequence `p` is a head of length `j` for `S` if the
+`p_a/q_a` at `e_a` and `q̄_a/p̄_a` at `e*_a` for `a < j`, and `1` elsewhere. The sequence `p` is a head of length `j`
+for `S` if the
 inverses of
 the products `p₀⋯p_{l−1}`, `l ≤ j`, have size `1`.
 
-(d) For a unit `ρ` of `A` and `g, g′ ∈ G`: the lengths at `g` and `g′` differ by at most `L^t` on `Y^(l)` modulo `ρ` if
-every
-vector orthogonal below `l` of length at most `L^i` at `g` agrees modulo `ρ`, up to size `i + t`, with a lift of its
-class read at `g′`. The vector `e_a` has a short dual of exponent `i` for `(g, g′)` modulo `ρ` if some dual `ζ` of `e_a`
-in
-`Y^(a)` has length at most `L^i` at `g` and, read at `g`, agrees modulo `ρ` up to size `i` with a lift of its class read
+(d) For a unit `ρ` of `A` and `g, g′ ∈ G`: a vector `ω`, read at `g`, agrees modulo `ρ` up to size `i` with a lift of
+its
+class in `Y^(l)` read at `g′` if `(g⁻¹ω − g′⁻¹ω′)/ρ` has size `i` for some `ω′` congruent to `ω` below `l`. The lengths
 at
-`g′`.
+`g` and `g′` differ by at most `L^t` on `Y^(l)` modulo `ρ` if
+every vector orthogonal below `l` of length at most `L^i` at `g` (for any `i`) agrees modulo `ρ`, up to size `i + t`,
+with a lift of its class in `Y^(l)` read at `g′`. The vector `e_a` has a short dual of exponent `i` for `(g, g′)` modulo
+`ρ` if some dual `ζ` of `e_a` (a vector orthogonal below `a` with `⟨e_a, ζ⟩ = 1`) has length at most `L^i` at `g` and,
+read at `g`, agrees modulo `ρ` up to size `i` with a lift of its class in `Y^(a)` read at `g′`.
 
 *Needs:* 1.1; SecondMomentsOfPoincareSeries §3.1.
 
@@ -244,11 +246,28 @@ transformations, and `u ↦ ue*_a` maps it bijectively onto the isotropic vector
 (a) A place is a commutative ring `A` with a continuous involution, locally compact and second countable as a
 topological ring, with a Haar measure (the volume), an element `τ` with `τ + τ̄ = 1`, a unit `δ` with `δ̄ = −δ`, a Haar
 measure on the skew elements such that `(a, b) ↦ τδ⁻¹a + b` carries the product of two copies of it to the volume, a
-multiplicative measurable modulus `|·| : A → [0, ∞]`, a continuous additive character `ψ`, and a constant `c_P` that
-bounds the `L¹` norm of the Fourier transform of the kernel in Plancherel's inequality on `A^ι`. A finite place is a
-place with a compact open subring `O` (the integers) that contains `τ`, `δ` and `δ⁻¹`, is self-dual for `ψ`, has skew
-part
-of measure `1`, with `c_P = 1` and `|x|` the inverse of the generalised index of `xO` in `O`.
+multiplicative measurable modulus `|·| : A → [0, ∞]`, a continuous additive character `ψ`, and a constant
+`c_P ∈ [0, ∞]`, such that:
+
+- for every `n`, an invertible matrix `M` over `A` carries the volume of `Aⁿ` to `|det M|⁻¹` times itself;
+- `|x̄| = |−x| = |x|`;
+- almost every element of `A` is a unit;
+- `|u|⁻¹ ≤ g(u)²` on the units, for some locally integrable function `g` on `A`;
+- `|ψ(x)| = 1` for all `x`;
+- some continuous integrable `G ≥ 0` on `A` with `G(0) = 1` (the kernel) has a Fourier transform
+  `z ↦ ∫ G(v)ψ(v̄z) dv` of `L¹` norm at most `c_P`.
+
+
+
+A finite place is a place `A` that is a finite product of non-archimedean local fields, in the following form: `A` has
+a compact open subring `O` (the integers) of volume `1` that is stable under conjugation, is locally a valuation ring
+(for `a, b ∈ A` some idempotent `e ∈ O` makes `a` and `b` multiples by `O` of `(1 − e)a + eb`), contains an element
+that is invertible in `A` and topologically nilpotent, and contains some `c` with `c̄c = −1` and a skew `i` with
+`i² = −1`; moreover `O` contains `τ`, `δ` and `δ⁻¹`, is self-dual for `ψ` (`ψ(ra) = 1` for all `r ∈ O` exactly when
+`a ∈ O`), has skew part of measure `1`, `c_P = 1`, and the modulus is given by the generalised index: for a unit `x`,
+`|x|` is
+the factor by which multiplication by `x` scales the volume (so `|x|⁻¹ = [O : xO]` for a unit `x ∈ O`), and
+`|x| = ∞` for a non-unit.
 
 (b) Let `G` be the unitary group of the split form of a shape over a place `A` (Conventions), with basis `e_a`, the
 middle block, `e*_a` (`a < ϱ`) and frame `f = (e_0, …, e_{ϱ−1}, z)`. `V_l` is the span of the basis vectors of floor at
@@ -262,13 +281,22 @@ unit mass at `1` otherwise. A hyperbolic basis of the middle space, with `m` fur
 by `ι`, is a basis of `V_ϱ` whose Gram matrix is the sum of `m + 1` hyperbolic planes and the identity on `ι`, for a
 form
 whose determinant has modulus `1`. With it, the quadric measure of floor `b` is the measure on the quadric
-`{y ∈ V_b : ⟨y, y⟩ = ⟨f_b, f_b⟩}` that disintegrates the volume of `V_b` along `y ↦ ⟨y, y⟩`.
+`{y ∈ V_b : ⟨y, y⟩ = ⟨f_b, f_b⟩}` that disintegrates the volume of `V_b` along `y ↦ ⟨y, y⟩`. Here a family `(l_β)` of
+measures indexed by the skew
+elements disintegrates a measure `μ` along the form if `∫ f dl_β` is finite and continuous in `β` for every continuous
+`f ≥ 0` of compact support, and `∫ f(⟨y, y⟩, y) dμ(y) = ∬ f(δ⁻¹β, y) dl_β(y) dβ` for measurable `f ≥ 0`; the quadric
+of `c` carries `l_{δc}`, and the continuity makes the family unique at every `β`.
 
-*Needs:* SecondMomentsOfPoincareSeries §3.1, §4.1; ShortGRH background (floor groups, Heisenberg parametrisation,
-measures of quadrics that disintegrate Haar measure, and Plancherel's inequality at a place; [ShortProof]
+*Needs:* SecondMomentsOfPoincareSeries §3.1, §4.1; ShortGRH background (for the floor groups of the
+Conventions over a place: every element of `N_a` is some `ν(v, β)`, and `u ↦ ue*_a` maps `N_a` bijectively onto the
+isotropic vectors `y` of `V_a` with `⟨e_a, y⟩ = 1`; two families of measures that disintegrate one measure along a
+hermitian form, in the sense of 2.1 (c), agree at every skew element; for a hyperbolic basis the quadric measures of
+floor `b` disintegrate the volume of `V_b` along `⟨y, y⟩`; and Plancherel's inequality at a place: for a unit `η` and
+`f` measurable and integrable on `A^ι`, `∫ |∫ ψ(η·Σ_i v̄_i w_i) f(w) dw|² dv ≤ (c_P/|η|)^{#ι}·∫ |f|²`; [ShortProof]
 `Lib/DiscreteSeries/Bruhat/FloorGroups.lean`, `Lib/DiscreteSeries/Bruhat/FloorMeasures.lean`
-(`New.Floors.HyperbolicBasis.isDisintegration_floorVolume`, `New.Floors.Place.plancherel_inequality`),
-`Lib/General/Measure/QuadricDisintegration.lean` (`New.Floors.Place`)).
+(`New.Floors.FloorGroups.exists_eq_heisenbergElem_of_mem`, `New.Floors.FloorGroups.bijOn_mulVec_eStar`,
+`New.Floors.HyperbolicBasis.isDisintegration_floorVolume`, `New.Floors.Place.plancherel_inequality`),
+`Lib/General/Measure/QuadricDisintegration.lean` (`New.Floors.Place`, `New.Floors.Place.IsDisintegration.unique`)).
 
 [ShortProof], `Lib/General/Measure/QuadricDisintegration.lean` (`New.Floors.Place`);
 `Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean` (`New.Floors.IntegralPlace`);
@@ -291,11 +319,12 @@ level);
 a set of close pairs `(ω₁, ω₂)` of vectors, open, containing `0`, with compact closure; a compact set `K ⊂ G` (the box);
 and a measurable set of positions in `G`.
 
-(b) The floor measure `θ_l` on `G^(l)`: for `l ≤ ϱ` its image under `σ ↦ σ⁻¹f_l` is the quadric measure of floor `l`
-(for
-`l < ϱ` it is carried by the big cell, the `σ` with `⟨e_l, σ⁻¹e_l⟩` invertible); `θ_{ϱ+1} = μ_H`; higher floors carry
-the
-unit mass at `1`. The measure of the group is `𝖬 = (η_{ϱ+1}∗θ_{ϱ+1})∗⋯∗(η₀∗θ₀)`; `𝗆_j` is the convolution of the factors
+(b) The floor measure `θ_l` on `G^(l)`. For `l < ϱ` and a unit `c`, let `w_l(c)` be the Weyl element of floor `l`, with
+`e_l ↦ c e*_l`, `e*_l ↦ c̄⁻¹e_l`, fixing the other basis vectors; `θ_l` is the image of the product of the measure
+`|c|^{d_l} dc` on `A`, `d_l = k + 1 + 2(ϱ − (l + 1))`, and `η_l`, under `(c, n) ↦ w_l(c)⁻¹n` (the non-units have measure
+`0`). Further `θ_ϱ = θ_top` and `θ_{ϱ+1} = μ_H`, and higher floors carry the unit mass at `1`. Prove: for `l ≤ ϱ` the
+image of `θ_l` under `σ ↦ σ⁻¹f_l` is the quadric measure of floor `l`. The measure of the group is `𝖬 =
+(η_{ϱ+1}∗θ_{ϱ+1})∗⋯∗(η₀∗θ₀)`; `𝗆_j` is the convolution of the factors
 of the floors below `j`; and `θ_{≥l} = θ_{ϱ+1}∗⋯∗θ_l` integrates functions on `G^(l)` that are left invariant under
 `𝖴 ∩ G^(l)`. Prove: the convolution of the factors of the floors from `l` on is invariant under right translation by
 `G^(l)`.
@@ -304,7 +333,7 @@ of the floors below `j`; and `θ_{≥l} = θ_{ϱ+1}∗⋯∗θ_l` integrates fun
 close
 pair. The class of `ω` in `Y^(l)` is stable at `g` and `g′` if `ω` is orthogonal below `l` and `(g⁻¹ω, g′⁻¹ω′)` is a
 close pair
-for some `ω′` that agrees with `ω` at the indices of floor at least `l`. `𝔡_a(x, y)` is the set of the products `⟨e_a,
+for some `ω′` congruent to `ω` below `l` (1.2). `𝔡_a(x, y)` is the set of the products `⟨e_a,
 ω⟩`
 with `ω` stable in `Y^(a)` at `x` and `xy`; the depth of `e_a` at `x` and `xy` is `1/vol 𝔡_a(x, y)`.
 
@@ -321,7 +350,8 @@ over the
 
 [ShortProof], `New/Spanning/Frames/Levels.lean` (`New.Floors.PlaceData`, `New.Floors.PlaceData.floorMeasure`,
 `New.Floors.PlaceData.partialGroupMeasure`, `New.Floors.PlaceData.groupMeasure`,
-`New.Floors.PlaceData.quotientMeasureFrom`, `New.Floors.PlaceData.partialGroupMeasure_mconv_dirac`,
+`New.Floors.PlaceData.quotientMeasureFrom`, `New.Floors.PlaceData.measurePreserving_orbitPoint`,
+`New.Floors.PlaceData.partialGroupMeasure_mconv_dirac`,
 `New.Floors.PlaceData.IsNear`, `New.Floors.PlaceData.blockRank`,
 `New.Floors.PlaceData.FreeIndex`, `New.Floors.PlaceData.orthonormalPart`, `New.Floors.PlaceData.IsShortFrom`,
 `New.Floors.PlaceData.IsStable`, `New.Floors.PlaceData.stableProducts`, `New.Floors.PlaceData.depth`,
@@ -372,7 +402,8 @@ correlation `k(g, y) = ⟨W(g), W(wy)⟩` of a cut Bessel function `W` (3.2).
 (e) For a kernel `k`, a position `x` and `j ≤ ϱ`: the weighted square is `a_j(g) = (depth weight of length j at
 (g, gx))·|k_{j+1}(g, gx)|²`; `b_j(g) = ∫ (a_j + b_{j+1})(σg) dθ_j(σ)` for `j < n` and `b_j = 0` for `j ≥ n`; the second
 moment
-of one frame at `x` from floor `j` is the integral of `b_j` over the floors below `j` (for `𝗆_j`).
+of one frame at `x` from floor `j` is the integral of `b_j` for the convolution `θ_{j−1}∗⋯∗θ₀` of the floor measures
+of the floors below `j` (the floor measures only, without the Heisenberg measures of `𝗆_j`).
 
 *Needs:* 1.1, 1.2, 2.2.
 
@@ -440,16 +471,16 @@ of
 size `i` with the measure `ρ`, multiplies squared `L²` norms by at most
 `Λ^{99n(i+6)}·Λ^{99n(j+6)}·(c_P/|ξ|)^{dim X′}`;
 
-(b) let `k` be a pairing kernel from floor `a + 1` on for an element `d`, and `n = ν(ω, β) ∈ N_a`. If the characters of
-the two
-points differ on `N_a` by the frequency `ξ` (that is, `(σ₀(dsd⁻¹) − σ₀(s))/M = ξσ₀(s)` for `s ∈ N_a`, `σ₀` the sum of
-the
-entries just above the diagonal on the frame), then
-`k_{a+1}(nx, ny) = ∫ ψ(−ξ⟨ω, σ⁻¹f_{a+1}⟩)·k_{a+2}(σx, σy) dθ_{a+1}(σ)`;
+(b) let `k` be a pairing kernel from floor `a + 1` on for an element `d`, `n = ν(ω, β) ∈ N_a`, and `ε ∈ {0, 1}`. If
+`(σ₀(dsd⁻¹) − σ₀(s^ε))/M = ξσ₀(s)` for all `s ∈ N_a` (`σ₀` the sum of the entries just above the diagonal on the frame;
+for `ε = 1` the characters of the two points differ on `N_a` by the frequency `ξ`, for `ε = 0` the first point is not
+moved), then
+`k_{a+1}(n^ε x, ny) = ∫ ψ(−ξ⟨ω, σ⁻¹f_{a+1}⟩)·k_{a+2}(σx, σy) dθ_{a+1}(σ)`. For `d = w_q⁻¹w_p` with heads of length
+`j ≤ a + 1` the condition holds with `ξ = (p_a/q_a − ε)/M` if `j = a + 1` and `ξ = (1 − ε)/M` otherwise;
 
-(c) (Parseval along `N_a`) in the situation of (b) with `ξ` invertible, let `Φ ≥ 0` on `N_a` be supported in a set `S`
-and at
-most `C·|k_{a+1}(nx, ny)|²` there. Suppose that for each `n₀ ∈ S` there are `t ∈ R^(a+1) ∩ G^(a)` and `q ∈ U_(<a+1)`
+(c) (Parseval along `N_a`) in the situation of (b), for either `ε`, with `ξ` invertible, let `Φ ≥ 0` on `N_a` be
+supported in a set `S` and at most `C·|k_{a+1}(n^ε x, ny)|²` there. Suppose that for each `n₀ ∈ S` there are `t ∈
+R^(a+1) ∩ G^(a)` and `q ∈ U_(<a+1)`
 such that
 `tqx` has size `i` and, for each `n ∈ S`, `v/u` has size `j` for some `v` congruent below `a` to `(tn₀(tn)⁻¹ − 1)e*_a`.
 Then
@@ -461,7 +492,7 @@ over the
 
 [ShortProof], `New/Spanning/Frames/QuadricPlancherel.lean` (`New.Floors.Gauge.fourierSqNormLe_floorQuadricMeasure`,
 `New.Floors.Gauge.partialCorrelation_heisenbergElem_eq_integral`,
-`New.Floors.Gauge.parseval_heisenbergMeasure_le`)
+`New.Floors.Gauge.partialCorrelation_weylRatio_heisenbergElem`, `New.Floors.Gauge.parseval_heisenbergMeasure_le`)
 
 ## Layer 3: Depth, densities, one frame, two frames and shells
 
@@ -497,7 +528,8 @@ most
 `|p_a|^{−r_a−1/2}·Λ^{10⁶n²}`;
 
 (b) (long coordinates force depth) for `g ∈ K` and `g⁻¹y` in the position ball, the integral of
-`depth_a(g, ny)^{−s}` over the `n ∈ N_a` for which `g⁻¹νny` is a close position for some `ν ∈ U_(<a)` is at most
+`depth_a(g, g⁻¹ny)^{−s}` (the depth of `e_a` at the points `g` and `ny`) over the `n ∈ N_a` for which `g⁻¹νny` is a
+close position for some `ν ∈ U_(<a)` is at most
 `|M|^{r_a+1/2}·Λ^{4600n}`;
 
 (c) (the two halves of the depth weight) let `j ≤ ϱ`, `x` a position and `g` near at `j`, and integrate over `ν ∈
@@ -509,7 +541,8 @@ otherwise) is at most `Λ^{10⁶n³}·∏_{a<j}|p_a|^{−r_a−1/2}`. The integr
 over the
 `ν` with `g⁻¹νy` in the position ball, is at most `∏_{l<j}(|M|^{r_l+1/2}·c_P^{dim X′}·Λ^{4900n})`;
 
-(d) (bounded depths bound the position) let `j ≤ ϱ`, `p`, `q` heads of length `j` for a size `S`; if `j ≠ 0`, let `1/M`
+(d) (bounded depths bound the position) let `j ≤ ϱ`, `S` a gauge for `F`, `p`, `q` heads of length `j` for `S`; if `j ≠
+0`, let `1/M`
 have
 size `1` for `S` and let the numbers of size `10n` for `S` have size `1` for `Γ`. Let `ux, vxy ∈ K` for some `u, v ∈ 𝖴`
 with
@@ -564,8 +597,8 @@ variables.
 (c) Prove: `|𝓘_j(p, q; ω)| ≤ κ_j(p, q)·∫ 𝖥_j(x; ω) d𝖬(x)`; and the form of floor `0` with weight `1` is
 `∫ |k_0(1, z)|² d𝖬(z)` (the mass).
 
-(d) Prove: let `μ` be a Haar measure, `W` a continuous cut Bessel function, `p`, `q` heads of length `ϱ` and `x ∈
-G^(ϱ)`. With
+(d) Prove: let `μ` be a Haar measure, `W` a continuous cut Bessel function, `p`, `q` heads of length `ϱ` for `Γ` and
+`x ∈ G^(ϱ)`. With
 `J(γ) = ∫ W(y) ⊗ W(γ⁻¹y)^* dμ(y)`, `⟨J(w_p x), J(w_q x)⟩ = ∬ ⟨W(y), W(y′)⟩·conj⟨W((w_p x)⁻¹y), W((w_q x)⁻¹y′)⟩ dμ(y)
 dμ(y′)`.
 
@@ -599,7 +632,8 @@ above it adds a frame vector by Parseval's inequality along the Heisenberg group
 
 Prove:
 
-(a) for a pairing kernel `k` at floor `j ≤ ϱ`, the integral over the position ball of the second moment of one frame
+(a) let `𝖬` be a Haar measure. For a pairing kernel `k` at floor `j ≤ ϱ`, the integral over the position ball of the
+second moment of one frame
 (2.3 (e)) for `𝖬` is at most `n·∏_{l<ϱ}(|M|^{r_l+1/2}·c_P^{dim X′}·Λ^{4900n})` times the squared `L²` norm of `k` for
 `θ_{≥0}` in
 each variable;
@@ -607,9 +641,10 @@ each variable;
 (b) let `W` be a cut Bessel function, `j ≤ ϱ`, `𝖬` a Haar measure, `p` a sequence of units, `q` a head of length `j` for
 `Γ`,
 and `S` a subset of the position ball of a gauge `Γ′` with loss `Λ′`. Say that `f ≥ 0` has the gain `e` at `x` if
-`f(x)² ≤ e²·Π_j(p, q; x)`, where `Π_j(p, q; x)` is the product of the second moments of the two correlations of 3.2 (b)
-at
-`x`, times `(∏_{a<j} |p_a⁻¹|^{r_a+1/2})²·(Λ^{10⁶n³})³`. If `f` has the gain `e` on `S`, then
+`f(x)² ≤ e²·Π_j(p, q; x)`, where `Π_j(p, q; x)` is the product of the second moment at `x` from floor `0` (2.3 (e)) of
+the correlation of `W` with
+twist `1` and the second moment at `x` from floor `j` of its correlation with twist `w_q⁻¹w_p`, times `(∏_{a<j}
+|p_a⁻¹|^{r_a+1/2})²·(Λ^{10⁶n³})³`. If `f` has the gain `e` on `S`, then
 `κ_j(p, q)·∫_S f d𝖬 ≤ e·‖k‖²·∏_{l<ϱ}|M|^{r_l+1/2}·c_P^{dim X′·ϱ}·Λ^{1500000n³+1}·Λ′^{25000n²}`.
 
 *Needs:* 2.3, 2.5, 3.1, 3.2.
@@ -641,7 +676,9 @@ at `j`. Prove:
 at
 `j`, and `f ≥ 0` with `f(g)² ≤ C·B(g)/wgt(g)·B′(w_p⁻¹g)/wgt(w_p⁻¹g)` wherever `f(g) ≠ 0`, `wgt` the depth weight of
 length `j`
-at `(·, ·x)`. Then `(∫ f d𝗆_j)² ≤ C·D²·∫B d𝗆_j·∫B′ d𝗆_j` with `D = ∏_{a<j}|p_a⁻¹|^{r_a+1/2}·Λ^{10⁶n³}`;
+at `(·, ·x)`. Then `(∫ f d𝗆_j)² ≤ C·D²·∫B dϑ_j·∫B′ dϑ_j` with `D = ∏_{a<j}|p_a⁻¹|^{r_a+1/2}·Λ^{10⁶n³}`, where
+`ϑ_j = θ_{j−1}∗⋯∗θ₀` is the convolution of the floor measures of the floors below `j` (as in 2.3 (e); the integral of
+`f` is for `𝗆_j`, with the Heisenberg measures);
 
 (b) (a frequency) if `ξ` is a unit and `ψ(ηz) = ψ(ξz)` for all `z` of size `200n²`, then
 `𝖥_j(x; ψ(η⟨f_j, ·f_j⟩))² ≤ (c_P/|ξ|)^{dim X′}·Π_j(p, q; x)`;
@@ -674,7 +711,7 @@ loss.
 translation; on the shells of height `2^i` above the threshold, 3.4 (d) with the depth forced by the height gives a
 gain that is a negative power of the height, and the geometric series converges because the volume exponent is large.
 
-Let `p`, `q` be sequences of units and `j ≤ ϱ`. The unit of integrals over positions is
+Let `𝖬` be a Haar measure, `p`, `q` sequences of units and `j ≤ ϱ`. The unit of integrals over positions is
 `𝒩(W) = ∏_{l<ϱ}|M|^{r_l+1/2}·c_P^{dim X′·ϱ}·‖k‖²`. A set `S ⊂ G` is a shell of height `h`, `1 ≤ h < ∞`, for `(Γ, p, q,
 W)` if:
 there are at most `2h^{9n}` gauges `Γ′` for `F`, each of loss at most `Λ·h²`, whose position balls cover `S`; and for
@@ -775,7 +812,8 @@ scale being the remote ones; a remote position has a deep vector by 3.1 (d), so 
 sums them. The decay of the Bessel function (the cut pair) bounds the mass of a floor, and Schur's bound for the
 irreducible type normalises the squared norm of the correlation.
 
-A cut Bessel function at `ℂ` is a pair `(W♭, W)` of continuous functions `G₁ → ℂ^I` that is a cut pair with base `b` and
+A cut Bessel function at `ℂ` is a pair `(W♭, W)` of continuous functions `G₁ → ℂ^I`, `I` finite and nonempty, that is a
+cut pair with base `b` and
 decay rate `f` for a type `ρ_I` of `H` (SecondMomentsOfPoincareSeries §3.3), such that every matrix commuting with
 `ρ_I` is scalar, and `(ρ, s, b)` satisfy the numerical hypotheses of 4.1. The forms `𝓘_j` are those of `W♭` for the
 place
@@ -860,9 +898,10 @@ integral unit `g` of `A`, `K(g)` is the group of integral isometries congruent t
 (a) A place datum `F` for `G` with level `M` is a lattice datum if: the Gram matrix of the form is hermitian and
 invertible over `O`; the hyperbolic basis is integral; `M ∈ O` and `M̄ = M`; the box is `K`; `θ_top(K) ≥ vol(O^×)`;
 `μ_H(K) = 1`; the close pairs are the pairs of integral vectors congruent modulo `M`; the positions are the elements
-`y⁻¹uy·k` with `y ∈ G`, `u ∈ 𝖴` and `k ∈ K(M)`; and there is an isotropic vector `u` with `⟨u, z⟩ = 1` and vanishing
-coordinate
-at `z`. It is a large lattice datum, with `m + 1` further hyperbolic pairs, if moreover `ζ_O(m)^n ≤ 1 + 2^{−n}` for the
+`y⁻¹uy·k` with `y ∈ G`, `u ∈ 𝖴` and `k ∈ K(M)`; and there is a vector `u` with `⟨u, x⟩ = x_z`, the coordinate of `x` at
+`z`, for all vectors `x`, and with `u_z = 0`
+(so `u` is isotropic and `⟨u, z⟩ = 1`). It is a large lattice datum, with `m + 1` further hyperbolic pairs, if moreover
+`ζ_O(m)^n ≤ 1 + 2^{−n}` for the
 ideal zeta sum `ζ_O(m) = Σ_{J} [O : J]^{−m}` over the ideals `J` of finite index, `m < 9n`, `#ι ≥ 53n`, `ψ(x + x̄) = 1`
 for all `x`, and `G` is
 unimodular.
@@ -880,12 +919,24 @@ lattice datum with level `g`, `m` further pairs and orthonormal part indexed by 
 `O` have
 volume at most `1/B`, then `𝖬(K) ≥ 2^{−n}`.
 
-*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §4.1, §4.3; ShortGRH background (at a finite place with
-its integers: the generalised index and the volumes of the integral vectors and of the unitary level; and the one-sided
-form of Fourier inversion for the fibre integrals of a hermitian form, namely that the local density of a continuous
-`f ≥ 0` of compact support has norm at most the integral of `f` over the quadric; [ShortProof]
+*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §4.1, §4.3; ShortGRH background (at a finite place `A` with
+integers `O`: for a unit `u`, `vol{x : ux ∈ O} = |u|⁻¹`, and `|u| ≤ 1` if `u ∈ O`; the integral vectors of `A^ι` are
+open and compact of volume `1`; the congruence subgroups `K(g)` of a unitary group are open and `K(1)` is compact; a
+matrix of `GL_ι(O)` has determinant of modulus `1`; for the content index of a vector `p` at `i`, the volume of
+`{c : cp integral}` if `p_i` is a unit and `∞` otherwise: if `ζ_O(μ) ≤ 2`, `V ∈ GL_ι(O)`, `β` is a unit and `s + k`
+coordinates of `V^*w` are singled out, with `k ≥ μ`, then the integral of the `s`-th power of their content index over
+the `w` with `βw` integral is at most `ζ_O(μ)·|β|^{−(#ι−s)}`; the unfolding
+`(η∗θ)(K(g)c⁻¹) = η(K(g))·θ(U_(<j)K(g)c⁻¹)` for `η = η₀∗⋯∗η_{j−1}`, an s-finite measure `θ` and `c ∈ G`; and the
+one-sided form of Fourier inversion for the fibre integrals of a hermitian form `J`: if measures `l_β` disintegrate the
+volume along `x ↦ x^*Jx`, in the sense of 2.1 (c), and `ψ` is trivial on traces, then for continuous `f ≥ 0` of compact
+support and skew `t`, `|∫∫ f(x)·ψ(τβ(x^*Jx − δ⁻¹t)) dx dβ| ≤ ∫ f dl_t`, the left side being `0` if the outer integral
+does not converge; [ShortProof]
 `Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean` (`New.Floors.IntegralPlace`,
-`New.Floors.IntegralPlace.contentIndex`, `New.Floors.IntegralPlace.enorm_localDensity_le`)).
+`New.Floors.IntegralPlace.volume_setOf_mul_mem`, `New.Floors.IntegralPlace.modulus_le_one`,
+`New.Floors.IntegralPlace.isOpen_isCompact_volume_intVectors`, `New.Floors.IntegralPlace.unitaryLevel_open_compact`,
+`New.Floors.IntegralPlace.modulus_det_eq_one`, `New.Floors.IntegralPlace.contentIndex`,
+`New.Floors.IntegralPlace.lintegral_contentIndex_pow_le`, `New.Floors.IntegralPlace.ascConv_mconv_unfolding`,
+`New.Floors.IntegralPlace.enorm_localDensity_le`)).
 
 [ShortProof], `New/Spanning/Frames/StandardLevel.lean` (`New.Floors.PlaceData.congruenceSubgroup`,
 `New.Floors.IntegralPlace.IsLatticeData`, `New.Floors.IntegralPlace.exists_isLatticeData`,
@@ -965,13 +1016,16 @@ Let `F` be a large lattice datum with level `M`, `Z` an intermediate group, and 
 
 (b) if the majorant of the form of floor `j ≤ ϱ` of `W_Z` is nonzero at some position, then the products `p₀⋯p_{l−1}`
 and
-`q₀⋯q_{l−1}`, `l ≤ j`, are integral; and then there is an integral unit `α` with `ᾱ = α` such that `p` and `q` are heads
-of
-length `j` for the gauge of scale `α`;
+`q₀⋯q_{l−1}`, `l ≤ j`, are integral; and then there is an integral unit `α` with `ᾱ = α` such that, for the gauge of
+scale `α` with loss
+`Λ`: `p` and `q` are heads of length `j`; `1/M` has size `1` if `j ≠ 0`; `1/p_i − 1/q_i` has size `1` for `i < j`; and
+`Λ^E ≤ (2/|M|)^C·hw^{fin}_{C,j}(p)·hw^{fin}_{C,j}(q)` for all `C` and `E` with `4E ≤ C`, with the weights of
+5.4 (b);
 
 (c) let `Γ` be the gauge of scale `α`, `p`, `q` heads of length `j ≤ ϱ` for `Γ`, with `1/M` of size `1` if `j ≠ 0`. Let
-`c` divide every
-common denominator in `O` of the entries of `(x − 1)/M`, and `σ < 1` with `|c|·Λ^{990n²} ≤ σ^{400n²}`. If `W_Z(y)` and
+the unit `c` of `A` divide every
+common denominator in `O` of the entries of `(x − 1)/M` (if `ε ∈ O` and `ε(x − 1)/M` is integral, then `ε/c ∈ O`), and
+`σ < 1` with `|c|·Λ^{990n²} ≤ σ^{400n²}`. If `W_Z(y)` and
 `W_Z(yx)` are
 not orthogonal and `w_p⁻¹y`, `w_q⁻¹yx` are near at `j`, then `vol 𝔡_i(y, x) ≤ σ²` for some `i ≥ j`.
 
@@ -1045,7 +1099,8 @@ unique), and `μ_β` is carried by the sphere `⟨ω, ω⟩ = δ⁻¹β`. For `t
 `⟨ω, ω⟩ = tt̄/N − N`.
 
 (b) The last vector quadric is the set of the vectors of `X₀ ⊕ Az` of norm `−N`. Prove: for fixed `t`,
-`P_t : ω ↦ ω − N⁻¹tz` (in the lattice basis) is a closed embedding of `A^κ` into the space, `P_t(ω)` lies on the last
+`P_t : ω ↦ ω − N⁻¹tz` (in the lattice basis) is a closed embedding of `A^κ` into the space, for `#κ ≥ 2`, `P_t(ω)` lies
+on the last
 vector quadric for `μ_t`-almost every `ω`, and for `l ∈ G^(ϱ)` the vector `l⁻¹z` lies on the last vector quadric.
 
 (c) Prove: for `#κ ≥ 2` and every continuous function `f` of compact support on the space,
@@ -1087,13 +1142,16 @@ Prove:
 d𝖬(y₁) d𝖬(y₂)`,
 and `k ↦ ⟨𝒪_Z(p, kl), 𝒪_Z(q, kl)⟩` is integrable over `H` for `μ_H`;
 
-(c) the form of floor `ϱ` of `W_Z` with a weight `ω(⟨z, x z⟩)` on the last diagonal entry of the matrix of the products
-of the frame vectors is the integral over `l`, for the measure of the top floor, of `ω(⟨z, l⁻¹z⟩)` times the pairing in
-(b);
+(c) for `ξ ∈ A` and the weight `ω(x) = ψ(ξ⟨z, xz⟩)`, a character of the last diagonal entry of the matrix of the
+products of the frame vectors, the function `l ↦ ω(l⁻¹)·⟨𝒪_Z(p, l), 𝒪_Z(q, l)⟩` is integrable for `μ_H∗θ_top`, the
+measure of the two top floors, and its integral is the form `𝓘_ϱ(p, q; ω)` of floor `ϱ` of `W_Z`;
 
-(d) a locally constant function on a closed subset of a totally disconnected locally compact space that vanishes
-off a compact set extends to a compactly supported function invariant under small translations; and for a positive
-semidefinite matrix `R` and vectors `v_x`, `Σ_x v_x^* R v_x ≥ 0`, also under an integral.
+(d) (step functions) let `Q, C ⊂ Aⁿ` with `C` compact, `H` a group of matrices in `GL_n(O)`, and `φ` a complex function
+on `Aⁿ` that vanishes off `C ∩ Q`, is locally constant along `Q` at the points of `C` (for `e ∈ C`, `φ(x) = φ(e)` for
+all `x ∈ Q` near `e`), and satisfies `φ(kx) = φ(x)` for `k ∈ H` wherever `φ(x) ≠ 0`. Then `φ` agrees on `Q` with a
+compactly supported function `Φ` with `Φ(x + v) = Φ(x)` for all `x` and all `v` near `0`, and `Φ(kx) = Φ(x)` for
+`k ∈ H`. And for a complex matrix `R` and integrable functions `f_{ab}`: if `Σ_{a,b} R_{ab}·f_{ab}(x)` is a nonnegative
+real for every `x`, then so is `Σ_{a,b} R_{ab}·∫ f_{ab}`.
 
 RemainingAndMainTermsOfSecondMoments §7.3 uses `𝒪_Z` and the head density `κ_ϱ` (3.2 (b)).
 
@@ -1125,6 +1183,9 @@ density at
 the last entry is
 `J^Z_top(p, q) = |π|⁻¹·∫ FP_Z(p, q)(P_t(ω)) dμ_t(ω)` with `t = p_ϱ`.
 For a matrix `R` indexed by a finite set of heads `ω_a`, `HS_Z(R, ω, l) = Σ_{a,b} R_{ab}·⟨𝒪_Z(ω_a, l), 𝒪_Z(ω_b, l)⟩`.
+
+In (a), (b), (d) and the statements on `J^Z_top` in (c), the units of `A` are assumed to be open in `A` (as they are
+in a finite product of local fields).
 
 Prove:
 
@@ -1259,10 +1320,16 @@ has `g − 1` equal to `u − 1` on the coordinates `e(X)` and `g′ − 1` equa
 Laplace
 integrand is `θ(s) = c_l(g)·conj(c_k(g′))·exp(−φ(s))`.
 
-*Needs:* SecondMomentsOfPoincareSeries §3.1; ShortGRH background (the function `c_λ` on `U(diag ε)` defined by
-Flensted-Jensen's integral over the maximal compact subgroup for the lowest `K`-type `Λ = λ + ρ − 2ρ_c` of `λ`, as in
-SecondMomentsOfPoincareSeries §3.1; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/Defs.lean`
-(`New.HCParam.lowestKType`, `New.HCParam.flenstedJensen`, `New.HCParam.dsCoeff`)).
+*Needs:* SecondMomentsOfPoincareSeries §3.1; ShortGRH background (the definition of the function `c_λ` on `U(diag ε)`,
+as
+in SecondMomentsOfPoincareSeries §3.1: for an integer vector `w`, `m_w(g)` is the product over the integers `t` of the
+principal minor of `g` on `{i : t ≤ w_i}`, divided by `det g` for `t ≤ 0`; with `Λ = λ + ρ − 2ρ_c` the highest weight
+of the lowest `K`-type and `K = K_ε` of total mass `1`, Flensted-Jensen's integral is
+`Ξ(g, z) = ∫_K m_Λ(gk)·conj(m_Λ(k))/m_{−λ−ρ}(k^*zk) dk / ∫_K |m_Λ|²`, and `c_λ(g) = Ξ(a, a⁻¹g)` for the part `a` of
+`g` that keeps the entries at coordinates of equal sign; no property of `c_λ` beyond this definition is taken from
+here, and its identification with a matrix coefficient of the discrete series is not used; [ShortProof]
+`Lib/DiscreteSeries/FlenstedJensen/Defs.lean`
+(`New.weightMinors`, `New.HCParam.lowestKType`, `New.HCParam.flenstedJensen`, `New.HCParam.dsCoeff`)).
 
 [ShortProof], `New/Appendix/DiscreteSeries/SteepParameters.lean` (`New.DiscreteSeries.IsSteep`,
 `New.DiscreteSeries.IsLaplaceDatum`, `New.DiscreteSeries.subOnePair`, `New.HCParam.phase`,
@@ -1317,12 +1384,12 @@ off
 `ĝ = exp(−u)·exp(Z)·exp(−v)` for the two parts `u`, `v` of `Z` inside the blocks of `ε` that are strictly triangular for
 `o`.
 Then `det_S(k^*ĝk) = exp(tr(PZ) + ‖[P, Z]‖²/4 + R)` with `|R| ≤ 10⁵·δ·(‖[P, Z]‖² + ‖[P, k]‖²)`; `det ĝ = exp(tr Z)`; and
-for
-small `Z` Flensted-Jensen's coefficient of `l` has the same value at `ĝ` and at `exp Z`.
+if the entries of `l` are distinct and of the parity of `#n − 1`, `‖Z‖ ≤ 1/20` and `o = l`, then Flensted-Jensen's
+integral `Ξ(1, ·)` of `l` (8.1, *Needs*) has the same value at `ĝ` and at `exp Z`.
 
 (c) (Gaussian shape) Prove: let `l` have large gap `A` and `|l_i| ≤ L`, let `T ≥ max(1, (#n)², (#n)² log(#n + L + 1))`
 and
-`δ·T ≤ 10^{−12}`. For `g ∈ U(ε)` with `‖g − 1‖ ≤ δ` there is `ϱ ∈ [0, 1]` with
+`δ·T ≤ 10^{−12}`. For nonempty `n` and `g ∈ U(ε)` with `‖g − 1‖ ≤ δ` there is `ϱ ∈ [0, 1]` with
 `|c_l(g)/exp(tr(μ_l log g)) − ϱ| ≤ ϱ/10 + exp(−100T)`.
 
 *Needs:* 8.1, 8.2.
@@ -1377,7 +1444,8 @@ computed on the flag.
 (a) A position of `U(η)` in `U(ε)` with `d + 1` vectors consists of an `n × (d + 1)` matrix `v` with independent columns
 `v₁, …, v_{d+1}`, all of whose hermitian products for `diag ε` vanish except that `⟨v_{d+1}, v_{d+1}⟩ = ±1`, and an `n ×
 m`
-matrix `i₀` that is an isometry from `diag η` into the orthogonal complement of the `v_j`. It is stationary for `(l, k)`
+matrix `i₀` that is an isometry from `diag η` into the orthogonal complement of the `v_j`, where `#n = #m + 2d + 1`. It
+is stationary for `(l, k)`
 and splittings `e`, `e′` of the two index sets with a common part `X` if `μ_l v_j = v_{j+1}` for `j ≤ d`, `i₀^†μ_l i₀ =
 μ_k`
 (`i₀^†` the adjoint for the two forms), and `i₀` is the identity on `ℂ^X`. A matrix `Y` lowers the flag with sum `σ` if
@@ -1443,7 +1511,7 @@ parameter
 of `U(ε ⊕ 1)` with `−l′` steep for `(X, M + 1, B)`, both of large gap `h` and with entries of modulus at most `L`. Let
 `β ≥ 10¹²` with `2#n + 1 + L ≤ β` and `(#n + 1)⁴·(6B)^{2M+2} ≤ β`, and `h ≥ 10³⁰((2#n + 1)² log β)³`. Then there is
 `y ∈ U(ε ⊕ 1)` with `‖y‖²_op ≤ β` and
-`vol{g ∈ U(ε) : ‖g − 1‖ ≤ 1} ≤ β^{20(2#n+1)²}·|∫_{U(ε)} c_l(g)·conj(c_{l′}(y⁻¹(g ⊕ 1)y)) dg|`,
+`vol{g ∈ U(ε) : ‖g − 1‖_op ≤ 1} ≤ β^{20(2#n+1)²}·|∫_{U(ε)} c_l(g)·conj(c_{l′}(y⁻¹(g ⊕ 1)y)) dg|`,
 for the Haar measure of `U(ε)` in the normalisation of SecondMomentsOfPoincareSeries §3.1.
 
 SecondMomentsOfPoincareSeries §3.9 uses (b) and 8.5 (c); DeterminantsOfThetaLiftChains §5.4 uses 8.1 (a), and its §5.5
