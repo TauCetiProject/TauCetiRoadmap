@@ -37,14 +37,16 @@ against all of them and against direct computation.
 It builds on five roadmaps. SpecialFunctionsGroupModels supplies the `ax + b` group, the oscillator
 matrices, the multiplier representations on `L²`, the Schrödinger representation with its
 irreducibility (which it takes from NoncompactQuantumSymmetry), and the abstract matrix elements
-with their addition theorem and unitarity relations. SpecialFunctionsConfluent supplies the
-Whittaker functions with their integral representations, Mellin–Barnes integrals, recurrences and
+with their addition theorem and unitarity relations.
+[SpecialFunctionsConfluent](../SpecialFunctionsConfluent/README.md) supplies the Whittaker
+functions with their integral representations, Mellin–Barnes integrals, recurrences and
 differential equation, which the kernels of the triangular group are identified with.
 [LaguerreJacobi](../LaguerreJacobi/README.md) supplies the Laguerre polynomials and their
 orthogonality and Hilbert bases, which the matrix elements of the Heisenberg group are expressed in
 and reduce to. [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
 supplies the Mellin–Barnes integral of `(1 + u)^{−a}` and the half-line Beta integral, which the
-composed kernels of the `ax + b` and triangular groups reduce to. ThetaKernelsForUnitaryDualPairs
+composed kernels of the `ax + b` and triangular groups reduce to.
+[ThetaKernelsForUnitaryDualPairs](../RiemannHypothesisForDirichletLFunctions/ThetaKernelsForUnitaryDualPairs/README.md)
 supplies the Fock model and the Bargmann transform of a real symplectic space, which this roadmap
 uses in one variable, in the coordinates of Tau Ceti's Heisenberg group. The roadmap owns the
 Charlier polynomials.
@@ -914,7 +916,8 @@ Boundaries:
   SpecialFunctionsHypergeometric §6.3; 1.3 and 2.6 reduce to them and do not restate them. The
   Gamma integral with complex rate is AsymptoticExpansions §4.1.
 - The Fock model and the Bargmann transform of a real symplectic space of any dimension are
-  ThetaKernelsForUnitaryDualPairs §3.45(i)–(ii); 3.4 consumes them at `N = 1` through the
+  [ThetaKernelsForUnitaryDualPairs](../RiemannHypothesisForDirichletLFunctions/ThetaKernelsForUnitaryDualPairs/README.md)
+  §3.45(i)–(ii); 3.4 consumes them at `N = 1` through the
   dictionary stated there, and owns only the normalization in Tau Ceti's coordinates, the Hermite
   correspondence `B h_n = fockMonomial n`, the explicit kernel formula on `L²(ℝ)` and Layer 4.
 - The irreducible unitary representations of the `ax + b` and Heisenberg groups and their
@@ -922,7 +925,8 @@ Boundaries:
   NoncompactQuantumSymmetry M2; the Stone–von Neumann theorem is MetaplecticAutomorphicForms 1.2
   and is not used here.
 - Analytic properties of `W_{κ,μ}` and `M_{κ,μ}` beyond the kernel identities are those of
-  SpecialFunctionsConfluent; Laguerre orthogonality and bases are LaguerreJacobi's.
+  [SpecialFunctionsConfluent](../SpecialFunctionsConfluent/README.md); Laguerre orthogonality and
+  bases are LaguerreJacobi's.
 - The representations of the triangular group are treated only through `T_χ` on the line; the
   one-dimensional representations and those trivial on the centre are not.
 - SpecialFunctionsParabolicCylinder owns the bridge between Hermite functions and the parabolic
@@ -985,7 +989,7 @@ Boundaries:
 
 The definitions are copied verbatim into `Suggested.lean`.
 
-### From SpecialFunctionsConfluent
+### From [SpecialFunctionsConfluent](../SpecialFunctionsConfluent/README.md)
 
 - §§1.4, 1.6: Tricomi's function and the Whittaker functions `M_{κ,μ}`, `W_{κ,μ}` (DLMF
   13.14.2–13.14.3, copied verbatim into `Suggested.lean`) and Whittaker's equation (DLMF 13.14.1).
@@ -1002,7 +1006,7 @@ The definitions are copied verbatim into `Suggested.lean`.
 - §2.3: the orthogonality of `L_n^{(α)}` against `x^α e^{−x}`; §2.4: the two Hilbert bases. Used in
   3.2.
 
-### From ThetaKernelsForUnitaryDualPairs
+### From [ThetaKernelsForUnitaryDualPairs](../RiemannHypothesisForDirichletLFunctions/ThetaKernelsForUnitaryDualPairs/README.md)
 
 - §3.45(i)–(ii), at `N = 1`: for a real symplectic plane with a positive compatible complex
   structure `J` and `H(x, y) = ω(x, Jy) − iω(x, y)`, the Fock space of holomorphic functions
