@@ -290,12 +290,16 @@ elements disintegrates a measure `μ` along the form if `∫ f dl_β` is finite 
 `f ≥ 0` of compact support, and `∫ f(⟨y, y⟩, y) dμ(y) = ∬ f(δ⁻¹β, y) dl_β(y) dβ` for measurable `f ≥ 0`; the quadric
 of `c` carries `l_{δc}`, and the continuity makes the family unique at every `β`.
 
-*Needs:* SecondMomentsOfPoincareSeries §3.1, §4.1; HolomorphicDiscreteSeriesOfUnitaryGroups §§2.3, 3.1, 3.4, 3.5 (for the floor groups of the
+*Needs:* SecondMomentsOfPoincareSeries §3.1, §4.1; ShortGRH background (for the floor groups of the
 Conventions over a place: every element of `N_a` is some `ν(v, β)`, and `u ↦ ue*_a` maps `N_a` bijectively onto the
 isotropic vectors `y` of `V_a` with `⟨e_a, y⟩ = 1`; two families of measures that disintegrate one measure along a
 hermitian form, in the sense of 2.1 (c), agree at every skew element; for a hyperbolic basis the quadric measures of
 floor `b` disintegrate the volume of `V_b` along `⟨y, y⟩`; and Plancherel's inequality at a place: for a unit `η` and
-`f` measurable and integrable on `A^ι`, `∫ |∫ ψ(η·Σ_i v̄_i w_i) f(w) dw|² dv ≤ (c_P/|η|)^{#ι}·∫ |f|²`).
+`f` measurable and integrable on `A^ι`, `∫ |∫ ψ(η·Σ_i v̄_i w_i) f(w) dw|² dv ≤ (c_P/|η|)^{#ι}·∫ |f|²`; [ShortProof]
+`Lib/DiscreteSeries/Bruhat/FloorGroups.lean`, `Lib/DiscreteSeries/Bruhat/FloorMeasures.lean`
+(`New.Floors.FloorGroups.exists_eq_heisenbergElem_of_mem`, `New.Floors.FloorGroups.bijOn_mulVec_eStar`,
+`New.Floors.HyperbolicBasis.isDisintegration_floorVolume`, `New.Floors.Place.plancherel_inequality`),
+`Lib/General/Measure/QuadricDisintegration.lean` (`New.Floors.Place`, `New.Floors.Place.IsDisintegration.unique`)).
 
 [ShortProof], `Lib/General/Measure/QuadricDisintegration.lean` (`New.Floors.Place`);
 `Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean` (`New.Floors.IntegralPlace`);
@@ -791,11 +795,12 @@ over the lifts; the real depth of `e_a` at `(g, g′)` is the infimum, over the 
 squares of the induced lengths of `ζ` on `Y^(a)` at `g` and at `g′`. Prove: `𝔡_a(x, y)` is a disc, and `depth_a(x, y)`
 is the real depth of `e_a` at `(x, xy)` divided by `π`.
 
-*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §3.1, §3.5; HolomorphicDiscreteSeriesOfUnitaryGroups §§3.2, 3.6 (polar coordinates on `ℂ^κ`:
+*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §3.1, §3.5; ShortGRH background (polar coordinates on `ℂ^κ`:
 `∫ g(ω) dω = ∫₀^∞ π^k r^{k−1}/(k − 1)!·∫_{U(k)} g(h(√r·x)) dh dr` for a basis vector `x`; the Cartan decomposition
 `σ = h·w(c)·h′` of an isometry `σ` of `X₀ ⊕ ℂz` with `|h(z, σz)| = |c| > 1`, with `h, h′ ∈ U(X₀)` and `w(c)` a boost;
 and, for `k > 1`, measures on the hyperboloids `h(v, v) = t` that disintegrate Lebesgue measure of `X₀ ⊕ ℂz` along
-`h(v, v)`).
+`h(v, v)`; [ShortProof] `Lib/DiscreteSeries/Bruhat/ComplexPlace.lean` (`New.Floors.lintegral_eq_polar`,
+`New.Floors.cartan_decomposition`, `New.Floors.isDisintegration_hyperboloidMeasure`)).
 
 [ShortProof], `New/Spanning/Frames/RealPlaceGauge.lean` (`New.Floors.ascConv_heisenbergMeasure_eq_besselHaar`,
 `New.Floors.dualColumnGaussian`, `New.Floors.RealPlaceSizes`, `New.Floors.RealPlaceSizes.complexData`,
@@ -925,7 +930,7 @@ and `⟨z, z⟩ = −N`, written in the lattice basis of SecondMomentsOfPoincare
 `O` have
 volume at most `1/B`, then `𝖬(K) ≥ 2^{−n}`.
 
-*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §4.1, §4.3; SiegelWeilAndRallisFormulasOnUnitaryGroups §§3.6, 3.7, 3.8 (at a finite place `A` with
+*Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §4.1, §4.3; ShortGRH background (at a finite place `A` with
 integers `O`: for a unit `u`, `vol{x : ux ∈ O} = |u|⁻¹`, and `|u| ≤ 1` if `u ∈ O`; the integral vectors of `A^ι` are
 open and compact of volume `1`; the congruence subgroups `K(g)` of a unitary group are open and `K(1)` is compact; a
 matrix of `GL_ι(O)` has determinant of modulus `1`; for the content index of a vector `p` at `i`, the volume of
@@ -936,7 +941,13 @@ the `w` with `βw` integral is at most `ζ_O(μ)·|β|^{−(#ι−s)}`; the unfo
 one-sided form of Fourier inversion for the fibre integrals of a hermitian form `J`: if measures `l_β` disintegrate the
 volume along `x ↦ x^*Jx`, in the sense of 2.1 (c), and `ψ` is trivial on traces, then for continuous `f ≥ 0` of compact
 support and skew `t`, `|∫∫ f(x)·ψ(τβ(x^*Jx − δ⁻¹t)) dx dβ| ≤ ∫ f dl_t`, the left side being `0` if the outer integral
-does not converge).
+does not converge; [ShortProof]
+`Lib/SiegelWeil/OneVector/FinitePlaceDensity.lean` (`New.Floors.IntegralPlace`,
+`New.Floors.IntegralPlace.volume_setOf_mul_mem`, `New.Floors.IntegralPlace.modulus_le_one`,
+`New.Floors.IntegralPlace.isOpen_isCompact_volume_intVectors`, `New.Floors.IntegralPlace.unitaryLevel_open_compact`,
+`New.Floors.IntegralPlace.modulus_det_eq_one`, `New.Floors.IntegralPlace.contentIndex`,
+`New.Floors.IntegralPlace.lintegral_contentIndex_pow_le`, `New.Floors.IntegralPlace.ascConv_mconv_unfolding`,
+`New.Floors.IntegralPlace.enorm_localDensity_le`)).
 
 [ShortProof], `New/Spanning/Frames/StandardLevel.lean` (`New.Floors.PlaceData.congruenceSubgroup`,
 `New.Floors.IntegralPlace.IsLatticeData`, `New.Floors.IntegralPlace.exists_isLatticeData`,
@@ -1323,14 +1334,16 @@ has `g − 1` equal to `u − 1` on the coordinates `e(X)` and `g′ − 1` equa
 Laplace
 integrand is `θ(s) = c_l(g)·conj(c_k(g′))·exp(−φ(s))`.
 
-*Needs:* SecondMomentsOfPoincareSeries §3.1; HolomorphicDiscreteSeriesOfUnitaryGroups §4.1 (the definition of the function `c_λ` on `U(diag ε)`,
+*Needs:* SecondMomentsOfPoincareSeries §3.1; ShortGRH background (the definition of the function `c_λ` on `U(diag ε)`,
 as
 in SecondMomentsOfPoincareSeries §3.1: for an integer vector `w`, `m_w(g)` is the product over the integers `t` of the
 principal minor of `g` on `{i : t ≤ w_i}`, divided by `det g` for `t ≤ 0`; with `Λ = λ + ρ − 2ρ_c` the highest weight
 of the lowest `K`-type and `K = K_ε` of total mass `1`, Flensted-Jensen's integral is
 `Ξ(g, z) = ∫_K m_Λ(gk)·conj(m_Λ(k))/m_{−λ−ρ}(k^*zk) dk / ∫_K |m_Λ|²`, and `c_λ(g) = Ξ(a, a⁻¹g)` for the part `a` of
 `g` that keeps the entries at coordinates of equal sign; no property of `c_λ` beyond this definition is taken from
-here, and its identification with a matrix coefficient of the discrete series is not used).
+here, and its identification with a matrix coefficient of the discrete series is not used; [ShortProof]
+`Lib/DiscreteSeries/FlenstedJensen/Defs.lean`
+(`New.weightMinors`, `New.HCParam.lowestKType`, `New.HCParam.flenstedJensen`, `New.HCParam.dsCoeff`)).
 
 [ShortProof], `New/Appendix/DiscreteSeries/SteepParameters.lean` (`New.DiscreteSeries.IsSteep`,
 `New.DiscreteSeries.IsLaplaceDatum`, `New.DiscreteSeries.subOnePair`, `New.HCParam.phase`,

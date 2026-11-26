@@ -414,8 +414,9 @@ subfield `E⁺` of `E` (the extension `E/E⁺` is unramified at the finite place
 `‖φ_X‖² = C·∏_{w ∈ 𝒞_X}(q_w − 1)·∏_τ ρ(τ)!·dim ρ_O·L^{S}(k, μ_X⁻¹)·(∏_{w ∈ Q_X} q_w)^{2k−1}`,
 with `S` the set of level places of `X` and `L^S` as in the Conventions.
 
-*Needs:* 2.1, 2.2; DeterminantsOfThetaLiftChains §2.2; SiegelWeilAndRallisFormulasOnUnitaryGroups §4.5 (the Rallis inner product formula for sharp
-finite data by doubling, with unramified integrals as a sum over cosets).
+*Needs:* 2.1, 2.2; DeterminantsOfThetaLiftChains §2.2; ShortGRH background (the Rallis inner product formula for sharp
+finite data by doubling, with unramified integrals as a sum over cosets; [ShortProof]
+`Lib/SiegelWeil/RallisInner/SharpData.lean` (`New.SiegelWeil.IsSharp.petersson_lift_eq_integral`)).
 
 [ShortProof], `New/OneLift/HeckeValues/CharacterLiftNorm.lean` (`New.LValueData.blockMeanSquare`,
 `New.LValueData.isSharp_blockDatum`, `New.LValueData.inner_thetaLift_constForm_self`,
@@ -1039,7 +1040,7 @@ in the archimedean variable and has a peak, and `K₀` a bounded function on `G_
 and
 `∫_{G_∞} conj(F(xh))·K(h)·m_{u′}(h) dh = 0`. Then `|K₀(1)| ≤ (4b^{n_*} + 1)·δ`.
 
-*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.3; HolomorphicDiscreteSeriesOfUnitaryGroups §§4.1, 5.4, 5.5, 6.3, 6.4 (holomorphic functions of a weight on the real
+*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.3; ShortGRH background (holomorphic functions of a weight on the real
 group `G_∞ = ∏_τ U(diag s)` of signs `s` on `n ≥ 1` indices, for an injective order that puts the signs `+1` first: a
 function is holomorphic of weight `u` if it extends to a function of tuples of matrices, analytic at the products of
 group elements with invertible triangular matrices, that takes the character of weight `u` of the triangular matrix as
@@ -1050,7 +1051,12 @@ those at the signs `+1` by more than `500n³ + A + n + 1`, the quotient of minor
 coefficient `c_λ` of `2λ = 2u_τ + 2ρ`, a parameter of gap `500n³ + A`; for a parameter of gap `h` and `c ≤ h`,
 `|c_λ(g)| ≤ (2/‖g‖)^c` in the operator norm; and for a parameter of gap `500n³ + B` with `|2λ_a| ≤ L` and `c > 8n²`,
 the function `deg_λ·(2/‖g‖)^c` is integrable on `U(diag s)` with integral at most `8·(2000(n + L + 1)⁶)^{2n²}·2^c`,
-where `deg_λ > 0` is the inverse of `∫|c_λ|²`).
+where `deg_λ > 0` is the inverse of `∫|c_λ|²`; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/Defs.lean`
+(`New.IsHolOfWeight`, `New.HCParam.formalDegree`), `Lib/DiscreteSeries/Holomorphic/ModelFunction.lean`
+(`New.isHolOfWeight_holMinorsPi`, `New.IsHolOfWeight.integral_mul_conj_holMinorsPi`, `New.dsCoeff_eq_holMinors`),
+`Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean` (`New.DiscreteSeries.norm_dsCoeff_le_pow`,
+`New.formalDegree_pos`, `New.integral_tail_le`), `Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean`
+(`New.Rows.IsPeak`)).
 
 [ShortProof], `New/OneLift/ComparisonOperator/ThetaKernelEstimates.lean`
 (`New.Data.integral_norm_holMinorsPi_mul_pow_le`, `New.Data.norm_apply_one_le_of_forall_isPeak`)
@@ -1093,7 +1099,7 @@ with
 `i` and
 every `ζ`, then `y = 0`.
 
-*Needs:* 3.4, 4.2, 4.4, 4.5; ThetaLiftChainsAndTheSeesawIdentity §2.7, §3.5; HolomorphicDiscreteSeriesOfUnitaryGroups §6.4 (a bounded nonzero function, in
+*Needs:* 3.4, 4.2, 4.4, 4.5; ThetaLiftChainsAndTheSeesawIdentity §2.7, §3.5; ShortGRH background (a bounded nonzero function, in
 particular a nonzero rapidly decreasing form of a level, has a peak, a point where its absolute value exceeds half its
 supremum; let `F` be a function on the adelic unitary group of a hermitian space of signs `s` that is left invariant
 under the rational points, right invariant under the principal level of an integer `p` of `E` with `p̄ = −p` whose
@@ -1101,7 +1107,8 @@ imaginary part at every infinite place is positive and at most `A′`, `A′ ≥
 translate, for an order that puts the signs `+1` first, of a weight `u` with `u_τ(i) + 1 ≤ u_τ(j)` whenever `s_i = +1`
 and `s_j = −1` and with entries of absolute value at most `A`, `A ≥ 2`; then at every peak `g` of `F` the first minimum
 of the lattice moved by `g`, the length of its shortest nonzero vector cut off at `1`, is at least `(A·A′)^{−1/2}`, so
-the peaks are not deep in a cusp).
+the peaks are not deep in a cusp; [ShortProof] `Lib/DiscreteSeries/Holomorphic/PeaksAwayFromCusp.lean`
+(`New.Rows.exists_isPeak`, `New.Rows.exists_isPeak_of_mem_rapidOfLevel`, `New.Rows.IsPeak.le_firstMinimum`)).
 
 [ShortProof], `New/OneLift/ComparisonOperator/ProductsSpan.lean` (`New.Data.exists_isPeak_carrierForm`,
 `New.Data.exists_sum_choiceFn_eq_integral`, `New.Data.integral_mul_sum_choiceFn_eq_zero`,
@@ -1152,7 +1159,7 @@ the hyperplane sums annihilate `y`, and the descents of the conjugate of the coe
 `v_P ⊗ Ψ_bl ⊗ vac` vanish for all polynomials `P`, then the descents of that function to `W` twisted by `ν_W` vanish
 off `S_O`.
 
-*Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.16, §2.17; WeilRepresentationsOnBanachSpacesOfData §§5.3, 5.4, 8.10 (vanishing of theta descents as a
+*Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.16, §2.17; ShortGRH background (vanishing of theta descents as a
 predicate: for hermitian spaces `W′`, `V`, a character `a` of `[U(1)]`, a set `S` of finite places and a function `Y`
 on `U(V)(𝔸)`, the descents of `Y` to `W′` twisted by `a` vanish for the data that are vacua above `S` if for every
 datum `f` on `Hom(W′, V)(𝔸)` fixed by the vacuum projection at the places of `S` and their conjugates the function
@@ -1160,7 +1167,10 @@ datum `f` on `Hom(W′, V)(𝔸)` fixed by the vacuum projection at the places o
 translate of `Y` by an element that is integral at every place of `S`; and for `V` definite, `Y` automorphic and a set
 `A` of finite places disjoint from its conjugate, it holds for `S` the complement of `A ∪ Ā` as soon as the descents
 vanish for the data `v_P ⊗ Ψ ⊗ vac`, obtained from the vacuum by the Schrödinger operator of a Schwartz–Bruhat function
-`Ψ` above `A` and the Fock vector `v_P` of a polynomial `P` at the real places).
+`Ψ` above `A` and the Fock vector `v_P` of a polynomial `P` at the real places; [ShortProof]
+`Lib/Weil/MixedModel/SchwartzBruhat.lean` (`New.IsSchwartzBruhat`), `Lib/Weil/MixedModel/NamedData.lean`
+(`New.Space.schrodingerOp`), `Lib/Weil/Periods/DescentVanishing.lean` (`New.SiegelWeil.DescentsVanish`,
+`New.SiegelWeil.DescentsVanish.comp_mul_right`, `New.SiegelWeil.DescentsVanish.of_schrodingerOp`)).
 
 [ShortProof], `New/OneLift/FalseLifts/BottomOfTower.lean` (`New.DescentPair.HyperplaneSumsAnnihilate`,
 `New.HasIntegralBlockRatio`, `New.DescentPair.descentsVanish_of_hyperplaneSumsAnnihilate`,
@@ -1194,7 +1204,7 @@ off
 spherical at a split place `w` and killed by the Hecke polynomial at `w` at a point `X` with `q_w^{n′+1}·|X| ≤ 1` is
 zero.
 
-*Needs:* 5.1; AdelicUnitaryGroupsAndAlgebraicModularForms §3.6, WeilRepresentationsOnBanachSpacesOfData §§6.9, 9.3 (the mixed model of the Weil representation for a splitting of a hermitian space
+*Needs:* 5.1; ShortGRH background (the mixed model of the Weil representation for a splitting of a hermitian space
 `W′` into `W` and `p` hyperbolic planes, and the transfer of the Hecke polynomial through the transposed theta lift:
 the slice `φ ↦ φ[x]`, for an adelic matrix `x`, is a continuous map from the data on `Hom(W′, V)` to the data on
 `Hom(W, V)`, and `φ[0]` is the zero term of `φ` along the isotropic frame; for a Levi element with components
@@ -1208,7 +1218,11 @@ vacuum at `w̄`, and an automorphic function `y` of rapid decay on `U(T)(𝔸)` 
 lift `F` of `y` with the datum `f` is spherical at `w`, and the transposed lift of `H_w(X)y` is
 `∏_{l<k}(1 − q^l αX)·H_w(q^k αβ⁻¹X)F` for every `X`, where `α` and `β` are the Frobenius values at `w̄` of `a` in rank
 `n` and of `b` in rank `m`, the value at a uniformiser of the Hecke character of the character in that rank times
-`q^{n/2}`, respectively `q^{m/2}`).
+`q^{n/2}`, respectively `q^{m/2}`; [ShortProof] `Lib/Weil/DualPair/MixedModel.lean`
+(`New.Space.Splitting.homSlice`, `New.Space.Splitting.homSlice_levi`, `New.Space.Splitting.homSlice_radicalElement`),
+`Lib/SiegelWeil/Formula/LagrangianZeroTerms.lean` (`New.SiegelWeil.homSlice_zero`),
+`Lib/Adelic/Witt/IwasawaDecomposition.lean` (`New.Space.Splitting.iwasawa`), `Lib/Weil/Unramified/HeckeTransfer.lean`
+(`New.SiegelWeil.lift_swap_heckePolyOp`)).
 
 [ShortProof], `New/OneLift/FalseLifts/HyperbolicPlaneStep.lean` (`New.SiegelWeil.descentsVanish_add_planes`,
 `New.SiegelWeil.eq_zero_of_heckePolyOp_eq_zero`, `New.SiegelWeil.DescentsVanish.integral_homSlice_eq_zero`,
@@ -1790,11 +1804,7 @@ with determinant data).
 CompositeThetaLiftsAndShortForms §2.1, §2.2 (local prime sums);
 SecondMomentsOfPoincareSeries §2.3 (`dim 𝒢(W_j) = dim 𝒯`), §5.7 (c) (`d_T > 0`); FiniteReductiveGroups §5.7
 (idempotents of labels); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set inner products and the
-Petersson product); SiegelWeilAndRallisFormulasOnUnitaryGroups §4.5 (the inner product formula for sharp data);
-HolomorphicDiscreteSeriesOfUnitaryGroups §4.1, §5.4, §5.5, §6.3, §6.4 (products of principal minors, bounds for `c_λ`,
-peaks of holomorphic forms); WeilRepresentationsOnBanachSpacesOfData §5.3, §5.4, §6.9, §8.10, §9.3 (data above a set of
-places, mixed models, vanishing of descents, Hecke polynomials through theta lifts);
-AdelicUnitaryGroupsAndAlgebraicModularForms §3.6 (the Iwasawa decomposition).
+Petersson product).
 
 ## References
 

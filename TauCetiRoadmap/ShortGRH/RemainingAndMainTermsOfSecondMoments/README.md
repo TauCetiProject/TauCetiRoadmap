@@ -55,7 +55,7 @@ multiplication by `a` scales Haar measure on `𝔸_f`, and `0` if `a` is not a u
 `vol(Ô) = (2/rd_E)^f`. It is the measure of `Ô` for the Haar measure on `𝔸_f` for which `𝔸_E/E` has mass `1` when each
 `E_v = ℂ` carries Lebesgue measure, and it is the normalisation of SecondMomentsOfPoincareSeries (Conventions,
 **Normalisations**); the constants of 6.3 and 6.4 hold with this value. `ψ_f` is the standard character of `𝔸_f`: it is
-trivial on `Ô` and `ψ_f(a) = exp(2πi·Tr_{E/ℚ} a)` for `a ∈ E` (AdelicUnitaryGroupsAndAlgebraicModularForms §2.1).
+trivial on `Ô` and `ψ_f(a) = exp(2πi·Tr_{E/ℚ} a)` for `a ∈ E`.
 
 **The filling data.** The data `S` are those of SecondMomentsOfPoincareSeries §4.1 (the filling data and its standing
 hypotheses). A *shape* gives `ϱ` and a finite set `κ` with `k = #κ`; `n = ϱ + 1`. The space is
@@ -915,9 +915,9 @@ There is a place datum on `E_T` with `3ϱ + 6` further hyperbolic pairs and an o
 *filling datum at `T`*).
 
 *Needs:* PairsOfFramesAtOnePlace §2.1 (finite places), §5.1 (large lattice data); AnalyticNumberTheoryPartII §5.3h,
-AdelicUnitaryGroupsAndAlgebraicModularForms §2.3 (strong approximation for the adeles of a totally complex field `E`: for a nonempty set `S` of
+ShortGRH background (strong approximation for the adeles of a totally complex field `E`: for a nonempty set `S` of
 finite places, the sums of an element of `E` and an adele that vanishes at infinity and at the finite places outside
-`S` are dense in the adeles); DivisibilityOfThetaDerivatives §1.4 (c) (Weil data).
+`S` are dense in the adeles; [ShortProof] `Lib/Adelic/Adeles/StrongApproximation.lean` (`New.strong_approximation`)); DivisibilityOfThetaDerivatives §1.4 (c) (Weil data).
 
 [ShortProof], `New/Spanning/MainTerm/FillingLevel.lean` (`New.Filling.exists_places_integralOff`,
 `New.Filling.exists_isIntegralOff_toPlaces_eq`, `New.Filling.mem_unitaryLevel_iff`, `New.Filling.exists_integralPlace`,
