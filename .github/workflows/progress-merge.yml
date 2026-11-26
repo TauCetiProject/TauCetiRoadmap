@@ -158,13 +158,16 @@ jobs:
       # twenty minutes of quiet `main` to finish its build. Reports arriving every ten or fifteen
       # minutes starved the queue for hours (2026-11-09: #451 passed its group build four times and
       # was reset each time). While the queue holds entries, reports wait for the next scheduled run;
-      # a queue whose oldest entry is over two hours old is stuck for other reasons and does not hold
-      # them back. A dispatch by hand always proceeds, unless it asks to wait as an automatic run does.
+      # a queue that has merged nothing for six hours, with an oldest entry at least that old, is stuck
+      # for other reasons and does not hold them back. The age of the oldest entry alone cannot tell
+      # a stuck queue from a long one (2026-11-24: entries of a queue that was merging waited up to 17
+      # hours). A dispatch by hand always proceeds, unless it asks to wait as an automatic run does.
       #
       # This check keeps a busy queue from costing a runner per waiting report. It is not the one
       # that protects the queue: each report is checked again before its validation, by the same
       # test in progress-merge-report.yml, and finally by the gate inside its landing step
-      # (`hold_while_queue_busy`). Keep the three in step.
+      # (`hold_while_queue_busy`), which reads only the age of the oldest entry. Keep the three at
+      # the same number of seconds.
       - name: Hold while the merge queue is busy
         id: hold
         env:
@@ -179,8 +182,15 @@ jobs:
           q=$(gh api graphql -f query='query($o:String!,$n:String!){ repository(owner:$o,name:$n){ mergeQueue(branch:"main"){ entries(first:1){ totalCount nodes{ enqueuedAt } } } } }' \
                -f o="${GITHUB_REPOSITORY%/*}" -f n="${GITHUB_REPOSITORY#*/}" --jq '.data.repository.mergeQueue.entries | "\(.totalCount) \(.nodes[0].enqueuedAt // "")"')
           total=${q%% *}; oldest=${q#* }
-          if [ "$total" != 0 ] && [ -n "$oldest" ] && [ $(( $(date -u +%s) - $(date -u -d "$oldest" +%s) )) -lt 7200 ]; then
-            echo "::notice::merge queue holds $total entr(y/ies) (oldest enqueued $oldest); progress reports $list wait for the next scheduled run"
+          # The later of the oldest entry's arrival and the queue's last merge. Both are UTC in the
+          # same format, so they compare as strings; `merged` is empty if the queue never merged.
+          since=$oldest; merged=""
+          if [ "$total" != 0 ]; then
+            merged=$(gh api "repos/$GITHUB_REPOSITORY/activity?ref=refs/heads/main&activity_type=merge_queue_merge&per_page=1" --jq '.[0].timestamp // ""')
+            if [[ "$merged" > "$since" ]]; then since=$merged; fi
+          fi
+          if [ "$total" != 0 ] && [ -n "$oldest" ] && [ $(( $(date -u +%s) - $(date -u -d "$since" +%s) )) -lt 21600 ]; then
+            echo "::notice::merge queue holds $total entr(y/ies) (oldest enqueued $oldest, last merge ${merged:-never}); progress reports $list wait for the next scheduled run"
             echo "prs=[]" >> "$GITHUB_OUTPUT"
           else
             echo "prs=$list" >> "$GITHUB_OUTPUT"
