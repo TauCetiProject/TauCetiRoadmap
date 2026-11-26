@@ -879,12 +879,12 @@ theorem eq_matrixElement_zonal_iff (φ : SU2 → ℂ) (hφ : Continuous φ)
       ∃ l : ℕ, φ = matrixElement (2 * l) ⟨l, by omega⟩ ⟨l, by omega⟩ := by
   sorry
 
-/-- **The zonal spherical functions through the functional equation.** A continuous
-bi-`T`-invariant `φ` with `φ(1) = 1` satisfies
-`(2π)⁻¹ ∫_0^{2π} φ(g · torusExp t · h) dt = φ(g) φ(h)` for all `g, h` if and only if
-`φ = D^l_{00}` for some `l`. -/
+/-- **The zonal spherical functions through the functional equation.** A continuous `φ` with
+`φ(1) = 1` satisfies `(2π)⁻¹ ∫_0^{2π} φ(g · torusExp t · h) dt = φ(g) φ(h)` for all `g, h` if
+and only if `φ = D^l_{00}` for some `l`. No bi-`T`-invariance is assumed: the equation at `g = 1`
+and at `h = 1` implies it. -/
 theorem eq_matrixElement_zonal_iff_integral_mul_torusExp_mul (φ : SU2 → ℂ) (hφ : Continuous φ)
-    (hT : ∀ k₁ ∈ torus, ∀ k₂ ∈ torus, ∀ g, φ (k₁ * g * k₂) = φ g) (h1 : φ 1 = 1) :
+    (h1 : φ 1 = 1) :
     (∀ g h : SU2, ((2 * π)⁻¹ : ℂ) * ∫ t in (0 : ℝ)..(2 * π), φ (g * torusExp t * h) = φ g * φ h) ↔
       ∃ l : ℕ, φ = matrixElement (2 * l) ⟨l, by omega⟩ ⟨l, by omega⟩ := by
   sorry

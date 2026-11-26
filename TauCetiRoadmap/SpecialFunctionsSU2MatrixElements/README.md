@@ -19,12 +19,14 @@ which rotate by `D^l` and span an irreducible representation of SO(3) of dimensi
 The roadmap rests on Tau Ceti's SU(2) development (the models `Sym^d`, their irreducibility and
 exhaustion, their characters and the double cover SU(2) → SO(3)) and its compact-group development
 (Haar measure, Schur orthogonality, Peter–Weyl), and on the Jacobi, Legendre and Gegenbauer
-polynomials of the LaguerreJacobi roadmap. SpecialFunctionsLegendre supplies the spherical
-harmonics on `S²` with their orthonormality, addition theorem and completeness (the last resting on
-RiemannianGeometry's completeness of harmonic polynomials on spheres), and this roadmap identifies
-them with the columns of `D^l`. SpecialFunctionsGroupModels consumes the Euler convention, the
-Haar density, the unitary model and the matrix elements, and continues them to SU(1,1) and the
-Euclidean motion groups.
+polynomials of the [LaguerreJacobi](../LaguerreJacobi/README.md) roadmap.
+[SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md) supplies the spherical harmonics
+on `S²` with their orthonormality, addition theorem and completeness (the last resting on the
+completeness of harmonic polynomials on spheres in
+[RiemannianGeometry](../RiemannianGeometry/README.md)), and this roadmap identifies them with the
+columns of `D^l`. SpecialFunctionsGroupModels consumes the Euler convention, the Haar density, the
+unitary model and the matrix elements, and continues them to SU(1,1) and the Euclidean motion
+groups.
 
 Layer 1 sets up the Euler coordinates, the Haar measure in them and the unitary model. Layer 2
 defines the matrix elements and their closed forms (Jacobi, hypergeometric, Legendre, Ferrers and
@@ -505,10 +507,13 @@ Sources: [E, (4.6.1), p. 62]; [VK, §6.10.1, pp. 364–365]; [W, (8.3.7)–(8.3.
 - **Orthogonality of `d^j_{m'm}` for fixed `(m', m)`** (`integral_wignerSmallD_mul_wignerSmallD`).
   `∫_0^π d^j_{m'm} d^{j'}_{m'm} sin β dβ = 2/(2j+1) δ_{jj'}`. Route: the previous headline with
   `integral_haarProb_eq_setIntegral_eulerBox`; the `α` and `γ` integrals give `8π²`.
-- **Jacobi orthogonality for integral parameters.** Substituting the Jacobi form gives
-  `∫_{-1}^1 P_r^{(a,b)} P_{r'}^{(a,b)} (1-z)^a (1+z)^b dz` for integers `a, b ≥ 0`, which must
-  agree with [E, (4.1.22), p. 58] and LaguerreJacobi §4.3. This is a consistency check on the
-  constants of `wignerSmallD_eq_jacobi`.
+- **Jacobi orthogonality for integral parameters.** For integers `a, b, r, r' ≥ 0`, the integral
+  `∫_{-1}^1 P_r^{(a,b)} P_{r'}^{(a,b)} (1-z)^a (1+z)^b dz` is
+  `2^{a+b+1}/(2r+a+b+1) · (r+a)!(r+b)!/(r!(r+a+b)!) · δ_{rr'}`, the norm of LaguerreJacobi §4.3
+  at integral parameters [E, (4.1.22), p. 58]. Route: substitute the Jacobi
+  form (§2.4) with `z = cos β` in `integral_wignerSmallD_mul_wignerSmallD` at `d = 2r + a + b`,
+  `d' = 2r' + a + b`; the constants `r!(d-r)!/((r+a)!(r+b)!)` and `2^{-a-b}` turn `2/(d+1)` into
+  the value above. It is a consistency check on the constants of `wignerSmallD_eq_jacobi`.
 
 **Checks.**
 
@@ -516,6 +521,8 @@ Sources: [E, (4.6.1), p. 62]; [VK, §6.10.1, pp. 364–365]; [W, (8.3.7)–(8.3.
   `∫_0^π cos² β sin β dβ = 2/3 = 2/(2j + 1)`; at `(j, j') = (1, 2)`:
   `∫_0^π cos β (3 cos² β - 1)/2 · sin β dβ = 0`.
 - `∫ |D^1_{00}|² = 1/3` (§1.3).
+- Jacobi orthogonality at `(a, b, r) = (1, 0, 1)`: `P_1^{(1,0)} = (3z + 1)/2` and
+  `∫_{-1}^1 ((3z + 1)/2)² (1 - z) dz = 1 = 2²/4 · 2! 1!/(1! 2!)`.
 - Negative control: without the weight `sin β`, `∫_0^π (d^1_{00})² dβ = ∫_0^π cos² β dβ = π/2`,
   not `2/3`.
 
@@ -525,8 +532,12 @@ Sources: [VK, §6.10.2 (1)–(4), pp. 366–367]; [W, §8.6, (8.6.1), p. 301].
 
 - **Plancherel** (`hasSum_plancherel`). For `f ∈ L²(SU(2))`,
   `∫ |f|² = Σ_{j,m',m} (2j+1) |∫ f conj D^j_{m'm}|²` [VK, §6.10.2, pp. 366–367]. Route:
-  `TauCeti.peterWeylBasis` for the skeleton `irrepModel` and `TauCeti.coe_peterWeylBasis`; the
-  Peter–Weyl basis vectors are `√(d+1)` times the matrix elements.
+  `TauCeti.peterWeylBasis` for the skeleton `irrepModel` and `TauCeti.coe_peterWeylBasis`. The
+  Peter–Weyl basis vector at `(a, b)` is `√(d+1)` times the coefficient `g ↦ ⟪π g e_a, e_b⟫`,
+  which is `√(d+1) conj D_{ba}` (Conventions). Parseval for `conj f`, whose norm is that of `f`,
+  then gives `Σ (d+1) |∫ f conj D_{ba}|²`, and the transposition `(a, b) ↦ (b, a)` of the index
+  set gives the stated sum. Equivalently, `conj D_{m'm} = (-1)^{m'-m} D_{-m',-m}` (§§2.3, 2.5)
+  permutes the index set in Parseval for `f`.
 - **Expansion of class functions in characters.** A continuous class function is the `L²` limit
   of `Σ_j (∫ f conj χ_j) χ_j`. Route: Plancherel restricted to class functions, or
   `TauCeti.SU2.weyl_integration_formula` and the completeness of `U_{2j}` on `[0, π]` with weight
@@ -866,18 +877,19 @@ Sources: [D, §§6–7, pp. 18–21]; [W, Ch. 8]; [VK, §6.3.11, p. 297].
   `eq_matrixElement_zonal_iff_integral_mul_torusExp_mul`). A continuous bi-`T`-invariant
   `φ : SU(2) → ℂ` with `φ(1) = 1` satisfies, for every continuous bi-`T`-invariant `f`,
   `convolution f φ = λ_f φ` with a scalar `λ_f`, if and only if `φ = D^l_{00}` for some `l`, where
-  `D^l_{00} = P_l(cos β)`; and it satisfies the functional equation
-  `(2π)⁻¹ ∫_0^{2π} φ(g · torusExp t · h) dt = φ(g) φ(h)` for all `g, h` if and only if
-  `φ = D^l_{00}` for some `l`. Route: for
+  `D^l_{00} = P_l(cos β)`. A continuous `φ` with `φ(1) = 1`, bi-`T`-invariant or not, satisfies the
+  functional equation `(2π)⁻¹ ∫_0^{2π} φ(g · torusExp t · h) dt = φ(g) φ(h)` for all `g, h` if and
+  only if `φ = D^l_{00}` for some `l`: the equation at `g = 1` writes `φ(h)` as an average over `t`
+  that is left `T`-invariant in `h`, and at `h = 1` it gives right `T`-invariance. Route: for
   `φ = D^l_{00}`, expand `φ(h⁻¹g)` by `matrixElement_mul`; left `T`-invariance of `f` kills the
   terms `μ ≠ 0`, leaving `λ_f = ∫ f conj D^l_{00}`. Conversely, Plancherel (§3.4) and
   bi-`T`-invariance write `φ = Σ_l c_l D^l_{00}`, and the cases `f = D^{l'}_{00}`, for which
   `convolution f φ = c_{l'} D^{l'}_{00}/(2l' + 1)` by Schur (§3.3), leave a single `l`, with
   `c_l = 1` from `φ(1) = 1`. For the functional equation, `integral_matrixElement_mul_torusExp_mul`
-  (§3.2) gives one direction; conversely, multiplying the equation at `(h, x)` by `f(h)` and
-  integrating in `h` gives, by the right `T`-invariance of `f`, `convolution f̌ φ = (∫ f φ) φ`
-  with `f̌(h) = f(h⁻¹)`, which runs over all continuous bi-`T`-invariant functions, and the first
-  equivalence applies.
+  (§3.2) gives one direction; conversely, `φ` is bi-`T`-invariant as above, and multiplying the
+  equation at `(h, x)` by `f(h)` and integrating in `h` gives, by the right `T`-invariance of `f`,
+  `convolution f̌ φ = (∫ f φ) φ` with `f̌(h) = f(h⁻¹)`, which runs over all continuous
+  bi-`T`-invariant functions, and the first equivalence applies.
 
 **Checks.**
 
@@ -911,9 +923,10 @@ Sources: [D, §§6–7, pp. 18–21]; [W, Ch. 8]; [VK, §6.3.11, p. 297].
 
 - SpecialFunctionsGroupModels, on function-space models of SU(1,1) and the Euclidean motion groups,
   consumes the Euler convention (§1.1), the Haar density (§1.3), the unitary model and its
-  weights (§1.4), the matrix elements (§§2.1, 2.3), the differential equation of `d^j` (§4.2)
-  for its continuation `β = it`, and the Gel'fand pair (§6.4) as the compact instance of its
-  Gel'fand pairs.
+  weights (§1.4), the matrix elements (§§2.1, 2.3) with their group law and unitarity (§2.2),
+  the conversion from the Vilenkin–Klimyk convention (§2.7) for its Conventions, the
+  differential equation of `d^j` (§4.2) for its continuation `β = it`, and the Gel'fand pair
+  (§6.4) as the compact instance of its Gel'fand pairs.
 - A roadmap on tensor products and Clebsch–Gordan coefficients consumes Layers 1–2, in Edmonds's
   convention, which is also his convention for the 3j symbols.
 
@@ -928,8 +941,10 @@ Inputs:
 - Its compact-group development: normalized Haar measure, Schur orthogonality, Peter–Weyl.
 - Mathlib's Chebyshev polynomials, the Gauss series, the surface measure on spheres and the
   change of variables formula.
-- The Jacobi polynomials of the LaguerreJacobi roadmap (§§3.2–3.4, 4.3, 6.1–6.2).
-- The spherical harmonics of SpecialFunctionsLegendre (§§3.1–3.3), for §§6.1 and 6.3.
+- The Jacobi polynomials of the [LaguerreJacobi](../LaguerreJacobi/README.md) roadmap (§§3.2–3.4,
+  4.3, 6.1–6.2).
+- The spherical harmonics of [SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md)
+  (§§3.1–3.3), for §§6.1 and 6.3.
 
 Owned here:
 - Euler angles on SU(2) and SO(3), and the Haar measures in Euler angles;
@@ -956,15 +971,17 @@ Not owned:
 - the SU(2) engine of the compact-groups roadmap (its §§E.1–E.4: the torus, the models `Sym^d`,
   their characters and the Weyl integration formula), and the double cover `SU(2) → SO(3)`, all in
   Tau Ceti;
-- the Jacobi, Legendre and Gegenbauer polynomials as such (LaguerreJacobi, Layers 3, 4 and 6);
+- the Jacobi, Legendre and Gegenbauer polynomials as such
+  ([LaguerreJacobi](../LaguerreJacobi/README.md), Layers 3, 4 and 6);
 - the Ferrers and Legendre functions, and the spherical harmonics `Y_{l,m}(θ, φ)` with their
   orthonormality, addition theorem, harmonic polynomials, completeness and angular-momentum
   equation, and the addition theorem of the Legendre polynomials in Ferrers functions
   (SpecialFunctionsLegendre, §§2.5 and 3.1–3.3); §2.6 writes the Ferrers functions of integer
   order through derivatives of `P_l`, and §3.1 states the addition theorem in the matrix elements
   `d^l_{m0}`;
-- the completeness of the restricted harmonic polynomials on spheres (RiemannianGeometry R8.2),
-  which this roadmap uses through SpecialFunctionsLegendre §3.3;
+- the completeness of the restricted harmonic polynomials on spheres
+  ([RiemannianGeometry](../RiemannianGeometry/README.md) R8.2), which this roadmap uses through
+  SpecialFunctionsLegendre §3.3;
 - convolution on a compact group as an operator on `L²` (Tau Ceti); §6.4 uses convolution of
   functions, which agrees with it on continuous functions;
 - the matrix element of a unitary representation in a Hilbert basis for a general group. That
@@ -1013,7 +1030,7 @@ defines.
 - `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul` and
   `MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul`, for §6.3.
 
-### From the LaguerreJacobi roadmap
+### From the [LaguerreJacobi](../LaguerreJacobi/README.md) roadmap
 
 - §3.2: the Jacobi polynomial over a `ℚ`-algebra, by the explicit DLMF 18.5.8 sum. Its
   normalization `P_n^{(a,b)}(1) = C(n+a, n)` is Edmonds's (4.1.17) [E, p. 58]. `Suggested.lean`
@@ -1022,7 +1039,7 @@ defines.
   of Edmonds's (4.1.22)) for Layers 2 and 3.
 - §6.1 (Legendre, `P_l = jacobi 0 0 l`) and §6.2 (Gegenbauer) for §2.6.
 
-### From SpecialFunctionsLegendre
+### From [SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md)
 
 - §3.1: the spherical harmonic `Y_{l,m}(θ, φ)` of DLMF 14.30.1, for the comparison of §6.1.
 - §3.2: orthonormality, for the linear independence in §6.3 and the orthogonality of the `H_l`.
