@@ -1779,19 +1779,24 @@ follows Hatcher Section 3.G, and the bundle filtration follows Serre's skeletal 
 (`IsCoveringMap.exists_continuousMap_comp_eq_iff_range_le`,
 `IsCoveringMap.exists_homeomorph_comp_eq_iff_range_eq`), the subgroup covers
 `TauCeti.UniversalCover.subgroupCover` with `TauCeti.UniversalCover.range_mapOfEq_subgroupQuotientProj`,
-and the degree-`n` carriers `TauCeti.ConnectedPointedCover`, `TauCeti.ConnectedPointedCoverClass`
-with `TauCeti.ConnectedPointedCoverClass.mk_eq_mk_of_range_eq`, from the completed
-universal-covers roadmap. No homology is used, so this item can proceed alongside Layers 2–4.
+from the completed universal-covers roadmap; the fibre functor
+`TauCeti.CoveringSpace.fiberActionFunctor` on `TauCeti.ConnectedCoveringSpace`; the count
+`IsCoveringMap.card_fiber_eq_index` (the degree is the index); and the pinned Tau Ceti degree-`n`
+carriers `TauCeti.ConnectedPointedCover`, `TauCeti.ConnectedPointedCoverClass` with
+`TauCeti.ConnectedPointedCoverClass.mk_eq_mk_of_range_eq`,
+`TauCeti.ConnectedPointedCoverClass.markedClassEquiv` and
+`TauCeti.MarkedIsoClass.subgroupEquiv`. No homology is used, so this item can proceed alongside Layers 2–4.
 
 Let X be path-connected, locally path-connected and semilocally simply connected, with base point
 x₀. Connected covers of X with a chosen lift of x₀, and maps over X carrying lift to lift, form a
-category with at most one map between two objects. Prove that the recovered subgroup
+category with at most one map between two objects: the category of elements of the fibre functor
+over x₀ on connected covers (`PointedConnectedCover` in `Suggested.lean`). Prove that the recovered subgroup
 p_*π₁(E, e₀) is an equivalence of this category with the poset `Subgroup (FundamentalGroup X x₀)`
-regarded as a category (Hatcher, Theorem 1.38): unique lifting gives faithfulness, the lifting
+regarded as a category (`exists_pointedConnectedCover_equivalence`; Hatcher, Theorem 1.38, p.67, with the partial order of covers on p.68): unique lifting gives faithfulness, the lifting
 criterion gives fullness, and the subgroup cover gives essential surjectivity. For n ≠ 0 derive the
 index-n slice, a bijection from `TauCeti.ConnectedPointedCoverClass x₀ n` onto the subgroups of
 index n sending a class to its recovered subgroup (`exists_connectedPointedCoverClass_equiv_index`
-in `Suggested.lean`; the degree is the index, Hatcher, Proposition 1.32). For the thrice-punctured
+in `Suggested.lean`; the degree is the index, Hatcher, Proposition 1.32, p.61). For the thrice-punctured
 sphere, prove that the pinned `TauCeti.MarkedIsoClass.subgroupEquiv` is this slice composed with
 the inverse of `TauCeti.ConnectedPointedCoverClass.markedClassEquiv`.
 
