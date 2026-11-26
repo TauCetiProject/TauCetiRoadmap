@@ -37,18 +37,20 @@ Margulis graphs and by random graphs. Its headline theorems are these.
   and the rescaled eigenvalue distribution is close to the semicircle law of variance
   `p(1 - p)`.
 
-The roadmap builds on GraphSpectra for the Laplacian spectrum of a regular graph and
-Perron–Frobenius theory for graphs; on GraphSymmetryAndCayleyGraphs for the regularity and
-connectivity of Cayley graphs; on SpectralGraphBounds for the sorted adjacency eigenvalues;
-on LaplacianEigenvaluesOfGraphs for the algebraic connectivity; on KernelsAndSpectralMethods for
-the weighted Cheeger inequality, which it specializes to simple graphs; on
+The roadmap builds on [GraphSpectra](../GraphSpectra/README.md) for the Laplacian spectrum of a
+regular graph and Perron–Frobenius theory for graphs; on GraphSymmetryAndCayleyGraphs for the
+regularity and connectivity of Cayley graphs; on
+[SpectralGraphBounds](../SpectralGraphBounds/README.md) for the sorted adjacency eigenvalues; on
+[LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) for the algebraic
+connectivity; on [KernelsAndSpectralMethods](../KernelsAndSpectralMethods/README.md) for the
+weighted Cheeger inequality, which it specializes to simple graphs; on
 LaplacianSpectraAndSpanningTrees for the spectral gap of a weight with constant degree; on
-IharaZetaFunction for non-backtracking cycles, the zeta function and the Ramanujan property; on
-MatchingPolynomial for the signed adjacency matrix; on RamanujanGraphs for `2`-lifts, the tree
-numbers and the existence of bipartite Ramanujan graphs of every degree; on
-[FactorRigidity](../FactorRigidity/README.md) for relative property (T); and on
-[RandomMatrices](../RandomMatrices/README.md) and [RandomGraphs](../RandomGraphs/README.md) for
-the Wigner limit laws and the binomial random graph.
+[IharaZetaFunction](../IharaZetaFunction/README.md) for non-backtracking cycles, the zeta function
+and the Ramanujan property; on [MatchingPolynomial](../MatchingPolynomial/README.md) for the signed
+adjacency matrix; on RamanujanGraphs for `2`-lifts, the tree numbers and the existence of bipartite
+Ramanujan graphs of every degree; on [FactorRigidity](../FactorRigidity/README.md) for relative
+property (T); and on [RandomMatrices](../RandomMatrices/README.md) and
+[RandomGraphs](../RandomGraphs/README.md) for the Wigner limit laws and the binomial random graph.
 
 ## How to read the build
 
@@ -743,19 +745,19 @@ Owned here:
 - the adjacency spectrum of `G(n, p)`.
 
 Consumed, not restated (see the supplier contracts):
-- GraphSpectra 1.2 and 3.2: the Laplacian spectrum of a regular graph and Perron–Frobenius for
-  connected graphs.
+- [GraphSpectra](../GraphSpectra/README.md) 1.2 and 3.2: the Laplacian spectrum of a regular graph
+  and Perron–Frobenius for connected graphs.
 - GraphSymmetryAndCayleyGraphs 3.1: the regularity of a Cayley graph and its connectivity
   criterion.
-- SpectralGraphBounds 1.1: the sorted adjacency eigenvalues.
-- LaplacianEigenvaluesOfGraphs 1.1: the sorted Laplacian eigenvalues and the algebraic
-  connectivity.
-- KernelsAndSpectralMethods 1.1, 2.2, 3.1 and 3.2: weighted graphs and the weighted Cheeger
-  inequality.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1: the sorted adjacency eigenvalues.
+- [LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) 1.1: the sorted
+  Laplacian eigenvalues and the algebraic connectivity.
+- [KernelsAndSpectralMethods](../KernelsAndSpectralMethods/README.md) 1.1, 2.2, 3.1 and 3.2:
+  weighted graphs and the weighted Cheeger inequality.
 - LaplacianSpectraAndSpanningTrees 6.4: the spectral gap of a weight with constant degree.
-- IharaZetaFunction 1.2, 2.1 and 5.3: non-backtracking cycles, the zeta function and
-  `IsRamanujan`.
-- MatchingPolynomial 2.1: the signed adjacency matrix.
+- [IharaZetaFunction](../IharaZetaFunction/README.md) 1.2, 2.1 and 5.3: non-backtracking cycles, the
+  zeta function and `IsRamanujan`.
+- [MatchingPolynomial](../MatchingPolynomial/README.md) 2.1: the signed adjacency matrix.
 - RamanujanGraphs 3.1, 3.3 and 5.1: `2`-lifts, bipartite Ramanujan graphs of every degree and the
   tree numbers.
 - [FactorRigidity](../FactorRigidity/README.md) 3.1 and 3.2: relative property (T) and the pair
@@ -840,7 +842,8 @@ belong to their owners.
 
 ### From GraphSpectra
 
-- 1.2: for a `k`-regular graph `ν_{i+1} = k - θ_{n-i}`, so `ν_{n-1} = k - θ₂`. Used in 2.2.
+- [GraphSpectra](../GraphSpectra/README.md) 1.2: for a `k`-regular graph `ν_{i+1} = k - θ_{n-i}`, so
+  `ν_{n-1} = k - θ₂`. Used in 2.2.
 - 3.2: Perron–Frobenius for connected graphs; for a connected `k`-regular graph `θ₁ = k`. Used in
   3.1.
 
@@ -851,18 +854,21 @@ belong to their owners.
 
 ### From SpectralGraphBounds
 
-- 1.1: `adjEigenvalues`, Mathlib's `eigenvalues₀` of `G.adjMatrix ℝ`, index `0` the largest;
-  copied verbatim into `Suggested.lean`. Used in 1.2, 7.3 and 9.1.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1: `adjEigenvalues`, Mathlib's
+  `eigenvalues₀` of `G.adjMatrix ℝ`, index `0` the largest; copied verbatim into `Suggested.lean`.
+  Used in 1.2, 7.3 and 9.1.
 
 ### From LaplacianEigenvaluesOfGraphs
 
-- 1.1: `lapEigenvalues` (nonincreasing) and `algebraicConnectivity`, the value at index `n - 2`
-  for `n ≥ 2` and `0` otherwise; copied verbatim into `Suggested.lean`. Used in 2.1.
+- [LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) 1.1: `lapEigenvalues`
+  (nonincreasing) and `algebraicConnectivity`, the value at index `n - 2` for `n ≥ 2` and `0`
+  otherwise; copied verbatim into `Suggested.lean`. Used in 2.1.
 
 ### From KernelsAndSpectralMethods
 
-- 1.1: `degree` and `laplacian`; 2.2: `graphVolume` and `cutWeight`; 3.1: `conductance` and
-  `cheegerConstant`; copied verbatim into `Suggested.lean`. Used in 1.3.
+- [KernelsAndSpectralMethods](../KernelsAndSpectralMethods/README.md) 1.1: `degree` and `laplacian`;
+  2.2: `graphVolume` and `cutWeight`; 3.1: `conductance` and `cheegerConstant`; copied verbatim into
+  `Suggested.lean`. Used in 1.3.
 - 3.2: the weighted Cheeger inequality, for a weighted graph with positive degrees on `n ≥ 2`
   vertices: `λ₁ ≤ 2h` and `h²/2 ≤ λ₁`, with `λ₁` the spectral gap of 2.1 there. Used in 2.1.
 
@@ -873,13 +879,14 @@ belong to their owners.
 
 ### From IharaZetaFunction
 
-- 1.2: `IsNonBacktrackingCycle` and `closedNonBacktrackingCount` (`N_m`); 2.1: `iharaZeta`; 5.3:
-  `IsRamanujan`; copied verbatim into `Suggested.lean`. Used in 3.1, 3.2 and Layer 6.
+- [IharaZetaFunction](../IharaZetaFunction/README.md) 1.2: `IsNonBacktrackingCycle` and
+  `closedNonBacktrackingCount` (`N_m`); 2.1: `iharaZeta`; 5.3: `IsRamanujan`; copied verbatim into
+  `Suggested.lean`. Used in 3.1, 3.2 and Layer 6.
 
 ### From MatchingPolynomial
 
-- 2.1: `signedAdjMatrix`, the signed adjacency matrix over `ℤ` of a signing; copied verbatim
-  into `Suggested.lean`. Used in 5.2.
+- [MatchingPolynomial](../MatchingPolynomial/README.md) 2.1: `signedAdjMatrix`, the signed adjacency
+  matrix over `ℤ` of a signing; copied verbatim into `Suggested.lean`. Used in 5.2.
 
 ### From RamanujanGraphs
 
