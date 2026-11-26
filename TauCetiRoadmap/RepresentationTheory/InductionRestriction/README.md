@@ -749,13 +749,18 @@ API:
   of `G` on the `N`-subrepresentations of `Res_N W` by order automorphisms, with value
   `TauCeti.Representation.conjSubrepOrderIso g` at `g` (laws `conjSubrep_one` and
   `conjSubrep_conjSubrep`), and the induced action `g · c = ρ(g)(c)` on the isotypic components of
-  `Res_N W`. Prove that the action on components is transitive, that the stabilizer of the
+  `Res_N W`. Prove first that `ρ(g)` carries the isotypic component of a simple
+  `N`-subrepresentation `τ` onto that of `conjSubrep ρ g τ`, so that `ρ(g)(c)` is again a
+  component; then prove that the action on components is transitive, that the stabilizer of the
   component of a simple constituent `σ` is `TauCeti.inertia` of `σ`, and that
   `Representation.isotypicComponentsEquivQuotientInertia` is `G`-equivariant for left
   multiplication on `G ⧸ T`, hence is the orbit–stabilizer bijection
   `MulAction.orbitEquivQuotientStabilizer`. *Needs:* `TauCeti.Representation.isAtom_conjSubrep_iff`,
   `TauCeti.Representation.isotypicComponents_eq_range` (transitivity),
-  `Representation.mem_inertia_fdRepOf_toRepresentation_iff` (stabilizer). *Check:* over `ℂ`, the
+  `Representation.conjSubrepIsotypicComponent_eq_iff` or
+  `Representation.mem_inertia_fdRepOf_toRepresentation_iff` (stabilizer),
+  `Representation.isotypicComponentsEquivQuotientInertia_conjSubrepIsotypicComponent`
+  (equivariance). *Check:* over `ℂ`, the
   two-dimensional simple representation of `S₃` restricts to `A₃` as `λ ⊕ λ²`; a transposition
   swaps the two components, so `T = A₃` and `G ⧸ T` has two elements.
 
@@ -1524,6 +1529,8 @@ consume the following.
   `TauCeti.Representation.conjSubrepOrderIso`, `conjSubrep_one`, `conjSubrep_conjSubrep`,
   `isAtom_conjSubrep_iff`, `isotypicComponents_eq_range`,
   `Representation.mem_inertia_fdRepOf_toRepresentation_iff`,
+  `Representation.conjSubrepIsotypicComponent_eq_iff`,
+  `Representation.isotypicComponentsEquivQuotientInertia_conjSubrepIsotypicComponent`,
   `Representation.exists_forall_finrank_linearMap_eq` and
   `TauCeti.Representation.isSemisimpleRepresentation_comp_subtype` (every field);
   `Subgroup.resFDRep`; `FDRep.clifford_restrict_iso` (algebraically closed),
