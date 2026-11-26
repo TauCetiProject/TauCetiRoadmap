@@ -60,14 +60,14 @@ namespace TopologicalCombinatorics
 
 /-- 3.1 The Kneser graph of a family `𝓕` of finite sets: its vertices are the members of `𝓕`,
 two of them adjacent when they are distinct and disjoint. -/
-def kneserGraphOf {α : Type*} (𝓕 : Set (Finset α)) : _root_.SimpleGraph 𝓕 where
+def kneserGraphOf {α : Type*} (𝓕 : Set (Finset α)) : SimpleGraph 𝓕 where
   Adj A B := A ≠ B ∧ Disjoint (A : Finset α) B
   symm := ⟨fun _ _ h => ⟨h.1.symm, h.2.symm⟩⟩
   loopless := ⟨fun _ h => h.1 rfl⟩
 
 /-- 3.1 The Kneser graph `KG(α, k)`: the `k`-element subsets of `α`, two adjacent when they are
 distinct and disjoint. -/
-def kneserGraph (α : Type*) (k : ℕ) : _root_.SimpleGraph {s : Finset α | s.card = k} :=
+def kneserGraph (α : Type*) (k : ℕ) : SimpleGraph {s : Finset α | s.card = k} :=
   kneserGraphOf {s : Finset α | s.card = k}
 
 end TopologicalCombinatorics
@@ -659,7 +659,7 @@ end Design
 
 end TauCetiRoadmap.StronglyRegularGraphsAndDesigns
 
-/-! ## Library declarations consumed -/
+-- Library declarations consumed
 
 -- Mathlib
 #check @SimpleGraph.IsSRGWith

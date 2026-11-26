@@ -31,13 +31,15 @@ theorems:
   integer solution; a projective plane of order `q ≡ 1, 2 (mod 4)` has `q` a sum of two squares,
   and there is no projective plane of order six.
 
-The roadmap builds on the spectra and standard graphs of GraphSpectra. It takes from
-StronglyRegularAndMooreGraphs the definitions of the two restricted eigenvalues and leaves to it
-the spectrum and multiplicities, the absolute bound, the Moore bounds, the Hoffman–Singleton
-theorem and the friendship theorem. It identifies strongly regular graphs with the schemes of two
-classes of AssociationSchemes, whose Krein conditions it specializes. Fisher's inequality is
-[LinearAlgebraMethodInCombinatorics](../LinearAlgebraMethodInCombinatorics/README.md), 1.3, and
-Tau Ceti's Witt cancellation and roundness of Pfister forms carry the Bruck–Ryser–Chowla theorem.
+The roadmap builds on the spectra and standard graphs of [GraphSpectra](../GraphSpectra/README.md).
+It takes from [StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md) the
+definitions of the two restricted eigenvalues and leaves to it the spectrum and multiplicities, the
+absolute bound, the Moore bounds, the Hoffman–Singleton theorem and the friendship theorem. It
+identifies strongly regular graphs with the schemes of two classes of
+[AssociationSchemes](../AssociationSchemes/README.md), whose Krein conditions it specializes.
+Fisher's inequality is
+[LinearAlgebraMethodInCombinatorics](../LinearAlgebraMethodInCombinatorics/README.md), 1.3, and Tau
+Ceti's Witt cancellation and roundness of Pfister forms carry the Bruck–Ryser–Chowla theorem.
 
 ## How to read the build
 
@@ -746,7 +748,8 @@ Owned here:
   designs carried by strongly regular graphs with `λ = μ` or `μ = λ + 2`;
 - the Bruck–Ryser–Chowla theorem with its rational congruence, and the Bruck–Ryser theorem.
 
-The boundary with StronglyRegularAndMooreGraphs, section by section:
+The boundary with [StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md),
+section by section:
 - 1.1 (imprimitive graphs, a remark there): not restated; the cases `μ = 0` and `μ = k` of 2.4
   are checked directly.
 - 1.2 (the spectrum `{k, r, s}` under `0 < μ` and `G ≠ ⊤`): its definitions `srgDiscriminant`,
@@ -763,12 +766,13 @@ The boundary with StronglyRegularAndMooreGraphs, section by section:
   section "Beyond this roadmap" and 5.5 here.
 
 Consumed from other roadmaps, not restated (see the supplier contracts):
-- GraphSpectra 1.2, 2.4 (definitions copied), 3.2; 2.5 and 3.8 cited.
-- SpectralGraphBounds 1.1 and TopologicalCombinatorics 3.1: the sorted eigenvalues and the
-  Kneser graph, copied as GraphSpectra copies them.
-- AssociationSchemes 1.1, 1.2, 2.1 (definitions copied) and 3.1. Its Johnson scheme (5.1), which
-  contains `T(m)` and the Petersen graph as classes, is not used.
-- PeriodicNonnegativeMatrices 3.3.
+- [GraphSpectra](../GraphSpectra/README.md) 1.2, 2.4 (definitions copied), 3.2; 2.5 and 3.8 cited.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1 and
+  [TopologicalCombinatorics](../TopologicalCombinatorics/README.md) 3.1: the sorted eigenvalues and
+  the Kneser graph, copied as GraphSpectra copies them.
+- [AssociationSchemes](../AssociationSchemes/README.md) 1.1, 1.2, 2.1 (definitions copied) and 3.1.
+  Its Johnson scheme (5.1), which contains `T(m)` and the Petersen graph as classes, is not used.
+- [PeriodicNonnegativeMatrices](../PeriodicNonnegativeMatrices/README.md) 3.3.
 - [LinearAlgebraMethodInCombinatorics](../LinearAlgebraMethodInCombinatorics/README.md) 1.3.
 
 Neighbouring roadmaps, not used here:
@@ -845,7 +849,7 @@ with more than two classes are AssociationSchemes.
 
 ### From GraphSpectra
 
-The roadmap GraphSpectra:
+The roadmap [GraphSpectra](../GraphSpectra/README.md):
 - 1.2: the definition `adjSpectrum` (with the sorted adjacency eigenvalues of
   SpectralGraphBounds 1.1 it is built on), copied verbatim; used in 1.3 and 5.3.
 - 2.4: the definitions `johnsonGraph` and `petersenGraph` with the Kneser graph of
@@ -859,24 +863,25 @@ The roadmap GraphSpectra:
 
 ### From SpectralGraphBounds
 
-The roadmap SpectralGraphBounds, 1.1: the sorted adjacency eigenvalues `adjEigenvalues`
-(Mathlib's `eigenvalues₀` of `G.adjMatrix ℝ`, index `0` the largest), copied verbatim as
-GraphSpectra copies it, under `adjSpectrum`. No theorem of it is used.
+The roadmap [SpectralGraphBounds](../SpectralGraphBounds/README.md), 1.1: the sorted adjacency
+eigenvalues `adjEigenvalues` (Mathlib's `eigenvalues₀` of `G.adjMatrix ℝ`, index `0` the largest),
+copied verbatim as GraphSpectra copies it, under `adjSpectrum`. No theorem of it is used.
 
 ### From TopologicalCombinatorics
 
-The roadmap TopologicalCombinatorics, 3.1: the Kneser graph on `{s : Finset α | s.card = k}`,
-copied verbatim as GraphSpectra copies it, under `petersenGraph`. No theorem of it is used.
+The roadmap [TopologicalCombinatorics](../TopologicalCombinatorics/README.md), 3.1: the Kneser graph
+on `{s : Finset α | s.card = k}`, copied verbatim as GraphSpectra copies it, under `petersenGraph`.
+No theorem of it is used.
 
 ### From StronglyRegularAndMooreGraphs
 
-The roadmap StronglyRegularAndMooreGraphs, 1.2: the definitions `srgDiscriminant`,
-`srgEigenvalueR` and `srgEigenvalueS`, copied verbatim, used in Layer 2. No theorem of it is used;
-its 1.3 is quoted in Checks.
+The roadmap [StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md), 1.2: the
+definitions `srgDiscriminant`, `srgEigenvalueR` and `srgEigenvalueS`, copied verbatim, used in Layer
+2. No theorem of it is used; its 1.3 is quoted in Checks.
 
 ### From AssociationSchemes
 
-The roadmap AssociationSchemes:
+The roadmap [AssociationSchemes](../AssociationSchemes/README.md):
 - 1.1, 1.2, 2.1: the definitions `IsAssocScheme`, `adjMat`, `bmAlgebra`,
   `IsPrimitiveIdempotents` and `eigenmatrix`, copied verbatim; used in 2.2–2.3.
 - 3.1: for a scheme `rel` and a family `E` of primitive idempotents,
@@ -885,9 +890,10 @@ The roadmap AssociationSchemes:
 
 ### From PeriodicNonnegativeMatrices
 
-The roadmap PeriodicNonnegativeMatrices, 3.3: a graph is bipartite exactly when every `μ` and
-`−μ` have the same root multiplicity in the characteristic polynomial of `G.adjMatrix ℝ`; the
-forward direction, that the spectrum of a bipartite graph is symmetric, is used in 5.3.
+The roadmap [PeriodicNonnegativeMatrices](../PeriodicNonnegativeMatrices/README.md), 3.3: a graph is
+bipartite exactly when every `μ` and `−μ` have the same root multiplicity in the characteristic
+polynomial of `G.adjMatrix ℝ`; the forward direction, that the spectrum of a bipartite graph is
+symmetric, is used in 5.3.
 
 ### From LinearAlgebraMethodInCombinatorics
 
