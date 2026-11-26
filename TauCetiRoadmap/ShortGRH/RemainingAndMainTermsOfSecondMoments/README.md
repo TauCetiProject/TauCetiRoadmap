@@ -156,8 +156,11 @@ places together. For a subspace `U ⊂ E^κ` let `d(U)` be the discriminant (1.1
 `U ⊂ E^κ` of codimension `s`.
 
 *Needs:* 1.1, AdelicHeightsAndSuccessiveMinima §3.1 (Minkowski's second theorem over a number field), ShortGRH
-background (Jacobi's identity between the discriminants of a lattice and of its orthogonal complement, for adelic
-lattices).
+background (Jacobi's identity over `Ô ⊂ 𝔸_f`: let `J` be a unimodular hermitian matrix, `F` an integral matrix and
+`n` a primitive matrix with `FᴴJn = 0`, the numbers of columns of `F` and `n` adding up to the size of `J`, and let `F`
+have a left inverse over `𝔸_f` or `[det(FᴴJF)] ≠ 0`; then every `u` with `nᴴJu = 0` is `Fv` for some `v` over `𝔸_f`,
+and `[det(FᴴJF)] = [det(nᴴJn)]·i²`, where `i` is the index of the integral vectors in `{y : Fy integral}`; [ShortProof]
+`Lib/General/NumberTheory/LatticeCovolumes.lean` (`New.Filling.jacobi_perp_discriminant`, with no added block)).
 
 [ShortProof], `New/Spanning/RemainingTerms/SiegelLemma.lean` (`New.Filling.siegel_lemma`,
 `New.Filling.tsum_sublatticeDiscriminant_inv_le`)
@@ -272,8 +275,8 @@ Let `S` be filling data, `c, c'` classes, `γ, γ' ∈ G(E)`, and `k_γ = h_c⁻
 - *Representatives.* Fix one element of each double coset `U⁰_c γ U⁰_{c'}`. A *near representative of `T` over
   `(c, s, c')`* is a fixed element `γ ∈ T` over `(c, s, c')` that is near, has a cell rank, and for which `s` agrees. A
   *near pair over an agreeing block* is a pair of near representatives that have cell ranks and lie over one block
-  `(c, s, c')` whose `s` agrees. The *label* of a term over `(c, s, c')` is the class of `s` in `Ḡ/R̄₀` (through fixed
-  coset representatives).
+  `(c, s, c')` whose `s` agrees. Fix a representative of each coset of `R̄₀` in `Ḡ`. The *label* of a term over
+  `(c, s, c')` is the element `t ∈ R̄₀` with `s = r·t`, where `r` is the fixed representative of the coset `sR̄₀`.
 
 *Needs:* 1.1, 2.2, 2.3, SecondMomentsOfPoincareSeries §4.2 (links, agreeing reductions), §4.4 (cell ranks and near
 terms), §4.5 (the link isometry), §4.12 (the remaining terms).
@@ -486,10 +489,12 @@ lifts and `d_link(ve)²·(i_j(k)·i_j(k⁻¹)·t(k))² ≤ minor_j(γ)²`.
 `t(k)²·d_link(ve)² ≤ (M^(2if)·𝗀♯_j(γ)/N^f)²`.
 
 *Needs:* 1.1, 2.4, 4.1, SecondMomentsOfPoincareSeries §4.2 (links), §4.5 (the link isometry), ShortGRH background
-(Jacobi's identity over `Ô ⊂ 𝔸_f`: for a unimodular hermitian `J`, an integral matrix `F` and a primitive `n` of
-complementary rank with `FᴴJn = 0`, every `u` with `nᴴJu = 0` is `Fv` for some `v` over `𝔸_f`, and the generalised
-index of the Gram determinant of `F` equals that of the Gram determinant of `n` times the square of the index of the
-integral vectors in `{y : Fy integral}`, in the version with an added block `p` and unit `c`; [ShortProof]
+(Jacobi's identity over `Ô ⊂ 𝔸_f` with an added block: let `J` be a unimodular hermitian matrix, `F` an integral
+matrix and `n` a primitive matrix with `FᴴJn = 0`, the numbers of columns of `F` and `n` adding up to the size of `J`;
+let `p` be a matrix with `m` columns over `𝔸_f`, `c` a unit of `𝔸_f`, and `N` the Gram matrix `(F | p)ᴴJ(F | p)` with
+`c` added on the diagonal of the block of `p`; let `F` have a left inverse over `𝔸_f` or `[det N] ≠ 0`; then every `u`
+with `nᴴJu = 0` is `Fv` for some `v` over `𝔸_f`, and `[det N] = [det(nᴴ(J + c⁻¹Jppᴴ J)n)]·i²·[c]^m`, where `i` is the
+index of the integral vectors in `{y : Fy integral}`; [ShortProof]
 `Lib/General/NumberTheory/LatticeCovolumes.lean` (`New.Filling.jacobi_perp_discriminant`)).
 
 [ShortProof], `New/Spanning/RemainingTerms/OrthogonalLifts.lean` (`New.Filling.exists_orthogonal_lift`,
@@ -789,7 +794,8 @@ scaled at infinity. Its transform at `y/ϖ` vanishes unless `y` is a `T`-integer
 transform of `F` at the corresponding frequency. One-sided Poisson summation on the adeles of a totally complex field
 then applies.
 
-Let `S` be filling data, `T` a finite set of finite places, `E_T = ∏_{w∈T} E_w` with integers `O_T`, and `ψ_T` the
+Let `S` be filling data, `T` a finite set of finite places, `E_T = ∏_{w∈T} E_w` with integers `O_T` and the Haar
+measure in which `O_T` has volume `1`, and `ψ_T` the
 character `x ↦ ψ_f(−x/ϖ)` read at `T`; let `χ(x) = ∏_v exp(x_v − x̄_v)·ψ_T(x_T)` on `ℂ^{places} × E_T`. For
 `r ∈ (0, ∞)^{places}` and `t ∈ E` let `P_r(t) = ((r_vΦ_v t)_v, t ∈ E_T)`. Let `V ⊂ E^×` be finite with all `t ∈ V`
 integral off `T`. Let `F ≥ 0` be integrable and lower semicontinuous at the points `P_r(t)`, `t ∈ V`. Let `M ≥ 0` and
