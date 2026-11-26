@@ -566,7 +566,7 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 - [ ] `ArithmeticGaloisRepresentations.1.4` — §1.4 Discrete coefficients and finite image (needs: ArithmeticGaloisRepresentations.1.1)
 - [ ] `ArithmeticGaloisRepresentations.1.7` — §1.7 Semisimplification and absolute irreducibility (needs: none)
 - [ ] `ArithmeticGaloisRepresentations.1.8` — §1.8 Brauer–Nesbitt (needs: none)
-- [ ] `ArithmeticGaloisRepresentations.2.1` — §2.1 Decomposition groups (serves: IdelicReciprocityCountsAndCyclotomicClassGroups; needs: ArithmeticGaloisRepresentations.1.1, ArithmeticGaloisRepresentations.1.2, ArithmeticGaloisRepresentations.1.3, ArithmeticGaloisRepresentations.1.4)
+- [ ] `ArithmeticGaloisRepresentations.2.1` — §2.1 Decomposition groups (serves: IdelicReciprocityCountsAndCyclotomicClassGroups; needs: ArithmeticGaloisRepresentations.1.1, ArithmeticGaloisRepresentations.1.2, ArithmeticGaloisRepresentations.1.3, ArithmeticGaloisRepresentations.1.4, SubspaceTheorem.0.1, SubspaceTheorem.0.2)
 - [ ] `ArithmeticGaloisRepresentations.2.1a` — §2.1a Arithmetic transport of the henselian-trait tame character (serves: IdelicReciprocityCountsAndCyclotomicClassGroups; needs: ArithmeticGaloisRepresentations.2.1, EtaleCohomologyFoundations.F.3a)
 - [ ] `ArithmeticGaloisRepresentations.2.2` — §2.2 Ramification and Frobenius (serves: IdelicReciprocityCountsAndCyclotomicClassGroups; needs: ClassFieldTheory.9.1)
 - [ ] `ArithmeticGaloisRepresentations.2.7` — §2.7 Local constants (needs: AnalyticNumberTheoryPartII.5.3g, AnalyticNumberTheoryPartII.5.3j, ClassFieldTheory.7.1, ClassFieldTheory.9.1, ClassFieldTheory.11.1, ClassFieldTheory.12.1)
@@ -3123,6 +3123,8 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 - [ ] `StableReduction.J-A2` — §J-A2 (needs: none)
 
 ## SubspaceTheorem
+- [ ] `SubspaceTheorem.0.1` — §0.1 Absolute values above a place (needs: none)
+- [ ] `SubspaceTheorem.0.2` — §0.2 Conjugate absolute values (needs: SubspaceTheorem.0.1)
 - [ ] `SubspaceTheorem.4.1` — §4.1 Approximation domains (needs: none)
 - [ ] `SubspaceTheorem.4.2` — §4.2 Successive minima over K (needs: SubspaceTheorem.4.1)
 
