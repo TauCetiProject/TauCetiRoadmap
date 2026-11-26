@@ -791,7 +791,9 @@ Petersson inner product, whose twists are the `m`-fold twists (3.4), with:
   lifts, and `Θ_ξ` the chain of `m` lifts with twist `ξ`;
 - `ξ` allowed at `ℓ` when `ℓ` is prime to `Nm Q(ξ)`;
 - `Λ_{ξ,ι}` the forms integral at the embedding `ℂ → ℂ_ℓ` given by `ι`;
-- `coord` the values of a form of `S_1` at representatives of the classes, in the standard basis of the Weyl module, and
+- `coord` the values of a form of `S_1` at representatives of the classes, in the coordinates of the Weyl module dual
+  to the basis of products of minors of [ShortProof] (which differs from the semistandard basis by an invertible
+  integer matrix), and
   `G` the rational Gram matrix of the invariant Hermitian form on it.
 
 Facts: (a) these data form a twisted lattice; (b) `y ∈ 𝒯` is integral at `ι` exactly when `Θ_ξy` is integral at `ι` for
@@ -805,7 +807,7 @@ the chain `Θ_ξ` of `m` lifts on the target forms, there the lower chain, with 
 module at an embedding `ℂ → ℂ_ℓ`, through which integrality of an algebraic form is read);
 DeterminantsOfThetaLiftChains §4.3 (the chain `Θ_ξ` is injective on the target forms); ShortGRH background (algebraic
 forms of a given level on a definite unitary group: the coordinates of a form are its values at representatives of the
-classes in the standard basis of the Weyl module; the matrix `G` with one copy, for each class, of the Gram matrix of
+classes in the coordinates of the Weyl module dual to a basis of products of minors; the matrix `G` with one copy, for each class, of the Gram matrix of
 the invariant Hermitian form in that basis is rational and positive definite; if every stabiliser of a class is
 trivial, the Petersson product of `φ`, `φ′` is `coord(φ)^* G coord(φ′)` and the conjugate norm `‖φ‖²_σ` is
 `(σ coord(φ))^* G (σ coord(φ))`; and, with no condition on the stabilisers, `n` times the Petersson product of a form
