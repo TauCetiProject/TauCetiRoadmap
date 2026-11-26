@@ -14,7 +14,7 @@ sound-cone field is a map `κ = (c, w) : ℝ × 𝔼 n → ℝ × 𝔼 n`. Equat
 of the full Euler system, the acoustical cone field of a fluid field, and the time-parametrised
 causal curves and future domains of dependence of a cone field are those of
 CompressibleEulerEquations §§1.1, 1.3 and 3.1–3.3, restated here only because the pins have none.
-For the acoustical form of a continuous field with `c > 0`, LorentzianGeometry §12.6 reduces its
+For the acoustical form of a continuous field with `c > 0`, LorentzianGeometry §7.6 reduces its
 domains of dependence in a subset to these time-parametrised ones, so the comparison of §2.1 is
 stated with them on both sides.
 
@@ -123,7 +123,7 @@ def IsPastCausalCurve (κ : ℝ × 𝔼 n → ℝ × 𝔼 n) (D : Set (ℝ × �
   IsCausalCurve κ D J x ∧ IsGreatest J p.1 ∧ x p.1 = p.2
 
 /-- Past-inextendibility in `D`, in the extension form of CompressibleEulerEquations §3.3 and
-LorentzianGeometry §12.6: no past causal curve in `D` ending at `p`, on an interval containing
+LorentzianGeometry §7.6: no past causal curve in `D` ending at `p`, on an interval containing
 `J`, agrees with `x` on `J` unless its interval is `J`. -/
 def IsPastInextendible (κ : ℝ × 𝔼 n → ℝ × 𝔼 n) (D : Set (ℝ × 𝔼 n)) (p : ℝ × 𝔼 n) (J : Set ℝ)
     (x : ℝ → 𝔼 n) : Prop :=
@@ -216,7 +216,7 @@ def characteristicBoundary (t₀ : ℝ) (D : Set (ℝ × 𝔼 n)) : Set (ℝ × 
 `c̃ > 0`, extending the acoustical field of `U`. For `S ⊆ E` open and regular
 (`interior (closure S) = S`), the development `D⁺_O({t₀} × S)` and the domain of dependence
 `Ď = D⁺_Ô({t₀} × closure S)` of the extended field (time-parametrised, to which
-LorentzianGeometry §12.6 reduces its domain of dependence for the acoustical form) satisfy
+LorentzianGeometry §7.6 reduces its domain of dependence for the acoustical form) satisfy
 `D = interior Ď` after time `t₀`. -/
 theorem futureDomainOfDependence_inter_eq_interior [NeZero n] (P : EquationOfState) {t₀ T : ℝ}
     (hT : 0 < T) {U : ℝ × 𝔼 n → ℝ × 𝔼 n × ℝ} (hU : P.IsSolution (Ico t₀ (t₀ + T) ×ˢ univ) U)

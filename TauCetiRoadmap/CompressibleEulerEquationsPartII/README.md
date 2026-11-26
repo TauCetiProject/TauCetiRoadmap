@@ -31,11 +31,12 @@ The roadmap builds on CompressibleEulerEquations, which supplies the equations o
 Euler systems, the sound-cone causal curves and domains of dependence in subsets of a half-space,
 uniqueness on lens-shaped domains and on domains of dependence, local well-posedness in `Hᵏ`, and
 the developments of data on open subsets of a slice with the nullity of their regular boundary. It
-builds on LorentzianGeometry, which supplies the acoustical form on a product spacetime, the
-geodesic flow, null hypersurfaces and optical functions, and domains of dependence and Cauchy
-horizons of `C¹` metrics on open sets. It feeds the theory of multi-dimensional rarefaction waves
-(Luo–Yu) and of shock formation and shock development (Christodoulou, Christodoulou–Miao), whose
-main theorems are stated on the domains, foliations and developments built here.
+builds on LorentzianGeometry, which supplies the acoustical form on a product spacetime, null
+hypersurfaces and optical functions, and domains of dependence and Cauchy horizons of `C¹` metrics
+on open sets, and on SemiRiemannianFoundations, which supplies the geodesic flow. It feeds the
+theory of multi-dimensional rarefaction waves (Luo–Yu) and of shock formation and shock development
+(Christodoulou, Christodoulou–Miao), whose main theorems are stated on the domains, foliations and
+developments built here.
 
 Layer 1 is the acoustical geometry of a given classical solution: its extension below the initial
 slice, outgoing acoustical functions, their frame and coordinates, and the propagation equation for
@@ -83,8 +84,8 @@ the reflection `f̃(t₀ − s, x) = Σᵢ aᵢ f(t₀ + s/i, x)` for small `s >
 a `C^k` function on an open set of `𝔐` containing D, and that the set
 `D̃ = D ∪ {(t₀ − s, x) : s > 0, (t₀ + s/i, x) ∈ D for all i, c̃(t₀ − s, x) > 0}` contains an open
 set `D̂ ⊆ 𝔐` with `D̂ ∩ H_{t₀} = D` (for `(t₀, x) ∈ D` use that D is relatively open in `H_{t₀}`
-and `c(t₀, x) > 0`). On `D̂` the reflected field `(c̃, ṽ)` defines, by LorentzianGeometry §7.3, a
-`C^k` Lorentzian metric, time-oriented by `[B̃]` for `B̃ = ∂_t + ṽ` (LorentzianGeometry §8.1), with
+and `c(t₀, x) > 0`). On `D̂` the reflected field `(c̃, ṽ)` defines, by LorentzianGeometry §2.3, a
+`C^k` Lorentzian metric, time-oriented by `[B̃]` for `B̃ = ∂_t + ṽ` (LorentzianGeometry §3.1), with
 `t` a `C^∞` temporal function (`g̃⁻¹(dt, dt) = −c̃⁻² < 0`).
 
 - For `p ∈ D`, a past causal curve in `D̂` ending at p is, on the part of its interval where
@@ -101,7 +102,7 @@ and `c(t₀, x) > 0`). On `D̂` the reflected field `(c̃, ṽ)` defines, by Lor
 - The even reflection of `f(t) = t` is `|t|`, not `C¹`: `k = 0` gives only continuity, as stated.
 - The constant state is its own reflection (`Σ aᵢ = 1`).
 
-*Needs:* CompressibleEulerEquations §§1.2–1.3, §3.2; LorentzianGeometry §7.3, §8.1, §12.6.
+*Needs:* CompressibleEulerEquations §§1.2–1.3, §3.2; LorentzianGeometry §2.3, §3.1, §7.6.
 
 ### 1.2 Outgoing acoustical functions
 
@@ -109,7 +110,7 @@ Let `(c, v)` be the acoustical field of a classical solution of class `C^k`, `k 
 D, extended to `D̂` by §1.1, let `S′ ⊆ E` be open with `{t₀} × S′ ⊆ D`, and `u₀ ∈ C^k(S′)` with
 `∇u₀ ≠ 0`. At `(t₀, y)`, `y ∈ S′`, put `ζ(y) = (c|∇u₀| − v·∇u₀, ∇u₀)`, the unique future null
 covector whose spatial part is `∇u₀(y)`, and let `γ_y` be the null geodesic of `g` with initial
-point `(t₀, y)` and velocity `−g⁻¹(ζ(y))`, reparametrized by `t` (LorentzianGeometry §§3.2–3.3; the
+point `(t₀, y)` and velocity `−g⁻¹(ζ(y))`, reparametrized by `t` (SemiRiemannianFoundations §§3.2–3.3; the
 Christoffel field is `C^{k−1}`). Let `Ψ(t, y) = γ_y(t)` on its open domain of definition `Ω`, and
 let `Ω′ ⊆ Ω` be a set of the form `{(t, y) : y ∈ S′, t₀ ≤ t < τ(y)}` on which Ψ is injective with
 invertible differential. Define u on `W = Ψ(Ω′)` by `u(Ψ(t, y)) = u₀(y)`.
@@ -120,10 +121,10 @@ Prove:
   along `γ_y` by the geodesic flow from `ζ(y)` (method of characteristics: the Hamiltonian
   `½g⁻¹(ζ, ζ)` is constant along the cotangent geodesic flow and the Lagrangian manifold generated
   from `{t₀} × S′` stays isotropic); the level sets of u are null hypersurfaces whose null
-  generators (LorentzianGeometry §§9.2–9.3) are the curves `γ_y`, and `L = ∂_tΨ`.
+  generators (LorentzianGeometry §§4.2–4.3) are the curves `γ_y`, and `L = ∂_tΨ`.
 - *Uniqueness.* If `u′` is a `C²` acoustical function on a connected set `W′ ⊆ W` swept by
   segments of the curves `γ_y` from `t₀`, with `u′(t₀, ·) = u₀`, then `u′ = u` on `W′`: the integral
-  curves of `−grad_g u′` are null geodesics (LorentzianGeometry §9.3) through `(t₀, y)` with the
+  curves of `−grad_g u′` are null geodesics (LorentzianGeometry §4.3) through `(t₀, y)` with the
   same initial covector, hence the `γ_y`.
 - The identities of the Conventions: `L = B − cT̂`, `g(L, L) = 0`, `g(L, T) = −μ`, `μ = cκ`,
   `g(T, T) = κ²`, `g(B, T) = 0`; and `Ψ(t₀, ·) = id`, so that for every compact `K ⊆ S′` some
@@ -142,7 +143,7 @@ Prove:
 **Checks.**
 
 - Constant state `(c, v)`, `u₀ = −x¹` (`n ≥ 1`): `u = (v¹ + c)(t − t₀) − x¹`, `T̂ = −∂₁`, `κ = 1`,
-  `μ = c`, `L = ∂_t + v + c∂₁`; the level sets are the null hyperplanes of LorentzianGeometry §7.3's
+  `μ = c`, `L = ∂_t + v + c∂₁`; the level sets are the null hyperplanes of LorentzianGeometry §2.3's
   first Check.
 - Expanding flow `ρ = (1 + t)⁻¹`, `v = x/(1 + t)`, `p = ρ²/2` (`c = (1 + t)^{−1/2}`), `n = 1`,
   `t₀ = 0`, `u₀ = x − 1`: `u = x/(1 + t) − 2(1 + t)^{−1/2} + 1`. Then `∂_xu = (1 + t)⁻¹`,
@@ -154,7 +155,8 @@ Prove:
   would move with speed `v¹ − c` and the level set `u = 0` would be the other boundary sheet:
   the sign condition in the definition picks the sheet bounding `{u < 0}`.
 
-*Needs:* §1.1; CompressibleEulerEquations §3.1; LorentzianGeometry §§3.2–3.3, §7.3, §§9.2–9.3;
+*Needs:* §1.1; CompressibleEulerEquations §3.1; LorentzianGeometry §2.3, §§4.2–4.3;
+SemiRiemannianFoundations §§3.2–3.3;
 Christodoulou–Miao, §2.1; Christodoulou 2007, Ch. 2 (sources, by locator).
 
 ### 1.3 Acoustical coordinates
@@ -189,7 +191,7 @@ written there with `ψᵢ = −vⁱ` for irrotational flows; irrotationality is 
   `Th = (2c/(γ − 1))Tc` and `L = B − cT̂`, `m′ + e′κ − (T̂·T(v) − Tc) = −(κ/c)T̂^i(∂ᵢh + Bvⁱ)`, the
   momentum equation.
 
-*Needs:* §1.2; CompressibleEulerEquations §1.2; LorentzianGeometry §9.2; Luo–Yu 2025a, §§2.1–2.2;
+*Needs:* §1.2; CompressibleEulerEquations §1.2; LorentzianGeometry §4.2; Luo–Yu 2025a, §§2.1–2.2;
 Christodoulou–Miao, Ch. 3 (sources, by locator).
 
 ### Examples
@@ -198,7 +200,8 @@ The constant state and the expanding flow with their acoustical functions, frame
 
 ### Dependencies
 
-CompressibleEulerEquations §§1.2–1.3, §§3.1–3.2; LorentzianGeometry §§3.2–3.3, §7.3, §§9.2–9.3, §12.6.
+CompressibleEulerEquations §§1.2–1.3, §§3.1–3.2; LorentzianGeometry §2.3, §§4.2–4.3, §7.6;
+SemiRiemannianFoundations §§3.2–3.3.
 
 ## Layer 2: the characteristic boundary of a development
 
@@ -209,7 +212,7 @@ Let U be a classical solution, of either Euler system, on a slab `O = [t₀, t�
 carrying a `C¹` extension `(c̃, ṽ)`, `c̃ > 0`, of the acoustical field (as §1.1 provides), and
 `S ⊆ E` open and *regular* (`interior (closure S) = S`). Write `D = D⁺_O({t₀} × S)`, the largest
 development in O (CompressibleEulerEquations §8.3), and `Ď = D⁺_Ô({t₀} × closure S)` in the sense
-of LorentzianGeometry §12.6 for `(c̃, ṽ)`; by its statement on time functions, `Ď` is the domain of
+of LorentzianGeometry §7.6 for `(c̃, ṽ)`; by its statement on time functions, `Ď` is the domain of
 dependence in `Ô` defined by `t`-parametrized causal curves, which is the form stated. Prove, in
 `{t > t₀}`
 (`futureDomainOfDependence_inter_eq_interior`):
@@ -220,10 +223,10 @@ dependence in `Ô` defined by `t`-parametrized causal curves, which is the form 
   (§3.3, openness), so `D ⊆ interior Ď`. Conversely let `p ∈ Ď`, `q ∈ I⁻(p)` with `t_q > t₀`, and
   γ a past causal curve in O from q, reaching `(t₀, y)`; the concatenation with a timelike curve
   from p to q gives `y ∈ closure S`. If `y ∈ frontier S = frontier (closure S)` (regularity), then
-  `(t₀, y) ∈ I⁻(p)` by push-up (LorentzianGeometry §12.7), `I⁻(p)` is open, and a timelike curve from
+  `(t₀, y) ∈ I⁻(p)` by push-up (LorentzianGeometry §7.7), `I⁻(p)` is open, and a timelike curve from
   p to `(t₀, y′)` with `y′ ∉ closure S`, extended past-inextendibly below `t₀`, contradicts `p ∈ Ď`.
   So `I⁻(p) ∩ {t > t₀} ⊆ D`, which gives `Ď ⊆ closure D` and `interior Ď ⊆ D`.
-- Consequently, by LorentzianGeometry §12.7 applied on `Ô` with the temporal function t, below
+- Consequently, by LorentzianGeometry §7.7 applied on `Ô` with the temporal function t, below
   the top of the slab, where the frontier in `𝔐` is the frontier in `Ô`,
   `frontier D ∩ {t₀ < t < t₀ + T} = H⁺_Ô({t₀} × closure S) ∩ {t₀ < t < t₀ + T}`.
 
@@ -240,7 +243,7 @@ dependence in `Ô` defined by `t`-parametrized causal curves, which is the form 
   frontier after `t₀` is `{t₀ + T} × E`, while `H⁺_Ô({t₀} × E)` is empty, every point of `O` lying
   in `I⁻_Ô(O)`.
 
-*Needs:* §1.1; CompressibleEulerEquations §3.3, §8.3; LorentzianGeometry §12.6, §12.7.
+*Needs:* §1.1; CompressibleEulerEquations §3.3, §8.3; LorentzianGeometry §7.6, §7.7.
 
 ### 2.2 The characteristic boundary and its null generators
 
@@ -248,9 +251,9 @@ For a development `(D, U)` of data on an open `S` (CompressibleEulerEquations §
 *characteristic boundary* `𝒞(D) = frontier D ∩ {t > t₀}`, the frontier taken in `𝔐`
 (`characteristicBoundary`; compare Hawking–Ellis, Ch. 6). In the setting of §2.1 prove that every
 point of `𝒞(D)` below the top of the slab (`t < t₀ + T`) lies on a curve contained in `𝒞(D)` that,
-after an admissible change of parameter (LorentzianGeometry §3.1), is a null geodesic of the
+after an admissible change of parameter (SemiRiemannianFoundations §3.1), is a null geodesic of the
 acoustical metric of the reflected field, with past endpoint on `{t₀} × frontier S`, and no two of
-whose points are chronologically related. Route: §2.1 and LorentzianGeometry §12.7's generators of
+whose points are chronologically related. Route: §2.1 and LorentzianGeometry §7.7's generators of
 `H⁺_Ô`, which are past-inextendible in `Ô` or end on `edge_Ô(closure S) = {t₀} × frontier S`; the
 first alternative is excluded because the generator lies in `closure D ⊆ {t ≥ t₀}` and, the field
 being bounded on slabs, would reach `Σ_{t₀}` in finite parameter. Prove that where
@@ -267,7 +270,7 @@ slabs.
 
 - Constant state, maximal development, `S = {x¹ > 0}`: `𝒞(D) = {x¹ = (v₀¹ + c₀)(t − t₀), t > t₀}`,
   ruled by the lines `t ↦ (t, x₀ + (t − t₀)(v₀ + c₀e₁))` from `edge = {t₀} × {x¹ = 0}`
-  (LorentzianGeometry §12.7's first Check).
+  (LorentzianGeometry §7.7's first Check).
 - Constant state, maximal development, `S = B(0, R)`: the generators are the segments from
   `|x| = R` toward the centre, moving with the fluid at sound speed; they meet at the apex
   `t − t₀ = R/c₀`, after which `𝒞(D)` is empty.
@@ -275,7 +278,7 @@ slabs.
   `v = x/(1 + t)` is unbounded on every slab, but the generators are still the two curves
   `x = ±(2√(1 + t) − (1 + t))`, meeting at `t = 3`.
 
-*Needs:* §2.1; CompressibleEulerEquations §8.1, §8.4; LorentzianGeometry §3.1, §12.7.
+*Needs:* §2.1; CompressibleEulerEquations §8.1, §8.4; LorentzianGeometry §7.7; SemiRiemannianFoundations §3.1.
 
 ### 2.3 Eikonal description of the characteristic boundary
 
@@ -320,7 +323,8 @@ characteristic boundaries and generators.
 
 ### Dependencies
 
-Layer 1; CompressibleEulerEquations §3.3, §§8.1–8.4; LorentzianGeometry §3.1, §12.6, §12.7.
+Layer 1; CompressibleEulerEquations §3.3, §§8.1–8.4; LorentzianGeometry §7.6, §7.7;
+SemiRiemannianFoundations §3.1.
 
 ## Layer 3: characteristic initial data
 
@@ -496,7 +500,7 @@ References).
 
 Define *double characteristic data*: two characteristic hypersurfaces `C = {φ = 0}`,
 `C̲ = {φ̲ = 0}` with `dφ`, `dφ̲` future null and `g⁻¹(dφ, dφ̲) < 0` (a double null pair,
-LorentzianGeometry §9.2) meeting in the spacelike codimension-two `Z = C ∩ C̲`, with data on
+LorentzianGeometry §4.2) meeting in the spacelike codimension-two `Z = C ∩ C̲`, with data on
 `C ∪ C̲` agreeing on Z and satisfying the inner equations on each, and compatibility of order m at
 Z (the m-jets determined at Z by the two sets of transport equations agree). A development is a
 classical solution on a relatively open subset D of `{φ ≥ 0, φ̲ ≥ 0}` containing `C ∪ C̲` near Z with
@@ -514,7 +518,7 @@ fronts `H` and `H̲`.
   `φ̲ = x − (v₀ − c₀)t`, `dφ(B) = dφ̲(B) = c₀`, so both are future null, and
   `g⁻¹(dφ, dφ̲) = −c₀⁻²·c₀·c₀ + (−1)(1) = −2`.
 
-*Needs:* §§3.1–3.4; LorentzianGeometry §9.2; Rendall 1990 (source; see References); Luk 2012, §3.
+*Needs:* §§3.1–3.4; LorentzianGeometry §4.2; Rendall 1990 (source; see References); Luk 2012, §3.
 
 ### Examples
 
@@ -524,7 +528,7 @@ on its characteristic boundary as characteristic data.
 ### Dependencies
 
 Layers 1–2; CompressibleEulerEquations §§1.2–1.3, §2.2, §§3.1–3.3, §§6.1–6.2, §§7.1–7.3, §§8.1–8.2;
-LorentzianGeometry §9.2.
+LorentzianGeometry §4.2.
 
 ## Layer 4: centered rarefaction waves
 
@@ -643,11 +647,12 @@ Boundaries:
   and the developments of data on open subsets of a slice with the nullity of the regular part of
   their boundary (§§8.1–8.4). Nothing of it is planned again here; each statement of the layers
   says how it differs.
-- **LorentzianGeometry** owns the acoustical form on `ℝ × Σ` (§7.3), the geodesic predicate, spray, flow and its regularity (§§3.2–3.3), null hypersurfaces, optical
-  functions and double null foliations (§9.2), null generators (§9.3), causal curves and domains of
-  dependence in subsets (§12.6), and push-up, limit curves, horizons relative to an open set and
-  their null generators for locally Lipschitz metrics (§12.7). This roadmap applies them to the
-  acoustical metric of a solution.
+- **LorentzianGeometry** owns the acoustical form on `ℝ × Σ` (§2.3), null hypersurfaces, optical
+  functions and double null foliations (§4.2), null generators (§4.3), causal curves and domains of
+  dependence in subsets (§7.6), and push-up, limit curves, horizons relative to an open set and
+  their null generators for locally Lipschitz metrics (§7.7). **SemiRiemannianFoundations** owns
+  admissible changes of parameter (§3.1) and the geodesic predicate, spray, flow and its regularity
+  (§§3.2–3.3). This roadmap applies them to the acoustical metric of a solution.
 - **Well-posedness at real Sobolev orders** `s > n/2 + 1` (Kato–Ponce commutator estimates) is
   not part of this roadmap.
 - Shock formation, the singular boundary of maximal developments, the energy estimates of
@@ -688,20 +693,24 @@ Boundaries:
   `exists_maximal_development`, `isGreatest_development_of_solution`, `isDevelopment_slab`,
   `slab_subset_of_maximal`, `boundary_futureCausal`, `boundary_null`.
 
-### From TauCetiRoadmap.LorentzianGeometry
+### From TauCetiRoadmap.SemiRiemannianFoundations
 
+- §3.1: admissible changes of parameter.
 - §§3.2–3.3: the geodesic predicate, pregeodesics and their reparametrization, the flow of a
   locally Lipschitz connection and its `C^r` regularity for `C^r` coefficients.
-- §7.3: the acoustical form on `ℝ × Σ`, `g(B, X) = 0` for `X` tangent to `Σ_t`, the inverse form,
+
+### From TauCetiRoadmap.LorentzianGeometry
+
+- §2.3: the acoustical form on `ℝ × Σ`, `g(B, X) = 0` for `X` tangent to `Σ_t`, the inverse form,
   `g⁻¹(dt, dt) = −c⁻²`, causal vectors, and that `B` is a continuous timelike field.
-- §8.1: time orientations, and the time orientation `[B]` of the acoustical form.
-- §9.2: null hypersurfaces, null normals, optical functions with null normal `−grad_g u`, double
-  null foliations; §9.3: `∇_L L = κL` on a `C²` null hypersurface and `∇_L L = 0` for
+- §3.1: time orientations, and the time orientation `[B]` of the acoustical form.
+- §4.2: null hypersurfaces, null normals, optical functions with null normal `−grad_g u`, double
+  null foliations; §4.3: `∇_L L = κL` on a `C²` null hypersurface and `∇_L L = 0` for
   `L = −grad_g u` of a `C²` optical function.
-- §12.6: `TimeOrientedLorentzianFieldOn`, `IsFutureCausalCurveIn`, `IsPastInextendibleIn`,
+- §7.6: `TimeOrientedLorentzianFieldOn`, `IsFutureCausalCurveIn`, `IsPastInextendibleIn`,
   `futureDomainOfDependenceIn`, and its statement on time functions: for the acoustical form of a
   continuous field with `c > 0`, `D⁺_D(S)` is the set defined by `t`-parametrized curves in the
-  extension form; §12.7: push-up and `I⁺(p) = int J⁺(p)` for locally Lipschitz metrics, the relative
+  extension form; §7.7: push-up and `I⁺(p) = int J⁺(p)` for locally Lipschitz metrics, the relative
   horizon `H⁺_U(S)`, its achronal generators (null geodesics after reparametrization for `C¹`
   metrics), and, for `S` closed in a slice of a temporal function, `edge_U(S) = ∂_{Σ_{t₀}}S` and
   `∂_U D⁺_U(S) ∩ {t > t₀} = H⁺_U(S) ∩ {t > t₀}`.
