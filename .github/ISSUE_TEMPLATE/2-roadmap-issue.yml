@@ -284,6 +284,7 @@ body:
         - GraphColouring
         - GraphConnectivityAndFlows
         - GraphSpectra
+        - GraphSymmetryAndCayleyGraphs
         - GroebnerGeometry
         - GromovWittenTheory
         - GrossZagierAndArithmeticHeights
@@ -351,6 +352,7 @@ body:
         - LangevinAndHamiltonianMonteCarlo
         - LanglandsParameterStacks
         - LaplacianEigenvaluesOfGraphs
+        - LaplacianSpectraAndSpanningTrees
         - LargeDeviations
         - LatticePackingsAndPerfectForms
         - LawOfTheIteratedLogarithm
@@ -598,6 +600,7 @@ body:
         - StokesReciprocity
         - StringOrientation
         - StronglyRegularAndMooreGraphs
+        - StronglyRegularGraphsAndDesigns
         - Subfactors
         - SubspaceTheorem
         - SuccessiveMinima
