@@ -24,7 +24,8 @@ groups, by an exchange identity between theta integrals of complementary spaces 
 Layer 1 defines ratios of Hecke values, the pairs that carry them and the families of twists. Layer 2 computes the norm
 of one lift. Layer 3 proves the exchange identity and its form on one square. Layer 4 computes the Gram operator of the
 chain and factors its determinant. Layer 5 moves periods through two grids of unitary groups to build forms with
-integral twisted lifts. Layer 6 assembles the auxiliary forms and proves Theorem C.
+integral twisted lifts. Layer 6 assembles the auxiliary forms and proves Theorem C. Each layer uses the earlier ones,
+with one exception: the definition 1.3 of a regular family names the lift `Θ_{j,ϑ}` of 2.1.
 
 ## Conventions and notation
 
@@ -143,7 +144,7 @@ twist `ϑ`, `Z(ϑ) = vol(Θ_ϑ|𝒯)` and, for `1 ≤ j ≤ m`, `Z_j(ϑ) = vol(�
 | `m, r, k, t, Δ, κ_j` | number of lifts, rank, `r + 1 − m`, `5r`, gap, weight of lift `j` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
 | `x, x₁, b, a, h_dir, h_main, β_tot` | scales, `a = xb`, cost of a direction, main amount `m k h_dir`, budget `f a (log b)³/(m k)` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2, §4.1; Conventions |
 | `[U(1)], ν̃, L^S(z, ν), L_*(S, ν, e)` | norm-one idele class group, base change, partial L-value, `(∏_S q_v)^{e²}∏_{z≤e}|L^S(z,ν)|²` | Conventions |
-| `υ, υ₁, j` | splitting character, its restriction to `[U(1)]`, skew element | Conventions; DivisibilityOfThetaDerivatives §1.4 |
+| `υ, υ₁, ȷ` | splitting character, its restriction to `[U(1)]`, skew element | Conventions; DivisibilityOfThetaDerivatives §1.4 |
 | `Y_j, W_j, V_j` | spaces of the chain, of the single lifts, definite targets | ThetaLiftChainsAndTheSeesawIdentity §2.1 |
 | `J_M, 𝒜, 𝒢, e₀, 𝒯, d` | level, forms of level `J_M`, good forms, good idempotent, target forms, `dim 𝒯` | ThetaLiftChainsAndTheSeesawIdentity §2.5, §2.7; Conventions |
 | `ϑ, ξ, Q(ϑ), Nm Q(ϑ)` | tame character or twist, a twist of a family, its places, their norm | OneSidedPrimeSumBoundsAndAdmissibleData §3.4 |
@@ -213,7 +214,8 @@ is tame because the tame parts at the chosen places and at `Q(ξ)` have disjoint
 those of `ν` times the ratios, the Euler factors at the places of `Q(ξ)` being removed on both sides.
 
 (a) If `c` has modulus `F` and `c′` modulus `F′` up to norm powers, then `c·c′` has modulus `F·F′`, `c⁻¹` modulus `F⁻¹`,
-a finite product modulus the product, and a constant `a` has modulus `1`; if `|c(ϑ)|²·Nm Q(ϑ)^{−k}` is a fixed number for
+a finite product modulus the product, and a constant `a` has modulus `1` (the inverses `c⁻¹`, `F⁻¹` are taken value
+by value and are read as `0` where the function vanishes); if `|c(ϑ)|²·Nm Q(ϑ)^{−k}` is a fixed number for
 some integer `k`, then `c` has modulus `1`.
 
 (b) If `c` has modulus `F` up to a norm power, `F(1) = 1`, `F ≥ 0` and `c(1) ≠ 0`, then there is an integer `e` with
@@ -304,7 +306,7 @@ the class sum of the conjugate kernel against a form, and their adjointness is t
 transposed lift, read through the passage between algebraic forms and functions on the adelic group.
 
 Let `O` be a descent pair (ThetaLiftChainsAndTheSeesawIdentity §2.16): a hermitian space `W` of rank `r′ ≥ 1`, the
-positive definite space `V` of rank `r′ + t′ > 2r′`, characters of `[U(1)]` for `W` and `V`, the chosen places and the
+positive definite space `V` of rank `r′ + t′` with `t′ ≥ 1`, characters of `[U(1)]` for `W` and `V`, the chosen places and the
 places of a tame character with their tame parts, and the datum `v_P ⊗ Ψ_bl ⊗ vac`: at the infinite places the Fock
 vector of a joint harmonic polynomial attached to a weight vector of `V`, at the chosen places and the twist places the
 block datum modulo `π_M·Q`, and the vacuum elsewhere. Let `l` be a parameter on `W` that fits the pair (the archimedean
@@ -410,7 +412,8 @@ terms `mc_j(γ)⟨x, y(·γ)⟩`;
 
 (e) at a split place `w` with `w, w̄` off the chosen places and `Q(ϑ)`, the Hecke polynomial operator
 `H_w(X) = ∑_i (−X)^i q^{i(i−1)/2} T_{w,i}` on forms on `V_j` at `X = (α q^{t−1})⁻¹` kills the range of `Θ_{j,ϑ}`, where `q`
-is the norm of `w` and `α` the Frobenius value at `w` of the character of `W_j`.
+is the norm of `w` and `α = χ_W(ϖ_w)·q^{r/2}` is the number `α` of 2.1 (d) for the pair of lift `j` (`r′ = r`, `t′ = t`), so
+that the first factor of 2.1 (d) vanishes at this `X`.
 
 *Needs:* 2.1; SiegelWeilAndRallisFormulasOnUnitaryGroups §§4.4, 4.5 (the Rallis inner product formula for sharp finite data, in the range `rank V > 2
 rank W`: if the finite datum `F` is a vacuum off a set `S₀` of places and its Weil coefficient `⟨F, ω(g)F⟩` at the
@@ -502,7 +505,7 @@ polynomials with no nonzero fixed vector, hence zero.
 with a positive sign and with `#b` more negative signs than `Z`, `μ(τ)` less than the number of positive signs of `Z` at
 every `τ`, `ν` of weight `μ` with any tame part, and `δ = ν·υ₁^{#b}`. Let `T ∈ GL_b(E)` be not of the form `−c^H c` at
 some real place, and assume that the terms of the unfolded theta integral are absolutely integrable at `g`. Then the
-Fourier coefficient at `j·T` along the centre of the unipotent radical of the parabolic of the frame, of the theta
+Fourier coefficient at `ȷ·T` along the centre of the unipotent radical of the parabolic of the frame, of the theta
 integral of `(X, Y)` with the character `δ` on both sides, vanishes at `g`, for every Schwartz datum.
 
 *Needs:* 3.1; WeilRepresentationsOnBanachSpacesOfData §8.9 (let `X` be split by dual isotropic frames of rank `#b`, `y` a continuous function on
@@ -576,7 +579,7 @@ matched `Φ` lies in `M` and `𝒟Ψ = I_large(W, V; 𝔠, v, Φ) − c·I_small
 splittings (orthonormal frames at infinity, integral at the finite places), let `𝒟` be an equivariant lift as in (a) on
 `X`, defined on a space `M` that contains the standard column datum of the frame, and let `V′` be a hermitian space with
 basis indexed by `b`. If the Fourier coefficients of `𝒟` applied to the
-standard column datum of the frame vanish at the points of the parabolic tested by `V′` (index `j·V′.J` at frames whose
+standard column datum of the frame vanish at the points of the parabolic tested by `V′` (index `ȷ·J_{V′}`, `J_{V′}` the Gram matrix of `V′`, at frames whose
 columns span a lattice self-dual for `V′`, and every invertible index not represented by the signs of `V′`), then `𝒟`
 kills every locally constant datum with a matched function;
 
@@ -882,6 +885,11 @@ sets) there is `γ` with `|γ|²·#R^{#v(#v + 2#u)} = 1` such that, whenever `L`
 `y ↦ Ψ(g⁻¹y)`; and every `Ψ` that vanishes off the blocks of the columns `b` of invertible matrices and satisfies
 `χ(det h)·Ψ(yh) = Ψ(y)` for all `h ∈ GL_b(R)` has a match.
 
+**Checks.** The condition under `GL_b(R)` in (c) cannot be dropped. Take `R = 𝔽₃`, `n = 2`, `a = b = 1`, `χ = 1` and `Ψ`
+the indicator of the column `(1, 0)ᵀ`. The matrices `1` and `diag(2, 1)` have the same last row of the inverse,
+`(0, 1)`, and first columns `(1, 0)ᵀ` and `(2, 0)ᵀ`; a partner `Φ` would have to take the values `Ψ((1, 0)ᵀ) = 1` and
+`Ψ((2, 0)ᵀ) = 0` at `(0, 1)`.
+
 *Needs:* 3.1.
 
 [ShortProof], `New/Determinant/Chain/SquareLaw.lean` (`New.Exchange.SquareLaw`, `New.Exchange.SquareLaw.sum_eq_nextDatum`,
@@ -942,7 +950,7 @@ group over a finite ring.
 squares moves the descent of the first step to the end, the adjoint law turns it into the adjoint of the lift, and the
 Gram form of the first arrow finishes; the moduli multiply.
 
-(a) For a commutative ring `R`, the group of invertible block upper triangular matrices with diagonal blocks one copy of
+(a) For a finite commutative ring `R`, the group of invertible block upper triangular matrices with diagonal blocks one copy of
 `N` and `j` copies of `T` has order `#GL_N(R)·#GL_T(R)^j·#R^{e}`, `e` independent of `R`.
 
 (b) A triangle of size `m` consists of inner product spaces `F(i, n)`, a parameter set `I`, linear maps
