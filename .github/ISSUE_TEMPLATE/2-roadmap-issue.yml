@@ -573,9 +573,11 @@ body:
         - SpecialFunctionsBessel
         - SpecialFunctionsConfluent
         - SpecialFunctionsEiLiErfIncompleteGamma
+        - SpecialFunctionsGamma
         - SpecialFunctionsGeneralizedHypergeometric
         - SpecialFunctionsHypergeometric
         - SpecialFunctionsLegendre
+        - SpecialFunctionsMathieu
         - SpecialFunctionsOrthogonalPolynomialsGeneral
         - SpecialFunctionsParabolicCylinder
         - SpecialFunctionsSU2MatrixElements
