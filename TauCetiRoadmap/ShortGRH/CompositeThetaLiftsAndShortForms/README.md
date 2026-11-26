@@ -780,23 +780,23 @@ inequalities).
 *Origin:* particular to this proof: each prime above `N` dividing `π_N` carries a norm-one integral idele that
 is trivial elsewhere and generates the units of its residue field.
 
-*Method of the formal proof:* take a local unit at `w` that generates the cyclic group of units of the residue
-field (of order `N − 1`) and divide the corresponding idele by its conjugate; as `w` is split, the component
-at `w` is the unit itself.
+*Method of the formal proof:* the component at `w` of `z_w` generates the cyclic group of units of the residue
+field, which has order `N − 1`, and this gives (a); a scalar matrix with integral unit entries, equal to `1`
+away from `w` and `w̄`, lies in the groups of (b), and its powers are tested in `K_j` at `w`.
 
 Let `w` be a prime of `E` dividing `π_N`. Scalings at `w`, the scaling `z_w` and the ramified source forms
 `𝒮^ram` are those of ThetaLiftChainsAndTheSeesawIdentity §2.8: a scaling is an integral finite idele `z` with
 `zz̄ = 1` whose components are `1` away from `w` and `w̄`, and `z_w` is a fixed scaling whose component at `w`
 generates the units of the residue field.
-(a) Such a scaling exists, so that `z_w` can be fixed; `z_{w,w}^i ≡ 1 (mod w)` if and only if `(N − 1) | i`.
+(a) For the component `z_{w,w}` of `z_w` at `w`: `z_{w,w}^i ≡ 1 (mod w)` if and only if `(N − 1) | i`.
 (b) The scalar matrix of `z_w` lies in the standard maximal compact subgroup at `w` and in the principal
 congruence subgroup at the chosen places, and its `i`-th power lies in `K_j` if and only if `(N − 1) | i`.
 (c) Right translation by the scalar matrix of `z_w` is an operator of order dividing `N − 1` on the forms of
 level `K_j` on `X_j`.
 
 *Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the level prime `N` and `π_N`);
-ThetaLiftChainsAndTheSeesawIdentity §2.1 (the definite spaces `X_j`), §2.6 (their levels `K_j`), §2.8 (scalings
-and the ramified source forms).
+ThetaLiftChainsAndTheSeesawIdentity §2.1 (the definite spaces `X_j`), §2.6 (their levels `K_j`), §2.8 (scalings,
+the existence of the scaling `z_w`, and the ramified source forms).
 
 [ShortProof], `New/UpperBound/Size/ShortColumns.lean` (`New.Data.exists_isScalingAt_valuation_pow_iff`,
 `New.Data.scalingGenerator`, `New.Data.scalarFin_scalingGenerator_mem_chosenLevel`,

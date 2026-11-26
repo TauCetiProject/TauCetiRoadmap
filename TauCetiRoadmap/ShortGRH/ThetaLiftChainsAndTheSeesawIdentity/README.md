@@ -135,7 +135,8 @@ number. For a finite point `x`, `Λ_x⁻` is the intersection of the lattice of 
 `γ′`, the *shifted entries* are `l_i − 2γ′ + |n′|` and `l′_j − 2γ + |n|`. The pair *satisfies the block rule* for
 `(γ, γ′)` if: both have distinct entries of the parity of the rank less one, with entries of opposite signs at least
 `2·500(|n| + |n′|)³` apart; the shifted entries of the larger space are those of the smaller together with the doubled
-block `[|n′| − |n|]` (resp. `[|n| − |n′|]`), where `[d] = ((d − 1)/2, (d − 3)/2, …, (1 − d)/2)`; and a positive common
+block `2[|n′| − |n|]` (resp. `2[|n| − |n′|]`), where `[d] = ((d − 1)/2, (d − 3)/2, …, (1 − d)/2)` is the block of
+length `d` and `2[d] = (d − 1, d − 3, …, 1 − d)` the same block with its entries doubled; and a positive common
 shifted entry has the same sign on both sides, a negative one opposite signs. Two families of parameters *correspond*
 if they satisfy the block rule at every `τ ∈ Φ`.
 
@@ -467,11 +468,11 @@ height `h < n_j` and last entry `e_j(τ)`. The kept columns are `c°(h) := Δ/2 
 diagram with the `n_j` rows `μ(X_j)_τ + κ_{j+1}(τ) − n_{j+1}/2`; by (a) below it has `c_τ(h)` columns of each height
 `h ≤ n_j`, and `μ(X_{j+1})` is this diagram, continued by `0`, shifted by `n_j/2 − κ_{j+1}`.
 
-*Lemma.* (a) `μ(X_j) + ρ` has the doubled Harish-Chandra parameter `[k] + (2a_τ, 0, …, 0)` followed by the blocks
-`−2κ_i + [t + 1]`, `1 ≤ i ≤ j`, where `a_τ = a` on `Φ_a` and `0` elsewhere; `μ(X_{j+1})` is `(μ(X_j) + κ_{j+1} − n_{j+1}/2,
+*Lemma.* (a) `μ(X_j) + ρ` has the doubled Harish-Chandra parameter `2[k] + (2a_τ, 0, …, 0)` followed by the blocks
+`−2κ_i + 2[t + 1]`, `1 ≤ i ≤ j`, where `a_τ = a` on `Φ_a` and `0` elsewhere; `μ(X_{j+1})` is `(μ(X_j) + κ_{j+1} − n_{j+1}/2,
 0, …, 0) + n_j/2 − κ_{j+1}`, and `(c, e_j)` is a lift weight from `X_j` to `X_{j+1}`: no column has height strictly between
-`n_j` and `n_{j+1}`, and `e_j = n_{j+1}/2 − κ_{j+1} + c_τ(n_j)`. (b) The doubled parameter of `μ(Y_m) + ρ` is `[k − 1]`
-followed, for `i = 1, …, m`, by `−2κ_i + Δ` and the block `−2κ_i + [t]`; the parameters of `X_m` and `Y_m` interlace.
+`n_j` and `n_{j+1}`, and `e_j = n_{j+1}/2 − κ_{j+1} + c_τ(n_j)`. (b) The doubled parameter of `μ(Y_m) + ρ` is `2[k − 1]`
+followed, for `i = 1, …, m`, by `−2κ_i + Δ` and the block `−2κ_i + 2[t]`; the parameters of `X_m` and `Y_m` interlace.
 (c) `n_τ = a_τ − mΔ/2`. (d) There is an integer matrix `br : V_{μ(X_m)} → V_{μ(Y_m)}` with
 `br∘ρ_{μ(X_m)}(diag(g, z)) = ∏_τ z_τ^{n_τ}·ρ_{μ(Y_m)}(g)∘br` over every field of characteristic `0`, whose squared operator
 norm is at most `exp(x^{70})`, and whose complex multiples are all the maps equivariant for the `diag(g, 1)`, `g` unitary.
@@ -499,7 +500,7 @@ inserted centre.
 
 At one infinite place, a *centre system* is a finite set `C` of centres `c` with integer values `c̃`, lengths `l_c` and
 kinds (up or down), and a finite set `S` of doubled stem entries. For `B ⊆ C`, `λ⁺_B` has the doubled entries `S` and the
-blocks `2c̃ + [l_c]`, `c ∈ B`; its rank is `|S| + Σ_{c∈B} l_c`; the sign of an entry `y` is `(−1)` to the number of centres
+blocks `2c̃ + 2[l_c]`, `c ∈ B`; its rank is `|S| + Σ_{c∈B} l_c`; the sign of an entry `y` is `(−1)` to the number of centres
 outside `B` that are down with `y < 2c̃` or up with `2c̃ < y`; `λ_B` is `λ⁺_B` lowered by `½` if `|S|` and `|B|` are both
 odd. The system is *separated* with bound `h` if all lengths have the parity of `|S|`, the stem entries have the parity
 of `|S| + 1`, and every centre `c` is at doubled distance at least `h + l_c` from the stem and from the blocks of the other
@@ -532,12 +533,12 @@ at the place `τ`, read on its first `r` entries: `ς(τ) = (λ_0(τ), …, λ_{
 - *grid `Y`, node `(i, j)`*: index set the basis of `Y_0`, then `i` blocks of `t`, then `j` blocks of `t` (rank
   `r + (i + j)t`); the base index with number `n` has sign `(−1)^{o + a + min(max(a − o, 0), j)}` with
   `a = max(n + 1 − k, 0)` and the added indices sign `+1`; the doubled parameter is `2ς(τ)` on the base, the block
-  `2κ_l(τ) + [t]` (doubled) for the `l`-th block of the first kind (`1 ≤ l ≤ i`) and `−2κ_{l+o}(τ) + [t]` for the `l`-th
+  `2κ_l(τ) + 2[t]` for the `l`-th block of the first kind (`1 ≤ l ≤ i`) and `−2κ_{l+o}(τ) + 2[t]` for the `l`-th
   block of the second kind (`1 ≤ l ≤ j`), all lowered by `1` if `i + j` is odd;
 - *grid `Ỹ`, node `(i, j)`*: index set the basis of `Y_0` and one more index, then `i` blocks of `t + 1`, then `j` blocks of
   `t − 1` (rank `r + 1 + i(t + 1) + j(t − 1)`); signs as before on the base (with `r + 1` numbers); the doubled parameter of
-  the space `Ỹ^j_i` is minus the vector with `2ς(τ) + 1` on the base, the doubled blocks `2κ_l(τ) + [t + 1]` (first
-  kind) and `−2κ_{l+o}(τ) + [t − 1]` (second kind), with no lowering.
+  the space `Ỹ^j_i` is minus the vector with `2ς(τ) + 1` on the base, the blocks `2κ_l(τ) + 2[t + 1]` (first
+  kind) and `−2κ_{l+o}(τ) + 2[t − 1]` (second kind), with no lowering.
 The signs and doubled parameter of `Y_j` (2.1) are those of the node `(0, j)` of grid `Y` with offset `0`; write
 `l_Y(j)`. For a step with centre `±κ_{l+1}` and a node of `N` indices, the weights are `⌊N/2⌋ − κ_{l+1}(τ)` and
 `⌈N/2⌉ − κ_{l+1}(τ)`.
@@ -645,7 +646,8 @@ jet matrix of the theta function of the translated datum.
 - The *source forms* `𝒮_X` are the algebraic forms on `U(X_0)` of weight `μ(X_0)` (weight `(a, 0, …, 0)` at the
   `a`-places and `0` elsewhere) fixed by `K_0`. `𝒜_j` denotes the algebraic forms on `U(X_j)` of weight `μ(X_j)`.
 - For `w ∈ P_N` fix a *scaling* `z_w`: an integral norm-one idele, `1` away from `w` and `w̄`, whose component at `w`
-  generates `𝔽_w^×` (one exists, by CompositeThetaLiftsAndShortForms §2.9 (a)). The *ramified source forms* are
+  generates `𝔽_w^×`. One exists: take a unit at `w` whose reduction generates the cyclic group `𝔽_w^×` and divide its
+  idele by its conjugate; as `w` is split, the component at `w` of the quotient is that unit. The *ramified source forms* are
   `𝒮_X^{ram} := {φ ∈ 𝒮_X : Σ_{0 ≤ i < N−1} z_w^i·φ = 0 for every w ∈ P_N}`, `z_w` acting by right translation by the
   scalar `z_w`.
 - For a tame character `ϑ` and `j ≥ 0`, the *lift* `L_j^ϑ(Φ) : 𝒜_j → 𝒜_{j+1}` with finite datum `Φ` in the finite part of
@@ -656,7 +658,8 @@ jet matrix of the theta function of the translated datum.
   §1.2). The finite groups act on its data by `ω`.
 
 [ShortProof], `New/UpperBound/Objects/Columns.lean` (`New.Data.SourceForm`, `New.Data.FormX`, `New.Data.liftKernel`,
-`New.Data.homX`), `New/UpperBound/Size/ShortColumns.lean` (`New.Data.IsScalingAt`, `New.Data.scalingGenerator`,
+`New.Data.homX`), `New/UpperBound/Size/ShortColumns.lean` (`New.Data.IsScalingAt`, `New.Data.exists_isScalingAt_valuation_pow_iff`,
+`New.Data.scalingGenerator`,
 `New.Data.ramifiedSourceForms`).
 
 *Needs:* 2.2, 2.6; ThetaLiftsForDefiniteUnitaryGroups §1.2; DivisibilityOfThetaDerivatives §4.2 (the jet scale).
@@ -675,9 +678,9 @@ weight `(κ, e_j)` on `U(I_{n_j})` of level `K_j` to forms on `U(I_{n_{j+1}})`, 
 lifts `L_j(Φ)`. The *chain* with data `Φ_0, Φ_1, …` is `C_j(Φ) := L_{j−1}(Φ_{j−1}) ∘ ⋯ ∘ L_0(Φ_0)`, extended linearly to
 tensors in `S_{j−1} ⊗ ⋯ ⊗ S_0`; the *double-lift chain* takes data in `S_{2i} ⊗ S_{2i+1}`.
 
-(a) *Equivariance.* For points `a_j` of the finite groups, the chain with the tensor moved factor by factor by
-`ω_j(a_j, a_{j+1})`, applied to the right translate of `φ` by `a_0`, is the right translate by `a_m` of the chain applied
-to `φ`. If `ω_i(z_i, z_{i+1}) = 1` for all `i` and the tensor is fixed by `ω_j(1, z_{j+1})` on its factor `j < m`, then
+(a) *Equivariance.* Let `a_j` be points of the finite groups. Move the factor `j` of the tensor by `ω_j(a_j, a_{j+1})`
+and translate `φ` on the right by `a_0`: the chain of length `m` then gives the right translate by `a_m` of its value on
+the original tensor and `φ`. If `ω_i(z_i, z_{i+1}) = 1` for all `i` and the tensor is fixed by `ω_j(1, z_{j+1})` on its factor `j < m`, then
 the chain takes the same value at `φ` and at its translate by `z_0`.
 (b) *Joint invariance.* A family `(L_x, Φ_x)_{x ∈ s}` (linear maps `L_x` from the Weyl module of stage `m`) is *jointly
 invariant* if `Σ_x L_x(β(⊗_j ω_j(a_j, a_{j+1})Φ_{x,j})) = Σ_x L_x(β(⊗_j Φ_{x,j}))` for every linear `β` from the tensors to
@@ -734,8 +737,8 @@ Let `P` hold one place of each conjugate pair above a prime `N` of `E` that spli
 *mirror datum* is `ψ_N` of the corner entry on integral matrices and `0` elsewhere; `lastCol_y`, `char_y` are the
 indicator of integral matrices with last column `y` and `ψ_N(last row·y)` on integral matrices; the *glued datum* of a
 pair is `Σ_y lastCol_y ⊗ char_y`. For a representation `π` of `GL_{n⊔{last}}(F_P)`, `Up := π(D)·Σ_y ψ_N(y_last)π(g_y)` over
-the `y` with unit last entry. A vector `φ` is *ramified* if for each `w ∈ P` it lies in the image of `1 − π(x)` for an
-integral unit scalar `x` that is `1` modulo `N` at the other places of `P`. A lift `L(Ψ) : π → π′`, linear in the
+the `y` with unit last entry. A vector `φ` is *ramified* if for each `w ∈ P` there are a vector `ψ` and an integral unit scalar `x`, with
+`x ≡ 1 (mod N)` at every place of `P` other than `w`, such that `φ = ψ − π(x)ψ`. A lift `L(Ψ) : π → π′`, linear in the
 datum `Ψ`, *obeys the lift law with factor `γ`* if integral invertible matrices move freely between the datum and the two
 representations, and `π′(D)L(Ψ_row)φ = γ·L(direct)(π(D)φ)` with `Ψ_row` the indicator of integral matrices whose last
 row is `(0, …, 0, 1)`.
@@ -861,8 +864,8 @@ transposed lift maps forms of the conjugate type back. (b) If `k ∈ K°(U(Y_j))
 `Θ_ϑ(y)` has level `J_m^ϑ` with character `χ_m^ϑ`; more generally, for `k ∈ K°(Y_m)` with block upper triangular
 reductions at the level places whose first block at the chosen places is `s ∈ 𝖦`, `k·Θ_ϑ(y) = c·Θ_ϑ(s·y)` with `c` the
 product over the level places and `l < m` of `ψ_{l+1}^ϑ` at the determinant of the diagonal block `l + 1`. (d) For
-`s ∈ 𝖦`, `Θ_ϑ(s·y)` is the right translate of `Θ_ϑ(y)` by an element of `K°(Y_m)` that reduces to `diag(s, 1)` at the chosen
-places and to `1` at `Q(ϑ)`.
+`s ∈ 𝖦` there is an element of `K°(Y_m)`, with reduction `diag(s, 1)` at the chosen places and `1` at `Q(ϑ)`, whose right
+translation takes `Θ_ϑ(y)` to `Θ_ϑ(s·y)`.
 
 [ShortProof], `New/UpperBound/Objects/RowChain.lean` (`New.Data.FormY`, `New.Data.harmonicY`, `New.Data.datumY`,
 `New.Data.liftY`, `New.Data.lowerChainUpTo`, `New.Data.lowerChain`, `New.Data.isArrow_datumY`,
@@ -986,8 +989,8 @@ lifts `Y_{2i} → Y_{2i+1} → Y_{2i+2}` into a pair of lifts `X_{2i} → X_{2i+
 data, a zero term along an isotropic frame. Each outer integral over a finite group modulo a level becomes a weighted sum
 over a finite cut whose multiplicities divide powers of `q_ϑ`, because the unfolded functions are supported on points whose
 graded lattices are sandwiched between powers of `Q(ϑ)` times the standard ones. The evaluated data are admissible
-combinations of glued translates of the vacuum, with denominators prime to the modulus; at the top the integral over the
-definite `U(Y_m)` is a multiple of the inner product with the restricted form.
+combinations of glued translates of the vacuum, with denominators prime to the modulus; at the top, Schur orthogonality on the
+compact group `U(Y_m)(F_∞)` reduces the integral over `[U(Y_m)]` to a fixed multiple of a Petersson product (3.17).
 
 ### 3.1 Integrals over a quotient as weighted sums over a cut
 
@@ -1232,13 +1235,14 @@ integral away from `n`, with denominator the number of matrices modulo `β` and 
 
 ### 3.11 Finite evaluation of a pair of edges
 
-*Origin:* particular to this proof: the finite evaluation of a pair of edges takes translates of the vacuum to admissible
-combinations of glued translates.
+*Origin:* particular to this proof: what the finite evaluation of 3.8 does to a translate of the vacuum, expressed
+through the glued translates of 3.3.
 
-*Method of the formal proof:* the image of `L ∩ I^⊥` in `I^⊥/I`, `L` the lattice of the vacuum and `I` the isotropic part, is
-the neighbour lattice; so the evaluation of a translate of the vacuum is `0` or a root of unity times a translate of the
-zero term of the vacuum, which is a nonzero multiple of the sum of the translates over representatives of that lattice
-(3.10); the two conditions on lifting neighbour vectors and matching denominators are checked for both kinds of pair.
+*Method of the formal proof:* the vacuum's lattice meets `I^⊥`, `I` the isotropic part, in a lattice whose image modulo
+`I` is the neighbour lattice of 3.9. Hence the finite evaluation sends a translate of the vacuum to `0` or to a root of
+unity times a translate of the vacuum's zero term, and 3.10 expands that zero term as a nonzero multiple of a sum over
+representatives of the neighbour lattice. The two hypotheses, on lifting neighbour vectors and on matching
+denominators, are verified separately for the middle pair and for the last pair.
 
 Let `P` hold one place of each pair above `N` with `N = ππ̄` split squarefree along `P`, `κ`, `δ`, `β` as in 3.9, and a pair of
 edges whose middle space spans the glued lattice for `a`, `π`, `u′`, such that the solutions of the neighbour congruences lift
@@ -1305,7 +1309,7 @@ compactness of `[R_k]`; after a pair, 3.13 and the class-sum lift of ThetaLiftsF
 double theta integral with a coefficient of the double-lift chain.
 
 Fix `ϑ`, `t`, a source form `φ` and outer variables `g_k = (ξ_k, y_k) ∈ U(Y_k)(𝔸)`. Let `R_k` be the Bessel subgroup of the
-grading of `Y_k`. Define `𝒲_0 := 𝒲_φ` on `R_0` and, for `k ≥ 0` and a grading `Y′` of `Y_{k+1}`, `𝒲_{k+1}` on `U(Y_{k+1})(𝔸)` by
+grading of `Y_k`. Define `𝒲_0 := 𝒲_φ` on `R_0` and, for `k ≥ 0` and a grading `Y′` of `Y_{k+1}` with a string of `m − 2 − k` vectors, `𝒲_{k+1}` on `U(Y_{k+1})(𝔸)` by
 one unfolding step of `𝒲_k(·g_k)` against the Weil translates of `Φ_k^ϑ`; it depends only on `g_0, …, g_k`, is continuous and
 left invariant under the rational points of the Bessel subgroup of `Y′`, and its restriction to `R_{k+1}` is equivariant.
 (a) For `z` automorphic and rapidly decreasing on `U(Y_{k+1})` (every form of the conjugate type is, for `k + 1 ≤ m`),
@@ -1368,8 +1372,8 @@ dividing `q_ϑ`, with denominator `1` away from `q_ϑ` and size `B_M^k` if `Q(ϑ
 ### 3.17 The top of the chain
 
 *Origin:* adapted from Gross (1999): the class set of a group compact at infinity, with the weights `|Γ_𝒸|^{−1}` and the
-mass: here, the integral over `[U(Y_m)]` of a matrix coefficient of a form on `X_m` against a form on `Y_m` is a multiple of
-the Petersson product with the restricted form, by Schur orthogonality at infinity.
+mass: here, by Schur orthogonality on the compact `U(Y_m)(F_∞)`, integrating a coefficient of a form on `X_m`, restricted
+to `Y_m`, against a form on `Y_m` gives a fixed multiple of its Petersson product with the restricted form.
 
 *Method of the formal proof:* the integral is a class sum of integrals over the compact `U(Y_m)(F_∞)`; Schur orthogonality
 makes each a constant times the pairing of the branching of the column with the highest vector, and the branching map
@@ -1457,8 +1461,9 @@ twist `ϑ` there is a chain datum `Ψ` for `ϑ` (2.12) with
   weights, lift diagrams and levels (2.1, 2.2, 2.6), the group `𝖦`, `e₀`, the forms of principal level and the lower
   chain (2.5, 2.7, 2.15), source forms, scalings, ramified source forms and the lifts (2.8), and the operator `Up`,
   chain data, the glued datum at `N` and the lifts above `N` (2.11 to 2.14).
-- OneSidedPrimeSumBoundsAndAdmissibleData §§5.1–5.4 use the spaces (2.1), `𝖦` and `e₀` (2.5), source forms (2.8), the
-  lower chain (2.15), the Poincaré map (2.19) and the seesaw identity (3.20).
+- OneSidedPrimeSumBoundsAndAdmissibleData §§5.1–5.4 use the gauge of a vector of a Weyl module (1.1), the spaces (2.1),
+  `𝖦` and `e₀` (2.5), the target forms (2.7), source forms (2.8), trivial stabilisers at free levels (2.10), the lower
+  chain (2.15), the Poincaré map (2.19) and the seesaw identity (3.20).
 - SecondMomentsOfPoincareSeries uses the spaces, the grids and the target parameter (2.1, 2.4), `e₀`, good forms and
   target forms (2.5, 2.7), source forms (2.8), free levels (2.10) and the Poincaré map (2.19).
 - DeterminantsOfThetaLiftChains and CongruencesOfTwistedThetaLifts use the spaces and grids (2.1, 2.4), labels and `e₀`
@@ -1521,8 +1526,9 @@ IntegralWeylModulesOfGeneralLinearGroups §1.1 (integral branching).
 ## References
 
 - `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
-  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/New/UpperBound/Kernels`,
-  `src/New/UpperBound/Objects` and `src/New/UpperBound/Seesaw`.
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; the declarations named on the pointer lines of this roadmap are in
+  `src/New/UpperBound/Kernels`, `src/New/UpperBound/Objects`, `src/New/UpperBound/Seesaw` and, for 2.8, in
+  `src/New/UpperBound/Size`.
 - R. Goodman, N. Wallach, *Symmetry, Representations, and Invariants*, Graduate Texts in Mathematics 255 (2009):
   Theorem 8.1.1 (2.2).
 - B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93: the class set of a group compact at infinity
