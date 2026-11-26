@@ -1175,7 +1175,8 @@ on the finite places, so that the stabiliser of `w` in `G` is the stabiliser of 
 of `L` other than `L`. A finite place `w` is also a valuation `L → ℝ≥0` with the values of `w`
 (`AbsoluteValue.toValuation`, defined for every nonarchimedean real absolute value), and its
 valuation subring is `A_w`. Conversely, for a valuation `v` of `L`, prove that the absolute value
-attached to `v` along a strictly monotone homomorphism from its value group to an ordered field
+attached to `v` along a strictly monotone, zero-reflecting monoid-with-zero homomorphism from its
+value group to an ordered field
 (Tau Ceti's `Valuation.toAbsoluteValue`), and Mathlib's real absolute value
 `Valuation.absoluteValue` of a `v` of rank at most one (`Valuation.RankLeOne`), have the valuation
 subring of `v` as their valuation subring.
