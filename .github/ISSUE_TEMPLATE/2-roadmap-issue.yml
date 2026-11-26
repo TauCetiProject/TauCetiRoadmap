@@ -192,6 +192,7 @@ body:
         - EffectiveClassNumbers
         - EffectiveDiophantineMethods
         - EigenvalueAndSingularValueInequalities
+        - EigenvalueIterations
         - EisensteinIdealAndRationalTorsion
         - ElectricalNetworksAndRandomWalks
         - EllAdicHomotopyTypesAndWeights
@@ -336,6 +337,7 @@ body:
         - IntegralHeckeAndGaloisDeterminants
         - IntegralIwasawaTheory
         - IntegralLattices
+        - InteriorPointMethods
         - InverseGaloisAndArithmeticFundamentalGroups
         - InverseGaloisAndArithmeticFundamentalGroupsPartII
         - Isoperimetry
