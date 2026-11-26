@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.GroupTheory.TrivialIntersection
+import TauCeti.GroupTheory.GroupAlgGeom.AlgebraicSet
 
 /-!
 # FreeGroupsAndLimitGroups: representative target signatures
@@ -20,7 +21,10 @@ Design choices made explicit here:
   `IsMulCommutative`; neither is defined again here;
 * heavy constructions (graphs of groups and their fundamental groups, Bass–Serre trees,
   generalised equations, JSJ decompositions, Makanin–Razborov diagrams, infinite words) are
-  README targets and do not appear here.
+  README targets and do not appear here;
+* the category of algebraic sets with word maps and the contravariant coordinate-group functor
+  `Γ` (§5.12 (4)) are data and README targets too; only the isomorphism criterion they give is
+  stated here.
 -/
 
 namespace TauCetiRoadmap.FreeGroupsAndLimitGroups
@@ -769,20 +773,23 @@ theorem isIrreducible_iff_discriminated {X : Type*} [Finite X]
         ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) (MonoidHom.id G) := by
   sorry
 
+open TauCeti.GroupAlgGeom in
 /-- Isomorphism of algebraic sets is isomorphism of coordinate groups (§5.12 (4)), for an
 arbitrary coefficient homomorphism `ι`, empty algebraic sets included: the coordinate groups are
 isomorphic under `G` exactly when there are mutually inverse word maps between the algebraic
 sets. It follows from the anti-equivalence `Γ` of §5.12 (4), since a fully faithful functor
-reflects isomorphisms. -/
+reflects isomorphisms, and is stated on the Tau Ceti carriers of that route: `Γ` is full by
+`CoordGroup.exists_wordMap_representation`, faithful by `CoordGroup.homOfMapsToWordMap_eq_iff`,
+and turns substitution into composition by `CoordGroup.homOfMapsToWordMap_mk` and
+`CoordGroup.gHom_ext`. -/
 theorem coordGroup_iso_iff_wordMap_iso {X Y H : Type*} [Group H] (ι : G →* H)
-    (S : Set (GX G X)) (T : Set (GX G Y)) :
-    (∃ e : CoordGroup ι T ≃* CoordGroup ι S, ∀ g : G,
-        e (QuotientGroup.mk (Monoid.Coprod.inl g)) = QuotientGroup.mk (Monoid.Coprod.inl g)) ↔
-      ∃ (w : Y → GX G X) (w' : X → GX G Y),
-        Set.MapsTo (fun v y ↦ evalAt ι v (w y)) (algSet ι S) (algSet ι T) ∧
-        Set.MapsTo (fun u x ↦ evalAt ι u (w' x)) (algSet ι T) (algSet ι S) ∧
-        (∀ v ∈ algSet ι S, (fun x ↦ evalAt ι (fun y ↦ evalAt ι v (w y)) (w' x)) = v) ∧
-        ∀ u ∈ algSet ι T, (fun y ↦ evalAt ι (fun x ↦ evalAt ι u (w' x)) (w y)) = u := by
+    (S : Set (TauCeti.GroupAlgGeom.GX G X)) (T : Set (TauCeti.GroupAlgGeom.GX G Y)) :
+    (∃ e : TauCeti.GroupAlgGeom.CoordGroup ι T ≃* TauCeti.GroupAlgGeom.CoordGroup ι S,
+        e.toMonoidHom.comp (CoordGroup.coeff ι T) = CoordGroup.coeff ι S) ↔
+      ∃ (w : Y → TauCeti.GroupAlgGeom.GX G X) (w' : X → TauCeti.GroupAlgGeom.GX G Y),
+        Set.MapsTo (wordMap ι w) (V ι S) (V ι T) ∧ Set.MapsTo (wordMap ι w') (V ι T) (V ι S) ∧
+        Set.EqOn (wordMap ι w' ∘ wordMap ι w) id (V ι S) ∧
+        Set.EqOn (wordMap ι w ∘ wordMap ι w') id (V ι T) := by
   sorry
 
 /-- The radical of `x²` over a free group is the normal closure of `x`, not of `x²` (§5.2). -/
