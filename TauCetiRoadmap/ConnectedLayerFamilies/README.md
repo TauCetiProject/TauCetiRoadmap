@@ -366,10 +366,12 @@ Kim–Santos, Thm 2.7, p. 10.)
 - The boundary complex of the octahedron, the eight triples choosing one of `{1, 2}`, `{3, 4}`,
   `{5, 6}`, is normal and has facet graph the 3-cube: diameter `3 = n − d`, against
   `(n − 1)·2^(d−1) = 20` from 4.2.
-- Santos proves (Cor 2.12, p. 9) that for fixed rank `d` the largest diameter of strongly
-  connected pure complexes on `n` points is at least of order `n^(2d/3)`; for `d ≥ 2` this exceeds
-  the linear bound of 4.2 for large `n`, so connectivity alone does not give 4.2. The general bound
-  is 4.1, of degree `d − 1` in `n`.
+- Santos proves (Thm 2.8, p. 7) that in rank 3 the largest diameter of strongly connected pure
+  complexes on `n` points is at least `(2/9)(n − 3)²`, and extends this to ranks divisible by
+  three (Cor 2.12, p. 9); in rank 3 this exceeds the linear bound `4(n − 1)` of 4.2 for large
+  `n`, so there connectivity alone does not give 4.2. In rank 2 it does: the facets through one
+  point are pairwise adjacent, so a rank-2 complex with connected facet graph is normal, and 4.1
+  already gives diameter at most `n − 2`. The general bound is 4.1, of degree `d − 1` in `n`.
 
 ### Dependencies
 
@@ -389,8 +391,9 @@ another roadmap.
   `Geometry.SimplicialComplex` are related carriers without facet graphs or normality (see
   Conventions). Tau Ceti has no object of this roadmap.
 - Not treated: graphs of polytopes and polyhedra themselves; the passage from a simple polytope to
-  its dual complex, which is normal and whose facet graph is the polytope graph (Santos Prop 2.4,
-  p. 6), and which needs the faces of polyhedra; the Hirsch bound `n − d` for normal flag complexes
+  its dual complex, whose facet graph is the polytope graph (Santos Prop 2.4, p. 6) and which is
+  normal (Santos, first remark after Def 3.1, p. 10), and which needs the faces of polyhedra;
+  the Hirsch bound `n − d` for normal flag complexes
   (Adiprasito–Benedetti, Math. Oper. Res. 39 (2014)); connected layer multicomplexes and their
   exact values; lower bounds of order `n²/log n` for families and the corridor constructions of
   Santos §2.3; the Klee–Walkup theorems and the counterexamples to the Hirsch conjecture.
@@ -439,9 +442,11 @@ interval form.
 
 ### From Tau Ceti
 
-Nothing is used: the pinned Tau Ceti has abstract simplicial complexes only as triangulations of
-manifolds and geometric simplicial complexes with their subdivisions; it has no facet graphs,
-layered families or polytope graphs.
+Nothing is used: the pinned Tau Ceti has abstract simplicial complexes as triangulations of
+manifolds, geometric simplicial complexes with their subdivisions, and
+`TauCeti.HypergraphComplex` (a finite downward-closed complex graded by face cardinality, with
+conversions to and from Mathlib's `PreAbstractSimplicialComplex`); it has no purity, facet
+graphs, stars, normality, layered families or polytope graphs.
 
 ## References
 

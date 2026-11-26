@@ -100,8 +100,8 @@ def IsNormalComplex (C : Finset (Finset α)) : Prop :=
   ∀ S : Finset α, ((facetGraph C).induce (facetStar C S)).Preconnected
 
 /-- 4.2 The facet graph of a normal pure complex of rank `d` on `n` points has diameter at most
-`(n − 1) 2 ^ (d − 1)` (in particular it is connected), and, for `d ≥ 1` and a nonempty complex,
-diameter plus one at most `n ^ (log₂ d + 1)`. -/
+`(n − 1) 2 ^ (d − 1)` (in particular it is connected when the complex is nonempty), and, for
+`d ≥ 1` and a nonempty complex, diameter plus one at most `n ^ (log₂ d + 1)`. -/
 theorem ediam_facetGraph_le_of_isNormalComplex {V : Finset α} {d : ℕ}
     {C : Finset (Finset α)} (hcard : ∀ X ∈ C, X.card = d) (hV : ∀ X ∈ C, X ⊆ V)
     (hC : IsNormalComplex C) :
