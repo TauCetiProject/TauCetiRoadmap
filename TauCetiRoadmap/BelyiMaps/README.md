@@ -181,7 +181,7 @@ intersection, is general algebraic topology, reusable far beyond three-point cov
 belongs to [AlgebraicTopology](../AlgebraicTopology/README.md), whose Stage 1 derives the based
 two-open theorem and its group-presentation corollaries from van Kampen for the fundamental
 groupoid. Tau Ceti implements it as the general theorem `TauCeti.vanKampenEquiv`
-(`TauCeti/AlgebraicTopology/FundamentalGroup/VanKampen.lean`). Layer 5.5 below records exactly
+(`TauCeti/AlgebraicTopology/FundamentalGroup/VanKampen/Basic.lean`). Layer 5.5 below records exactly
 which declarations this roadmap requires of it and under which hypotheses; Layer 5.6
 **instantiates** them at the two-set cover of Layer 5.1 and reads off the values on the canonical
 generators, and that instantiation is what this roadmap owns. No Belyi-local copy or alias of
@@ -567,7 +567,7 @@ prose in their roadmap, and no supplier's object has a local copy here.
 | 3.2 | CharacterTheory Layer 3 | the character table and column orthogonality | `TauCeti.characterTable`, `TauCeti.card_conjClass_mul_sum_characterTable_mul_characterTable_inv` |
 | 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `TauCeti.Representation.centralCharacter`; the character formula for structure constants that the conversion feeds is proved directly as `TauCeti.structureConstant_eq_sum_characterTable` |
 | 5.1, 6.2 | UniversalCovers milestone 2 | semilocal simple connectivity | `TauCeti.SemilocallySimplyConnectedSpace` (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean`); no local copy is exported |
-| 5.6 | AlgebraicTopology Stage 1 | Seifert–van Kampen for two open sets with simply connected intersection | `TauCeti.vanKampenLift`, `TauCeti.vanKampenLift_bijective`, `TauCeti.vanKampenEquiv` and `TauCeti.vanKampenEquiv_toMonoidHom` (`TauCeti/AlgebraicTopology/FundamentalGroup/VanKampen.lean`), with the hypotheses of Layer 5.5. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
+| 5.6 | AlgebraicTopology Stage 1 | Seifert–van Kampen for two open sets with simply connected intersection | `TauCeti.vanKampenLift`, `TauCeti.vanKampenLift_bijective`, `TauCeti.vanKampenEquiv` and `TauCeti.vanKampenEquiv_toMonoidHom` (`TauCeti/AlgebraicTopology/FundamentalGroup/VanKampen/Basic.lean`), with the hypotheses of Layer 5.5. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
 | 5.7, 6.3 | UniversalCovers milestone 7 | basepoint change on subgroups, and the recovered subgroup under a change of lift | `FundamentalGroup.basepointChangeSubgroup` (conjugation of a subgroup along a path); `IsCoveringMap.range_mapOfEq_monodromy` (moving the lift along a loop conjugates the recovered subgroup); `IsCoveringMap.range_mapOfEq_monodromy_path` (moving it along a path applies `basepointChangeSubgroup`) |
 | 6.2 | UniversalCovers milestones 2, 3 | the universal cover, its covering map, and the free properly discontinuous `π₁`-action | `TauCeti.UniversalCover x₀`, `TauCeti.UniversalCover.proj`, `TauCeti.UniversalCover.isCoveringMap`, `TauCeti.UniversalCover.simplyConnectedSpace`, `TauCeti.UniversalCover.isQuotientCoveringMap` |
 | 6.2 | UniversalCovers milestone 8 | the associated cover of an arbitrary discrete `π₁`-set, its covering map, its fiber and its monodromy | `TauCeti.UniversalCover.ActionCover x₀ A`, `TauCeti.UniversalCover.actionCoverProj`, `TauCeti.UniversalCover.isCoveringMap_actionCoverProj`, `TauCeti.UniversalCover.actionCoverFiberEquiv : A ≃ actionCoverProj x₀ A ⁻¹' {x₀}`, `TauCeti.UniversalCover.monodromy_actionCoverFiberEquiv`, `TauCeti.BalancedProduct.isQuotientCoveringMap_mk`; bundled, `TauCeti.UniversalCover.actionCoveringSpace` with `actionCoveringSpaceFiberEquiv` and `actionCoveringSpaceFiberEquiv_apply_monodromy`; as equivalences of categories, `TauCeti.CoveringSpace.fiberActionEquivalence` and `TauCeti.ConnectedCoveringSpace.transitiveFiberActionEquivalence` |
@@ -3276,10 +3276,10 @@ groups match through all four descriptions.
 `β`, with the genus of `OnePoint ℂ` computed here as the worked instance on 8.1's sphere
 (`g = 0`), to get the topological genus of `X`, which ModularForms §10B identifies with the
 analytic genus; it equals the combinatorial genus of
-Layer 0.6. Both sides are `Σ (e − 1)` over the three fibers, by 7.5 on the topological side
-and by 8.3 on the analytic side, so the reconciliation is an equality of two computations
-of the same sum — the milestone states it that way rather than as a coincidence of two
-formulas.
+Layer 0.6. Both sides are read off `2g − 2 = −2n + Σ (e − 1)`, the sum over the three fibers,
+by 7.5 on the topological side and by 8.3 on the analytic side, so the reconciliation is an
+equality of two computations of the same sum — the milestone states it that way rather than
+as a coincidence of two formulas.
 
 ⚠ *Nearby false statement:* Riemann existence in this form is a statement about covers
 **with prescribed branch values**, not about arbitrary compact Riemann surfaces. It does not
@@ -4343,9 +4343,9 @@ inference needs an isomorphism scheme, constructibility, or a rigidity theorem, 
 which this roadmap has, and the specialization-and-pigeonhole route is not used for that
 reason.
 
-*Source:* Köck **(2.2) Theorem** for steps 1–5 — "the curve `X/C` and the morphism `t` are
-defined over a finite extension of `M(X, t)`, and over `M(X, t)` itself if `t` is a Galois
-covering" — and **(3.3) Theorem** for the assembly with 10.6. ⚠ Köck's (2.2) needs neither
+*Source:* Köck **(2.2) Theorem** for steps 1–5 (the pair has a model over some finite
+extension of `M(F, t)`, and over `M(F, t)` itself when the covering is Galois) and
+**(3.3) Theorem** for the assembly with 10.6. ⚠ Köck's (2.2) needs neither
 his (1.8) (which he cites without proof) nor Weil descent: the general case is the explicit
 `z` above plus 10.5 statement 3, and his (1.9) Weil criterion enters only in his §1 material
 on the *absolute* moduli field, which this roadmap consumes at Layer 11.4 for a different
@@ -4525,7 +4525,10 @@ to construct that datum. Mere invariance of the isomorphism class is not a desce
 
 The positive theorem, proved: **if the automorphism group of the pair is trivial, the field
 of moduli is a field of definition.** With trivial automorphisms, the isomorphism `f_σ` from
-the `σ`-conjugate is unique, so the family is automatically a cocycle and 11.4 applies.
+the `σ`-conjugate is unique, so the family is automatically a cocycle. It is also locally
+constant, as 11.4 requires: for `σ` fixing a number field over which 10.7 gives a model, the
+identity of that model induces an isomorphism from the `σ`-conjugate, which is therefore `f_σ`,
+so the family is the identity on an open subgroup, and 11.4 applies.
 
 ⚠ **The descended object need not live on `ℙ¹`, even in genus zero.** Couveignes' positive
 result (*Calcul et rationalité de fonctions de Belyi en genre 0*, Ann. Inst. Fourier 44
@@ -4543,7 +4546,7 @@ warning with that citation and constructs no counterexample. **No milestone anyw
 roadmap assumes the two fields agree**, and Layer 14.2 keeps the LMFDB's stored `base_field`
 distinct from the field of moduli for exactly this reason.
 
-*Prerequisites:* Layers 11.4, 11.5.
+*Prerequisites:* Layers 10.7, 11.4, 11.5.
 
 #### 11.7 Orbit sizes and embeddings
 
@@ -5445,7 +5448,7 @@ under the swap — `σ1 = σ0` and `σinf = 1`, say — satisfies both relations
 **Embeddings and orbit size — two counts, kept apart.** Introduce
 
 ```lean
-def trueOrbitSize (c : IsoClass n) : ℕ := Nat.card (Gal(ℚ̄/ℚ) · c)          -- Layer 11.7
+def trueOrbitSize (c : AlgebraicBelyiPair.IsoClass ℚ̄) : ℕ := Nat.card (Gal(ℚ̄/ℚ) · c) -- Layer 11.7
 def storedEmbeddingCount (r : BelyiRecord) : ℕ := r.embeddings.length      -- a stored count
 ```
 
