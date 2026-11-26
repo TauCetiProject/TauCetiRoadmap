@@ -1242,8 +1242,8 @@ theorem isSphericalFunction_inner [IsTopologicalGroup G] [BorelSpace G] {H : Typ
 /-- README 5.3. **Multiplicity one.** In an irreducible strongly continuous unitary
 representation of a second-countable group with a Gel'fand pair `(G, K)`, the `K`-fixed vectors
 form a space of dimension at most one. -/
-theorem rank_fixedSubmodule_le_one [IsTopologicalGroup G] [LocallyCompactSpace G] [BorelSpace G]
-    [SecondCountableTopology G] (μ : Measure G) [μ.IsHaarMeasure] (K : Subgroup G)
+theorem rank_invariants_restrict_le_one [IsTopologicalGroup G] [LocallyCompactSpace G]
+    [BorelSpace G] [SecondCountableTopology G] (μ : Measure G) [μ.IsHaarMeasure] (K : Subgroup G)
     (hK : IsCompact (K : Set G)) (hG : IsGelfandPair μ K) {H : Type*} [NormedAddCommGroup H]
     [InnerProductSpace ℂ H] [CompleteSpace H] (U : ContRepresentation ℂ G H) (hU : U.IsUnitary)
     (hc : ∀ w, Continuous fun g => U g w)

@@ -1030,7 +1030,7 @@ The space of `K`-fixed vectors is Mathlib's `ContRepresentation.invariants` of t
 - **Spherical functions from representations** (`isSphericalFunction_inner`): if the `K`-fixed
   vectors of a strongly continuous unitary representation are the line through a unit vector `v`,
   then `g ↦ ⟪v, U(g) v⟫` is a positive-definite spherical function;
-- **Multiplicity one** (`rank_fixedSubmodule_le_one`): for a Gel'fand pair and an irreducible
+- **Multiplicity one** (`rank_invariants_restrict_le_one`): for a Gel'fand pair and an irreducible
   strongly continuous unitary representation of a second-countable `G`, the `K`-fixed space has
   dimension at most one: the compressions to it of the operators `U(f)`, `f` bi-invariant, form a
   commutative `*`-algebra acting irreducibly, whose commutant is therefore scalar (CStarAlgebras
