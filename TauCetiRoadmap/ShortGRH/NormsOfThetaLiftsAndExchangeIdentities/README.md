@@ -260,7 +260,8 @@ In the lower bound (b) is used with `Z` the orthogonal complement of a space of 
 ### 1.4 The denominator of the projection to a subspace
 
 *Origin:* particular to this proof: a congruence number for a subspace of forms, measured by the determinant of one
-operator that makes the projections of integral forms integral.
+operator that makes the projections of integral forms integral. The first clause of DeterminantsOfThetaLiftChains
+§1.3 (b) is a condition of the same shape for the range of `Θ_{j,ϑ}`, without the condition on the pairings `⟨y′, ·⟩`.
 
 *Method of the formal proof:* definition.
 
@@ -308,6 +309,16 @@ polynomials, its squared norm and its Galois conjugates, and reads the ratio of 
 (DeterminantsOfThetaLiftChains §1.1) as a ratio of squared norms. The value at `z = 1`, where the rank two is outside
 the range of the norm formula, is carried by the period of a determinant theta kernel.
 
+Relation to the library. ThetaLiftsForDefiniteUnitaryGroups §5.1 defines the theta integral `I_V(φ)` of a definite
+pair in every rank, with its class-sum form and its Hecke eigenvalues at the split unramified places, and its §5.2
+gives the squared norm of `I_V(φ)` as a constant times a product of Hecke L-values and local integrals, through the
+Rallis inner product formula of its §3.2; for the pair `(U(1), U(2k))` the global factor there is `L_E(k, χ_W)`
+divided by the normalising factor. The lift `φ_X` of 2.2 (c) is a theta integral of this kind for the block datum, and
+2.2 (d) gives its Hecke polynomial. What this layer states in addition is the local computation for the block datum:
+its sharpness (2.3 (a)) and the constant of 2.3 (b) in closed form, with the ramified terms evaluated. The
+normalisations of the two roadmaps have not been matched term by term, so those sections are named here and are not
+suppliers.
+
 ### 2.1 Lift data, the kernel form and the lift of a character
 
 *Origin:* adapted from T. Yang (1997), theta liftings from `U(1)` and Hecke L-functions: here the lift to a definite
@@ -346,7 +357,8 @@ the polynomial `1`, and the block datum modulo `(∏_{w ∈ 𝒞_X} w)²·∏_{w
 
 *Origin:* adapted from the adjointness of theta lifts and theta descents and from the Hecke eigenvalues of a theta
 lift (Rallis (1984a), the Howe duality conjecture and Satake parameters of lifts): here for the lift of the constant
-function from `U(1)`.
+function from `U(1)`. The Hecke polynomial of (d) is the case of DeterminantsOfThetaLiftChains §2.1 (d) with `W` of rank
+one and the constant form, on which the Hecke polynomial operator of rank one acts by `1 − X`.
 
 *Method of the formal proof:* the pairing of the kernel with a vector of the weight is a theta value of a Fock vector,
 so the descent of a form is its inner product with the kernel, and summing over the classes of `U(1)` gives (b). The
@@ -505,6 +517,8 @@ ThetaLiftChainsAndTheSeesawIdentity §2.10; OneSidedPrimeSumBoundsAndAdmissibleD
 
 *Origin:* particular to this proof: the product `L_*` of a twisted pair in terms of the untwisted product and the
 ratios at the points `1, …, z`; heights along a regular family are insensitive to powers of the norm of the modulus.
+The identity (a) is that of DeterminantsOfThetaLiftChains §1.2 (c), which states it for a ramified pair through the
+product `Λ(ν, z; ξ)`; here it is stated for every critical pair and both signs, through the ratios.
 
 *Method of the formal proof:* divide the two products factor by factor; the Euler factors at `Q(ϑ)` give the power of
 `Nm Q(ϑ)`. For the heights, `Nm Q(θ_ι)` is an integer prime to the prime of `ι`, so multiplying by its powers changes
@@ -1452,9 +1466,11 @@ prime `l`, every embedding `ι : ℂ → ℂ_l` and every twist `ϑ` with `Nm Q(
 `O_{p,ϑ}`
 at `l` with `|ι(c₀·ratio(q₂, ϑ, +1))|·l^{−S_l} ≤ |ι⟨Ξ, φ_{p,ϑ}⟩|`, where `S_l = Σ_τ s_l(κ(τ), τ)` is the sum over the
 infinite
-places of the local prime sums at `l` (CompositeThetaLiftsAndShortForms §2.1).
+places of the local prime sums at `l` (the total `S_l` of OneSidedPrimeSumBoundsAndAdmissibleData §4.1, written `F(l)` in
+CompositeThetaLiftsAndShortForms §2.1).
 
 *Needs:* 1.1, 1.3, 2.2, 2.5, 3.3, 3.4, 5.4, 6.1, 6.2; DivisibilityOfThetaDerivatives §5.5, §5.6;
+OneSidedPrimeSumBoundsAndAdmissibleData §4.1 (the local prime sums and their total);
 CompositeThetaLiftsAndShortForms §2.1, §2.2.
 
 [ShortProof], `New/OneLift/HeckeValues/TwistedValueHeights.lean` (`New.rationalU1_sup_integralU1_le_comap`,
@@ -1471,21 +1487,22 @@ CompositeThetaLiftsAndShortForms §2.1, §2.2.
 *Origin:* particular to this proof: along a regular family of twists, the inverse ratio of twisted to untwisted
 L-values of a main pair has height at most `6β_tot − h_dir`.
 
-*Method of the formal proof:* by 2.5 the ratio is `‖φ_{p,ϑ}‖²/(Nm Q(ϑ)^{2z−1}·‖φ_{p,1}‖²)`. At `ι` above `ℓ`, with `ϑ =
-θ_ι^j`,
-`‖φ_{p,ϑ}‖² = ⟨Ξ, φ⟩⟨φ, Ξ′⟩/⟨pr Ξ, pr Ξ′⟩` for the test forms `Ξ`, `Ξ′` that 6.4 gives at `ι` and at its complex
-conjugate, so by 6.3 and the denominator bound of the family its `ι`-adic absolute value is at least
-`|ι(|c₀·ratio(q₂, ϑ)|²)|·ℓ^{−2S_ℓ}·exp(−γ(ℓ))·ℓ^{−v_ℓ(h)}`. The untwisted squared norm
-has
-height `β_tot − Σ_τ s_∞(κ(τ))` (6.2 (d)), the inverse ratio of the ramified pair `q₂` height `x₁`, the constant `c₀`
-small
-conjugates, `2·Σ_ℓ S_ℓ log ℓ = Σ_τ s_fin(κ(τ), τ)`, and the powers of `Nm Q` cost nothing (2.6 (b)); the sum is
+*Method of the formal proof:* by 2.5 the ratio is `‖φ_{p,ϑ}‖²/(Nm Q(ϑ)^{2z−1}·‖φ_{p,1}‖²)`. At `ι` above `ℓ`, with
+`ϑ = θ_ι^j` and `φ = φ_{p,ϑ}`, `‖φ‖² = ⟨Ξ, φ⟩⟨φ, Ξ′⟩/⟨pr Ξ, pr Ξ′⟩` for two test forms: `Ξ` given by 6.4 (b) at `ι`,
+and `Ξ′` given by 6.4 (b) at `ι` composed with complex conjugation (6.4 (b) controls the pairing with `φ` at one
+embedding only). Up to a power of `Nm Q`, which costs nothing (2.6 (b)), the inverse ratio is then the product of four
+families, whose heights add: the untwisted squared norm, of height `β_tot − Σ_τ s_∞(κ(τ))` (6.2 (d)); the pairing
+`⟨pr Ξ, pr Ξ′⟩` of the projections to the line of the lift, of `ι`-adic absolute value at most `exp(γ(ℓ))` by the second
+clause of DeterminantsOfThetaLiftChains §1.3 (b) for the denominator bound `γ` of the family, hence of height `β_tot`;
+the squared inverse ratio of the ramified pair `q₂`, of height `2x₁`; and `ratio(q₂, ϑ)²/(⟨Ξ, φ⟩⟨φ, Ξ′⟩)`, of height
+`2β_tot + Σ_τ s_fin(κ(τ), τ)` by 6.4 (b), because the constant `c₀` has small conjugates and
+`2·Σ_ℓ S_ℓ log ℓ ≤ Σ_τ s_fin(κ(τ), τ)` over every finite set of primes. As `x₁ ≤ β_tot`, the sum is at most
 `6β_tot − h_dir`.
 
 Prove: let `θ` be a regular family of `m`-fold twists (DeterminantsOfThetaLiftChains §1.3), `1 ≤ j ≤ m`, and `p` a main
 pair for `j`. Then the family `ι ↦ ratio(p, θ_ι^j, +1)⁻¹` has height at most `6β_tot − h_dir`.
 
-*Needs:* 2.5, 2.6, 6.2, 6.3, 6.4; DeterminantsOfThetaLiftChains §1.1, §1.3; OneSidedPrimeSumBoundsAndAdmissibleData
+*Needs:* 2.5, 2.6, 6.2, 6.4; DeterminantsOfThetaLiftChains §1.1, §1.3; OneSidedPrimeSumBoundsAndAdmissibleData
 §1.2, §4.1, §4.2; CompositeThetaLiftsAndShortForms §2.2.
 
 [ShortProof], `New/OneLift/HeckeValues/TwistedValueHeights.lean` (`New.Data.heightLe_inv_ratio`)
@@ -1739,8 +1756,7 @@ OneSidedPrimeSumBoundsAndAdmissibleData §1.2, §3.3, §4.1, §4.2; SecondMoment
 ## Downstream consumers
 
 - DeterminantsOfThetaLiftChains §1.3 uses the false lifts and forms orthogonal to them (1.3), the test forms (1.3 (c))
-  and the lifts of the main pairs (2.5); its §5.4 and §5.5 use steep parameters, which are in
-  PairsOfFramesAtOnePlace §8.1; its §6.2 uses the cost of one lift (7.5 (d)).
+  and the lifts of the main pairs (2.5); its §6.2 uses the cost of one lift (7.5 (d)).
 - CongruencesOfTwistedThetaLifts §2.2 uses the lift of a character from `U(1)` to `U(2z)` (2.1, 2.5); its §6.8 and §6.9
   use the false lifts (1.3) and the denominator of a projection (1.4); its §7.2 uses the step from a denominator bound
   on the line of a lift to the inner products of projected test forms (6.3 (b)).
@@ -1770,7 +1786,6 @@ OneSidedPrimeSumBoundsAndAdmissibleData §1.2, §3.3, §4.1, §4.2; SecondMoment
 - The existence of regular families of twists and the bound for denominators: CongruencesOfTwistedThetaLifts and
   SelmerBoundsForAnticyclotomicTwists.
 - The divisibility of derivatives of theta functions and its sharpness: DivisibilityOfThetaDerivatives.
-- Discrete series with a large gap (steep parameters): PairsOfFramesAtOnePlace, Layer 8.
 
 ## Exact supplier contracts
 
@@ -1801,7 +1816,7 @@ with determinant data).
 
 ### From other roadmaps
 
-CompositeThetaLiftsAndShortForms §2.1, §2.2 (local prime sums);
+CompositeThetaLiftsAndShortForms §2.1, §2.2 (the numbers at a prime, and the prime sums grouped by primes);
 SecondMomentsOfPoincareSeries §2.3 (`dim 𝒢(W_j) = dim 𝒯`), §5.7 (c) (`d_T > 0`); FiniteReductiveGroups §5.7
 (idempotents of labels); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set inner products and the
 Petersson product).
