@@ -578,11 +578,14 @@ body:
         - SpecialFunctionsGamma
         - SpecialFunctionsGeneralizedHypergeometric
         - SpecialFunctionsGroupModels
+        - SpecialFunctionsHeun
         - SpecialFunctionsHypergeometric
+        - SpecialFunctionsJacobiElliptic
         - SpecialFunctionsLegendre
         - SpecialFunctionsMathieu
         - SpecialFunctionsOrthogonalPolynomialsGeneral
         - SpecialFunctionsParabolicCylinder
+        - SpecialFunctionsSU11MatrixElements
         - SpecialFunctionsSU2MatrixElements
         - SpecialFunctionsStruve
         - SpecialFunctionsTheta
@@ -641,6 +644,7 @@ body:
         - WeightsInEtaleCohomology
         - WeilConjectures
         - WeilPositivityAndLiCriterion
+        - WienerChaosAndMalliavinCalculus
         - Yamabe
         - YangMillsConnectionsAndCaloricGauge
         - YoungIntegrationAndRoughPaths
