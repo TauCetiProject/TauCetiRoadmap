@@ -148,6 +148,8 @@ twist `ϑ`, `Z(ϑ) = vol(Θ_ϑ|𝒯)` and, for `1 ≤ j ≤ m`, `Z_j(ϑ) = vol(�
 | `c_Q(ϑ), Ral_{j,ϑ}` | twist factor, Rallis series operator | 2.2 |
 | `Λ(ν, s; ϑ), R^quo_{ij}, R^turn_{ij}` | ratio products of Hecke values | 1.1 |
 | `𝔟, 𝔪₀(ϑ), 𝔪(ϑ)` | `π_M^b`, `π_M Q(ϑ)`, `π_M^b Q(ϑ)` | 5.3 |
+| `n_m` | the rank `k + m(t + 1)`; `2n_m` bounds the ranks of the nodes of the two grids | OneSidedPrimeSumBoundsAndAdmissibleData §3.2; 5.3 |
+| `K₀` | on a space with a standard basis, the group of finite points of the unitary group that stabilise the standard lattice | 4.3 (d), 5.10 (a) |
 | `Y^a_b, Ỹ^b_a, Θ^♭, res^♭` | the two grids, the transposed chain of `Ỹ`, the flat restriction | 5.3, 5.7 |
 
 ## Layer 1: Ratios of Hecke values and families of twists
@@ -706,8 +708,8 @@ integral entries at the finite places; [ShortProof] `Lib/Adelic/Witt/IwasawaDeco
 
 ### 3.7 Vanishing descends along hyperbolic planes
 
-*Origin:* particular to this proof: if the theta integrals of `(W ⊕ H^j, V ⊕ H^j)` vanish on all Schwartz vectors and
-standard data, so do those of `(W, V)`.
+*Origin:* particular to this proof: a descent of vanishing. If every integral `I_large` of the pair enlarged by `j`
+hyperbolic planes is zero, for all Schwartz vectors and all standard row data, then the same holds for the pair itself.
 
 *Method of the formal proof:* remove one plane at a time. For the vectors built in 3.6 (a), take the constant term of
 the larger theta integral along the added isotropic line. It is a Tate integral in an auxiliary real variable, and
@@ -825,9 +827,11 @@ Let `W` (rank `n`) and `V′` (rank `b`) both have `l` negative signs, `I_a` the
 `p × m` complex matrices `η_{τ,κ}` (`m` the positive part of `W`, `p` that of `V′`). There are `C > 0` and `c′ ∈ ℂ`
 (possibly `0`) such that for every modulus `𝔪` and every character `α` of `[U(1)]` of weight `−#ι(τ)`, tame for `(𝔪, χ)`,
 there is `c` with `|c|² = C·L_*(places of 𝔪, (α/υ₁^{s₀})⁻¹, d) ≠ 0` and, for all `η`, `g` and all matched `Φ`, `Ψ` modulo
-`𝔪` for `χ⁻¹`: `c′` times the class sum over `U(I_a)` of `α(det h)` times the kernel of `(W, I_a)` with data `Φ` and the
+`𝔪` for `χ⁻¹`: `c′` times the class sum over `U(I_a)` of `α(det h)` times the kernel of `(W, I_a)`, with the characters
+`υ₁^l` on `W` and `1` on `I_a`, with data `Φ` and the
 product of the determinants of `η_{τ,κ}` stacked over the variable matrix, equals `c·α(det g)` times the integral over
-`x ∈ [U(V′)]` of `α(det x)⁻¹` times the kernel of `(V′, W)` with data `Ψ` and the matched product of determinants (the
+`x ∈ [U(V′)]` of `α(det x)⁻¹` times the kernel of `(V′, W)`, with the character `υ₁^l` on each of `V′` and `W`, with data
+`Ψ` and the matched product of determinants (the
 `det(η_{τ,κ} y_τ)` of the positive block times powers of the determinants of the negative blocks). In the normalised form
 used later: there is `C` such that for every `α` of weight `l − #ι(τ)` tame for `(𝔪, χ)` some `c` with
 `|c|² = C/L_*(places of 𝔪, α⁻¹υ₁^{b+d}, d)` makes `c` times the class sum equal to the integral, with characters `α, β`
@@ -932,7 +936,7 @@ Gram form of the first arrow finishes; the moduli multiply.
 `a_t(i, n) : F(i, n) → F(i, n + 1)` and `d_t(i, n) : F(i, n + 1) → F(i + 1, n)` for `t ∈ I`, nonzero integer weights
 `w_t(n)`, and isometries `j_i : V → F(i, 0)`, such that: for all `i, n` with `i + n + 2 ≤ m` the square at `(i, n)`
 commutes up to some function `β` on `I`, `w_t(n)·a_t(i + 1, n)∘d_t(i, n) = (w_t(n + 2)/β̄_t)·d_t(i, n + 1)∘a_t(i, n + 1)`
-on `F(i, n + 1)`; and for every `i < m`, with `a = a_t(i, 0)` and `d = d_t(i, 0)`: `⟨z, a(j_i y)⟩ = ⟨d z, j_{i+1} y⟩`
+on `F(i, n + 1)`, where the scalar `w_t(n + 2)/β̄_t` is read as `0` if `β_t = 0`; and for every `i < m`, with `a = a_t(i, 0)` and `d = d_t(i, 0)`: `⟨z, a(j_i y)⟩ = ⟨d z, j_{i+1} y⟩`
 for `y ∈ V` and `z ∈ F(i, 1)`, and `d∘a` maps `j_i(V)` into `j_{i+1}(V)` with trivial kernel on `j_i(V)`. Then for all
 `i, n` with `i + n ≤ m` and every `t ∈ I`, the weighted chain `(w_t(n − 1)·a_t(i, n − 1))∘⋯∘(w_t(0)·a_t(i, 0))` of
 length `n` of row `i`, a map `F(i, 0) → F(i, n)`, is injective on `j_i(V)`. The range `i + n ≤ m` is needed: beyond it
@@ -1014,7 +1018,8 @@ second relation turns the descent into a reversed lift, commutes it with the lif
 descents are defined by recursion on `n` from the adjoint datum at `n = 0` by `next` (3.11).
 
 (a) For `i + n + 1 < m` and left pairs at `(i, n)` and `(i, n + 1)` there is `β(ϑ)` such that for every `m`-fold twist `ϑ`
-and every datum `Ψ`, `N_n(ϑ)·a∘d_Ψ = (β̄(ϑ))⁻¹·N_{n+2}(ϑ)·d_{next(Ψ)}∘a` on the node `(i, n + 1)` (in inner products); for
+and every datum `Ψ`, `N_n(ϑ)·a∘d_Ψ = (β̄(ϑ))⁻¹·N_{n+2}(ϑ)·d_{next(Ψ)}∘a` on the node `(i, n + 1)` (in inner products), with `(β̄(ϑ))⁻¹` read
+as `0` where `β(ϑ) = 0`, as in 4.1 (b); for
 `Y`, `β` has modulus `R^quo_{i+1, i+n+2}` up to a norm power.
 
 (b) In the triangle `Y`, for the same `i, n`, there is `κ(ϑ)` of modulus `1` up to a norm power such that, if `x′` is the
@@ -1248,16 +1253,18 @@ distance at most `δ` from `1`, then `|F(g)| ≤ C`; [ShortProof] `Lib/Adelic/Au
 *Origin:* particular to this proof: the period of the two iterated transposed lifts down the first columns is a constant
 times the period of one path datum on the first path.
 
-*Method of the formal proof:* the product of the point data of the edges computes the period of the iterated transposed
-lifts; summing its translates by admissible families, weighted by the edge characters, gives a path datum whose period is
-the number of translates times the first.
+*Method of the formal proof:* for one tuple of matrices the two iterated transposed lifts are lifts with point data, so
+their diagonal period is the period attached to the indicator of that tuple. Summing the translates of this indicator by
+the admissible families, each against the edge characters, gives a function with the invariance of a path datum; the
+period has the same invariance, so the sum multiplies it by the number of translates.
 
 Let `y′` be a conjugate form on `Y_m`, `φ` a form on `Ỹ^m_0` and `g` a real point of `U(Ỹ^0_0)`; move `y′` down the first
 column of `Y` by the transposed lifts at the twist `ϑ` and `φ` down that of `Ỹ` at the trivial twist (each weighted by the
 order of `GL` of its smaller space modulo the triangle modulus). There are a constant `C` and, for each `ϑ`, a path datum
 `Ψ_ϑ` on the first path with bound `(#(O_E/𝔪(ϑ))^{(2n_m)²})^{2m}` such that the diagonal period at `g` of the two images
-is `C` times the period of `Ψ` on the first path at `(ϑ, y′, φ)`. Moreover, the diagonal period at `(0, 0)` with a form
-on `Ỹ^0_0`, as a functional of the form on `Y₀`, is a Petersson product.
+is `C` times the period of `Ψ` on the first path at `(ϑ, y′, φ)`. Moreover, at each real point `g` there is a linear map
+`R` from `gridLevelForms(0)` to the forms of level `J_M` on `Y₀` such that, for every `ϑ` and every form `y` of level
+`𝔪₀(ϑ)` on `Y₀`, the diagonal period at `(0, 0)` and `g` of the conjugate of `y` and `φ` is `⟨y, R φ⟩`.
 
 *Needs:* 5.3.
 
@@ -1323,9 +1330,11 @@ diagonal, a path datum on the new path.
 *Origin:* particular to this proof: the period of a path datum is carried from the first path to the last by `m²` turns,
 each with a constant whose modulus is a ratio of Hecke values.
 
-*Method of the formal proof:* on the diagonal, a seesaw moves the period to the space `Ỹ^{j+1}_j = Y^{j+1}_j` common to both
-paths, where the line contributes a theta kernel; the line is reversed, the two maps are exchanged by the square law, and
-a second seesaw moves the period on. Composing the turns of 5.1 from the last path backwards multiplies the constants.
+*Method of the formal proof:* a diagonal turn takes three steps. The seesaw of periods first rewrites the period as an
+integral over the group of `Ỹ^{j+1}_j = Y^{j+1}_j`, the one space that the old and the new path share; the added line
+enters there through its own theta kernel. The flip of the pair of the line and the square law of 3.12 then interchange
+the lift and the transposed lift, and the seesaw, applied again, returns a period on the new path. For (b), compose
+along the turns of 5.1, starting from the last path; the constants multiply.
 
 (a) For `i, j < m` there are `c(ϑ) ≠ 0` of modulus `R^turn_{ij}` up to a norm power such that every turn at `(i, j)`
 transfers periods with factor `#(O_E/𝔪(ϑ))^{2n_m}` and constants `c`.
@@ -1419,8 +1428,11 @@ forms of level `𝔟` on `Ỹ^m_0`, and `res^♭` is onto.
 
 (a) There is an integer `0 < N_den ≤ exp(x^99 b²)` such that for every `ϑ`, path datum `Ψ` on the last path, pair of forms
 fixed by the outer levels, and prime `p ∤ Nm Q(ϑ)`: if both forms, read as algebraic forms, have `p`-adic gauge at most
-`1`, then `N_den·Ξ` is `p`-integral. At the trivial twist, if the `σ`-conjugates of the values have squared norms at most
-`B_Y` and `B_Ỹ`, then `|σ(Ξ)| ≤ exp(x^200 b²)·√B_Y·√B_Ỹ`.
+`1`, then `N_den·Ξ` is `p`-integral. At the trivial twist, for a path datum on the last path with bound
+`#(O_E/𝔟)^{2n_m·m²}·(#(O_E/𝔟)^{(2n_m)²})^{2m}` (the bound that 5.6 and 5.9 (b) give there): if the `σ`-conjugates of the
+values of the two forms have squared norms at most
+`B_Y` and `B_Ỹ`, then `|σ(Ξ)| ≤ exp(x^200 b²)·√B_Y·√B_Ỹ`. The bound on the datum is needed: `Ξ` is linear in `Ψ`, and
+an integer multiple of a path datum is a path datum with a larger bound.
 
 (b) There are `c(ϑ) ∈ ℂ^×` of modulus `∏_{0≤i,j<m} R^turn_{ij}` up to a norm power such that `𝒜(Y₀)` is spanned by the forms
 `y` with: for every `m`-fold twist `ϑ` and every prime `ℓ ∤ Nm Q(ϑ)`, `(c(ϑ)/c(1))·Θ_ϑ y` is integral at `ℓ`; and for every
