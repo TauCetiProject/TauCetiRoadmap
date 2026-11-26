@@ -31,6 +31,14 @@ The remaining headline, the characterization of amenable locally compact Hausdor
 invariant means on Haar `L∞` (README §7.5), is stated below with `sorry`. The pinned Tau Ceti
 proves its reverse implication (`TauCeti.Amenable.of_lpTop`) and the case of a discrete group
 (`TauCeti.amenable_iff_exists_lpTop_invariant`), not the forward implication in general.
+
+A further §7.6 target records that the correspondence
+`PositiveLinearMap.addContentLpTopEquiv` between positive functionals on `L∞` and contents is
+monotone in both directions. The `AddEquiv` and `OrderIso` themselves are data and need an
+addition and a pointwise order on `AddContent`, which the pins lack, so monotonicity is stated on
+values. Additivity, the content of `M + M'` at each set being the sum of the contents, follows
+from the pinned evaluation lemmas `LinearMap.toAddContentLpTop_apply` and
+`LinearMap.toAddContentLpTop_of_not_measurableSet` and is not restated here.
 -/
 
 namespace TauCetiRoadmap.AmenableGroups
@@ -50,6 +58,19 @@ theorem amenable_iff_exists_lpTop_invariant_of_isHaarMeasure (G : Type*) [Group 
     [MeasurableSpace G] [BorelSpace G] (μ : Measure G) [μ.IsHaarMeasure] [μ.Regular] :
     TauCeti.Amenable G ↔ ∃ M : Lp ℝ ∞ μ →ₚ[ℝ] ℝ, M TauCeti.linftyOne = 1 ∧
       ∀ (g : G) (φ : Lp ℝ ∞ μ), M (Lp.leftTranslation μ ∞ ℝ g φ) = M φ := by
+  sorry
+
+/-! ### §7.6 Means on L∞ and Borel contents: order -/
+
+/-- **The content correspondence is an order isomorphism.** For positive functionals on `L∞(μ)`
+ordered by positivity of the difference (`M φ ≤ M' φ` for every `0 ≤ φ`; the pointwise order
+on all `φ` would force `M = M'`), `M ≤ M'` exactly when the content of `M` is pointwise at most
+the content of `M'`. -/
+theorem le_iff_addContentLpTopEquiv_le {α : Type*} [MeasurableSpace α] (μ : Measure α)
+    (M M' : Lp ℝ ∞ μ →ₚ[ℝ] ℝ) :
+    (∀ φ : Lp ℝ ∞ μ, 0 ≤ φ → M φ ≤ M' φ) ↔
+      ∀ s, (PositiveLinearMap.addContentLpTopEquiv μ M).1 s ≤
+        (PositiveLinearMap.addContentLpTopEquiv μ M').1 s := by
   sorry
 
 end TauCetiRoadmap.AmenableGroups

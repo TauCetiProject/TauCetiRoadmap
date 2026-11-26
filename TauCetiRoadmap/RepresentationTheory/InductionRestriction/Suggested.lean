@@ -32,6 +32,11 @@ subgroups `N ≤ T' ≤ T` (README §7.8) is not stated: the pins define the mul
 for the full inertia group `TauCeti.inertia V`, so the multiplicity functor of `T'` that the
 comparisons involve has no carrier.
 
+The translation action of `G` on `N`-subrepresentations and on isotypic components (README §5.2)
+is data and is not stated; its laws are Tau Ceti's `TauCeti.Representation.conjSubrep_one` and
+`TauCeti.Representation.conjSubrep_conjSubrep`, and its transitivity, stabilizer and equivariance
+statements are about that action.
+
 Besides the headline theorems, the file states Mackey's formula as a finite biproduct (README §3.1,
 `isIso_biproductDesc_mackeyInclusion`) and defines the two adapters of README §2.1 under the names
 by which PolynomialGaloisGroupsPartIII consumes them. Everything this roadmap consumes from Mathlib

@@ -12,6 +12,10 @@ when the two spaces are unitarily equivalent and infinite-dimensional.
 
 Not statable at the pins, with the carrier each one lacks:
 
+* the index as a monoid isomorphism from the path components of `FredholmLocus E E` onto
+  `Multiplicative ℤ` for infinite-dimensional `E` (Layer 1.6): a monoid structure on
+  `ZerothHomotopy M` for a topological monoid `M` (the isomorphism is data, so the README
+  specifies it);
 * the Atiyah–Singer equality `ind_a = ind_t` and its compact-Lie equivariant form (Layer 5.5):
   elliptic pseudodifferential operators on closed manifolds, the compactly supported K-group
   `K_c(T*M)` of the cotangent bundle and the representation ring `R(G)`;

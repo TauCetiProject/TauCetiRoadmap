@@ -345,6 +345,16 @@ empty, by the finite-defect orthogonal decompositions.
 - The Fredholm locus is nonempty exactly when both spaces are finite-dimensional or they have the
   same Hilbert dimension.
 
+Upgrade the bijection to a group isomorphism when `E = F` is infinite-dimensional. Composition
+of operators is jointly norm-continuous and preserves Fredholmness (Mathlib
+`ContinuousLinearMap.IsFredholm.comp`), so `FredholmLocus E E` is a topological monoid. For any
+topological monoid `M`, the path components `ZerothHomotopy M` form a monoid: if `γ` joins `a`
+to `a'` and `δ` joins `b` to `b'`, then `t ↦ γ t * δ t` joins `a * b` to `a' * b'`. Since
+`ContinuousLinearMap.IsFredholm.index_comp` gives `ind (S ∘ T) = ind S + ind T`, the index
+descends to an isomorphism of monoids from the path components of `FredholmLocus E E` onto
+`Multiplicative ℤ`; in particular those components form a group. Pinned Mathlib has no monoid
+structure on `ZerothHomotopy`, so this is stated here and not in `Suggested.lean`.
+
 **Checks.**
 
 - `E = ℂ²`, `F = ℂ`: every linear map is Fredholm of index 1, the locus is all of `B(ℂ², ℂ)` and
@@ -360,9 +370,15 @@ empty, by the finite-defect orthogonal decompositions.
   continuum. There is no Fredholm map `ℓ²(ℕ) → ℓ²(ℝ)`: its closed range would have finite
   codimension, hence be nonseparable, yet it is the image of a separable space. A classification
   by Hamel rank would predict a nonempty locus.
+- Component monoid: on `ℓ²(ℕ)`, `S* ∘ S = 1` and `ind S* + ind S = 1 + (−1) = 0 = ind 1`. If `E`
+  is finite-dimensional, every endomorphism is Fredholm of index `0` and the locus, all of
+  `B(E)`, is path-connected, so the component monoid is trivial, not `ℤ`: infinite dimension is
+  needed.
 
 *Needs:* Layer 1.1 package comparison and Layer 1.5; BanachSpaceTheory B5; OperatorTheory
-PolarDecomposition; Tau Ceti `Path.index_eq`, `index_add_of_hasFiniteRange`.
+PolarDecomposition; Tau Ceti `Path.index_eq`, `index_add_of_hasFiniteRange`; for the component
+monoid, Mathlib `ZerothHomotopy`, `Joined.mul`, `ContinuousLinearMap.IsFredholm.id`,
+`ContinuousLinearMap.IsFredholm.comp` and `ContinuousLinearMap.IsFredholm.index_comp`.
 
 ### Examples
 

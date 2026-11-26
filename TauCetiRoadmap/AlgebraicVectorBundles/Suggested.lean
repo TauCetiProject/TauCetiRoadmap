@@ -6,6 +6,8 @@ import TauCeti.AlgebraicGeometry.Modules.Pullback.InternalHom.Basic
 import TauCeti.AlgebraicGeometry.Modules.SymmetricPower.Pullback.Basic
 import TauCeti.AlgebraicGeometry.Modules.ExteriorPower.Pullback.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Class
+import TauCeti.AlgebraicGeometry.RelativeSpec.UniversalProperty
+import TauCeti.AlgebraicGeometry.Modules.Quasicoherent.Pushforward.QuasiSeparated
 
 /-!
 # Algebraic vector bundles: target signatures
@@ -173,5 +175,46 @@ theorem mk_determinantObj_of_shortExact {X : Scheme.{u}} (S : ShortComplex X.Mod
       LineBundleClass.mk (determinantObj (⟨S.X₁, h₁⟩ : FiniteLocallyFreeSheaf X)) *
         LineBundleClass.mk (determinantObj (⟨S.X₃, h₃⟩ : FiniteLocallyFreeSheaf X)) := by
   sorry
+
+/-! ## Layer 4: linear schemes and relative Spec -/
+
+/-- Schemes over `X` whose structure morphism is quasi-compact and quasi-separated, with all
+morphisms over `X` (README §4.2). -/
+abbrev QcqsOver (X : Scheme.{u}) :=
+  MorphismProperty.Over (@QuasiCompact ⊓ @QuasiSeparated : MorphismProperty Scheme.{u}) ⊤ X
+
+open MonoidalCategory in
+/-- The function-algebra functor `q ↦ q_* 𝒪_T` on quasi-compact quasi-separated schemes over `X`,
+landing in quasi-coherent algebras by Tau Ceti's `Scheme.Modules.isQuasicoherent_pushforward`
+(Stacks Project, Tag 01LC): the corestriction of Tau Ceti's `overFunctions X` (README §4.2). -/
+noncomputable def qcqsFunctions (X : Scheme.{u}) : (QcqsOver X)ᵒᵖ ⥤ QuasicoherentAlgebra X :=
+  ObjectProperty.lift _ ((MorphismProperty.Over.forget _ _ X).op ⋙ overFunctions X)
+    (fun T => by
+      have : QuasiCompact T.unop.hom := T.unop.prop.1
+      have : QuasiSeparated T.unop.hom := T.unop.prop.2
+      show ((Scheme.Modules.pushforward T.unop.hom).obj (𝟙_ _)).IsQuasicoherent
+      infer_instance)
+
+/-- Tau Ceti's `relativeSpec X`, read in `QcqsOver X`: an affine morphism is quasi-compact and
+separated, hence quasi-separated (Stacks Project, Tag 01S7) (README §4.2). -/
+noncomputable def relativeSpecQcqs (X : Scheme.{u}) : (QuasicoherentAlgebra X)ᵒᵖ ⥤ QcqsOver X :=
+  relativeSpec X ⋙ MorphismProperty.Comma.changeProp _ _
+    (fun _ _ _ (_ : IsAffineHom _) => ⟨inferInstance, inferInstance⟩) le_rfl le_rfl
+
+/-- **Relative Spec is a right adjoint** on quasi-compact quasi-separated schemes over `X`: it is
+right adjoint to the opposite of the function-algebra functor, with hom-set bijection the
+components of Tau Ceti's `relativeSpecHomIso` (Stacks Project, Tags 01LW and 01LY). For `T` an
+infinite disjoint union of copies of `Spec ℤ` over `Spec ℤ`, which is not quasi-compact,
+`q_* 𝒪_T` is not quasi-coherent. README §4.2. -/
+theorem nonempty_adjunction_relativeSpecQcqs (X : Scheme.{u}) :
+    Nonempty ((qcqsFunctions X).rightOp ⊣ relativeSpecQcqs X) := sorry
+
+/-- **The unit detects affineness**: the unit `T → Spec_X(q_* 𝒪_T)` of the adjunction is an
+isomorphism exactly when `q` is affine, so affine schemes over `X` are reflective in `QcqsOver X`
+(Stacks Project, Tags 01LX and 01S8). On `ℙ¹_k → Spec k` the unit is `ℙ¹_k → Spec k`, not an
+isomorphism. README §4.2. -/
+theorem isIso_unit_app_iff_isAffineHom {X : Scheme.{u}}
+    (adj : (qcqsFunctions X).rightOp ⊣ relativeSpecQcqs X) (T : QcqsOver X) :
+    IsIso (adj.unit.app T) ↔ IsAffineHom T.hom := sorry
 
 end TauCetiRoadmap.AlgebraicVectorBundles

@@ -24,6 +24,7 @@ public import TauCeti.Topology.Triangulable.Basic
 public import TauCeti.LowDimTopology.SeifertFibration
 public import TauCeti.LowDimTopology.SolidTorusNeighborhood.Exterior
 public import TauCeti.LowDimTopology.DehnSurgery.Filling
+public import TauCeti.LowDimTopology.DehnSurgery.Slope
 public import TauCeti.LowDimTopology.DehnSurgery.Cosmetic
 public import TauCeti.LowDimTopology.PrimeDecomposition
 public import TauCeti.LowDimTopology.Heegaard.RankGenus
@@ -59,7 +60,8 @@ Manolescu's theorem in both its forms are stated here as the end
 theorems the roadmap is built to state; their proofs are owned by the roadmaps named in the
 README's *Scope and ownership*. Property P, Property R, the theorem of Gabai, Meyerhoff and Milley
 on the Weeks manifold and Li's rank-versus-genus theorem are stated, not proved, by this roadmap
-(Layers 5.3, 7.4 and 9.2).
+(Layers 5.3, 7.4 and 9.2). Beside the headlines, the `GL₂(ℤ)`-equivariance of slope values of
+Layer 5.1 is stated as a target of this roadmap.
 
 Not stated here although statable: the smooth Poincaré theorem, for closed simply connected smooth
 `3`-manifolds and on Mathlib's `ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere M 3`, which
@@ -90,6 +92,10 @@ Not statable at the pins:
 * the Novikov–Rosenberg theorem (Layer 10.2): the pinned foliations are smooth of a fixed
   leaf dimension but carry no transverse orientation, and incompressibility of a leaf is not
   expressed;
+* the group of braid words modulo `TauCeti.BraidWord.WordEquiv` and its multiplicative
+  equivalence with `TauCeti.BraidGroup n` (Layer 4.12) are data; their content at the pin is
+  `TauCeti.BraidWord.toBraid_eq_iff_wordEquiv`, `TauCeti.BraidWord.toBraid_append` and
+  `TauCeti.BraidWord.toBraid_surjective`;
 * Zeeman's conjecture (Layer 11.5) is statable, `TauCeti.ZeemanConjecture`, but open, so it is
   not asserted here; likewise the cosmetic surgery conjecture (Layer 5.3,
   `TauCeti.CosmeticSurgeryConjecture`), and the Akbulut–Kirby conjecture (Layer 5.3,
@@ -148,6 +154,17 @@ theorem markov_theorem {n m : ℕ} (w : TauCeti.BraidWord (n + 1)) (v : TauCeti.
   sorry
 
 /-! ## Layer 5: Dehn surgery -/
+
+/-- **Slope values are `GL₂(ℤ)`-equivariant** (Layer 5.1): a matrix `g` acts on primitive classes
+`(p, q)` as on column vectors, and on values in `ℚ ∪ {∞}` by the Möbius action of its image in
+`GL (Fin 2) ℚ`. The pinned `TauCeti.FramedBoundaryTorus.value_shiftLongitude` is the case
+`g = [[1, -n], [0, 1]]`. -/
+theorem slopeEquivStd_congr (g : GL (Fin 2) ℤ) (s : TauCeti.Slope (ℤ × ℤ)) :
+    TauCeti.slopeEquivStd (TauCeti.Slope.congr ((LinearEquiv.finTwoArrow ℤ ℤ).symm ≪≫ₗ
+        LinearMap.GeneralLinearGroup.toLinearEquiv (Matrix.GeneralLinearGroup.toLin g) ≪≫ₗ
+        LinearEquiv.finTwoArrow ℤ ℤ) s) =
+      Matrix.GeneralLinearGroup.map (Int.castRingHom ℚ) g • TauCeti.slopeEquivStd s := by
+  sorry
 
 /-- Property P (Kronheimer–Mrowka, *Witten's conjecture and Property P*, Geom. Topol. 8 (2004),
 Theorem 2, with the cyclic surgery theorem; Kirby's Problem 1.15): a Dehn filling of the exterior

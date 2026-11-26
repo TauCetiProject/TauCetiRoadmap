@@ -1104,6 +1104,22 @@ extensions are exactly the nonnegative contents on the null-measurable sets vani
 sets, positive functionals on `L∞(G, μ)` correspond to them by the same formula
 `ν(E) = M([1_E])`, and invariance is preserved. *Needs:* `PositiveLinearMap.addContentLpTopEquiv`.
 
+Prove that the correspondence is additive and monotone in both directions, so that it is an
+additive and order isomorphism for the pointwise sum and order of contents: the content of
+`M + M'` is the sum of the contents, and `M ≤ M'` exactly when
+the content of `M` is pointwise at most that of `M'` (`le_iff_addContentLpTopEquiv_le`). Order
+functionals by positivity of the difference, `M φ ≤ M' φ` for every `0 ≤ φ`. Pinned `AddContent`
+has no addition or order, so these are stated on values; package the `AddEquiv` and `OrderIso`
+once those instances exist. *Route:* additivity is `map_add` at each indicator. For the converse
+of monotonicity, `M' − M` and integration against the nonnegative content `A ↦ ν'(A) − ν(A)`
+(as in `PositiveLinearMap.ofAddContentLpTop`) are bounded linear functionals that agree on
+indicators, hence on the dense span of simple classes.
+
+**Checks.** The pointwise order on all `φ` is wrong: `M φ ≤ M' φ` and `M (−φ) ≤ M' (−φ)` force
+`M = M'`. For `μ` the counting measure on a two-point set, functionals are pairs `(a, b)` of
+nonnegative weights, contents are their sums over subsets, and both orders are the coordinatewise
+order. *Needs:* `PositiveLinearMap.addContentLpTopEquiv`, `PositiveLinearMap.ofAddContentLpTop`.
+
 ### 7.7 Locally Borel and locally null sets
 
 BDHV's Section C.5 calls `A` *locally Borel* when `A ∩ B` is Borel for every Borel `B` of finite
@@ -1256,7 +1272,7 @@ smoothing of §7.4, the Borel-content correspondence of §7.6, the local convent
 compact groups of §7.8, the reverse implication of §7.5 with its independence of the Haar measure,
 and the discrete case. The remaining targets are those §§2.3, 2.5, 5.1, 5.3 and 7.2 state as
 targets, the pointwise formula and the approximate identity of §7.3, the forward implication of
-§7.5 and the completion of §7.6. The proof routes described above for results already in the
+§7.5, and the completion and the additivity and monotonicity of §7.6. The proof routes described above for results already in the
 library are proof sketches, not separate targets.
 
 **Owned elsewhere and consumed here.**

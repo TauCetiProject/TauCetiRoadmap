@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.GroupTheory.TrivialIntersection
+import TauCeti.GroupTheory.GroupAlgGeom.AlgebraicSet
 
 /-!
 # FreeGroupsAndLimitGroups: representative target signatures
@@ -20,7 +21,10 @@ Design choices made explicit here:
   `IsMulCommutative`; neither is defined again here;
 * heavy constructions (graphs of groups and their fundamental groups, Bass–Serre trees,
   generalised equations, JSJ decompositions, Makanin–Razborov diagrams, infinite words) are
-  README targets and do not appear here.
+  README targets and do not appear here;
+* the category of algebraic sets with word maps and the contravariant coordinate-group functor
+  `Γ` (§5.12 (4)) are data and README targets too; only the isomorphism criterion they give is
+  stated here.
 -/
 
 namespace TauCetiRoadmap.FreeGroupsAndLimitGroups
@@ -87,10 +91,6 @@ theorem exists_maximalRoot (x : FreeGroup α) (hx : x ≠ 1) :
   sorry
 
 /-- Commuting elements are powers of a common element (§1.5). -/
-/- Shared Mathlib interface names (README, Scope and ownership):
-`FreeGroup.centralizer_of_eq_closure`,
-`FreeGroup.isCyclic_centralizer`, `FreeGroup.commute_of_commute`,
-`FreeGroup.center_eq_top_of_subsingleton` and `FreeGroup.center_eq_bot_of_nontrivial`. -/
 theorem commute_iff_exists_zpow (x y : FreeGroup α) :
     Commute x y ↔ ∃ r : FreeGroup α, ∃ m n : ℤ, x = r ^ m ∧ y = r ^ n := by
   sorry
@@ -159,8 +159,8 @@ def IsTree : Prop :=
 def ofSimpleGraph {W : Type*} (G : SimpleGraph W) : SerreGraph W G.Dart where
   src e := e.fst
   rev e := e.symm
-  rev_rev := by sorry
-  rev_ne := by sorry
+  rev_rev := SimpleGraph.Dart.symm_symm
+  rev_ne := SimpleGraph.Dart.symm_ne
 
 /-- The simple-graph dart adapter preserves connectedness, including empty graphs (§2.1). -/
 theorem connected_ofSimpleGraph {W : Type*} (G : SimpleGraph W) :
@@ -180,8 +180,8 @@ example :
 def restrict (T : Set E) (hT : ∀ e ∈ T, Γ.rev e ∈ T) : SerreGraph V T where
   src e := Γ.src e
   rev e := ⟨Γ.rev e, hT e e.property⟩
-  rev_rev := by sorry
-  rev_ne := by sorry
+  rev_rev e := Subtype.ext (Γ.rev_rev e)
+  rev_ne e h := Γ.rev_ne e (congrArg Subtype.val h)
 
 /-- Spanning trees retain every vertex (§2.2). -/
 structure SpanningTree where
@@ -212,7 +212,8 @@ theorem graphPresentation_reducedLoop_bijective (T : Γ.SpanningTree) (v : V) :
 /-- Positive darts outside a spanning tree freely generate the graph group (§2.2). -/
 theorem graphPresentation_free (T : Γ.SpanningTree) (O : Set E)
     (hO : Γ.IsOrientation O) :
-    Nonempty (Γ.GraphPresentation T ≃* FreeGroup {e : E // e ∈ O ∧ e ∉ T.edges}) := by sorry
+    Function.Bijective (FreeGroup.lift fun e : {e : E // e ∈ O ∧ e ∉ T.edges} =>
+      (PresentedGroup.of e.val : Γ.GraphPresentation T)) := by sorry
 
 /-- A finite graph presentation is finitely generated (§2.2). -/
 theorem graphPresentation_fg [Finite E] (T : Γ.SpanningTree) :
@@ -226,8 +227,8 @@ theorem graphPresentation_rank [Finite V] [Finite E] (T : Γ.SpanningTree)
 /-- The tree loops also give the free integral abelianization (§2.2a). -/
 theorem graphPresentation_abelianization (T : Γ.SpanningTree) (O : Set E)
     (hO : Γ.IsOrientation O) :
-    Nonempty (Additive (Abelianization (Γ.GraphPresentation T)) ≃+
-      FreeAbelianGroup {e : E // e ∈ O ∧ e ∉ T.edges}) := by sorry
+    Function.Bijective (FreeAbelianGroup.lift fun e : {e : E // e ∈ O ∧ e ∉ T.edges} =>
+      Additive.ofMul (Abelianization.of (PresentedGroup.of e.val : Γ.GraphPresentation T))) := by sorry
 
 /-- Binary incidence in finite-function coordinates on actual edge type `O` (§2.2a).
 Both ends of a loop are counted. -/
@@ -445,27 +446,14 @@ theorem cycleSpace_finrank [Fintype V] [Fintype E] (T : Γ.SpanningTree)
 def rose (n : ℕ) : SerreGraph Unit (Fin n × Bool) where
   src _ := ()
   rev e := (e.1, !e.2)
-  rev_rev := by sorry
-  rev_ne := by sorry
+  rev_rev e := by simp
+  rev_ne e h := by simp [Prod.ext_iff] at h
 
 /-- The edgeless spanning tree of a rose. -/
 def roseTree (n : ℕ) : (rose n).SpanningTree where
   edges := ∅
-  rev_mem := by sorry
-  isTree := by sorry
-
-/-- Parallel edge pairs retain their identities in the finite graph examples (§2.2). -/
-def parallelGraph (n : ℕ) : SerreGraph (Fin 2) (Fin n × Bool) where
-  src e := if e.2 then 0 else 1
-  rev e := (e.1, !e.2)
-  rev_rev := by sorry
-  rev_ne := by sorry
-
-/-- One edge pair spans the two vertices of a nonempty parallel-edge graph. -/
-def parallelTree (n : ℕ) (hn : 0 < n) : (parallelGraph n).SpanningTree where
-  edges := {e | e.1.val = 0}
-  rev_mem := by sorry
-  isTree := by sorry
+  rev_mem _ h := h.elim
+  isTree := ⟨⟨()⟩, fun _ _ => ⟨[], rfl⟩, fun _ _ _ _ => List.eq_nil_iff_forall_not_mem.2 fun e _ => e.2⟩
 
 -- README `SerreGraph.rose_one_not_tree`: a loop is a reduced closed path.
 example (e : E) (he : Γ.tgt e = Γ.src e) : ¬ Γ.IsTree := by
@@ -516,11 +504,11 @@ theorem mem_accepted_iff_of_isFolded (hΓ : Γ.IsFolded) (v : V) (w : List (α �
 def prod {W D : Type*} (Δ : LabelledGraph α W D) :
     LabelledGraph α (V × W) {p : E × D // Γ.label p.1 = Δ.label p.2} where
   src e := (Γ.src e.1.1, Δ.src e.1.2)
-  rev e := ⟨(Γ.rev e.1.1, Δ.rev e.1.2), by sorry⟩
-  rev_rev := by sorry
-  rev_ne := by sorry
+  rev e := ⟨(Γ.rev e.1.1, Δ.rev e.1.2), by rw [Γ.label_rev, Δ.label_rev, e.2]⟩
+  rev_rev e := Subtype.ext (Prod.ext (Γ.rev_rev _) (Δ.rev_rev _))
+  rev_ne e h := Γ.rev_ne _ (congrArg (·.1.1) h)
   label e := Γ.label e.1.1
-  label_rev := by sorry
+  label_rev e := Γ.label_rev e.1.1
 
 /-- Product labels belong to both accepted subgroups, with no foldedness hypothesis. -/
 theorem prod_accepted_le {W D : Type*} (Δ : LabelledGraph α W D) (v : V) (w : W) :
@@ -769,6 +757,25 @@ theorem isIrreducible_iff_discriminated {X : Type*} [Finite X]
         ((QuotientGroup.mk' _).comp Monoid.Coprod.inl) (MonoidHom.id G) := by
   sorry
 
+open TauCeti.GroupAlgGeom in
+/-- Isomorphism of algebraic sets is isomorphism of coordinate groups (§5.12 (4)), for an
+arbitrary coefficient homomorphism `ι`, empty algebraic sets included: the coordinate groups are
+isomorphic under `G` exactly when there are mutually inverse word maps between the algebraic
+sets. It follows from the anti-equivalence `Γ` of §5.12 (4), since a fully faithful functor
+reflects isomorphisms, and is stated on the Tau Ceti carriers of that route: `Γ` is full by
+`CoordGroup.exists_wordMap_representation`, faithful by `CoordGroup.homOfMapsToWordMap_eq_iff`,
+and turns substitution into composition by `CoordGroup.homOfMapsToWordMap_mk` and
+`CoordGroup.gHom_ext`. -/
+theorem coordGroup_iso_iff_wordMap_iso {X Y H : Type*} [Group H] (ι : G →* H)
+    (S : Set (TauCeti.GroupAlgGeom.GX G X)) (T : Set (TauCeti.GroupAlgGeom.GX G Y)) :
+    (∃ e : TauCeti.GroupAlgGeom.CoordGroup ι T ≃* TauCeti.GroupAlgGeom.CoordGroup ι S,
+        e.toMonoidHom.comp (CoordGroup.coeff ι T) = CoordGroup.coeff ι S) ↔
+      ∃ (w : Y → TauCeti.GroupAlgGeom.GX G X) (w' : X → TauCeti.GroupAlgGeom.GX G Y),
+        Set.MapsTo (wordMap ι w) (V ι S) (V ι T) ∧ Set.MapsTo (wordMap ι w') (V ι T) (V ι S) ∧
+        Set.EqOn (wordMap ι w' ∘ wordMap ι w) id (V ι S) ∧
+        Set.EqOn (wordMap ι w ∘ wordMap ι w') id (V ι T) := by
+  sorry
+
 /-- The radical of `x²` over a free group is the normal closure of `x`, not of `x²` (§5.2). -/
 theorem rad_sq :
     radical (MonoidHom.id (FreeGroup (Fin 2))) {Monoid.Coprod.inr (FreeGroup.of ()) ^ 2} =
@@ -800,17 +807,18 @@ abbrev Corner := Σ f : F, Fin (C.faceWord f).length
 /-- The two outgoing edge germs at a face corner. -/
 def cornerEnds (c : C.Corner) : E × E :=
   let w := C.faceWord c.1
-  let prev : Fin w.length := ⟨(c.2.val + w.length - 1) % w.length, by sorry⟩
+  let prev : Fin w.length := ⟨(c.2.val + w.length - 1) % w.length, Nat.mod_lt _ (C.face_nonempty c.1)⟩
   (C.graph.rev (w.get prev), w.get c.2)
 
 /-- Corner incidence gives a Serre link, retaining loops and parallel link edges. -/
 def vertexLink (v : V) : SerreGraph {e : E // C.graph.src e = v}
-    {p : C.Corner × Bool // C.graph.src (C.cornerEnds p.1).1 = v} where
+    {p : C.Corner × Bool //
+      C.graph.src (C.cornerEnds p.1).1 = v ∧ C.graph.src (C.cornerEnds p.1).2 = v} where
   src p := ⟨if p.val.2 then (C.cornerEnds p.val.1).2 else (C.cornerEnds p.val.1).1,
-    by sorry⟩
+    by split; exacts [p.2.2, p.2.1]⟩
   rev p := ⟨(p.val.1, !p.val.2), p.property⟩
-  rev_rev := by sorry
-  rev_ne := by sorry
+  rev_rev p := Subtype.ext (by simp)
+  rev_ne p h := by simpa using congrArg (·.val.2) h
 
 /-- For a finite face type, the local degree counts link darts; a link loop contributes two. -/
 noncomputable def linkDegree [Finite F] (e : E) : ℕ :=
@@ -834,11 +842,11 @@ def faceRelators (T : C.graph.SpanningTree) : Set (FreeGroup E) :=
 abbrev FacePresentation (T : C.graph.SpanningTree) := PresentedGroup (C.faceRelators T)
 
 /-- Changing the spanning tree preserves the face group (§6.0c). -/
-theorem facePresentation_tree_independent (T U : C.graph.SpanningTree) :
+theorem nonempty_facePresentation_tree_independent (T U : C.graph.SpanningTree) :
     Nonempty (C.FacePresentation T ≃* C.FacePresentation U) := by sorry
 
 /-- Face relations give exactly the kernel of the graph-to-face quotient (§6.0c). -/
-theorem facePresentation_quotient (T : C.graph.SpanningTree) :
+theorem nonempty_facePresentation_quotient (T : C.graph.SpanningTree) :
     Nonempty (C.FacePresentation T ≃*
       (C.graph.GraphPresentation T ⧸ Subgroup.normalClosure
         (Set.range fun f => PresentedGroup.mk (C.graph.graphRelators T)
@@ -932,20 +940,20 @@ theorem boundary_incidence (M : SurfaceModel) (e : (Fin M.edgeCount × Bool)) :
 def boundary (M : SurfaceModel) :
     SerreGraph M.BoundaryVertex {e : Fin M.edgeCount × Bool // e ∈ M.boundaryDarts} where
   src e := ⟨M.complex.graph.src e, e.val, e.property, rfl⟩
-  rev e := ⟨M.complex.graph.rev e, by sorry⟩
-  rev_rev := by sorry
-  rev_ne := by sorry
+  rev e := ⟨M.complex.graph.rev e, (M.boundary_incidence e).2.2 e.2⟩
+  rev_rev e := Subtype.ext (M.complex.graph.rev_rev e.val)
+  rev_ne e h := M.complex.graph.rev_ne e.val (congrArg Subtype.val h)
 
 end SurfaceModel
 
 /-- Adjoining an edge determined by an old word preserves a presentation (§6.0b). -/
-theorem presentation_adjoin_edge {A : Type*} (R : Set (FreeGroup A)) (w : FreeGroup A) :
+theorem nonempty_presentation_adjoin_edge {A : Type*} (R : Set (FreeGroup A)) (w : FreeGroup A) :
     Nonempty (PresentedGroup R ≃*
       PresentedGroup ((FreeGroup.map Sum.inl '' R) ∪
         {FreeGroup.of (Sum.inr () : A ⊕ Unit) * (FreeGroup.map Sum.inl w)⁻¹})) := by sorry
 
 /-- Splitting a face along a new edge preserves its presented group (§6.0b). -/
-theorem presentation_split_face {A : Type*} (R : Set (FreeGroup A)) (u v : FreeGroup A) :
+theorem nonempty_presentation_split_face {A : Type*} (R : Set (FreeGroup A)) (u v : FreeGroup A) :
     Nonempty (PresentedGroup (R ∪ {u * v}) ≃*
       PresentedGroup ((FreeGroup.map Sum.inl '' R) ∪
         {FreeGroup.map Sum.inl u * FreeGroup.of (Sum.inr () : A ⊕ Unit),
@@ -959,52 +967,14 @@ def polygon (n : ℕ) (w : List (Fin n × Bool)) (hw : 0 < w.length) :
   graph := {
     src := fun _ => 0
     rev := fun e => (e.1, !e.2)
-    rev_rev := by sorry
-    rev_ne := by sorry }
+    rev_rev := by simp
+    rev_ne := by simp [Prod.ext_iff] }
   faceBase _ := 0
   faceWord _ := w
-  face_closed := by sorry
+  face_closed _ := by clear hw; induction w with | nil => rfl | cons e es ih => exact ⟨rfl, ih⟩
   face_nonempty _ := hw
 
 end PolygonalComplex
-
-namespace SurfaceModel
-
-/-- The disc polygon has one unpaired boundary side (§6.0a). -/
-def disc : SurfaceModel where
-  vertexCount := 1
-  edgeCount := 1
-  faceCount := 1
-  complex := PolygonalComplex.polygon 1 [(0, true)] (by sorry)
-  vertices_nonempty := by sorry
-  faces_nonempty := by sorry
-  connected := by sorry
-  surface_links := by sorry
-
-/-- The torus polygon uses the source commutator's four sides (§6.0a). -/
-def torus : SurfaceModel where
-  vertexCount := 1
-  edgeCount := 2
-  faceCount := 1
-  complex := PolygonalComplex.polygon 2 [(0, false), (1, false), (0, true), (1, true)]
-    (by sorry)
-  vertices_nonempty := by sorry
-  faces_nonempty := by sorry
-  connected := by sorry
-  surface_links := by sorry
-
-/-- The projective-plane polygon traverses one paired side twice (§6.0a). -/
-def projectivePlane : SurfaceModel where
-  vertexCount := 1
-  edgeCount := 1
-  faceCount := 1
-  complex := PolygonalComplex.polygon 1 [(0, true), (0, true)] (by sorry)
-  vertices_nonempty := by sorry
-  faces_nonempty := by sorry
-  connected := by sorry
-  surface_links := by sorry
-
-end SurfaceModel
 
 /-- The source commutator `x⁻¹ y⁻¹ x y`, equal to Mathlib's `⁅x⁻¹, y⁻¹⁆`. -/
 def comm {G : Type*} [Group G] (x y : G) : G := x⁻¹ * y⁻¹ * x * y

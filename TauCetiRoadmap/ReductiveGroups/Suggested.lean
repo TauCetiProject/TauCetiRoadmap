@@ -3,6 +3,7 @@ import TauCeti.Algebra.AlgebraicGroup.Reductive.Basic
 import TauCeti.Algebra.AlgebraicGroup.LinearlyReductive
 import TauCeti.Algebra.AlgebraicGroup.Unipotent.Radical.Construction
 import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Coinvariants.Basic
+import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.Coinvariants.Quotient
 import TauCeti.Algebra.AlgebraicGroup.Connected.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.Connected.GroupScheme
 import TauCeti.Algebra.AlgebraicGroup.Torus.Basic
@@ -30,7 +31,9 @@ theorems against the pinned Mathlib and Tau Ceti APIs, each admitted with `sorry
 
 Stated here, because every carrier exists at the pins: Layer 3's quotient theorem for a normal
 closed subgroup of a finite-type affine group over a field, nonreduced groups included, as the
-representing coinvariant algebra together with faithful flatness; Layer 3A's local closedness
+representing coinvariant algebra together with faithful flatness, and the two identities that make
+the Takeuchi Galois connection between Hopf subalgebras and normal Hopf ideals an order
+isomorphism; Layer 3A's local closedness
 of the orbit of a rational point under a finite-type group acting on a finite-type scheme over an
 arbitrary field; Layer 6's characteristic-zero
 criterion that an affine group is linearly reductive exactly when its identity component is
@@ -154,6 +157,34 @@ theorem isIso_coinvariantsQuotient_of_isNormal {k : Type v} [Field k]
     (I : TauCeti.HopfIdeal k H) (hI : I.IsNormal) :
     CategoryTheory.IsIso I.fppfHomogeneousQuotientToCoinvariantsPoints ∧
       I.coinvariants.val.toRingHom.FaithfullyFlat := by
+  sorry
+
+/-- **Takeuchi correspondence, quotient side.** For a normal Hopf ideal `I` of a finite-type
+commutative Hopf algebra over a field, the kernel of the projection `G → G/N` onto the
+coinvariants is exactly `N`: the kernel Hopf ideal of the inclusion of the right
+`I`-coinvariants is `I`. The pinned `TauCeti.CommHopfAlgCat.kernelHopfIdeal_coinvariantsι_le`
+is the inclusion `≤`, and the pinned `TauCeti.CommHopfAlgCat.kernelHopfIdeal_coinvariantsι_eq`
+is this identity for geometrically reduced `H`; here nonreduced `H` is included. -/
+theorem kernelHopfIdeal_coinvariantsι {k : Type v} [Field k]
+    {H : _root_.CommHopfAlgCat.{v} k} [Algebra.FiniteType k H]
+    (I : TauCeti.HopfIdeal k H) (hI : I.IsNormal) :
+    TauCeti.CommHopfAlgCat.kernelHopfIdeal (TauCeti.CommHopfAlgCat.coinvariantsι hI) = I := by
+  sorry
+
+/-- **Takeuchi correspondence, subalgebra side.** A Hopf subalgebra `B` of a finite-type
+commutative Hopf algebra `A` over a field is the algebra of right coinvariants of the Hopf ideal
+`A·B⁺` it generates, the kernel Hopf ideal of its inclusion (Takeuchi 1972, Corollary 3.10 and
+its proof, p. 259, and Lemma 4.4, p. 261). The pinned
+`TauCeti.CommHopfAlgCat.coinvariants_kernelHopfIdeal_eq_range` gives it once `A` is known to be
+faithfully flat over `B` (Takeuchi 1972, Theorem 3.1, p. 253). With
+`kernelHopfIdeal_coinvariantsι` and the pinned Galois connection
+`TauCeti.HopfIdeal.forall_hom_mem_coinvariants_iff`, this makes `B ↦ A·B⁺` an order isomorphism
+from Hopf subalgebras onto normal Hopf ideals (Takeuchi 1972, Theorem 4.3, p. 261). -/
+theorem coinvariants_kernelHopfIdeal_hopfSubalgebraι {k : Type v} [Field k]
+    {H : _root_.CommHopfAlgCat.{v} k} [Algebra.FiniteType k H]
+    {B : Subalgebra k H} (hB : B.IsHopfSubalgebra) :
+    (TauCeti.CommHopfAlgCat.kernelHopfIdeal
+      (TauCeti.CommHopfAlgCat.hopfSubalgebraι hB)).coinvariants = B := by
   sorry
 
 /-! ## Layer 3A: algebraic orbits -/

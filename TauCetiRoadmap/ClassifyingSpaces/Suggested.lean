@@ -46,6 +46,13 @@ Headline theorems that are theorems of the pinned Tau Ceti, and therefore not st
   through the chosen identification of the fundamental group and state its naturality; those are
   constructions and prose targets of `README.md` only.
 
+The adjunction of item 1.4, the fundamental group left adjoint to
+`TauCeti.classifyingSpaceHomotopyFunctor` on the full subcategory of path-connected Hausdorff CW
+complexes, is a packaging of the headline `exists_continuousMap_mapOfEq_eq_of_isAspherical` and
+is not stated here: its hom-set bijections are the existence and uniqueness clauses of that
+headline with target `TauCeti.classifyingSpace G`, and its counit is the pinned
+`TauCeti.classifyingSpaceHomotopyFunctorCompFundamentalGroupFunctorIso`.
+
 The nerve model of the algebraic-topology roadmap and its comparison with Milnor's model
 belong to that roadmap and are not stated here.
 

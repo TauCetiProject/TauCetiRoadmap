@@ -3,6 +3,7 @@ import TauCeti.NumberTheory.ClassFieldTheory.ClassFields.RayClassField
 import TauCeti.NumberTheory.ClassFieldTheory.Global.AdmissibleModulus.Basic
 import TauCeti.NumberTheory.ClassFieldTheory.Local.ArtinMap
 import TauCeti.NumberTheory.ClassFieldTheory.Local.Reciprocity
+import TauCeti.NumberTheory.ClassFieldTheory.LocalExistence.Correspondence
 import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
 import TauCeti.NumberTheory.LocalField.Herbrand.Basic
 import TauCeti.NumberTheory.LocalField.UnitFiltration.Basic
@@ -56,6 +57,12 @@ The open headline theorems stated below are:
 * the principal ideal theorem in the Hilbert class field, and the global conductor–discriminant
   formula, with the discriminant the product and the conductor the lcm of the conductors of the
   characters (Layer 13).
+
+It also states the structured form of Tau Ceti's local correspondence in characteristic zero: the
+norm-subgroup Galois insertion and its closure operator, the maximal abelian sublayer (Layer 8).
+Neither is at the pin, but each follows from pinned lemmas in a few lines, so they record the
+Layer 8 target rather than a headline theorem. The prime-to-`p` form of that target is stated in
+the README only.
 
 All open headline theorems are statable at the pins. The absolute upper group needed for
 absolute unit-filtration reciprocity is the intersection of the inverse images of the native
@@ -133,6 +140,28 @@ theorem map_artinMap_unitFiltration_eq_upper
     (unitFiltration K n).map (artinMap K) =
       (localAbsoluteUpperRamificationGroup K ⟨n, Nat.cast_mem_ramificationIndexDomain n⟩).map
         (QuotientGroup.mk' (commutator (Field.absoluteGaloisGroup K)).topologicalClosure) :=
+  sorry
+
+/-! ## Layer 8: the norm-subgroup Galois insertion -/
+
+/-- **The norm-subgroup Galois connection.** In characteristic zero, for every open normal
+subgroup `V` of `G_K` (abelian or not) and every open finite-index `N ≤ Kˣ`, the norm subgroup of
+`V` lies in `N` exactly when `V` lies in the class field of `N`. With the insertion equation
+`localClassField_normSubgroup` it makes the pair a `GaloisInsertion`. -/
+theorem localClassField_galoisConnection
+    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    [CharZero K] :
+    GaloisConnection (localNormOpenSubgroup K)
+      (fun N : LocalNormSubgroups K ↦ (localClassField N).1) :=
+  sorry
+
+/-- **The closure operator of the insertion.** The class field of the norm subgroup of a layer is
+its maximal abelian sublayer; this is norm limitation, `localNormSubgroup_maximalAbelianLayer`,
+read through uniqueness. -/
+theorem localClassField_localNormOpenSubgroup
+    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    [CharZero K] (V : OpenNormalSubgroup (AbsoluteGaloisGroup K)) :
+    (localClassField (localNormOpenSubgroup K V)).1 = V.maximalAbelianLayer :=
   sorry
 
 /-! ## Layer 13: the principal ideal theorem and the global conductor–discriminant formula -/

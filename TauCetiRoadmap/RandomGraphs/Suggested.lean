@@ -7,6 +7,8 @@ public import TauCeti.Combinatorics.DenseGraphLimits.Sampling.AlmostSure.Basic
 public import TauCeti.Algebra.GroupAction.FiniteSupportPerm
 public import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Infinite.Mixture
 public import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Relational.Ergodic
+public import TauCeti.Combinatorics.DenseGraphLimits.ExchangeableGraphLaw.Correspondence
+public import TauCeti.Probability.DeFinetti.Correspondence
 public import TauCeti.Combinatorics.SimpleGraph.Connectivity.VertexConnectivity
 public import TauCeti.Combinatorics.SimpleGraph.ExtensionProperty
 public import TauCeti.Combinatorics.SimpleGraph.RelationalConfiguration
@@ -37,6 +39,8 @@ this file does not redeclare those objects. Direct rank-agreement signatures can
 endpoint without importing the implementation of those strategies.
 
 The imports consume from Tau Ceti the existing graphon samplers, their ergodicity and mixtures,
+the de Finetti and Diaconis–Janson correspondences `deFinettiEquiv` and
+`mixtureExchangeableLawEquiv`,
 the canonical extension predicate `SimpleGraph.HasExtensionProperty`, the Rado graph
 `TauCeti.radoGraph` and its countable characterization `TauCeti.nonempty_iso_radoGraph_iff`, the
 finite atomic diagrams `TauCeti.firstOrderAtomicDiagram`, and vertex connectivity
@@ -875,6 +879,34 @@ are concentrated on the Rado isomorphism class. The witness is the edge-density 
 invariant under finitely supported permutations but is not an isomorphism-invariant event. -/
 theorem binomialRandom_mutuallySingular (p q : I) (hpq : p ≠ q) :
     SimpleGraph.binomialRandom ℕ p ⟂ₘ SimpleGraph.binomialRandom ℕ q := by
+  sorry
+
+/-! ### The mixture correspondences as structured isomorphisms (Layer 9.5) -/
+
+/-- **De Finetti's correspondence is measurable.** Over a standard Borel state space, the
+bijection `TauCeti.Probability.deFinettiEquiv` from mixing laws onto exchangeable path laws is
+measurable for the Giry measurable spaces, the target carrying the subspace structure. This is the
+easy half of the measurable equivalence: the barycenter is the Giry join of the pushforward along
+the measurable map `P ↦ P^{⊗ℕ}`. -/
+theorem measurable_deFinettiEquiv {α : Type u} [MeasurableSpace α] [StandardBorelSpace α] :
+    Measurable (TauCeti.Probability.deFinettiEquiv (α := α)) := by
+  sorry
+
+/-- **The inverse of de Finetti's correspondence is measurable**: reading off the mixing law of an
+exchangeable path law is measurable, so the correspondence is a measurable equivalence. -/
+theorem measurable_deFinettiEquiv_symm {α : Type u} [MeasurableSpace α] [StandardBorelSpace α] :
+    Measurable (TauCeti.Probability.deFinettiEquiv (α := α)).symm := by
+  sorry
+
+/-- **The Diaconis–Janson correspondence is a homeomorphism onto marginal convergence.** Mixing
+measures on graphon space converge weakly exactly when every finite marginal mass of their
+mixture laws converges. Equivalently, `mixtureExchangeableLawEquiv` is a homeomorphism when
+exchangeable graph laws carry the topology induced by their finite marginals. -/
+theorem tendsto_iff_tendsto_mixtureExchangeableLaw {ι : Type u} {l : Filter ι}
+    (P : ι → ProbabilityMeasure GraphonSpaceI) (P₀ : ProbabilityMeasure GraphonSpaceI) :
+    Tendsto P l (𝓝 P₀) ↔ ∀ (k : ℕ) (G : SimpleGraph (Fin k)),
+      Tendsto (fun i => (mixtureExchangeableLaw (P i)).law k {G}) l
+        (𝓝 ((mixtureExchangeableLaw P₀).law k {G})) := by
   sorry
 
 /-! ## Infinitary distinctions (Layer 10)
