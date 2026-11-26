@@ -1294,10 +1294,17 @@ have positive measure).
   measurable sets; if `μ` is atomless so is `μ ⊗ ν` for every σ-finite `ν`.
 - Sierpiński's theorem: if `μ` is atomless, `A` is measurable with `μ(A) < ∞` and
   `0 ≤ t ≤ μ(A)`, there is a measurable `B ⊆ A` with `μ(B) = t`; hence `A` is a disjoint union of `n`
-  measurable sets of measure `μ(A)/n` for every `n ≥ 1`. This is BochnerSpaces §7.5 applied to the
-  finite measure `μ.restrict A` and the set `A` with the ratio `t/μ(A)` (for `μ(A) = 0`, `t = 0`
-  and `B = ∅`); `μ.restrict A` is atomless because an atom `E` of it gives the atom `E ∩ A` of `μ`.
-  The `n` pieces follow by splitting off `μ(A)/n` from the remainder `n − 1` times.
+  measurable sets of measure `μ(A)/n` for every `n ≥ 1` (the splitting used in
+  lafforgue-delasalle-2011 lines 513–515). Route: a measurable `E ⊆ A` with `μ(E) > 0` is not an
+  atom, so it contains a measurable `F` with `0 < μ(F) < μ(E)`, and one of `F`, `E \ F` has
+  positive measure at most `μ(E)/2`; repeating, `E` has measurable subsets of arbitrarily small
+  positive measure. Put `B₀ = ∅` and, given `B_k ⊆ A` with `μ(B_k) ≤ t`, let `s_k` be the supremum
+  of `μ(F)` over measurable `F ⊆ A \ B_k` with `μ(B_k) + μ(F) ≤ t`, choose such an `F_k` with
+  `μ(F_k) ≥ s_k/2` and put `B_{k+1} = B_k ∪ F_k`. The union `B` of the `B_k` has `μ(B) ≤ t`, and
+  the disjoint `F_k` have `Σ_k μ(F_k) ≤ t < ∞`, so `s_k → 0`. If `μ(B) < t`, then
+  `μ(A \ B) ≥ t − μ(B) > 0`, and a measurable `G ⊆ A \ B` with `0 < μ(G) ≤ t − μ(B)` is admissible
+  at every step, so `s_k ≥ μ(G)` for every `k`, which is impossible; hence `μ(B) = t`. The `n`
+  pieces follow by splitting off `μ(A)/n` from the remainder `n − 1` times.
 - On a standard Borel space a σ-finite measure is atomless exactly when it has null singletons,
   by Tau Ceti's `MeasureTheory.Measure.exists_subset_measure_eq_of_nullSingleton` and the point-mass
   description of atoms in `TauCeti/MeasureTheory/Measure/Atom.lean`.
@@ -1310,14 +1317,12 @@ have positive measure).
   cocountable ones) has null singletons, so it satisfies `MeasureTheory.NullSingletonClass`, but
   the whole space is an atom: the two notions differ off standard Borel spaces. It has no set of
   measure `1/2`, so Sierpiński's theorem fails under null singletons alone.
-- Lebesgue measure, `A = [0, 2]` and `t = 1/2`: `μ.restrict A` has mass `2`, the ratio is `1/4`,
-  and a subset of measure `(1/4) · 2 = 1/2` is `[0, 1/2]`; with the ratio taken as `t` itself the
-  subset would have measure `1`.
 - The zero measure is atomless, and every finite-measure set splits into `n` null pieces.
 
 *Needs:* Tau Ceti `MeasureTheory.Measure.IsAtom`,
 `MeasureTheory.Measure.exists_subset_measure_eq_of_nullSingleton`; Mathlib
-`MeasureTheory.NullSingletonClass`; BochnerSpaces §7.5.
+`MeasureTheory.NullSingletonClass`, `MeasureTheory.measure_iUnion`,
+`MeasureTheory.tendsto_measure_iUnion_atTop`.
 
 ### 7.2 Equal-measure refinements
 
@@ -1393,7 +1398,7 @@ by §5.1.
 
 ### Dependencies
 
-Layers 2 (§2.5), 3 and 5; Tau Ceti `MeasureTheory.Measure.IsAtom`; BochnerSpaces §7.5.
+Layers 2 (§2.5), 3 and 5; Tau Ceti `MeasureTheory.Measure.IsAtom`.
 
 ## Layer 8: continuous symbols on Radon measure spaces
 
@@ -2283,8 +2288,8 @@ This roadmap owns:
   `S_p`, its unique bounded extension, its completely bounded norm by amplified symbols, the finite
   (Hadamard) case, and their invariances (Layer 3); duality and interpolation (Layer 4);
   conditional expectations of symbols and martingale limits (Layer 5); positive symbols and the
-  Grothendieck–Haagerup characterisation (Layer 6); the atomless theorem (Layer 7); continuous
-  symbols (Layer 8);
+  Grothendieck–Haagerup characterisation (Layer 6); Sierpiński's theorem for atomless measures on
+  an arbitrary measurable space and the atomless theorem (Layer 7); continuous symbols (Layer 8);
 - Toeplitz symbols on `ℝⁿ`, the Følner compressions of convolution operators and Fourier–Schur
   transference on `ℝⁿ` (Layer 9);
 - operator-valued column and row BMO seminorms of functions on `ℝⁿ` and on the torus `𝕋ⁿ`, the
@@ -2351,12 +2356,11 @@ It leaves to named roadmaps, and consumes from them by section:
   the sub-σ-algebra is σ-finite, defined as the adjoint of the `L¹` projection `E₁`, with its
   adjoint formula, its contractivity and its agreement with `MeasureTheory.condExpL2` on
   `L^∞ ∩ L²`, together with the positivity, idempotence, tower law and agreement with
-  `MeasureTheory.condExp` of `E₁` (its §7.4), the divisibility of atomless finite measures (its
-  §7.5), and the Fubini isometry `Lᵖ(μ ⊗ ν; X) ≅ Lᵖ(μ; Lᵖ(ν; X))` for σ-finite `μ`, `ν` (its §4.2).
+  `MeasureTheory.condExp` of `E₁` (its §7.4), and the Fubini isometry
+  `Lᵖ(μ ⊗ ν; X) ≅ Lᵖ(μ; Lᵖ(ν; X))` for σ-finite `μ`, `ν` (its §4.2).
   Here §2.5 proves the further properties of that expectation which Layers 5–7 use, among them
   the `𝒜`-measurability of its values, its positivity and its tower law, carried over from `E₁` by
-  the adjoint formula; §7.1 applies BochnerSpaces §7.5 to the restriction of an atomless measure
-  to a set of finite measure; §11.3 uses BochnerSpaces §4.2 at `p = 2`. Mathlib's
+  the adjoint formula; §11.3 uses BochnerSpaces §4.2 at `p = 2`. Mathlib's
   `MeasureTheory.condExp` is `0` on every non-integrable function and gives this expectation only
   on integrable functions; the
   normal expectation of NoncommutativeIntegration §4.3 lives on that roadmap's own `Lᵖ` carriers
@@ -2587,8 +2591,8 @@ distributions and assume a symbol of temperate growth.
   measure, every measurable subset null or of full measure.
 - `MeasureTheory.Measure.exists_subset_measure_eq_of_nullSingleton`
   (`TauCeti/MeasureTheory/Measure/AtomlessStandardBorel/Transport.lean`): Sierpiński's theorem on a
-  standard Borel space under null singletons; §7.1 takes the version for an arbitrary measurable
-  space under the atomless hypothesis from BochnerSpaces §7.5 and compares the two.
+  standard Borel space under null singletons; §7.1 proves the version for an arbitrary measurable
+  space under the atomless hypothesis and compares the two.
 
 Tau Ceti has no compact endpoint of the Schatten scale, no operator trace on infinite-dimensional
 spaces, no kernel theorem, no Schur multiplier and no operator-valued BMO. Its bounded mean
@@ -2715,11 +2719,6 @@ is assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
   value at `s` has value `F(s, t)` at `t`, for `ν`-almost every `t` and `μ`-almost every `s`. Used at
   `p = 2`, `X = ℂ` in §11.3, with `μ` Lebesgue measure on `ℝⁿ_z` and `ν` Lebesgue measure on
   `ℝⁿ_x × ℝⁿ_y`.
-- §7.5: for a finite atomless measure `ν`, a measurable set `A` and `0 ≤ t ≤ 1`, a measurable
-  `B ⊆ A` with `ν(B) = t ν(A)`. Atomless is read as: no set is an atom in the sense of Tau Ceti's
-  `MeasureTheory.Measure.IsAtom`. It is the only reading under which the statement holds: under
-  the weaker reading by null singletons it is false, since the countable–cocountable probability
-  measure on an uncountable set has null singletons and no set of measure `1/2`.
 
 ## References
 
