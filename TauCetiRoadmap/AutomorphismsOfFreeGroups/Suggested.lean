@@ -12,8 +12,11 @@ import TauCeti.LinearAlgebra.Matrix.SpecialLinearGroup.Transvection
 It states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each with
 `sorry`, together with the few definitions needed to state them; the forms are suggestions.
 
-Stated here: Nielsen's generation theorem (§1.4); the abelianization representation, its
-transformation formula, its surjectivity and the inner automorphisms in its kernel (§§2.2–2.4).
+Stated here: Nielsen's generation theorem and its four-generator form (§1.4); the
+abelianization representation, its transformation formula, its surjectivity and the inner
+automorphisms in its kernel (§§2.2–2.4). Not stated here: the `FreeGroupBasis` form of `B`
+(§2.2) and the descent of `B` to `Out(F_n) → GL_n(ℤ)` (§2.4), whose outer automorphism group is
+TeichmullerGeometry §4.2's `OuterAut` and is not in the pinned libraries.
 -/
 
 namespace TauCetiRoadmap.AutomorphismsOfFreeGroups
@@ -28,8 +31,18 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 noncomputable def invAt (i : ι) : MulAut (FreeGroup ι) where
   toFun := FreeGroup.lift fun k => if k = i then (FreeGroup.of i)⁻¹ else FreeGroup.of k
   invFun := FreeGroup.lift fun k => if k = i then (FreeGroup.of i)⁻¹ else FreeGroup.of k
-  left_inv := sorry
-  right_inv := sorry
+  left_inv w := by
+    rw [← MonoidHom.comp_apply]
+    conv_rhs => rw [← MonoidHom.id_apply (FreeGroup ι) w]
+    congr 1
+    refine FreeGroup.ext_hom _ _ fun k => ?_
+    by_cases h : k = i <;> simp [h]
+  right_inv w := by
+    rw [← MonoidHom.comp_apply]
+    conv_rhs => rw [← MonoidHom.id_apply (FreeGroup ι) w]
+    congr 1
+    refine FreeGroup.ext_hom _ _ fun k => ?_
+    by_cases h : k = i <;> simp [h]
   map_mul' := map_mul _
 
 /-- The automorphism `g_i ↦ g_i g_j` fixing the other basis elements (§1.2). -/
@@ -48,6 +61,16 @@ automorphisms. -/
 theorem nielsenSubgroup_eq_top : nielsenSubgroup ι = ⊤ := by
   sorry
 
+/-- **Nielsen's theorem, four-generator form** (§1.4), for `F_{Fin (N + 1)}`: the cyclic shift,
+the transposition of `g₀` and `g₁`, `invAt 0` and `mulRight 0 1` generate. For `N = 0` the
+transposition is the identity and there is no `mulRight 0 1`. -/
+theorem closure_shift_swap_invAt_mulRight_eq_top (N : ℕ) :
+    Subgroup.closure
+        ({FreeGroup.freeGroupCongr (finRotate (N + 1)),
+            FreeGroup.freeGroupCongr (Equiv.swap (0 : Fin (N + 1)) 1), invAt 0} ∪
+          {γ | ∃ h : (0 : Fin (N + 1)) ≠ 1, γ = mulRight h}) = ⊤ := by
+  sorry
+
 /-! ## Layer 2: the abelianization representation -/
 
 /-- Exponent sums, `g_i ↦ e_i` (§2.1). -/
@@ -58,18 +81,33 @@ noncomputable def expSum : FreeGroup ι →* Multiplicative (ι → ℤ) :=
 noncomputable def autMatrix (γ : MulAut (FreeGroup ι)) : Matrix ι ι ℤ :=
   Matrix.of fun i j => Multiplicative.toAdd (expSum (γ (FreeGroup.of j))) i
 
+/-- The transformation formula for exponent sums (§2.2). -/
+theorem expSum_autMatrix (γ : MulAut (FreeGroup ι)) (w : FreeGroup ι) :
+    Multiplicative.toAdd (expSum (γ w)) = autMatrix γ *ᵥ Multiplicative.toAdd (expSum w) := by
+  induction w using FreeGroup.induction_on with
+  | one => simp
+  | of j => ext i; simp [autMatrix, expSum, Matrix.mulVec, dotProduct, Pi.single_apply]
+  | inv_of j ih => simp only [map_inv, toAdd_inv, ih, Matrix.mulVec_neg]
+  | mul x y hx hy => simp only [map_mul, toAdd_mul, hx, hy, Matrix.mulVec_add]
+
 /-- **The abelianization representation** `B : Aut(F_n) → GL_n(ℤ)` (§2.2). -/
 noncomputable def autToGL : MulAut (FreeGroup ι) →* GL ι ℤ :=
   MonoidHom.toHomUnits
     { toFun := autMatrix
-      map_one' := sorry
-      map_mul' := sorry }
+      map_one' := by ext i j; simp [autMatrix, expSum, Matrix.one_apply, Pi.single_apply]
+      map_mul' := fun γ δ => by
+        ext i j
+        have := congrFun (expSum_autMatrix γ (δ (FreeGroup.of j))) i
+        simpa [autMatrix, Matrix.mul_apply, Matrix.mulVec, dotProduct] using this }
 
-/-- The transformation formula for exponent sums (§2.2). -/
+theorem coe_autToGL (γ : MulAut (FreeGroup ι)) : (autToGL γ : Matrix ι ι ℤ) = autMatrix γ :=
+  rfl
+
+/-- The transformation formula, read through `autToGL` (§2.2). -/
 theorem expSum_apply (γ : MulAut (FreeGroup ι)) (w : FreeGroup ι) :
     Multiplicative.toAdd (expSum (γ w)) =
-      (autToGL γ : Matrix ι ι ℤ) *ᵥ Multiplicative.toAdd (expSum w) := by
-  sorry
+      (autToGL γ : Matrix ι ι ℤ) *ᵥ Multiplicative.toAdd (expSum w) :=
+  expSum_autMatrix γ w
 
 /-- `B` is surjective (§2.3). -/
 theorem autToGL_surjective : Function.Surjective (autToGL (ι := ι)) := by
