@@ -1042,7 +1042,8 @@ some `N_T`, then some representation of `G_E` is attached to `P`.
 
 `RiemannHypothesisForDirichletLFunctions/BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1` states the Galois
 representations of automorphic representations of definite unitary groups through weak base change to `GL_n`, with
-exact characteristic polynomials at the split places where the representation is unramified.
+exact characteristic polynomials at every place away from `ℓ` at which the base change is unramified; 7.3 says how the
+statements here are related to it.
 
 *Needs:* 1.4, 1.5, 1.6, 2.1, 5.1, 5.9, 6.1, 6.3; 1.2.
 
@@ -1124,8 +1125,42 @@ attached to `P` is, at every place `A` over `w`, unramified (crystalline if `A` 
 and, if `w` is split with Hecke polynomial `Q`, `ι(Q)` kills every geometric Frobenius at `A`.
 
 `RiemannHypothesisForDirichletLFunctions/BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1` is the form through
-weak base change to `GL_n`, with exact characteristic polynomials at split unramified places away from `ℓ` and
-crystallinity where the representation is unramified at every place above `ℓ`.
+weak base change to `GL_n`: for an automorphic representation `Π` of a definite unitary group with algebraic archimedean
+component, over a CM field with `[E⁺:ℚ] ≥ 2`, it gives a continuous semisimple `r_{ℓ,ι}(Π)`, unramified with the exact
+characteristic polynomial `P_w(BC(Π)_w; X)` of Frobenius at every `w ∤ ℓ` at which `BC(Π)_w` is unramified, split or not,
+de Rham with labelled weights `{i − 1 − λ_{τ,i}}` at every `w ∣ ℓ`, and crystalline at each `w ∣ ℓ` at which `BC(Π)_w` is
+unramified. (Its `ι` is an isomorphism `ℚ̄_ℓ ≅ ℂ`, the inverse of the `ι` of this roadmap.) Here `[E⁺:ℚ] ≥ 2` holds, since
+`E` contains `ℚ(ζ_5040)`. The route does not use §16.1, and the statement above is the target; it is nevertheless a
+consequence of §16.1, as follows, up to the two comparisons named in (iv).
+
+(i) *From `f` to `Π`.* By `AutomorphicFormsOnReductiveGroups §7.5` (automorphic realisation of the forms with
+`F(γg) = ρ(γ)F(g)`; `π_∞ ≅ V_ℂ^∨` for irreducible coefficients), an eigenform `f` has a nonzero component in an automorphic
+representation `Π` of the unitary group, and the projection commutes with right translation, so `Π` has a vector fixed by
+`K_w` wherever `f` is spherical at `w`, with the eigenvalues of `f` under the `T_{w,j}` at split such `w`. The coefficient
+representation `ρ_κ` lets a component act through its entrywise conjugate (AdelicUnitaryGroupsAndAlgebraicModularForms
+§6.1), so it is the dual of the representation of highest weight `λ_v` read through `Φ_v`, and `Π_v` has highest weight
+`λ_v` at `τ = Φ_v` and `−w₀λ_v` at the other embedding over `v`.
+(ii) *Existence.* `BC(Π)_w` is unramified wherever `Π` is, and at a split `w` it is the component of `Π` read on `GL_n(E_w)`
+(§16.1, with the local matching at unramified and split finite places of
+`EndoscopicTransferAndUnitaryTraceComparison §6.29`). At a split `w ∤ ℓ` where `f` has Hecke polynomial `Q`, the Satake
+parameters `α_i` of `Π_w` have `q_w^{j(n−j)/2}e_j(α)` as eigenvalue of `T_{w,j}`, so
+`P_w(BC(Π)_w; X) = Π_i (X − q_w^{(n−1)/2}α_i) = H_{q_w,n}(t) = Q`. Hence the characteristic polynomial of `r_{ℓ,ι}(Π)` at
+every geometric Frobenius over `w` is `ι(P_w)`, for all but finitely many `w` of prime norm, and `r_{ℓ,ι}(Π)` is attached
+to `P` in the sense of 1.5, with `O = V` in 1.2 and equality in place of the bound by `η`.
+(iii) *Every attached representation.* Two representations attached to `P` have the same traces (1.6 (b)), so they are
+conjugate (2.1 (b)), and the local conditions of 1.3 are unchanged by conjugation. So it is enough to treat
+`r_{ℓ,ι}(Π)`.
+(iv) *Local conditions at a place where `f` is spherical.* For `w ∤ ℓ`: `r_{ℓ,ι}(Π)` is unramified over `w` by §16.1, and
+at a split `w` the polynomial `ι(Q)` is the characteristic polynomial of geometric Frobenius, so it kills it. For `w ∣ ℓ`:
+§16.1 gives a crystalline representation with labelled weights `{i − 1 − λ_{v,i}}` at `Φ_v` and, since
+`λ_{τ∘c} = −w₀λ_τ`, `{λ_{v,i} + n − i}` at the other embedding, which are the jumps `J_κ` in rank `n`. Reading this in the
+terms of 1.3 needs the agreement of "crystalline" and of the Hodge–Tate jumps of
+CrystallineRepresentationsAndKisinModules §3.1, defined through `B_max`, with the notions of PadicHodgeTheory §§3.3–3.5;
+that agreement is a published theorem which no roadmap states. The last clause at a split `w ∣ ℓ` (that `ι(Q)` kills the
+linearised Frobenius on the periods) is not in §16.1: it follows from §15.1 of that roadmap applied to each block
+`π_i ⊗ |det|^{s_{ij}}`, whose parameter at `w` is a sum of unramified characters with `N = 0`, which gives
+`WD(D_pst)^{F-ss} ≅ ι⁻¹rec^T` on all of `W_{E_w}`; reading it in the terms of 1.3 needs the comparison of the linearised
+Frobenius of CrystallineRepresentationsAndKisinModules §3.1 with the Frobenius of `WD(D_pst)`, again stated in no roadmap.
 
 *Needs:* 6.4, 7.1, 7.2; 1.6; IdelicReciprocityCountsAndCyclotomicClassGroups §§8.5, 9.1 (unramified `θ_{k,j}(μ)`;
 `ℓ`-adic avatars).
