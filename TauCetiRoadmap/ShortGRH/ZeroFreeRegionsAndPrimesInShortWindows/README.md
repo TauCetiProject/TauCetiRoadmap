@@ -492,14 +492,17 @@ steps `New.legendreSym_eq_jacobiSym_ordCompl`, `New.isPrimitive_quadTwist`, `New
 
 ## Downstream consumers
 
+These sections cite this roadmap:
+
 - OneSidedPrimeSumBoundsAndAdmissibleData §0.2 (the one-sided criterion for a zero-free half-plane): 3.5 (b), for the
-  prime `d` of a class whose twists have no zero in the box below a given zero; and 1.1 (b)–(d), for the transform of
-  the remainder of the prime sum and its residues.
-- OneSidedPrimeSumBoundsAndAdmissibleData §6.3 (the half-plane and the critical line): 1.2 in the open strip.
+  prime `d` of a class whose twists have no zero in the box below a given zero.
 - IdelicReciprocityCountsAndCyclotomicClassGroups §10.2 (b) (the trivial zeros, for Voronoi-type congruences): 1.2 at
   the negative integers, for the trivial zeros of imprimitive characters.
-- ThetaFunctionsAndUnitsOfCMLattices §5.4 (the Chowla–Selberg class mean, through Kronecker's limit formula): 1.1 (d),
-  for the twist by `(·/d)` of the character modulo `1`.
+
+[ShortProof] uses three more results of this roadmap in proofs of sections that cite existing roadmap sections, Mathlib
+or the library for them: 1.1 (b)–(d) in OneSidedPrimeSumBoundsAndAdmissibleData §0.2, for the transform of the remainder
+of the prime sum and its residues; 1.2 in the open strip in OneSidedPrimeSumBoundsAndAdmissibleData §6.3; and 1.1 (d),
+for the twist by `(·/d)` of the character modulo `1`, in ThetaFunctionsAndUnitsOfCMLattices §5.4.
 
 ## What the library already provides
 

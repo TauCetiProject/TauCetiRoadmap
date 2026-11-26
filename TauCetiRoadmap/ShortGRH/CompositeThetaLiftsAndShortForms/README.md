@@ -515,7 +515,7 @@ letter.
 (b) If `n > 0`, `θ ≤ 1` and `8·N·k·t·P^{2a′} ≤ θn`, then
 `[GL_k(W) : P_{τ_{a′}}(W)]·dim_K S ≤ (1 + θ)·#Exp(N, k, n)`.
 
-*Needs:* 1.1, 1.3, 1.11; Mathlib `BoxIntegral.unitPartition.tendsto_card_div_pow_atTop_volume` (the number of
+*Needs:* 1.1, 1.3, 1.11; Mathlib `tendsto_card_div_pow_atTop_volume` (the number of
 points of `m⁻¹ℤ^d` in a bounded measurable set with null frontier, divided by `m^d`, tends to its volume) and
 `Matrix.card_GL_field` (the order of `GL_k` of a finite field, which gives the index of a parabolic subgroup).
 

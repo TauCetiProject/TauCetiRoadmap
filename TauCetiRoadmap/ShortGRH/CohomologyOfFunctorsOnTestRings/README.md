@@ -1432,10 +1432,9 @@ cohomology of 6.1.
   `CategoryTheory.Abelian.Ext.contravariant_sequence_exact₂'`,
   `CategoryTheory.Abelian.Ext.contravariant_sequence_exact₃'`.
 - Absolutely integrally closed rings as in ArcTopologyAndDescent §0.1 (condition (i) of 1.2), with quotients,
-  localisations, products, the case of fields, and valuation subrings of algebraically closed fields:
-  `TauCeti.IsAbsolutelyIntegrallyClosed`, `TauCeti.IsAbsolutelyIntegrallyClosed.quotient`,
-  `TauCeti.IsAbsolutelyIntegrallyClosed.localization`, `TauCeti.IsAbsolutelyIntegrallyClosed.pi`,
-  `TauCeti.isAbsolutelyIntegrallyClosed_iff_isAlgClosed`, `ValuationSubring.isAbsolutelyIntegrallyClosed`. The
+  localisations, products and the case of fields: `TauCeti.IsAbsolutelyIntegrallyClosed`,
+  `TauCeti.IsAbsolutelyIntegrallyClosed.quotient`, `TauCeti.IsAbsolutelyIntegrallyClosed.localization`,
+  `TauCeti.IsAbsolutelyIntegrallyClosed.pi`, `TauCeti.isAbsolutelyIntegrallyClosed_iff_isAlgClosed`. The
   condition "of any two elements one divides the other" is Mathlib `PreValuationRing`. Test rings (1.2) are not there.
 - Derived completeness of modules by the telescope map `x ↦ (x_n − f·x_{n+1})`, with products and "adically complete
   implies derived complete" (the predicate of 3.4, for every element of an ideal): `TauCeti.IsDerivedComplete`,
