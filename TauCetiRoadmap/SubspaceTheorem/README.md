@@ -235,7 +235,11 @@ Deduce, for every place `v`, infinite or finite:
 (Bombieri–Gubler, Corollaries 1.3.2 and 1.3.5.) The action `σ • w = w ∘ σ⁻¹` of `F ≃ₐ[K] F` on all of
 `AbsoluteValue F ℝ`, for any algebra of semirings, is Tau Ceti's `AbsoluteValue.instMulActionAlgEquiv`,
 with `σ • w` lying over `v` when `w` does; it has to be on all of `AbsoluteValue F ℝ`, because the
-elements of the fibre over a finite place are not finite places. For `F/K` Galois and `v` finite,
+elements of the fibre over a finite place are not finite places. Define the action in the
+generality of a group `G` acting on `F` by ring automorphisms (`MulSemiringAction G F`), as a single
+instance with `(g • w) x = w (g⁻¹ • x)` of which the action of `F ≃ₐ[K] F` is the case of Mathlib's
+`AlgEquiv.applyMulSemiringAction`, and prove `(g • w).under R = w.under R` for a subring `R` with
+`SMulCommClass G R F`. For `F/K` Galois and `v` finite,
 transitivity on the absolute values over `v` is Tau Ceti's
 `NumberField.exists_smul_eq_of_liesOver_finitePlace` and
 `NumberField.setOf_liesOver_finitePlace_eq_orbit`.

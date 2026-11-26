@@ -165,6 +165,8 @@ mathematical tests throughout the roadmap.
   conductors.
 - A complex conjugation at a real place `v` of a number field `F` is an element `c ∈ G_F` with
   `ι ∘ c = conj ∘ ι` for some embedding `ι : F̄ → ℂ` above `v` (`GaloisRep.IsComplexConjugation`).
+  Equivalently `c` is the nontrivial element of the decomposition group of an infinite place of `F̄`
+  above `v` (§2.1, *Absolute-value places*).
   Oddness of a rank-two representation is `det ρ(c_v) = −1` for every complex conjugation at every
   real place (`ℤ_ℓ(1) ⊕ ℤ_ℓ` is odd since `χ_ℓ(c) = −1`; the trivial rank-two representation is
   even); oddness of a polarised representation in dimension `n` is a sign condition at each real
@@ -1151,14 +1153,131 @@ and decomposition APIs. This target adds the place action and its comparisons to
 - For `M = K` the tower restriction has trivial target and kernel all of `D_w`; for
   `M = L` it is the identity with trivial kernel.
 
+#### Absolute-value places
+
+**Absolute-value places.** For a field `L` of characteristic zero, a *place* of `L` is a
+`ℚ`-normalised absolute value: a `w : AbsoluteValue L ℝ` whose restriction `w.under ℚ` is the real
+absolute value or a `p`-adic one (Tau Ceti's `Rat.AbsoluteValue.IsStandard`). The places are the
+subtype `{w : AbsoluteValue L ℝ // (w.under ℚ).IsStandard}`, and no further predicate is introduced.
+Finite and infinite places are one type: `w` is *finite* when `IsNonarchimedean w`, equivalently
+when `w.under ℚ` is `p`-adic, and *infinite* otherwise. Prove that the restriction of a place to a
+subfield is a place; that two equivalent places are equal; and that a group `G` acting on `L` by
+field automorphisms (`MulSemiringAction G L`) acts on the places by `(σ • w) x = w (σ⁻¹ • x)`,
+without changing the restriction to a subfield that `G` fixes pointwise. For `L` algebraic over `ℚ`,
+prove that every nontrivial absolute value of `L` is equivalent to exactly one place, so that the
+places are then all the places of `L` in the classical sense; for any other `L` they are only the
+`ℚ`-normalised absolute values. The infinite places of `L` are the underlying absolute values of
+Mathlib's `NumberField.InfinitePlace L`, bijectively. For a finite place `w`, prove that
+`A_w = {x | w x ≤ 1}` is a valuation subring of `L` with maximal ideal `{x | w x < 1}`; that
+`A_{σ • w} = σ • A_w` and `A_{w.under K} = A_w ∩ K` for a subfield `K`; that `w ↦ A_w` is injective
+on the finite places, so that the stabiliser of `w` in `G` is the stabiliser of `A_w`; and that for
+`L` algebraic over `ℚ` it is a bijection from the finite places of `L` onto the valuation subrings
+of `L` other than `L`. A finite place `w` is also a valuation `L → ℝ≥0` with the values of `w`
+(`AbsoluteValue.toValuation`, defined for every nonarchimedean real absolute value), and its
+valuation subring is `A_w`. Conversely, for a valuation `v` of `L`, prove that the absolute value
+attached to `v` along a strictly monotone homomorphism from its value group to an ordered field
+(Mathlib's `Valuation.toAbsoluteValue`), and Mathlib's real absolute value `Valuation.absoluteValue`
+of a `v` of rank at most one (`Valuation.RankLeOne`), have the valuation subring of `v` as their
+valuation subring.
+
+For a group `G` with `MulSemiringAction G L` and a place `w`, the decomposition group is
+`MulAction.stabilizer G w`, with no hypothesis relating `G` to a fixed field. The inertia group is
+a `Subgroup G` contained in the decomposition group: for a finite place, the `σ` in the
+decomposition group with `w (σ • x − x) < 1` for all `x` with `w x ≤ 1`; for an infinite place, the
+whole decomposition group. Prove that it is normal in the decomposition group, and that for
+`G = (L ≃ₐ[K] L)` and a finite place `w`, `MulAction.stabilizer (L ≃ₐ[K] L) w` is Mathlib's
+`A_w.decompositionSubgroup K` and the inertia group of `w` is the image of Mathlib's
+`A_w.inertiaSubgroup K`, a subgroup of the decomposition subgroup, under the inclusion
+`Subgroup.subtype` into `L ≃ₐ[K] L`. No Frobenius predicate is introduced. For an integer `q ≥ 1`
+and a finite place `w`, a statement about an element that induces `x ↦ x^q` on the residue field of
+`A_w` carries the two hypotheses `σ ∈ MulAction.stabilizer G w` and
+`∀ x, w x ≤ 1 → w (σ • x - x ^ q) < 1`; for `q = 1` they say that `σ` lies in the inertia group.
+Prove in this form: conjugation (if `σ` satisfies them at `w` then `g σ g⁻¹` satisfies them at
+`g • w`, so the decomposition and inertia groups of `g • w` are the conjugates by `g` of those of
+`w`); products (if `σ` satisfies them for `q` and `τ` for `q′`, then `σ τ` satisfies them for
+`q q′`); and restriction to a subfield `M` that `G` maps to itself (they pass from `w` to
+`w.under M`, and the decomposition and inertia groups of `w` are contained in those of
+`w.under M`). For `G` a topological group acting continuously on `L` with the discrete topology
+(`[DiscreteTopology L] [ContinuousSMul G L]`), prove that the decomposition group and the inertia
+group of every place are closed.
+
+For fields `K ⊆ L` algebraic over `ℚ`, prove that every place of `K` is the restriction of a place
+of `L`, and, for `L/K` Galois (`IsGalois K L`), that `L ≃ₐ[K] L` is transitive on the places of `L`
+with a given restriction to `K`; the same holds for a group `G` with `MulSemiringAction G L` and
+`SMulCommClass G K L` for which `MulSemiringAction.toAlgAut G K L` is surjective. Mathlib's
+`IsGaloisGroup G K L` does not give transitivity when `L/K` is infinite. Over an infinite place
+both statements are Tau Ceti's `NumberField.nonempty_setOf_liesOver_infinitePlace` and
+`NumberField.exists_smul_eq_of_liesOver_infinitePlace`. *Route* over a finite place `v`: a
+valuation subring of `L` dominating `A_v` exists by Mathlib's
+`LocalSubring.exists_le_valuationSubring`, it meets `K` in `A_v`, and it is `A_w` for a place `w`,
+which restricts to `v` because `A_w` determines `w`; the valuation subrings of `L` that meet `K` in
+`A_v` are the localisations at the maximal ideals of the integral closure `B` of `A_v` in `L`, on
+which `L ≃ₐ[K] L` acts continuously for the discrete topology with invariants `A_v`, so Mathlib's
+`Algebra.IsInvariant.exists_smul_of_under_eq_of_profinite` makes it transitive on them.
+
+For a number field `F`, `L = F̄` and `G = G_F`, prove that `Q ↦ A_Q` of the valuation-subring
+target above is a bijection from the maximal ideals of `O` onto the valuation subrings of `F̄` other
+than `F̄`, so that `w ↦ Q_w = {x ∈ O | w x < 1}` is a `G_F`-equivariant bijection from the finite
+places of `F̄` onto the maximal ideals of `O`, with `A_w = A_{Q_w}`. Under it
+`MulAction.stabilizer G_F w =` *decompositionGroup* `F Q_w`; the inertia group of `w` is
+*inertiaGroup* `F Q_w`, both being subgroups of `G_F`; and the `σ` satisfying the two hypotheses
+above at `w` for `q = q_v` are those with `IsArithFrobAtIntegralPrime σ Q_w`. A finite place of `F̄`
+with `Q_w` above the prime `v` of `F` restricts on `F` to the `[F_v : ℚ_p]`-th root of Mathlib's
+`FinitePlace.mk v`, Tau Ceti's `(FinitePlace.mk v).relativeAbsValue ℚ`. An infinite place `w` of
+`F̄` is `x ↦ ‖ι x‖` for an embedding `ι : F̄ → ℂ`, unique up to complex conjugation; if its
+restriction `v` to `F` is complex its decomposition group in `G_F` is trivial, and if `v` is real
+it is `{1, c}` with `ι ∘ c = conj ∘ ι`. The elements `c` so obtained from the places above a real
+`v` are exactly the complex conjugations at `v` of the Conventions. Where Mathlib has a
+ramification theory for absolute values, its definitions are the ones used, and this target
+supplies the statements it lacks (Neukirch, *Algebraic Number Theory*, Ch. II, §§3, 8 and 9).
+*Needs:* the decomposition and inertia target and the valuation-subring target above;
+SubspaceTheorem §§0.1 and 0.2; Mathlib `AbsoluteValue.under`, `AbsoluteValue.LiesOver`,
+`AbsoluteValue.IsEquiv`, `Rat.AbsoluteValue.real`, `Rat.AbsoluteValue.padic`,
+`NumberField.InfinitePlace`, `MulAction.stabilizer`, `ValuationSubring.decompositionSubgroup`,
+`ValuationSubring.inertiaSubgroup`, `Valuation.toAbsoluteValue`, `Valuation.absoluteValue`,
+`Valuation.RankLeOne`, `MulSemiringAction.toAlgAut`,
+`LocalSubring.exists_le_valuationSubring`,
+`Algebra.IsInvariant.exists_smul_of_under_eq_of_profinite`; Tau Ceti
+`Rat.AbsoluteValue.IsStandard`, `AbsoluteValue.IsEquiv.eq_of_isStandard`,
+`AbsoluteValue.isNonarchimedean_iff_of_liesOver`, `NumberField.isInfinitePlace_iff_of_liesOver`,
+`NumberField.existsUnique_finitePlace_rpow_inv_eq_of_liesOver`,
+`NumberField.FinitePlace.relativeAbsValue`.
+
+**Checks.**
+- On `ℚ(√5)` the place above `5` has `w(√5) = 5^{-1/2}`, while Mathlib's `FinitePlace` at `(√5)`
+  takes the value `1/5` there: places are normalised on `ℚ`, not by the norm of the prime, and only
+  this normalisation is stable under restriction. For `F = ℚ(i)` and `v = (1 + i)`, the norm of the
+  completion `F_v` takes the value `1/4` at `2`, and the place above `v` takes the value `1/2`.
+- Places do not satisfy the product formula without weights: `1 + 2i` in `ℚ(i)` has value `√5` at
+  the infinite place, `1/5` at one place above `5` and `1` at every other place, and
+  `(√5)² · (1/5) = 1` with the local degree `2` of the complex place as exponent.
+- In `ℚ(i)/ℚ` the two places above `5` are exchanged by conjugation and have trivial decomposition
+  group; the unique place above `∞` has decomposition group and inertia group of order two.
+- The trivial absolute value is not a place, and its stabiliser is the whole group. On `ℚ(t)` the
+  `t`-adic absolute value is nontrivial and trivial on `ℚ`, so it is equivalent to no place.
+- On the field generated over `ℚ` by the `t^r`, `r ∈ ℚ`, the automorphism `t^r ↦ t^{2r}` preserves
+  the valuation subring of the `t`-adic absolute value and squares the absolute value: stabilisers
+  of absolute values and of valuation subrings agree for places, not for all absolute values.
+- A `σ` satisfying the two hypotheses for `q = 1` at a finite place is an inertia element; at the
+  place of `ℚ̄` above `5` cut out by an embedding into `ℚ̄_5`, an arithmetic Frobenius satisfies
+  them for `q = 5` and not for `q = 25`.
+- For `F = ℚ(∛2)`, the real place has one place of `ℚ̄` above it up to `G_F` and its decomposition
+  group in `G_F` has order two; the complex place has trivial decomposition group in `G_F`.
+- A countable dense subgroup `G` of `G_ℚ` satisfies `IsGaloisGroup G ℚ ℚ̄` and has countable orbits,
+  while `ℚ̄` has uncountably many places above each place of `ℚ`: transitivity needs the whole
+  automorphism group.
+
 **The local embedding.** Define *GaloisRep.localEmbeddingMap* `F K : G_K →ₜ* G_F` as Mathlib's
 `Field.absoluteGaloisGroup.mapOfAlgebra` along an embedding `ι` of algebraic closures over `F → K`
 (`τ ↦ ι⁻¹ τ ι`). For `K = F_v` prove that it is a closed embedding onto `D_{Q(ι)}`, `Q(ι)` the prime
 cut out by `ι`, carrying `I_K`, `P_K` and arithmetic Frobenius lifts onto `I_{Q(ι)}`, `P_{Q(ι)}` and
 arithmetic lifts at `Q(ι)`; that replacing `ι` by `ι ∘ σ` (`σ ∈ G_F`) conjugates it by `σ`; and that
 replacing `ι` by `τ₀ ∘ ι` (`τ₀ ∈ G_K`) precomposes with conjugation by `τ₀⁻¹` (Deligne 1973, 3.12,
-p. 533). *Needs:* the two targets above; `TauCetiRoadmap.LocalFieldsRamification` (the absolute
-Galois group: inertia, wild inertia and Frobenius lifts).
+p. 533). The image is also the decomposition group of the place of `F̄` that is the `ℚ`-normalised
+representative of the absolute value of `F̄_v` pulled back along `ι`. *Needs:* the global-closure
+target, the decomposition and inertia target and the absolute-value places target above;
+`TauCetiRoadmap.LocalFieldsRamification` (the absolute Galois group: inertia, wild inertia and
+Frobenius lifts).
 
 **Local restriction.** Define *GaloisRep.localRestriction* `ρ := ρ.res (`*localEmbeddingMap* `F K)`, the
 restriction `ρ_ι` of a continuous representation of `G_F` to `G_{F_v}`. Prove that `ρ(σ)` is an
