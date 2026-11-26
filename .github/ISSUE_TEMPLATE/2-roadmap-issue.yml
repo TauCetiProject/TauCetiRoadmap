@@ -172,6 +172,7 @@ body:
         - DiracScatteringAndNonlinearFourierTransform
         - DirectSummandsAndBigCohenMacaulay
         - DirichletPadicLFunctions
+        - DrinfeldModulesAndTModulesPartII
         - DynamicalDegreesOfRationalMaps
         - DysonBrownianMotion
         - ECM
@@ -209,6 +210,7 @@ body:
         - EtaleMassFormula
         - EulerSystemsAndKolyvaginSystems
         - EulerSystemsCyclotomicMainConjecture
+        - ExceptionalThetaCorrespondencesForG2
         - ExcursionOperatorsAndSpectralActionPartII
         - ExplicitCharacterSumsAndSieves
         - ExplicitMultiplicativeFunctions
