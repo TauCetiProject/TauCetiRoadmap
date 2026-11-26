@@ -217,25 +217,29 @@ a unit `δ` of `𝒪_E` with `N_{E/K}(δ) = 1`; `12` divides `q₁`, and `N_{E/K
 (c) *Weil data* for a CM field `E` with a CM type are: a *splitting character* `υ`, that is a unitary character of the
 idele classes of `E` with `υ(x̄) = υ(x)^{−1}` and `υ(x) = ∏_τ x_τ/|x_τ|` on the ideles whose finite part is a unit; a
 purely imaginary `ȷ ∈ E` with `Im τ(ȷ) > 0` for every `τ` of the CM type and `(1 − ȷ^{−1})/2` an algebraic integer; and a
-finite idele `α` with `v_w(ȷαᾱ) = −v_w(𝔇_E)` at every finite place `w`; such that `υ` is `−1` at the chosen uniformiser of
-every finite place `w = w̄`, and `E` contains a primitive root of unity of order `5040`. The elements `ȷ`, `α` above and
-some splitting character `υ` are Weil data for `E`.
+finite idele `α` with `v_w(ȷαᾱ) = −v_w(𝔇_E)` at every finite place `w`; for a field `E` that contains a primitive root
+of unity of order `5040`. Every splitting character of such a field is `−1` at the chosen uniformiser of every finite
+place `w = w̄` (the first background result below); the formal proof records this among the Weil data, but it is a
+consequence and not a further condition. The elements `ȷ`, `α` above and some splitting character `υ` are Weil data
+for `E`.
 (d) Let `s₀` be the principal `f`-th root of `υ(α)^{−1}·|α|^{1/2}`, `|α|` the idele norm. Some positive power of `s₀`
 lies in `K`, `|α| = ∏_{v∈Φ} |P'(ζ)|_v`, and `|σ(s₀)|² = rd_E/√d` for every automorphism `σ` of `ℂ` over `K`.
 
-*Needs:* 1.1, 1.2; ShortGRH background (a splitting character with value `−1` at the uniformisers of the finite
-places `w = w̄` exists on a CM field that contains a primitive `5040`-th root of unity and in which every root of unity
-is `δ/δ̄` for a unit `δ` of norm `1` to the product of the embeddings of the CM type; [ShortProof]
+*Needs:* 1.1, 1.2; ShortGRH background (a splitting character exists on a CM field that contains a primitive
+`5040`-th root of unity and in which every root of unity is `δ/δ̄` for a unit `δ` of norm `1` to the product of the
+embeddings of the CM type; and every splitting character of a CM field that contains a primitive `5040`-th root of
+unity has the value `−1` at the chosen uniformiser of every finite place `w = w̄`; [ShortProof]
 `Lib/ClassField/Global/CMSplittingCharacters.lean` (`New.nonempty_splittingChar`,
 `New.Cohomology.upsilon_atUniformizer_eq_neg_one`), `Lib/Weil/Construction/WeilData.lean` (`New.SplittingChar`,
-`New.WeilData`)); ShortGRH background (the idele norm `|x|` of an idele of `E`, the product of the squares of the
-absolute values at the infinite places and of the normalised absolute values at the finite places, is positive; a
-finite idele is read as the idele with component `1` at every infinite place, which defines its norm and the character
-`χ_f(x) := υ(x)|x|^{−1/2}` of the finite ideles attached to a splitting character `υ`; and, for Weil data on `E` and a
-finite idele `x`, there are `n > 0` and `y ∈ E^×` with the valuations of `x^n` at every finite place and
-`χ_f(x)^n = ∏_{τ∈Φ} τ(ȳ)`; [ShortProof] `Lib/Adelic/Adeles/IdeleModulus.lean` (`New.ideleAbs`,
-`New.ideleAbs_nonneg_and_ne_zero`, `New.finIdeleAbs`), `Lib/Weil/Construction/FiniteMultiplier.lean` (`New.chiAdelic`,
-`New.chiFin`), `Lib/ClassField/HeckeCharacter/AlgebraicValues.lean` (`New.WeilData.exists_chiFin_pow_eq_prod`)).
+`New.WeilData`)); Tau Ceti `TauCeti.GlobalNumberFields.ideleNorm` (the idele norm `|x|` of an idele of `E`, the
+product of the squares of the absolute values at the infinite places and of the normalised absolute values at the
+finite places, a positive real number; a finite idele is read as the idele with component `1` at every infinite
+place, which defines its norm; [ShortProof] `Lib/Adelic/Adeles/IdeleModulus.lean` (`New.ideleAbs`,
+`New.ideleAbs_nonneg_and_ne_zero`, `New.finIdeleAbs`)); ShortGRH background (for Weil data on `E`, with
+`χ_f(x) := υ(x)|x|^{−1/2}` the character of the finite ideles attached to the splitting character `υ`, and a finite
+idele `x`: there are `n > 0` and `y ∈ E^×` with the valuations of `x^n` at every finite place and
+`χ_f(x)^n = ∏_{τ∈Φ} τ(ȳ)`; [ShortProof] `Lib/Weil/Construction/FiniteMultiplier.lean` (`New.chiFin`),
+`Lib/ClassField/HeckeCharacter/AlgebraicValues.lean` (`New.WeilData.exists_chiFin_pow_eq_prod`)).
 
 [ShortProof], `New/Derivatives/Field/WeilData` (`New.Parameters.α`, `New.Parameters.inv_alpha_mem`,
 `New.Parameters.q₁_mul_alpha_mem`, `New.Parameters.v_alpha_mul_star_mul_relDifferentGen`,
@@ -457,8 +461,8 @@ for `e ≥ 1`, with `λ ∈ 𝒪`.
 *Needs:* 2.1, 2.2; ShortGRH background (for a CM lattice, `d` a prime `≡ 7 (mod 8)` and any prime `p`: there is `ϖ` of
 valuation `ρ_p` with `T(ϖz) = ϖY`, `Y` integral, `Y − Y^{q_p} ≡ z` and `Y ≡ Σ_j z^{q_p^j} (mod π_p)`; a series of
 `𝒪[[y]]` is integral after `z ↦ ϖz` when `v(ϖ) ≥ ρ_p`; if `G(0) = 0` and `exp(G)^m ∈ 𝒪[[T]]` with `m` prime to `p`, then
-`exp(G) ∈ 𝒪[[T]]`; the part of a series in the degrees of one class modulo `m` is a mean over the `m`-th roots of
-unity; [ShortProof] `Lib/CM/FormalGroup/FormalParameter.lean` (`New.CMLattice.exists_scaled_formalParam`,
+`exp(G) ∈ 𝒪[[T]]`; for `m ≠ 0` and a primitive `m`-th root of unity `ζ` of `ℂ_p`, the part of a series `f` in the
+degrees `≡ r (mod m)` is the mean over `i < m` of the series `η^{−r}·f(ηz)` with `η = ζ^i`; [ShortProof] `Lib/CM/FormalGroup/FormalParameter.lean` (`New.CMLattice.exists_scaled_formalParam`,
 `New.CMLattice.rescale_mem_range_seriesToCp`), `Lib/General/Algebra/SeriesBounds.lean`
 (`New.IsSeriesGenerator.expSubst_mem_of_pow_mem`), `Lib/CM/FormalGroup/IntegralParameter.lean`
 (`New.congruencePart_eq_sum`)).
@@ -820,7 +824,10 @@ unit, for `d` a prime `≡ 7 (mod 8)`: for a CM lattice `C` there is `u ∈ ℂ`
 `ι_p` such that, for every automorphism `σ` of `ℂ` over `K`, the area of the conjugate lattice times `|σ(u)|²` is
 `π·exp(γ − Re L′/L(1, χ_K))·2π/√d`; and the conjugate `σ(C)` of a CM lattice, a CM lattice with `a₁(σ(C)) = σ(a₁(C))`;
 [ShortProof] `Lib/CM/ChowlaSelberg.lean` (`New.CMLattice.chowla_selberg`), `Lib/CM/ConjugateCurve.lean`
-(`New.CMLattice.galConjugate`)).
+(`New.CMLattice.galConjugate`)); ShortGRH background (for Weil data on `E`, an embedding `ι_p : ℂ → ℂ_p` and a finite
+idele `x`: `|ι_p(χ_f(x))|`, for `χ_f(x) = υ(x)|x|^{−1/2}` as in 1.4, is the product over `τ ∈ Φ` of the absolute values
+of `x` at the place of `E` of the embedding `y ↦ ι_p(τ(ȳ))`; [ShortProof]
+`Lib/ClassField/HeckeCharacter/AlgebraicValues.lean` (`New.WeilData.norm_map_chiFin`)).
 
 [ShortProof], `New/Derivatives/Vacuum/TightFrames` (`New.Parameters.cmCurve`, `New.Parameters.cmPeriod`,
 `New.Parameters.chowlaSelbergUnit`, `New.Parameters.areaScale`, `New.Parameters.periodFactor`,
@@ -1054,7 +1061,12 @@ are `Ω`, a nonzero ideal `𝔠` and a finite adele `β` of `K` such that the co
 `|Ω|²√d/2`, some positive integer multiple of `Ω` is a period, and for `x ∈ K` and `x′ ∈ K` close to `βx` in the finite
 adeles `σ` maps the Taylor series of `T^1_{xΩ₀}θ` to that of `T^1_{x′Ω}θ` of the conjugate lattice; [ShortProof]
 `Lib/CM/ChowlaSelberg.lean` (`New.CMLattice.IsComplexMultiplicationData`,
-`New.CMLattice.complex_multiplication_theta`), `Lib/Weil/Construction/ThetaJets.lean` (`New.Space.IsJetConjugate`)).
+`New.CMLattice.complex_multiplication_theta`)); ShortGRH background (a definition in the model of the Weil
+representation, separate from the theory of theta functions of CM lattices: for data `f`, `f′` of a hermitian space, a
+ring homomorphism `σ : ℂ → ℂ`, a permutation `π` of the infinite places and scales `t`, `t′`, the jets of `f′` at scale
+`t′` are the `σ`-conjugates of the jets of `f` at scale `t` if applying `σ` to the coefficients of the scaled Taylor
+series of `f` gives that of `f′` with each variable at the place `v` renamed to the place `π⁻¹v`; [ShortProof]
+`Lib/Weil/Construction/ThetaJets.lean` (`New.Space.IsJetConjugate`, `New.Space.jetSeries`)).
 
 [ShortProof], `New/Derivatives/Vacuum/IntegralVacuum` (`New.Parameters.finitePart_le_span_translates`,
 `New.Parameters.map_zetaLinearSeries`, `New.Parameters.exists_rational_translate_eq`,
