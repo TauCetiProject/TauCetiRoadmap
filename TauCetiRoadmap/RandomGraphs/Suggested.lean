@@ -885,7 +885,9 @@ theorem binomialRandom_mutuallySingular (p q : I) (hpq : p ≠ q) :
 
 /-- **De Finetti's correspondence is measurable.** Over a standard Borel state space, the
 bijection `TauCeti.Probability.deFinettiEquiv` from mixing laws onto exchangeable path laws is
-measurable for the Giry measurable spaces, the target carrying the subspace structure. -/
+measurable for the Giry measurable spaces, the target carrying the subspace structure. This is the
+easy half of the measurable equivalence: the barycenter is the Giry join of the pushforward along
+the measurable map `P ↦ P^{⊗ℕ}`. -/
 theorem measurable_deFinettiEquiv {α : Type u} [MeasurableSpace α] [StandardBorelSpace α] :
     Measurable (TauCeti.Probability.deFinettiEquiv (α := α)) := by
   sorry

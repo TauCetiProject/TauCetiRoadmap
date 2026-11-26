@@ -1226,27 +1226,43 @@ do not claim invariance under all relabelings.
 ### 9.5 The mixture correspondences as structured isomorphisms
 
 *Needs:* Exchangeability and DenseGraphLimits through Tau Ceti `TauCeti.Probability.deFinettiEquiv`,
-`MeasureTheory.Measure.deFinettiBarycenter`, `TauCeti.DenseGraphLimits.mixtureExchangeableLawEquiv`,
+`MeasureTheory.Measure.deFinettiBarycenter`,
+`MeasureTheory.Measure.deFinettiBarycenter_eq_join_map`,
+`TauCeti.MeasureTheory.measurable_infinitePi_const`,
+`TauCeti.MeasureTheory.ProbabilityMeasure.borelSpace`,
+`MeasureTheory.ProbabilityMeasure.instSecondCountableTopology`,
+`TauCeti.MeasureTheory.probabilityMeasureCode_injective`,
+`TauCeti.DenseGraphLimits.mixtureExchangeableLawEquiv`,
 `TauCeti.DenseGraphLimits.mixtureExchangeableLaw_law`,
-`TauCeti.MeasureTheory.probabilityMeasureCode_injective`; Mathlib
+`TauCeti.DenseGraphLimits.sampleGraphOnSpace_Ici`,
+`TauCeti.DenseGraphLimits.continuous_homDensityOnSpace`,
+`TauCeti.DenseGraphLimits.GraphonSpaceI.instCompactSpace`; Mathlib
+`MeasureTheory.Measure.measurable_join`, `MeasureTheory.Measure.measurable_map`,
 `Measurable.measurableEmbedding` and the compactness of `ProbabilityMeasure` over a compact space.
 
 Upgrade the two pinned mixture bijections. For a standard Borel state space `α`, prove that
 `deFinettiEquiv` and its inverse are measurable for the Giry measurable spaces
 (`measurable_deFinettiEquiv`, `measurable_deFinettiEquiv_symm`), and package them as a
-`MeasurableEquiv`. *Route:* the barycenter `π ↦ ∫ P^{⊗ℕ} dπ(P)` is the Giry join composed with
-the measurable map `P ↦ P^{⊗ℕ}`, measurable on cylinders. For the inverse, show that the Giry space
-of a standard Borel space is standard Borel (give `α` a Polish topology; the weak topology is
-Polish with the Giry σ-algebra as its Borel σ-algebra) and apply Lusin–Souslin through
+`MeasurableEquiv`. *Route:* the forward map is the easy half: by `deFinettiBarycenter_eq_join_map`
+the barycenter `π ↦ ∫ P^{⊗ℕ} dπ(P)` is the Giry join composed with the pushforward along the map
+`P ↦ P^{⊗ℕ}`, and that map is measurable by `measurable_infinitePi_const`. For the inverse, show
+that the Giry space of a standard Borel space is standard Borel and apply Lusin–Souslin through
 `Measurable.measurableEmbedding`, the target being countably separated by
-`TauCeti.MeasureTheory.probabilityMeasureCode_injective`. The pins lack that standard Borel
-instance.
+`TauCeti.MeasureTheory.probabilityMeasureCode_injective`. Give `α` a Polish topology: the weak
+topology is then second countable (`ProbabilityMeasure.instSecondCountableTopology`) with the Giry
+σ-algebra as its Borel σ-algebra (`ProbabilityMeasure.borelSpace`). The pins lack the Polishness
+of the weak topology, and with it the standard Borel instance.
 
 Give `ExchangeableGraphLaw` the topology induced by its finite marginal masses `L.law k {G}`, and
 prove that `mixtureExchangeableLawEquiv` is a homeomorphism; on sequences and filters this is
 `tendsto_iff_tendsto_mixtureExchangeableLaw`. *Route:* each marginal mass is the integral of an
-induced density, continuous on `GraphonSpaceI`, so the map is continuous; its source is compact
-and the target Hausdorff, since the marginals determine the law.
+induced density, the probability that a `k`-vertex sample of the graphon class `x` is `G`. What is
+to be proved is that this density is continuous on `GraphonSpaceI`: by Möbius inversion over the
+graphs on `Fin k` it is a signed sum of the masses of the upper sets `Set.Ici F`, which
+`sampleGraphOnSpace_Ici` identifies with the homomorphism densities `t(F, x)`, continuous by
+`continuous_homDensityOnSpace`. So the map is continuous; its source is compact
+(`GraphonSpaceI.instCompactSpace` with the compactness of `ProbabilityMeasure` over a compact
+space) and the target Hausdorff, since the marginals determine the law.
 
 **Checks.**
 
@@ -1613,7 +1629,9 @@ language; the theory-level definitions `Language.Theory.IsQFEquivalent` and
 `Language.Theory.HasQuantifierElimination` with the reduction to finite variable types (Layer 5,
 in the quantifier-elimination proposal's form); computable quantifier elimination and
 decidability for the Rado theory; and the
-probabilistic theory of Layers 6–11, including the factorial-moment Poisson criterion. Its
+probabilistic theory of Layers 6–11, including the factorial-moment Poisson criterion and the
+measurable and topological forms of the de Finetti and Diaconis–Janson correspondences (9.5), with
+the standard Borel structure of the Giry space of a standard Borel space. Its
 suppliers are listed under [Exact supplier contracts](#exact-supplier-contracts), and what it
 leaves to other roadmaps under [Out of scope](#out-of-scope).
 
@@ -1694,7 +1712,8 @@ declares them with the proposals' statements, under the same paths relative to i
   quantifier elimination from extension pairs (Layer 5).
 
 Graph-specific adapters and probabilistic consequences belong here. Generic samplers,
-representation theorems and general EF machinery retain their existing owners.
+representation theorems and general EF machinery retain their existing owners; of the
+representation theorems, this roadmap owns only the measurable and topological forms of 9.5.
 Each implementation consumes the narrow supplier it needs, not an entire supplier roadmap.
 
 ## References
