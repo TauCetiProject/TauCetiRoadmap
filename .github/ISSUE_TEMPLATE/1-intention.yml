@@ -580,6 +580,7 @@ body:
         - SpecialFunctionsLegendre
         - SpecialFunctionsOrthogonalPolynomialsGeneral
         - SpecialFunctionsParabolicCylinder
+        - SpecialFunctionsSU2MatrixElements
         - SpecialFunctionsStruve
         - SpecialFunctionsTheta
         - SpectralGraphBounds
