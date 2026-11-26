@@ -575,6 +575,7 @@ body:
         - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsGamma
         - SpecialFunctionsGeneralizedHypergeometric
+        - SpecialFunctionsGroupModels
         - SpecialFunctionsHypergeometric
         - SpecialFunctionsLegendre
         - SpecialFunctionsMathieu
