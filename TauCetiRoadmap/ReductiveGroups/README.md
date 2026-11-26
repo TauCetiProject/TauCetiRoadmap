@@ -1708,13 +1708,17 @@ and tangent dimensions, not for constructing the tangent Lie algebra.
   subalgebra by `IsNormal.isHopfSubalgebra_coinvariants`) form a Galois connection between Hopf
   subalgebras and normal Hopf ideals, both ordered by inclusion: `A·B⁺ ≤ I ↔ B ≤ A^{co A/I}` is
   the pinned `TauCeti.HopfIdeal.forall_hom_mem_coinvariants_iff` for the inclusion of `B`. Package
-  it, and prove it is an order isomorphism (Takeuchi 1972): `kernelHopfIdeal_coinvariantsι` and
-  `coinvariants_kernelHopfIdeal_hopfSubalgebraι`. Geometrically it is the order-reversing
-  bijection between normal closed subgroups and quotients of `G`. *Route:* the first identity is
-  the scheme kernel of `q` in the quotient item above; the second is faithfully flat descent along
-  `B → A`, using that `A` is faithfully flat over each Hopf subalgebra (Milne, Theorem 3.31,
-  p. 73), which the monomorphism item above also needs. *Needs:* this section's quotient and
-  monomorphism items. *Checks:* `I = 0 ↔ B = k`; `I = A⁺ ↔ B = A`;
+  it, and prove it is an order isomorphism (Takeuchi 1972, Theorem 4.3, p. 261):
+  `kernelHopfIdeal_coinvariantsι` and `coinvariants_kernelHopfIdeal_hopfSubalgebraι`.
+  Geometrically it is the order-reversing bijection between normal closed subgroups and quotients
+  of `G`. *Route:* the first identity is the scheme kernel of `q` in the quotient item above; for
+  geometrically reduced `A` it is the pinned
+  `TauCeti.CommHopfAlgCat.kernelHopfIdeal_coinvariantsι_eq`. The second is faithfully flat
+  descent along `B → A`, the pinned `TauCeti.CommHopfAlgCat.coinvariants_kernelHopfIdeal_eq_range`
+  for the inclusion of `B`, whose range is `B`. It uses that `A` is faithfully flat over every
+  Hopf subalgebra (Takeuchi 1972, Theorem 3.1, p. 253); for a finitely generated one this is
+  Milne, Theorem 3.31, p. 73, which the monomorphism item above also needs. *Needs:* this
+  section's quotient and monomorphism items. *Checks:* `I = 0 ↔ B = k`; `I = A⁺ ↔ B = A`;
   for `μ_p ⊂ μ_{p²}`, `I = (t^p − 1) ↔ B = k[t^p]`. Normality is needed: for the constant group
   `S₃` and the non-normal `⟨(12)⟩`, the coinvariants are the 3-dimensional algebra of functions on
   `S₃/⟨(12)⟩`, which is not a Hopf subalgebra, since `S₃` has no normal subgroup of order 2.
@@ -6742,7 +6746,8 @@ sections. OrthogonalTamagawaAndLatticeMass §0.1 sets `Spin` of rank zero to be 
 - R. H. Fox and L. Neuwirth, *The braid groups*, Math. Scand. 10 (1962), 119–126; E. Fadell
   and L. Neuwirth, *Configuration spaces*, Math. Scand. 10 (1962), 111–118, §II.
 - M. Takeuchi, *A correspondence between Hopf ideals and sub-Hopf algebras*, Manuscripta Math.
-  **7** (1972), 251–270.
+  **7** (1972), 251–270: Theorem 3.1, p. 253, for faithful flatness over every Hopf subalgebra;
+  Corollary 3.10, p. 259, and Lemma 4.4 and Theorem 4.3, p. 261, for the correspondence.
 - W. C. Waterhouse, *Introduction to Affine Group Schemes*, Graduate Texts in Mathematics,
   Springer (1979): Hopf algebras, comodules, closed subgroups, the unipotent radical; Chapters
   1–3, pp. 3–27, for affine group schemes as representable functors and Hopf algebras and for

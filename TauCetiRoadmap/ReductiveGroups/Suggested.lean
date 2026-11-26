@@ -163,7 +163,8 @@ theorem isIso_coinvariantsQuotient_of_isNormal {k : Type v} [Field k]
 commutative Hopf algebra over a field, the kernel of the projection `G → G/N` onto the
 coinvariants is exactly `N`: the kernel Hopf ideal of the inclusion of the right
 `I`-coinvariants is `I`. The pinned `TauCeti.CommHopfAlgCat.kernelHopfIdeal_coinvariantsι_le`
-is the inclusion `≤`. -/
+is the inclusion `≤`, and the pinned `TauCeti.CommHopfAlgCat.kernelHopfIdeal_coinvariantsι_eq`
+is this identity for geometrically reduced `H`; here nonreduced `H` is included. -/
 theorem kernelHopfIdeal_coinvariantsι {k : Type v} [Field k]
     {H : _root_.CommHopfAlgCat.{v} k} [Algebra.FiniteType k H]
     (I : TauCeti.HopfIdeal k H) (hI : I.IsNormal) :
@@ -172,10 +173,13 @@ theorem kernelHopfIdeal_coinvariantsι {k : Type v} [Field k]
 
 /-- **Takeuchi correspondence, subalgebra side.** A Hopf subalgebra `B` of a finite-type
 commutative Hopf algebra `A` over a field is the algebra of right coinvariants of the Hopf ideal
-`A·B⁺` it generates, the kernel Hopf ideal of its inclusion (Takeuchi 1972). With
+`A·B⁺` it generates, the kernel Hopf ideal of its inclusion (Takeuchi 1972, Corollary 3.10 and
+its proof, p. 259, and Lemma 4.4, p. 261). The pinned
+`TauCeti.CommHopfAlgCat.coinvariants_kernelHopfIdeal_eq_range` gives it once `A` is known to be
+faithfully flat over `B` (Takeuchi 1972, Theorem 3.1, p. 253). With
 `kernelHopfIdeal_coinvariantsι` and the pinned Galois connection
 `TauCeti.HopfIdeal.forall_hom_mem_coinvariants_iff`, this makes `B ↦ A·B⁺` an order isomorphism
-from Hopf subalgebras onto normal Hopf ideals. -/
+from Hopf subalgebras onto normal Hopf ideals (Takeuchi 1972, Theorem 4.3, p. 261). -/
 theorem coinvariants_kernelHopfIdeal_hopfSubalgebraι {k : Type v} [Field k]
     {H : _root_.CommHopfAlgCat.{v} k} [Algebra.FiniteType k H]
     {B : Subalgebra k H} (hB : B.IsHopfSubalgebra) :
