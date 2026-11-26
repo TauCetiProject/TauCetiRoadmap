@@ -975,11 +975,14 @@ there are `c_i ∈ 𝒪_ι` with `p^{ν_p}·C_{j+1}(T_{𝔩,𝔯(p)}φ) = Σ_{i�
 
 *Needs:* 2.5, 2.6; ThetaLiftChainsAndTheSeesawIdentity §2.8 (the theta kernels of the lifts), §2.12 (weak chain
 data and the data `t_x(j)`); ShortGRH background (Hecke polynomials pass through a theta lift at a split place
-`w` of norm `q` where the two characters are unramified and the datum is the vacuum: for spaces of ranks `n` and
-`n + k` and a pairing `B` of data with vectors that is equivariant for the Weil action,
-`P_w(X)·B(f, v) = Π_{l<k}(1 − q^l αX)·B(f, P_{w̄}(q^k αβ⁻¹X)·v)` for `v` spherical at `w`, with `P` the Hecke
-polynomial operators and `α`, `β` the values of the two characters at a uniformiser; [ShortProof]
-`Lib/Weil/Unramified/HeckeTransfer.lean` (`New.SiegelWeil.hecke_transfer_of_pairing`)).
+`w` of norm `q` where the two characters `a`, `b` are unramified and the datum `f` is fixed by the vacuum projection
+at `w`: let `S`, `T` be spaces of ranks `n` and `n + k`, `π` a representation of `G_f(S)` on `W`, `ρ` a representation
+of `G_f(T)` on `Z`, and `B` a bilinear map from data and `W` to `Z` with `ρ(h)B(f, v) = B(ω(g, h)f, π(g)v)` for all
+finite `g`, `h` and all `v`, `ω` the Weil action; if `v` is spherical at `w`, then so is `B(f, v)`, and
+`P_w^ρ(X)·B(f, v) = Π_{l<k}(1 − q^l αX)·B(f, P_w^π(q^k αβ⁻¹X)·v)`, with `P_w^π`, `P_w^ρ` the Hecke polynomial
+operators at the same place `w`, `α = χ_a(ϖ_w)·q^{n/2}` and `β = χ_b(ϖ_w)·q^{(n+k)/2}`, where
+`χ_a(x) = a(x/x̄)·υ(x)^{−n}`, `χ_b(x) = b(x/x̄)·υ(x)^{−(n+k)}` and `ϖ_w` is the chosen uniformiser at `w`; [ShortProof]
+`Lib/Weil/Unramified/HeckeTransfer.lean` (`New.SiegelWeil.hecke_transfer_of_pairing`, `New.AutChar.frobValue`)).
 
 [ShortProof], `New/UpperBound/Divisibility/ValuationAtNonSplitPrimes.lean`
 (`New.Data.IsWeakChainDatum.exists_heckePolyOp_lift`, `New.Data.IsWeakChainDatum.exists_sum_heckeSplit_lift_eq_smul`,
@@ -1265,8 +1268,8 @@ There are real numbers `err(p)`, one for each natural number `p`, such that:
 *Origin:* adapted from the classical finiteness of the class number of a genus of hermitian lattices (Borel
 (1963)): here an explicit bound for the genus of the standard lattice over a CM field.
 
-*Method of the formal proof:* a class is determined by the Gram matrix `G` of a short basis `Y` of its lattice
-together with `GX`, where `X` is a rational matrix approximating the inverse change of basis modulo the
+*Method of the formal proof:* a class is determined by the Gram matrix `G` of a short basis `Y` of `E^n` contained
+in its lattice together with `GX`, where `X` is a rational matrix approximating the inverse change of basis modulo the
 integral adeles; both have integral entries whose conjugates are bounded by `c³`, and such vectors are few
 because distinct ones are at distance at least `1`.
 
@@ -1281,10 +1284,11 @@ and `c := 6N(fn)²`. Then the number of classes `Γ\G_f/K°` of the standard def
 `n` over `E` (`K°` the stabiliser of the standard lattice in `G_f`, as in
 ThetaLiftChainsAndTheSeesawIdentity, Conventions; not the level `K₀` of the source forms) is at most `(1 + 2c³)^{4fn²}`.
 
-*Needs:* ShortGRH background (for a CM field `E` with `f` infinite places and an integer `N ≥ 1` in the
-different of `E`, every lattice in the genus of the standard lattice of rank `n` has a basis in `E^n` with
-entries of absolute value at most `6N(fn)²` at every complex embedding; [ShortProof]
-`Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.exists_short_basis_stdSpace`,
+*Needs:* HermitianFormsAndLattices §4.12 (a) (with `q = 1`: a lattice `L` in the genus of the standard lattice of
+rank `n` is unimodular, so it contains `n` vectors `y`, linearly independent over `E`, with
+`Tr_{E/ℚ}⟨y, y⟩ ≤ 2f·n²·rd_E²`; every entry of such a `y` has absolute value at most `√f·n·rd_E` at every complex
+embedding, and `rd_E ≤ N` because `N` lies in the different of `E`, so the entries are at most `6N(fn)²`, the form
+used; [ShortProof] `Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.exists_short_basis_stdSpace`,
 `New.Space.shortBasisConst`)).
 
 [ShortProof], `New/UpperBound/Size/ClassCount.lean` (`New.Space.card_stdClasses_le`, `New.Space.stdClasses_eq_of_gram_eq`,
@@ -1401,7 +1405,8 @@ of principal level and the action of `𝖦` on them, which give the good part `#
 field are spanned by forms that are integral at every prime and have values of explicitly bounded size.
 
 *Method of the formal proof:* at a free level a form is a sum of delta forms, one for each class; for each
-class, the action of a short basis of its lattice (and of short bases for the determinant twists) on the
+class, the action of a short basis of `E^n` contained in its lattice (and of such bases for the determinant twists)
+on the
 evaluation vectors at families of roots of unity gives vectors that are integral at every `ι` and small at
 every conjugate, and these span because the evaluation vectors span the Weyl module and the action is
 invertible.
@@ -1416,12 +1421,14 @@ conjugate of `v` has squared norm at most `B`.
 (c) Let `N ≥ 1` lie in the different of `E`, `M ≥ n·f + (number of boxes of κ in columns of height below n)`
 and `B ≥ (6N(fn)²)^{6M}`. Then the forms of level `K` and weight `(κ, e)` are spanned by `B`-short forms.
 
-*Needs:* ShortGRH background (for `N ≥ 1` in the different of `E`, every lattice in the genus of the standard
-lattice has a basis in `E^n` with entries of absolute value at most `6N(fn)²` at every complex embedding;
-[ShortProof] `Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.exists_short_basis_stdSpace`));
-ShortGRH background (two linear maps on a Weyl module over a domain that agree on the evaluation vectors at
-the matrices with entries in an infinite set and nonzero determinants are equal, so that these vectors span;
-[ShortProof] `Lib/GLn/SchurModule/WeylKernel.lean` (`New.GL.ext_weylEval`)); AutomorphicFormsOnReductiveGroups
+*Needs:* HermitianFormsAndLattices §4.12 (a) (with `q = 1`, as in 5.1: for `N ≥ 1` in the different of `E`, every
+lattice in the genus of the standard lattice contains `n` vectors, linearly independent over `E`, with entries of
+absolute value at most `6N(fn)²` at every complex embedding; [ShortProof]
+`Lib/Adelic/Reduction/FirstMinimumShortBases.lean` (`New.Space.exists_short_basis_stdSpace`));
+ShortGRH background (two linear maps from a Weyl module over a domain into a free module that agree on the
+evaluation vectors at the arrays with entries in a given infinite set, and at which a given product of powers of the
+determinants of the square blocks does not vanish, are equal; the form used is over `ℂ`, with no condition on the
+determinants, where these vectors therefore span; [ShortProof] `Lib/GLn/SchurModule/WeylKernel.lean` (`New.GL.ext_weylEval`)); AutomorphicFormsOnReductiveGroups
 §7.4, §7.5 (at a level with trivial stabilisers a form is the sum, over the classes, of the delta forms of its
 values at representatives; [ShortProof] `Lib/Adelic/AutomorphicForms/HeckeEigenforms.lean` (`New.deltaForm`,
 `New.freeLevelEquiv`)).
