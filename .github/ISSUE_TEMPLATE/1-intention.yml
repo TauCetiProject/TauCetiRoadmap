@@ -482,6 +482,7 @@ body:
         - RamseyNumbers
         - RandomGraphs
         - RandomMatrices
+        - RandomProjectionsAndSketching
         - RandomizedSmoothing
         - Rank24LatticeConstructions
         - RationalHomotopyModels
