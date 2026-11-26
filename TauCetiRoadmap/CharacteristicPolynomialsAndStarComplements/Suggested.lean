@@ -58,8 +58,7 @@ variable {V : Type*} [Fintype V] [DecidableEq V]
 
 /-- 1.1 The Laplacian eigenvalues of `G`, with multiplicity, in nonincreasing order: index `0`
 carries the largest one and index `n - 1` the smallest. -/
-def lapEigenvalues (G : _root_.SimpleGraph V) [DecidableRel G.Adj] :
-    Fin (Fintype.card V) → ℝ :=
+def lapEigenvalues (G : SimpleGraph V) [DecidableRel G.Adj] : Fin (Fintype.card V) → ℝ :=
   (G.isHermitian_lapMatrix ℝ).eigenvalues₀
 
 end LaplacianEigenvaluesOfGraphs
@@ -535,7 +534,6 @@ Pinned library declarations named in the supplier contracts of `README.md`. -/
 #check @Matrix.IsHermitian.eigenvalues₀
 #check @Matrix.IsHermitian.det_eq_prod_eigenvalues
 #check @Matrix.isHermitian_conjTranspose_mul_mul
-#check @eigenvalue_mem_ball
 #check @Finset.sum_mul_sq_le_sq_mul_sq
 #check @Real.geom_mean_le_arith_mean_weighted
 #check @Real.rpow

@@ -37,14 +37,15 @@ The headline theorems are these.
   `±√d`, each with multiplicity `2^{d-1}`; with Huang's theorem of DecisionTreeComplexity 5.1,
   every induced subgraph of `Q_d` on `2^{d-1} + 1` vertices has maximum degree at least `√d`.
 
-The roadmap builds on GraphSpectra for the spectra as root multisets of characteristic
-polynomials, disjoint unions, the hypercube, the spectral decomposition of 1.8 there,
-Perron–Frobenius, main angles and walk counts. MatchingPolynomial supplies the matching polynomial
-and the theorem that it is the characteristic polynomial exactly for forests, MatchingTheory the
-matching number and TuttePolynomialAndArrangements the component count of an edge set.
-GraphSpectra 1.2 supplies the derivative of the characteristic polynomial and the leaf recursion,
-DecisionTreeComplexity Huang's theorem on induced subgraphs of the cube, and SpectralGraphBounds
-the trace identities `Σθᵢ = 0` and `Σθᵢ² = 2m`.
+The roadmap builds on [GraphSpectra](../GraphSpectra/README.md) for the spectra as root multisets of
+characteristic polynomials, disjoint unions, the hypercube, the spectral decomposition of 1.8 there,
+Perron–Frobenius, main angles and walk counts. [MatchingPolynomial](../MatchingPolynomial/README.md)
+supplies the matching polynomial and the theorem that it is the characteristic polynomial exactly
+for forests, MatchingTheory the matching number and TuttePolynomialAndArrangements the component
+count of an edge set. GraphSpectra 1.2 supplies the derivative of the characteristic polynomial and
+the leaf recursion, DecisionTreeComplexity Huang's theorem on induced subgraphs of the cube, and
+[SpectralGraphBounds](../SpectralGraphBounds/README.md) the trace identities `Σθᵢ = 0` and
+`Σθᵢ² = 2m`.
 
 ## How to read the build
 Layer 1 is the combinatorial calculus of the characteristic polynomial: elementary edge sets and
@@ -92,7 +93,8 @@ of Huang's theorem on induced subgraphs of the cube, which DecisionTreeComplexit
   `matchingNumber` are verbatim copies of the owners' definitions.
 - **Interlacing.** `Interlaces η θ` for `η : Fin m → ℝ`, `θ : Fin n → ℝ` (both nonincreasing)
   means `m ≤ n` and `θ_i ≥ η_i ≥ θ_{n-m+i}`; `IsTightInterlacing` adds a `k ≤ m` with `η_i = θ_i`
-  for `i < k` and `η_i = θ_{n-m+i}` for `i ≥ k` (zero-based), as in [BH, §2.5, p. 26].
+  for `i < k` and `η_i = θ_{n-m+i}` for `i ≥ k` (zero-based), as in [BH, §2.5, p. 26], which
+  takes `m < n`; the case `m = n` is admitted here.
 - **Graph operations.** The tensor product `tensorProd G H` (also called the Kronecker, direct or
   categorical product; `G ⊗ H` in [BH]) and the join `join G H` are defined here; `hypercube d`
   is GraphSpectra's `hammingGraph d Bool` (2.3 there).
@@ -335,9 +337,10 @@ at `-(t+1)/t` [CRS, p. 28].
 
 Definition: `energy G = ∑|θᵢ|`.
 - **Bounds** (`energy_bounds`). `2√m ≤ E ≤ √(2mn)` and
-  `E ≥ √(2m + n(n-1)|det A|^{2/n})` [BH, Exercise 3.10, p. 65; CRS, Proposition 9.2.2, p. 270, for
-  `E ≤ √(2mn)`]. [St, Theorem 8.14, p. 244] prints `4m` in place of `2m` in the last bound, which
-  fails on `K₂`.
+  `E ≥ √(2m + n(n-1)|det A|^{2/n})`. [BH, Exercise 3.10, p. 65] states the determinant bound and
+  `E ≤ √(2mn)`, and [CRS, Proposition 9.2.2, p. 270] the latter; the bound `2√m ≤ E` has no
+  locator in these sources and is proved in the suggested proof below. [St, Theorem 8.14, p. 244]
+  prints `4m` in place of `2m` in the determinant bound, which fails on `K₂`.
 - **Integrality** (`energy_eq_two_mul_of_rat`). If `E` is rational, it is an even integer
   [Ba, Theorem 3.27, p. 40].
 
@@ -537,15 +540,17 @@ Owned here:
   of an induced subgraph of `hypercube d`.
 
 Consumed, not restated (see the supplier contracts for the hypotheses):
-- GraphSpectra 1.2, 1.7, 1.8, 2.3, 2.6 (in Checks), 3.2 and 3.9: spectra and characteristic
-  polynomials, the derivative of the characteristic polynomial, the leaf recurrence and the
-  sparse expansion, disjoint unions, spectra from orthogonal idempotents, the hypercube,
-  Perron–Frobenius, main angles and walk counts; 1.7 and 3.8 are cited in the introduction to
-  Layer 3.
+- [GraphSpectra](../GraphSpectra/README.md) 1.2, 1.7, 1.8, 2.3, 2.6 (in Checks), 3.2 and 3.9:
+  spectra and characteristic polynomials, the derivative of the characteristic polynomial, the leaf
+  recurrence and the sparse expansion, disjoint unions, spectra from orthogonal idempotents, the
+  hypercube, Perron–Frobenius, main angles and walk counts; 1.7 and 3.8 are cited in the
+  introduction to Layer 3.
 - DecisionTreeComplexity 5.1: Huang's theorem on induced subgraphs of the cube.
-- MatchingPolynomial 1.1 and 2.2; MatchingTheory 1.1; TuttePolynomialAndArrangements 4.1.
-- SpectralGraphBounds 1.1 and LaplacianEigenvaluesOfGraphs 1.1: the sorted eigenvalues, the trace
-  identities and induced interlacing.
+- [MatchingPolynomial](../MatchingPolynomial/README.md) 1.1 and 2.2; MatchingTheory 1.1;
+  TuttePolynomialAndArrangements 4.1.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1 and
+  [LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) 1.1: the sorted
+  eigenvalues, the trace identities and induced interlacing.
 - [RandomMatrices](../RandomMatrices/README.md) 1.2: Cauchy interlacing, cited in the
   introduction to Layer 4 and in 4.4.
 
@@ -586,8 +591,7 @@ states it.
   `IsIntegrallyClosed.isIntegral_iff`.
 - Spectral theory: `Matrix.IsHermitian.eigenvalues₀` (nonincreasing) and
   `Matrix.isHermitian_conjTranspose_mul_mul` (a compression of a Hermitian matrix is Hermitian),
-  used in 4.2; `eigenvalue_mem_ball` (Gershgorin), used in Huang's route in 4.4;
-  `Submodule.starProjection`, in the definition of main angles and in 4.3.
+  used in 4.2; `Submodule.starProjection`, in the definition of main angles and in 4.3.
 - Graphs: `SimpleGraph.adjMatrix`, `SimpleGraph.lapMatrix`, `SimpleGraph.fromEdgeSet`,
   `SimpleGraph.induce`, `SimpleGraph.Embedding.submatrix_adjMatrix`, `SimpleGraph.cliqueFinset`,
   `SimpleGraph.sum` (written `G ⊕g H`), `completeBipartiteGraph`, `SimpleGraph.boxProd`,
@@ -602,10 +606,11 @@ states it.
 
 ### From GraphSpectra
 
-`Suggested.lean` carries verbatim copies of the definitions used, in sections labelled with their
-sections there: `adjSpectrum`, `lapSpectrum` and the `DecidableRel` instances for `⊕g` and
-`completeBipartiteGraph` (Layer 1), `hammingGraph`, `hypercube` and its instance (2.3),
-`adjEigenspace`, `onesVec`, `mainAngle` and `walkCount` (3.9).
+`Suggested.lean` carries verbatim copies of the definitions of
+[GraphSpectra](../GraphSpectra/README.md) used, in sections labelled with their sections there:
+`adjSpectrum`, `lapSpectrum` and the `DecidableRel` instances for `⊕g` and `completeBipartiteGraph`
+(Layer 1), `hammingGraph`, `hypercube` and its instance (2.3), `adjEigenspace`, `onesVec`,
+`mainAngle` and `walkCount` (3.9).
 - 1.2: the adjacency spectrum is the root multiset of the integer characteristic polynomial cast to
   `ℝ`, and `count θ` is the dimension of the `θ`-eigenspace. Used in 2.2, 3.3 and 4.3.
 - 1.2: for a square matrix `M` over a commutative ring, `χ_M' = ∑_v χ_{M[V∖v]}`; for a vertex
@@ -627,9 +632,10 @@ sections there: `adjSpectrum`, `lapSpectrum` and the `DecidableRel` instances fo
 
 ### From MatchingPolynomial
 
-- 1.1: the count `matchingCount G k` of matchings with `k` edges and the
-  matching polynomial `matchingPolynomial G = Σ_{k ≤ n/2} (-1)^k m_k t^{n-2k}` in `ℤ[X]`, for
-  `[Finite V]` with `n = Nat.card V`. Used in 2.1.
+- [MatchingPolynomial](../MatchingPolynomial/README.md) 1.1: the count `matchingCount G k` of
+  matchings with `k` edges and the matching polynomial
+  `matchingPolynomial G = Σ_{k ≤ n/2} (-1)^k m_k t^{n-2k}` in `ℤ[X]`, for `[Finite V]` with
+  `n = Nat.card V`. Used in 2.1.
 - 2.2: for a graph on a finite vertex type, `(G.adjMatrix ℤ).charpoly = matchingPolynomial G`
   if and only if `G.IsAcyclic`. Used in 2.2, in the direction from forests.
 
@@ -647,15 +653,15 @@ sections there: `adjSpectrum`, `lapSpectrum` and the `DecidableRel` instances fo
 
 ### From SpectralGraphBounds
 
-- 1.1: the sorted adjacency eigenvalues `adjEigenvalues` (the definition under
-  `adjSpectrum`), `∑θᵢ = 0` and `∑θᵢ² = 2m`, and interlacing for induced subgraphs. Used in 3.3
-  and cited in the introduction to Layer 4.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1: the sorted adjacency eigenvalues
+  `adjEigenvalues` (the definition under `adjSpectrum`), `∑θᵢ = 0` and `∑θᵢ² = 2m`, and interlacing
+  for induced subgraphs. Used in 3.3 and cited in the introduction to Layer 4.
 
 ### From LaplacianEigenvaluesOfGraphs
 
-- 1.1: the sorted Laplacian eigenvalues `lapEigenvalues` (the definition under
-  `lapSpectrum`), nonnegative with `0` at index `n - 1` on a nonempty vertex type, and `L𝟙 = 0`.
-  Used in 3.1.
+- [LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) 1.1: the sorted
+  Laplacian eigenvalues `lapEigenvalues` (the definition under `lapSpectrum`), nonnegative with `0`
+  at index `n - 1` on a nonempty vertex type, and `L𝟙 = 0`. Used in 3.1.
 
 ### From RandomMatrices
 
