@@ -621,6 +621,7 @@ sections = [
   "§1.7",
   "§1.8",
   "§2.1",
+  "§2.1a",
   "§2.2",
   "§2.7",
   "§5.1",
@@ -2079,6 +2080,12 @@ sections = [
   "§2.1",
   "§2.2",
   "§10B",
+]
+
+[[area]]
+name = "MordellLawrenceVenkatesh"
+sections = [
+  "§1.8",
 ]
 
 [[area]]
