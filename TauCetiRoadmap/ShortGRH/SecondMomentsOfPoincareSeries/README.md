@@ -27,10 +27,10 @@ conclusion.
 
 ## Conventions and notation
 
-The data of the argument are those of `OneSidedPrimeSumBoundsAndAdmissibleData (the data)`: the parameters
-`q₀`, `d` and admissible data at a large scale `x`. The objects built on them (source forms, target forms, good forms,
-the projector `e₀`, the Poincaré map) are those of `ThetaLiftChainsAndTheSeesawIdentity`. They are recalled here in
-words, with the letters used below.
+The data of the argument are those of OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters `q₀`, `d`) and
+§3.2 (admissible data at a large scale `x`). The objects built on them are those of
+ThetaLiftChainsAndTheSeesawIdentity §2.5 (the projector `e₀`), §2.7 (target forms, good forms), §2.8 (source forms)
+and §2.19 (the Poincaré map). They are recalled here in words, with the letters used below.
 
 Hermitian forms are conjugate-linear in the first variable; `⟨·, ·⟩` is the inner product, conjugate-linear in the first
 variable. For a linear map `A` between finite-dimensional complex inner product spaces, `A*` is its adjoint and `‖A‖`,
@@ -40,23 +40,23 @@ inner product space.
 
 | Symbol | Meaning | Defined |
 |---|---|---|
-| `E, E⁺, f, Φ` | the CM field of the data, its totally real subfield, the number of infinite places of `E`, the set of these places | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `rd_E, ϖ` | the root discriminant of `E`; a generator of the different of `E` with `ϖ̄ = −ϖ` | OneSidedPrimeSumBoundsAndAdmissibleData (the data); 4.1 |
-| `r, k, m, ϱ, n` | the rank of `Y₀`, the rank of `X₀`, the number of lifts, the number of hyperbolic planes of `Y₀` (`m = 2ϱ + 2`), `n = ϱ + 1`; `r = k + 2ϱ + 1` | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `x, b, a` | the scale, the weight at the b-places, the order `a = x·b` | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `p₀, p₁, M` | the two level primes and `M = p₀p₁` | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `N, π_N` | the level, a prime, and an integer of `E` with `π_N π̄_N = N` | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| chosen places | for `i = 0, 1`, a set of `f` places of `E` above `p_i`, no place chosen twice and no conjugate of a chosen place chosen | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `Ḡ` | the finite group `∏_w GL_r(𝔽_w)` over the chosen places `w`, `𝔽_w` the residue field | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `X₀, Y₀, W_j` | the definite space of rank `k`; `Y₀ = X₀ ⊕ ϱ` hyperbolic planes `⊕` a line of norm `−N`; for `1 ≤ j ≤ m` the space of rank `r` that differs from `Y₀` only in its signs at the real places and has `m − j` minus signs | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
+| `E, E⁺, f, Φ` | the CM field of the data, its totally real subfield, the number of infinite places of `E`, the set of these places | OneSidedPrimeSumBoundsAndAdmissibleData §2.2, §3.2 (the field of the data) |
+| `rd_E, ϖ` | the root discriminant of `E`; a generator of the different of `E` with `ϖ̄ = −ϖ` | OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (`rd_E`); DivisibilityOfThetaDerivatives §1.1 (b) (`ϖ`, there `δ_E`); 4.1 |
+| `r, k, m, ϱ, n` | the rank of `Y₀`, the rank of `X₀`, the number of lifts, the number of hyperbolic planes of `Y₀` (`m = 2ϱ + 2`), `n = ϱ + 1`; `r = k + 2ϱ + 1` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (`r`, `k`, `m`), §3.3 (b) (`r + 1 = k + m`); ThetaLiftChainsAndTheSeesawIdentity §2.1 (`ϱ`) |
+| `x, b, a` | the scale, the weight at the b-places, the order `a = x·b` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
+| `p₀, p₁, M` | the two level primes and `M = p₀p₁` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
+| `N, π_N` | the level, a prime, and an integer of `E` with `π_N π̄_N = N` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
+| chosen places | for `i = 0, 1`, a set of `f` places of `E` above `p_i`, no place chosen twice and no conjugate of a chosen place chosen | DivisibilityOfThetaDerivatives §1.5; ThetaLiftChainsAndTheSeesawIdentity §2.10 (c) (`f` above each `p_i`) |
+| `Ḡ` | the finite group `∏_w GL_r(𝔽_w)` over the chosen places `w`, `𝔽_w` the residue field | ThetaLiftChainsAndTheSeesawIdentity §2.5 (there `𝖦`) |
+| `X₀, Y₀, W_j` | the definite space of rank `k`; `Y₀ = X₀ ⊕ ϱ` hyperbolic planes `⊕` a line of norm `−N`; for `1 ≤ j ≤ m` the space of rank `r` that differs from `Y₀` only in its signs at the real places and has `m − j` minus signs | ThetaLiftChainsAndTheSeesawIdentity §2.1 |
 | `V` | below, any hermitian space of rank `r` over `E` with the adelic frame of `Y₀` at the finite places, and arbitrary signs `s` at the infinite places | 2.1 |
-| `J_M` | the principal level: integral finite adelic points of `U(V)` that reduce to `1` at every chosen place | ThetaLiftChainsAndTheSeesawIdentity (target forms) |
-| `λ_v, l_v, Δ` | the target parameter at `v ∈ Φ`, its double `l_v = 2λ_v`, and the gap `Δ = 2r⁸` | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| principal forms | forms on `U(V)` whose archimedean type is the discrete series of parameter `λ_v` (for the signs of `V`) at each `v`, fixed by `J_M`; `Ḡ` acts on them | ThetaLiftChainsAndTheSeesawIdentity (target forms) |
-| `e₀`, good forms, target forms | the central idempotent of `ℂ[Ḡ]` that is the sum over the good families of labels of the products of the label idempotents; its image in the principal forms of `V` (good forms); for `V = Y₀`, the target forms | ThetaLiftChainsAndTheSeesawIdentity (target forms and good forms) |
-| `d_T` | the dimension of the target forms | ThetaLiftChainsAndTheSeesawIdentity (target forms) |
-| source forms, `D_X` | algebraic modular forms on `U(X₀)` of the weight of the data and level `K_X` (principal at the chosen places, with last row `≡ (0, …, 0, 1)` modulo `π_N`); `D_X` their dimension | ThetaLiftChainsAndTheSeesawIdentity (source forms) |
-| `𝒫` | the Poincaré map: source forms to principal forms on `Y₀`, the Riesz representative of a Bessel period | ThetaLiftChainsAndTheSeesawIdentity (the Poincaré map) |
+| `J_M` | the principal level: integral finite adelic points of `U(V)` that reduce to `1` at every chosen place | ThetaLiftChainsAndTheSeesawIdentity (Conventions: the chosen level), used in §2.7 |
+| `λ_v, l_v, Δ` | the target parameter at `v ∈ Φ`, its double `l_v = 2λ_v`, and the gap `Δ = 2r⁸` | ThetaLiftChainsAndTheSeesawIdentity §2.4 (the target parameter, there `ς`); OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (`Δ`) |
+| principal forms | forms on `U(V)` whose archimedean type is the discrete series of parameter `λ_v` (for the signs of `V`) at each `v`, fixed by `J_M`; `Ḡ` acts on them | ThetaLiftChainsAndTheSeesawIdentity §2.7 (there `𝒜(V)`) |
+| `e₀`, good forms, target forms | the central idempotent of `ℂ[Ḡ]` that is the sum over the good families of labels of the products of the label idempotents; its image in the principal forms of `V` (good forms); for `V = Y₀`, the target forms | ThetaLiftChainsAndTheSeesawIdentity §2.5 (`e₀`), §2.7 (good forms, target forms) |
+| `d_T` | the dimension of the target forms | ThetaLiftChainsAndTheSeesawIdentity §2.7 |
+| source forms, `D_X` | algebraic modular forms on `U(X₀)` of the weight of the data and level `K_X` (principal at the chosen places, with last row `≡ (0, …, 0, 1)` modulo `π_N`); `D_X` their dimension | ThetaLiftChainsAndTheSeesawIdentity §2.8 (source forms), §2.6 (the level, there `K_0`) |
+| `𝒫` | the Poincaré map: source forms to principal forms on `Y₀`, the Riesz representative of a Bessel period | ThetaLiftChainsAndTheSeesawIdentity §2.19 |
 | `mass_l` | the mass `∑ 1/#Aut` of the genus of the standard hermitian lattice `𝒪_E^l` | ShortGRH background (masses of hermitian lattices) |
 | `G₁, J₁, f, 𝖴, 𝖴⁰, H, R` | the real group at one place, its form, its frame, its Bessel subgroups | 3.1 |
 | `ψ, σ` | the character of `𝖴` and the sum of the simple root entries | 3.1 |
@@ -71,8 +71,24 @@ inner product space.
 | `𝒟_main, 𝒟_id` | `D_X²/(deg·mass_r)` and `#R̄₀·D_X` | 4.2 |
 | `𝔼(A, Ω)` | the second moment of a family of blocks over a set `Ω ⊂ Ḡ` | 4.2 |
 
-Sizes are those of `OneSidedPrimeSumBoundsAndAdmissibleData (the data)`; the only consequences used here are listed in
+Sizes are those of OneSidedPrimeSumBoundsAndAdmissibleData §3.3; the only consequences used here are listed in
 4.1 (the standing hypotheses of filling data) and proved for the data in 5.5.
+
+**Normalisations.** The constants of Layers 3–5 depend on three normalisations, fixed here.
+
+- `vol(Ô)`, the volume of the integral finite adeles `Ô` of `E`, is the number `2^{r₂}/√|disc E|`, `r₂` the number
+  of complex places; `E` is totally complex, so `r₂ = f` and `vol(Ô) = (2/rd_E)^f`. It is the measure of `Ô` for the
+  Haar measure on `𝔸_f` for which `𝔸_E/E` has mass `1` when each `E_v = ℂ` carries Lebesgue measure. The formulas for
+  `c_S` (4.1), `ν` (4.2) and 5.4 (b), and those of RemainingAndMainTermsOfSecondMoments §§6.3 and 6.4, hold with this
+  value and no other.
+- `vol U(j) = ∏_{i=1}^{j} 2π^i/(i − 1)!`, the product of the areas of the unit spheres of `ℂ¹, …, ℂ^j`.
+- For a hermitian matrix `J` of size `r` with `J² = 1`, the Haar measure `μ_{U(J)}` on `U(J)` is the image, under the
+  Cayley chart `y ↦ 2·D(y)⁻¹ − 1` with `D(y) = 1 − ½J⁻¹S(y)`, of the measure with density
+  `|det D(y)|^{−2r}/vol U(r)` against Lebesgue measure on the real `r × r` matrices `y` with `det D(y) ≠ 0`. Here
+  `S(y)` is the skew-hermitian matrix with entries `i·y_{aa}` on the diagonal and `((1 + i)y_{ab} − (1 − i)y_{ba})/√2`
+  off it, so that Lebesgue measure in `y` is Lebesgue measure in the `Im S_{aa}` and the `Re S_{ab}`, `Im S_{ab}`,
+  `a < b`. For `J = 1` it is the probability measure on the compact group `U(r)`. `μ_{G₁} = μ_{U(J₁)}` (3.1), and the
+  measure on `G_∞ = ∏_v G₁` is the product.
 
 Some letters have two meanings, kept apart by context: `f` is the number of infinite places of `E` and, with an index
 (`f_a`) or next to a group element (`γf`), the frame of 3.1; `k` is the rank of `X₀` and, in 4.10 and 5.1, an element of an
@@ -237,8 +253,8 @@ patterns: the entries of `l_v` are distinct and of the parity of `r − 1`, and 
 sign are at least `Δ` apart. Then for every `T ∈ 𝓗^M`, `T|_good` on `V` and on `V′` have the same trace, the same
 characteristic polynomial and the same determinant.
 
-*Needs:* 2.1a; ThetaLiftChainsAndTheSeesawIdentity (target forms and good forms: `e₀` as a sum over good families of
-labels, each with a primitive label); ShortGRH background (equality of traces on two unitary groups that differ only at
+*Needs:* 2.1a; ThetaLiftChainsAndTheSeesawIdentity §2.5 (`e₀` as a sum over good families of labels, each with a
+primitive label), §2.7 (good forms); ShortGRH background (equality of traces on two unitary groups that differ only at
 the real places, for a test function cuspidal at a split place and parameters with gap at least `500r³ + 10r⁵`);
 ShortGRH background (the idempotent of a primitive label is cuspidal)
 
@@ -259,11 +275,11 @@ Under the hypotheses of 2.2:
 
 (a) for every eigensystem `q`, `dim(good forms of V ∩ V_q) = dim(good forms of V′ ∩ V′_q)`;
 
-(b) the parameters `λ_v` have gap `Δ` for the signs of `Y₀` and of every `W_j` (`OneSidedPrimeSumBoundsAndAdmissibleData
-(the data)`), so `d_T` is the dimension of the good forms on `W_j` for every `1 ≤ j ≤ m`.
+(b) the parameters `λ_v` have gap `Δ` for the signs of `Y₀` and of every `W_j` (ThetaLiftChainsAndTheSeesawIdentity
+§2.7), so `d_T` is the dimension of the good forms on `W_j` for every `1 ≤ j ≤ m`.
 
-*Needs:* 2.1a, 2.2; OneSidedPrimeSumBoundsAndAdmissibleData (the data: the gap of the target parameter for the signs of
-`Y₀` and of the `W_j`)
+*Needs:* 2.1a, 2.2; ThetaLiftChainsAndTheSeesawIdentity §2.7 (the gap of the target parameter for the signs of `Y₀` and
+of the `W_j`; the target forms and `d_T`)
 
 [ShortProof], `New/Spanning/Multiplicities/EqualMultiplicities.lean` (`New.Data.finrank_goodForms_inf_eigenPart_eq`,
 `New.Data.goodForms_inf_eigenPart_eq_bot_of_eq_bot`, `New.Data.targetDim_eq_finrank_goodForms_spaceW`)
@@ -293,7 +309,7 @@ the series of Rallis' inner product formula for the lift of index `j` of `ϑ` is
 The formal proof proves (b) in the case where the `p_i` are the Hecke elements that (a) attaches to the terms of Rallis'
 series, indexed by the cosets of the modulus of the twist.
 
-*Needs:* 2.1a, 2.2; DeterminantsOfThetaLiftChains (the series of Rallis' inner product formula: each term is a
+*Needs:* 2.1a, 2.2; DeterminantsOfThetaLiftChains §2.2 (a) (the series of Rallis' inner product formula: each term is a
 constant, independent of `V`, times `⟨z, γ y⟩` for a coset representative `γ` supported away from the modulus of the twist)
 
 [ShortProof], `New/Spanning/Multiplicities/EqualMultiplicities.lean`
@@ -320,15 +336,17 @@ Euclidean structure in which the basis is orthonormal. `X₀ = ⟨x_i⟩`.
 - `σ(g)` is the sum of the entries of `g` just above the diagonal on the frame: the coefficient of `e_a` in `g e_{a+1}`
   (`a < ϱ`) and of `e_ϱ` in `g z`. The character of `𝖴` is `ψ(u) = exp(σ(u) − σ̄(u))`.
 - Haar measures: on `𝖴` and `𝖴⁰` the images of Lebesgue measure under the coordinates of the free entries, on `H` the
-  probability measure, on `G₁` the measure of ShortGRH background (Haar measures on the Bessel unipotent groups and on
-  unitary groups); `∫_{𝖴\G₁}` is the quotient integral, and on `R` the measure is `du dh`.
+  probability measure, on `G₁` the Haar measure `μ_{G₁}` of the Conventions (**Normalisations**), which is the one of
+  ShortGRH background (Haar measures on the Bessel unipotent groups and on unitary groups); `∫_{𝖴\G₁}` is the quotient
+  integral, and on `R` the measure is `du dh`.
 - The *Bessel length* of `y` is `ℓ(y) = inf_{s ∈ R}(‖s y‖ + 1)`; it is left invariant under `R`. For `b > 0` the scaled
   length is `ℓ_b(y) = max(1, ℓ(y)/b^{6n})`, and `y` lies *in the cut* if `ℓ(y) ≤ b^{6n+2}`.
 - The *frame Gram matrix* of `γ ∈ G₁` is the `n × n` matrix `Z(γ) = (h(f_a, γf_b))_{a,b}`. For an `n × n` matrix `Z` with
   leading principal minors `D_l` and a number `N`, put `𝗀_N(Z) = |D_n|² − N²|D_ϱ|²`, and `𝗀 = 𝗀₁`. The *open cell* `Ω` is
   the set of invertible `Z` whose inverse has last diagonal entry `ξ(Z)` of modulus less than `1`; put
   `ν(Z) = (1 − |ξ(Z)|²)^{1/2}`. `Z` is *bounded in the cell by `P`* if `Z ∈ Ω` and `‖Z‖`, `‖Z⁻¹‖`, `ν(Z)⁻¹` are at most `P`.
-- `c_G = vol U(k)/vol U(r) · 2π^k/(k − 1)!` for the volumes of ShortGRH background (Haar measures on unitary groups).
+- `c_G = vol U(k)/vol U(r) · 2π^k/(k − 1)!`, with `vol U(j) = ∏_{i=1}^{j} 2π^i/(i − 1)!` as in the Conventions
+  (**Normalisations**).
 - Discrete series: for signs `ε` with `pᴴ J₁ p = diag(ε)` for a fixed unitary matrix `p`, and a doubled Harish-Chandra
   parameter `l = 2λ` for `ε`, `c_λ` is the coefficient of the discrete series of parameter `λ` on `U(diag ε)` and on `G₁`
   through `p`, and `deg(λ) = (∫|c_λ|²)⁻¹` its formal degree (ShortGRH background (discrete series coefficients of
@@ -389,11 +407,14 @@ Fix a shape, `b ≥ 1`, an integer `f ≥ 1`, a finite nonempty set `I` and a un
   pairs of basis indices, with `V_∅ = F`, such that along every `C¹` curve `γ` with `γ′(t) = γ(t)X` one has
   `(V_w ∘ γ)′(t) = ∑_{a,c} X_{ac} V_{(a,c)w}(γ(t))`, and such that for `|w| ≤ 2n²` and every integrable `φ` on `G₁`:
   `∫_{𝖴\G₁} ‖∫_{G₁} φ(y)V_w(gy) dy‖² dg ≤ B^{2|w|}·D·∫|φ|²`.
-- *Local bounds* of `W♭` with degree `deg` are forms `J_i(p, q)` on sequences of nonzero complex numbers that form a
-  sieve system over `ℂ` in length `ϱ` in the sense of `RemainingAndMainTermsOfSecondMoments` (sieve systems over
-  places), with the character `exp(c − c̄)`, `|J₀| ≤ (1 + b⁻¹⁰)/deg`, head weights of exponent `n⁶` vanishing unless the
-  products of the first entries have modulus at most `b^{60n²}`, and decay `Θ_𝔰·b^{2000n⁹}·ℓ_{k−n⁷}(1/|ξ|)` with
-  `Θ_𝔰 = π^{(2ϱ+1)k}·vol U(k)/vol U(r)` and `ℓ_j(t) = t^j·min(1, t)⁶`; and, for `σ` fixing the hyperbolic basis vectors
+- *Local bounds* of `W♭` with degree `deg` are forms `J_i(p, q)`, `0 ≤ i ≤ n = ϱ + 1`, on pairs of sequences
+  `p, q : ℕ → ℂ^×` that form a sieve system in the sense of RemainingAndMainTermsOfSecondMoments §6.1, with these
+  data: the ring `C = ℂ` with Lebesgue measure; `U = ℂ^×`; the length (the `n` of §6.1) is `ϱ`; the entry map is
+  `u(c) = c` for `c ≠ 0` and `u(0) = 1`; the map back is `ι(z) = z⁻¹`; the twist is `ψ(c) = exp(c − c̄)`; the bound of
+  the bottom form is `E = (1 + b⁻¹⁰)/deg`; the weights are
+  `Λ_i(p) = ∏_{l<i} w(p₀p₁⋯p_l)`, with `w(δ) = max(1, |δ|⁻¹)^{n⁶}` if `|δ| ≤ b^{60n²}` and `w(δ) = 0` otherwise; and
+  the decay is `β(ξ) = Θ_𝔰·b^{2000n⁹}·ℓ_{k−n⁷}(1/|ξ|)` with `Θ_𝔰 = π^{(2ϱ+1)k}·vol U(k)/vol U(r)` and
+  `ℓ_j(t) = t^j·min(1, t)⁶`; and, for `σ` fixing the hyperbolic basis vectors
   and `p_ϱ = q_ϱ = h(z, σz)`, `J_n(p, q)` is the inner product of the normalised orbital integrals of `W♭` at the Weyl
   elements of `p` and `q` (the tensor `∫W♭(y) ⊗ W♭(γ⁻¹y)^* dy` at `γ = w_p σ`, times
   `c_G^{1/2}(|p_ϱ|² − 1)^{(k−1)/2}·#I⁻¹·∏_{a<ϱ}|p_a|^{k+1+2(ϱ−a−1)}`).
@@ -669,8 +690,9 @@ representation of `GL(X₀)` of the weight of the source forms at `v`;
 `c ∈ ℝ`, `x ∈ G₁`, unit `v`).
 
 *Needs:* 3.3, 3.6, 3.8, 3.9, 3.10; PairsOfFramesAtOnePlace (local bounds at `ℂ` for cut Bessel functions);
-OneSidedPrimeSumBoundsAndAdmissibleData (the data: the parameters are steep, with their sizes); ShortGRH background
-(Weyl's dimension formula for the formal degree)
+DeterminantsOfThetaLiftChains §5.4 (a) (the parameters are steep); ThetaLiftChainsAndTheSeesawIdentity §2.4 (the
+target parameter and its gap), §2.8 (the weight of the source forms); OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the
+sizes); ShortGRH background (Weyl's dimension formula for the formal degree)
 
 [ShortProof], `New/Spanning/Bessel/FillingData.lean` (`New.Data.exists_besselSystem`);
 `New/Spanning/Bessel/LargeFunction.lean` (`New.Filling.IsDiscreteSeriesBessel`)
@@ -700,7 +722,9 @@ over `𝔸_f` it is written in the *lattice basis*, in which `x_{k₀}` is repla
 subgroup of integral invertible matrices, `red : K → Ḡ = ∏_{i, w} GL_r(𝔽_w)` reduction at the chosen places,
 `K(M) = ker red`, and for a subgroup `A`, `Ā` is the image of `A ∩ K`; `R̄₀`, `Ū`, `H̄` are those of `R`, `𝖴`, `H`.
 `ι : U(X₀)(𝔸_f) → G(𝔸_f)` is the inclusion. `κ_v = M·v(ϖ)/(2πi)` (real), and at `v` the basis is rescaled by
-`κ_v^{ϱ−a}/√N` on `e_a`, `1` on `X₀`, `1/√N` on `z` and the inverses on `e*_a`, which carries `G(E_v)` to `G₁`; `γ ↦ γ_∞`
+`κ_v^{ϱ−a+1}/√N` on `e_a` for `a = 1, …, ϱ`, `1` on `X₀`, `1/√N` on `z` and the inverse of the scale of `e_a` on
+`e*_a`, which carries `G(E_v)` to `G₁`; in the numbering `f₀, …, f_ϱ` of the frame (3.1), where `f_i = e_{i+1}` for
+`i < ϱ` and `f_ϱ = z`, the scale of `f_i` is `κ_v^{ϱ−i}/√N`, as in the factor `Λ` of 4.2; `γ ↦ γ_∞`
 is the resulting map from `G(E)` to `G_∞ = ∏_v G₁`. The *frame products* of `γ ∈ G(E)` are `Z(γ) = (h(f_a, γf_b))`, and
 `𝗀(γ) = 𝗀_N(Z(γ))`.
 
@@ -1057,9 +1081,9 @@ of the cut function `W♭`. If the sum over `c, c′`, `s ∈ Ω` and links `Λ`
 (b) For `i ∈ {0, 1}` and `Ω_i` the set of `s` whose components above `p_i` are those of an element of `R̄₀`:
 `𝔼(A_{G(E)∖R}, Ω_i) ≤ b⁻¹²·𝒟_id`.
 
-*Needs:* 4.2, 4.4, 4.5, 4.9, 4.10, 4.11, 4.12; RemainingAndMainTermsOfSecondMoments (the bound for the remaining terms
-`Γ*`, given a bound for the link second moment of the terms with `𝗀 ≠ 0`, and the bound of that link second moment over
-reductions meeting at places of large norm)
+*Needs:* 4.2, 4.4, 4.5, 4.9, 4.10, 4.11, 4.12; RemainingAndMainTermsOfSecondMoments §5.5 (c) (the bound for the remaining
+terms `Γ*`, given a bound for the link second moment of the terms with `𝗀 ≠ 0`), §5.5 (d) (the bound of that link second
+moment over reductions meeting at places of large norm)
 
 [ShortProof], `New/Spanning/Unfolding/SquareExpansion.lean` (`New.Filling.AvoidsScalarCosets`,
 `New.Filling.sqrt_secondMoment_compl_besselS_le`, `New.Filling.secondMoment_compl_besselS_le`)
@@ -1089,9 +1113,9 @@ open carry at most a share `b⁻⁴`.
 space with `⟨u_a, u_c⟩ = 𝔼(A, {a⁻¹c})` for all `a, c`, and `𝔼(A, {1}) ≤ 2D_X`, then
 `∑_{s ∈ Ḡ} 𝔼(A, {s}) ≤ (1 + 9b⁻⁴)·𝒟_main`.
 
-*Needs:* 1.4, 4.2, 4.9, 4.10, 4.11, 4.13; RemainingAndMainTermsOfSecondMoments (the main-term bound for the second moment
-over open reductions fixing given frame vectors, and the bound for the link second moment over reductions meeting at
-places of large norm)
+*Needs:* 1.4, 4.2, 4.9, 4.10, 4.11, 4.13; RemainingAndMainTermsOfSecondMoments §8.1 (the main-term bound for the second
+moment over open reductions fixing given frame vectors), §5.5 (d) (the bound for the link second moment over reductions
+meeting at places of large norm)
 
 [ShortProof], `New/Spanning/Unfolding/MomentBounds.lean` (`New.Filling.sum_secondMoment_inScalarCoset_le`,
 `New.Filling.secondMoment_fixer_univ_le`, `New.Filling.secondMoment_fixer_isOpenElement_le`,
@@ -1206,12 +1230,12 @@ type and level `J`, `∫_{[G]} y·𝒫(φ_{c,i}) = ∫_{[R]} 𝒲_φ(r)·y(rg₀
 the translate of `φ` by `η`.
 
 (b) For the data: there are a real point `g` and a linear form `t` with `𝒫_{g,t} = 𝒫^{fill} ∘ coords`, where `𝒫_{g,t}` is the
-Poincaré map of ThetaLiftChainsAndTheSeesawIdentity at `(g, t)`, `𝒫^{fill}` the map of 5.1 for the filling data of 5.5, and
+Poincaré map of ThetaLiftChainsAndTheSeesawIdentity §2.19 at `(g, t)`, `𝒫^{fill}` the map of 5.1 for the filling data of 5.5, and
 `coords` sends a source form to the values of its translate by the central element of the lattice of `X₀` at the class
 representatives. The Poincaré map `𝒫` of the data is `𝒫_{g,t}` for such a choice.
 
-*Needs:* 5.1, 5.2, 5.5; ThetaLiftChainsAndTheSeesawIdentity (the Poincaré map as the Riesz representative of the Bessel
-period); ShortGRH background (quotient integrals over the global Bessel group)
+*Needs:* 5.1, 5.2, 5.5; ThetaLiftChainsAndTheSeesawIdentity §2.19 (the Poincaré map as the Riesz representative of the
+Bessel period); ShortGRH background (quotient integrals over the global Bessel group)
 
 [ShortProof], `New/Spanning/Unfolding/SeriesPeriod.lean` (`New.Filling.Fits.exists_dotProduct_besselFn_eq_integral`,
 `New.Filling.Fits.exists_integral_besselMeasure_eq_sum`, `New.Filling.Fits.exists_integral_poincareSeries_eq_period`,
@@ -1231,8 +1255,9 @@ For `v ∈ Φ` let `sph_l(v) = (2π)^l/(|v(ϖ)|^{l−1/2}(l − 1)!)` and `fr_v 
 
 (b) `(∏_v fr_v)·c_G^f·|disc E|^{ϱ/2} = c_S·N^{2kf}·vol(Ô)^{ϱ+1+2ϱ(ϱ+k)}`, with `c_S` of 4.1.
 
-*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData (the data); ShortGRH background (masses of hermitian lattices and the ratio
-of masses in consecutive ranks)
+*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data: `N`, the ranks, `b`), §3.3 (their sizes);
+DivisibilityOfThetaDerivatives §1.1 (b) (the generator `ϖ` of the different, there `δ_E`); ShortGRH background (masses
+of hermitian lattices and the ratio of masses in consecutive ranks)
 
 [ShortProof], `New/Spanning/Unfolding/FrameMass.lean` (`New.Data.unitSphereMass`, `New.Data.frameMass`,
 `New.Data.prod_frameMass_mul_le`, `New.Data.prod_frameMass_mul_openCellConst_eq`)
@@ -1259,7 +1284,10 @@ of the central element of the lattice of `X₀`;
 (d) `#H̄·#Classes·∏_v fr_v·#I_v²/deg_v ≤ (1 + b⁻⁹)𝒟_main` and
 `#H̄²·mass_k·∏_v fr_v·N^k·#I_v²/deg_v ≤ (1 + b⁻⁹)𝒟_main`.
 
-*Needs:* 3.14, 4.1, 4.11, 5.1, 5.4; OneSidedPrimeSumBoundsAndAdmissibleData (the data and its size inequalities)
+*Needs:* 3.14, 4.1, 4.11, 5.1, 5.4; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.3 (its size
+inequalities); DivisibilityOfThetaDerivatives §1.1 (b) (the generator `ϖ` of the different), §1.5 (the chosen places);
+ThetaLiftChainsAndTheSeesawIdentity §2.1 (`X₀`, `Y₀` and its lattice), §2.4 (the parameters `l_v`), §2.6 (the level
+`K_X`, there `K_0`), §2.8 (the source forms and their weight)
 
 [ShortProof], `New/Spanning/Bessel/FillingData.lean` (`New.Data.filling`, `New.Data.levelX_zero_eq_comap`);
 `New/Spanning/Unfolding/FillingAdmissible.lean` (`New.Data.filling_fits`, `New.Data.card_besselCoord_le_pow`,
@@ -1307,8 +1335,9 @@ idempotent with `Re (1 − g_i)(1) ≤ b⁻⁸/2`.
 (d) The maps `#Ḡ·e₀ s 𝒫` from the source forms to the target forms, `s ∈ Ḡ`, spread with error `3/(16b²)`: for every space
 `F` of target forms with `dim F = α·d_T`, some `s ∈ Ḡ` has `dim (#Ḡ·e₀ s 𝒫)⁻¹(F) ≤ ((1 + α)/2 + 3/(16b²))·D_X`.
 
-*Needs:* 1.2, 4.15, 5.1, 5.3, 5.5, 5.6; ThetaLiftChainsAndTheSeesawIdentity (target forms and good forms);
-RemainingAndMainTermsOfSecondMoments (the share of non-allowed polynomials and the bad share)
+*Needs:* 1.2, 4.15, 5.1, 5.3, 5.5, 5.6; ThetaLiftChainsAndTheSeesawIdentity §2.5 (`e₀` and the good families of
+labels), §2.7 (target forms and good forms); RemainingAndMainTermsOfSecondMoments §8.2 (c) (the share of non-allowed
+polynomials and the bad share)
 
 [ShortProof], `New/Spanning/SecondMoment/SpanningTheorem.lean` (`New.Data.hasAmplitudeBlocks_scaledPoincare`,
 `New.Data.bad_types_rare`, `New.Data.isNearIsometry_e₀_comp_scaledPoincare`,
