@@ -320,7 +320,10 @@ value is junk; every theorem except the value at one assumes `n ≥ 2` or fixes 
 Route: the Gegenbauer form by the multiplied-out Jacobi relation of LaguerreJacobi §6.2,
 `(λ + 1/2)_l C_l^{(λ)} = (2λ)_l P_l^{(λ-1/2, λ-1/2)}`, and the hypergeometric form DLMF 18.5.7
 of the Jacobi polynomial, which at `α = β = λ - 1/2` is `((n - 1)/2)_l/l!` times the sum
-defining `ω_{n,l}`, and `((n - 1)/2)_l ≠ 0` for `n ≥ 2` (a direct comparison with the power
+defining `ω_{n,l}`, and `((n - 1)/2)_l ≠ 0` for `n ≥ 2`. LaguerreJacobi §3.2 defines `jacobi` by
+the sum DLMF 18.5.8 in `(X - 1)^{l-k} (X + 1)^k`, so passing to the form 18.5.7 in powers of
+`(1 - X)/2` is a step of this route: write `X + 1 = 2 - (1 - X)`, expand binomially and sum the
+coefficient of each power of `(1 - X)/2` by Chu–Vandermonde (a direct comparison with the power
 sum DLMF 18.5.10 goes through a quadratic transformation of the Gauss series); the parity from
 the symmetry `t ↦ -t` of the differential equation of 3.2; the special cases by the same
 differential equation and the value at one.
@@ -1021,9 +1024,10 @@ spherical functions and the spherical transform for a general locally compact gr
 and `SO(n)` with its rotation map on `ℝⁿ` (its §0.3); this roadmap instantiates the first for
 `(SO(n), K_η)` and `(U(n), K_η)` and copies its definitions verbatim. The actions of `SO(n)` on `ℝⁿ`
 and of `U(n)` on `ℂⁿ` are Mathlib's, and agree with the rotation map of its §0.3.
-SpecialFunctionsLegendre owns the spherical harmonics `Y_{l,m}` of `S²` and their addition theorem
-(its §3.2), and SpecialFunctionsSU2MatrixElements owns their group proof (its §6.3) and the Gel'fand
-pair `(SU(2), T)` (its §6.4); the case `n = 3` here agrees with them (1.3 and 4.1 Checks).
+[SpecialFunctionsLegendre](../SpecialFunctionsLegendre/README.md) owns the spherical harmonics
+`Y_{l,m}` of `S²` and their addition theorem (its §3.2), and SpecialFunctionsSU2MatrixElements
+owns their group proof (its §6.3) and the Gel'fand pair `(SU(2), T)` (its §6.4); the case `n = 3`
+here agrees with them (1.3 and 4.1 Checks).
 SpecialFunctionsLegendre also states the Funk–Hecke formula on `S²` in the `Y_{l,m}` (its §3.4);
 it is the case `n = 3` of 4.3, with the surface measure of total mass `4π` in place of the
 probability measure. The
@@ -1145,14 +1149,14 @@ Contributors should not attempt it under this roadmap.
 
 ## Prior formalization
 
-[lean-SFVK](https://github.com/bjbraams/lean-SFVK) (Apache-2.0), by the author of this roadmap, at
-commit `2a512fe` proves the following targets without `sorry`, against Tau Ceti and the lean-DLMF
-Gegenbauer, Legendre and Jacobi polynomials. Its definitions are in
+[lean-SFVK](https://github.com/bjbraams/lean-SFVK) (Apache-2.0), by the author of this roadmap,
+uses the conventions and names of this roadmap, except that it writes the action of the matrix
+groups through its own rotation maps, names the groups and stabilizers in its own way, and states
+the Gel'fand pairs with its own predicate. Its definitions are in
 `SFVK/Spheres/Basic/Sphere.lean`, `SFVK/Spheres/Basic/Zonal.lean` and
-`SFVK/Spheres/Basic/Disk.lean`. It writes the action of the matrix groups through its own rotation
-maps, names the groups and stabilizers in its own way, and states the Gel'fand pairs with its own
-predicate; otherwise it uses the names of this roadmap. The roadmap reuses its conventions and
-names; its modules are a cited source, not the specification.
+`SFVK/Spheres/Basic/Disk.lean`. It proves the following targets without `sorry`, against Tau Ceti
+and the lean-DLMF Gegenbauer, Legendre and Jacobi polynomials; its modules are a cited source, not
+the specification.
 
 - §§1.1–1.3: `exists_smul_eq`, `exists_mul_mul_eq_iff_inner`, the closedness of `K_η`,
   `integral_smul_sphereMeasure`, `integral_haarProb_smul`, `integral_inner_sphereMeasure` and
