@@ -404,7 +404,7 @@ The isomorphism class of a finitely generated module `B` over a principal artini
 
 By Layer 0.6 Selmer modules of quotients and torsion submodules these are the lengths of `H¹_F(K, T/m^i)` and `H¹_{F^*}(K, T^*[m^i])`; by the supplier The Euler characteristic formula for Selmer modules their difference is a sum of local terms, each linear in `i` by Layer 0.5 Lengths of cartesian conditions grow linearly (the global `H⁰` terms vanish).
 
-Then `r = t`. Independence of the modulus is core-rank-independence-of-modulus.
+Then `r = t`. Independence of the modulus is Layer 0.9 The core rank is independent of the modulus.
 
 The definition exposes the following operations and relations.
 
@@ -435,7 +435,7 @@ Additional arithmetic check: For `E/ℚ` and `p ≥ 5` with surjective mod-`p` r
 
 ### 0.9 The core rank is independent of the modulus
 
-Let `R` be principal artinian of `length k` and `F` cartesian with the invariants hypothesis of core-rank. Then for `0 < i ≤ k` the Selmer triple `(T/m^iT, F, P)` over `R/m^i` has `χ(T/m^iT) = χ(T)` and `χ(T^*[m^i]) = χ(T^*)`, and `H¹_F(K, T/m^iT) ≅ (R/m^i)^{χ(T)} ⊕ H¹_{F^*}(K, T^*[m^i])` when `χ(T) > 0`. If `R` is a discrete valuation ring and `H¹(K_q, T)/H¹_F(K_q, T)` is torsion-free for `q ∈ Σ(F)`, then `rank_R H¹_F(K, T) − corank_R H¹_{F^*}(K, T^*) = χ(T) − χ(T^*)`.
+Let `R` be principal artinian of `length k` and `F` cartesian with the invariants hypothesis of Layer 0.8 The core rank of a cartesian Selmer structure. Then for `0 < i ≤ k` the Selmer triple `(T/m^iT, F, P)` over `R/m^i` has `χ(T/m^iT) = χ(T)` and `χ(T^*[m^i]) = χ(T^*)`, and `H¹_F(K, T/m^iT) ≅ (R/m^i)^{χ(T)} ⊕ H¹_{F^*}(K, T^*[m^i])` when `χ(T) > 0`. If `R` is a discrete valuation ring and `H¹(K_q, T)/H¹_F(K_q, T)` is torsion-free for `q ∈ Σ(F)`, then `rank_R H¹_F(K, T) − corank_R H¹_{F^*}(K, T^*) = χ(T) − χ(T^*)`.
 
 The precise hypotheses are as in Layer 0.8 The core rank of a cartesian Selmer structure; `R/m^i` is again a coefficient ring, so the reduced Selmer structure on `T/m^iT` over `R/m^i` is defined.
 
@@ -443,7 +443,7 @@ The precise hypotheses are as in Layer 0.8 The core rank of a cartesian Selmer s
 
 ([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Corollary 5.2.6, p. 56). The rank formula over a discrete valuation ring.
 
-Take `m^i`-torsion in the isomorphism of Layer 0.8 The core rank of a cartesian Selmer structure and apply selmer-torsion-identification.
+Take `m^i`-torsion in the isomorphism of Layer 0.8 The core rank of a cartesian Selmer structure and apply Layer 0.6 Selmer modules of quotients and torsion submodules.
 
 For a discrete valuation ring pass to the limit over `k` using SelmerIwasawaCohomology §2.18 (Selmer groups of `T` and `W` as limits) and the bounded cokernel of `H¹_F(K,T)/m^k → H¹_F(K, T/m^k)` (Mazur–Rubin 2004, Lemma 3.7.1(ii)).
 
