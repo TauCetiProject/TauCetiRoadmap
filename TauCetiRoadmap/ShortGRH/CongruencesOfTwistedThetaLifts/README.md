@@ -114,8 +114,9 @@ conjugates, `I_Q` the union of the inertia groups above `Q ∪ Q̄`.
 
 **Labels.** A *label* of degree `n` over a finite field is a monic squarefree polynomial of degree `n`, nonzero at `0`;
 it is *primitive* if it is irreducible with a root generating the units of the extension of degree `n`; it names one
-of Green's characters of `GL_n` of the field, and its idempotent is the central idempotent of that character (ShortGRH
-background (Green's characters of `GL_n` over a finite field and the idempotents of labels)).
+of Green's characters of `GL_n` of the field, and its idempotent is the central idempotent of that character
+(FiniteReductiveGroups §5.7: the characters of a label and the central idempotent of a label; a squarefree label
+carries one character, at once generic and semisimple).
 
 **Descent pairs.** A descent pair `O` (ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs)) has a hermitian space `W`
 of rank `r_O`, the standard definite space `V` of rank `n_O > r_O`, `t_O = n_O − r_O`, chosen places `w_i`, twist
@@ -307,7 +308,7 @@ and every split place `w` with `w, w̄` off the places of `O`;
 `n_m = k + m(t + 1)`;
 (c) infinitely many split places of `E` lie, with their conjugates, off the places of `O`.
 
-*Needs:* 1.1; ShortGRH background (Green's characters of `GL_n` over a finite field and the idempotents of labels);
+*Needs:* 1.1; FiniteReductiveGroups §5.7 (the character and the central idempotent of a squarefree label);
 ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs), §2.6 (the level places of a twist).
 
 [ShortProof], `New/Congruences/GaloisRepresentations/SelmerHypotheses` (`New.Selmer.IsLiftSetting`, `New.Selmer.scaledTypePoly`, `New.Selmer.typeProjection`, `New.Selmer.IsLiftSetting.range_typeProjection_mem_invtSubmodule`)
