@@ -59,10 +59,11 @@ integrality and the divisibility of their jets. Layer 5 shows that the bound is 
   finite place `w` above `p`.
 - *Jets.* For a polynomial `Q` and a power series `F` in the same variables, `jet_Q(F) := (Q(∂)F)(0) = Σ_k k!·Q_k·F_k`,
   with `k! := ∏_i k_i!` for a multi-index `k`.
-- *The parameters and the data* are those of OneSidedPrimeSumBoundsAndAdmissibleData: a multiple `q₀` of `18480` and a
-  prime `d ≡ q₀/2 − 1 (mod q₀)` (so `d ≡ 7 (mod 8)`), `K = ℚ(√−d)`; for a level `s`, the CM field `E = K(ζ)` with `ζ`
-  a primitive root of unity of order `q₁ = q₁(s)`, and `q₂ = (q₀d)^{s+6}`; admissible data `D` with their scales,
-  ranks, weights, level primes and exponent `s`. Statements about data use the letters of that roadmap.
+- *The parameters and the data* are those of OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters), §2.2 (the
+  field) and §3.2 (admissible data): a multiple `q₀` of `18480` and a prime `d ≡ q₀/2 − 1 (mod q₀)` (so
+  `d ≡ 7 (mod 8)`), `K = ℚ(√−d)`; for a level `s`, the CM field `E = K(ζ)` with `ζ` a primitive root of unity of order
+  `q₁ = q₁(s)`, and `q₂ = (q₀d)^{s+6}`; admissible data `D` with their scales, ranks, weights, level primes and
+  exponent `s`. Statements about data use the letters of that roadmap.
 - *Places.* The infinite places of `E` form a group `Φ`, identified with `Gal(E/K)` and with `(ℤ/q₁)^×`; `τ` also
   denotes the embedding `E → ℂ` over `K` chosen at the place `τ` (a CM type). For an integer `ν`, `u(ν) ∈ Φ` is the class
   of `ν` if `ν` is prime to `q₁`, and `1` otherwise; `−p^eτ := u(−p^e)·τ` is the *partner* of `τ` for the exponent
@@ -73,13 +74,13 @@ integrality and the divisibility of their jets. Layer 5 shows that the bound is 
 
 | Symbol | Meaning | Defined |
 |---|---|---|
-| `K, χ_K, d` | `ℚ(√−d)`, its quadratic character `(·/d)`, the prime `d ≡ 7 (mod 8)` | OneSidedPrimeSumBoundsAndAdmissibleData |
-| `E = K(ζ), q₁, q₂, s, f` | the CM field of level `s`, the order of `ζ`, `(q₀d)^{s+6}`, the level, the number of infinite places | OneSidedPrimeSumBoundsAndAdmissibleData |
+| `K, χ_K, d` | `ℚ(√−d)`, its quadratic character `(·/d)`, the prime `d ≡ 7 (mod 8)` | OneSidedPrimeSumBoundsAndAdmissibleData §2.1 |
+| `E = K(ζ), q₁, q₂, s, f` | the CM field of level `s`, the order of `ζ`, `(q₀d)^{s+6}`, the level, the number of infinite places | OneSidedPrimeSumBoundsAndAdmissibleData §§2.1–2.2 |
 | `Φ, u(ν), −p^eτ, v·w` | infinite places, the place of an integer, the partner, the action on finite places | Conventions |
 | `β_K, P'(ζ), δ_E, rd_E` | `(1 + √−d)/2`, the derivative of the cyclotomic polynomial at `ζ`, an imaginary generator of the different, the root discriminant | 1.1 |
 | `Fr_p` | the Frobenius element `(u(χ_K(p)p), χ_K(p)) ∈ Φ × {±1}` | 1.2 |
 | `ȷ, α, 𝔞₀, Ô, υ, s₀` | the Weil data of `E`, the lattice `E ∩ αÔ`, the integral finite adeles, the splitting character, the number `s₀` | 1.4 |
-| `π_M, π̄_M, M, p₀, p₁` | `M = p₀p₁` the level, `π̄_M ∈ 𝒪_K` of norm `M`, `π_M` its conjugate | OneSidedPrimeSumBoundsAndAdmissibleData; chosen places 1.5 |
+| `π_M, π̄_M, M, p₀, p₁` | `M = p₀p₁` the level, `π̄_M ∈ 𝒪_K` of norm `M`, `π_M` its conjugate | OneSidedPrimeSumBoundsAndAdmissibleData §3.2; chosen places 1.5 |
 | `ω, χ₀, χ_M, w₀` | the residue characters at the chosen places, two characters of `U(1)`, the weight `w₀ = κ + Δ/2` | 1.5, 1.6 |
 | `π_p, v(π_p), q_p, ρ_p, γ_p` | `√−d` if `p = d` and `p` otherwise; `1/2` or `1`; `p²` if `p` is inert and `p` otherwise; `v(π_p)/(q_p − 1)`; `1/(p − 1) − ρ_p` | 2.1 |
 | `I_p°, I_p` | the odd `e ≥ 0` if `p` is inert, all `e ≥ 0` if `p = d`, none if `p` splits; the positive elements | 2.1 |
@@ -93,8 +94,8 @@ integrality and the divisibility of their jets. Layer 5 shows that the bound is 
 | `θ°, c_vac` | the integral vacuum, the vacuum scale | 4.6 |
 | `𝒟_p(V, δ)` | standard data of level `δ` at `p` | 4.8 |
 | `val_n(ν)` | least valuation of a coefficient of degree `ν` on `n` copies | 5.1 |
-| `κ(τ), b, x, x₁, a, k, m, r, t, l₀` | weights and the scales, ranks and exponents of the data | OneSidedPrimeSumBoundsAndAdmissibleData |
-| `s_p(y, σ), S_p` | the local prime sum and its total `S_p = Σ_σ s_p(κ(σ), σ)` | CompositeThetaLiftsAndShortForms |
+| `κ(τ), b, x, x₁, a, k, m, r, t, l₀` | weights and the scales, ranks and exponents of the data | OneSidedPrimeSumBoundsAndAdmissibleData §3.2; `l₀`: §2.1 |
+| `s_p(y, σ), S_p` | the local prime sum and its total `S_p = Σ_σ s_p(κ(σ), σ)` | CompositeThetaLiftsAndShortForms §2.1 (b) |
 | `n♯, B_τ(l)` | `⌈6b/k⌉`, the product of the `n♯` integers after `(l − n♯)₊` | 5.4 |
 
 ## Layer 1: The field `E` and its characters
@@ -127,8 +128,8 @@ primitive root of unity of order `5040`.
 `|δ_E|_v = |P'(ζ)|_v·√d` at every infinite place `v`.
 (c) `∏_{v ∈ Φ} |δ_E|_v = rd_E^f`, where `rd_E` is the root discriminant of `E`.
 
-*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData (the parameters and the fields `E = K(ζ)` of the tower); Mathlib
-(`differentIdeal`, `Polynomial.cyclotomic`, `IsPrimitiveRoot`).
+*Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters), §2.2 (the fields `E = K(ζ)` of the tower);
+Mathlib (`differentIdeal`, `Polynomial.cyclotomic`, `IsPrimitiveRoot`).
 
 [ShortProof], `New/Derivatives/Field/PrimeDecomposition` (`New.Parameters.relDifferent_spec`,
 `New.Parameters.adjoin_betaKInE_zetaInt_eq_top`, `New.Parameters.deltaE`, `New.Parameters.star_deltaE`,
@@ -159,7 +160,7 @@ an odd power of `u(−p)`; the norm of `w` is `p^{lcm(o, 2)}`, `o` the order of 
 (e) If a finite place `w` satisfies `w̄ = w`, then `β_Kβ̄_K ∉ w`, the prime `p` below `w` does not divide `q₁`, and
 `p ≡ −1 (mod 2^{s+1})`.
 
-*Needs:* 1.1; OneSidedPrimeSumBoundsAndAdmissibleData (the places `Φ` of `E` and `u(ν)`).
+*Needs:* 1.1; OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (the places `Φ` of `E` and `u(ν)`, written `[ν]` there).
 
 [ShortProof], `New/Derivatives/Field/PrimeDecomposition` (`New.Parameters.frobElem`,
 `New.Parameters.smul_eq_iff_exists_frobElem_pow`, `New.Parameters.q_eq_pow_orderOf_frobElem`,
@@ -239,8 +240,8 @@ residue field and let `ω_w` be its `q₂`-th power, of order `q₂`; at the oth
 `ω_w(x) = 1` whenever `x^{q₁} = 1` in the residue field, and for every family of residue characters `ψ` with `ψ_w = 1`,
 `(ω^nψ)_w^{q₂} = 1`.
 
-*Needs:* 1.3; OneSidedPrimeSumBoundsAndAdmissibleData (the level primes `p₀, p₁ ≡ 1 (mod q₁d)` with `q₂² | p_i − 1`,
-the level `M`, `π̄_M`).
+*Needs:* 1.3; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the level primes `p₀, p₁`, the level `M`, `π̄_M`),
+§3.3 (e) (`p_i ≡ 1 (mod q₁d)` and `q₂² | p_i − 1`).
 
 [ShortProof], `New/Derivatives/Field/ChosenPlaces` (`New.Data.piM`, `New.Data.IsChosen`,
 `New.Data.exists_levelPrime_mem_of_isChosen`, `New.Data.q_eq_levelPrime`, `New.Data.finite_isChosen`,
@@ -259,7 +260,7 @@ and `N_{E/K}(ζ) = 1`; by 1.5, `ω` is trivial on the reductions of the powers o
 character, and the characters with given weight and tame part are finite in number; the weights and the tame parts at
 the finitely many chosen places range over finite sets.
 
-Let `w₀ := κ + Δ/2` be the weight of the data at the infinite places (OneSidedPrimeSumBoundsAndAdmissibleData).
+Let `w₀ := κ + Δ/2` be the weight of the data at the infinite places (OneSidedPrimeSumBoundsAndAdmissibleData §3.2).
 (a) For all natural numbers `a, n` there is a character `μ` of `U(1)(𝔸_E)` trivial on `U(1)(E)` of weight `−a·w₀` and
 tame part `ω^n`: `μ(γ) = ∏_v γ_v^{−a·w₀(v)}·∏_w ω_w(γ mod w)^n` for `γ` with integral finite part. Fix `χ₀` for
 `(a, n) = (1, 0)` and `χ_M` for `(a, n) = (0, 1)`.
@@ -267,9 +268,9 @@ tame part `ω^n`: `μ(γ) = ∏_v γ_v^{−a·w₀(v)}·∏_w ω_w(γ mod w)^n` 
 chosen places, together with an integer `z` with `1 ≤ z ≤ t` and `z ≤ c(v) ≤ 4b` at every `v ∈ Φ`. There are finitely
 many pairs.
 
-*Needs:* 1.5; OneSidedPrimeSumBoundsAndAdmissibleData (the weights `κ`, the gap `Δ`, `t`, `b`); ShortGRH background
-(characters of `U(1)(𝔸_E)` of given weight and tame part: existence when the weight formula is trivial on the integral
-elements of `U(1)(E)`, and finiteness for a given weight and tame part).
+*Needs:* 1.5; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the weights `κ`, the gap `Δ`, `t`, `b`); ShortGRH
+background (characters of `U(1)(𝔸_E)` of given weight and tame part: existence when the weight formula is trivial on
+the integral elements of `U(1)(E)`, and finiteness for a given weight and tame part).
 
 [ShortProof], `New/Derivatives/Field/ChosenPlaces` (`New.Data.exists_zeta_pow_eq_of_isIntegral`,
 `New.Data.prod_phi_zeta_pow_pow_liftWeight_zero_eq_one`, `New.Data.exists_char_hasWeight`, `New.Data.chiZero`,
@@ -289,8 +290,8 @@ order `q₀` at a primitive `q₀`-th root of unity, with `T = q₁/q₀`, since
 `C(q₀, d)` is the constant of the parameters; hence `|log|δ_E|_v − log rd_E| ≤ 2C(q₀, d)`.
 (b) For admissible data: `x^{10} ≤ |δ_E|_v ≤ x^{12}` at every `v ∈ Φ`, and `x^{10} ≤ rd_E ≤ x^{12}`.
 
-*Needs:* 1.1; OneSidedPrimeSumBoundsAndAdmissibleData (the constant `C(q₀, d)`, the scale `x` and the size relations
-of the data).
+*Needs:* 1.1; OneSidedPrimeSumBoundsAndAdmissibleData §§3.1, 3.2 (from §3.1 the constant of the parameters, written
+`C(q₀, d)` here and `C_P` there; from §3.2 the scale `x` and the size relations of the data).
 
 [ShortProof], `New/Derivatives/Field/ChosenPlaces` (`New.Parameters.exists_abs_log_le_and_apply_deltaE_eq`,
 `New.Parameters.abs_log_deltaE_sub_log_rootDiscr_le`, `New.Data.hasLogBound_deltaE`, `New.Data.rootDisc_mem_Icc`)
@@ -332,8 +333,8 @@ empty if `p` splits; `I_p` is the set of its positive elements. Then `γ_p = v(�
 and a prime that does not split in `K` is odd and at least `13`.
 
 *Needs:* ShortGRH background (CM lattices: the sigma and Weierstrass functions, the formal parameter, and the ring
-`𝒪[[y]] = 𝒪[[T]]`); OneSidedPrimeSumBoundsAndAdmissibleData (the prime `d` and the primes dividing `q₀`, which split
-in `K`).
+`𝒪[[y]] = 𝒪[[T]]`); OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the prime `d` and the primes dividing `q₀`, which
+split in `K`).
 
 [ShortProof], `New/Derivatives/FormalGroup/Resolution` (`New.CMLattice.thetaProd`); for `CMLattice`, `θ`,
 `translatedX`, `translatedY`, `negLogTheta`, `multiSeriesRing` and the numbers at a prime the definitions in `src/Lib`
@@ -717,17 +718,17 @@ automorphisms of `ℂ` over `K`).
 
 ### 4.3 Tight frames in `𝔞₀`
 
-*Origin:* particular to this proof: tight frames in `𝔞₀` of lengths prime to `q₁` and at most the weight `b`, of every
-large length with large multiplicities, and of length `M` with multiplicities at least `6fb`, each with a vector whose
-linear form `𝔣_E·y†z` has unit coefficients at a given prime.
+*Origin:* particular to this proof: tight frames in `𝔞₀` of lengths prime to `q₁`, of every large length with large
+multiplicities, and of square length prime to a given prime, with a vector whose linear form `𝔣_E·y†z` has unit
+coefficients at a given prime. The statements of this section use the parameters and the field only; the frames of
+the data are in 4.3a.
 
 *Method of the formal proof:* the powers of a primitive `q₁`-th root of unity are a tight frame of length `q₁` by
 orthogonality of characters. With `e_i := β̄_K^j` times the basis of `E/K` dual to the powers of `ζ` under the trace
 (`j` least with `2^j ≥ q₁`), the powers of `ζ^{−1}` and the orbits `ζ^k·g(e_i)` (`g ∈ Gal(E/K)`, `k < q₁`) form a
 tight frame; replacing the pairs
 `(ζ^{−i}, e_i)` by their sums adds `β_K^j + β̄_K^j` to the length, which makes it prime to `q₁`. Lengths `a·q₁ + b·h` with
-`a, b` large come from a Frobenius-coin argument. Sizes: the coefficients of the cyclotomic polynomial are at most
-`2^{q₀}` in absolute value, `|β_K| ≤ d`, `j ≤ q₀ + 3s + 10`, and `|τ(P′(ζ))| ≥ 1` for data.
+`a, b` large come from a Frobenius-coin argument.
 
 (a) For a primitive `q₁`-th root of unity `z ∈ E`, the `z^i`, `0 ≤ i < q₁`, each taken once, are a tight frame of length
 `q₁`; each taken `k` times, one of length `kq₁`.
@@ -736,20 +737,38 @@ tight frame; replacing the pairs
 `y = 1` and `y = ζ·e_{φ(q₁)−1}` has `|ι_p(𝔣_E·conj(τ(y)))| = 1` for all `τ ∈ Φ`.
 (c) If `v` is a tight frame with multiplicities `1` of a length `h` prime to `q₁`, then for every `m ≥ q₁h + R(q₁ + h)`
 the powers `ζ^i` and the members of `v` form a tight frame of length `m` with multiplicities all at least `R`.
-(d) For admissible data: the length `h` of (b) satisfies `1 ≤ h ≤ b`; and there is a tight frame of length `M` with
-multiplicities at least `6fb` containing, for every prime `p` and `ι_p`, a vector `y` with `|ι_p(𝔣_E·conj(τ(y)))| = 1`
-for all `τ`.
+(d) The frames of the data are stated in 4.3a; the letter (d) is kept for them, so that 4.3 (d) means 4.3a.
 (e) For every prime `p` there are `b′` prime to `p` and a tight frame with multiplicities `1` of length `b′²`.
 
-*Needs:* 1.1, 1.4, 1.7, 4.1, 4.2; OneSidedPrimeSumBoundsAndAdmissibleData (the weight `b`, the level `M`, the size
-relations of the data).
+*Needs:* 1.1, 1.4, 4.1, 4.2.
 
 [ShortProof], `New/Derivatives/Vacuum/TightFrames` (`New.Parameters.isTightFrame_pow`,
 `New.Parameters.isTightFrame_zeta_pow`), `New/Derivatives/Vacuum/ShortVectors` (`New.Parameters.isTightFrame_orbit`,
 `New.Parameters.dualResolutionFactor`, `New.Parameters.exists_isTightFrame_coprime`, `New.Parameters.HasUnitLinearForm`,
-`New.Parameters.exists_hasUnitLinearForm`, `New.Parameters.exists_isTightFrame_of_coprime`,
-`New.Data.le_b_of_eq_dualResolutionFactor`, `New.Data.exists_short_isTightFrame_coprime`, `New.Data.exists_isTightFrame`),
+`New.Parameters.exists_hasUnitLinearForm`, `New.Parameters.exists_isTightFrame_of_coprime`),
 `New/Derivatives/Vacuum/StandardDataProducts` (`New.Parameters.exists_coprime_isTightFrame_sq`)
+
+### 4.3a Tight frames of the data
+
+*Origin:* particular to this proof: on admissible data, the tight frame of 4.3 (b) has length at most the weight `b`,
+and there is a tight frame of length `M` with multiplicities at least `6fb` that contains, for every prime, a vector
+whose linear form has unit coefficients there. It is stated apart from 4.3 because the constant `C_P` of the data
+(OneSidedPrimeSumBoundsAndAdmissibleData §3.1) is defined through the integral vacuum of 4.6, which uses 4.3 (a).
+
+*Method of the formal proof:* sizes: the coefficients of the cyclotomic polynomial are at most `2^{q₀}` in absolute
+value, `|β_K| ≤ d`, `j ≤ q₀ + 3s + 10`, and `|τ(P′(ζ))| ≥ 1` for data, so the length `h` of 4.3 (b) is at most `b` by
+the size relations; then 4.3 (c) at the length `M`, which is large enough for the multiplicities `6fb` by the sizes
+of the data.
+
+For admissible data: the length `h` of 4.3 (b) satisfies `1 ≤ h ≤ b`; and there is a tight frame of length `M` with
+multiplicities at least `6fb` containing, for every prime `p` and `ι_p`, a vector `y` with
+`|ι_p(𝔣_E·conj(τ(y)))| = 1` for all `τ`.
+
+*Needs:* 1.7, 4.3; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the weight `b`, the level `M`), §3.3 (the size
+relations of the data).
+
+[ShortProof], `New/Derivatives/Vacuum/ShortVectors` (`New.Data.le_b_of_eq_dualResolutionFactor`,
+`New.Data.exists_short_isTightFrame_coprime`, `New.Data.exists_isTightFrame`)
 
 ### 4.4 Jet series along lines
 
@@ -1060,8 +1079,8 @@ Let `C` be a CM lattice and `p` a prime.
 squares in `ℤ_p`. For linear forms `μ_j` and `Θ = ∏θ(μ_jz)^{m_j}` there are `δ_0 = 1, δ_1, …, δ_5 ∈ ℤ_p` such that
 `∏_{c<6} Θ(δ_cz)` has constant term `1` and is a unit of `𝒪[[y(μz)]]`.
 (c) If one of the forms, `μ_{j₀}`, has unit coefficients, then `val₆(ν) ≤ γ_p·|ν| − Σ_x v(ν_x!)` for every `ν`.
-(d) If integral combinations of the forms give the coordinates up to a unit — `Σ_j a_{xj}μ_j(z) = s·z_x` with
-`a_{xj} ∈ 𝒪` and `|s| = 1` — then `val₆(ν) ≤ 0` for every `ν`.
+(d) If integral combinations of the forms give the coordinates up to a unit, that is `Σ_j a_{xj}μ_j(z) = s·z_x` with
+`a_{xj} ∈ 𝒪` and `|s| = 1`, then `val₆(ν) ≤ 0` for every `ν`.
 
 *Needs:* 2.1, 5.1; ShortGRH background (the formal group of a CM lattice: the group law is integral in `T`, and
 `T(ϖz)/ϖ ≡ Σ_j z^{q_p^j} (mod π_p)`, as in 2.3).
@@ -1108,7 +1127,7 @@ with the normal form `(I_p°, pr, ϖ, λ)`, `v(ϖ) = ρ_p`, `λ_{a0}` units for 
 powers of `−p`, so the near pairs (a `b`-place whose partner for a small exponent is a `b`-place) are disjoint, and every
 other term of the prime sum at a place is covered by the valuation of a product of `n♯ = ⌈6b/k⌉` consecutive integers.
 
-*Method of the formal proof:* sparseness of the `b`-places (OneSidedPrimeSumBoundsAndAdmissibleData), read in the
+*Method of the formal proof:* sparseness of the `b`-places (OneSidedPrimeSumBoundsAndAdmissibleData §3.2), read in the
 classes modulo the part of `q₁` prime to `p`; for `p = d` a place and its partner have different classes modulo `q₀`, while
 all `b`-places have the same. The losses: `γ_p·Σκ(τ) − S_p = v(π_p)·Σ_τR_τ` with `R_τ = Σ_e min(κ(τ)/p^e, κ(−p^eτ))`, and
 off the near pairs each term of `R_τ` is at most the weight `a/x₁` off the `b`-places or a geometric tail; Legendre's
@@ -1127,9 +1146,10 @@ same exponent, two with the same end are equal, and the end of a near pair is no
 `3(log b + 2) + x^{42} + 1 + l₀·(a/x₁) + 2b/(kp) ≤ v_p(B_τ(l))`; and for `p ≥ 3` and `l = ν′ + ν″ + η` with
 `l ≤ 2b`, `v_p(l!) ≤ v_p(ν′!) + v_p(ν″!) + v_p(η!) + 3(log b + 2)`.
 
-*Needs:* 2.1, 2.6 (partners); OneSidedPrimeSumBoundsAndAdmissibleData (the weights and the `b`-places, their
-sparseness along the powers of `−p` for `p ≤ k`, the scales and `l₀`); CompositeThetaLiftsAndShortForms (the local prime
-sum `s_p(y, σ)` and its total `S_p`).
+*Needs:* 2.1, 2.6 (partners); OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (`l₀`), §3.1 (sparse sets of places),
+§3.2 (the weights and the `b`-places, sparse for the primes up to `kt`, hence along the powers of `−p` for `p ≤ k`),
+§3.3 (the sizes of the scales); CompositeThetaLiftsAndShortForms §2.1 (b) (the local prime sum `s_p(y, σ)` and its total
+`S_p`, there `F(p)`).
 
 [ShortProof], `New/Derivatives/Sharpness/NearPairs` (`New.Data.notMem_bPlaces_of_two_partners`, `New.Data.IsNearPair`,
 `New.Data.IsNearPair.inert_and_odd`, `New.Data.IsNearPair.exponent_unique`, `New.Data.IsNearPair.eq_and_eq_of_partner_eq`,
@@ -1158,8 +1178,8 @@ Moreover: the vectors `w_i/π̄_M` with multiplicities `c_i` are a resolution of
 that does not split in `K`; `ι_p(𝔣_Eπ_M)` is a unit at every such prime; `|π_M𝔱_E|² = M/Ω`; and at an inert `p`,
 `val₆(ν) ≤ 0` for every `ν`.
 
-*Needs:* 2.6, 4.2, 4.3, 5.1, 5.2, 5.3, 5.4; OneSidedPrimeSumBoundsAndAdmissibleData (the data, `d ≤ k`);
-CompositeThetaLiftsAndShortForms (the local prime sums `s_p` and `S_p`).
+*Needs:* 2.6, 4.2, 4.3, 4.3a, 5.1, 5.2, 5.3, 5.4; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.3 (a), (b)
+(`d ≤ k`); CompositeThetaLiftsAndShortForms §2.1 (b) (the local prime sums `s_p` and `S_p`).
 
 [ShortProof], `New/Derivatives/Sharpness/Cases` (`New.Parameters.resolutionForms`, `New.Data.resolutionVectors`,
 `New.Data.taylorScale`, `New.Data.norm_conj_piMBar_mul_jetScale_sq`, `New.Data.isResolution_resolutionVectors`,
@@ -1202,10 +1222,10 @@ a theta function for `π_M𝔞₀^{12}`, and with `ι_p J(F) = ∏_{b<12} (∏_i
 prime `p` and every `ι_p` there are `γ` with `Σ_bγ_{τ,b} = l_τ` and `y₀` with
 `v(ι_p(c_vac^{12}·∏_τ l_τ!·coeff_γ J(Ψ_{𝔪,y₀}))) ≤ S_p + v(ι_p(t))`.
 
-*Needs:* 4.3 (d), 4.5, 4.6, 5.1, 5.5; ShortGRH background (Fourier inversion, as in 4.6, and the expansion of the
+*Needs:* 4.3a, 4.5, 4.6, 5.1, 5.5; ShortGRH background (Fourier inversion, as in 4.6, and the expansion of the
 translate of the vacuum by a point `x` with `π̄_Mx` integral as a sum of indicator data modulo `𝔪` times roots of unity);
-OneSidedPrimeSumBoundsAndAdmissibleData (the data and their size relations); CompositeThetaLiftsAndShortForms (the
-total local prime sum `S_p`).
+OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.3 (their size relations);
+CompositeThetaLiftsAndShortForms §2.1 (b) (the total local prime sum `S_p`).
 
 [ShortProof], `New/Derivatives/Sharpness/BoundAttained` (`New.copyEmbedding`, `New.copyExponent`,
 `New.Data.twelveSpace`, `New.Data.twelveTaylor`, `New.Data.indicatorDatum`,
