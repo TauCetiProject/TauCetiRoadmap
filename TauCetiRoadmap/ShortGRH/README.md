@@ -306,3 +306,74 @@ lower bound.
 - [**Selmer bounds for anticyclotomic twists**](SelmerBoundsForAnticyclotomicTwists/README.md):
   the second half of the congruences of the lower bound: anticyclotomic twists with small Selmer
   groups, the local loss, and the lifting of crystalline extension classes in large weight.
+
+The background roadmaps state the results that the argument uses and that neither an existing roadmap section
+nor the library provides, in the form that the route uses. Each ends with the lists of what it takes from the
+library and from other roadmaps.
+
+- [**Adelic unitary groups and algebraic modular forms**](AdelicUnitaryGroupsAndAlgebraicModularForms/README.md):
+  adeles and ideles in the form used; hermitian spaces and unitary groups over the adeles
+  (Landherr, Witt, Iwasawa, weak and strong approximation); quotient measures; algebraic modular
+  forms and automorphic forms on unitary groups; class sums; the trace formula comparison in the
+  form used.
+- [**Zero-free regions and primes in short windows**](ZeroFreeRegionsAndPrimesInShortWindows/README.md):
+  the analytic number theory used: growth and zero-free region with a bound for the logarithmic
+  derivative, a Tauberian theorem with a rate, primes in a progression in a window uniformly in the
+  modulus, Pólya–Vinogradov and zero symmetry for all characters, the theta series of a character,
+  zero density for quadratic twists, Landau's lemma for measures.
+- [**Theta functions and units of CM lattices**](ThetaFunctionsAndUnitsOfCMLattices/README.md):
+  complex multiplication as used: CM lattices and their classes, the sigma and theta functions of a
+  CM lattice, the Galois action on their Taylor coefficients, the formal group and its Lubin–Tate
+  property at every prime, duplication formulas, the Kronecker limit formula and the Chowla–Selberg
+  class mean, integrality and unit properties.
+- [**Roadmap: idelic reciprocity, cocycle counts and cyclotomic class groups**](IdelicReciprocityCountsAndCyclotomicClassGroups/README.md):
+  what the route needs beyond the class field theory already in the library: the link between
+  places of a fixed algebraic closure and completions, the cocycle counts replacing duality and the
+  Greenberg–Wiles formula, Grunwald-type existence with the extra unit clause, Hecke characters and
+  non-vanishing of their L-functions on the real line, ℓ-adic avatars and splitting characters of
+  CM fields; and the cyclotomic inputs (Voronoi-type congruences, Kolyvagin-type bounds for class
+  groups).
+- [**Cohomology of functors on test rings**](CohomologyOfFunctorsOnTestRings/README.md):
+  the cohomology theory that the route uses in place of étale cohomology: its definition as Ext
+  groups of functors on test rings, and its properties (base change, Künneth, the projective line,
+  Chern classes, Hodge cohomology and cup products, the fixed point formula of Woods Hole type).
+- [**Holomorphic discrete series of unitary groups**](HolomorphicDiscreteSeriesOfUnitaryGroups/README.md):
+  discrete series of U(p,q) as used: the explicit matrix coefficients, their Haar integrals and
+  formal degrees, big-cell and polar decompositions with measures, rigidity of the coefficient,
+  orbital integrals, the Flensted-Jensen-type functions, the local theta correspondence at real
+  places in the form used.
+- [**Integral representations of general linear groups**](IntegralRepresentationsOfGeneralLinearGroups/README.md):
+  polynomial representations of GL(n) over rings (minor-product bases, Gram matrices over the
+  integers, duals, hook-number denominators), and GL(n) over finite and local fields (Iwahori-level
+  statements, Green's characters, Shintani descent in the form used, Hecke algebras over valuation
+  rings).
+- [**Roadmap: Galois representations of unitary eigenforms**](GaloisRepresentationsOfUnitaryEigenforms/README.md):
+  Galois representations attached to eigenforms on definite unitary groups as the route constructs
+  and uses them: base change between unitary groups, attachment through characteristic polynomials
+  at most Frobenius elements, trace identities and pseudocharacters, weight congruences,
+  Taylor–Wiles data, local polynomials, all ranks.
+- [**Auxiliary algebra and analysis for theta lifts**](AuxiliaryAlgebraAndAnalysisForThetaLifts/README.md):
+  the named auxiliary results from algebra, linear algebra, measure theory and analysis that the
+  route uses and that neither Mathlib nor the library has (the library check lists what exists):
+  only results that are targets in their own right, not routine lemmas.
+- [**p-adic comparison for the cohomology of functors on test rings**](PadicComparisonForFunctorCohomology/README.md):
+  the p-adic comparison statements that the route proves for its own cohomology in place of the
+  primitive, crystalline and Hodge–Tate comparison theorems, with the Ax–Sen–Tate inputs.
+- [**Crystalline representations and Kisin modules**](CrystallineRepresentationsAndKisinModules/README.md):
+  the p-adic Hodge theory used: crystalline representations defined through B_max, period rings as
+  used, Kisin modules over Kummer charts and frames, the limit theorem for crystalline
+  representations, Bloch–Kato-type local conditions, Hodge–Tate cocharacters.
+- [**Abelian schemes with theta structures and their cohomology**](AbelianSchemesWithThetaStructuresAndTheirCohomology/README.md):
+  moduli of abelian varieties as used: abelian schemes and isogenies, line bundles and theta
+  functions (Appell–Humbert, complex uniformisation), the universal families and integral models
+  the route builds, Hecke correspondences, the congruence relation, eigenspaces in cohomology.
+- [**Siegel–Weil and Rallis formulas on unitary groups**](SiegelWeilAndRallisFormulasOnUnitaryGroups/README.md):
+  Siegel–Weil and Rallis formulas on unitary groups as used: neighbours and genera of hermitian
+  lattices, Siegel sets and reduction for unitary groups, local densities and the mass formula,
+  Siegel's formula, the Siegel–Weil formula in Weil's range, Rallis inner product statements, the
+  functional equation of Hecke L-functions in the form used.
+- [**Weil representations on Banach spaces of data**](WeilRepresentationsOnBanachSpacesOfData/README.md):
+  the Weil representation and theta lifts as the route builds them: finite and adelic Heisenberg
+  and Weil representations with Gauss sums and the Galois law, the Banach space of data with
+  polynomially bounded operator norms, Fock and mixed models, theta functionals and kernels, rapid
+  decay, periods and constant terms, the unramified correspondence for Hecke polynomial operators.

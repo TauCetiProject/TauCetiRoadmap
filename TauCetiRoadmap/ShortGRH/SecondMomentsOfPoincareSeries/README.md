@@ -212,11 +212,10 @@ result of the *Needs:* line).
   with `T_{w,i} y = p(w, i)·y` for all `(w, i)`.
 
 *Needs:* ThetaLiftChainsAndTheSeesawIdentity §2.5 (the group `Ḡ` over the chosen places, there `𝖦`), §2.7 (the forms of
-principal level and the level `J_M`); ShortGRH background (for a hermitian space `V` over `E`, an open subgroup `K`
+principal level and the level `J_M`); AdelicUnitaryGroupsAndAlgebraicModularForms §§5.2, 5.4 (for a hermitian space `V` over `E`, an open subgroup `K`
 of `U(V)(𝔸_f)` and parameters `λ_v` whose entries at coordinates of different sign are at least `500r³` apart, the
 bounded automorphic functions on `U(V)` fixed by `K` and by right convolution with the product of the kernels
-`deg(λ_v)·c̄_{λ_v}` form a finite-dimensional space; [ShortProof] `Lib/Adelic/AutomorphicForms/Cuspidality.lean`
-(`New.Space.finite_levelSpace`), `Lib/Adelic/AutomorphicForms/RealConvolution.lean` (`New.isCuspKernel_typeKernel`)).
+`deg(λ_v)·c̄_{λ_v}` form a finite-dimensional space).
 
 [ShortProof], `New/Spanning/Multiplicities/HeckeEigensystems.lean` (`New.Data.sphericalAlgebra`,
 `New.Data.heckeAlgebra`, `New.Data.IsSplitOffLevel`, `New.Data.heckeOperator`, `New.Data.eigenPart`)
@@ -268,18 +267,16 @@ characteristic polynomial and the same determinant.
 
 *Needs:* 2.1a; ThetaLiftChainsAndTheSeesawIdentity §2.5 (`e₀` as a sum over good families of labels, each with a
 primitive label), §2.7 (good forms); FiniteReductiveGroups §5.2 (the character of an irreducible label of degree `r`
-is cuspidal), §5.7 (the central idempotent of a label); ShortGRH background (let `E` be a CM field with a primitive
+is cuspidal), §5.7 (the central idempotent of a label); AdelicUnitaryGroupsAndAlgebraicModularForms §7.13 (let `E` be a CM field with a primitive
 `5040`-th root of unity and an even number of infinite places, `V`, `V′` hermitian spaces of rank `r ≥ 2` over `E` with
 the same finite adelic group, and `(λ_v)` parameters with gap at least `500r³ + 10r⁵` for the signs of both; let `K` be
 an open compact subgroup and `a` an element of the group algebra of the finite adelic group that preserves the
 `K`-fixed vectors of every representation, such that the test function `a ⋆ 1_K` is cuspidal at one split place, in
 the sense that its translates have sum zero over each coset of each proper unipotent radical there; then `a` has the
-same trace on the forms of parameter `(λ_v)` and level `K` on `V` and on `V′`; [ShortProof]
-`Lib/Adelic/TraceFormula/CuspidalComparison.lean` (`New.trace_eq_of_isCuspidalAt`)); ShortGRH background (for
+same trace on the forms of parameter `(λ_v)` and level `K` on `V` and on `V′`); AdelicUnitaryGroupsAndAlgebraicModularForms §7.2 (for
 places `w_i`, none conjugate to another or to itself, and a tuple of labels whose member at `w_x` is irreducible of
 degree `r`, the product of any element of the group algebra with the lift of the idempotent of the tuple, convolved
-with the indicator of the principal level at the `w_i`, is cuspidal at `w_x` in that sense; [ShortProof]
-`Lib/Adelic/TraceFormula/CuspidalType.lean` (`New.isCuspidalAt_convIndicator_tupleIdem`)). On the data the number
+with the indicator of the principal level at the `w_i`, is cuspidal at `w_x` in that sense). On the data the number
 `f` of infinite places is even and `r ≥ 2`.
 
 [ShortProof], `New/Spanning/Multiplicities/EqualMultiplicities.lean` (`New.Data.trace_heckeOnGood_eq`,
@@ -380,20 +377,15 @@ Euclidean structure in which the basis is orthonormal. `X₀ = ⟨x_i⟩`.
   and entries of `λ` at coordinates of different sign are at least `500r³ + A` apart. Convolution is
   `(F ∗ φ)(y) = ∫ φ(a⁻¹)F(ya) da`.
 
-*Needs:* ShortGRH background (the Haar measure of `U(J)` given by the Cayley chart, as in the Conventions, which has
+*Needs:* HolomorphicDiscreteSeriesOfUnitaryGroups §§1.1, 1.4, 2.6 (the Haar measure of `U(J)` given by the Cayley chart, as in the Conventions, which has
 mass one on the compact group `U(r)`; the Haar measures of `𝖴` and `𝖴⁰` as images of Lebesgue measure under the free
-entries, both unimodular; [ShortProof] `Lib/DiscreteSeries/Haar/CayleyChart.lean` (`New.haarU`, `New.volU`),
-`Lib/DiscreteSeries/Haar/TotalMass.lean` (`New.isProbabilityMeasure_haarU`),
-`Lib/DiscreteSeries/Bessel/UnipotentHaarMeasure.lean` (`New.RealPlace.measurePreserving_freeEntries_besselHaar`,
-`New.RealPlace.measurePreserving_freeEntries_besselHaar₀`)); ShortGRH background (the definition of the function
+entries, both unimodular); HolomorphicDiscreteSeriesOfUnitaryGroups §4.1 (the definition of the function
 `c_λ` on `U(diag ε)`: for an integer vector `w`, `m_w(g)` is the product over the integers `t` of the principal minor
 of `g` on `{i : t ≤ w_i}`, divided by `det g` for `t ≤ 0`; with `Λ = λ + ρ − 2ρ_c` the highest weight of the lowest
 `K`-type and `K` the maximal compact subgroup with total mass `1`, Flensted-Jensen's integral is
 `Ξ(g, z) = ∫_K m_Λ(gk)·conj(m_Λ(k))/m_{−λ−ρ}(k^*zk) dk / ∫_K |m_Λ|²`, and `c_λ(g) = Ξ(a, a⁻¹g)` for the part `a` of
 `g` that keeps the entries at coordinates of equal sign; its formal degree `(∫|c_λ|²)⁻¹` for `μ_{G₁}` and the kernel
-`deg(λ)·c̄_λ`; [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/Defs.lean` (`New.weightMinors`,
-`New.HCParam.lowestKType`, `New.HCParam.flenstedJensen`, `New.HCParam.dsCoeff`, `New.HCParam.formalDegree`,
-`New.HCParam.dsKernel`, `New.HCParam.HasLargeGap`)).
+`deg(λ)·c̄_λ`).
 
 *Relation to the library.* For the real place, `R = 𝖴H` with the character `ψ` is the Bessel datum of
 GanGrossPrasadUnitaryGroups §1.2 for `F = ℝ`, `E = ℂ`, the flag `⟨e₁⟩ ⊂ ⋯ ⊂ ⟨e₁, …, e_ϱ⟩`, the line `⟨z⟩`,
@@ -519,7 +511,7 @@ For every measurable `F ≥ 0` on `G₁`,
 
 with `dZ` Lebesgue measure on complex `n × n` matrices and `ds` the measure `du dh` on `R⁰ = 𝖴⁰H`.
 
-*Needs:* 3.1, 3.4; ShortGRH background (a measure `l` on a space `X` is at most the fibre measure `dμ/dν` of a map
+*Needs:* 3.1, 3.4; HolomorphicDiscreteSeriesOfUnitaryGroups §§1.1, 1.6, 2.7 (a measure `l` on a space `X` is at most the fibre measure `dμ/dν` of a map
 `π : X → B` over `b` if, for every lower semicontinuous `K ≥ 0` and every `C`, the bounds `∫_{π⁻¹S} K dμ ≤ C·ν(S)` for
 all sufficiently small open `S ∋ b` give `∫ K dl ≤ C`; for a tuple `E` of vectors, a measure `m` on `U(J)` is below
 the fibre measure of the Gram map at `E` if its image under `g ↦ gE` is at most the fibre measure, over the Gram matrix
@@ -527,9 +519,7 @@ of `E`, of Lebesgue measure on tuples with respect to Lebesgue measure on Gram m
 `J`, `J` of size `r`, the measure `vol U(r)/2^r` times the Haar measure of the Conventions is below the fibre measure;
 and if an s-finite measure `m` on `G₁` is below the fibre measure at the frame `(e₁, …, e_ϱ, z)`, then the convolution
 `m ∗ ds`, with `ds = du dh` the measure of the fixer `R⁰ = 𝖴⁰H` of the frame, is at most
-`vol U(r)/(2^{ϱ+1}·vol U(k))` times the Haar measure of `G₁`; [ShortProof] `Lib/General/Measure/FibreMeasure.lean`
-(`New.LeFibreMeasure`), `Lib/DiscreteSeries/Haar/GramFibre.lean` (`New.LeGramFibre`, `New.leGramFibre_haar`),
-`Lib/DiscreteSeries/Bessel/FrameFibre.lean` (`New.LeGramFibre.mconv_fixerHaar_le`))
+`vol U(r)/(2^{ϱ+1}·vol U(k))` times the Haar measure of `G₁`)
 
 [ShortProof], `New/Spanning/Bessel/MeanValue.lean` (`New.RealPlace.lintegral_gramSection_le`,
 `New.RealPlace.leGramFibre_gramSectionMeasure`)
@@ -556,10 +546,9 @@ with `F ∗ X_∅ = F` the functions `F ∗ X_w` are its iterated right derivati
 
 (c) For such `F` and every `B ≥ (r + 1)⁴(L + r + 1 + 2n²)`, `F` has a Schur bound `(B, ‖F‖₂²/deg)`.
 
-*Needs:* 3.1, 3.3; ShortGRH background (for a parameter `λ` of gap at least `500r³ + A`, the kernel `e_λ = deg(λ)·c̄_λ` is continuous and
+*Needs:* 3.1, 3.3; HolomorphicDiscreteSeriesOfUnitaryGroups §6.1 (for a parameter `λ` of gap at least `500r³ + A`, the kernel `e_λ = deg(λ)·c̄_λ` is continuous and
 integrable with `e_λ(g⁻¹) = conj e_λ(g)` and `∫ e_λ(z)e_λ(x⁻¹z⁻¹y) dz = e_λ(x⁻¹)e_λ(y)/e_λ(1)`, and `β ∗ e_λ = e_λ` for
-a smooth compactly supported `β`; [ShortProof] `Lib/DiscreteSeries/Rigidity/KernelFixes.lean`
-(`New.HCParam.HasLargeGap.isIdempotentKernel_dsKernel`, `New.HCParam.HasLargeGap.exists_bump_conv_dsKernel`))
+a smooth compactly supported `β`)
 
 [ShortProof], `New/Spanning/Bessel/SchurBound.lean` (`New.exists_derivative_kernels`,
 `New.IsBesselFunction.lintegral_enorm_sq_integral_inner_translate`, `New.IsBesselFunction.hasSchurBound_of_convolve_eq`)
@@ -611,7 +600,7 @@ Let `l = 2λ` have large gap, `ρ` a continuous unitary representation of `U(k)`
 `{s ∈ R : ‖x⁻¹sx − 1‖ ≤ 1}` is at most `P ≥ 0` times `|∫_R c_λ(x⁻¹sx)·c̄_μ(h_s)·exp(σ̄(s) − σ(s)) ds|` (`h_s` the
 component of `s` in `H`), then it is at most `P·deg·‖W‖₂²`.
 
-*Needs:* 3.1, 3.3; ShortGRH background (for a parameter `λ` of gap at least `500r³ + A`: every function `F` obtained from `c_λ` by right
+*Needs:* 3.1, 3.3; HolomorphicDiscreteSeriesOfUnitaryGroups §§5.4, 6.1 (for a parameter `λ` of gap at least `500r³ + A`: every function `F` obtained from `c_λ` by right
 derivatives has `|F(g)| ≤ K_F·(2/‖g‖)^c` for each `c ≤ 500r³ + A`; `‖g‖^c·e_λ(g)` is integrable for `c ≤ A + 1`; the
 kernel `e_λ` is idempotent as in the background result of 3.6; and Schur's orthogonality relation holds for `c_λ`;
 [ShortProof] `Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean`
@@ -669,13 +658,11 @@ For `R > 0` let `χ_R(t) = max(0, min(1, 2 − 2t/R))` and `W♭(y) = χ_{b^{6n+
 and that `b ≥ 2000`, `r ≥ 100`, `f ≥ 1`, `m + 99r² ≤ 400r²`, `r + L + 1 ≤ b⁴` and `3r³f ≤ A`. Then for some real `c` the
 function `F = c·W` satisfies `F ∗ (deg·c_λ) = F`, and `(F, F♭)` is a cut pair of type `ρ` with parameters `(b, f)`.
 
-*Needs:* 3.1, 3.3, 3.8; ShortGRH background (for a parameter `λ` of gap at least `500r³ + A` and a natural number
+*Needs:* 3.1, 3.3, 3.8; HolomorphicDiscreteSeriesOfUnitaryGroups §§1.5, 5.4 (for a parameter `λ` of gap at least `500r³ + A` and a natural number
 `c ≤ 500r³ + A`, `|c_λ(g)| ≤ (2/‖g‖)^c` for all `g`, with `‖g‖` the operator norm; and for `J` of size `n ≥ 1`, a
 proper continuous homomorphism `j : S → U(J)` from a group `S` with a right invariant measure `ν` that is finite on
 compact sets, a natural number `c > 8n²` and `y ∈ U(J)`,
-`∫_S (2/‖j(s)y‖)^c dν(s) ≤ 16^c·ν{s : ‖j(s) − 1‖ ≤ 1}`; [ShortProof]
-`Lib/DiscreteSeries/FlenstedJensen/SquareIntegrability.lean` (`New.DiscreteSeries.norm_dsCoeff_le_pow`),
-`Lib/DiscreteSeries/Haar/TotalMass.lean` (`New.DiscreteSeries.lintegral_decay_le`))
+`∫_S (2/‖j(s)y‖)^c dν(s) ≤ 16^c·ν{s : ‖j(s) − 1‖ ≤ 1}`)
 
 [ShortProof], `New/Spanning/Bessel/CutTailBound.lean` (`New.IsDecayMajorant.lintegral_sq_besselCut_sub_le`,
 `New.exists_isDecayMajorant_besselAverage`, `New.exists_isCutPair_besselAverage`)
@@ -1023,9 +1010,8 @@ Let `E` contain a primitive root of unity of order `5040` and `𝔉` be admissib
 (b) The Bessel kernel `y ↦ W(y) ⊗ W(γ_∞⁻¹y)^*` is continuous, and the norm of an amplitude is at most the integral of the
 norm of its integrand.
 
-*Needs:* 4.1, 4.2, 4.6; ShortGRH background (the coordinates of the free entries carry the Haar measure of `𝖴`, and of `𝖴⁰`, to Lebesgue
-measure; [ShortProof] `Lib/DiscreteSeries/Bessel/UnipotentHaarMeasure.lean`
-(`New.RealPlace.measurePreserving_freeEntries_besselHaar`, `New.RealPlace.measurePreserving_freeEntries_besselHaar₀`))
+*Needs:* 4.1, 4.2, 4.6; HolomorphicDiscreteSeriesOfUnitaryGroups §2.6 (the coordinates of the free entries carry the Haar measure of `𝖴`, and of `𝖴⁰`, to Lebesgue
+measure)
 
 [ShortProof], `New/Spanning/Unfolding/CutoffIntegral.lean` (`New.Filling.lintegral_classCutoff_eq_unipotentCovolume`,
 `New.Filling.continuous_besselKernel`, `New.Filling.enorm_amplitude_le`)
@@ -1417,15 +1403,12 @@ of the representation of the compact group with that parameter.
 *Needs:* 2.3, 5.5; 3.14 (a) (the degrees `deg_v` are the values of Weyl's dimension polynomial); AutomorphicFormsOnReductiveGroups §7.5
 (forms of a level with trivial stabilisers: `S(J, M) ≅ M^h`); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a
 (`mass J′ = [J : J′]·mass J`, so that the principal level, whose stabilisers are trivial, has `#Ḡ·mass_r` classes);
-HermitianFormsAndLattices §5.5 (the mass of the genus of `𝒪_E^r`); ShortGRH background (for the compact group `U(n)`
+HermitianFormsAndLattices §5.5 (the mass of the genus of `𝒪_E^r`); AdelicUnitaryGroupsAndAlgebraicModularForms §6.2, HolomorphicDiscreteSeriesOfUnitaryGroups §§7.1, 7.4 (for the compact group `U(n)`
 and a parameter `l = 2λ` with distinct entries of the parity of `n − 1`, with `Λ = λ − ρ`: the integral over `U(n)`,
 for the Haar measure of mass one, of the squared modulus of the coefficient of a highest vector of weight `Λ` is the
 inverse of the value at `l` of Weyl's dimension polynomial, and it is the inverse of the formal degree `deg(λ)`; and
 for a weight whose doubled Harish-Chandra parameter at the place `v` is `l_v`, the product over `v` of the formal
-degrees `deg(λ_v)` on the compact groups is the dimension of the representation of that weight; [ShortProof]
-`Lib/DiscreteSeries/Character/WeylCharacterFormula.lean` (`New.weyl_dimension_formula`),
-`Lib/DiscreteSeries/Character/FormalDegree.lean` (`New.Orbital.formalDegree_eq_weylDimensionPoly`),
-`Lib/Adelic/AutomorphicForms/SmoothAlgebraicForms.lean` (`New.IsHCParam.prod_formalDegree`))
+degrees `deg(λ_v)` on the compact groups is the dimension of the representation of that weight)
 
 [ShortProof], `New/Spanning/SecondMoment/SpanningTheorem.lean` (`New.Data.finrank_principalForms_spaceW`,
 `New.Data.targetDim_le_card_mul_besselDegree_mul_mass`)

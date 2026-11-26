@@ -161,10 +161,9 @@ Let `q₀ ≥ 1` with `8 | q₀`, let `d₀ ≡ 7 (mod 8)` be prime to `q₀`, a
 character `ψ` modulo `q₀` and every `ρ ≠ 1` with `Re ρ > β`.
 
 *Needs:* 0.1; RiemannHypothesisStatementsAndConsequences §8.4a (the transform of a Riesz sum and its poles at zeros);
-PositivityOfDirichletSeriesWithKernels §6.4 (Landau's theorem in one-sided form); ShortGRH background (for `β > 1/2`,
+PositivityOfDirichletSeriesWithKernels §6.4 (Landau's theorem in one-sided form); ZeroFreeRegionsAndPrimesInShortWindows §3.5 (for `β > 1/2`,
 real `H` and an invertible class modulo `N` all of whose primes are `≡ 7 (mod 8)` and prime to `N`, some prime `d` of
-the class has no zero of any `L(s, ξ·(·/d))`, `ξ` modulo `N`, in `β ≤ Re s`, `|Im s| ≤ H`; [ShortProof]
-`Lib/Analytic/QuadraticTwist.lean` (`New.exists_entireL_quadTwist_ne_zero`)).
+the class has no zero of any `L(s, ξ·(·/d))`, `ξ` modulo `N`, in `β ≤ Re s`, `|Im s| ≤ H`).
 
 [ShortProof], `New/Reduction/Zeros/Criterion` (`New.LFunction_ne_zero_of_primeRemainder_le`);
 `New/Reduction/Zeros/PrimeError` (`New.LSeries_lambdaKResidueClass_eq_add_logDerivMean`,
@@ -211,9 +210,8 @@ integer `0 ≤ l ≤ c`.
 
 *Needs:* Mathlib `Ring.ord_eq_addVal` (over a discrete valuation ring, the length of `O/(z)` is the valuation of
 `z`; [ShortProof] `Lib/General/Algebra/FittingIdealsAndLengths.lean` (`New.relLength`,
-`New.length_quot_span_eq_addVal`)); ShortGRH background (the Smith normal form of a square matrix over a valuation
-domain: `A = L·diag(a)·R` with `L`, `R` invertible; [ShortProof] `Lib/General/LinearAlgebra/IntegralLattices.lean`
-(`New.IsValuationPair.smith_normal_form`)).
+`New.length_quot_span_eq_addVal`)); AuxiliaryAlgebraAndAnalysisForThetaLifts §2.2 (the Smith normal form of a square matrix over a valuation
+domain: `A = L·diag(a)·R` with `L`, `R` invertible).
 
 *Relation to the library.* Tau Ceti `Matrix.exists_smith_normal_form_of_isDiscreteValuationRing` gives the Smith normal
 form over a discrete valuation ring. Item (f) is used over the valuation rings `𝒪_ι`, which are not discrete, so the
@@ -311,10 +309,9 @@ orthonormal basis. Facts:
 `Matrix.PosSemidef.det_fromBlocks_le` (Fischer's inequality: the determinant of a positive semidefinite Hermitian
 matrix in block form is at most `det(A)·det(D)` for the diagonal blocks `A`, `D`; [ShortProof]
 `Lib/General/LinearAlgebra/MinorProducts.lean` (`New.fischer_det_inequality`, `New.hadamard_det_inequality`),
-`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_formGram_le`)); ShortGRH background (for a positive
+`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_formGram_le`)); AdelicUnitaryGroupsAndAlgebraicModularForms §3.1 (for a positive
 semidefinite Hermitian matrix `G` and two families `(a_i)`, `(b_i)` of vectors with the same finite index set:
-`|det(a_i^* G b_k)|² ≤ |det(a_i^* G a_k)|·|det(b_i^* G b_k)|`; [ShortProof]
-`Lib/General/LinearAlgebra/GramDeterminant.lean` (`New.norm_det_pairing_sq_le`)).
+`|det(a_i^* G b_k)|² ≤ |det(a_i^* G a_k)|·|det(b_i^* G b_k)|`).
 
 [ShortProof], `New/Reduction/Lattices/TwistedLattice` (`New.TwistedLattice`, `New.TwistedLattice.integralVectors`,
 `New.TwistedLattice.IndexLe`, `New.TwistedLattice.normSqAt`, `New.TwistedLattice.CovolumeLe`,
@@ -805,17 +802,14 @@ Gram norms of the conjugates by `σ` of the values of `Θ₁y`; (d) `Z(ξ) = det
 the chain `Θ_ξ` of `m` lifts on the target forms, there the lower chain, with its level `J_m(ξ)` and character on
 `Y_m`; from §2.10 trivial stabilisers at levels inside the chosen level; from §1.1 the gauge of a vector of a Weyl
 module at an embedding `ℂ → ℂ_ℓ`, through which integrality of an algebraic form is read);
-DeterminantsOfThetaLiftChains §4.3 (the chain `Θ_ξ` is injective on the target forms); ShortGRH background (algebraic
+DeterminantsOfThetaLiftChains §4.3 (the chain `Θ_ξ` is injective on the target forms); AdelicUnitaryGroupsAndAlgebraicModularForms §§3.1, 6.6 (algebraic
 forms of a given level on a definite unitary group: the coordinates of a form are its values at representatives of the
 classes in the coordinates of the Weyl module dual to a basis of products of minors; the matrix `G` with one copy, for each class, of the Gram matrix of
 the invariant Hermitian form in that basis is rational and positive definite; if every stabiliser of a class is
 trivial, the Petersson product of `φ`, `φ′` is `coord(φ)^* G coord(φ′)` and the conjugate norm `‖φ‖²_σ` is
 `(σ coord(φ))^* G (σ coord(φ))`; and, with no condition on the stabilisers, `n` times the Petersson product of a form
 integral at `ῑ` and a form integral at `ι` is integral at `ι`, `n` a common multiple of the orders of the stabilisers
-of the classes; [ShortProof] `Lib/Adelic/AutomorphicForms/PAdicGauge.lean`
-(`New.LevelPlaces.LevelForm.valueCoord`, `New.LevelPlaces.LevelForm.valueMetric`,
-`New.LevelPlaces.LevelForm.posDef_valueMetric`, `New.LevelPlaces.LevelForm.inner_eq_valueCoord`,
-`New.LevelPlaces.LevelForm.normSqAt_eq_re_valueCoord`, `New.LevelPlaces.LevelForm.norm_nsmul_inner_le_one`)).
+of the classes).
 
 [ShortProof], `New/Reduction/IntegralTargetForms` (`New.Data.targetLattice`,
 `New.Data.mem_integralVectors_targetLattice`, `New.Data.normSqAt_targetLattice`, `New.Data.volume_targetLattice`,

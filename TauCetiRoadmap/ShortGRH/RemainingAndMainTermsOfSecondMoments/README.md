@@ -897,9 +897,9 @@ There is a place datum on `E_T` with `3ϱ + 6` further hyperbolic pairs and an o
 *filling datum at `T`*).
 
 *Needs:* PairsOfFramesAtOnePlace §2.1 (finite places), §5.1 (large lattice data); AnalyticNumberTheoryPartII §5.3h,
-ShortGRH background (strong approximation for the adeles of a totally complex field `E`: for a nonempty set `S` of
+AdelicUnitaryGroupsAndAlgebraicModularForms §2.3 (strong approximation for the adeles of a totally complex field `E`: for a nonempty set `S` of
 finite places, the sums of an element of `E` and an adele that vanishes at infinity and at the finite places outside
-`S` are dense in the adeles; [ShortProof] `Lib/Adelic/Adeles/StrongApproximation.lean` (`New.strong_approximation`)).
+`S` are dense in the adeles).
 
 [ShortProof], `New/Spanning/MainTerm/FillingLevel.lean` (`New.Filling.exists_places_integralOff`,
 `New.Filling.exists_isIntegralOff_toPlaces_eq`, `New.Filling.mem_unitaryLevel_iff`, `New.Filling.exists_integralPlace`,

@@ -248,11 +248,10 @@ variable `x_{b,s}` the weight `ω(b, s) = P^{−2r}` if it is deep and `b ≥ 2r
 (a) Every non-zero `F ∈ Deep(r, δ)` has a coefficient `F_β ≠ 0` with `Σ_x β(x)ω(x) ≥ δ`.
 (b) For every `M`, `Σ_{δ=1}^{M} dim_K Deep(r, δ) ≤ c_div(k, n, r)·#Exp(N, k, n)`.
 
-*Needs:* 1.1; ShortGRH background (the combinatorial Nullstellensatz with multiplicity, over a field: give the
+*Needs:* 1.1; AuxiliaryAlgebraAndAnalysisForThetaLifts §1.3 (the combinatorial Nullstellensatz with multiplicity, over a field: give the
 variable `u` the cost `1/κ_u`; at a set of at least `Π_u κ_u` points at which each `X_u^{κ_u}` agrees with a
 polynomial all of whose monomials cost less than `1`, a non-zero polynomial vanishing to order `δ` has a
-monomial of cost at least `δ`; [ShortProof] `Lib/General/Algebra/MultivariatePolynomials.lean`
-(`New.exists_le_weight_of_mem_vanishingIdeal_pow`)).
+monomial of cost at least `δ`).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/Depth.lean` (`New.FrobeniusCycle.exists_le_weight_of_mem_deepForms`,
 `New.FrobeniusCycle.sum_finrank_deepForms_le`, `New.FrobeniusCycle.divisorConstant`)
@@ -287,10 +286,9 @@ tensor powers `ι(g)^{⊗d}`, `g ∈ L_τ(W)`, span the image of `Sch_d`; precis
 contains every form with the same image under `Sch_d` as the evaluation at some `ι(g)`, `g ∈ L_τ(W)`, is
 everything.
 
-*Needs:* 1.1; Mathlib (multinomial coefficients, valuation rings); ShortGRH background (the Fock pairing
+*Needs:* 1.1; Mathlib (multinomial coefficients, valuation rings); IntegralRepresentationsOfGeneralLinearGroups §1.1 (the Fock pairing
 `(f, g) ↦ f(∂)g(0)` on polynomials in finitely many variables over a commutative ring, for which substitution
-of the variables by a matrix and by its transpose are adjoint; [ShortProof] `Lib/GLn/SchurModule/Basic.lean`
-(`New.fockPairing`, `New.fockPairing_linSubst`)).
+of the variables by a matrix and by its transpose are adjoint).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/InvariantAverage.lean` (`New.Average.exists_isAdjointWeight`,
 `New.Average.eq_top_of_eval_monomial`, `New.Average.eq_top_of_schurMap_eq_leviMonomialValues`)
@@ -391,11 +389,9 @@ edge restriction, and `det d` dividing `w^l` with `l = |X|·Σ_{δ=1}^{x} dim De
 taken for the reduction of `T` modulo the maximal ideal of `O`. Every origin function `ψ` satisfies
 `QRψ = ψ`.
 
-*Needs:* 1.1, 1.3, 1.4, 1.5, 1.7; ShortGRH background (over a valuation domain: a matrix with more rows than
+*Needs:* 1.1, 1.3, 1.4, 1.5, 1.7; AuxiliaryAlgebraAndAnalysisForThetaLifts §2.2 (over a valuation domain: a matrix with more rows than
 columns is an invertible matrix times a square matrix placed in chosen rows, and a square matrix is a product
-of an invertible matrix, a diagonal matrix and an invertible matrix; [ShortProof]
-`Lib/General/LinearAlgebra/HermiteForm.lean` (`New.IsValuationPair.hermite`),
-`Lib/General/LinearAlgebra/IntegralLattices.lean` (`New.IsValuationPair.smith_normal_form`)).
+of an invertible matrix, a diagonal matrix and an invertible matrix).
 
 [ShortProof], `New/UpperBound/ElementaryDivisors/Edges.lean` (`New.FrobeniusCycle.exists_isEdgePairing`,
 `New.FrobeniusCycle.IsEdgePairing.dotProduct_letterRep_mulVec`, `New.FrobeniusCycle.pow_dvd_letterRep_mulVec_of_mem_allEdgesForms`,
@@ -974,15 +970,14 @@ are sent to forms spherical at `𝔩`, and:
 there are `c_i ∈ 𝒪_ι` with `p^{ν_p}·C_{j+1}(T_{𝔩,𝔯(p)}φ) = Σ_{i≤𝔯(p)} c_i·T_{𝔩,i}(C_{j+1}φ)`.
 
 *Needs:* 2.5, 2.6; ThetaLiftChainsAndTheSeesawIdentity §2.8 (the theta kernels of the lifts), §2.12 (weak chain
-data and the data `t_x(j)`); ShortGRH background (Hecke polynomials pass through a theta lift at a split place
+data and the data `t_x(j)`); WeilRepresentationsOnBanachSpacesOfData §9.3 (Hecke polynomials pass through a theta lift at a split place
 `w` of norm `q` where the two characters `a`, `b` are unramified and the datum `f` is fixed by the vacuum projection
 at `w`: let `S`, `T` be spaces of ranks `n` and `n + k`, `π` a representation of `G_f(S)` on `W`, `ρ` a representation
 of `G_f(T)` on `Z`, and `B` a bilinear map from data and `W` to `Z` with `ρ(h)B(f, v) = B(ω(g, h)f, π(g)v)` for all
 finite `g`, `h` and all `v`, `ω` the Weil action; if `v` is spherical at `w`, then so is `B(f, v)`, and
 `P_w^ρ(X)·B(f, v) = Π_{l<k}(1 − q^l αX)·B(f, P_w^π(q^k αβ⁻¹X)·v)`, with `P_w^π`, `P_w^ρ` the Hecke polynomial
 operators at the same place `w`, `α = χ_a(ϖ_w)·q^{n/2}` and `β = χ_b(ϖ_w)·q^{(n+k)/2}`, where
-`χ_a(x) = a(x/x̄)·υ(x)^{−n}`, `χ_b(x) = b(x/x̄)·υ(x)^{−(n+k)}` and `ϖ_w` is the chosen uniformiser at `w`; [ShortProof]
-`Lib/Weil/Unramified/HeckeTransfer.lean` (`New.SiegelWeil.hecke_transfer_of_pairing`, `New.AutChar.frobValue`)).
+`χ_a(x) = a(x/x̄)·υ(x)^{−n}`, `χ_b(x) = b(x/x̄)·υ(x)^{−(n+k)}` and `ϖ_w` is the chosen uniformiser at `w`).
 
 [ShortProof], `New/UpperBound/Divisibility/ValuationAtNonSplitPrimes.lean`
 (`New.Data.IsWeakChainDatum.exists_heckePolyOp_lift`, `New.Data.IsWeakChainDatum.exists_sum_heckeSplit_lift_eq_smul`,
