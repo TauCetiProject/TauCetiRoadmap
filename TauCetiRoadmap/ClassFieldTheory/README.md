@@ -670,7 +670,12 @@ of it. The contract:
   `muNRep n F` is `KummerCoeff F n` and `unitsRep F` is `UnitsCoeff F`. Kummer classes are Tau
   Ceti's `kummerMap`; the Kummer isomorphism `Fˣ/(Fˣ)ⁿ ≃ H¹(G_F, μ_n)` is `kummerEquiv` for `n`
   invertible in `F` and `kummerEquivOfCharZero` in characteristic zero, for every `n ≠ 0`,
-  including `n` divisible by the residue characteristic.
+  including `n` divisible by the residue characteristic. The cohomology groups of a discrete
+  `A : GalRep n F`, and so their cardinalities, are those of the discrete `ℤ`-module
+  `ofDiscreteModule ℤ G_F A.V` (`TauCeti.ContCohomology.ofDiscreteModuleRestrictScalarsIntEquiv`;
+  ProfiniteCohomology Conventions, *Coefficient rings*). So the finiteness and
+  Euler-characteristic statements below, and the orders that duality gives, are statements about
+  the `ℤ`-object of a finite smooth discrete `G_F`-module killed by `n`.
 - **The Galois dictionary.** `classField F V`, the fixed field in `Fˢ` of an open normal subgroup
   `V` of `G_F`, and `classField_le_classField_iff`, the order-reversing half of the Galois
   correspondence; Layers 8 and 12 read their class fields through them.
