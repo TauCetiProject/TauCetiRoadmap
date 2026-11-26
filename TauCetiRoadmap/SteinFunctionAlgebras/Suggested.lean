@@ -19,7 +19,7 @@ Stated here:
 * the Remmert–Narasimhan embedding (README §1.1),
   `exists_proper_holomorphic_embedding_of_isStein`;
 * Hadamard division and the Euclidean character lemma (README §§2.0–2.1),
-  `character_eq_eval_of_euclidean`;
+  `exists_hadamardDivision` and `character_eq_eval_of_euclidean`;
 * the Stein character theorem (README §2.2), `character_eq_eval_of_isStein`;
 * pullback of holomorphic functions (README §3.1), `pullbackAlgHom`;
 * automatic holomorphy (README §3.2), `exists_unique_holomorphicMap_of_algHom`;
@@ -32,10 +32,10 @@ Stated here:
 
 Not stated here:
 
-* Cousin II (README Layer 4): the pins have no sheaf of units `O^*`, no sheaf cohomology group
-  `H¹(X, O^*)`, no Picard group of holomorphic line bundles and no meromorphic function sheaf;
-  these are ComplexKahlerGeometry K4.P and ComplexManifolds §7.3 targets. The theorem is stated in
-  the roadmap against that API.
+* Cousin II (README Layer 4): the pinned library has no sheaf of units `O^*`, no sheaf cohomology
+  group `H¹(X, O^*)`, no Picard group of holomorphic line bundles and no meromorphic function
+  sheaf; these are ComplexKahlerGeometry K4.P and ComplexManifolds §7.3 targets. The theorem is
+  stated in the roadmap against that API.
 * the countability and separation hypotheses of the embedding are explicit in the signatures below;
   the prototype does not prove the Stein criterion or the Cartan theorems it consumes.
 
@@ -122,6 +122,17 @@ theorem exists_proper_holomorphic_embedding_of_isStein {n : ℕ} {X : Type}
   sorry
 
 /-! ## SF2: characters -/
+
+/-- **Hadamard division** (README Lemma 2.0). On a polydisc centred at `a`, the difference
+`f z - f a` is a sum of coordinate differences times holomorphic functions. -/
+theorem exists_hadamardDivision {N : ℕ} {a : Fin N → ℂ} {r : Fin N → ℝ}
+    (hr : ∀ j, 0 < r j) {f : (Fin N → ℂ) → ℂ}
+    (hf : AnalyticOnNhd ℂ f (Set.pi Set.univ (fun j => Metric.ball (a j) (r j)))) :
+    ∃ g : Fin N → (Fin N → ℂ) → ℂ,
+      (∀ j, AnalyticOnNhd ℂ (g j) (Set.pi Set.univ (fun j => Metric.ball (a j) (r j)))) ∧
+      ∀ z ∈ Set.pi Set.univ (fun j => Metric.ball (a j) (r j)),
+        f z - f a = ∑ j, (z j - a j) * g j z := by
+  sorry
 
 /-- **The Euclidean character lemma** (README Lemmas 2.0–2.1). Every unital complex-algebra
 homomorphism `O(ℂ^N) → ℂ` is evaluation at a unique point. -/
