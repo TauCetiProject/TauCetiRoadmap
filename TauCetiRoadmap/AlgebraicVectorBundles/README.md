@@ -49,8 +49,8 @@ sequence from here. AdicSpacesPartIII uses the first two layers on formal scheme
 Layer 1 computes the stalks of a pulled-back module and proves the tensor theorem. Layer 2 proves
 exactness of flat pullback and the base change of internal Hom. Layer 3 treats powers and the
 determinant of an extension, and Layer 4 proves the recognition theorem and makes relative Spec a
-right adjoint. Layers 2 and 3 build on Layer 1; Layer 4 is independent of the others. The section that follows lists the labels under
-which other roadmaps cite this one.
+right adjoint. Layers 2 and 3 build on Layer 1; Layer 4 is independent of the others. The section
+that follows lists the labels under which other roadmaps cite this one.
 
 ## How to read the build
 
@@ -577,7 +577,9 @@ wedge product of exterior powers; Tau Ceti power functors and comparisons, sheaf
 braided monoidal functor, rank, rank loci, determinant and the Picard group;
 PadicMeasuresIwasawaAlgebras §5.1.
 
-## Layer 4: linear schemes as module schemes
+<a id="layer-4-linear-schemes-as-module-schemes"></a>
+
+## Layer 4: linear schemes and relative Spec
 
 ### 4.1 The weight grading and the recognition theorem
 
@@ -615,16 +617,20 @@ scheme is determined by its action, as the unique graded comultiplication restri
 
 ### 4.2 Relative Spec as a right adjoint
 
-Let `QcqsOver X` (a proposed name) be the full subcategory of `Over X` on the schemes `q : T → X`
-with `q` quasi-compact and quasi-separated. For such `q` the algebra `q_* 𝒪_T` is quasi-coherent
-(`Scheme.Modules.isQuasicoherent_pushforward`), so `overFunctions X` restricts to a functor
-`(QcqsOver X)ᵒᵖ ⥤ QuasicoherentAlgebra X`; affine morphisms are quasi-compact and
-quasi-separated, so `relativeSpec X` lands in `QcqsOver X`. Prove that `relativeSpec X` into
-`QcqsOver X` is right adjoint to the opposite of this function-algebra functor, with hom-set
-bijection the components of `relativeSpecHomIso`, whose naturality gives that of the adjunction.
-The counit at `A` is the canonical map from `A` to the function algebra of `Spec_X A`, invertible by
-`relativeSpecEquiv`, so `AffineSchemeOver X` is a reflective subcategory of `QcqsOver X` with
-reflector `T ↦ Spec_X(q_* 𝒪_T)`, and the unit at `T` is an isomorphism exactly when `q` is affine.
+Let `QcqsOver X` be the full subcategory of `Over X` on the schemes `q : T → X` with `q`
+quasi-compact and quasi-separated. For such `q` the algebra `q_* 𝒪_T` is quasi-coherent
+(`Scheme.Modules.isQuasicoherent_pushforward`; Stacks Project, Tag 01LC), so `overFunctions X`
+restricts to the functor `qcqsFunctions X : (QcqsOver X)ᵒᵖ ⥤ QuasicoherentAlgebra X`; affine
+morphisms are quasi-compact and separated, hence quasi-separated (Stacks Project, Tag 01S7), so
+`relativeSpec X` corestricts to `relativeSpecQcqs X` into `QcqsOver X`. Prove
+`nonempty_adjunction_relativeSpecQcqs`: `relativeSpecQcqs X` is right adjoint to
+`(qcqsFunctions X).rightOp`, with hom-set bijection the components of `relativeSpecHomIso`
+(Stacks Project, Tag 01LW), whose naturality gives that of the adjunction, and with unit the
+canonical morphism `T → Spec_X(q_* 𝒪_T)` (Stacks Project, Tag 01LY). The counit at `A` is the
+canonical map from `A` to the function algebra of `Spec_X A`, invertible by `relativeSpecEquiv`
+(Stacks Project, Tag 01LX), so `AffineSchemeOver X` is a reflective subcategory of `QcqsOver X`
+with reflector `T ↦ Spec_X(q_* 𝒪_T)`. Prove `isIso_unit_app_iff_isAffineHom`: the unit at `T`
+is an isomorphism exactly when `q` is affine (Stacks Project, Tag 01S8).
 *Needs:* Tau Ceti `relativeSpecHomIso`, `overFunctions`, `relativeSpecEquiv`,
 `Scheme.Modules.isQuasicoherent_pushforward`; Mathlib `Adjunction.mkOfHomEquiv`.
 
