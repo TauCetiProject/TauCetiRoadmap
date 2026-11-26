@@ -57,8 +57,9 @@ elements and `k₀ ∈ κ`; `n = ϱ + 1` and `r = k + 2ϱ + 1`. For a commutativ
 form
 has the basis `e_a` (`a < ϱ`), the middle block (the `x_i`, `i ∈ κ`, and `z`), `e*_a` (`a < ϱ`), with `⟨e_a, e*_b⟩ =
 δ_{ab}`, a
-hermitian Gram matrix on the middle block, and all other products of basis vectors `0`; `J` is its Gram matrix and `G`
-its unitary group over `A`, written in this basis. In Layers 4 to 7 the middle block is the one of
+hermitian Gram matrix on the middle block, and all other products of basis vectors `0`; `J` is its Gram matrix, which
+is assumed invertible; the form is `⟨v, w⟩ = v^*Jw`, conjugate linear in `v`; and `G` is its unitary group over `A`,
+written in this basis. In Layers 4 to 7 the middle block is the one of
 SecondMomentsOfPoincareSeries §3.1 (over `ℂ`) or §4.1 (in the lattice basis, with `⟨z, z⟩ = −N`). The frame is
 `f = (f₀, …, f_ϱ) = (e₀, …, e_{ϱ−1}, z)`. A basis vector has floor `a` if it is `e_a` or `e*_a`, floor `ϱ` if it is `z`,
 and
@@ -101,6 +102,7 @@ if
 | `c_𝖬, c_form, Θ_𝔰, ℓ, hw_j` | Haar ratio at `ℂ`, normalising constant, constants of the local bounds | 4.1, 4.2; SecondMomentsOfPoincareSeries §3.3 |
 | `K(g)`, lattice datum | congruence subgroup, place datum of the integral lattice | 5.1 |
 | `χ_M, Z, W_Z, fl, m(Z), ϰ(Z)` | finite Bessel function, intermediate group, Bessel vector, unipotent mass, mass ratio, mass integral | 5.2 |
+| `hw^{fin}_{C,j}` | head weight at the finite places | 5.3 |
 | `μ_t, P_t` | fiber measure of a sphere, embedding by the last entry | 6.1 |
 | `𝒪_Z(p, l), FP_Z, J^Z_top, HS_Z` | scaled orbital integral, fiber pairing, density at the last entry, head sums | 6.2, 6.3 |
 | `μ_l, c_l`, steep, Laplace datum, `θ` | lowest `K`-type, coefficient, steep parameters, data and integrand of Laplace's method | 8.1 |
@@ -132,12 +134,13 @@ A vector or a matrix has size `i` if all its entries have. Prove: the product of
 columns indexed by the basis, and a vector or matrix of size `j` has size `i + j + 1`.
 
 The two cases in view: at a real place, `A_(i) = {x : |x| ≤ L^i}` for a fixed number `L` (4.1); at the finite places,
-`A_(i) = {x : α^i x integral}` for a fixed integral unit `α` (5.2).
+`A_(i) = {x : α^i x integral}` for a fixed integral unit `α` (5.1 (c)).
 
 *Needs:* SecondMomentsOfPoincareSeries §3.1, §4.1.
 
 [ShortProof], `New/Spanning/Frames/Lengths.lean` (`New.Floors.Size`, `New.Floors.Size.vecsOfSize`,
-`New.Floors.Size.HasMatrixSize`, `New.Floors.Size.HasMatrixSize.mono`)
+`New.Floors.Size.HasMatrixSize`, `New.Floors.Size.HasMatrixSize.mono`, `New.Floors.Size.HasMatrixSize.mulVec`,
+`New.Floors.Size.HasMatrixSize.mul`)
 
 ### 1.2 Lengths at a point, induced lengths and balanced frame vectors
 
@@ -243,8 +246,8 @@ coordinates of a flag (Knapp, *Lie groups beyond an introduction*; Helgason, *Gr
 *Method of the formal proof:* definitions; the group `N_a` is a Heisenberg group parametrised by Eichler
 transformations, and `u ↦ ue*_a` maps it bijectively onto the isotropic vectors `y` of `V_a` with `⟨e_a, y⟩ = 1`.
 
-(a) A place is a commutative ring `A` with a continuous involution, locally compact and second countable as a
-topological ring, with a Haar measure (the volume), an element `τ` with `τ + τ̄ = 1`, a unit `δ` with `δ̄ = −δ`, a Haar
+(a) A place is a commutative ring `A` with a continuous involution, locally compact, Hausdorff and second countable as
+a topological ring, with a Haar measure (the volume), an element `τ` with `τ + τ̄ = 1`, a unit `δ` with `δ̄ = −δ`, a Haar
 measure on the skew elements such that `(a, b) ↦ τδ⁻¹a + b` carries the product of two copies of it to the volume, a
 multiplicative measurable modulus `|·| : A → [0, ∞]`, a continuous additive character `ψ`, and a constant
 `c_P ∈ [0, ∞]`, such that:
@@ -358,7 +361,7 @@ over the
 
 ### 2.3 Gauges, pairing kernels and partial correlations
 
-*Origin:* particular to this proof: the axioms through which a scale is used at either kind of place, and the kernels
+*Origin:* particular to this proof: the rules through which a scale is used at either kind of place, and the kernels
 whose correlations are estimated.
 
 *Method of the formal proof:* definitions. For (d), a point near at `j` has, after an element of `R^(j)`, entries of
@@ -390,8 +393,10 @@ commutes
 with `G^(j)`; for every `l` and all `n, n′ ∈ U_(<l)`, `k_{l+1}(ng, n′y) = ψ((σ₀(wn′w⁻¹) − σ₀(n))/M)·k_{l+1}(g, y)`,
 where `σ₀` is
 the sum of the entries just above the diagonal on the frame; for every `l` the integral `∫ |k(xg, xy)| dθ_{≥l}(x)` has a
-finite bound independent of `g` and `y`; and `k_l(g, y) ≠ 0` implies that `g` is near at `l`. These rules hold for the
-correlation `k(g, y) = ⟨W(g), W(wy)⟩` of a cut Bessel function `W` (3.2).
+finite bound independent of `g` and `y`; and `k_l(g, y) ≠ 0` implies that `g` is near at `l`. If `F` has a gauge, these
+rules hold at every floor `j ≤ ϱ` for the correlation `k(g, y) = ⟨W(g), W(wy)⟩` of a cut Bessel function `W` (3.2) with
+`w = w_q⁻¹w_p`, the quotient of the Weyl elements of length `j` (1.2 (c)) of two sequences of units `p`, `q` (in
+particular for `w = 1`).
 
 (d) Prove: if `g` is near at `j`, then every `e_a` with `a < j` is balanced at `g` with bound `L^5` for the size of `Γ`.
 
@@ -407,7 +412,9 @@ of the floors below `j` (the floor measures only, without the Heisenberg measure
 `New.Floors.PlaceData.IsPairingKernel`, `New.Floors.PlaceData.partialCorrelation`,
 `New.Floors.PlaceData.invDepthWeight`, `New.Floors.PlaceData.pivotL1Norm`,
 `New.Floors.PlaceData.weightedSquare`, `New.Floors.PlaceData.weightedSquareSum`,
-`New.Floors.PlaceData.weightedSquareIntegral`, `New.Floors.Gauge.isBalanced_of_isNear`)
+`New.Floors.PlaceData.weightedSquareIntegral`, `New.Floors.Gauge.isBalanced_of_isNear`);
+`New/Spanning/Frames/Densities.lean` (`New.Floors.Gauge.isPairingKernel_frameCorrelation`,
+`New.Floors.Gauge.isPairingKernel_frameCorrelation_one`)
 
 ### 2.4 Volumes on quadrics and on sections
 
@@ -461,7 +468,7 @@ kernel.
 
 Let `Γ` be a gauge for `F`. Prove:
 
-(a) let `ρ` be the volume of `Y^(b)` or the quadric measure of floor `b`, and `ξ` a unit. The operator with kernel
+(a) let `ρ` be the volume of `V_b` or the quadric measure of floor `b`, and `ξ` a unit. The operator with kernel
 `ψ(ξ⟨v, y⟩)`, from functions of the vectors `y` of size `j` on the quadric of floor `b` to functions of the vectors `v`
 of
 size `i` with the measure `ρ`, multiplies squared `L²` norms by at most
@@ -474,8 +481,9 @@ moved), then
 `k_{a+1}(n^ε x, ny) = ∫ ψ(−ξ⟨ω, σ⁻¹f_{a+1}⟩)·k_{a+2}(σx, σy) dθ_{a+1}(σ)`. For `d = w_q⁻¹w_p` with heads of length
 `j ≤ a + 1` the condition holds with `ξ = (p_a/q_a − ε)/M` if `j = a + 1` and `ξ = (1 − ε)/M` otherwise;
 
-(c) (Parseval along `N_a`) in the situation of (b), for either `ε`, with `ξ` invertible, let `Φ ≥ 0` on `N_a` be
-supported in a set `S` and at most `C·|k_{a+1}(n^ε x, ny)|²` there. Suppose that for each `n₀ ∈ S` there are `t ∈
+(c) (Parseval along `N_a`) in the situation of (b), for either `ε`, with `ξ` invertible, let `u` be a unit of `A` and
+`C ∈ [0, ∞]`, and let `Φ ≥ 0` on `N_a` be supported in a set `S` and at most `C·|k_{a+1}(n^ε x, ny)|²` there. Suppose
+that for each `n₀ ∈ S` there are `t ∈
 R^(a+1) ∩ G^(a)` and `q ∈ U_(<a+1)`
 such that
 `tqx` has size `i` and, for each `n ∈ S`, `v/u` has size `j` for some `v` congruent below `a` to `(tn₀(tn)⁻¹ − 1)e*_a`.
@@ -578,8 +586,8 @@ is
 
 (b) The head density of two sequences of units is `κ_j(p, q) = ∏_{a<j} |p_a q_a|^{d_a/2}`, `d_a = k + 1 + 2(ϱ − (a +
 1))`.
-For a function `ω` on `G` (the weight), heads `p`, `q` of length `j` and a position `x`, the form integrand at a point
-`g` is
+For a function `ω` on `G` (the weight), sequences of units `p`, `q`, with their Weyl elements `w_p`, `w_q` of length
+`j`, and a position `x`, the form integrand at a point `g` is
 `∬ ω(στ⁻¹)·k_{j+1}(σg, σgx)·conj(k′_{j+1}(τw_p⁻¹g, τw_p⁻¹gx)) dθ_j(τ) dθ_j(σ)`, where `k` is the correlation of `W` with
 twist
 `1` and `k′` its correlation with twist `w_q⁻¹w_p`. The form of floor `j` is
@@ -590,8 +598,8 @@ over floor `j` of `|k_{j+1}|` and `|k′_{j+1}|`. `‖k‖²` denotes the square
 `θ_{≥0}` in both
 variables.
 
-(c) Prove: `|𝓘_j(p, q; ω)| ≤ κ_j(p, q)·∫ 𝖥_j(x; ω) d𝖬(x)`; and the form of floor `0` with weight `1` is
-`∫ |k_0(1, z)|² d𝖬(z)` (the mass).
+(c) Prove: `|𝓘_j(p, q; ω)| ≤ κ_j(p, q)·∫ 𝖥_j(x; ω) d𝖬(x)`; and, if `F` has a gauge and `W` is a cut Bessel function,
+the form of floor `0` with weight `1` is `∫ |k_0(1, z)|² d𝖬(z)` (the mass).
 
 (d) Prove: let `μ` be a Haar measure, `W` a continuous cut Bessel function, `p`, `q` heads of length `ϱ` for `Γ` and
 `x ∈ G^(ϱ)`. With
@@ -669,14 +677,13 @@ near
 at `j`. Prove:
 
 (a) (separating the frames) let `B`, `B′ ≥ 0` be measurable, left invariant under `R^(j)` and zero off the points near
-at
-`j`, and `f ≥ 0` with `f(g)² ≤ C·B(g)/wgt(g)·B′(w_p⁻¹g)/wgt(w_p⁻¹g)` wherever `f(g) ≠ 0`, `wgt` the depth weight of
-length `j`
-at `(·, ·x)`. Then `(∫ f d𝗆_j)² ≤ C·D²·∫B dϑ_j·∫B′ dϑ_j` with `D = ∏_{a<j}|p_a⁻¹|^{r_a+1/2}·Λ^{10⁶n³}`, where
+at `j`, `C ∈ [0, ∞]` a constant, and `f ≥ 0` with `f(g)² ≤ C·B(g)/wgt(g)·B′(w_p⁻¹g)/wgt(w_p⁻¹g)` wherever `f(g) ≠ 0`,
+`wgt` the depth weight of length `j` at `(·, ·x)`. Then `(∫ f d𝗆_j)² ≤ C·D²·∫B dϑ_j·∫B′ dϑ_j` with
+`D = ∏_{a<j}|p_a⁻¹|^{r_a+1/2}·Λ^{10⁶n³}`, where
 `ϑ_j = θ_{j−1}∗⋯∗θ₀` is the convolution of the floor measures of the floors below `j` (as in 2.3 (e); the integral of
 `f` is for `𝗆_j`, with the Heisenberg measures);
 
-(b) (a frequency) if `ξ` is a unit and `ψ(ηz) = ψ(ξz)` for all `z` of size `200n²`, then
+(b) (a frequency) if `η ∈ A`, `ξ` is a unit and `ψ(ηz) = ψ(ξz)` for all `z` of size `200n²`, then
 `𝖥_j(x; ψ(η⟨f_j, ·f_j⟩))² ≤ (c_P/|ξ|)^{dim X′}·Π_j(p, q; x)`;
 
 (c) (two heads) if `j = i + 1` and `ξ = (1/p_i − 1/q_i)/M` is a unit, then `𝖥_j(x; 1)² ≤ (c_P/|ξ|)^{dim X′}·Π_j(p, q;
@@ -722,9 +729,8 @@ gain
 (b) (the sum over the shells) Prove: let `S_i` be a shell of height `2^i` for each `i ≥ 0`, covering the support of `f ≥
 0`;
 let `p`, `q` be heads of length `j`, `W` a cut Bessel function, and `V ≥ 1` a bound for the mass of floor `j`. Suppose
-`f(x) ≤` (majorant of the form at `x`) for all `x`, and, for a number `e` with `e < 1`, `f(x)² ≤ (V·e^s)²·Π_j(p, q; x)`
-for
-every position `x`. If `9·10⁷n⁴ + r′ ≤ s`, then
+`f(x) ≤` (majorant of the form at `x`) for all `x`, and, for a number `e ∈ [0, ∞]`: if `e < 1`, then
+`f(x)² ≤ (V·e^s)²·Π_j(p, q; x)` for every position `x` (nothing is assumed if `e ≥ 1`). If `9·10⁷n⁴ + r′ ≤ s`, then
 `κ_j(p, q)·∫_G f d𝖬 ≤ V·min(1, e)^{r′}·Λ^{4·10⁸n⁴}·𝒩(W)`.
 
 *Needs:* 3.1, 3.3, 3.4.
@@ -764,7 +770,10 @@ measure, `τ = 1/2`, `δ = i/2`, the modulus `z ↦ |z|²` (written `|z|_ℂ` wh
 vectors `x_i`, `i ≠ k₀`; level `M = 1`; close pairs the `(ω₁, ω₂)` with `|ω₁|² + |ω₂|² < 1`; box `K = {x : ‖x‖ ≤ ρ}`;
 all
 elements as positions; `μ_H` the probability Haar measure of `H ≅ U(k)`; and `θ_top` the law of floor `ϱ` in the Bruhat
-coordinates of its big cell, convolved with `μ_H`.
+coordinates of its big cell, convolved with `μ_H`: `θ_top = θ_cell∗μ_H`, where `θ_cell` is the image of the measure
+`2π^k(|c|² − 1)^{k−1}/(k − 1)!·dc` on `{c ∈ ℂ : |c| ≥ 1}` under `c ↦ w(c)⁻¹`, and the boost `w(c)` fixes the basis
+vectors other than `x_{k₀}` and `z` and sends `x_{k₀} ↦ c̄x_{k₀} − tz`, `z ↦ tx_{k₀} − cz`, `t = √(|c|² − 1)`. The
+volume exponent (2.2 (d)) of this place datum is `k − 3n − 6 = s`.
 
 (b) For `L ≥ ρ` the gauge of scale `L` has `A_(j) = {z : |z| ≤ L^j}` and loss `Λ = L²`. Prove: it is a gauge for the
 place
@@ -778,9 +787,9 @@ of `𝖬` under inversion is at most `(vol U(r)/vol U(k))` times Haar measure.
 
 (d) For `g ∈ G₁` the length of `y` at `g` is the Euclidean norm `|y|_g = ‖g⁻¹y‖`; the induced length on `Y^(l)` is the
 infimum
-over the lifts; the real depth of `e_a` at `(g, g′)` is the infimum of `|ζ|_g² + |ζ|_{g′}²` over the duals `ζ` of `e_a`
-in
-`Y^(a)`. Prove: `𝔡_a(x, y)` is a disc, and `depth_a(x, y)` is the real depth of `e_a` at `(x, xy)` divided by `π`.
+over the lifts; the real depth of `e_a` at `(g, g′)` is the infimum, over the duals `ζ` of `e_a`, of the sum of the
+squares of the induced lengths of `ζ` on `Y^(a)` at `g` and at `g′`. Prove: `𝔡_a(x, y)` is a disc, and `depth_a(x, y)`
+is the real depth of `e_a` at `(x, xy)` divided by `π`.
 
 *Needs:* 2.1, 2.2, 2.3; SecondMomentsOfPoincareSeries §3.1, §3.5; HolomorphicDiscreteSeriesOfUnitaryGroups §§3.2, 3.6 (polar coordinates on `ℂ^κ`:
 `∫ g(ω) dω = ∫₀^∞ π^k r^{k−1}/(k − 1)!·∫_{U(k)} g(h(√r·x)) dh dr` for a basis vector `x`; the Cartan decomposition
@@ -887,8 +896,9 @@ integral points; the masses of cosets of the congruence subgroup are computed fl
 coordinates; the mass of the integral isometries is a product of local densities of the quadrics, bounded by the zeta
 sum of the ring.
 
-Let `A` be a finite place with integers `O`, units `O^×`, and `G` the unitary group of a split form over `A`. For an
-integral unit `g` of `A`, `K(g)` is the group of integral isometries congruent to `1` modulo `g`, and `K = K(1)`.
+Let `A` be a finite place with integers `O`, units `O^×`, and `G` the unitary group of a split form over `A`. An
+integral unit is a unit of `A` that lies in `O` (its inverse need not). For an integral unit `g` of `A`, `K(g)` is the
+group of integral isometries congruent to `1` modulo `g`, and `K = K(1)`.
 
 (a) A place datum `F` for `G` with level `M` is a lattice datum if: the Gram matrix of the form is hermitian and
 invertible over `O`; the hyperbolic basis is integral; `M ∈ O` and `M̄ = M`; the box is `K`; `θ_top(K) ≥ vol(O^×)`;
@@ -902,9 +912,10 @@ for all `x`, and `G` is
 unimodular.
 
 (b) Prove: for `N ∈ O` with `N̄ = N`, an integral unit `g` with `ḡ = g`, and `k = #ι + 2m + 1`, the form with `ϱ`
-hyperbolic
-planes, `X₀ = O^κ` standard and `⟨z, z⟩ = −N`, written in the lattice basis of SecondMomentsOfPoincareSeries §4.1, has a
-lattice datum with level `g`, `m` further pairs and orthonormal part indexed by `ι`.
+hyperbolic planes whose middle block has the basis `x_i` (`i ∈ κ`, `i ≠ k₀`), `v`, `z` with `⟨x_i, x_{i′}⟩ = δ_{ii′}`,
+`⟨x_i, v⟩ = ⟨x_i, z⟩ = 0`, `⟨v, v⟩ = 0`, `⟨v, z⟩ = −1` and `⟨z, z⟩ = −N` has a lattice datum with level `g`, `m` further
+pairs and orthonormal part indexed by `ι`. If `N = ππ̄` for a unit `π` of `A`, this is the form with `X₀ = O^κ` standard
+and `⟨z, z⟩ = −N`, written in the lattice basis of SecondMomentsOfPoincareSeries §4.1 (`v = x_{k₀}/π̄ + z/N`).
 
 (c) For a large lattice datum and an integral unit `α` with `ᾱ = α`, the gauge of scale `α` has
 `A_(j) = {x : α^j x ∈ O}` and loss `Λ = 2/|α|`. Prove: it is a gauge for `F` (2.3 (a)).
@@ -1005,13 +1016,14 @@ Let `F` be a large lattice datum with level `M`, `Z` an intermediate group, and 
 
 (b) if the majorant of the form of floor `j ≤ ϱ` of `W_Z` is nonzero at some position, then the products `p₀⋯p_{l−1}`
 and
-`q₀⋯q_{l−1}`, `l ≤ j`, are integral; and then there is an integral unit `α` with `ᾱ = α` such that, for the gauge of
-scale `α` with loss
-`Λ`: `p` and `q` are heads of length `j`; `1/M` has size `1` if `j ≠ 0`; `1/p_i − 1/q_i` has size `1` for `i < j`; and
-`Λ^E ≤ (2/|M|)^C·hw^{fin}_{C,j}(p)·hw^{fin}_{C,j}(q)` for all `C` and `E` with `4E ≤ C`, with the weights of
-5.4 (b);
+`q₀⋯q_{l−1}`, `l ≤ j`, are integral; and then for every `C ∈ ℕ` there is an integral unit `α` with `ᾱ = α` such that,
+for the gauge of scale `α` with loss `Λ`: `p` and `q` are heads of length `j`; `1/M` has size `1` if `j ≠ 0`;
+`1/p_i − 1/q_i` has size `1` for `i < j`; and `Λ^E ≤ (2/|M|)^C·hw^{fin}_{C,j}(p)·hw^{fin}_{C,j}(q)` for all `E` with
+`4E ≤ C`, where `hw^{fin}_{C,j}(p) = ∏_{l<j} |p₀⋯p_l|^{−C/2}` if all the products `p₀⋯p_l`, `l < j`, are integral, and
+`0` otherwise;
 
-(c) let `Γ` be the gauge of scale `α`, `p`, `q` heads of length `j ≤ ϱ` for `Γ`, with `1/M` of size `1` if `j ≠ 0`. Let
+(c) let `Γ` be the gauge of scale `α` for an integral unit `α` with `ᾱ = α` (5.1 (c)), `p`, `q` heads of length `j ≤ ϱ`
+for `Γ`, with `1/M` of size `1` if `j ≠ 0`. Let
 the unit `c` of `A` divide every
 common denominator in `O` of the entries of `(x − 1)/M` (if `ε ∈ O` and `ε(x − 1)/M` is integral, then `ε/c ∈ O`), and
 `σ < 1` with `|c|·Λ^{990n²} ≤ σ^{400n²}`. If `W_Z(y)` and
@@ -1044,8 +1056,7 @@ Prove:
 ψ(ξ⟨f_j, xf_j⟩)`;
 or `ω = 1`, `j = i + 1` and `ξ = (1/p_i − 1/q_i)/M`. Then
 `|𝓘_j(p, q; ω)| ≤ m(Z)·|ξ|^{−t/2}·[O : O ∩ ξ⁻¹O]^{−6}·(2/|M|)^{C}·hw^{fin}_{C,j}(p)·hw^{fin}_{C,j}(q)`,
-where `hw^{fin}_{C,j}(p) = ∏_{l<j} |p₀⋯p_l|^{−C/2}` if all the products `p₀⋯p_l`, `l < j`, are integral, and `0`
-otherwise;
+with the weights `hw^{fin}_{C,j}` of 5.3 (b);
 
 (c) a unit `c` of `A` with `c ∈ O` and `c⁻¹ ∉ O` has `|c| ≤ 1/2`;
 
@@ -1173,8 +1184,8 @@ the last entry is
 `J^Z_top(p, q) = |π|⁻¹·∫ FP_Z(p, q)(P_t(ω)) dμ_t(ω)` with `t = p_ϱ`.
 For a matrix `R` indexed by a finite set of heads `ω_a`, `HS_Z(R, ω, l) = Σ_{a,b} R_{ab}·⟨𝒪_Z(ω_a, l), 𝒪_Z(ω_b, l)⟩`.
 
-In (a), (b), (d) and the statements on `J^Z_top` in (c), the units of `A` are assumed to be open in `A` (as they are
-in a finite product of local fields).
+In (a), (b), (d) and the statements on `J^Z_top` in (c), the inclusion of the units of `A` in `A` is assumed to be an
+open embedding: the units are open in `A` and inversion is continuous on them (as in a finite product of local fields).
 
 Prove:
 
@@ -1185,16 +1196,16 @@ translations and under `H ∩ K(M)`;
 
 (c) for heads `ω_a` with a common last entry `t` and a positive semidefinite matrix `R`,
 `Σ_{a,b} R_{ab}·J^Z_top(ω_a, ω_b)` is a nonnegative real, equal to
-`|π|⁻¹·∫ Σ_{a,b} R_{ab}·FP_Z(ω_a, ω_b)(P_t(ω)) dμ_t(ω)`; and `Σ_{a,b} R_{ab}·FP_Z(ω_a, ω_b)(e) ≥ 0` at every `e`;
+`|π|⁻¹·∫ Σ_{a,b} R_{ab}·FP_Z(ω_a, ω_b)(P_t(y)) dμ_t(y)`; and `Σ_{a,b} R_{ab}·FP_Z(ω_a, ω_b)(e) ≥ 0` at every `e`;
 
-(d) (descent from the last entry) with the entries `p_ϱ`, `q_ϱ` both replaced by `t` (by `1` if `t` is not a unit), the
-function `t ↦ ψ(ξt)·J^Z_top(p, q)` is integrable over `A`, and its integral is the form of floor `ϱ` of `W_Z` with the
-weight `x ↦ ψ(ξ⟨z, xz⟩)`;
+(d) (descent from the last entry) for `ξ ∈ A`, with the entries `p_ϱ`, `q_ϱ` both replaced by `t` (by `1` if `t` is not
+a unit), the function `t ↦ ψ(ξt)·J^Z_top(p, q)` is integrable over `A`, and its integral is the form of floor `ϱ` of
+`W_Z` with the weight `x ↦ ψ(ξ⟨z, xz⟩)`;
 
 (e) `HS_Z(R, ω, l)` is the sum over the pairs `x` of cosets of `v_x^* R v_x` with `v_x = (𝒪_Z(ω_a, l)_x)_a`; and if `R`
 is positive
-semidefinite and the elements `l_θ ∈ G^(ϱ)` lie over one vector `e = l_θ⁻¹z` and in distinct right cosets of `K(M)`,
-then
+semidefinite and the elements `l_θ ∈ G^(ϱ)` of a finite family lie over one vector `e = l_θ⁻¹z` and in distinct right
+cosets of `K(M)`, then
 `μ_H(H ∩ K(M))·Σ_θ HS_Z(R, ω, l_θ) ≤ Σ_{a,b} R_{ab}·FP_Z(ω_a, ω_b)(e)`.
 
 RemainingAndMainTermsOfSecondMoments §7.5 and §7.6 use `J^Z_top`, the forms of the floors of `W_Z` (3.2 (b)) and the
@@ -1223,18 +1234,21 @@ of integral points by a power of `b` at each such place.
 
 ### 7.1 Few integers at the chosen places are not units
 
-*Origin:* particular to this proof.
+*Origin:* particular to this proof: at the chosen places of admissible filling data and their conjugates, the non-units
+of the ring of integers have small volume.
 
 *Method of the formal proof:* the chosen places have norm `p₀` or `p₁`, at least `b¹⁰`, there are at most `2f` of them
 with their conjugates above each prime, and `f ≤ b/1000`.
 
 Let `𝔉` be admissible filling data, with base `b`, over a CM field `E` that has Weil data
-(SecondMomentsOfPoincareSeries §4.1; RemainingAndMainTermsOfSecondMoments, Conventions), and `T` a
-finite set of finite places each of which is a chosen place of `𝔉` or the conjugate of one. Let `O_T` be the integers
-of the product `E_T` of the completions at `T`. Prove: `b⁹ ≥ 2`, and the set of the elements of `O_T` that are not units
-has volume at most `b^{−9}`.
+(SecondMomentsOfPoincareSeries §4.1; RemainingAndMainTermsOfSecondMoments, Conventions), and `T` a finite
+conjugation-stable set of finite places each of which is a chosen place of `𝔉` or the conjugate of one. Let `E_T` be the
+product of the completions at `T`, with integers `O_T` and the Haar measure in which `O_T` has volume `1`, and let `E_T`
+carry the structure of a finite place in the sense of 2.1 (a) with these integers and this measure (it does by
+RemainingAndMainTermsOfSecondMoments §7.2 (d)). Prove: `b⁹ ≥ 2`, and the set of the elements of `O_T` that are not units
+of `O_T` has volume at most `b^{−9}`.
 
-*Needs:* SecondMomentsOfPoincareSeries §4.1; RemainingAndMainTermsOfSecondMoments §7.2.
+*Needs:* 2.1; SecondMomentsOfPoincareSeries §4.1; RemainingAndMainTermsOfSecondMoments §7.2.
 
 [ShortProof], `New/Spanning/Frames/FixedLines.lean` (`New.Filling.chosenPlacesAndConj`,
 `New.Filling.mem_chosenPlacesAndConj`, `New.Filling.volume_integers_diff_intUnits_le`)
@@ -1369,9 +1383,10 @@ satisfies `|det_S k|² ≤ exp(−‖[P, k]‖²/2)`. Let `o` be an injective nu
 off
 `S`, `Z` in the Lie algebra of `U(ε)` with `‖Z‖ ≤ δ ≤ 1/20`, `k` unitary and block diagonal for `ε`, and
 `ĝ = exp(−u)·exp(Z)·exp(−v)` for the two parts `u`, `v` of `Z` inside the blocks of `ε` that are strictly triangular for
-`o`.
-Then `det_S(k^*ĝk) = exp(tr(PZ) + ‖[P, Z]‖²/4 + R)` with `|R| ≤ 10⁵·δ·(‖[P, Z]‖² + ‖[P, k]‖²)`; `det ĝ = exp(tr Z)`; and
-if the entries of `l` are distinct and of the parity of `#n − 1`, `‖Z‖ ≤ 1/20` and `o = l`, then Flensted-Jensen's
+`o`: `u` keeps the entries `Z_{ij}` with `ε_i = ε_j` and `o(i) < o(j)`, `v` those with `ε_i = ε_j` and `o(j) < o(i)`,
+and both are `0` elsewhere. Then `det_S(k^*ĝk) = exp(tr(PZ) + ‖[P, Z]‖²/4 + R)` with
+`|R| ≤ 10⁵·δ·(‖[P, Z]‖² + ‖[P, k]‖²)`; `det ĝ = exp(tr Z)`; and if the entries of `l` are distinct and of the parity of
+`#n − 1`, `‖Z‖ ≤ 1/20` and `o = l`, then Flensted-Jensen's
 integral `Ξ(1, ·)` of `l` (8.1, *Needs*) has the same value at `ĝ` and at `exp Z`.
 
 (c) (Gaussian shape) Prove: let `l` have large gap `A` and `|l_i| ≤ L`, let `T ≥ max(1, (#n)², (#n)² log(#n + L + 1))`
@@ -1400,9 +1415,8 @@ an exponentially small error, because the phases cancel against `exp(−φ)`; so
 `Re θ` is bounded below on the ball where both components are near `1`; the decay 8.2 (a) makes `θ` integrable and
 compares the large ball with the small one.
 
-Let `(l, k, j, τ, B, e, φ)` be a Laplace datum with `B ≥ 1`, `l` and `k` of large gap `h` with entries of modulus at
-most `L`,
-and `N = #n + #m`. Prove:
+Let `(l, k, j, τ, B, e, φ)` be a Laplace datum with `B ≥ 1` and with `n` and `m` nonempty, `l` and `k` of large gap `h`
+with entries of modulus at most `L`, and `N = #n + #m`. Prove:
 
 (a) (the cone) if `N + L ≤ β`, `log β ≥ 1`, `T = N² log β` and `h ≥ 10³⁰T³`, then every value `z` of `θ` satisfies
 `|z| ≤ 2 Re z + 12 exp(−100T)`;
@@ -1482,7 +1496,8 @@ Let `(v, i₀)` be a stationary position for `(l, k)`, with `l` steep for `(X, M
 on `X`,
 `μ_k ≥ 0`, and `μ_k(i) ≤ 3B` at every `i` whose sign differs from that of some other index. Let `l`, `k` have large gap
 `h` and
-entries of modulus at most `L`, `N = #n + #m`, `β ≥ 10¹²`, `N + L ≤ β` and `h ≥ 10³⁰(N² log β)³`. Prove:
+entries of modulus at most `L`, let `m` be nonempty, `N = #n + #m`, `β ≥ 10¹²`, `N + L ≤ β` and `h ≥ 10³⁰(N² log β)³`.
+Prove:
 
 (a) for every right invariant measure `ν` on `R_v` finite on compact sets, `g ↦ c_l(g)·conj(c_k(g′))·exp(conj σ(g) −
 σ(g))` is
@@ -1493,8 +1508,8 @@ homomorphism `j : S → U(ε) × U(η)`, `j(s) = (g, g′)`, such that `s ↦ g`
 lowers the
 flag with sum `σ(s)`, and `g − 1` induces `g′ − 1`;
 
-(c) (the pairing of two steep coefficients) let `l` be steep for `(X, M, B)` with `M` even and `B ≥ 1`, and `l′` a
-parameter
+(c) (the pairing of two steep coefficients) let `n` be nonempty and `l` be steep for `(X, M, B)` with `M` even and
+`B ≥ 1`, and `l′` a parameter
 of `U(ε ⊕ 1)` with `−l′` steep for `(X, M + 1, B)`, both of large gap `h` and with entries of modulus at most `L`. Let
 `β ≥ 10¹²` with `2#n + 1 + L ≤ β` and `(#n + 1)⁴·(6B)^{2M+2} ≤ β`, and `h ≥ 10³⁰((2#n + 1)² log β)³`. Then there is
 `y ∈ U(ε ⊕ 1)` with `‖y‖²_op ≤ β` and

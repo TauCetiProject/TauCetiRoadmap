@@ -119,12 +119,12 @@ indexed by the `ι` are those of OneSidedPrimeSumBoundsAndAdmissibleData §1.2.
 | `χ′, ν″, ν♭` | characters of the exchanges | 3.4 |
 | `ζ, Ψ^add, Υ_{ϑ,i}, c″, φ″_{ϑ,i}` | polynomial map, added datum, series, scale, first factor | 3.5, 3.6 |
 | `z_±, z_*, p_±, p_*, Γ_j(ϑ)` | points and pairs of the exchanges, product of Hecke values | 4.1 |
-| `Ξ_{ϑ,i}, c′_ϑ` | theta series of the first factor, twist factor | 4.3, 7.1 |
+| `Ξ^ex_{ϑ,i}, Ξ_{ϑ,i}, c′_ϑ` | left side of the third exchange, theta series of the first factor (`Ξ_{ϑ,i} = c″·Ξ^ex_{ϑ,i}`), twist factor | 4.3, 7.1 |
 | `n_*, m_u`, peak | `2f·t³`, basic holomorphic function, point of modulus above half the supremum | 4.5 |
 | `S_O`, hyperplane sums | level places and conjugates; products of character sums over `1 + vλ` | 5.1 |
 | integral measure | function of tame characters given by an integral group-ring element | 6.1 |
 | `T_z, h_X` | twisted central translation, class number of `U(1)` at the level | 6.3 |
-| `𝒜^⊕, glue_ϑ, Θ°, hk` | tuples of forms on `V°`, gluing map, period map, hook number of `μ⁻` | 7.1, 7.3 |
+| `𝒜^⊕, glue_ϑ, Θ°, hk` | tuples of forms on `V°`, gluing map, period map, hook number of `μ⁻` | 7.1, 7.2, 7.3 |
 | `U_ϑ, pr U_ϑ` | comparison operator and its compression to the lifts | 7.4, 7.5 |
 
 ## Layer 1: Tested forms, Hecke adjoints, false lifts and denominators
@@ -432,10 +432,11 @@ Weil operators; on the block datum it acts by a central element, which only perm
 
 Let `(q₀, d)` be parameters and `E = K(ζ)` a field of the tower of OneSidedPrimeSumBoundsAndAdmissibleData §2.2, with
 its Weil data, the number `Ω` and the scale `t₀` of Taylor series (DivisibilityOfThetaDerivatives §4.2). Let `S` be
-level places of `E` without twist places and `σ` an automorphism of `ℂ` over `K`. Prove: there are complex numbers
-`t`, `l` and a norm-one idele `u` of `E`, with `|t| = Ω^{−1/2}` and `l ≠ 0`, such that for all lift data `X` on `S` of
-even rank `#n = 2m` the following holds. Let `e` be the permutation of the infinite places induced by `σ`, and `Y` lift
-data on `S` with row lengths `ρ_Y(τ) = ρ_X(e⁻¹τ)` and a character `μ_Y` whose values at the ideles with archimedean
+level places of `E` without twist places, `σ` an automorphism of `ℂ` over `K`, and `n` a finite index set with
+`#n = 2m`. Prove: there are complex numbers `t`, `l` and a norm-one idele `u` of `E`, depending only on `n`, `S` and
+`σ`, with `|t| = Ω^{−1/2}` and `l ≠ 0`, such that for all lift data `X` on `S` with index set `n` the following holds.
+Let `e` be the permutation of the infinite places induced by `σ`, and `Y` lift data on `S` with index set `n`, row
+lengths `ρ_Y(τ) = ρ_X(e⁻¹τ)` and a character `μ_Y` whose values at the ideles with archimedean
 component `1` are `σ(μ_X(·))`. Then, with `D = Σ_τ ρ_X(τ)`, for every finite point `h` of `U(V)` and every coordinate
 `i` of the weight,
 
@@ -467,9 +468,10 @@ elements, and `ϑ` a tame character.
 and the character `νϑ`; write `O_{p,ϑ}` for its descent pair. The lift of the pair is
 `φ_{p,ϑ} = v₀^{2z}·(π_M·t₀)^{j}·φ_X ∈ 𝒜(O_{p,ϑ})`, with `j = Σ_τ (c(τ) − z)`, `v₀` the scale of the integral vacuum
 (DivisibilityOfThetaDerivatives §4.6) and `t₀` the scale of Taylor series. The denominator is
-`n_ν = M^{4fz}·(M·d)^{j}`, the algebraic part is `L^alg(p, ϑ) = ‖φ_{p,ϑ}‖²/Nm Q(ϑ)^{2z−1}`, and the integral algebraic
-part is `n_L·L^alg(p, ϑ)` with `n_L = n_GL·n_ν²`, `n_GL` the common multiple of the orders of stabilisers of
-ThetaLiftChainsAndTheSeesawIdentity §2.10. The pair has empty row if `c(τ) = z` at every `τ`.
+`n_ν = M^{4fz}·(M·d)^{j}`, with `d` the integer of `K = ℚ(√−d)` (not `dim 𝒯`), the algebraic part is
+`L^alg(p, ϑ) = ‖φ_{p,ϑ}‖²/Nm Q(ϑ)^{2z−1}`, and the integral algebraic part is `n_L·L^alg(p, ϑ)` with
+`n_L = n_GL·n_ν²`, `n_GL` the common multiple of the orders of stabilisers of ThetaLiftChainsAndTheSeesawIdentity
+§2.10. The pair has empty row if `c(τ) = z` at every `τ`.
 
 (b) Prove: `φ_{p,ϑ} ≠ 0`; `L^alg(p, ϑ) > 0`; there is `A ≠ 0`, independent of `ϑ`, with
 `n_L·L^alg(p, ϑ) = A·L^{𝒞∪Q(ϑ)}(z, (νϑ)⁻¹)` for every tame character `ϑ`; and
@@ -588,13 +590,18 @@ with the columns of `1` off `e`, `χ(det z)·F(z⁻¹y)·1[z ∈ H]` is the colu
 `χ` a character of `O_E/𝔪`, `P` a polynomial in the variables of `W′`, `h′` a finite point of `U(E^b)` and `g` a point
 of
 `U(W′)(𝔸)`. Let `K` assign to each function `Φ` on `n × (b ⊔ n)` matrices modulo `𝔪` a function on `U(E^n)(𝔸_f)`, and
-`c ∈ ℂ`. Suppose that for all `Φ`, `Ψ` matched for `χ⁻¹` (DeterminantsOfThetaLiftChains, Conventions), `c` times the
-class sum of `K(Φ)` at full level equals the integral over `[U(V′)]` of the theta kernel of `(V′, W)` with datum `Ψ` and
+`c ∈ ℂ`. Let `a`, `β`, `β′` be characters of `[U(1)]`; the kernel of `(V′, W)` is taken with the characters
+`(a, β·β′)`, the kernel of `(V′, E^b)` with `(a, β)` and the kernel of `(V′, W′)` with `(a, β′)`. Suppose that for
+all `Φ`, `Ψ` matched for `χ⁻¹` (DeterminantsOfThetaLiftChains, Conventions), `c` times the class sum of `K(Φ)` at full
+level equals the integral over `[U(V′)]` of the theta kernel of `(V′, W)` with datum `Ψ` and
 polynomial `P` at `(x, (1, h′) ⊕ g)`. Prove: for every `Ψ′` on `n × b` matrices that is invariant under right
 multiplication by `GL_b(O_E/𝔪)`, the function
-`x ↦ θ^{V′,E^b}[χ∘det, 1](x, h′)·θ^{V′,W′}[Ψ′, P](x, g)` is integrable on `[U(V′)]`, and its integral is `c` times the
-class
-sum of `K(Φ)` for `Φ(x′ | x″) = χ(det x″)·Ψ′(x″⁻¹x′)`. The same holds after summing over the classes `h′` of `U(E^b)`.
+`x ↦ θ^{V′,E^b}_{a,β}[χ∘det, 1](x, h′)·θ^{V′,W′}_{a,β′}[Ψ′, P](x, g)` is integrable on `[U(V′)]`, and its integral is
+`c` times the class sum of `K(Φ)` for `Φ(x′ | x″) = χ(det x″)·Ψ′(x″⁻¹x′)`. Summed form: let `K` depend also on `h′`,
+with the hypothesis for every `h′`, and let `coef` be a function on `U(E^b)(𝔸_f)`, `c₀ ∈ ℂ` and `F` a function on
+`U(V′)(𝔸)` with `c₀·Σ_{h′} coef(h′)·θ^{V′,E^b}_{a,β}[χ∘det, 1](x, h′) = F(x)` for all `x`, the class sum over `U(E^b)`
+at full level. Prove: for `Ψ′` and `Φ` as above,
+`c·c₀·Σ_{h′} coef(h′)·(class sum of K(Φ)(h′)) = ∫_{[U(V′)]} F(x)·θ^{V′,W′}_{a,β′}[Ψ′, P](x, g) dx`.
 
 (c) Let `α` be tame for `(𝔪, χ)` with weight `γ` (DeterminantsOfThetaLiftChains, Conventions), `β` a second character,
 and `P` a polynomial whose Fock vector is fixed by the real group of `E^b`. Let `F` be left invariant under
@@ -684,7 +691,7 @@ to the character of `W`.
 
 (a) Prove: for `g ∈ U(W)(𝔸)`, the normalised descent of the product form of `((h″, h°), y, η)` at `g` is the complex
 conjugate of `c_γ·Σ_{Y ∈ Γ} θ″(gỸ, h″)·θ°(gỸ, h°)`, where `Ỹ` is an integral lift of `Y`; `θ″` is the theta kernel of
-`(W, V″)` with characters `(ν_W, b)`, the column datum of `(w_s, fix)` for the character of `O_E/𝔪_O` made of the tame
+`(W, V″)` with characters `(ν_W, b)`, the column datum of `(w_s, fix)` for the character of `R₂Q` made of the tame
 part, and the polynomial of `ȳ` in the basis vectors of `W` of sign `+1`; and `θ°` is the theta kernel of `(W, V°)` with
 characters `(ν_W, b′)`, the indicator of the inclusion matrix of `z` modulo `ϖ²`, and the polynomial of `η̄` in the
 basis
@@ -720,8 +727,9 @@ Let `D` be the data, `1 ≤ j ≤ m`, and `ϖ = π_M`. Write `𝔪_c(ϑ) = (π_M
 `c ≥ 1`.
 
 (a) (spaces) `S` is the hermitian space with signs `+1` on `2m` and `−1` on `m` coordinates; `W♭ = I_{6m+1}`; the first
-factor space `V″` is the standard definite space on the indices of `W_j`, a padding and the indices of `W♭`, and `W′`
-denotes `W_j ⊕ (padding) ⊕ W♭` on the same indices; the second factor space `V°` is the standard definite space on the
+factor space `V″` is the standard definite space on the indices of `W_j`, of the padding `(I_j)⁻ ⊕ I_{3m−j}` (a
+negative definite space of rank `j` and a standard definite space of rank `3m − j`) and of `W♭`, and `W′` denotes
+`W_j ⊕ (I_j)⁻ ⊕ I_{3m−j} ⊕ W♭` on the same indices; the second factor space `V°` is the standard definite space on the
 `r` indices of `W_j` and `t − 9m − 1 − r` further ones, so that `V_j = V″ ⊕ V°`. `O_j` is the `j`-th descent pair at the
 trivial character, with diagrams `μ⁺ = k⁺`, `μ⁻ = k⁻` (ThetaLiftChainsAndTheSeesawIdentity §2.18).
 
@@ -734,12 +742,18 @@ blocks of variables of sign `−1`. For a character `c` of `[U(1)]`, `𝖺_c(h)`
 `U(I_m)` at full level of the theta kernel of `(I_m, I_{3m})` with characters `(c, 1)`, trivial modulus and polynomial
 `1`.
 A choice `i` is a pair of a `3m × rk V″` matrix `Λ_i` modulo `ϖ²` and a class of `U(W♭)` at level `ϖ²` with a selection
-of rows of a short basis of its lattice. For a choice `i`,
+of rows of a short basis of its lattice: for each infinite place `τ`, `Δ′` lists of `2m` of its `6m + 1` rows, where
+`Δ′ = Δ/2 − (t + 1)/2`. For a choice `i`,
 `𝖥_i(g) = ∫_{[U(S)]} φ°(x)·θ^{S,W′}[ψ_{Λ_i}, P·P♭_i](x, (g, 1, h♭_i)) dx`, `g ∈ U(W_j)(𝔸)`,
 with characters `υ₁^m` and `ν♭υ₁^m`, the additive character `ψ_Λ(y) = ψ(tr(yΛ))` of matrices modulo `ϖ²`, the fixed
 polynomial `P = ∏_τ det(y⁻_τ)^{e′(τ)}·∏_{h<k+j−1} det(y_{τ,h})^{μ⁺(τ,h)}` on the padded `W_j`, and `P♭_i` the product of
-determinants on `W♭` that pairs the selected rows with the variables of sign `+1`. The functions `𝖥_i` do not depend
-on any twist.
+determinants on `W♭` that pairs the selected rows with the variables of sign `+1`. Here, with `r₊ = k + j − 1` the
+number of signs `+1` of `W_j` and its basis numbered with the positive vectors first: `y⁻_τ` is the `m × m` block of the
+variables in the `m` columns of sign `−1` of `S` and the `m` rows of sign `−1` of the padded `W_j` (the `j` basis
+vectors of `(I_j)⁻`, then the `m − j` negative basis vectors of `W_j`); for `h < r₊`, `y_{τ,h}` is the `2m × 2m` block in
+the `2m` columns of sign `+1` of `S` whose row `a` is the positive basis vector of `W_j` of number `h + a` if
+`h + a < r₊` and the basis vector `a` of `I_{3m−j}` otherwise; and `e′(τ) = n_det(τ) + (r + 9m + 1) + m`, with
+`n_det(τ) = Σ_{h<r₊} μ⁺(τ,h) + Δ′` the number of determinants at `τ`. The functions `𝖥_i` do not depend on any twist.
 
 (c) Prove: if `ϑ` is a twist, `c ≥ 1`, and `ν` is a character of `[U(1)]` of weight `γ` whose tame part is `ψ·ψ_ϑ` with
 `ψ` nontrivial exactly at the chosen places, then `ν` is tame for `𝔪_c(ϑ)` with weight `γ` and the character made of
@@ -793,14 +807,12 @@ bounds multiply.
 
 (b) For a class of `U(W♭)` with selected rows (the second component of a choice) and a `(6m+1) × (6m+1)` matrix `Y`
 over `E`, the constant rows `𝖼` are, for each infinite place `τ` and each column of `μ⁺(τ)` (with `Δ′` further columns
-of height `r₊`), a matrix with `2m` rows: for a column of height `h < r₊`, row `a` is the basis vector of `W_j` at the
-positive index `h + a` if `h + a < r₊` and the basis vector `a` of `I_{3m−j}` otherwise; for the `l`-th column of height
-`r₊`, the rows are the selected rows of `τ(Y)`, in the columns of `W♭`. `P_V = ∏ det(𝖼; X z)` is the stacked determinant
-product, with variables `X` in the positive basis vectors of `W_j` and `z` in `W^add`, and `ζ = ζ_{i,Y}(z)` is the
-vector
-of its coordinates of weight `μ⁺` in the columns `X`. Prove: `P_V` is the polynomial of `ζ(z)`, and, with the short
-basis
-of the class, `P_V = Σ_l (polynomial of the l-th unit vector in the letters of sign +1)(X)·ζ_l(z)` after any renaming of
+of height `r₊`, where `Δ′ = Δ/2 − (t + 1)/2` as in 3.4), a matrix with `2m` rows: for a column of height `h < r₊`,
+row `a` is the basis vector of `W_j` at the positive index `h + a` if `h + a < r₊` and the basis vector `a` of
+`I_{3m−j}` otherwise; for the `l`-th column of height `r₊`, the rows are the selected rows of `τ(Y)`, in the columns
+of `W♭`. `P_V = ∏ det(𝖼; X z)` is the stacked determinant product, with variables `X` in the positive basis vectors
+of `W_j` and `z` in `W^add`, and `ζ = ζ_{i,Y}(z)` is the vector of its coordinates of weight `μ⁺` in the columns
+`X`. Prove: `P_V` is the polynomial of `ζ(z)`, and, with the short basis of the class, `P_V = Σ_l (polynomial of the l-th unit vector in the letters of sign +1)(X)·ζ_l(z)` after any renaming of
 the two sets of columns.
 
 (c) Prove: if `φ` is a ring endomorphism of `ℂ` and `|φ(τ(Y_{ab}))| ≤ M⁴`, `|φ(z_x)| ≤ M⁴` for all entries and
@@ -936,16 +948,19 @@ against the class sum over `U(V″)` by 3.1 (b), with the additive character `ψ
 `GL_{3m}`; the three constants multiply to a number of squared modulus `C/Γ_j(ϑ)`. The left side is rewritten at the
 level of a row stabiliser by 3.1 (c).
 
-Let `D` be the data, `1 ≤ j ≤ m`. For a tame character `ϑ` and a choice `i`, the left side `Ξ_{ϑ,i}(g)`, `g ∈
-U(W_j)(𝔸)`,
+Let `D` be the data, `1 ≤ j ≤ m`. For a twist `ϑ` and a choice `i`, the left side `Ξ^ex_{ϑ,i}(g)`, `g ∈ U(W_j)(𝔸)`,
 is the class sum over `h ∈ U(V″)` at full level, and over the classes `h′` of `U(I_{3m})` against the coefficients
-`𝖺_{χ′}(h′)`, of the theta kernels of `(W_j ⊕ W^add, V″)` with the datum
-`(x′ | x″) ↦ χ′(det x″)·ψ^inv_{Λ_i}(x″⁻¹x′)`, where `ψ^inv_Λ = Σ_{g ∈ GL_{3m}} ψ_Λ(·g)`.
+`𝖺_{χ′}(h′)`, of the theta kernels of `(I_{3m} ⊕ W′, V″)`, where `I_{3m} ⊕ W′ = W_j ⊕ (I_j)⁻ ⊕ W^add` (3.4 (a), 3.5),
+with the characters `(χ′·ν♭υ₁^m, ν″)`, the modulus `𝔪₂(ϑ)`, the datum `(x′ | x″) ↦ χ′(det x″)·ψ^inv_{Λ_i}(x″⁻¹x′)`
+(`x′` the `3m` columns of `I_{3m}`, `x″` the square block of the columns of `W′`) and the polynomial `P_V` of 3.5 (b)
+formed with the short basis of the class of `i`, at the points `(1, h′) ⊕ (g, 1, 1, h♭_i)` of `U(I_{3m} ⊕ W′)(𝔸)` (the
+identity on the padding `(I_j)⁻ ⊕ I_{3m−j}`) and `h` of `U(V″)`; here
+`ψ^inv_Λ = Σ_{g ∈ GL_{3m}(O_E/ϖ²)} ψ_Λ(·g)`.
 
 (a) Prove: there are a constant `C` and numbers `c′_ϑ`, one for each twist `ϑ`, such that `|c′_ϑ|² = C/Γ_j(ϑ)` and
-`c′_ϑ·Ξ_{ϑ,i}(g) = 𝖥_i(g)` for every choice `i` and every `g ∈ U(W_j)(𝔸)`.
+`c′_ϑ·Ξ^ex_{ϑ,i}(g) = 𝖥_i(g)` for every choice `i` and every `g ∈ U(W_j)(𝔸)`.
 
-(b) Prove: if `Λ_i = u·w` for matrices `u`, `w` modulo `ϖ²`, then `Ξ_{ϑ,i}` is the theta series on `U(W_j)` of the
+(b) Prove: if `Λ_i = u·w` for matrices `u`, `w` modulo `ϖ²`, then `Ξ^ex_{ϑ,i}` is the theta series on `U(W_j)` of the
 series
 `Υ_{ϑ,i}` of 3.5 (e): the class sum over `h ∈ U(V″)`, at the level of the row stabiliser of `w`, of the theta kernels of
 `(W_j, V″)` of the `j`-th descent pair at `ϑ` with the character `ν″`, the column datum of `w`, and the vectors
@@ -975,13 +990,12 @@ representation, `|y|` the Euclidean norm and `‖σ‖` the operator norm.
 (b) Prove: for hermitian spaces `S`, `T` over `E` of ranks `n`, `n′ ≥ 1` and a natural number `N ≠ 0` in the different
 of `E`, `λ₁(S)·λ₁(T)/(6N(f·n)²·n′·n) ≤ λ₁(Hom(S, T))`, where `λ₁` is the first minimum of the lattice, cut at `1`.
 
-(c) Prove: let `S`, `T` be hermitian spaces with characters `a`, `b` of weights `γ`, `γ′`, `g`, `h` adelic points, `𝔪` a
-modulus, `c ∈ E^×` such that `c·α·z` is integral for every integral finite adele `z` that vanishes modulo `𝔪` (`α` the
-self-dual idele of the Weil data), `λ` the first minimum of `Hom(S, T)` moved by `(g, h)`, `m₀ > 0` with
-`m₀·|τ(c)| ≤ √(2π·Im τ(j))·λ` at every infinite place `τ`, `q` larger than the number of complex variables of `Hom(S,
-T)`
-at the infinite places, and `Q` a polynomial homogeneous of degree `d` under real scalings with Fock vector `v`. Then
-there is a function `Ψ` on matrices modulo `𝔪` such that for all real points `u`, `u′`
+(c) Prove: let `S`, `T` be hermitian spaces of ranks at least `1` with characters `a`, `b` of weights `γ`, `γ′`, `g`,
+`h` adelic points, `𝔪` a modulus, `c ∈ E^×` such that `c·α·z` is integral for every integral finite adele `z` that
+vanishes modulo `𝔪` (`α` the self-dual idele of the Weil data), `λ` the first minimum of `Hom(S, T)` moved by
+`(g, h)`, `m₀ > 0` with `m₀·|τ(c)| ≤ √(2π·Im τ(j))·λ` at every infinite place `τ`, `q` larger than the number of
+complex variables of `Hom(S, T)` at the infinite places, and `Q` a polynomial homogeneous of degree `d` under real
+scalings with Fock vector `v`. Then there is a function `Ψ` on matrices modulo `𝔪` such that for all real points `u`, `u′`
 `|θ^{S,T}_{a,b}[Ψ, Q](gu, hu′) − ⟨v, Ω(u, u′)v⟩| ≤ (100(d + 2q)/m₀²)^q·(‖u‖·‖u′‖)^{3q}·|⟨v, v⟩|`,
 `Ω` the real Weil representation of the pair with weights `(γ, γ′)` and `‖u‖` the largest operator norm at a place.
 
@@ -1050,7 +1064,7 @@ products of the twist-free theta forms `𝖥_i` with the theta kernels of the co
 *Method of the formal proof:* suppose `y ≠ 0`; its peaks are not deep in a cusp. Four steps. (1) The integral `𝖥^g` of
 the carrier times a kernel on `(S, W̃)` times a basic function over the real group of `S` is a combination of the
 `𝖥_i`. (2) For every combination `𝖥` of the `𝖥_i`, the integral of `y·𝖥·m_{u°}` over the real group at any point is
-zero.
+zero, `u°` the weight on `W_j` of the kernels of `(W_j, V°)`.
 (3) At every peak `g`, `𝖥^g(gh)` is close to `𝖥⁰(h)` for one bounded `𝖥⁰` with `𝖥⁰(1) ≠ 0`, by the sparse sums of 4.4 at
 a peak of the carrier. (4) The isolation estimate 4.5 makes `𝖥⁰(1)` too small.
 
@@ -1058,14 +1072,17 @@ Let `D` be the data and `1 ≤ j ≤ m`. For a function `ζ` from the classes of
 weight
 `μ⁻`, the pairing `⟨ζ, θ°(g, ·)⟩` is `Σ_c θ^{W_j,V°}[1_{incl}, polynomial of conj ζ(c) in the negative basis vectors](g,
 c)`,
-the sum over the classes, with the indicator of the inclusion matrix of `W_j` in `V°` modulo `ϖ²`.
+the sum over the classes, with the indicator of the inclusion matrix of `W_j` in `V°` modulo `ϖ²`; the kernels
+`θ^{W_j,V°}` are taken with the characters `(ν_W, υ₁^{m/2−j})`, `ν_W` the character of `W_j` in the untwisted pair
+`O_j`.
 
 (a) Prove: the carrier has a peak `g₁` with `λ₁(S g₁) ≥ (5b^{3/2})^{−1/2}`.
 
 (b) Prove: for every `g₁ ∈ U(S)(𝔸)` and every function `Ψ` on matrices modulo `ϖ²`, there are coefficients `c_i` with
 `Σ_i c_i 𝖥_i(g) = ∫_{G_∞(S)} φ°(g₁h)·θ^{S,W̃}[Ψ, P](g₁h, (g, 1))·m_{u₁}(h) dh` for all `g ∈ U(W_j)(𝔸)`, where `W̃` is
 the padded
-`W_j`, `P` the polynomial of 3.4 (b) and `u₁` the weight of the kernels on `S` and `W♭`.
+`W_j`, `P` the polynomial of 3.4 (b), `u₁ = (−Δ′; 6m + 1)` at every `τ` (the entry `−Δ′` at the signs `+1` of `S`,
+`6m + 1` at the signs `−1`), and the kernel `θ^{S,W̃}` is taken with the characters `(υ₁^m, ν♭υ₁^m)`.
 
 (c) Prove: there is a bounded function `𝖥⁰` on the real group of `W_j` with `𝖥⁰(1) ≠ 0` such that for every adelic `g`
 with
@@ -1125,10 +1142,9 @@ places, not all zero, the product over the chosen places of the elements
 `n × r` matrix `x` over the completion at a level place `w` has an integral block ratio if its block `x′` of the rows of
 `incl` is invertible and `x″x′⁻¹` is integral (`x″` the other rows), and `≡ 0` modulo `w` if `w` is a chosen place.
 
-(a) Prove: if `l₀` fits `O` and the normalised descent of `Ξ ∈ 𝒜(O)` is `0`, then for every polynomial `P` the descent
-to
-`W`, twisted by `ν_W`, of the conjugate of the matrix coefficient of `Ξ` at the highest vector, with the datum
-`v_P ⊗ Ψ_bl ⊗ vac`, vanishes.
+(a) Prove: if a parameter `l₀` on `W` fits `O` and the normalised descent of `Ξ ∈ 𝒜(O)` is `0`, then for every
+polynomial `P` the descent to `W`, twisted by `ν_W`, of the conjugate of the matrix coefficient of `Ξ` at the highest
+vector, with the datum `v_P ⊗ Ψ_bl ⊗ vac`, vanishes.
 
 (b) Prove: let `y ∈ 𝒜(O)` and `u` a linear form on the weight. If the tame parts `ψ_w` are nontrivial at the twist
 places,
@@ -1163,9 +1179,9 @@ is a descent to `W`, which vanishes, so the zero term contributes nothing; the r
 functional minus its zero term along one plane is proved here, as part of (a), not taken from the background); the
 descent inherits a Hecke equation at `w`, and its root is too small for a nonzero bounded spherical function (b).
 
-(a) Prove: let `W`, `V` be hermitian spaces of ranks `r′` and `r′ + t′`, `A` a set of finite places disjoint from its
-conjugate, `a` a character of `[U(1)]`, and `Y` an automorphic function on `U(V)(𝔸)` whose descents to `W` twisted by
-`a`
+(a) Prove: let `W` be a hermitian space of rank `r′` and `V` a positive definite hermitian space of rank `r′ + t′`,
+`A` a set of finite places disjoint from its conjugate, `a` a character of `[U(1)]`, and `Y` an automorphic function on
+`U(V)(𝔸)` whose descents to `W` twisted by `a`
 vanish off `A ∪ Ā`. Let `w` be a split place outside `A ∪ Ā` with the base change of `a` unramified at `w̄`, and let `Y`
 be
 spherical at `w` and killed by the Hecke polynomial at `w` at a point `X` with `|X| = q_w^{1−t′−r′/2}`. If `W′` is the
@@ -1251,12 +1267,10 @@ after conjugation by `x`, the matrices `Y_w`: the class sum over `K` of
 `h ↦ ⟨(point form of (diag(h₁, h)x, Y, e′))(C(k_Ψ(g, h))), Ξ⟩` is zero, where `k_Ψ(g, h)` is the vector of the conjugate
 theta kernels of `(W, I_l)` at `(g, h)` with datum `Ψ`, one for each basis polynomial of weight `κ`.
 
-(d) (product forms) Prove: for a divided splitting of `O` (3.2) with `V° = I_l`, a divided lattice `γ`, `x ∈
-U(I_N)(𝔸_f)`, a
-vector `y` of weight `k⁺`, a character `b`, a datum `Ψ` modulo `ϖ²` and `g ∈ U(W)(𝔸)`, the class sum over `h ∈ U(I_l)`
-at
-principal level `ϖ²` of the inner products with `Ξ` of the product forms of `((x, h), y, conj k_Ψ(g, h))`, with `k_Ψ` of
-weight `k⁻`, is zero.
+(d) (product forms) Prove: for a divided splitting of `O` (3.2) with `V° = I_l`, such that `(∏_{w ∈ 𝒞_O} w)²` is
+generated by an integer of `E`, a divided lattice `γ`, `x ∈ U(I_N)(𝔸_f)`, a vector `y` of weight `k⁺`, a character
+`b`, a datum `Ψ` modulo `ϖ²` and `g ∈ U(W)(𝔸)`, the class sum over `h ∈ U(I_l)` at principal level `ϖ²` of the inner
+products with `Ξ` of the product forms of `((x, h), y, conj k_Ψ(g, h))`, with `k_Ψ` of weight `k⁻`, is zero.
 
 *Needs:* 1.1, 1.3, 3.2, 5.3.
 
@@ -1415,7 +1429,7 @@ U(1)(E)`, `K` a compact open subgroup of `U(1)(𝔸_f)` containing the principal
 `Γ\U(1)(𝔸_f)/K`, all with trivial stabiliser. For every function `s` on `U(1)(𝔸_f)` there are a point `z` and a
 character
 `χ` of `[U(1)]` of weight `0` with tame part trivial off `S` such that
-`|ι(s(1))| ≤ |ι(Σ_g χ(gz)·s(gz)/#(Γ\U(1)(𝔸_f)/K))|`, the sum over the classes.
+`|ι(s(1))| ≤ |ι(Σ_g χ(gz)·s(gz)/#(Γ\U(1)(𝔸_f)/K))|`, the sum over a fixed set of representatives `g` of the classes.
 
 (b) Prove: let `1 ≤ j ≤ m`, `p` a main pair for `j`, and `q₂ = (ν₂, 2)` a pair with empty row on an index set with `4`
 elements. There is `c₀ ≠ 0` with `|σ(c₀)| ≤ exp(f·m·b/k + 3x^{34})` for every automorphism `σ` of `ℂ`, such that for
@@ -1445,8 +1459,9 @@ L-values of a main pair has height at most `6β_tot − h_dir`.
 
 *Method of the formal proof:* by 2.5 the ratio is `‖φ_{p,ϑ}‖²/(Nm Q(ϑ)^{2z−1}·‖φ_{p,1}‖²)`. At `ι` above `ℓ`, with `ϑ =
 θ_ι^j`,
-`‖φ_{p,ϑ}‖² = ⟨Ξ, φ⟩⟨φ, Ξ⟩/⟨pr Ξ, pr Ξ⟩` for the test form of 6.4, so by 6.3 and the denominator bound of the family its
-`ι`-adic absolute value is at least `|ι(c₀·ratio(q₂, ϑ))|²·ℓ^{−2S_ℓ}·exp(−γ(ℓ))·ℓ^{−v_ℓ(h)}`. The untwisted squared norm
+`‖φ_{p,ϑ}‖² = ⟨Ξ, φ⟩⟨φ, Ξ′⟩/⟨pr Ξ, pr Ξ′⟩` for the test forms `Ξ`, `Ξ′` that 6.4 gives at `ι` and at its complex
+conjugate, so by 6.3 and the denominator bound of the family its `ι`-adic absolute value is at least
+`|ι(|c₀·ratio(q₂, ϑ)|²)|·ℓ^{−2S_ℓ}·exp(−γ(ℓ))·ℓ^{−v_ℓ(h)}`. The untwisted squared norm
 has
 height `β_tot − Σ_τ s_∞(κ(τ))` (6.2 (d)), the inverse ratio of the ramified pair `q₂` height `x₁`, the constant `c₀`
 small
@@ -1468,9 +1483,10 @@ main pairs and `5m` ratios of ramified pairs, up to a power of the norm of the m
 
 *Method of the formal proof:* by 2.6 (a) each of the three factors `L_*` of `Γ_j` is its untwisted value times a power
 of
-`Nm Q` and the squares of the ratios at the points `1, …, z`; the pair `p_*` at a point `z ≤ z_*` is a main pair for `j`
-when `m < z` and a ramified pair otherwise, and the pairs `p_±` at all their points are ramified. Heights add (6.5 for
-the main pairs, the small ratios of the family for the ramified ones).
+`Nm Q` and the squares of the ratios at the points `1, …, z`; the pair `p_*` at a point `z ≤ z_*` is counted as a main
+pair for `j` when `7·(m/2) < z ≤ z_*` (there are `k/2` such points) and as a ramified pair for `z ≤ 7·(m/2)`, and the
+pairs `p_±` at all their points are ramified. Heights add (6.5 for the main pairs, the small ratios of the family for
+the ramified ones).
 
 (a) Prove: for `1 ≤ j ≤ m` there are an integer `e ≥ 0`, finite families `(p_a)_{a ∈ A}` of main pairs for `j` with
 `2·#A = k` and `(q_b)_{b ∈ B}` of ramified pairs with signs `s_b`, `#B = 5m`, all independent of the twist, such that
@@ -1531,12 +1547,13 @@ denominator exponent (3.3 (c)), the gluing map is
 is a
 linear map `𝒜^⊕ → 𝒜(O_j(ϑ))`.
 
-(c) Prove: `⟨glue_ϑ^* φ, ζ⟩ = M^{l₁}·Σ_i Σ_c Σ_h ⟨φ″_{ϑ,i}(h)·ζ_i(c), φ(diag(h, h°_c)γ_i)⟩_ρ` for `φ ∈ 𝒜(O_j(ϑ))`.
+(c) Prove: `⟨ζ, glue_ϑ^* φ⟩ = M^{l₁}·Σ_i Σ_c Σ_h ⟨φ″_{ϑ,i}(h)·ζ_i(c), φ(diag(h, h°_c)γ_i)⟩_ρ` for `φ ∈ 𝒜(O_j(ϑ))`.
 
 (d) The theta series of the first factor is `Ξ_{ϑ,i}(g) = Σ_h θ″(g, h)`, the class sum at level `J_{Λ_i}` of the kernels
 of
-`(W_j, V″)` with the column datum of `Λ_i` stacked over `ϖ·1` and the polynomial of `φ″_{ϑ,i}(h)`. Prove: it is
-`c″` times the left side of the third exchange (4.3 (b)), and there are a constant `C` and numbers `c′_ϑ` with
+`(W_j, V″)` with the column datum of `Λ_i` stacked over `ϖ·1` and the polynomial of the conjugate of `φ″_{ϑ,i}(h)`,
+that is, of `c″·Υ_{ϑ,i}(h)`. Prove: `Ξ_{ϑ,i} = c″·Ξ^ex_{ϑ,i}`, with `Ξ^ex_{ϑ,i}` the left side of the third exchange
+(4.3 (b)), and there are a constant `C` and numbers `c′_ϑ` with
 `|c′_ϑ|² = C/Γ_j(ϑ)` and `c′_ϑ·Ξ_{ϑ,i} = c″·𝖥_i` for all `i` and all twists `ϑ`.
 
 (e) Prove: for `y ∈ 𝒢(W_j)` and `ζ ∈ 𝒜^⊕`, the inner product of `ζ` with `glue_ϑ^* Θ_{j,ϑ} y` is
@@ -1638,12 +1655,14 @@ A comparison operator for `j` is a family of endomorphisms `U_ϑ` of `𝒜(O_j(�
 2. there is an endomorphism `U°` of `𝒢(W_j)`, with `⟨y, U° y⟩ > 0` for `y ≠ 0`, such that
    `⟨Θ_{j,ϑ} y′, U_ϑ Θ_{j,ϑ} y⟩ = (Γ_j(ϑ)/Γ_j(1))·⟨y′, U° y⟩` for all `ϑ` and all `y, y′ ∈ 𝒢(W_j)`;
 3. `U_ϑ` takes every lift `Θ_{j,ϑ} y` to a form orthogonal to the false lifts for `e₀` and the complement of the lifts;
-4. `U_ϑ` preserves the forms integral at every embedding `ℂ → ℂ_l`, for every prime `l` not dividing `Nm Q(ϑ)`;
+4. for every prime `l` not dividing `Nm Q(ϑ)` and every embedding `ι : ℂ → ℂ_l`, `U_ϑ` preserves the forms integral at
+   `ι`;
 5. `‖U_1 φ‖²_σ ≤ exp(3f·m·b·(log b)²)²·‖φ‖²_σ` for every `φ` and every automorphism `σ` of `ℂ`.
 
-(a) Prove: for representatives `δ_c` of the classes there are tuples `f_a ∈ 𝒜^⊕`, `a` in a finite set, with
-`Σ_a ⟨f_a, ζ⟩·f_a = hk²·ζ` for all `ζ`, with the conjugate of every value `f_a(i, c)` carried by `δ_c` to a vector with
-integer coordinates, and `‖f_a‖²_σ ≤ hk²` for every `σ`.
+(a) Prove: for every family `(δ_c)` of rational points of `U(V°)`, one for each class `c`, there are tuples
+`f_a ∈ 𝒜^⊕`, `a` in a finite set, with `Σ_a ⟨f_a, ζ⟩·f_a = hk²·ζ` for all `ζ`, with the conjugate of every value
+`f_a(i, c)` carried by the weight representation of `δ_c` to a vector with integer coordinates, and `‖f_a‖²_σ ≤ hk²`
+for every `σ`.
 
 (b) Prove: `U_ϑ = n_GL·hk²·glue_ϑ∘glue_ϑ^*` is a comparison operator for `j`.
 
@@ -1709,7 +1728,7 @@ OneSidedPrimeSumBoundsAndAdmissibleData §1.2, §3.3, §4.1, §4.2; SecondMoment
   and the lifts of the main pairs (2.5); its §5.4 and §5.5 use steep parameters, which are in
   PairsOfFramesAtOnePlace §8.1; its §6.2 uses the cost of one lift (7.5 (d)).
 - CongruencesOfTwistedThetaLifts §2.2 uses the lift of a character from `U(1)` to `U(2z)` (2.1, 2.5); its §6.8 and §6.9
-  use the false lifts (1.3) and the denominator of a projection (1.4); its §7.3 uses the step from a denominator bound
+  use the false lifts (1.3) and the denominator of a projection (1.4); its §7.2 uses the step from a denominator bound
   on the line of a lift to the inner products of projected test forms (6.3 (b)).
 - SelmerBoundsForAnticyclotomicTwists §5.2 uses the integral algebraic part as an L-value and as an integral measure
   (2.5, 6.1) and the period of the determinant kernel with its Euler factors (2.7).
@@ -1769,9 +1788,13 @@ with determinant data).
 ### From other roadmaps
 
 CompositeThetaLiftsAndShortForms §2.1, §2.2 (local prime sums);
-SecondMomentsOfPoincareSeries §2.3 (`dim 𝒢(W_j) = dim 𝒯`); FiniteReductiveGroups §5.7
+SecondMomentsOfPoincareSeries §2.3 (`dim 𝒢(W_j) = dim 𝒯`), §5.7 (c) (`d_T > 0`); FiniteReductiveGroups §5.7
 (idempotents of labels); DiscreteSeriesCoefficientsAndAutomorphicMetrics §7.5a (class-set inner products and the
-Petersson product).
+Petersson product); SiegelWeilAndRallisFormulasOnUnitaryGroups §4.5 (the inner product formula for sharp data);
+HolomorphicDiscreteSeriesOfUnitaryGroups §4.1, §5.4, §5.5, §6.3, §6.4 (products of principal minors, bounds for `c_λ`,
+peaks of holomorphic forms); WeilRepresentationsOnBanachSpacesOfData §5.3, §5.4, §6.9, §8.10, §9.3 (data above a set of
+places, mixed models, vanishing of descents, Hecke polynomials through theta lifts);
+AdelicUnitaryGroupsAndAlgebraicModularForms §3.6 (the Iwasawa decomposition).
 
 ## References
 
@@ -1804,6 +1827,3 @@ Petersson product).
 - S. Yamana, *L-functions and theta correspondence for classical groups* (2014).
 - T. Yang, *Theta liftings and Hecke L-functions* (1997).
 - X. Zhang, *Special L-values and Selmer groups of Siegel modular forms of genus 2* (2018).
-
-The sources are those named in the heads of the files of `[ShortProof]` that this roadmap covers; its `REFERENCES.md`
-says which citations were compared with their sources.
