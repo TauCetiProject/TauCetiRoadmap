@@ -1106,7 +1106,7 @@ sets, positive functionals on `L∞(G, μ)` correspond to them by the same formu
 
 Prove that the correspondence is additive and monotone in both directions, so that it is an
 additive and order isomorphism for the pointwise sum and order of contents: the content of
-`M + M'` is the sum of the contents (`addContentLpTopEquiv_add_apply`), and `M ≤ M'` exactly when
+`M + M'` is the sum of the contents, and `M ≤ M'` exactly when
 the content of `M` is pointwise at most that of `M'` (`le_iff_addContentLpTopEquiv_le`). Order
 functionals by positivity of the difference, `M φ ≤ M' φ` for every `0 ≤ φ`. Pinned `AddContent`
 has no addition or order, so these are stated on values; package the `AddEquiv` and `OrderIso`
