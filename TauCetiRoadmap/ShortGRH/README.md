@@ -206,12 +206,14 @@ its heading and, after its statement, a `*Needs:*` line and a pointer to `[Short
   the ideas of its route, not its Lean.
 - `*Needs:*` names the sections that the statement rests on: bare ids for sections of the same
   roadmap, `<Roadmap> §k.n` for a section of another roadmap of this family, of
-  RiemannHypothesisForDirichletLFunctions or of another area. An entry `ShortGRH background (…)`
-  names, in words, a published result that `[ShortProof]` proves among its background results (its
-  folder `src/Lib`) and that no roadmap section states yet in the form used; the words in the
-  parenthesis say which form. Such an entry is a result still to be stated as a numbered target, in
-  an existing roadmap of the library or in a background roadmap of this family; it creates no
-  dependency in the umbrella until then.
+  RiemannHypothesisForDirichletLFunctions or of another area. An entry
+  `ShortGRH background (<form>; [ShortProof] <file> (<declarations>))` names a published result
+  that `[ShortProof]` proves among its background results (its folder `src/Lib`) and that no roadmap
+  section states yet in the form used. The words before the semicolon give the form that the route
+  uses, with its hypotheses; this is often weaker than the published theorem, and it is the form to
+  state. The pointer after the semicolon names where `[ShortProof]` proves it. Such an entry is a
+  result still to be stated as a numbered target, in an existing roadmap of the library or in a
+  background roadmap of this family; it creates no dependency in the umbrella until then.
 - The pointer, `[ShortProof], <file> (<declarations>)`, names where `[ShortProof]` proves the
   statement. A statement may be more general than the one `[ShortProof]` proves; it then says in a
   closing sentence which case `[ShortProof]` proves.
@@ -222,7 +224,7 @@ its heading and, after its statement, a `*Needs:*` line and a pointer to `[Short
 copied into the library: contributors prove the statements of the roadmaps themselves, and are
 free, as everywhere in Tau Ceti, to state a result in greater generality, to arrange it differently
 and to prove it by another route. The names and encodings of `[ShortProof]` appear in the roadmaps
-only in the pointers, which say where it proves a statement.
+only in the pointers, which say where it proves a statement or a background result.
 
 ## When a roadmap is wrong
 
@@ -263,7 +265,8 @@ lower bound.
 - [**One-sided prime sum bounds and admissible data**](OneSidedPrimeSumBoundsAndAdmissibleData/README.md):
   the one-sided criterion for a zero-free half-plane; colengths, heights and twisted lattices; the
   admissible data (fields, places, sizes, level and twists) and their existence; the prime sums;
-  the statements of Theorems A, B and C; the main inequality, the one-sided bound and the passage
+  the statements of Theorems A and B (Theorem C is stated with its proof in
+  DeterminantsOfThetaLiftChains §6.3); the main inequality, the one-sided bound and the passage
   from it to the end theorems.
 - [**Divisibility of derivatives of theta functions of CM lattices**](DivisibilityOfThetaDerivatives/README.md):
   the field `E` and its characters; the formal group and the exponential factor of the theta
