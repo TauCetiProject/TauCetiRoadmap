@@ -1,13 +1,14 @@
 import Mathlib
 import TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction
+import TauCeti.Topology.Covering.BalancedProduct.Basic
 
 /-!
 # Belyi maps, dessins d'enfants, and three-point covers: target signatures
 
 This file is not the roadmap; the roadmap is `README.md`. This file states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti, as far as the pinned carriers make
-them statable (Layer 13.5 is the one that is), states the induction adjunction of Layer 6.2,
-and declares the two group-theoretic lemmas of README §Pinned conventions that the
+them statable (Layer 13.5 is the one that is). It also states one supplementary target, the
+universal property of induction in Layer 6.2, and declares the two group-theoretic lemmas of README §Pinned conventions that the
 PeripheralActions roadmap consumes by name (`conjugation_transfer` and
 `opposite_third_peripheral`).
 
@@ -55,14 +56,19 @@ Tau Ceti revision `2fd255d997f4`, the revision README §Exact supplier contracts
   maximal extension of `ℚ̄(t)` unramified outside the three marked places, nor for the outer
   Galois action on it; each is a construction of the roadmap (README 12.5, 12.8), not a simple
   definition.
+* Layers 13.3 and 13.4 (the outer Galois action on the free pro-`ℓ` group of rank two is
+  peripheral of cyclotomic exponent). They need the descended outer action of Layer 13.1, which
+  rests on the carriers of Layers 12.5 and 12.8.
+
+## Supplementary targets not stated here
+
 * Layer 2.4's equivalence of the category of finite bipartite ribbon graphs with
   `Action FintypeCat (FreeGroup (Fin 2))`. It is data, and the pinned
   `TauCeti.BipartiteRibbonGraph` has `Hom` with identities and composition but no `Category`
   instance; the bijections it refines, `TauCeti.BipartiteRibbonGraph.isoClassEquiv` and
   `TauCeti.BipartiteRibbonGraph.autEquivAutomorphismGroup`, are Tau Ceti's.
-* Layers 13.3 and 13.4 (the outer Galois action on the free pro-`ℓ` group of rank two is
-  peripheral of cyclotomic exponent). They need the descended outer action of Layer 13.1, which
-  rests on the carriers of Layers 12.5 and 12.8.
+* Layer 6.2's induction functor and its adjunction with `Action.res`. They are data; the universal
+  property they rest on is `bijOn_balancedProduct_lift` below.
 -/
 
 namespace TauCetiRoadmap.BelyiMaps
@@ -96,12 +102,21 @@ theorem conjugation_transfer {G : Type u} [Group G] (φ : G ≃* G) (pow : G →
 
 /-! ## Layer 6: finite covers and their triples -/
 
-/-- **Layer 6.2, induction of `π₁`-sets.** For a subgroup `K` of a group `G`, restriction of
-`G`-sets to `K`-sets has a left adjoint, the balanced product `G ×_K Z` of `TauCeti.BalancedProduct`
-with `K` acting on `G` by right translation; the hom-equivalence sends a `G`-map `f` out of
-`G ×_K Z` to `z ↦ f ⟦1, z⟧`. -/
-theorem isRightAdjoint_res_subtype {G : Type u} [Group G] (K : Subgroup G) :
-    (Action.res (Type u) K.subtype).IsRightAdjoint := by
+/-- **Layer 6.2, the universal property of induction.** For a subgroup `K` of a group `G` and a
+`K`-set `Z`, the pinned `TauCeti.BalancedProduct K G Z` is the quotient of `G × Z` by
+`h • (g, z) = (h g, h • z)`, a `G`-set under `a • ⟦g, z⟧ = ⟦g a⁻¹, z⟧`; through
+`⟦g, z⟧ ↦ ⟦g⁻¹, z⟧` it is the balanced product `G ×_K Z` with `G` acting on the left factor.
+Restricting to `z ↦ ⟦1, z⟧` is a bijection from the `G`-maps out of it to a `G`-set `Y` onto the
+`K`-maps `Z → Y`, with inverse `ι ↦ (⟦g, z⟧ ↦ g⁻¹ • ι z)`. So `z ↦ ⟦1, z⟧` is a universal arrow
+from `Z` to restriction, and the balanced product is the value at `Z` of the left adjoint of
+`Action.res (Type u) K.subtype`, by `CategoryTheory.Adjunction.adjunctionOfEquivLeft`. -/
+theorem bijOn_balancedProduct_lift {G : Type u} [Group G] (K : Subgroup G) (Z : Type u)
+    [MulAction K Z] (Y : Type u) [MulAction G Y] :
+    Set.BijOn (fun (f : TauCeti.BalancedProduct K G Z → Y) (z : Z) ↦
+        f (TauCeti.BalancedProduct.mk K (1 : G) z))
+      {f | ∀ (a g : G) (z : Z), f (TauCeti.BalancedProduct.mk K (g * a⁻¹) z) =
+        a • f (TauCeti.BalancedProduct.mk K g z)}
+      {ι | ∀ (h : K) (z : Z), ι (h • z) = (h : G) • ι z} := by
   sorry
 
 /-! ## Layer 13: the pro-`ℓ` peripheral theorem and faithfulness -/

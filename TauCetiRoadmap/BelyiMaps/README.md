@@ -72,9 +72,9 @@ branched covers by their unbranched parts (7.7), analytic Riemann existence for 
 covers (8.6), Belyi's polynomial lemma (10.3), the existence of a Belyi map on a function field
 over an algebraic extension of `ℚ` (10.4), and the polynomial form of faithfulness (13.5).
 `Suggested.lean` states the headline theorems that remain, as far as the carriers of the Tau Ceti
-revision in `lake-manifest.json` make them statable; Layer 13.5 and the induction adjunction of
-6.2 are the ones that are, and the
-file's docstring names the headlines Tau Ceti proves and, for each of the others, what is
+revision in `lake-manifest.json` make them statable; Layer 13.5 is the one that is. The file
+also states the universal property of induction in 6.2, a supplementary target rather than a
+headline, and its docstring names the headlines Tau Ceti proves and, for each of the others, what is
 missing.
 
 What remains is:
@@ -619,9 +619,9 @@ is the one remaining headline with a native statement, `FaithfulSMul` of
 `AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ` on
 `TauCeti.AlgebraicBelyiPair.IsoClass (AlgebraicClosure ℚ)`; the file states it as
 `faithfulSMul_absoluteGaloisGroup_isoClass` and imports
-`TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction` for the action. The induction adjunction
-of 6.2, a supplementary target rather than a headline, is stated as
-`isRightAdjoint_res_subtype`.
+`TauCeti.FieldTheory.FunctionField.Belyi.GaloisAction` for the action. The universal property
+of induction in 6.2, a supplementary target rather than a headline, is stated as
+`bijOn_balancedProduct_lift`.
 
 ### Layer 0: permutation triples
 
@@ -1128,7 +1128,9 @@ equivariant edge map induces the vertex maps; it is essentially surjective by th
 2.2 applied to any finite action, the empty one included. Then `isoClassEquiv` is the induced
 bijection on isomorphism classes, through the actions of `FreeGroup (Fin 2)` on `Fin n` up to
 relabeling (the triples of Layer 0.2), and `autEquivAutomorphismGroup` is its effect on
-automorphism groups; connected graphs correspond to nonempty transitive actions.
+automorphism groups; connected graphs correspond to nonempty transitive actions. Source:
+Lando–Zvonkin, §1.3 and §1.5, which the pinned
+`TauCeti/Combinatorics/RibbonGraph/Classification.lean` cites for the bijection this refines.
 
 *Prerequisites:* Layers 2.1–2.4; Mathlib `Action`, `FintypeCat`, `FreeGroup`.
 
@@ -2482,14 +2484,19 @@ supplied. Owned here, each a target of this milestone:
   that triple.
 - *Edge cases.* `S` empty, where the cover is empty; `S` with a non-transitive action, where
   the cover is disconnected and decomposes as the coproduct over the orbits.
-- *Induction of `π₁`-sets.* For a subgroup `K` of a group `G` (here `G = π₁(X, x)`), the
-  balanced product `G ×_K Z`, the pinned `TauCeti.BalancedProduct` with `K` acting on `G` by right
-  translation `h • g = g h⁻¹` through a type synonym and `G` acting on the left factor, is a
-  functor `Action (Type u) K ⥤ Action (Type u) G` left adjoint to Mathlib's restriction
-  `Action.res (Type u) K.subtype` (`isRightAdjoint_res_subtype` in `Suggested.lean`). The
-  hom-equivalence sends a `G`-map `f` to `z ↦ f ⟦1, z⟧`, with inverse `ι ↦ (⟦g, z⟧ ↦ g • ι z)`.
-  Tau Ceti main, after the pin, has the right-translation synonym and this bijection for one `Z`;
-  the functor, the naturality and the adjunction remain. *Checks:* `Z` a point gives `G ⧸ K`;
+- *Induction of `π₁`-sets.* For a subgroup `K` of a group `G` (here `G = π₁(X, x)`) and a
+  `K`-set `Z`, the balanced product `G ×_K Z`, the quotient of `G × Z` by
+  `(g, z) ∼ (g h, h⁻¹ • z)` with `G` acting on the left factor, is the value at `Z` of a functor
+  `Action (Type u) K ⥤ Action (Type u) G` left adjoint to Mathlib's restriction
+  `Action.res (Type u) K.subtype`. The hom-equivalence sends a `G`-map `f` to `z ↦ f ⟦1, z⟧`,
+  with inverse `ι ↦ (⟦g, z⟧ ↦ g • ι z)`. At the pin, `TauCeti.BalancedProduct K G Z` is the
+  quotient by `h • (g, z) = (h g, h • z)`, which is `G ×_K Z` through `⟦g, z⟧ ↦ ⟦g⁻¹, z⟧`; there
+  the bijection says that `z ↦ ⟦1, z⟧` is a universal arrow from `Z` to restriction
+  (`bijOn_balancedProduct_lift` in `Suggested.lean`), and Mathlib's
+  `CategoryTheory.Adjunction.adjunctionOfEquivLeft` assembles these arrows into the functor and
+  the adjunction. That restriction has some left adjoint is already Mathlib's, by left Kan
+  extension (`CategoryTheory.Functor.lanAdjunction`); the target is that the balanced product is
+  it. Induced `G`-sets are standard and no source locator is cited. *Checks:* `Z` a point gives `G ⧸ K`;
   `Z = K` by left translation gives `G` by left translation; `K = G` gives `Z` back, the unit
   `z ↦ ⟦1, z⟧` being then a bijection.
 - *Downstream interfaces.* Layers 6.3, 6.5, 7.2.
