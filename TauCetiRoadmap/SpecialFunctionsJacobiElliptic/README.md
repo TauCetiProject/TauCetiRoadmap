@@ -512,15 +512,18 @@ The theta constants of SpecialFunctionsTheta 2.4, `θ₃²(0|τ) = θ₃²(0|2τ
 of the right side of the second law; two meromorphic functions with equal squares agree up to a
 constant sign, which is `+` at `u = 0`. The first law is `sc · cn`, and the third follows from
 `dn² = 1 − k² sn²` in the same way. The modulus form: for `k² ∉ {0, 1}` the two roots `k′`
-correspond to two values of `τ` with the same `λ` but different `λ(2τ)`, and 3.2 and 3.4 apply
-to each; at `k = 0` and `k² = 1` no `τ` exists, and the laws are identities between the circular
-and the hyperbolic rows of 3.4.
+give `k₁` and `1/k₁` and correspond to two values of `τ` with the same `λ` and with
+`λ(2τ) = k₁²` and `1/k₁²`, which differ except at `k² = 2` (`k′ = ±i`, `k₁ = ∓i`); 3.2 and 3.4
+apply to each. At `k = 0` and `k² = 1` no `τ` exists, and the laws are identities within the
+circular row of 3.4 at `k = 0` and within its hyperbolic row at `k² = 1`.
 
 **Checks.**
 - `k(2τ) = (1 − k′(τ))/(1 + k′(τ))` and `(1 + k₁)K(2τ) = K(τ)` at `τ = 0.3 + 0.8i`, `−1.2 + 0.5i`,
   `0.55 + 1.4i`; the three laws there to `2 · 10⁻²⁹`.
 - In the modulus form at `k = 0.6`, `0.5 + 0.3i`, `1.3 + 0.4i`, both roots `±k′` give the left
   side to `10⁻²⁹`.
+- At `k = √2` both roots `k′ = ±i` give `k₁² = −1` (`k₁ = ∓i`), with `w = 0.08 + 0.29i` and
+  `0.29 − 0.08i` at `u = 0.37 + 0.21i`; the three laws hold for each, to `3 · 10⁻³¹`.
 - `1 + k₁ − dn²(w|2τ) = k₁(1 + k₁ sn²(w|2τ))` at `u = 0.37 + 0.21i` and the three test values of
   `τ`, to `10⁻³⁰`.
 - `k = 1` (`k′ = 0`, `k₁ = 1`, `w = u/2`) at `u = 0.37 + 0.21i`: `tanh u` and
@@ -540,7 +543,8 @@ and the hyperbolic rows of 3.4.
 - In the modulus form, for `k ≠ −1`, and `k ≠ 0` for the second and third laws (there `k₂ = 0`),
   with `k₂ = 2k^{1/2}/(1 + k)` for either root `k^{1/2}`, and `k₂′ = (1 − k)/(1 + k)`, the
   quotient of DLMF 22.7.5; the other root of `1 − k₂²` fails (Checks). At `k² ∉ {0, 1}` by 3.2
-  and 3.4 as in 4.4; at `k = 0` and `k = 1` by the circular and hyperbolic rows of 3.4.
+  and 3.4 as in 4.4; at `k = 0` and `k = 1` they are identities within the circular row of 3.4 at
+`k = 0` and within its hyperbolic row at `k = 1`.
 
 The first pair of quotients of SpecialFunctionsTheta 4.4 at `τ/2`,
 `θ₁(z|τ/2)θ₂(z|τ/2)/θ₁(2z|τ) = θ₃(z|τ/2)θ₄(z|τ/2)/θ₄(2z|τ)`, at `z = w/θ₃²(0|τ/2)` gives the first
