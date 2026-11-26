@@ -2441,7 +2441,9 @@ Tate's theorem. With the local terms (finite places from ClassFieldTheory, archi
 unramified classes as exact annihilators, the restricted products `Pʳ_S` and their self-duality) it
 proves the Poitou–Tate nine-term sequence, finiteness of `Hⁱ(G_S, M)` for finite `S`, the bound on
 `cd_ℓ G_S`, surjectivity onto finitely many local `H²`, the high-degree cohomology of the `S`-units
-and Tate's global Euler characteristic formula. It then gives the function-field counterparts
+and Tate's global Euler characteristic formula. Without duality it also shows, for finite `S`, that
+all `1`-cocycles with values in modules of one exponent on which one open subgroup acts trivially
+vanish on a single open normal subgroup of `G_S`. It then gives the function-field counterparts
 (nonempty `S`, coefficients prime to the characteristic), the finite compactly supported cochain
 complex, all-place `Ш` duality with its transfer adjunction, Grunwald–Wang with its exact dyadic
 obstruction, roots of characters and their local Brauer obstructions, totally real base change with
@@ -3077,6 +3079,80 @@ NoncommutativeAndEquivariantIwasawa §F.3 (`arithmeticPoitouTate`).
   order.
 
 ### R02.4.4 Finiteness, cohomological dimension and the Euler characteristic
+
+**Uniform vanishing of cocycles of bounded exponent.** Let `S` be a finite set of places of the
+number field `K` containing the archimedean places, `U` an open subgroup of `G_S` and `m ≥ 1`. Then
+there is an open normal subgroup `N` of `G_S` contained in `U` such that, for every discrete
+`G_S`-module `B` with `mB = 0` on which `U` acts trivially, every continuous `1`-cocycle
+`f : G_S → B` vanishes on `N`. Such an `f` is constant on the cosets of `N` and is the inflation of
+a `1`-cocycle of the finite group `G_S/N` with values in `B`, on which `G_S/N` acts because
+`N ⊆ U`; hence inflation `H¹(G_S/N, B) → H¹(G_S, B)` is an isomorphism for all these `B` at once,
+finite or not. Explicitly, let `L ⊆ K_S` be the fixed field of `U` and `V ⊆ U` the subgroup fixing
+the compositum of the abelian extensions of `L` of exponent dividing `m` that are unramified at
+every finite place of `L` not above `S`; this compositum is finite over `L`, and the normal core
+`⋂_{g∈G_S} gVg⁻¹` is such an `N`. It depends only on `K`, `S`, `U` and `m`. For `m = 2` the
+compositum is the field `L(T)` of *Exponent-two ramification fields* (Layer R02.3), with `T` the
+set of finite places of `L` above `S`. For finite `B` this
+refines *Finiteness of `H¹(G_{K,S}, M)`* (Layer R02.3), which it uses for the coefficients `ℤ/m`
+over `L`. Unlike *Finiteness of Galois cohomology with restricted ramification* below, which gives
+finiteness in every degree through Poitou–Tate duality when the order of `M` is a unit in `R_{K,S}`,
+this statement concerns degree one, puts no condition on the order of `B`, uses no duality and is
+uniform in `B`.
+
+The same holds over a global function field `F` of characteristic `ℓ`, for `G_{F,S}` with `S` a
+nonempty finite set of places of `F`, `U` an open subgroup of `G_{F,S}` and `m` prime to `ℓ`. For
+finite `B` of order prime to `ℓ` it gives, without duality, the finiteness of `H¹(G_{F,S}, B)`
+contained in *Prime-to-characteristic function-field Poitou–Tate duality*. For `ℓ ∣ m` the
+statement is false (Check).
+
+*Proof sketch.* The fixed field `L` of `U` is finite over `K`, `L_S = K_S` and `U = G_{L,S}`
+(*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*). By *Finiteness of
+`H¹(G_{K,S}, M)`* over `L` with trivial coefficients `ℤ/m`, the group `Hom_cont(U, ℤ/m)` is finite,
+so the intersection `V` of the kernels of its elements is open and normal in `U`; its fixed field is
+the compositum above, which is therefore finite over `L`. An open subgroup has finitely many
+conjugates, so `N = ⋂_{g∈G_S} gVg⁻¹` is open and normal in `G_S`, and `N ⊆ V ⊆ U`. Let `B` and `f`
+be given. For `σ, τ ∈ U` the cocycle identity gives `f(στ) = f(σ) + σf(τ) = f(σ) + f(τ)`, so `f|_U`
+is a continuous homomorphism. Its image is finite, being compact in a discrete group, and killed by
+`m`, so it embeds in `(ℤ/m)^r` for some `r`; thus `ker(f|_U)` is an intersection of kernels of
+elements of `Hom_cont(U, ℤ/m)`, and `f(V) = 0`. For `n ∈ N` and `σ ∈ G_S`,
+`f(σn) = f(σ) + σf(n) = f(σ)` and `f(nσ) = f(n) + nf(σ) = f(σ)`, so `f` descends to a cocycle of
+`G_S/N`. Inflation on `H¹` is injective by inflation–restriction (ProfiniteCohomology Layer 5) and
+onto by what precedes.
+
+Over a function field the argument is the same once `Hom_cont(G_{L,S}, ℤ/m)` is finite for every
+finite extension `L` of `F` inside `F_S` and `ℓ ∤ m`. An extension of `L` unramified outside the
+places above `S` is unramified outside `S` over `F`, so `L_S = F_S` and the open subgroup fixing `L`
+is `G_{L,S}`. By *The class formation of a global function field*, the reciprocity map
+`rec : C_S(L) → G_{L,S}^ab` has cokernel `Ẑ/ℤ`, which is divisible (`Ẑ = ℤ + kẐ` for every
+`k ≥ 1`), so `χ ↦ χ ∘ rec` embeds `Hom_cont(G_{L,S}, ℤ/m)` in `Hom(C_S(L)/m, ℤ/m)`. In the exact
+sequence `0 → C_{L,S} → C_S(L) → Cl_S(L) → 0` of *Function-field places, ideles and `S`-units*,
+`Cl_S(L)` is finite and `C_{L,S}` is a quotient of `∏_{w∈S} L_wˣ`. Each `L_wˣ` is isomorphic to
+`ℤ × k_wˣ × (1 + 𝔪_w)`, with `k_w` the finite residue field and `1 + 𝔪_w` the principal units, a
+pro-`ℓ` group on which `x ↦ x^m` is bijective; so `L_wˣ/(L_wˣ)^m` is finite, and hence so is
+`C_S(L)/m`. *Needs:* *The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*
+(Layer R02.3); *Finiteness of `H¹(G_{K,S}, M)`* (Layer R02.3); *Function-field places, ideles and
+`S`-units* (Layer R02.3); *Restricted ramification over a global function field* (Layer R02.3);
+*The class formation of a global function field* (Layer R02.3); ProfiniteCohomology Layer 5.
+
+**Checks.**
+
+- `K = ℚ`, `S = {2, ∞}`, `m = 2`, `U = G_S`: the quadratic characters of `G_S` are those of `ℚ(i)`,
+  `ℚ(√2)` and `ℚ(√−2)` (Check of *Finiteness of `H¹(G_{K,S}, M)`*), so `N = Gal(K_S/ℚ(i, √2))`
+  works, and `B = ℤ/2` shows that no larger `N` does. For `B = ⊕_ℕ ℤ/2` with trivial action,
+  `H¹(G_S, B) = Hom_cont(G_S, B) ≅ B ⊕ B` is infinite, yet every cocycle vanishes on this one `N`:
+  the uniform statement does not reduce to finiteness of each `H¹(G_S, B)`, which fails here.
+- The exponent must be fixed: with the same `K`, `S` and `U`, for `n ≥ 1` the character
+  `G_S → Gal(ℚ(ζ_{2^{n+2}})/ℚ)/{±1} ≅ ℤ/2ⁿ` is a cocycle with values in `B = ℤ/2ⁿ`, and its kernel
+  fixes the real cyclotomic field of degree `2ⁿ`. An open `N` lies in such a kernel only when
+  `2ⁿ ≤ [G_S : N]`, so no single `N` serves every `m = 2ⁿ`.
+- Degenerate case `m = 1`: then `B = 0`, `Hom_cont(U, ℤ/1) = 0` gives `V = U`, and the normal core
+  `⋂_g gUg⁻¹` is a valid `N`.
+- The function-field case needs `ℓ ∤ m`: for `F = 𝔽_p(t)`, `S = {∞}`, `m = p`, `U = G_{F,S}` and
+  `B = ℤ/p`, the Artin–Schreier characters of `y^p − y = t^j`, `j ≥ 1` prime to `p`, are unramified
+  outside `∞` and linearly independent. Indeed, if `Σ c_j t^j = g^p − g` with `c_j ∈ 𝔽_p` and
+  `g ∈ F`, then `g` has no finite pole, so `g ∈ 𝔽_p[t]`; a nonconstant `g` would put a term of
+  degree `p · deg g`, divisible by `p`, on the right, so `g ∈ 𝔽_p` and every `c_j` is `0`. Thus
+  `Hom_cont(G_{F,S}, ℤ/p)` is infinite and no open `N` lies in all their kernels.
 
 **Finiteness of Galois cohomology with restricted ramification.** Let `S` be finite and `M` a finite
 `G_S`-module whose order is a unit in `R_{K,S}`. Then `H^r(G_S, M)` is finite for every `r`
@@ -4250,7 +4326,8 @@ its supplied comparison of §1.1 derived limits with the §1.T.1 tower API. Usin
 from DerivedModuleAlgebra §§1.M.1–1.M.2, it proves Grothendieck local duality for a normalised dualizing complex, the spectral
 sequence of a composite of derived functors, flatness of continuous functions into an adic ring, and specialises the Hilbert–Samuel
 multiplicity of PadicLocalLanglandsForGL2Qp §0.5 to the Euler function. It then defines admissible and ind-admissible coefficients, the derived continuous
-cochain functor with its finiteness and base-change properties, the compact Hochschild–Serre
+cochain functor with its finiteness and base-change properties, the degreewise tensor comparison
+of continuous cochains for every profinite group, the compact Hochschild–Serre
 spectral sequence, the local duality morphisms with their invariant trivialisation, compactly
 supported cochains with their cup products and Euler–Poincaré characteristic, and derived
 Poitou–Tate duality, including the case `p = 2` with real places, where compactly supported
@@ -4921,14 +4998,89 @@ IntegralIwasawaTheory §10.0 (`compactArithmeticShapiro`).
 - For `H = 1` in `G = ℤ_p` the coset space is infinite, and `∏_{G/H} T` with the product topology
   is not `C(G, T)` (it contains discontinuous functions); this is why `H` is open.
 
+**Cochain tensor comparison for profinite groups.** Let `A` be a complete Noetherian local ring
+with maximal ideal `𝔪` and finite residue field, `G` a profinite group, and `ρ` a finitely
+generated `A`-module with an `A`-linear action of `G` that is continuous for the `𝔪`-adic topology
+of `ρ`. Let `M` be a finitely generated `A`-module with trivial action, and let `G` act on
+`ρ ⊗_A M` through `ρ`, by `g(r ⊗ m) = gr ⊗ m`; this action is continuous for the `𝔪`-adic topology
+of `ρ ⊗_A M`. For every `n ≥ 0` the map
+
+```text
+Cⁿ_cts(G, ρ) ⊗_A M → Cⁿ_cts(G, ρ ⊗_A M),   c ⊗ m ↦ ((g₁, …, gₙ) ↦ c(g₁, …, gₙ) ⊗ m),
+```
+
+is an isomorphism of `A`-modules. These maps commute with the differentials, so they form an
+isomorphism of complexes `C_cts(G, ρ) ⊗_A M ≅ C_cts(G, ρ ⊗_A M)`, natural in `M` and in
+`G`-equivariant `A`-linear maps `ρ → ρ′`. If `ρ` is free, every `Cⁿ_cts(G, ρ)` is a flat
+`A`-module. Taking `M = A/I` for an ideal `I` of `A` gives an isomorphism of complexes
+`C_cts(G, ρ)/I·C_cts(G, ρ) ≅ C_cts(G, ρ/Iρ)`, where the `𝔪`-adic topology of `ρ/Iρ` is its
+quotient topology. A module of finite length is finitely generated, and it is finite and discrete
+in its `𝔪`-adic topology, so these coefficients are included.
+
+The complexes are those of *Continuous cochains in the derived category*. For a flat `A`-module
+`N` with trivial action, not necessarily finitely generated, and every ind-admissible `A[G]`-module
+`X` in place of `ρ`, the same formula gives an isomorphism of complexes
+`C_cts(G, X) ⊗_A N ≅ C_cts(G, X ⊗_A N)`, where the target is the ind-admissible complex, the
+colimit over finitely generated stable submodules, so that no topology on `N` enters (Nekovář
+3.4.4). Continuous cochains with values in a module that is not finitely generated, for a topology
+of its own, form a different complex, and the map into it need not be onto (Check). The statement
+is degreewise. It gives neither finite generation of the cohomology nor perfectness of
+`C_cts(G, ρ)`, a complex that is nonzero in every degree `n ≥ 0` when `ρ ≠ 0`. *Cohomological
+finiteness and perfect amplitude* proves the first under the condition (F) and the second, for free
+`ρ`, under (F) and a bound on `cd_p(G)`, `p` the residue characteristic. Nor does it give derived
+base change `M ⊗^L_A RΓ_cts(G, ρ) ≅ RΓ_cts(G, ρ ⊗_A M)`. For `ρ` not free this fails already for
+the trivial group: `ρ = M = A/𝔪` with `𝔪 ≠ 0` gives `Tor₁^A(A/𝔪, A/𝔪) = 𝔪/𝔪² ≠ 0` in degree `−1`
+on the left and `0` on the right. For free `ρ` and `M` of finite projective dimension it holds, by
+tensoring with a finite free resolution of `M`; for free `ρ` and general `M` it can fail when
+`cd_p(G)` is infinite (Check).
+
+*Proof sketch.* Fix `n` and put `Y = Gⁿ`, a profinite set (a point for `n = 0`), so that
+`Cⁿ_cts(G, −) = C(Y, −)`. *Adic continuous-map flatness* for the finitely generated modules `ρ`
+and `ρ ⊗_A M` gives isomorphisms `C(Y, A) ⊗_A ρ ≅ C(Y, ρ)` and
+`C(Y, A) ⊗_A (ρ ⊗_A M) ≅ C(Y, ρ ⊗_A M)`; the displayed map is the second composed with the inverse
+of the first tensored with `M`, hence bijective. For `ρ ≅ A^r`, `C(Y, ρ) ≅ C(Y, A)^r` is flat
+because `C(Y, A)` is. The action on `ρ ⊗_A M` is continuous: for each `k` an open subgroup acts
+trivially on `ρ/𝔪ᵏρ`, hence on `(ρ ⊗_A M)/𝔪ᵏ(ρ ⊗_A M) = ρ/𝔪ᵏρ ⊗_A M`. Since `g₁` acts on
+`ρ ⊗_A M` through `ρ`, the formula carries `dc ⊗ m` to the differential of the image of `c ⊗ m`.
+A module of finite length is killed by some `𝔪ᵏ`, so its adic topology is discrete, and it is
+finite because the residue field is. For flat `N`, write `N` as a filtered colimit of finite free
+modules (Lazard) and use that both sides commute with filtered colimits, as in Nekovář's proof.
+(Nekovář, *Selmer complexes*, §3.4.1, pp. 82–83, and Proposition 3.4.4 with its proof, p. 84.)
+*Needs:* *Adic continuous-map flatness*; *Admissible compact and cofinite coefficients*;
+*Continuous cochains in the derived category*.
+
+**Checks.**
+
+- `M = A` gives the identity of `C_cts(G, ρ)`. For finite `G` the map is an isomorphism for every
+  `A`-module `M`, with any topology, since `Cⁿ_cts(G, −)` is then the finite product over `Gⁿ`.
+- Flatness needs `ρ` free: for `G` trivial every `Cⁿ_cts(G, ρ)` is `ρ` (maps from a point), and
+  `ρ = A/𝔪` is not flat unless `A` is a field.
+- Finite generation of `M` is needed as soon as `G` is infinite. Choose open subgroups
+  `G = U₀ ⊋ U₁ ⊋ ⋯` (each `Uₙ` is infinite, so it has a proper open subgroup), take `ρ = A` and
+  `M = A⟦T⟧` with trivial action and its `(𝔪, T)`-adic topology, and let `f(g) = Tⁿ` for
+  `g ∈ Uₙ ∖ Uₙ₊₁` and `f(g) = 0` for `g ∈ ⋂ₙ Uₙ`. Then `f` is a
+  continuous `1`-cochain whose values span `A[T]`, which lies in no finitely generated
+  `A`-submodule, while every element of `C¹_cts(G, A) ⊗_A M` takes values in a finitely generated
+  submodule. Since `A⟦T⟧` is flat over `A`, the ind-admissible complex `C_cts(G, A⟦T⟧)` is
+  `C_cts(G, A) ⊗_A A⟦T⟧`, which does not contain `f`.
+- Derived base change can fail: let `G = C₂ = ⟨σ⟩`, `A = 𝔽₂[ε]/(ε²)` and `ρ = A` with `σ` acting
+  by `1 + ε`. As `σ − 1 = σ + 1 = ε` on `ρ`, the periodic resolution of `ℤ` over `ℤ[C₂]` makes
+  `C_cts(G, ρ)` homotopy equivalent to `A → A → A → ⋯` in degrees `≥ 0`, each map multiplication by
+  `ε`; so `RΓ_cts(G, ρ) ≃ εA[0] ≅ 𝔽₂[0]`, and `H¹(𝔽₂ ⊗^L_A RΓ_cts(G, ρ)) = 0` because the groups
+  `Tor_i^A(𝔽₂, 𝔽₂) = 𝔽₂` lie in degrees `−i ≤ 0`. The degreewise isomorphism gives
+  `C_cts(G, ρ) ⊗_A 𝔽₂ ≅ C_cts(G, 𝔽₂)`, whose `H¹ = Hom(C₂, 𝔽₂) = 𝔽₂` is not zero: this
+  bounded-below complex of finite free modules does not compute the derived tensor product.
+
 **Nakamura cochain tensor comparisons.** Let `G = G_{ℚ,Σ}` for a finite set of places `Σ` containing
 `p` and `∞`, or `G = G_{ℚ_ℓ}`. Let `A` be a complete Noetherian local `O`-algebra with finite residue
-field (`O` the ring of integers of a finite extension of `ℚ_p`), and `ρ` a finite free `A`-module
-with continuous `G`-action. For every finitely generated `A`-module `M`, the natural degreewise map
-`C_cts(G, ρ) ⊗_A M → C_cts(G, ρ ⊗_A M)` is an isomorphism, and the cochain modules are flat over
-`A`. Let `P = ∏_I A` be pro-free, with its product topology, and suppose that `C_cts(G, ρ)` is
-perfect, that is, that there is a quasi-isomorphism `N → C_cts(G, ρ)` from a bounded complex `N` of
-finite projective `A`-modules. This holds for `G = G_{ℚ_ℓ}`, and for `G = G_{ℚ,Σ}` when `p` is odd,
+field (`O` the ring of integers of a finite extension of `ℚ_p`), `ρ` a finite free `A`-module
+with continuous `G`-action and `M` a finitely generated `A`-module. The degreewise isomorphism
+`C_cts(G, ρ) ⊗_A M ≅ C_cts(G, ρ ⊗_A M)` and the flatness of the cochain modules over `A` are
+*Cochain tensor comparison for profinite groups*, which holds for every profinite group; the rest
+of this statement depends on `G`. Let `P = ∏_I A` be pro-free, with its product topology, and
+suppose that `C_cts(G, ρ)` is perfect, that is, that there is a quasi-isomorphism
+`N → C_cts(G, ρ)` from a bounded complex `N` of finite projective `A`-modules. This holds for
+`G = G_{ℚ_ℓ}`, and for `G = G_{ℚ,Σ}` when `p` is odd,
 by *Cohomological finiteness and perfect amplitude*. For `p = 2` real places can make global
 cohomology unbounded, so perfectness remains an explicit hypothesis in the global case, as in
 Nakamura's Lemma B.31; it can hold for particular `ρ` (Checks). Under it,
@@ -4937,22 +5089,19 @@ tensor topology of the source on the target coefficients. For smooth
 admissible `Γ`-modules the comparison passes through the filtered union of their fixed parts, which
 are finitely generated over `A`, as in Corollary B.32.
 
-*Proof sketch.* Apply *Adic continuous-map flatness* degreewise with `K = Gⁿ`, which uses that `M`
-is finitely generated with its adic topology, and compare with the cochain model of *Continuous
-cochains in the derived category*. For pro-free coefficients use the bounded projective model and
-pro-free flatness, then compare each specialisation to a finite module. For smooth admissible
+*Proof sketch.* The degreewise statements are *Cochain tensor comparison for profinite groups*. For
+pro-free coefficients use the bounded projective model and pro-free flatness, then compare each
+specialisation to a finite module through that comparison. For smooth admissible
 modules take exact filtered colimits of their finitely generated fixed parts. ([Nakamura, *Zeta
 morphisms for rank two universal deformations*](https://arxiv.org/pdf/2006.13647), Appendix B,
 Lemmas B.29–B.31 and Corollary B.32, author pp. 104–106; journal pp. 285–288.) *Needs:* *Continuous
 cochains in the derived category*; *Cohomological finiteness and perfect amplitude*; *Completed
 tensor products and finite reductions* (Layer R02.1); *Derived tensor, perfect amplitude and Tor*;
-*Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1); *Adic continuous-map flatness*;
-*Compact Shapiro and projection formulas*.
+*Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1); *Cochain tensor
+comparison for profinite groups*; *Compact Shapiro and projection formulas*.
 
 **Checks.**
 
-- `M = A` gives the identity.
-- `M = A/I` gives the reduction `C_cts(G, ρ)/I ≅ C_cts(G, ρ/Iρ)`.
 - For `p = 2`, `Σ = {2,∞}` and trivial `ρ = ℤ₂`, restriction gives
   `H^{2j}(G_{ℚ,Σ},ℤ₂) = H^{2j}(ℝ,ℤ₂) = ℤ/2` for every `j ≥ 2`; this complex is unbounded
   and not perfect.
@@ -4961,9 +5110,6 @@ tensor products and finite reductions* (Layer R02.1); *Derived tensor, perfect a
   `RΓ_cts(G,ρ) ≃ RΓ_cts(H,ℤ₂)` by compact Shapiro, perfect with amplitude in `[0,2]`
   since `F` is totally imaginary. Its real restriction is the regular `ℤ₂[C₂]` module,
   whose Tate cohomology vanishes in every degree.
-- For `A = ℤ_p`, `ρ = ℤ_p` with trivial action and `M = ℤ_p[[T]]` (not finitely generated), the
-  degree-one map is not surjective: a continuous `f : G → ℤ_p[[T]]` taking the value `Tⁿ` on
-  `U_n ∖ U_{n+1}` for a decreasing basis `(U_n)` of open subgroups has values spanning `ℤ_p[T]`.
 
 ### D7.4 Derived local duality
 
@@ -6993,8 +7139,9 @@ the Euler characteristic prime to the characteristic, the global class formation
 relative `Шⁱ` and the cyclotomic power kernel; exponent-two ramification fields, quadratic fields with one new ramified prime, the
 antiunit class-field rank and the absence of `ℤ_p`-extensions unramified at `p`. Ext of discrete
 modules, Tate's duality for a `P`-class formation and for the `S`-idele classes, archimedean local
-duality, the restricted products `Pʳ_S` and their self-duality, Poitou–Tate duality, global
-finiteness, cohomological dimension, high-degree cohomology of units, the decomposition map, the
+duality, the restricted products `Pʳ_S` and their self-duality, Poitou–Tate duality, uniform
+vanishing of cocycles of bounded exponent, global finiteness, cohomological dimension,
+high-degree cohomology of units, the decomposition map, the
 rationalized modular Artin theorem (a corollary of RepresentationTheory/ModularInduction), the global Euler characteristic, the function-field
 Poitou–Tate and Euler theorems, finite compact support, all-place `Ш` duality with transfer
 adjunction, Grunwald–Wang with its dyadic obstruction (ClassFieldTheory expressly leaves it out),
@@ -7006,7 +7153,8 @@ the restriction-of-scalars specialization of the supplied module-derived limit c
 local duality for complete local rings, the derived composite spectral sequence, flatness of adic continuous
 functions, and the Hilbert–Samuel Euler function as the maximal-ideal case of the multiplicity owned by
 PadicLocalLanglandsForGL2Qp §0.5); admissible coefficients, continuous cochains in the
-derived category with finiteness and base change, compact Shapiro and Künneth statements, derived
+derived category with finiteness and base change, the cochain tensor comparison for profinite
+groups, compact Shapiro and Künneth statements, derived
 local duality, compactly supported cochains with their cup products and Euler characteristic,
 derived Poitou–Tate duality including the dyadic case with real places, lattice and rational
 Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field, local
