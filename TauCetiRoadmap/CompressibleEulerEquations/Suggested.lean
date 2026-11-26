@@ -20,7 +20,7 @@ stays constant on slabs (README §1.3) and on developments (README §8.1), so ev
 about the full system contains the barotropic one. A quasilinear
 symmetric hyperbolic system is `QuasilinearSystem`. Causal curves, past-inextendibility, causal
 pasts and future domains of dependence of a cone field are the time-parametrised notions of
-README §§3.2–3.3, to which LorentzianGeometry §12.6 reduces its notions for the acoustical field;
+README §§3.2–3.3, to which LorentzianGeometry §7.6 reduces its notions for the acoustical field;
 they are restated here only because the pins have none. The Sobolev space `Hᵏ_Λ` is measured by
 `sobolevNormSq` over a fundamental domain of the period group, with Tau Ceti's
 `TauCeti.HasWeakLineDerivOn` for the weak derivatives.
@@ -167,7 +167,7 @@ def IsHalfSpaceDomain (t₀ : ℝ) (D : Set (ℝ × 𝔼 n)) : Prop :=
 `J` (a single point allowed) and a map `x`, locally Lipschitz on `J`, with `(t, x t) ∈ D` for
 `t ∈ J`, such that at almost every `t ∈ J` the map `x` is differentiable within `J` and
 `|ẋ(t) − w(t, x(t))| ≤ c(t, x(t))`. For the acoustical field this is the form to which
-LorentzianGeometry §12.6 reduces its future causal curves in a subset. -/
+LorentzianGeometry §7.6 reduces its future causal curves in a subset. -/
 def IsCausalCurve (κ : ℝ × 𝔼 n → ℝ × 𝔼 n) (D : Set (ℝ × 𝔼 n)) (J : Set ℝ) (x : ℝ → 𝔼 n) :
     Prop :=
   J.OrdConnected ∧ (∀ t ∈ J, (t, x t) ∈ D) ∧ LocallyLipschitzOn J x ∧
@@ -180,7 +180,7 @@ def IsPastCausalCurve (κ : ℝ × 𝔼 n → ℝ × 𝔼 n) (D : Set (ℝ × �
     (x : ℝ → 𝔼 n) : Prop :=
   IsCausalCurve κ D J x ∧ IsGreatest J p.1 ∧ x p.1 = p.2
 
-/-- Past-inextendibility in `D`, in the extension form of §3.3 and LorentzianGeometry §12.6: no
+/-- Past-inextendibility in `D`, in the extension form of §3.3 and LorentzianGeometry §7.6: no
 past causal curve in `D` ending at `p`, on an interval containing `J`, agrees with `x` on `J`
 unless its interval is `J`. -/
 def IsPastInextendible (κ : ℝ × 𝔼 n → ℝ × 𝔼 n) (D : Set (ℝ × 𝔼 n)) (p : ℝ × 𝔼 n) (J : Set ℝ)

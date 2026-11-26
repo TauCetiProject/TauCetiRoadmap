@@ -62,7 +62,7 @@ identification in §3.1, §2.2, and can be built in parallel with Layers 4 and 5
 proves local uniqueness on lens-shaped domains and uniqueness on domains of dependence (Layers
 2, 3 and 5). Layer 7 is local well-posedness (Layers 2 and 4–6, Layer 1 for the Euler statement,
 and §3.3 for uniformly local data). Layer 8 is the theory of developments (Layers 1–3, 6 and 7,
-and LorentzianGeometry §12.6).
+and LorentzianGeometry §7.6).
 The headline theorems, which the acceptance test `Suggested.lean` states, are uniqueness on
 lens-shaped domains and on domains of dependence (§6.1 `QuasilinearSystem.eqOn_lens`, §6.2
 `QuasilinearSystem.eqOn_causalPast`); local well-posedness of quasilinear symmetric hyperbolic
@@ -80,7 +80,7 @@ barotropic ones are their case of a law `P(ρ, s) = p(ρ)` and constant entropy 
 definitions they need are the equation of state and the Euler system (§§1.1, 1.3), the
 quasilinear symmetric hyperbolic system with its symbol and dominating cones (§2.1), the causal
 curves, causal pasts and future domains of dependence of a cone field in the time-parametrised
-form to which LorentzianGeometry §12.6 reduces its notions (§§3.2–3.3), the norm of `Hᵏ_Λ`
+form to which LorentzianGeometry §7.6 reduces its notions (§§3.2–3.3), the norm of `Hᵏ_Λ`
 (§4.1), the lens function (§6.1), and the development (§8.1).
 
 ## Conventions
@@ -146,8 +146,8 @@ increasing `t`. Witness, `n = 1`, `c = 1`, `v = 0`: `(1, 1/2)` has `g = −3/4` 
 For the covector `dt`, `g⁻¹(dt, dt) = −c⁻²`, so with `c = 2` it is `−1/4`: every slice `Σ_t` is
 spacelike. Luk–Speck normalise the acoustical metric as `c⁻² g`; with `c = 2`, `v = 0` and
 `X = (1, 0)` their value is `−1` and ours `−4`. Causal character is unchanged by this conformal
-factor, and nothing here depends on it. The signature is LorentzianGeometry's, its §7.3 makes
-`B = (1, v)` a timelike field, continuous when `c` and `v` are, and its §8.1 orients time by
+factor, and nothing here depends on it. The signature is LorentzianGeometry's, its §2.3 makes
+`B = (1, v)` a timelike field, continuous when `c` and `v` are, and its §3.1 orients time by
 `[B]`: a nonzero causal `X = (τ, ξ)` has `g(B, X) = −c²τ`, so `X` is future for `[B]` exactly
 when `τ > 0`, and the two notions of future agree. In the witness above, `g(B, (1, 1/2)) = −1 < 0`
 with `B = (1, 0)`.
@@ -413,32 +413,32 @@ Layer 1 and Mathlib.
 ### 3.1 The acoustical form
 
 For `c > 0` and `v ∈ E` the *acoustical form* `g_{c,v}` on `ℝ × E` is the acoustical form of
-LorentzianGeometry §7.3 for `Σ = E` with its Euclidean metric and the constant fields `c`, `v`:
+LorentzianGeometry §2.3 for `Σ = E` with its Euclidean metric and the constant fields `c`, `v`:
 `g_{c,v}((τ, ξ), (τ′, ξ′)) = −c²ττ′ + (ξ − τv)·(ξ′ − τ′v)`, with *material vector* `B = (1, v)`
 and inverse form on covectors `g⁻¹_{c,v}(ζ, η) = −c⁻²(ζ₀ + v·ζ′)(η₀ + v·η′) + ζ′·η′`
 (ChristodoulouMiao2014 lines 672–676, eqs. (1.39)–(1.40); LuoYu2023a line 95; LukSpeck2018
-lines 1999–2008, eqs. (3.3.10a)–(3.3.10b), in the normalisation `c⁻²g`). LorentzianGeometry §7.3
+lines 1999–2008, eqs. (3.3.10a)–(3.3.10b), in the normalisation `c⁻²g`). LorentzianGeometry §2.3
 proves that `g_{c,v}` is Lorentzian, `g(B, B) = −c²`, `g(X, B) = −c²τ` for `X = (τ, ξ)`, the
 inverse formula and `g⁻¹(dt, dt) = −c⁻²`, that a nonzero `X` is causal iff `|ξ − τv| ≤ c|τ|`, in
-which case `τ ≠ 0`, and that `B` is a timelike field (its §8.1 orients time by `[B]`). The
+which case `τ ≠ 0`, and that `B` is a timelike field (its §3.1 orients time by `[B]`). The
 acoustical form of a state `U` of either Euler system is `g_{c(U), v(U)}`. In this roadmap the
 closed cone `{X : g(X, X) ≤ 0}` is LorentzianGeometry's set of causal vectors together with `0`, and
 a causal vector is *future* when `τ > 0`, equivalently `g(B, X) < 0`.
 
-Prove the following, which LorentzianGeometry §7.3 does not state:
+Prove the following, which LorentzianGeometry §2.3 does not state:
 
 - *Determinant and frame.* In the standard basis the Gram matrix of `g` has determinant
   `det g = −c²`, so `√(−det g) = c` (ChristodoulouMiao2014 line 685), and its inverse is the
-  Gram matrix of the inverse form of LorentzianGeometry §7.3. The linear map
+  Gram matrix of the inverse form of LorentzianGeometry §2.3. The linear map
   `(τ, ξ) ↦ (cτ, ξ − τv)` carries `g` to the Minkowski form `−τ² + |ξ|²` (LorentzianGeometry
-  §7.3, first Check, with §6.1's `minkowskiForm E`, whose Gram determinant is `−1`); stated here
+  §2.3, first Check, with §1.1's `minkowskiForm E`, whose Gram determinant is `−1`); stated here
   is its determinant `c`, which gives `det g = c² · (−1)` again.
 - *Covectors.* `ζ` is future causal (`ζ(X) ≥ 0` for every future causal `X`) iff
   `ζ₀ + v·ζ′ ≥ c|ζ′|`, and future timelike (`g⁻¹(ζ, ζ) < 0` and `ζ(B) > 0`) iff
   `ζ₀ + v·ζ′ > c|ζ′|`; for `ζ ≠ 0` the hyperplane `ker ζ` is spacelike iff
   `|ζ₀ + v·ζ′| > c|ζ′|`, null iff equality holds, and timelike iff `|ζ₀ + v·ζ′| < c|ζ′|`; a
   timelike hyperplane carries an indefinite form when `n ≥ 2` and a negative definite one when
-  `n = 1`. `dt` is future timelike. The hyperplane statements are LorentzianGeometry §6.3's
+  `n = 1`. `dt` is future timelike. The hyperplane statements are LorentzianGeometry §1.3's
   trichotomy evaluated with `g⁻¹(ζ, ζ) = −c⁻²(ζ₀ + v·ζ′)² + |ζ′|²`; the explicit inequalities
   and the future covector cones are stated here.
 - Galilean covariance: `g_{c,v}((τ, ξ + τw), (τ′, ξ′ + τ′w)) = g_{c, v−w}((τ, ξ), (τ′, ξ′))`.
@@ -467,7 +467,7 @@ Prove the following, which LorentzianGeometry §7.3 does not state:
   timelike hyperplanes as those carrying an indefinite form would make `ker dx` none of
   spacelike, null and timelike.
 
-*Needs:* LorentzianGeometry §6.1, §6.3 and §7.3; Mathlib `Matrix.det`; Layer 2.2 for the
+*Needs:* LorentzianGeometry §1.1, §1.3 and §2.3; Mathlib `Matrix.det`; Layer 2.2 for the
 identification with the symbol.
 
 ### 3.2 Sound-cone fields and causal curves
@@ -476,10 +476,10 @@ A *sound-cone field* on a set `D ⊆ 𝔐` is a pair of continuous maps `c : D �
 `v : D → E`; the acoustical field of a classical Euler solution is `(c ∘ U, v)`
 (`EquationOfState.acousticalCone`, the pair `(c(ρ, s), v)` at each point). The forms
 `g_{c(p), v(p)}` of §3.1 with the time field `B(p) = (1, v(p))` are a
-`TimeOrientedLorentzianFieldOn D` of LorentzianGeometry §12.6 on `𝔐 = ℝ × E` (Lorentzian with
-`B` timelike by its §7.3, and continuous on `D`). The *causal curves* of the field in `D`, their
-endpoints and their past-inextendibility in `D` are §12.6's `IsFutureCausalCurveIn`, endpoint
-and `IsPastInextendibleIn` for this field. By §12.6's statement on time functions, applied to
+`TimeOrientedLorentzianFieldOn D` of LorentzianGeometry §7.6 on `𝔐 = ℝ × E` (Lorentzian with
+`B` timelike by its §2.3, and continuous on `D`). The *causal curves* of the field in `D`, their
+endpoints and their past-inextendibility in `D` are §7.6's `IsFutureCausalCurveIn`, endpoint
+and `IsPastInextendibleIn` for this field. By §7.6's statement on time functions, applied to
 the time coordinate, a causal curve on a nontrivial interval becomes after an admissible change
 of parameter a time-parametrised one, and in that form a causal curve in `D` is an interval
 `J ⊆ ℝ` (a single point allowed) and a map `x : J → E` that is locally Lipschitz on `J`, with
@@ -488,14 +488,14 @@ of parameter a time-parametrised one, and in that form a causal curve in `D` is 
 field `κ = (c, v)`; the same definition serves any continuous field of round cones `(c, w)`,
 `c > 0`, such as the dominating cone fields of §2.1 used in §6.2). Causal curves are
 time-parametrised, hence future-directed, from here on; restriction and concatenation are
-LorentzianGeometry §8.2 and §12.6, and a piecewise `C¹` curve in `D` whose one-sided tangents are nonzero future causal
-vectors is one after reparametrisation by time (§8.2 and §12.6 there). (Minguzzi2019
+LorentzianGeometry §3.2 and §7.6, and a piecewise `C¹` curve in `D` whose one-sided tangents are nonzero future causal
+vectors is one after reparametrisation by time (§3.2 and §7.6 there). (Minguzzi2019
 lines 1359–1363, Theorem 2.12, for the Lipschitz parametrisation of continuous causal curves;
 Chrusciel2011 line 534, §2.3; MinguzziCone2019 lines 680–697, §2.1, p. 17, for the locally
 absolutely continuous solutions of the differential inclusion (2.2) of a closed cone structure,
 and Remark 2.3, lines 698–718, p. 17, for their Lipschitz reparametrisation.)
 
-Prove, beyond LorentzianGeometry §8.2 and §12.6:
+Prove, beyond LorentzianGeometry §3.2 and §7.6:
 
 - *Integral characterisation.* A continuous `x : J → E` with graph in `D` is a causal curve iff
   `|x(t) − x(s) − ∫ₛᵗ v(r, x(r)) dr| ≤ ∫ₛᵗ c(r, x(r)) dr` for all `s ≤ t` in `J`; in particular
@@ -524,14 +524,14 @@ Prove, beyond LorentzianGeometry §8.2 and §12.6:
   `(σ_m^j, x_m(σ_m^j))` lie on the relative boundary of `K_j`, and a past endpoint `q ∈ D` of `x`
   would be a limit of points on these boundaries for arbitrarily large `j`, which avoid the
   relative interior of `K_{j₀}` for `j ≥ j₀`, whereas `q` lies in it for some `j₀`. This differs
-  from LorentzianGeometry §11.4, which treats causal curves of a spacetime parametrised by arc
+  from LorentzianGeometry §6.4, which treats causal curves of a spacetime parametrised by arc
   length of an auxiliary complete Riemannian metric, and from the limit curve theorem of its
-  §12.7, for inextendible causal curves of a locally Lipschitz metric on a manifold without
+  §7.7, for inextendible causal curves of a locally Lipschitz metric on a manifold without
   boundary, in that the field is continuous only on `D` and the curves are time-parametrised.
 - *Covariance.* Λ-translates, spacetime translations and Galilean boosts carry causal curves of
   a field to causal curves of the transformed field. A boost `(t, x) ↦ (t, x + tw)` changes the
   field `(c, v)` into `(c, v + w)` and is not an isometry of one field, so this is not
-  LorentzianGeometry §12.6's covering invariance.
+  LorentzianGeometry §7.6's covering invariance.
 
 **Checks.**
 
@@ -562,8 +562,8 @@ Prove, beyond LorentzianGeometry §8.2 and §12.6:
   `x_m(a_m) = −m` is unbounded, `J = (1/4, 1/2]`, and the limit, the same material curve, tends
   to `−∞` at `1/4`, so it is past-inextendible.
 
-*Needs:* LorentzianGeometry §7.3 (the acoustical field is Lorentzian with `B` timelike), §8.2
-and §12.6 (causal curves in `D`, past-inextendibility, restriction, concatenation, reduction to
+*Needs:* LorentzianGeometry §2.3 (the acoustical field is Lorentzian with `B` timelike), §3.2
+and §7.6 (causal curves in `D`, past-inextendibility, restriction, concatenation, reduction to
 time-parametrised curves); Mathlib `LocallyLipschitzOn`,
 `LipschitzOnWith.ae_differentiableWithinAt_of_mem`,
 `LipschitzOnWith.absolutelyContinuousOnInterval`,
@@ -576,10 +576,10 @@ for the field of forms.
 Fix a sound-cone field on `D ⊆ H_{t₀}`. A *past causal curve in `D` ending at `p`*
 (`IsPastCausalCurve`) is a causal curve `x : J → E` in `D` with `t_p = max J` and
 `x(t_p) = x_p`. One such curve *extends* another when its interval contains the other's and the
-two agree there. By LorentzianGeometry §12.6 (time functions), a past causal curve is
+two agree there. By LorentzianGeometry §7.6 (time functions), a past causal curve is
 past-inextendible in `D` in its sense iff it has no proper extension in `D`
 (`IsPastInextendible`, this extension form), and the *future domain of dependence* `D⁺_D(S)`
-(`futureDomainOfDependence`), which is §12.6's `futureDomainOfDependenceIn` for the field of
+(`futureDomainOfDependence`), which is §7.6's `futureDomainOfDependenceIn` for the field of
 §3.2, is the set of `p ∈ D` such that every past-inextendible past causal curve in `D` ending at
 `p` meets `S` (Minguzzi2019 lines
 3576–3582, Definition 3.1 and Remark 3.2, for piecewise `C¹` causal curves; MinguzziCone2019
@@ -590,14 +590,14 @@ ChristodoulouMiao2014 lines 866–872; HawkingEllis1973 at §6.5; ONeill1983, Ch
 Lorentz manifolds). Chrusciel2011 line 1169, §2.5, treats inextendible
 paths; its domain of dependence (lines 1843–1848, §2.9) is the timelike variant `D⁺_I`, defined
 with timelike curves, and line 1859 there names the causal variant `D⁺_J` used here.
-LorentzianGeometry §12.6 proves `S ∩ D ⊆ D⁺_D(S)`, monotonicity in `S`, the slice identity
+LorentzianGeometry §7.6 proves `S ∩ D ⊆ D⁺_D(S)`, monotonicity in `S`, the slice identity
 `D⁺_D(S) ∩ Σ_{t₀} = S ∩ D` for `S ⊆ Σ_{t₀}` (its slab statement, with the time coordinate as
 time function), determination for `S` closed in an open set, and covering invariance; they are
 used here as stated there. Define the *causal past* `J⁻_D(p)` (`causalPast`) as the set of
 points of past causal curves in `D` ending at `p`; LorentzianGeometry defines causal pasts only
-in a spacetime (§8.3 there), not inside a subset. `Suggested.lean` states these
+in a spacetime (§3.3 there), not inside a subset. `Suggested.lean` states these
 time-parametrised notions on `ℝ × E` directly, because Mathlib and Tau Ceti have no causal curve;
-they are the forms to which LorentzianGeometry §12.6 reduces its own, and nothing of that roadmap
+they are the forms to which LorentzianGeometry §7.6 reduces its own, and nothing of that roadmap
 is planned again.
 
 Prove:
@@ -605,7 +605,7 @@ Prove:
 - Every past causal curve in `D` ending at `p` has a past-inextendible extension in `D` (Zorn's
   lemma on the extension order, `zorn_le_nonempty₀` started at the given curve: every nonempty
   chain glues to a causal curve extending each member, its upper bound). LorentzianGeometry
-  §12.6 does not state this existence.
+  §7.6 does not state this existence.
 - *Past-closed restriction.* If `D′ ⊆ D` and `J⁻_D(q) ⊆ D′` for every `q ∈ D′`, then
   `J⁻_{D′}(q) = J⁻_D(q)` for `q ∈ D′` and `D⁺_D(S) ∩ D′ ⊆ D⁺_{D′}(S ∩ D′)`.
 - *Compact pasts.* If `D` is a domain, `S ⊆ Σ_{t₀}` and `p ∈ D⁺_D(S)`, then every
@@ -635,12 +635,12 @@ Prove:
   `y_m` meets `S` for large `m`, a contradiction. The classical analogue, for closed achronal `S`
   in a spacetime, is Minguzzi2019 line 3718, Proposition 3.16, eq. (3.1),
   `Int D⁺(S) = I⁺(S) ∩ I⁻(D⁺(S))`; the open-`S` statement on a domain is proved here, and
-  LorentzianGeometry §12.6 has no openness statement.
+  LorentzianGeometry §7.6 has no openness statement.
 - *Idempotence.* In the same setting `D⁺_{D⁺_D(S)}(S) = D⁺_D(S)`: a past-inextendible causal
   curve in `D⁺_D(S)` is past-inextendible in `D`, because its first exit point from `D⁺_D(S)`
   would start a curve not meeting `S` (proved here; the notion is MinguzziCone2019 lines
   1737–1740, Definition 2.17, for closed achronal `S`). This differs from LorentzianGeometry
-  §12.6's determination, the same identity for `S` closed in an open set `U` of a manifold
+  §7.6's determination, the same identity for `S` closed in an open set `U` of a manifold
   without boundary: here `S` is relatively open in `Σ_{t₀}` and `D` is a relatively open subset
   of the half-space `H_{t₀}`, which has boundary.
 - *Slabs.* If `D = [t₀, t₁) × E` and `c`, `|v|` are bounded on `[t₀, t₂] × E` for every `t₂ < t₁`,
@@ -652,11 +652,11 @@ Prove:
   extension, so the past-inextendible curves ending at `p` are exactly those on `[t₀, t_p]`, and
   such a curve meets `S ⊆ Σ_{t₀}` iff its starting point lies in `S` (proved here; the two-sided
   analogue is BarGinouxPfaffle2007 line 1006, Definition 1.3.5, the Cauchy development `D(S)`,
-  defined with causal curves inextendible in both directions). LorentzianGeometry §12.6's slab
+  defined with causal curves inextendible in both directions). LorentzianGeometry §7.6's slab
   statement is the slice identity only.
 - *Invariance.* If `D`, `S` are Λ-invariant and the field is Λ-periodic, `D⁺_D(S)` is
   Λ-invariant and `J⁻_D(p + λ) = J⁻_D(p) + λ`; translations and Galilean boosts act likewise.
-  The Λ-invariance of `D⁺_D(S)` is also LorentzianGeometry §12.6's covering invariance for the
+  The Λ-invariance of `D⁺_D(S)` is also LorentzianGeometry §7.6's covering invariance for the
   covering `ℝ × E → ℝ × E/Λ`; the statements on `J⁻_D` and on boosts are not there.
 
 **Checks.**
@@ -704,7 +704,7 @@ Prove:
   through `(1/2, 0)`) and misses `Σ₀`. The same curve shows `p ∉ D⁺_D(Σ₀)` for the slit domain of
   the previous Check, so the statement on compact pasts makes no claim in either.
 
-*Needs:* LorentzianGeometry §12.6 (`futureDomainOfDependenceIn`, past-inextendibility, the
+*Needs:* LorentzianGeometry §7.6 (`futureDomainOfDependenceIn`, past-inextendibility, the
 reduction to time-parametrised curves, concatenation, the slice identity); Mathlib
 `zorn_le_nonempty₀`, `IsCompact`; Layer 3.2 (limit curves, local existence, the integral
 characterisation).
@@ -718,7 +718,7 @@ the slit and punctured half-spaces are the negative controls.
 ### Dependencies
 
 Layer 1 (acoustical fields of solutions), Layer 2.2 (identification with the symbol in §3.1),
-LorentzianGeometry §6.1, §6.3, §7.3, §8.2 and §12.6, Mathlib.
+LorentzianGeometry §1.1, §1.3, §2.3, §3.2 and §7.6, Mathlib.
 
 ## Layer 4: Sobolev spaces on partially periodic carriers
 
@@ -2054,10 +2054,10 @@ development is a null hypersurface; ChristodoulouMiao2014 lines 880–886; LuoYu
 lines 417–419; EperonReallSbierski2019 line 1603, Theorem 4.82, for the role of maximal
 developments lying on one side of their boundary.)
 
-LorentzianGeometry §12.7 proves, for a locally Lipschitz time-oriented Lorentzian metric on an
+LorentzianGeometry §7.7 proves, for a locally Lipschitz time-oriented Lorentzian metric on an
 open set `U` of a manifold without boundary and `S` closed in a slice `{t = t₀}` of a temporal
 function on `U`, that `∂_U D⁺_U(S) ∩ {t > t₀} = H⁺_U(S) ∩ {t > t₀}` and that the horizon
-`H⁺_U(S)` is null, in the sense of its §9.2, wherever it is a `C¹` hypersurface. Statement (b)
+`H⁺_U(S)` is null, in the sense of its §4.2, wherever it is a `C¹` hypersurface. Statement (b)
 differs: the acoustical form exists only on `D` and on the neighbourhood `N` to which the
 solution extends, `S` is open, `D` is a relatively open subset of the half-space `H_{t₀}`, which
 has boundary, and nullity follows, through the moving-cone lens of §6.1, from the absence of a
@@ -2066,7 +2066,7 @@ development above `(D, U)` that contains `q` and adds only points of `N` and its
 (a), for any development, gives only spacelike or null. The two are separated by the constant
 state `c = 1`, `v = 0`, `n = 1`, `S = (−1, 1)`: its truncation `{|x| < 1 − t, 0 ≤ t < 1/2}` is a
 development (§8.1) whose top `t = 1/2` is spacelike, which (a) allows and at which the hypothesis
-of (b) fails (Checks), while §12.7 with `U = ℝ²` sees only
+of (b) fails (Checks), while §7.7 with `U = ℝ²` sees only
 `D⁺_U({0} × [−1, 1]) = {0 ≤ t ≤ 1 − |x|}`, whose boundary above `t = 0` is null, and says nothing
 about the truncation.
 
@@ -2146,9 +2146,9 @@ about the truncation.
   `−ε/0.055 < x < ε/1.945`, so `|x| < 18.2ε` and `|t| < 16.4ε`.
 
 *Needs:* §3.1 (covector classification), §3.2 (local existence of causal segments), §3.3,
-LorentzianGeometry §12.6 (concatenation), §6.1 (moving cones), §8.1, §8.2; §1.2 and §1.3
-(Λ-translates of solutions) for the translated extensions; §8.3 (the largest development in a
-slab) for the statement on developments inside a slab only.
+§6.1 (moving cones), §8.1, §8.2; §1.2 and §1.3 (Λ-translates of solutions) for the translated
+extensions; §8.3 (the largest development in a slab) for the statement on developments inside a
+slab only; LorentzianGeometry §7.6 (concatenation).
 
 ### Examples
 
@@ -2158,7 +2158,7 @@ developments.
 
 ### Dependencies
 
-Layers 1, 2 (§2.2), 3, 6 and 7; LorentzianGeometry §12.6 (concatenation, for §8.4).
+Layers 1, 2 (§2.2), 3, 6 and 7; LorentzianGeometry §7.6 (concatenation, for §8.4).
 
 ## Downstream consumers
 
@@ -2260,23 +2260,23 @@ Boundaries:
   `Λ = (2πℤ)^n`), up to norm equivalence. The spaces `Hᵏ_Λ` here are for discrete period groups of
   every rank, nothing here uses the full-rank case, and the norm comparison is a Check of §4.1.
 - **Lorentzian geometry** is LorentzianGeometry's, and this roadmap imports what it uses of it.
-  LorentzianGeometry §7.3 owns the acoustical form on `ℝ × Σ` (the form, its inverse, the material
-  vector `B`, causal vectors, its Lorentzian character and `B` timelike), §8.1 the time orientation
-  `[B]`, §6.1 the Minkowski form (and §7.3's first Check the frame carrying the acoustical form of
-  constant `c`, `v` to it), and §6.3 the causal type of hyperplanes through the sign of the inverse
-  form; §8.2 owns locally Lipschitz causal curves, their restriction and concatenation
-  and the passage from piecewise `C¹` curves; §12.6 owns causal curves in an arbitrary subset,
+  LorentzianGeometry §2.3 owns the acoustical form on `ℝ × Σ` (the form, its inverse, the material
+  vector `B`, causal vectors, its Lorentzian character and `B` timelike), §3.1 the time orientation
+  `[B]`, §1.1 the Minkowski form (and §2.3's first Check the frame carrying the acoustical form of
+  constant `c`, `v` to it), and §1.3 the causal type of hyperplanes through the sign of the inverse
+  form; §3.2 owns locally Lipschitz causal curves, their restriction and concatenation
+  and the passage from piecewise `C¹` curves; §7.6 owns causal curves in an arbitrary subset,
   past-inextendibility, the future domain of dependence `D⁺_D(S)` in a subset, its monotonicity,
   the slice identity `D⁺_D(S) ∩ {t = t₀} = S ∩ D`, the reduction to time-parametrised curves,
   determination for data closed in an open set, and covering invariance. Sections 3.1–3.3 take
   these with `Σ = E` Euclidean and state only what LorentzianGeometry does not; each kept
-  statement says how it differs. LorentzianGeometry's causal vectors are nonzero (its §7.3: a
+  statement says how it differs. LorentzianGeometry's causal vectors are nonzero (its §2.3: a
   causal vector `X` has `dt(X) ≠ 0`), while the closed cone `g(X, X) ≤ 0` of §3.1 contains `0`;
   both give `g(0, 0) = 0`, and on time-parametrised curves, whose velocities `(1, ẋ)` never
   vanish, the two conventions agree. Null hypersurfaces are LorentzianGeometry's as well
-  (§9.2 there); §8.4 states the nullity of a boundary through the conormal condition of §3.1
-  (`dφ ≠ 0` a null covector), which is §9.2's equivalent form `g⁻¹(dφ, dφ) = 0`.
-  LorentzianGeometry §12.7 proves, for a locally Lipschitz metric on a manifold without
+  (§4.2 there); §8.4 states the nullity of a boundary through the conormal condition of §3.1
+  (`dφ ≠ 0` a null covector), which is §4.2's equivalent form `g⁻¹(dφ, dφ) = 0`.
+  LorentzianGeometry §7.7 proves, for a locally Lipschitz metric on a manifold without
   boundary, the limit curve theorem and the nullity of Cauchy horizons where they are `C¹`
   hypersurfaces; §3.2 (limit curves) and §8.4 each say how their statements differ. Null
   generators and geodesics of `C^{1,1}` metrics are LorentzianGeometry's and are not used here.
@@ -2569,24 +2569,24 @@ on `E`, no Lorentzian quadratic form with a time orientation and no causal curve
 
 ### From TauCetiRoadmap.LorentzianGeometry
 
-- §6.1, `minkowskiForm E`: the Minkowski form `−τ² + |ξ|²` on `ℝ × E`, Lorentzian; the frame
-  `(t, x) ↦ (ct, x − vt)` carrying the acoustical form of constant `c > 0`, `v` to it is §7.3's
+- §1.1, `minkowskiForm E`: the Minkowski form `−τ² + |ξ|²` on `ℝ × E`, Lorentzian; the frame
+  `(t, x) ↦ (ct, x − vt)` carrying the acoustical form of constant `c > 0`, `v` to it is §2.3's
   first Check, which §3.1 uses and to which it adds the determinant.
-- §6.3: for a Lorentzian form and a nonzero covector `ζ`, the hyperplane `ker ζ` is spacelike,
+- §1.3: for a Lorentzian form and a nonzero covector `ζ`, the hyperplane `ker ζ` is spacelike,
   timelike or null according as the inverse form `g⁻¹(ζ, ζ)` is negative, positive or zero, with
   timelike meaning nondegenerate of index one, equivalently containing a timelike vector; used
   for the covector classification of §3.1.
-- §7.3: the acoustical form `g = −c² dt² + h(dx − v dt, dx − v dt)` on `ℝ × Σ` for given fields
+- §2.3: the acoustical form `g = −c² dt² + h(dx − v dt, dx − v dt)` on `ℝ × Σ` for given fields
   `c`, `v` and a Riemannian `h`, here with `Σ = E` and `h` Euclidean; at points with `c ≠ 0` it is
   Lorentzian, `g(B, B) = −c²` for `B = ∂_t + v`, `g(X, B) = −c² dt(X)`,
   `g⁻¹ = −c⁻² B ⊗ B + h⁻¹`, `g⁻¹(dt, dt) = −c⁻²`, every causal vector has `dt(X) ≠ 0`, `∂_t + Y`
   is causal iff `|Y − v| ≤ |c|`, and where `c > 0` with `c`, `v` continuous, `B` is a continuous
   timelike field. Assumed: these statements for constant and for continuous
   `c > 0`, `v`, which is all §§3.1–3.3 use.
-- §8.2: locally Lipschitz future causal curves (velocity future causal almost everywhere),
+- §3.2: locally Lipschitz future causal curves (velocity future causal almost everywhere),
   their restriction and concatenation, and that piecewise `C¹` future causal curves are locally
   Lipschitz causal curves.
-- §12.6: `TimeOrientedLorentzianFieldOn D` (a Lorentzian form field and a timelike field, both
+- §7.6: `TimeOrientedLorentzianFieldOn D` (a Lorentzian form field and a timelike field, both
   continuous on the subset `D`), `IsFutureCausalCurveIn`, `IsPastInextendibleIn` and
   `futureDomainOfDependenceIn`, written `D⁺_D(S)`, for any subset `D` of a manifold possibly
   with boundary; `S ∩ D ⊆ D⁺_D(S)` and monotonicity in `S`; concatenation in `D`; the time
