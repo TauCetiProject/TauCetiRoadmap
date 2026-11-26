@@ -1,6 +1,6 @@
 # Roadmap: Selmer bounds for anticyclotomic twists
 
-The argument proves a one-sided bound for a sum over primes, and that bound gives a half-plane free of zeros. The bound
+**Summary.** The argument proves a one-sided bound for a sum over primes, and that bound gives a half-plane free of zeros. The bound
 comes from comparing an upper and a lower bound for the covolume of a lattice of theta lifts. The lower bound needs, at
 each prime `ℓ`, that the orthogonal projection of integral forms onto the lifts has small `ℓ`-adic denominators. By
 Ribet's method (CongruencesOfTwistedThetaLifts) such a denominator is bounded by three kinds of quantities: lengths of
@@ -149,8 +149,11 @@ places of `E` and `g₀ ∈ G_E`.
   relative to every set contained in `(J ∖ {P₀}) ∪ {w | ℓ}`; `λ(φ) = 0`; `λ_v(φ) = 1` for `v = P₀` and `0` for the other
   `v ∈ J`; and `U_i` holds at `φ` and `φ^{−c}`.
 
-*Needs:* ShortGRH background (class field theory: the Artin map on finite ideles; Frobenius elements and tame generators
-at places of `Ω`).
+*Needs:* ShortGRH background (the Artin map from the finite ideles of a number field to its abelianised absolute Galois
+group, and, at a place of `Ω`, Frobenius elements, the inertia group and a chosen generator of tame inertia; [ShortProof]
+`Lib/ClassField/Local/ArtinMap.lean` (`New.artinMap`, `New.IsPlaceOver.tameGenerator`); the Selmer modules of
+cocycles unramified outside a set of places and obeying relations, [ShortProof] `Lib/GaloisRep/Main/SelmerModules.lean`
+(`New.selmerModule`)).
 
 [ShortProof], `New/Congruences/Selmer/SelmerData.lean` (`New.Selmer.SelmerDatum`, `New.Selmer.SelmerDatum.tiedSelmer`,
 `New.Selmer.IsNewAuxiliaryPrime`, `New.Selmer.SelmerDatum.sahGroup`), `New/Congruences/Selmer/AuxiliaryPrimes.lean`
@@ -176,15 +179,18 @@ Let `E` be a CM field, `ℓ` a prime, `N ≥ 0`, `S` a finite set of finite plac
 data `(φ, γ, λ)` with `λ : G_E → ℤ/ℓ^N`, such that `φ ∈ W`, `λ(φ) = 0`, and the data are auxiliary prime data at `P` for
 `ℓ^N` relative to every set `T′ ⊆ S ∪ {w | ℓ}`.
 
-*Needs:* 1.1; ShortGRH background (Chebotarev's density theorem; Dirichlet's `S`-unit theorem; class field theory for
-idele class characters of finite order).
+*Needs:* 1.1; ShortGRH background (Chebotarev's density theorem in its existence form: the Frobenius elements at
+primes of degree one outside a finite set are dense in the absolute Galois group; the existence theorem of class
+field theory for a totally complex field: a continuous homomorphism from the finite ideles to a `T₁` group that is
+trivial on the principal ideles factors through the Artin map; [ShortProof] `Lib/ClassField/Global/Chebotarev.lean`
+(`New.chebotarev`), `Lib/ClassField/Global/ExistenceTheorem.lean` (`New.exists_comp_artinMap`)).
 
 [ShortProof], `New/Congruences/Selmer/AuxiliaryPrimes.lean` (`New.Selmer.exists_isAuxPrimeDataAt`,
 `New.Selmer.exists_anticyclotomicChar_of_frob_fixes_roots`)
 
 ### 1.3 Sah's lemma for Selmer data
 
-*Origin:* adapted from the published theory of Sah's lemma (a cocycle that vanishes at an element acting by a scalar `ζ`
+*Origin:* adapted from Sah's lemma, which is classical (a cocycle that vanishes at an element acting by a scalar `ζ`
 with `ζ − 1` a unit is determined by its values on commutators): here for the element `γ_*` of a Selmer datum and its
 conjugate, with detection on the abstract group `H_T` and a spanning statement modulo `a`.
 
@@ -263,8 +269,12 @@ be Selmer data for `(S₀, g₀)` of ranks `n_i`, and `M ≥ 0` with `#k_O > 2n_
 
 `len_O Sel(J)(T_i, i; ℓ^M) ≤ ` global term of `T_i` `+` places term of `T_i` for every `i`.
 
-*Needs:* 1.1, 1.2, 1.3, 1.4; ShortGRH background (the Greenberg–Wiles inequality for finite Galois modules with local
-conditions, in the form with relations at split primes; Poitou–Tate reciprocity for such relations).
+*Needs:* 1.1, 1.2, 1.3, 1.4; ShortGRH background (global duality for a finite Galois module over a totally complex
+field in the form with relations at split primes, which stand for the dual Selmer group: the relations off a finite
+set of primes satisfy the reciprocity law `Σ_P y(φ_P)(z(γ_P)) = 0` against the cocycles with the local conditions,
+and a case of the formula of Greenberg and Wiles holds as a lower bound for the number of relations; [ShortProof]
+`Lib/ClassField/GreenbergWiles/Relations.lean` (`New.RelationSetting.IsRelation`,
+`New.RelationSetting.exists_card_cocycles_le`)).
 
 [ShortProof], `New/Congruences/Selmer/Descent.lean` (`New.Selmer.exists_isTiedPrimes_card_le_and_length_le`,
 `New.Selmer.tilting`, `New.Selmer.exists_slope_totalTiedLength_lt`), `New/Congruences/Selmer/Count.lean`
@@ -308,7 +318,9 @@ is locally constant modulo `ℓ^M`, `S` a finite set of finite places and `L` an
 4. (d) for every `(O₀, e₀, x₀)` of this kind there is `P ∈ O[X_σ]` with `v_{O₀}(e₀(P)(x₀)) = len Sel(x₀)` and
    `len_{O′} Sel(x) ≤ v_{O′}(e(P)(x))` at every point over every such `O′`.
 
-*Needs:* 1.1; ShortGRH background (lengths of kernels of matrices over a discrete valuation ring and maximal minors).
+*Needs:* 1.1; ShortGRH background (for a matrix `A` over a discrete valuation ring `O` and `a ≠ 0`, the length of the
+kernel of `A` on `(O/a)^k` is the least valuation of a maximal minor of the matrix made of the rows of `A` and of
+`a·1`; [ShortProof] `Lib/General/Algebra/SharpMinors.lean` (`New.Selmer.isLeast_length_matrixKernel`)).
 
 [ShortProof], `New/Congruences/Selmer/OneSystem.lean` (`New.Selmer.exists_matrix_selmerAtPoint_equiv`,
 `New.Selmer.exists_isLeast_length_selmerAtPoint`, `New.Selmer.exists_sharp_polynomial`, `New.Selmer.finite_selmerModule`,
@@ -363,7 +375,10 @@ Let `E` be a CM field, `ℓ` a prime, `S₀` a finite set of finite places and `
   character for `Q`, and `φ` is a Frobenius element at a place above `P`.
 - The *number* of `Y` is `β_Y = v(1(Θ_∅)) + 2r·v(ϑ(g₀) − 1)`; it is finite.
 
-*Needs:* 1.1; ShortGRH background (class field theory: the Artin map; Hilbert's Theorem 90 for finite ideles).
+*Needs:* 1.1; ShortGRH background (the Artin map on finite ideles, and Hilbert's Theorem 90 for the finite ideles of a
+CM field: a finite idele of norm one to the totally real subfield is `x/x̄`; [ShortProof]
+`Lib/ClassField/Local/ArtinMap.lean` (`New.artinMap`), `Lib/GaloisRep/Hilbert90/UnitaryGroups.lean`
+(`New.hilbert90_finite_idele`)).
 
 [ShortProof], `New/Congruences/Selmer/StickelbergerSystems.lean` (`New.Selmer.StickelbergerSystem`,
 `New.Selmer.StickelbergerSystem.β`, `New.Selmer.U1ClassGroup`, `New.Selmer.groupRingEval`, `New.Selmer.eulerFactor`)
@@ -389,7 +404,11 @@ conditions, any `W`) at level `N`. Let `P = ψ_X(Θ_J) ∈ ℤ̄_ℓ[X_v : v ∈
 3. (c) if `v(ϑ(φ_{P₀}) − ϑ(g₀)) ≥ M`, `β_Y + 1 < M ≤ Nρ`, `s₀ ≥ 1`, `2r·#J ≤ s₀` and `s₀ρ < 1` (`ρ > 0` rational), then
    there is `y ∈ ℤ̄_ℓ^J` with `v(y_v) ≥ ρ` for all `v` and `v(P(y)) ≤ β_Y + s₀ρ`.
 
-*Needs:* 1.1, 2.1, 2.3; ShortGRH background (Gauss valuations of polynomials over `ℤ̄_ℓ`).
+*Needs:* 1.1, 2.1, 2.3; ShortGRH background (the Gauss valuation `v_ρ` of a polynomial over `ℤ̄_ℓ`: `v(g(y)) ≥ v_ρ(g)`
+if `v(y) ≥ ρ`, with equality at one point for finitely many polynomials at once; `v_ρ` is additive on products and is
+given by `v₀(g)` and the valuations of the integral roots; [ShortProof] `Lib/General/NumberTheory/GaussValuation.lean`
+(`New.Selmer.gaussVal`, `New.Selmer.gaussVal_le_eval`, `New.Selmer.exists_forall_ellVal_eval_eq_gaussVal`,
+`New.Selmer.gaussVal_eq_add_sum_roots`)).
 
 [ShortProof], `New/Congruences/Selmer/StickelbergerLine.lean`
 (`New.Selmer.StickelbergerSystem.exists_point_ellVal_universalChar_le`,
@@ -436,8 +455,9 @@ has `v(P(x⁰)) ≤ len_ℓ β_T + s₀r` at a point of radius `r`.
 
 ### 2.6 Roots of unity at which polynomials are hardly more divisible than at given points
 
-*Origin:* adapted from the Newton polygon estimate for the value of a polynomial at `ζ − 1`, `ζ` a root of unity of
-`p`-power order (NewtonPolygons §§2.1–2.3): here one tuple of roots of unity of bounded `ℓ`-power order at which each of
+*Origin:* adapted from the classical Newton polygon estimate for the value of a polynomial at `ζ − 1`, `ζ` a root of
+unity of `p`-power order, which reads the valuation of the value off the Gauss valuation at the radius `v(ζ − 1)` and
+the roots of that valuation: here one tuple of roots of unity of bounded `ℓ`-power order at which each of
 finitely many polynomials in at most `s₀` variables loses at most `ε` against its value at a given point of radius `ρ`,
 whatever their degrees and number.
 
@@ -456,7 +476,11 @@ Let `ρ_h = 1/φ(ℓ^h)` and `v_ρ` the Gauss valuation. Prove:
    least `ρ` and `Σ_i v(P_i(x_i)) ≤ β`, there are `ζ_1, …, ζ_s` with `ζ_j^{ℓ^{h₀}} = 1`, `v(ζ_j − 1) ≤ ρ` and
    `v(P_i((ζ_j − 1)_j)) ≤ v(P_i(x_i)) + ε` for every `i`.
 
-*Needs:* ShortGRH background (Gauss valuations and roots of polynomials over `ℤ̄_ℓ`).
+*Needs:* ShortGRH background (the Gauss valuation `v_ρ` of a polynomial over `ℤ̄_ℓ`: `v(g(y)) ≥ v_ρ(g)` if `v(y) ≥ ρ`,
+with equality at one point for finitely many polynomials at once; `v_ρ` is additive on products and is given by `v₀(g)`
+and the valuations of the integral roots; [ShortProof] `Lib/General/NumberTheory/GaussValuation.lean`
+(`New.Selmer.gaussVal`, `New.Selmer.gaussVal_le_eval`, `New.Selmer.exists_forall_ellVal_eval_eq_gaussVal`,
+`New.Selmer.gaussVal_eq_add_sum_roots`)).
 
 [ShortProof], `New/Congruences/Selmer/RootsOfUnity.lean` (`New.Selmer.exists_rootsOfUnity_ellVal_eval_le_add`,
 `New.Selmer.exists_rootOfUnity_eval_le_gaussVal_add`)
@@ -528,7 +552,8 @@ Colmez's period ring, and `Γ` acts on `B_max ⊗_{ℤ_p} L` diagonally, through
   bilinear form is `b_P(y, x) = f(ψ(y ⊗ x)) mod p^m`.
 - For `a : Γ → Y` and `c : Γ → L`, the *cup product of `a` and `c` under `P` is a coboundary* if the 2-cochain
   `(g, h) ↦ ε_m(b_P(a(g), g·c(h)))` with values in `ℚ̄_p^×` is the coboundary of a continuous 1-cochain `Γ → ℚ̄_p^×`, `Γ`
-  acting through `j`. Here `ε_m` is a fixed embedding of `ℤ/p^m(1)` into `ℚ̄_p^×`, and `j` is taken to be an open embedding.
+  acting through `j`. Here `ε_m` is a fixed embedding of `ℤ/p^m(1)` into `ℚ̄_p^×`, `j` is injective, and `Γ` has the
+  topology of its image, an open subgroup of `G_{ℚ_p}`.
 - For a class `𝒬`, the *cup-orthogonal module* `L^{⊥𝒬}` consists of the maps `c : Γ → L` (not necessarily cocycles) such
   that, for every `Y ∈ 𝒬`, every pairing `P` of `Y` and `L` and every `a ∈ Z_f(Y)`, the cup product of `a` and `c` under `P` is
   a coboundary. The *dual defect* is `δ_𝒬(L) = len_O(Z_f(L)/(Z_f(L) ∩ L^{⊥𝒬}))`. `L` has *cup exponent* `e` for `𝒬` if
@@ -537,8 +562,11 @@ Colmez's period ring, and `Γ` acts on `B_max ⊗_{ℤ_p} L` diagonally, through
   `V ⊆ [−η, η] ∪ ε·[b, b + W]`. The *gap condition* `NoMult(p, n, b)` says that `p` divides no nonzero integer within
   distance `n` of `0`, `b` or `−b`.
 
-*Needs:* ShortGRH background (Colmez's ring `B_max` with its Galois action and Frobenius; Hodge–Tate jumps of
-potentially crystalline lattices; the linear operator of an inertia element on potentially crystalline periods).
+*Needs:* ShortGRH background (the period ring `B_max` with its Galois action; admissibility of a lattice along a
+filter and potentially crystalline lattices; the jump multiplicities of a lattice at an embedding; the polynomials
+that kill an inertia element on the periods fixed near `1`; [ShortProof]
+`Lib/PadicHodge/PeriodRings/CrystallineRings.lean` (`New.Period.Bmax`), `Lib/PadicHodge/Crystalline/Basic.lean`
+(`New.Period.IsAdmissible`, `New.Period.crysCocycles`, `New.Period.jump`, `New.Period.IsKilledBy`)).
 
 [ShortProof], `Lib/ClassField/LocalDuality/CrystallineDuality.lean` (`New.Lift.InClass`, `New.Lift.Pairing`,
 `New.Lift.Pairing.IsCupCoboundary`, `New.Lift.cupOrthogonal`, `New.Lift.dualDefect`, `New.Lift.HasCupExponent`),
@@ -557,20 +585,21 @@ Let `Γ`, `j` be as in 3.1, `K` the fixed field of `j(Γ)`, `A_inf = W(O_{ℂ_p}
   `j(Γ′)` fixes `Λ` and `θ(z)` and contains every element of `G_{ℚ_p}` that does; `Γ′` contains all `g` near `1`; and for
   every `l ≥ 0` some `g ∈ Γ′` has `g(z) = [ε]^l z`. Here `e` is the *ramification index*, `f` the *residue degree*, and
   `d = 0` if `e = 1`, `d = v_p(e) + 1` otherwise. The chart is *unramified* if `E = z + p` and `e = 1`.
-- The *letters* of `k` are the elements of `𝔽_{p^f}^×`, permuted by `i ↦ i^p`. `i.stepBack(a)` is the letter whose
-  `p^a`-th power is `i`. For a *letter root* `ζ ∈ O` with `ζ^{p^f − 1} = 1`, an embedding `g : O → ℂ_p` *lies over* the letter
+- The *letters* of `k` are the elements of `𝔽_{p^f}^×`, permuted by `i ↦ i^p`. For `a ≥ 0`, `i^{(−a)}` is the letter whose
+  `p^a`-th power is `i`, the letter `a` steps before `i`. For a *letter root* `ζ ∈ O` with `ζ^{p^f − 1} = 1`, an embedding `g : O → ℂ_p` *lies over* the letter
   `i` if `g(ζ) = θ([i])`, the image of the Teichmüller lift. For sets `U(g)`, the *letter jumps* `U_k(i)` at `i` are `{0}`
   together with the union of the `U(g)` over the `g` that lie over `i`.
 - A *side* `S` of `k` over `(O, ζ)` consists of the following. A lattice `Y` crystalline over `Γ′`. Finite sets of
   integers, one for each embedding, containing the jumps of `Y` there, and one for each letter, `U_S(i) ∋ 0`, containing
   those of the embeddings over `i`. A lattice `C` (the parameters). An `O`-linear map `α_S : C → Z_f(Y)`. The *jump
   multiplicity* of `S` at `(i, u)` is `Σ_{g over i} j_g(Y, u)`. A *pairing of sides* `S`, `S′` is a pairing of their
-  lattices `Y`, `Y′`. For `c ∈ C`, `c′ ∈ C′` and `N ≥ 0`, the pairing gives a *scaled cup coboundary of exponent* `N` if, for
-  every topology on `Γ` that makes `j` an open embedding, the cup product of `α_S(c)` and `p^N·α_{S′}(c′)` under it is a
-  coboundary.
+  lattices `Y`, `Y′`. For `c ∈ C`, `c′ ∈ C′` and `N ≥ 0`, the pairing gives a *scaled cup coboundary of exponent* `N` if `j` is not
+  injective or, for the topology that `Γ` has as an open subgroup of `G_{ℚ_p}` through `j`, the cup product of
+  `α_S(c)` and `p^N·α_{S′}(c′)` under it is a coboundary.
 
-*Needs:* 3.1; ShortGRH background (existence of a Kummer chart for every `Γ`, with `ef = [G_{ℚ_p} : j(Γ)]`, unramified when
-`j(Γ)` contains inertia).
+*Needs:* 3.1; ShortGRH background (existence of a Kummer chart for every `Γ`, with `ef = [G_{ℚ_p} : j(Γ)]`, unramified
+when `j(Γ)` contains inertia; [ShortProof] `Lib/PadicHodge/Kisin/KummerChartExistence.lean`
+(`New.Lift.exists_kummerChart`)).
 
 [ShortProof], `Lib/PadicHodge/Kisin/KummerChartExistence.lean` (`New.Lift.KummerChart`,
 `New.Lift.KummerChart.IsUnramified`, `New.Lift.KummerChart.differentBound`, `New.Lift.exists_kummerChart`),
@@ -604,12 +633,7 @@ Prove that for all `c ∈ C`, `c′ ∈ C′` the pairing gives a scaled cup cob
 *Needs:* 3.1, 3.2, 3.3a (h).
 
 [ShortProof], `New/Congruences/Lifting/CutExponentBounds.lean`
-(`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_sparse_thick`,
-`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_cut_windows`),
-`New/Congruences/Lifting/SafeMoves.lean` (`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_stops`),
-`New/Congruences/Lifting/CupProductBound.lean` (`New.Lift.Pairing.IsScaledCupCoboundary.of_isSafePath`),
-`New/Congruences/Lifting/ExponentLattices.lean`
-(`New.Lift.KummerChart.JumpLattice.exists_valueAt_sub_mem_hodgeFil_succ`)
+(`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_sparse_thick`)
 
 ### 3.3a The walk: cuts, standard points, stops and safe moves
 
@@ -646,7 +670,7 @@ for its Frobenius, `τ = [ε^{1/p}] − 1`, `Fil^n = Fil^n B_dR` for `n ∈ ℤ`
   preserves the image of `A_max`.
 - *Orders* are a function `o(a, u) ∈ ℤ` of a *level* `a ≥ 0` (it stands for the prime `φ^a(E)`) and of `u ∈ ℤ`. An
   `x ∈ M(L)` *has orders* `o` at `i` if `x ∈ 𝒩_A(L) ∩ M(L)_i` and `μ(φ^{−a}x) ∈ Fil^{o(a,u)}` for all `a`, all
-  `u ∈ U_L(i.stepBack(a))` and all forms `μ` of type `u` at `i.stepBack(a)`. It *has depth* `o` at `i` if `gx − x` has
+  `u ∈ U_L(i^{(−a)})` and all forms `μ` of type `u` at `i^{(−a)}`. It *has depth* `o` at `i` if `gx − x` has
   orders `o` at `i` for every `g ∈ Γ′`.
 - Particular orders: `r_s(a, u) = s·[a = 0] − u` for `s ∈ ℤ`; the *standard orders of level* `l`, `σ_l(a, u) = 0` for
   `a < l` and `−u` for `a ≥ l`; the *standard depth* `D_{s,η,l}(a, u) = −u + s·[a = 0] + η·[a < l]`; the *stop orders*
@@ -690,12 +714,12 @@ Let `S`, `S′` be sides of `k` over `(O, ζ)` with a pairing `P`, and `c ∈ C`
    `pr(x′) = pr(w′) = p^{e₂}(1 ⊗ c′)`. If the moves of the second side by `hx′ − x′`, `h ∈ Γ′`, with `x` at rest are
    safe for `e₃`, and there is a safe path for `e₃` from `(φx, φx′)` by `(w, w′)` to `(x, x′)`, then the pairing gives a
    scaled cup coboundary of exponent `N` at `(c, c′)` for every `N ≥ e₁ + e₂ + e₃`;
-2. (b) (the rule) let `l ≥ 0`, and let `ν` be a point of the Tate dual side over `p^κ·1` at `i.stepBack(l)` with orders
+2. (b) (the rule) let `l ≥ 0`, and let `ν` be a point of the Tate dual side over `p^κ·1` at `i^{(−l)}` with orders
    `o_ν` that do not increase in `u` at any level, and any depth. Let `w` lie over `0` with orders `o` at `i` in
    `M(X_S)`, and let `x′` be a point of `S′` over `p^{e′}c′` at `i` with any orders and depth `o′`. If
-   `o_ν[l, 0](a, −u − u′ − 1) + o(a, u) + o′(a, u′) > 0` for all `a ≥ 0`, `u ∈ U_S(i.stepBack(a))` and
-   `u′ ∈ U_{S′}(i.stepBack(a))`, then the move of the first side by `w` with `x′` at rest is safe for `κ`. In
-   particular this holds if `p^κE^t` kills the cokernel of the Tate dual side at `i.stepBack(l)` and
+   `o_ν[l, 0](a, −u − u′ − 1) + o(a, u) + o′(a, u′) > 0` for all `a ≥ 0`, `u ∈ U_S(i^{(−a)})` and
+   `u′ ∈ U_{S′}(i^{(−a)})`, then the move of the first side by `w` with `x′` at rest is safe for `κ`. In
+   particular this holds if `p^κE^t` kills the cokernel of the Tate dual side at `i^{(−l)}` and
    `o(a, u) + o′(a, u′) ≥ R_{l,t}(a, u + u′)` for all such `a`, `u`, `u′`. The same holds with the sides exchanged: for
    a point `x` of `S` of depth `o` and a `w′ ∈ M(X_{S′})` over `0` with orders `o′`, the move of the second side by
    `w′` with `x` at rest is safe for `κ`;
@@ -705,34 +729,34 @@ Let `S`, `S′` be sides of `k` over `(O, ζ)` with a pairing `P`, and `c ∈ C`
    `g ∈ Γ′`, then `μ(φ^{−a}(gBx − Bx)) ∈ Fil^{n+1}` for all `g ∈ Γ′`. Operators of costs `e`, `e′` compose to one of
    cost `e + e′`. For a finite set `I` of steps `(a, n)` there is an operator of cost `Σ_{(a,n) ∈ I} c_a(n)` that sends
    every `x` of depth `o` at a letter `i`, over a constant at `i`, to an element of depth `o′` at `i`, whenever `I`
-   contains all `(a, n)` with `o(a, u) ≤ n < o′(a, u)` for some `u ∈ U_S(i.stepBack(a))`. (iii) If `S` has a point
+   contains all `(a, n)` with `o(a, u) ≤ n < o′(a, u)` for some `u ∈ U_S(i^{(−a)})`. (iii) If `S` has a point
    over `p^e c` at `i` with orders `o₁` and depth `o`, `I` is as in (ii) and `e′ ≥ e + Σ_{(a,n) ∈ I} c_a(n)`, then `S`
    has a point over `p^{e′}c` at `i` with depth `o′` and with orders `o′(a, u)` where `o₁(a, u) > 0` and
-   `min(o′(a, u), 0)` elsewhere. (iv) If `x` is a point over `p^e c` at `i.stepBack(l)` with orders `o` and depth `o′`,
+   `min(o′(a, u), 0)` elsewhere. (iv) If `x` is a point over `p^e c` at `i^{(−l)}` with orders `o` and depth `o′`,
    then `φ^l x` is a point over `p^e c` at `i` with orders `o[l, 0]` and depth `o′[l, 1]`. (v) (The gap rule.) Let `x`
    be a point at `i` whose orders are at least `r_{−t}` and whose depth is at least `r_0` on the sets
-   `U_S(i.stepBack(a))`, for an integer `t`. If `h ≥ 0` and no element of `U_S(i)` lies in `[−t, −h)`, then `x` has
+   `U_S(i^{(−a)})`, for an integer `t`. If `h ≥ 0` and no element of `U_S(i)` lies in `[−t, −h)`, then `x` has
    orders `r_{−h}`, with the same depth;
 4. (d) (killers on an unramified chart) if `k` is unramified, `p ≥ 5` and every element of every `U_S(j)` is at most
    `(p − 3)(s + t)`, then `p^sE^t` kills the cokernel of `S` at every letter;
 5. (e) (the walk) let some letters be *cuts*, and for every letter `i` let `l(i) ≥ 1` be least such that
-   `i.stepBack(l(i))` is a cut. Let `κ, e, e′, η ≥ 0` and `t(i) ≥ 0`, and at each cut `i` let: `p^κE^{t(i)}` kill the
+   `i^{(−l(i))}` is a cut. Let `κ, e, e′, η ≥ 0` and `t(i) ≥ 0`, and at each cut `i` let: `p^κE^{t(i)}` kill the
    cokernel of the Tate dual side at `i`; `x(i)` and `x′(i)` be standard points of `S` and `S′` for
    `(e, t(i), η, l(i))` and `(e′, t(i), η, l(i))` over `p^e c` and `p^{e′}c′` at `i`; and either `S` have a stop `q`
    for `(e, η, l(i))` over `p^e c` at `i` such that the move of the second side by
-   `φ^{l(i)}x′(i.stepBack(l(i))) − x′(i)` with `q` at rest is safe for `κ`, or `S′` have a stop `q′` for
-   `(e′, η, l(i))` over `p^{e′}c′` at `i` such that the move of the first side by `φ^{l(i)}x(i.stepBack(l(i))) − x(i)`
+   `φ^{l(i)}x′(i^{(−l(i))}) − x′(i)` with `q` at rest is safe for `κ`, or `S′` have a stop `q′` for
+   `(e′, η, l(i))` over `p^{e′}c′` at `i` such that the move of the first side by `φ^{l(i)}x(i^{(−l(i))}) − x(i)`
    with `q′` at rest is safe for `κ`. Then the pairing gives a scaled cup coboundary of exponent `N` at `(c, c′)` for
    every `N ≥ e + e′ + κ`;
 6. (f) (stops at plain cuts) let `l ≥ 1`, let `p^κE^t` kill the cokernel of the Tate dual side at `i`, and for `a < l`
-   let every element of `U_S(i.stepBack(a))` be at most `η` and every element of `U_{S′}(i.stepBack(a))` at least `−η`.
+   let every element of `U_S(i^{(−a)})` be at most `η` and every element of `U_{S′}(i^{(−a)})` at least `−η`.
    Let `x` be a point of `S` over `p^e c` at `i` with orders `r_{−η}` and depth `D_{t,η,l}(a, u) + η₀·[a = l]`, and let
-   `x′` and `x₀′` be points of `S′` over `p^{e′}c′`, at `i` with orders `r_{−η}` and at `i.stepBack(l)` with orders
+   `x′` and `x₀′` be points of `S′` over `p^{e′}c′`, at `i` with orders `r_{−η}` and at `i^{(−l)}` with orders
    `r_{−η₀}`, of any depths. Then `x` is a stop for `(e, η, l)` and a standard point for `(e, t, η, l)`, and the move
    of the second side by `φ^l x₀′ − x′` with `x` at rest is safe for `κ`. The same holds with the sides exchanged;
 7. (g) (the long gap lemma) let `k` be unramified, `l, A, κ, s, g, δ ≥ 0` with `3 ≤ p^l` and `A ≤ p^l δ`, let `p^κ`
-   kill the cokernel of `S` at `i.stepBack(l)` and `E^s` kill it at `i`, and for `a < l` let every element of
-   `U_S(i.stepBack(a))` be at most `g`. If `N = s + g·Σ_{a<l} p^a < A`, then `S` has a point over `p^{κ+4δ}c` at `i`
+   kill the cokernel of `S` at `i^{(−l)}` and `E^s` kill it at `i`, and for `a < l` let every element of
+   `U_S(i^{(−a)})` be at most `g`. If `N = s + g·Σ_{a<l} p^a < A`, then `S` has a point over `p^{κ+4δ}c` at `i`
    with orders `σ_l(a, u) + A·[a = 0 and u < −N]` and depth `σ_l(a, u) + A·[a = 0]`;
 8. (h) (the scheme of cuts) let some letters be cuts, and let a sign `ε(i)`, a *shift* `s(i) ≥ 0` and `β(i) ≥ 0` be
    given at each letter, and `η, V, W, X, δ, κ, b, n, J, s₀, G, ω ≥ 0` with `η ≥ 1` and `V + 4η ≤ W`. Let `U_S(i)` fit
@@ -743,13 +767,13 @@ Let `S`, `S′` be sides of `k` over `(O, ζ)` with a pairing `P`, and `c ∈ C`
    `p ≥ 5`, `s(i) < β(i)` and `s₀ ≤ κ + s(i)`. Then at every cut `i`, `p^κE^{s(i)}` kills the cokernels of `S`, of `S′`
    and of the Tate dual side at `i`, and for `l ≤ 2J + 1` each of `S`, `S′` has a point over `p^{25κ}` times any
    parameter at `i` with orders `r_{−η}` and depth `D_{s(i),η,l+1}` (so a standard point for `(25κ, s(i), η, l)`).
-   Assume moreover that every letter `i` has a cut `i.stepBack(l)` with `1 ≤ l ≤ 2J + 1`, and that, whenever
-   `i.stepBack(l)` with `l ≥ 1` is a cut and no `i.stepBack(a)` with `0 < a < l` is one, there is `t ≥ 0` such that one
-   of the following holds. A *plain gap*: for every `a < l`, `ε(i.stepBack(a)) = ε(i.stepBack(t))` or
-   `β(i.stepBack(a)) + V ≤ η`. A *long gap* with pivot `i.stepBack(t)`: `k` is unramified, `p ≥ 5`,
-   `s(i.stepBack(l)) = 0`, `t + J + 1 = l`, `s₀ + ω·Σ_{a≤J} p^a < β(i.stepBack(t))`, `η ≤ ω`,
-   `β(i.stepBack(a)) + V ≤ ω` for `t < a < l`, and for every `a < l` with `a ≠ t`,
-   `ε(i.stepBack(a)) ≠ ε(i.stepBack(t))` or `β(i.stepBack(a)) + V ≤ η`. Then the pairing gives a scaled cup coboundary
+   Assume moreover that every letter `i` has a cut `i^{(−l)}` with `1 ≤ l ≤ 2J + 1`, and that, whenever
+   `i^{(−l)}` with `l ≥ 1` is a cut and no `i^{(−a)}` with `0 < a < l` is one, there is `t ≥ 0` such that one
+   of the following holds. A *plain gap*: for every `a < l`, `ε(i^{(−a)}) = ε(i^{(−t)})` or
+   `β(i^{(−a)}) + V ≤ η`. A *long gap* with pivot `i^{(−t)}`: `k` is unramified, `p ≥ 5`,
+   `s(i^{(−l)}) = 0`, `t + J + 1 = l`, `s₀ + ω·Σ_{a≤J} p^a < β(i^{(−t)})`, `η ≤ ω`,
+   `β(i^{(−a)}) + V ≤ ω` for `t < a < l`, and for every `a < l` with `a ≠ t`,
+   `ε(i^{(−a)}) ≠ ε(i^{(−t)})` or `β(i^{(−a)}) + V ≤ η`. Then the pairing gives a scaled cup coboundary
    of exponent `N` at `(c, c′)` for every `N ≥ 51κ`;
 9. (i) (killers at every letter) let `a, κ, η, W ≥ 0`, and at each letter let `b(i) ≥ 0` and a sign `ε(i)` be given.
    At every letter `i` let `p^κE^a` kill the cokernels of `S`, of `S′` and of the Tate dual side, let
@@ -758,8 +782,12 @@ Let `S`, `S′` be sides of `k` over `(O, ζ)` with a pairing `P`, and `c ∈ C`
    unramified and every `U_{S′}(i)` lies in `[−η, 0]`. Then the pairing gives a scaled cup coboundary of exponent `H` at
    `(c, c′)` for every `H ≥ 3(κ + (48(a + η + W) + 4)d)`.
 
-*Needs:* 3.1, 3.2; ShortGRH background (Kisin modules of crystalline lattices over a Kummer chart: the frame theorem, and
-the bounds for `B_dR`-valued forms by jump multiplicities).
+*Needs:* 3.1, 3.2; ShortGRH background (Kisin modules of crystalline lattices over a Kummer chart: the module cut out
+by the `Γ′`-equivariant `B_dR`-valued forms is free over `Λ[[z]]` and spans after saturation by `τ` (the frame
+theorem), and the forms of a type at a letter are spanned according to the jump multiplicities; [ShortProof]
+`Lib/PadicHodge/Kisin/FrameTheorem.lean` (`New.Lift.KummerChart.JumpLattice.free_kisinModule`,
+`New.Lift.KummerChart.JumpLattice.mem_kisinModule_iff_crysForms`), `Lib/PadicHodge/Kisin/Modules.lean`
+(`New.Lift.KummerChart.JumpLattice.forms`, `New.Lift.KummerChart.JumpLattice.kisinLoc`)).
 
 [ShortProof], `New/Congruences/Lifting/SidePoints.lean` (`New.Lift.KummerChart.PairingSide.pointsOver`,
 `New.Lift.KummerChart.PairingSide.standardPoints`, `New.Lift.KummerChart.PairingSide.stopPoints`,
@@ -783,7 +811,8 @@ the bounds for `B_dR`-valued forms by jump multiplicities).
 `New.Lift.KummerChart.PairingSide.KillsCokernel`, `New.Lift.Pairing.IsScaledCupCoboundary.of_isSafePath`,
 `New.Lift.KummerChart.PairingSide.killsCokernel_of_isUnramified`), `New/Congruences/Lifting/ExponentLattices.lean`
 (`New.Lift.KummerChart.cost`, `New.Lift.KummerChart.JumpLattice.withOrders`,
-`New.Lift.KummerChart.JumpLattice.invariantsMod`), `Lib/PadicHodge/Kisin/Modules.lean`
+`New.Lift.KummerChart.JumpLattice.invariantsMod`,
+`New.Lift.KummerChart.JumpLattice.exists_valueAt_sub_mem_hodgeFil_succ`), `Lib/PadicHodge/Kisin/Modules.lean`
 (`New.Lift.KummerChart.JumpLattice.forms`, `New.Lift.KummerChart.JumpLattice.kisinLoc`),
 `New/Congruences/Lifting/LongGap.lean` (`New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_long_gap`),
 `New/Congruences/Lifting/CutExponentBounds.lean` (`New.Lift.KummerChart.CutSizes`,
@@ -815,8 +844,7 @@ Let `k` be an unramified Kummer chart, `p ≥ 7`, `S`, `S′` paired sides over 
 *Needs:* 3.1, 3.2, 3.3a (h).
 
 [ShortProof], `New/Congruences/Lifting/CutExponentBounds.lean`
-(`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_any_pattern`), `New/Congruences/Lifting/LongGap.lean`
-(`New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_long_gap`)
+(`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_any_pattern`)
 
 ### 3.5 Few low jumps: a submodule of small colength that cups to zero
 
@@ -844,8 +872,7 @@ Let `k` be an unramified Kummer chart, `p ≥ 5`, `η ≥ 1`, `a, W ≥ 0`, and 
 
 [ShortProof], `New/Congruences/Lifting/FewLowJumps.lean`
 (`New.Lift.KummerChart.PairingSide.exists_relLength_le_and_isScaledCupCoboundary`), `New/Congruences/Lifting/DeepPoints.lean`
-(`New.Lift.KummerChart.PairingSide.SidePairing.isScaledCupCoboundary_of_killsCokernel`,
-`New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_noMultipleNear`)
+(`New.Lift.KummerChart.PairingSide.pointsOver_nonempty_of_noMultipleNear`)
 
 ### 3.6 From sides to lattices: dual defects and cup exponents
 
@@ -898,8 +925,10 @@ type for `(p, r, N)` for every `s` with `j(s)` inertial. Let `L ∈ 𝒞(F, K′
 `U(g)` fit `(η, −ε, b, W)` and every `U′(g)` fit `(η, ε, b, W)` for one sign `ε`. If
 `p > b + 6(W + η) + r²(N + 1)² + 2`, prove that `L` has cup exponent `3r²(N + 1)² + 150(η + W + 1)` for `𝒞(F, K, U)`.
 
-*Needs:* 3.1, 3.2, 3.3a (i); ShortGRH background (Kisin modules over a Kummer chart; the linear Frobenius of an
-inertia element on potentially crystalline periods).
+*Needs:* 3.1, 3.2, 3.3a (i); ShortGRH background (Kisin modules over a Kummer chart, as in the entry of 3.3a; the
+polynomials that kill an inertia element on potentially crystalline periods; [ShortProof]
+`Lib/PadicHodge/Kisin/FrameTheorem.lean` (`New.Lift.KummerChart.JumpLattice.mem_kisinModule_iff_crysForms`),
+`Lib/PadicHodge/Crystalline/Basic.lean` (`New.Period.IsKilledBy`)).
 
 [ShortProof], `New/Congruences/Lifting/CupOrthogonalityBounds.lean` (`New.Lift.hasCupExponent_of_isTameType`),
 `New/Congruences/Lifting/TameCharts.lean` (`New.Lift.TameChart.killsCokernel_of_isKilledBy`, `New.Lift.exists_tameChart`)
@@ -935,10 +964,10 @@ Let `D` be the data, `ℓ` a prime and `ι : ℂ ≅ ℚ̄_ℓ`.
   `G_{ℚ_ℓ}` through a chosen embedding `Ω → ℚ̄_ℓ` that induces the place. The *crystalline relations* of `u` are the
   relations supported on some decomposition group above `ℓ` that hold on `Z_f(u)_v`.
 - For a finite family of representations `u_x : G → GL_σ(O)` and `ρ : G → GL_d(O)`, `Rib(u, ρ; a)` is the module of
-  cocycles `c : G → (O/a)^d` for `ρ` such that `Σ_g θ_g c(g) = 0` whenever `Σ_g θ_g(u_x(g) − 1) = 0` for all `x`
-  (`θ` finitely supported in `O`).
+  Ribet cocycles of `ρ` with values in `O/a`, in the sense of CongruencesOfTwistedThetaLifts §3.1 (2).
 
-*Needs:* 3.1; OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (the field `E`, its infinite places and its CM type),
+*Needs:* 3.1; CongruencesOfTwistedThetaLifts §3.1 (Ribet cocycles);
+OneSidedPrimeSumBoundsAndAdmissibleData §2.2 (the field `E`, its infinite places and its CM type),
 §3.2 (the data: `m`, `r`, `k_D`, `t`, `b`, `G_off`, `h₂`, `Δ`, the lift weights `w_j`, the b-places, `M`).
 
 [ShortProof], `New/Congruences/LocalLoss/Basic.lean` (`New.Selmer.IsMainSummandWeights`, `New.Selmer.crystallineLoss`,
@@ -973,7 +1002,7 @@ Let `e : E → ℚ̄_ℓ`, `ζ` the root of unity of order `q₁` of the data, a
 
 ### 4.3 Cocycles that obey the relations among the `u(g) − 1`
 
-*Origin:* adapted from the published theory of the Artin–Rees lemma: here a cocycle that obeys every linear relation
+*Origin:* adapted from the Artin–Rees lemma, which is classical: here a cocycle that obeys every linear relation
 among the families `(u_x(g) − 1)_x` is, up to multiples of a power of `a`, the graph of an equivariant map on a
 subrepresentation.
 
@@ -993,7 +1022,7 @@ first projection is injective on `Y` and `((u_x(g) − 1)_x + a^k v, c(g)) ∈ Y
 
 ### 4.4 The rank of crystalline cocycles, and defects from cup exponents
 
-*Origin:* adapted from the published theory of the Bloch–Kato dimension formula for `H¹_f`: here the `O`-rank of the
+*Origin:* adapted from the dimension formula of Bloch and Kato (1990) for `H¹_f`: here the `O`-rank of the
 crystalline cocycles of a lattice at a place of a CM field above `ℓ`, counted by the negative Hodge–Tate jumps at the
 complex embeddings read through that place; and the passage from a cup exponent to a bound for the dual defect.
 
@@ -1010,7 +1039,9 @@ embedding onto the elements fixing `e(E)`, `O` a coefficient ring and `L` a pote
    `len_ℓ δ_𝒬(L) ≤ [G_{ℚ_ℓ} : j(Γ)]·y`.
 
 *Needs:* 3.1, 4.1; ShortGRH background (the rank formula for crystalline cocycles: for a potentially crystalline
-`ℤ_ℓ`-lattice `T` with jumps `J` over a group of index `n`, `rank Z_f(T) = rank T + n·#{u ∈ J : u < 0}`).
+`ℤ_ℓ`-lattice `T` with jumps `J` over a group of index `n`, `rank Z_f(T) = rank T + n·#{u ∈ J : u < 0}`; [ShortProof]
+`Lib/PadicHodge/BlochKato.lean` (`New.Period.crysCocycles.finrank_eq`),
+`Lib/PadicHodge/Crystalline/HodgeTateJumps.lean` (`New.Period.IsPotentiallyCrystalline.sum_jump_eq_jump_overZp`)).
 
 [ShortProof], `New/Congruences/LocalLoss/CrystallineCocycles.lean` (`New.Selmer.finrank_crysCocycles_eq_add_neg_jumps`,
 `New.Selmer.normLength_dualDefect_le_of_hasCupExponent`)
@@ -1026,16 +1057,16 @@ exponent; otherwise `ℓ` divides no integer near the windows, and 3.6 (a) gives
 by 4.4 (b).
 
 Let `j : Γ → G_{ℚ_ℓ}` be an open embedding, `O` a coefficient ring, `L` a lattice, and for each embedding `g` of `O` a
-thickness `th(g)` (true or false), a sign `ε(g)` and finite sets `U(g)`, `U′(g)`. Let `Q, m, h, μ, G, b, δ, η, W ≥ 0` satisfy
+sign `ε(g)` and finite sets `U(g)`, `U′(g)`, and let some of the embeddings be called *thick*. Let `Q, m, h, μ, G, b, δ, η, W ≥ 0` satisfy
 the size conditions: `Q > 0`, `99(Q² + (W + 1)Q + Q + W + m) ≤ h`, `99h³ ≤ G`, `99(Gh³ + G) ≤ b`, `2 log(4b) < m`, `δ < η` and
-`99((η + W)Q + η + h) ≤ h³`. Put `a(g) = b + δ` if `th(g)` and `G + δ` otherwise. Assume:
+`99((η + W)Q + η + h) ≤ h³`. Put `a(g) = b + δ` if `g` is thick and `G + δ` otherwise. Assume:
 
 - `U(g)` fits `(η, −ε(g), a(g), W)`, `U′(g)` fits `(η, ε(g), a(g), W)`, and `L ∈ 𝒞(⊤, ⊥, U′)`;
 - either every negative member of every `U(g)`, `U′(g)` is at most `−h/2` and `Σ_{|u|≤η} j_g(L, u) ≤ μ` for every `g`, or every
   `U′(g) ⊆ [−η, 0]`;
 - `y ≥ 10⁵(rank L·⌊2λ/Q⌋·m + μλ)` with `λ = λ(h, b, ℓ)`;
-- `k` is a Kummer chart of `Γ` with `ef = [G_{ℚ_ℓ} : j(Γ)]` and `e ≤ h`, and `ζ` is a letter root in `O`. For `g` with `th(g)`,
-  and for all `g` if `Q < ℓ`, `th(g)` holds exactly when `T(g(ζ))`, and `ε(g) = s(g(ζ))`, for fixed `T`, `s` on `ℂ_ℓ`. Either
+- `k` is a Kummer chart of `Γ` with `ef = [G_{ℚ_ℓ} : j(Γ)]` and `e ≤ h`, and `ζ` is a letter root in `O`. For thick `g`,
+  and for all `g` if `Q < ℓ`, `g` is thick exactly when `T(g(ζ))`, and `ε(g) = s(g(ζ))`, for fixed `T`, `s` on `ℂ_ℓ`. Either
   `k` is unramified and `ℓ ≥ 7`, or `ℓ ≤ Q` and `s` is constant. If `ℓ ≤ Q`, there are no `x` and `1 ≤ a, a′ ≤ log_ℓ h³`
   with `T(x)`, `T(x^{ℓ^a})` and `T(x^{ℓ^{a+a′}})`.
 
@@ -1096,7 +1127,10 @@ modulo its members whose restriction along `η` obeys all relations that hold on
 `δ_𝒞(L^∨(1))`.
 
 *Needs:* 3.1, 4.1, 4.3; ShortGRH background (local Tate duality for crystalline cocycles of potentially crystalline
-lattices, in the form of a divisibility of indices).
+lattices, in the form of a divisibility of indices: the index of the cocycles orthogonal under cup product to the
+crystalline cocycles of the Tate dual divides the corresponding index for the dual; [ShortProof]
+`Lib/ClassField/LocalDuality/CrystallineDuality.lean`
+(`New.Period.IsPotentiallyCrystalline.relIndex_dvd_of_orthogonal`)).
 
 [ShortProof], `New/Congruences/LocalLoss/TateDualBound.lean` (`New.Selmer.relLength_ribetCocycles_le`,
 `New.Selmer.comesFromClass_of_mem_ribetCocycles`, `New.Selmer.relLength_le_of_comesFromClass`)
@@ -1123,8 +1157,9 @@ Prove:
    every member of `𝓡`, restricted to the decomposition group at `w`.
 
 *Needs:* 3.1, 4.1; CongruencesOfTwistedThetaLifts §1.1 (the local conditions: finite type, jumps and killing polynomials
-at a place), §1.2 (conjugate self-dual representations of given level); ShortGRH background (Teichmüller lifts and
-unramified extensions of `ℚ_ℓ`).
+at a place), §1.2 (conjugate self-dual representations of given level); ShortGRH background (Teichmüller lifts in the
+Witt vectors of a finite field, embedded in `ℚ̄_ℓ`: every root of `y^{ℓ^a − 1} = 1` is one; [ShortProof]
+`Lib/PadicHodge/Kisin/KummerChartExistence.lean` (`New.Lift.wittToQpBar`, `New.Lift.exists_flatFq_teichmuller_eq`)).
 
 [ShortProof], `New/Congruences/LocalLoss/LocalLattices.lean` (`New.Selmer.isTameType_of_roots`,
 `New.Selmer.hasJumps_and_inClass_localLattice`, `New.Selmer.IsConjSelfDualOfLevel.inClass_localLattice`)
@@ -1161,8 +1196,9 @@ DivisibilityOfThetaDerivatives §1.5 (the chosen places, over whose residue fiel
 
 ### 5.2 L-values of a ramified pair as integral measures, and avatars of tame characters
 
-*Origin:* adapted from the published theory of `p`-adic `L`-functions of CM fields and of theta elements (integral
-group-ring elements that interpolate twisted Hecke `L`-values, with Euler-factor norm relations): here, for a pair
+*Origin:* adapted from the `p`-adic `L`-functions of CM fields (Katz (1978)) and from theta elements (Bertolini and
+Darmon (1996); Chida and Hsieh (2018)), integral group-ring elements that interpolate twisted Hecke `L`-values, with
+Euler-factor norm relations: here, for a pair
 ramified at the chosen places, a function of the tame characters of `U(1)` that is, at each modulus, evaluation on a
 group-ring element integral at every prime away from the modulus, and gives at twists a power of the absolute value of
 the ratio of twisted to untwisted partial `L`-values.
@@ -1181,14 +1217,17 @@ Let `D` be the data and `(ν, z)` a ramified pair. Prove:
    the modulus, `F(ϑ′) = F(ϑ)·∏_{l∈I} ∏_{δ=±1}(1 − (νϑ)_v(ϖ_v)^δ/Nv^l)`, the base change of `νϑ` read at a uniformiser at `v`;
    and `F(ϑ) = F(1)·N(Q_ϑ)^{m₀}·r(ϑ)^{m₀+1}` at every twist `ϑ`, with `r` the ratio of the pair. Here `(I, m₀) = ({z}, 0)`
    for `z ≥ 2` and `({0, 1}, 1)` for `z = 1`;
-2. (b) for an auxiliary set `I` for the bad places, every character `ψ : G_E → ℚ̄_ℓ` for `I` is `τ.invAvatar` for some tame
-   character `τ` of modulus `I`, the `ℓ`-adic avatar of `τ^{−1}`.
+2. (b) for an auxiliary set `I` for the bad places, every character `ψ : G_E → ℚ̄_ℓ` for `I` is, for some tame
+   character `τ` of modulus `I`, the `ℓ`-adic avatar of the base change of `τ^{−1}` to `E`.
 
-*Needs:* NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7, 6.1 (Hecke `L`-values as squared norms: from §2.5 the integral
-algebraic part, from §2.7 the determinant theta period at `z = 1`, from §6.1 integral measures); DivisibilityOfThetaDerivatives §1.6 (pairs);
-DeterminantsOfThetaLiftChains §1.1 (ramified pairs and the ratio of a pair);
-OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (tame characters and twists); ShortGRH background (`ℓ`-adic avatars of
-algebraic Hecke characters; class field theory).
+*Needs:* NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7, 6.1 (Hecke `L`-values as squared norms: from §2.5 the
+integral algebraic part, from §2.7 the determinant theta period at `z = 1`, from §6.1 integral measures);
+DivisibilityOfThetaDerivatives §1.6 (pairs); DeterminantsOfThetaLiftChains §1.1 (ramified pairs and the ratio of a
+pair); OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (tame characters and twists); ShortGRH background (the `ℓ`-adic
+avatar of an algebraic Hecke character: a continuous character of `G_E` whose value at most geometric Frobenius elements
+is `ι` of the value of the Hecke character at a uniformiser, and which is given on the image of the Artin map by the
+Hecke character; [ShortProof] `Lib/PadicHodge/Characters.lean` (`New.AlgHeckeChar.avatar`,
+`New.AlgHeckeChar.avatar_apply_of_artinMap_eq`, `New.AlgHeckeChar.eventually_avatar_frob`)).
 
 [ShortProof], `New/Congruences/Selmer/ClassSums.lean` (`New.Data.CriticalPair.exists_isTwistMeasure`,
 `New.Data.CriticalPair.IsTwistMeasure`, `New.Selmer.exists_tameChar_invAvatar_eq`)
@@ -1208,15 +1247,17 @@ Let `D` be the data, `ι : ℂ ≅ ℚ̄_ℓ`, `δ = ±1`, `(ν, z)` a ramified 
 generator. Prove that there is a Stickelberger system `Y` for (the bad places, `g₀`) with:
 
 1. (a) `β_Y ≤ v(1(Θ_∅)) + 4v(Nw − 1)`;
-2. (b) for every twist `ξ` whose modulus `Q` is auxiliary for the bad places and whose avatar `ψ = ξ.invAvatar` is a
+2. (b) for every twist `ξ` whose modulus `Q` is auxiliary for the bad places and whose inverse avatar `ψ`, the `ℓ`-adic avatar of the base change of `ξ^{−1}` to `E`, is a
    character for `Q`: `|ψ(Θ_Q)| = |1(Θ_∅)|·|ι(r)|^i`, where `r = |L(z, (νξ^δ)^{−1})|/|L(z, ν^{−1})|` is the ratio of the pair
    at `ξ^δ`, and `i = 2` if `z = 1`, `i = 1` otherwise;
 3. (c) consequently, for such `ξ` and every `c ≥ 0`, `v(ψ(Θ_Q)) ≤ β_Y + c` implies `v(ι(r)) ≤ 4v(Nw − 1) + c`.
 
-*Needs:* 2.3, 5.2; DivisibilityOfThetaDerivatives §1.5 (the chosen places), §1.6 (pairs);
-DeterminantsOfThetaLiftChains §1.1 (ramified pairs and the ratio of a pair);
-OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (twists); ShortGRH background (`ℓ`-adic avatars of algebraic Hecke
-characters).
+*Needs:* 2.3, 5.2; DivisibilityOfThetaDerivatives §1.5 (the chosen places), §1.6 (pairs); DeterminantsOfThetaLiftChains
+§1.1 (ramified pairs and the ratio of a pair); OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (twists); ShortGRH
+background (the `ℓ`-adic avatar of an algebraic Hecke character: a continuous character of `G_E` whose value at most
+geometric Frobenius elements is `ι` of the value of the Hecke character at a uniformiser, and which is given on the
+image of the Artin map by the Hecke character; [ShortProof] `Lib/PadicHodge/Characters.lean` (`New.AlgHeckeChar.avatar`,
+`New.AlgHeckeChar.avatar_apply_of_artinMap_eq`, `New.AlgHeckeChar.eventually_avatar_frob`)).
 
 [ShortProof], `New/Congruences/Selmer/LValueSystems.lean` (`New.Selmer.exists_stickelbergerSystem_β_le_and_norm_eq`,
 `New.Selmer.exists_stickelbergerSystem_ellVal_ratio_le`, `New.Data.CriticalPair.stickelbergerChar`)
@@ -1238,7 +1279,7 @@ character as the avatar of the inverse of a tame character `τ`; it is `m`-fold 
 Let `D` be the data, `ℓ` a prime, `ι : ℂ ≅ ℚ̄_ℓ`, and `R_i` (`i` in a finite set) representations of main-summand type
 (each for some `t′`, `J`). Prove that there is an `m`-fold twist `τ` such that every `ξ = τ^j`, `1 ≤ j ≤ m`, satisfies:
 
-1. (a) the modulus `Q` of `ξ` is auxiliary for the bad places, the avatar `ψ = ξ.invAvatar` is a character for `Q`, and
+1. (a) the modulus `Q` of `ξ` is auxiliary for the bad places, the inverse avatar `ψ` of `ξ` (5.3 (b)) is a character for `Q`, and
    `Σ_{w∈Q} v(ψ(γ_w) − 1) ≤ e'_ℓ` for some family of tame generators `γ_w`;
 2. (b) for every `i` there are `γ` inertial at a place not above `ℓ` and `ζ ∈ ℤ̄_ℓ` such that, for all large `O`, `R_i` has a
    lattice over `O` on whose twist by `ψ` the element `γ` acts by the scalar `ζ`, with `ζ − 1` a unit. On that lattice, the
@@ -1253,3 +1294,76 @@ OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (`m`-fold twists).
 
 [ShortProof], `New/Congruences/Selmer/TwistingTheorem.lean` (`New.Selmer.exists_mFoldTwist_hasDivisibleSelmerLengthLe`,
 `New.Selmer.SelmerDatum.TwistedLengthLe.hasDivisibleSelmerLengthLe`)
+
+## Downstream consumers
+
+- CongruencesOfTwistedThetaLifts §§1.1 and 1.3 use the Hodge–Tate jumps of 3.1, the crystalline relations and the
+  main summand weights of 4.1; its §6.1 uses the defect bound `B_ℓ` (4.1); its §§6.2 and 6.4 use classes of local
+  lattices and dual defects (3.1), the defect of the dual of a summand (4.6), the bound by the Tate dual (4.7) and the
+  class of a lattice read at a place above `ℓ` (4.8); its §7.3 uses the twisting theorem (5.4).
+- NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7 and 6.1 supply the `L`-values that 5.2 turns into integral
+  measures.
+
+## Scope and ownership
+
+### Owned here
+
+- Selmer data, tied primes, auxiliary primes with a prescribed Frobenius element, Sah's lemma and the descent
+  (Layer 1).
+- Polynomial twists, Stickelberger systems, the restriction to a line, the estimate at roots of unity and the general
+  twisting theorem (Layer 2).
+- Lattices over a local Galois group, crystalline cocycles, classes, cup-orthogonality and dual defects; Kummer
+  charts, sides and the walk; the exponent bounds and the bounds for dual defects (Layer 3).
+- Main summand weights, the crystalline loss and the defect bound, and the local loss above `ℓ` on the data (Layer 4).
+- Main summands as Selmer data, the `L`-values of a ramified pair as integral measures and Stickelberger systems, and
+  the twisting theorem on the data (Layer 5).
+
+### Not owned here
+
+- The data, their sizes, tame characters and twists: OneSidedPrimeSumBoundsAndAdmissibleData.
+- Pairs, the chosen places, ramified pairs and their ratios: DivisibilityOfThetaDerivatives §§1.5, 1.6 and
+  DeterminantsOfThetaLiftChains §1.1.
+- Hecke `L`-values as squared norms of lifts from `U(1)`: NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7, 6.1.
+- Conjugate self-dual representations of a level, main summands, Ribet cocycles, twisted lattices and Selmer lengths
+  with divisible coefficients, and the use of the bounds of this roadmap in Ribet's method:
+  CongruencesOfTwistedThetaLifts.
+- The results named `ShortGRH background` on the *Needs:* lines: the Artin map, Chebotarev's theorem and the existence
+  theorem, global duality with relations at split primes, lengths of kernels by maximal minors, Gauss valuations,
+  the period ring `B_max` and crystalline cocycles, Kummer charts and Kisin modules, the rank formula, local Tate
+  duality for crystalline cocycles, and avatars. Each entry names the form used and where `[ShortProof]` proves it.
+
+## Exact supplier contracts
+
+### From CongruencesOfTwistedThetaLifts
+
+§1.1 (the local conditions at a place: finite type, jumps, killing polynomials; bad places); §1.2 (conjugate
+self-dual representations of a level); §1.3 (main summands); §1.5 (Selmer lengths with divisible coefficients, twisted
+lattices, the twist allowance `e′_ℓ`); §3.1 (2) (Ribet cocycles).
+
+### From OneSidedPrimeSumBoundsAndAdmissibleData
+
+§2.1, §2.2 (the parameters, the field, its infinite places and CM type); §3.2, §3.3 (the data and their sizes); §3.4
+(tame characters, twists and `m`-fold twists).
+
+### From other roadmaps
+
+DivisibilityOfThetaDerivatives §1.5 (the chosen places), §1.6 (pairs); DeterminantsOfThetaLiftChains §1.1 (ramified
+pairs and ratios); NormsOfThetaLiftsAndExchangeIdentities §§2.5, 2.7, 6.1 (`L`-values as squared norms and integral
+measures); ThetaLiftChainsAndTheSeesawIdentity §2.10 (the order `n_GL`).
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/New/Congruences/Selmer`,
+  `src/New/Congruences/Lifting` and `src/New/Congruences/LocalLoss`.
+- M. Bertolini, H. Darmon (1994): Lemma 2.21, Definition 2.22 and Lemma 2.23, cited in 1.5.
+- M. Bertolini, H. Darmon, *Heegner points on Mumford–Tate curves*, Invent. Math. 126 (1996).
+- S. Bloch, K. Kato, *L-functions and Tamagawa numbers of motives*, in The Grothendieck Festschrift I (1990).
+- A. Caraiani, M. Emerton, T. Gee, D. Savitt (2022): §3.1, extensions of Breuil–Kisin modules with tame descent data,
+  cited in 3.7.
+- M. Chida, M.-L. Hsieh, *Special values of anticyclotomic L-functions for modular forms*, J. reine angew. Math. 741
+  (2018).
+- G. Gras, A. Munnier, *Extensions cycliques `T`-totalement ramifiées*, Publ. Math. Besançon (1998).
+- N. Katz, *p-adic L-functions for CM fields*, Invent. Math. 49 (1978).
+- B. Mazur, K. Rubin (2005), cited in 2.1.
+- J. Nekovář, *Selmer complexes*, Astérisque 310 (2006).
