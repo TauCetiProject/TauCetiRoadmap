@@ -577,8 +577,6 @@ wedge product of exterior powers; Tau Ceti power functors and comparisons, sheaf
 braided monoidal functor, rank, rank loci, determinant and the Picard group;
 PadicMeasuresIwasawaAlgebras §5.1.
 
-<a id="layer-4-linear-schemes-as-module-schemes"></a>
-
 ## Layer 4: linear schemes and relative Spec
 
 ### 4.1 The weight grading and the recognition theorem
