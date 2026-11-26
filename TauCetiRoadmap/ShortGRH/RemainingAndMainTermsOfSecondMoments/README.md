@@ -1,6 +1,6 @@
 # Roadmap: remaining and main terms of second moments
 
-This roadmap bounds the second moment of Poincaré series term by term, after it has been unfolded. It is the second
+**Summary.** This roadmap bounds the second moment of Poincaré series term by term, after it has been unfolded. It is the second
 part of the spanning theorem (Theorem B) of the argument. The argument proves the Riemann hypothesis for Dirichlet
 L-functions through a one-sided bound for a sum over primes: such a bound gives a zero-free half-plane, and the bound
 comes from comparing an upper and a lower bound for the covolume of a lattice of theta lifts. The lower bound needs
@@ -46,7 +46,9 @@ section states more than [ShortProof] proves, its last sentence says which case 
 
 **Fields.** `E` is a CM field with complex conjugation `x ↦ x̄`, `f` the number of its infinite places, `Φ_v` the chosen
 complex embedding at the infinite place `v`, `rd_E` its root discriminant, `𝔸_f` its finite adeles and `Ô` their
-integral elements. *Stably unramified* means that `E` contains a primitive root of unity of order `5040`; then `E/E⁺` is
+integral elements. `E` *has Weil data* if it carries the element `ȷ`, the finite idele `α` and the splitting character
+`υ` of DivisibilityOfThetaDerivatives §1.4 (c); the field of admissible data has them. Layers 7 and 8 assume them; their
+statements do not depend on the choice. *Stably unramified* means that `E` contains a primitive root of unity of order `5040`; then `E/E⁺` is
 unramified at the finite places. For an adele `a`, `[a]` is the generalised index: the inverse of the factor by which
 multiplication by `a` scales Haar measure on `𝔸_f`, and `0` if `a` is not a unit. For `a ∈ E^×`, `[a] = |N_{E/ℚ} a|`.
 `vol(Ô)` is the number `2^{r₂}/√|disc E|`, `r₂` the number of complex places of `E`; for a CM field, `r₂ = f` and
@@ -83,7 +85,7 @@ coordinates, that the level is the preimage of `K(M)`, and that reduction `K →
 | cell rank `j` | `0 ≤ j ≤ ϱ + 1`: norm-one pairs occur from `j`, `D_j ≠ 0`, and `j = ϱ + 1` exactly when `𝗀 ≠ 0` | SecondMomentsOfPoincareSeries §4.4 (cell ranks and near terms); 2.4 |
 | `Γ*`, agrees, stable | the remaining terms; `s` agrees with the unipotent character; a set of terms invariant under `𝖴(E)` on both sides | SecondMomentsOfPoincareSeries §4.12 (the remaining terms), §4.2 (agrees, stable) |
 | meets, `meet(s)` | `s` meets at a place above `M` if there the spans of `f` and `sf` share a nonzero vector; the product of the norms of these places | SecondMomentsOfPoincareSeries §4.10 (c) |
-| boxed, near | 2.2 | 2.2 |
+| residue domain, reduced, boxed, near | SecondMomentsOfPoincareSeries §4.2 (residue domains, reduced and boxed points), §4.4 (near terms) | 2.2 (existence and bounds) |
 | `L_γ`, `L₁₂`, `d₁₂`, `c⁺`, `𝗀♯`, `𝗀*`, `D_j`, `σ_j(x)`, `size(γ)` | the data of a term and of a pair | 2.4 |
 | `𝖤(A, Ω)`, `𝖤_link(T, Ω)` | second moments of blocks | 2.1 |
 | `E_T`, `O_T` | the product of the completions of `E` at a finite conjugation-stable set `T` of finite places, and its integers | 7.2 |
@@ -97,7 +99,7 @@ places, `ϱ` (with `m = 2ϱ + 2` lifts), `k` (the rank of `X₀`) and `r = 2ϱ +
 
 ### 1.1 Lattices in the finite adeles, discriminants and sums over sublattices
 
-*Origin:* adapted from the published theory of the zeta function of a lattice (Hey's formula for the number of
+*Origin:* adapted from the classical theory of the zeta function of a lattice (Hey's formula for the number of
 sublattices of given index): here, an upper bound for the sum of a negative power of the index over the sublattices of
 finite index, for lattices over the integral finite adeles of a CM field.
 
@@ -133,7 +135,7 @@ index of `Ô` (both sides in `[0, ∞]`).
 
 ### 1.2 Siegel's lemma and a height zeta function of subspaces
 
-*Origin:* adapted from the published theory of Siegel's lemma over number fields: here, for the lattices of the genus
+*Origin:* adapted from Siegel's lemma over number fields (Bombieri and Vaaler (1983)): here, for the lattices of the genus
 of the standard hermitian lattice over a stably unramified CM field. The subspace is cut out as a hermitian orthogonal,
 lengths are Euclidean over all infinite places together, and the constant is explicit but not sharp. A bound for the
 height zeta function of the subspaces of given codimension follows.
@@ -171,22 +173,24 @@ otherwise.
 
 *Method of the formal proof:* (a) is the triangle inequality for the `ℓ²` norm of the family of blocks.
 
-For a family of blocks `A(c, s, c')` in a normed space, indexed by two classes and `s ∈ Ḡ`, and a set `Ω ⊂ Ḡ`, the
-*second moment* is `𝖤(A, Ω) = ν^(−2) Σ_{c,c'} Σ_{s∈Ω} ‖A(c, s, c')‖²`. For a set `T ⊂ G(E)` of terms, the *link second
-moment* is `𝖤_link(T, Ω) = Σ_{c,c'} Σ_{s∈Ω} Σ_Λ ‖A♭_{T∩{link = Λ}}(c, s, c')‖²` (not divided by `ν²`), the inner sum over
-the `E`-subspaces `Λ` of `(X₀ ⊕ Ez)²`.
+The *second moment* `𝖤(A, Ω)` of a family of blocks `A(c, s, c')` in a normed space, indexed by two classes and
+`s ∈ Ḡ`, over a set `Ω ⊂ Ḡ`, is that of SecondMomentsOfPoincareSeries §4.2 (written `𝔼(A, Ω)` there). For a set
+`T ⊂ G(E)` of terms, the *link second moment* is
+`𝖤_link(T, Ω) = Σ_{c,c'} Σ_{s∈Ω} Σ_Λ ‖A♭_{T∩{link = Λ}}(c, s, c')‖²` (not divided by `ν²`), the inner sum over the
+`E`-subspaces `Λ` of `(X₀ ⊕ Ez)²`.
 
 (a) `𝖤(A + B, Ω)^(1/2) ≤ 𝖤(A, Ω)^(1/2) + 𝖤(B, Ω)^(1/2)`.
 
-*Needs:* SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes and blocks).
+*Needs:* SecondMomentsOfPoincareSeries §4.2 (terms, amplitudes, blocks, links and the second moment of a family of
+blocks).
 
 [ShortProof], `New/Spanning/RemainingTerms/Size.lean` (`New.Filling.secondMoment`, `New.Filling.linkSecondMoment`,
 `New.Filling.sqrt_secondMoment_add_le`)
 
 ### 2.2 The box and near terms
 
-*Origin:* particular to this proof: a bounded fundamental domain for the translations by `M𝒪_E` at the infinite
-places, the boxed points it defines, and the bound for the frame at a boxed point.
+*Origin:* particular to this proof: the existence of a residue domain, a bounded fundamental domain for the
+translations by `M𝒪_E` at the infinite places, and the bound for the frame at a boxed point.
 
 *Method of the formal proof:* every tuple lies within `M(2f)²|ϖ|_v ≤ b^26` of a multiple of `M𝒪_E`, through an element
 of `E` near a given point that the different provides. Only finitely many multiples meet each ball, so a measurable
@@ -194,21 +198,22 @@ choice of one translate in the ball gives `D`. The Gram–Schmidt matrix of the 
 multiplication by `𝖴⁰`, and so is the Bessel length. At a boxed point the frame vectors are bounded by the reduced
 triangular entries times the Bessel length.
 
-Let `S` be admissible. For `g ∈ G₁` let `ℓ(g) = inf_s ‖sg‖ + 1` over `s` in the Bessel subgroup (the Bessel length).
+Let `S` be admissible. Residue domains, reduced points and boxed points are those of SecondMomentsOfPoincareSeries
+§4.2, and near terms those of its §4.4; `ℓ(g)` is the Bessel length of its §3.1, and a point `y` is in the cut at `v`
+when `ℓ(y_v) ≤ b^(6n+2)`.
 
-(a) There is a measurable set `D ⊂ ℂ^{places}` of representatives for `ℂ^{places}` modulo `M𝒪_E` (embedded by the `Φ_v`)
-whose points have all coordinates of modulus at most `b^26`. Fix one.
+(a) A residue domain exists: a measurable set `D ⊂ ℂ^{places}` of representatives for `ℂ^{places}` modulo `M𝒪_E`
+(embedded by the `Φ_v`) whose points have all coordinates of modulus at most `b^26`. Reduced and boxed points are
+taken for one fixed residue domain.
 
-(b) A point `y ∈ G_∞` is *reduced* if the entries above the diagonal of the unitriangular Gram–Schmidt matrix of the
-frame at `y`, read in the rational frame, lie in `D`. It is *boxed* if it is reduced and `ℓ(y_v) ≤ b^(6n+2)` at every
-infinite place `v`. The boxed points form a measurable set, invariant under left multiplication by `∏_v 𝖴⁰(ℝ)`. At a
-boxed point every frame vector `y_v⁻¹f_a` has length at most `b^(37n)`.
+(b) The boxed points form a measurable set, invariant under left multiplication by `∏_v 𝖴⁰(ℝ)`. At a boxed point every
+frame vector `y_v⁻¹f_a` has length at most `b^(37n)`.
 
-(c) `γ ∈ G(E)` is *near* if some `y` has `y` and `γ⁻¹y` both boxed. Nearness is invariant under `γ ↦ uγu'` with
-`u ∈ U⁰_c`, `u' ∈ U⁰_{c'}`.
+(c) Nearness of `γ ∈ G(E)` is invariant under `γ ↦ uγu'` with `u ∈ U⁰_c`, `u' ∈ U⁰_{c'}`.
 
 *Needs:* SecondMomentsOfPoincareSeries §3.1 (the Bessel length and the frame box), §3.2 (the Gram–Schmidt frame),
-§4.1 (the filling data and its standing hypotheses), §4.2 (the groups `U⁰_c`, residue domains, reduced points).
+§4.1 (the filling data and its standing hypotheses), §4.2 (the groups `U⁰_c`; residue domains, reduced and boxed
+points), §4.4 (near terms).
 
 [ShortProof], `New/Spanning/RemainingTerms/Box.lean` (`New.Filling.exists_isResidueDomain`, `New.Filling.boxedPoints`,
 `New.Filling.mul_mem_boxedPoints_iff`, `New.Filling.mem_frameBox_of_mem_boxedPoints`)
@@ -246,10 +251,8 @@ is divisible by the idele that the data fix above `N` (in the lattice basis of S
 
 Let `S` be filling data, `c, c'` classes, `γ, γ' ∈ G(E)`, and `k_γ = h_c⁻¹γh_{c'} ∈ G(𝔸_f)`.
 
-- *Norm-one pairs and cell rank* (SecondMomentsOfPoincareSeries §4.4). Norm-one pairs occur for
-  `γ` from `j` if for one `ζ` with `ζζ̄ = 1` and every `a ≥ j` the flags `⟨f_0, …, f_a⟩` and `⟨γf_0, …, γf_a⟩` share a
-  vector whose leading coefficients at `a` are `ζ` and `1` (frame indexed from `0`). `γ` has *cell rank* `j ≤ ϱ + 1` if
-  moreover `D_j(γ) ≠ 0` and `j = ϱ + 1` exactly when `𝗀(γ) ≠ 0`. There is at most one such `j`. Put `j' = min(ϱ, j)`.
+- *Cell rank.* The cell rank `j ≤ ϱ + 1` of `γ` is that of SecondMomentsOfPoincareSeries §4.4; a term has at most one.
+  Put `j' = min(ϱ, j)`.
 - *Term lattice.* `L_γ` is the set of `v ∈ Λ_c ∩ X₀` such that some vector of `v + M(Λ_c ∩ A)` is orthogonal to the
   frame `γf`, computed in the coordinates of the lattices of `c` and `c'`.
 - *Common link and common lattice.* `X₀(γ, γ')` is the space of `x ∈ X₀` such that some pair `(x, y)` with `x, y ∈ X₀`
@@ -258,9 +261,10 @@ Let `S` be filling data, `c, c'` classes, `γ, γ' ∈ G(E)`, and `k_γ = h_c⁻
   `Λ_c ∩ X₀` with `L_γ ∩ L_γ'`. Its *discriminant* `d₁₂` is taken in rank `dim X₀(γ, γ')`, and its *corank* is
   `k − dim X₀(γ, γ')`.
 - *Indices and minors.* `i_j(k)` is the index, in the `Ô`-span of the vectors `(h(e_a, kf_b))_b`, `1 ≤ a ≤ ϱ`, of the
-  span of those with `a ≤ j` (`0` if infinite). The torsion index `t(k)` is the index of `Λ₀ ∩ A + k(Λ₀ ∩ A)` in
+  span of those with `a ≤ j`, a positive integer or `∞`; it is finite for the terms of 4.2 (a), and a quotient by an
+  infinite index is read as `0`. The torsion index `t(k)` is the index of `Λ₀ ∩ A + k(Λ₀ ∩ A)` in
   `Λ₀ ∩ (A + kA)`. `δ_*^j(γ)` is the determinant of the frame products on the subframe made of the first `j` vectors of
-  `f` and `z`. `minor_j(γ) = |N_{E/ℚ} D_j(γ)|/N^(2f·max(0, j−ϱ))`.
+  `f` and `z`. `minor_j(γ) = |N_{E/ℚ} D_j(γ)|` for `j ≤ ϱ`, and `minor_{ϱ+1}(γ) = |N_{E/ℚ} D_{ϱ+1}(γ)|/N^(2f)`.
 - *Gauges.* `𝗀♯_j(γ) = |N_{E/ℚ} δ_*^j(γ)|/(i_j(k_γ)·i_j(k_γ⁻¹)·N^f)`, `𝗀_max = max(𝗀♯_j, Nm𝗀)` and
   `𝗀*_j(γ) = M^(2j'f)·𝗀_max`. The *discriminant bound* is `b^(n³f)`.
 - *Sizes.* `D_j = 𝒟_main` for `j = ϱ + 1` and `D_j = τ^(−16)𝒟_id` for `j ≤ ϱ`. The *orbit bound* is
@@ -317,7 +321,7 @@ first `i` rows of the block.
 
 ### 3.2 Schur's test: Cauchy–Schwarz and integration in stages
 
-*Origin:* adapted from the published theory of Schur's test for integral operators: here, Cauchy–Schwarz with a weight
+*Origin:* adapted from Schur's test for integral operators, classical: here, Cauchy–Schwarz with a weight
 that is inverted when the two frames are exchanged, followed by an integration over the unipotent group fixing the
 frame.
 
@@ -482,7 +486,11 @@ lifts and `d_link(ve)²·(i_j(k)·i_j(k⁻¹)·t(k))² ≤ minor_j(γ)²`.
 `t(k)²·d_link(ve)² ≤ (M^(2if)·𝗀♯_j(γ)/N^f)²`.
 
 *Needs:* 1.1, 2.4, 4.1, SecondMomentsOfPoincareSeries §4.2 (links), §4.5 (the link isometry), ShortGRH background
-(Jacobi's identity between the discriminants of a lattice and of its orthogonal complement, for adelic lattices).
+(Jacobi's identity over `Ô ⊂ 𝔸_f`: for a unimodular hermitian `J`, an integral matrix `F` and a primitive `n` of
+complementary rank with `FᴴJn = 0`, every `u` with `nᴴJu = 0` is `Fv` for some `v` over `𝔸_f`, and the generalised
+index of the Gram determinant of `F` equals that of the Gram determinant of `n` times the square of the index of the
+integral vectors in `{y : Fy integral}`, in the version with an added block `p` and unit `c`; [ShortProof]
+`Lib/General/NumberTheory/LatticeCovolumes.lean` (`New.Filling.jacobi_perp_discriminant`)).
 
 [ShortProof], `New/Spanning/RemainingTerms/OrthogonalLifts.lean` (`New.Filling.exists_orthogonal_lift`,
 `New.Filling.abs_norm_det_gram_eq_abs_norm_subframeMinor_sq`), `New/Spanning/RemainingTerms/LinkLattice.lean`
@@ -772,7 +780,7 @@ of `E`; on the right the factor `(bB²)³` is inside the product, so the bound i
 
 ### 6.3 One-sided Poisson summation at the infinite places and a finite set of primes
 
-*Origin:* adapted from the published theory of Poisson summation on the adeles of a number field: here, a one-sided
+*Origin:* adapted from Poisson summation on the adeles of a number field (AnalyticNumberTheoryPartII §5.3h): here, a one-sided
 inequality for a nonnegative integrable function on `ℂ^{places} × E_T` that is lower semicontinuous at finitely many
 rational points integral off `T`, with the frequencies bounded through the decay of its Fourier transform.
 
@@ -790,8 +798,10 @@ integral off `T`. Let `F ≥ 0` be integrable and lower semicontinuous at the po
 `Σ_{t∈V} F(P_r(t)) ≤ (vol(Ô)/∏_v r_v²)·(εM + ∫F)`.
 
 *Needs:* AnalyticNumberTheoryPartII §5.3h (Poisson summation on the adeles; the self-dual measure), ShortGRH background
-(one-sided Poisson summation over a totally complex field, for nonnegative integrable functions lower semicontinuous at
-finitely many rational points).
+(one-sided Poisson summation on the adeles of a totally complex field `E`, for the measure in which `𝔸_E/E` has mass
+one: if `F ≥ 0` is integrable and lower semicontinuous at the points of a finite set `T` of rational points, and `S`
+bounds every finite sum of `|F̂(ξ)|` over `ξ ∈ E`, then `Σ_{t∈T} F(t) ≤ S`; [ShortProof]
+`Lib/Adelic/Adeles/StrongApproximation.lean` (`New.IsDualFamily.sum_le_of_fourier`)).
 
 [ShortProof], `New/Spanning/MainTerm/GlobalSieve.lean` (`New.Filling.sum_ratPoint_le_mul_add_integral_of_fourier_le`)
 
@@ -814,8 +824,8 @@ off `T` for `t ∈ A`, and `M⁻¹` integral off `T`. Put `κ_v = MΦ_v(ϖ)/(2π
 sieve system on `E_T` in length `ϱ`. Its entry map is `x ↦ x` on units and `1` otherwise, and `ι(w) = M⁻¹w⁻¹`. Its
 twist is `ψ_T` and its mass bound `mass_T`. Its weights are `Λ_i(p) = ∏_{l<i} [δ_l]^(n⁶/2)` when the partial products
 `δ_l = p_0⋯p_l` are integral, and `0` otherwise. Its decay is `ξ ↦ [ξ]^((k−n⁷)/2)/[O_T : O_T ∩ ξ⁻¹O_T]³·b^(n⁹f)`. For
-`p ∈ A^ϱ` and `t ∈ U`, let `a = (p_0, …, p_{ϱ−1}, t, 1, 1, …)`. The head at `v` has the entries `λ_{v,i}Φ_v(a_i)`, with
-`ϱ − i` read as `0` for `i > ϱ` and a zero entry replaced by `1`. The head at `T` has the images of the `a_i`. Let `J^v_n` be the top band-limit forms of the
+`p ∈ A^ϱ` and `t ∈ U`, let `a = (p_0, …, p_{ϱ−1}, t, 1, 1, …)`. The head at `v` has the entries `λ_{v,i}Φ_v(a_i)` for `i ≤ ϱ` and
+`1/N` for `i > ϱ`; all are nonzero. The head at `T` has the images of the `a_i`. Let `J^v_n` be the top band-limit forms of the
 Bessel systems at the infinite places, which form sieve systems on `ℂ` with mass at most `(1 + b^(−10))/deg_v`. Then
 
 `Re Σ_{t∈U} Σ_{p,q∈A^ϱ} ∏_v J^v_n(heads of p, q at v)·J_{T,n}(heads of p, q at T) ≤ (∏_{i<n} P_i)·((∏_v (1 + b^(−10))/deg_v)·mass_T + b^(2403n⁹f)·C_decay)`.
@@ -830,8 +840,8 @@ sieve system on `ℂ` at each infinite place), §4.1 (the filling data and its s
 
 ### 7.1 The orbital integral at the finite places is a Kloosterman sum
 
-*Origin:* adapted from the published theory of Kloosterman integrals as orbital integrals of Bessel functions on
-unipotent double cosets: here, for the finite Bessel vector of a group between the principal congruence subgroup and
+*Origin:* adapted from Kloosterman integrals as orbital integrals of Bessel functions on unipotent double cosets
+(Jacquet and Ye (1999)): here, for the finite Bessel vector of a group between the principal congruence subgroup and
 the integral points at a finite place.
 
 *Method of the formal proof:* the orbital integral of the tensor of the finite Bessel vector unfolds over the cosets of
@@ -863,7 +873,7 @@ finite adeles (strong approximation off `T`) lifts points of `T` to points integ
 through their parametrisations. The place datum is built from the lattice of integral vectors, and the unitary group
 over `E_T` is shown to be unimodular.
 
-Let `S` be filling data over `E` with the data of the Weil representation fixed, `T` a finite conjugation-stable set of
+Let `S` be filling data over a field `E` that has Weil data, `T` a finite conjugation-stable set of
 finite places, `E_T` the product of the completions at `T` with integers `O_T`.
 
 (a) For every finite `T₀ ⊂ E^×` there is such a `T` off which the elements of `T₀` and their inverses, `M⁻¹`, `N⁻¹`, and
@@ -881,8 +891,9 @@ There is a place datum on `E_T` with `3ϱ + 6` further hyperbolic pairs and an o
 *filling datum at `T`*).
 
 *Needs:* PairsOfFramesAtOnePlace §2.1 (finite places), §5.1 (large lattice data); AnalyticNumberTheoryPartII §5.3h,
-ShortGRH background (strong approximation for the finite adeles of a CM field: density of `E` off a nonempty finite set
-of places).
+ShortGRH background (strong approximation for the adeles of a totally complex field `E`: for a nonempty set `S` of
+finite places, the sums of an element of `E` and an adele that vanishes at infinity and at the finite places outside
+`S` are dense in the adeles; [ShortProof] `Lib/Adelic/Adeles/StrongApproximation.lean` (`New.strong_approximation`)).
 
 [ShortProof], `New/Spanning/MainTerm/FillingLevel.lean` (`New.Filling.exists_places_integralOff`,
 `New.Filling.exists_isIntegralOff_toPlaces_eq`, `New.Filling.mem_unitaryLevel_iff`, `New.Filling.exists_integralPlace`,
@@ -899,7 +910,7 @@ terms of the same link are among the `uw_pσu'⁻¹`, each once. The nonzero lea
 amplitude are bounded integers, so the entries lie in a finite set. Each orbit sum unfolds, double coset by double coset,
 into one integral at infinity. The double cosets correspond to the pairs of the Kloosterman sum at `T` (7.1).
 
-Let `S` be admissible over a CM field with the data of the Weil representation fixed, and let `𝒯 ⊂ E^×` be the finite
+Let `S` be admissible over a CM field that has Weil data, and let `𝒯 ⊂ E^×` be the finite
 set of quotients of two nonzero integers `δ` with `|Φ_vδ|² ≤ b^(270n²)` at every `v`. For `p : ℕ → E^×` let `w_p ∈ G(E)`
 send `e_a ↦ p_a e*_a` and `e*_a ↦ e_a/p̄_a` for `a < ϱ` and fix the other basis vectors. Let `σ` range over the elements
 that fix the `ϱ` hyperbolic pairs. For a block `(c, s, c')` and `γ`, the *orbit sum* `O(γ)` is the sum of the amplitudes
@@ -938,7 +949,7 @@ bounded by its integral over the sphere at `T`, times the archimedean density an
 splits into an integral of Gauss sums of the lattice times the density of `Ψ` at `T`. The Gauss sums are bounded by
 `1 + b^(−6)` times the volume of the lattice. Siegel's formula as a class sum then gives the bound.
 
-Let `S` be admissible over a CM field with the data of the Weil representation fixed, with `M⁻¹` and `N⁻¹` integral off
+Let `S` be admissible over a CM field that has Weil data, with `M⁻¹` and `N⁻¹` integral off
 `T`, and `F` a filling datum at `T` (7.2 (d)). Let `Ψ ≥ 0` on `E_T^r` have compact support and be invariant under small
 translations and under the elements of `K(M)_T` that fix all basis vectors off `X₀`. Let `t ∈ E` with `|Φ_v t| > N` at
 every `v`. For a pair `z = (c, v)` with `v ∈ E^κ` let `x_z = g_c⁻¹v`, and `P_t(x) = x − N⁻¹t·(last frame vector)`. If the
@@ -995,7 +1006,7 @@ of groups fixing given vectors at chosen places. The recursion is the descent of
 integral of the density at the last entry at the top. Positivity and continuity of the top form, and the off-diagonal
 bound, come from the local theory.
 
-Let `S` be admissible over a CM field with the data of the Weil representation fixed, `F` a filling datum at `T` with
+Let `S` be admissible over a CM field that has Weil data, `F` a filling datum at `T` with
 `M⁻¹` integral off `T`, `𝔖g` a set of chosen places above `p₀`, and for each such place `w` a nonzero vector `D_w` of
 the span of the frame modulo `w` or its conjugate. There is a group `Z` between `K(M)_T` and the integral points at `T`
 with the following properties.
@@ -1028,7 +1039,7 @@ entry. The sieve (6.4), with the system of 7.6 at `T` and the band-limit systems
 standing hypotheses evaluate the constant: `a_*` against `𝒟_main` and the Poisson constants, and the error
 `b^(2403n⁹f)C_decay` against `b^(−4)`.
 
-Let `S` be admissible over a CM field `E` with the data of the Weil representation fixed, `𝔖g` a set of chosen places
+Let `S` be admissible over a CM field `E` that has Weil data, `𝔖g` a set of chosen places
 above `p₀`, and `D_w` for each chosen place `w` above `p₀` a nonzero vector of the span of the frame modulo `w` or its
 conjugate. Call `s ∈ Ḡ` *open* if at some chosen place `w` above `p₀` the leading principal minors of order `≤ ϱ` of the
 matrix of products of the frame with its image under `s_w` are nonzero. Let `Ω` be the set of open `s` that fix `D_w`
@@ -1044,8 +1055,8 @@ places), §4.10 (d) (the fixers of frame vectors at the chosen places).
 
 ### 8.2 The share of non-allowed polynomials and the bad share
 
-*Origin:* adapted from the published counts of squarefree, irreducible and primitive polynomials over a finite field,
-and from the degree formula for the irreducible characters of `GL_r(𝔽_q)`: here, a bound for the coefficient at the
+*Origin:* adapted from the counts of squarefree, irreducible and primitive polynomials over a finite field (Lidl and
+Niederreiter (1983), ch. 3), and from the degree formula for the irreducible characters of `GL_r(𝔽_q)` (Green (1955)): here, a bound for the coefficient at the
 identity of one minus the sum of the idempotents of the good tuples of labels.
 
 *Method of the formal proof:* a monic polynomial that is not allowed has a square factor or a root that is `0` or an
@@ -1070,9 +1081,79 @@ in `ℂ[GL_n(k_w)]`, with `Ξ_c` the character attached to `c` by Green's theory
 (c) For `1 < r < q`, `(1 + M + 2r)/q ≤ ε ≤ 1` and `2r(2r log q + 1)·L ≤ f`, the coefficient at the identity of
 `1 − Σ_{good tuples} e_{(c_w)}` has real part at most `fε + exp(−L)`.
 
-*Needs:* ShortGRH background (Green's characters of `GL_r(𝔽_q)` attached to labels: their central idempotents and the
-bound `Ξ_c(1)²/|GL_r(𝔽_q)| ≥ (1 − r/q)/q^r`).
+*Needs:* FiniteReductiveGroups §5.7 (a squarefree label `c` of degree `r` carries one irreducible character `Ξ_c` of
+`GL_r(𝔽_q)`, with central idempotent `e_c` and degree `ψ_r(q)/∏_O ψ_1(q_O)` over the irreducible factors `O` of `c`;
+this gives the bound `Ξ_c(1)²/|GL_r(𝔽_q)| ≥ (1 − r/q)/q^r` that is used).
 
 [ShortProof], `New/Spanning/MainTerm/BadTypes.lean` (`New.card_not_isAllowedPolynomial_le`,
 `New.one_sub_le_card_allowed_mul`, `New.totient_le_mul_card_isPrimitivePolynomial`, `New.card_not_primitive_mul_le`,
 `New.re_coeff_one_sub_sum_tupleIdem_le`)
+
+## Downstream consumers
+
+- SecondMomentsOfPoincareSeries §4.13 uses 3.6 (b) (from the Bessel function to its cut) and 5.5 (c), (d) (the bound
+  for the remaining terms); its §4.14 uses 8.1 (the main-term bound) and 5.5 (d); its §5.7 uses 8.2 (c) (the bad
+  share); its §3.3 reads the local bounds of a Bessel system as a sieve system (6.1); its Conventions take the value
+  of `vol(Ô)` of 6.3 and 6.4.
+- PairsOfFramesAtOnePlace uses 6.1 (sieve systems), 7.2 (the completions at a finite set of primes and filling data
+  at `T`), and names 7.1, 7.3 and 7.5 as the uses of its local estimates.
+
+## Scope and ownership
+
+### Owned here
+
+- Lattices in the finite adeles, their discriminants and sums over sublattices; Siegel's lemma (Layer 1).
+- The link second moment, the existence of residue domains and the bounds at boxed points, the lattice of a class,
+  and the data of a term (Layer 2).
+- The orbit bound by Schur's test, and the passage from the Bessel function to its cut (Layer 3).
+- The gain of a term (Layer 4), the count of near terms and the bound for the remaining terms (Layer 5).
+- Sieve systems, sums over frequencies, one-sided Poisson summation at a set of places and the sieve over all places
+  (Layer 6).
+- The passage from class sums to local integrals (Layer 7), the main-term bound and the bad share (Layer 8).
+
+### Not owned here
+
+- Filling data, terms, amplitudes and blocks, residue domains, reduced and boxed points, near terms, cell ranks, links,
+  the second moment of a family of blocks, and the remaining terms `Γ*`: SecondMomentsOfPoincareSeries.
+- Place data, large lattice data, the finite Bessel vector, scaled orbital integrals, fiber measures and the density
+  at the last entry: PairsOfFramesAtOnePlace.
+- Weil data of a CM field: DivisibilityOfThetaDerivatives §1.4.
+- The entries marked ShortGRH background: stated in the form used on the *Needs:* lines, and not targets of this
+  roadmap.
+
+## Exact supplier contracts
+
+### From SecondMomentsOfPoincareSeries
+
+§3.1 (the group at a real place, the Bessel length, the frame box, leading minors), §3.2 (the Gram–Schmidt frame),
+§3.3 (Bessel systems, cut pairs, the band-limit forms), §3.12 (b), §3.13 (the open cell bounds), §4.1 (filling data,
+the lattice basis and the standing hypotheses), §4.2 (classes, terms, amplitudes, blocks, the second moment, residue
+domains, reduced and boxed points, links, agreeing reductions), §4.3 (a), §4.4 (cell ranks and near terms), §4.5 (the
+link isometry), §4.6 (reduced points), §4.9 (a), §4.10 (c), (d), §4.12 (the remaining terms), §5.5 (the filling data of the data).
+
+### From PairsOfFramesAtOnePlace
+
+§2.1 (finite places), §2.2 (place data), §3.2 (floor forms and the head density), §5.1 (large lattice data), §5.2 (the
+finite Bessel function, mass ratios), §6.1 (fiber measures), §6.2 (the scaled orbital integral), §6.3 (the density at
+the last entry), used in Layers 7 and 8.
+
+### From other roadmaps
+
+- AnalyticNumberTheoryPartII §5.3h (Poisson summation on the adeles; the self-dual measure), for 6.3 and 7.2.
+- FiniteReductiveGroups §5.7 (the character and the central idempotent of a squarefree label, with its degree), for
+  8.2.
+
+## References
+
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/New/Spanning/RemainingTerms` and
+  `src/New/Spanning/MainTerm`.
+- E. Bombieri, J. Vaaler, *On Siegel's lemma*, Invent. Math. 73 (1983).
+- J. A. Green, *The characters of the finite general linear groups*, Trans. Amer. Math. Soc. 80 (1955).
+- H. Jacquet, Y. Ye, *Germs of Kloosterman integrals for GL(3)*, Trans. Amer. Math. Soc. 351 (1999).
+- R. Lidl, H. Niederreiter, *Finite Fields* (1983), ch. 3.
+- G. Shimura, *Euler products and Eisenstein series*, CBMS Regional Conference Series in Mathematics 93 (1997).
+- C. L. Siegel, *Über die analytische Theorie der quadratischen Formen*, Ann. of Math. 36 (1935).
+
+The sources are those named in the heads of the files of `[ShortProof]` that this roadmap covers; its `REFERENCES.md`
+says which citations were compared with their sources.
