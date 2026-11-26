@@ -45,14 +45,15 @@ dependency, not the organisation of any of these books.
 [ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md), in its
 conditional-expectation form; it enters the sum of the exponents and the range theorem. It consumes
 the norm of an exterior power as a product of singular values, with its submultiplicativity, from
-EigenvalueAndSingularValueInequalities, and Mathlib's Fekete lemma, exterior powers and singular
-values and Tau Ceti's singular systems and one-sided path shift. The classical-ergodic-theory
-roadmap ClassicalErgodicTheory (factors, mixing, entropy, natural
+[EigenvalueAndSingularValueInequalities](../EigenvalueAndSingularValueInequalities/README.md),
+and Mathlib's Fekete lemma, exterior powers and singular values and Tau Ceti's singular systems
+and one-sided path shift. The classical-ergodic-theory roadmap
+[ClassicalErgodicTheory](../ClassicalErgodicTheory/README.md) (factors, mixing, entropy, natural
 extensions) and the hyperbolic-dynamics roadmap HyperbolicDynamicsAndThermodynamicFormalism are
 neighbours: neither treats Kingman's theorem or Lyapunov exponents, and the second excludes
 nonuniform hyperbolicity, for which the exponents of Layers 4 and 5 are the input. The roadmap
-BernoulliPercolation supplies the percolation threshold that Kesten's
-characterisation of a zero time constant needs; that characterisation lies in Beyond.
+[BernoulliPercolation](../BernoulliPercolation/README.md) supplies the percolation threshold that
+Kesten's characterisation of a zero time constant needs; that characterisation lies in Beyond.
 
 ## How to read the build
 
@@ -516,8 +517,8 @@ under the closed semigroup it generates in the invertible group).
 - **Furstenberg** (`lyapunovExponent_zero_gt_iid`): for `d ≥ 2`, if the support of `ν` is strongly
   irreducible and the semigroup it generates (`Subsemigroup.closure` of `Measure.support`) is
   unbounded after normalising each element to determinant `±1`, then almost surely
-  `λ_0 > (1/d) ∫ log |det g| dν`. Benoist and Quint, Thm 4.31, p. 70; Viana, Thm 6.11, p. 105
-  (for `SL(2, ℝ)`).
+  `λ_0 > (1/d) ∫ log |det g| dν`. Benoist and Quint, Thm 4.31 with (4.13)–(4.14), p. 70; Viana,
+  Thm 6.11, p. 105 (for `SL(2, ℝ)`).
 - **Positivity on `SL(d, ℝ)`** (prose target, the case `det = 1`): `λ_0 > 0`. Benoist and Quint,
   Cor 4.32, p. 71.
 - **Furstenberg's formula** (prose target): for strongly irreducible `ν`,
@@ -701,19 +702,22 @@ Owned here:
   not a target.
 - Mixing, spectral theory, entropy, natural extensions, the Ornstein–Weiss limit lemma for
   subadditive functions on finite subsets of amenable groups, and Rokhlin towers are the subject of
-  the classical-ergodic-theory roadmap ClassicalErgodicTheory. The
-  subadditive limits here are along `ℕ`, and the two-sided theorem works with an invertible base
-  directly rather than through natural extensions.
+  the classical-ergodic-theory roadmap
+  [ClassicalErgodicTheory](../ClassicalErgodicTheory/README.md). The subadditive limits here are
+  along `ℕ`, and the two-sided theorem works with an invertible base directly rather than through
+  natural extensions.
 - Uniform hyperbolicity, thermodynamic formalism and equilibrium states are the subject of
   HyperbolicDynamicsAndThermodynamicFormalism, which excludes Lyapunov exponents
   and Pesin theory.
 - The norm of an exterior power as a product of singular values, its submultiplicativity, and the
   singular-value inequalities for products of matrices (the log-majorisation of Gelfand–Naimark and
-  Horn, Weyl's majorant theorem) belong to EigenvalueAndSingularValueInequalities; its §2.4 is
-  consumed in 3.1.
-- Bernoulli percolation and its critical probability belong to BernoulliPercolation (§1.3); random
-  walks on `ℤ^d` beyond the range theorem (Pólya, fluctuation theory) to MarkovChainsAndRenewal and
-  RandomWalkFluctuationTheory.
+  Horn, Weyl's majorant theorem) belong to
+  [EigenvalueAndSingularValueInequalities](../EigenvalueAndSingularValueInequalities/README.md);
+  its §2.4 is consumed in 3.1.
+- Bernoulli percolation and its critical probability belong to
+  [BernoulliPercolation](../BernoulliPercolation/README.md) (§1.3); random walks on `ℤ^d`
+  beyond the range theorem (Pólya, fluctuation theory) to
+  [MarkovChainsAndRenewal](../MarkovChainsAndRenewal/README.md) and RandomWalkFluctuationTheory.
 
 ## Exact supplier contracts
 
@@ -763,19 +767,19 @@ Owned here:
 
 ### From EigenvalueAndSingularValueInequalities
 
-- EigenvalueAndSingularValueInequalities §2.4 (Exterior powers): for a linear map `A` between
-  finite-dimensional real inner product spaces and every `k`, the operator norm of
-  `exteriorPower.map k A` (through `LinearMap.toContinuousLinearMap`) is the product of the first
-  `k` singular values `LinearMap.singularValues`, and the operator norm of the `k`-th exterior
-  power of a composite is at most the product of the operator norms. No hypothesis beyond finite
-  dimension. Used in 3.1, 3.2, 4.1, 4.2 and 5.2.
+- [EigenvalueAndSingularValueInequalities](../EigenvalueAndSingularValueInequalities/README.md)
+  §2.4 (Exterior powers): for a linear map `A` between finite-dimensional real inner product
+  spaces and every `k`, the operator norm of `exteriorPower.map k A` (through
+  `LinearMap.toContinuousLinearMap`) is the product of the first `k` singular values
+  `LinearMap.singularValues`, and the operator norm of the `k`-th exterior power of a composite is
+  at most the product of the operator norms. No hypothesis beyond finite dimension. Used in 3.1,
+  3.2, 4.1, 4.2 and 5.2.
 
-### Mathlib pull requests followed
+### Mathlib results followed
 
-- #42078 (pointwise ergodic theorem for normed spaces, built on the maximal ergodic theorem of
-  #34031): where its pointwise theorem is at the pin, it replaces the supplier of
-  ProbabilisticAndMetricNumberTheory §4.1 in the proof routes here; no statement of this roadmap
-  changes.
+- The pointwise ergodic theorem for normed spaces, built on the maximal ergodic theorem: where
+  Mathlib has it, it replaces the supplier of ProbabilisticAndMetricNumberTheory §4.1 in the proof
+  routes here; no statement of this roadmap changes.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -806,9 +810,9 @@ Owned here:
   truncation. Its synopsis entries 10.7 (Kingman), 10.40 (Furstenberg–Kesten) and
   10.41 (Oseledets) are targets here; the `EReal` forms of 2.3 and 2.5 and all of Layers 3–7 are
   not formalized there.
-- **Mathlib.** The pull requests #34031 (the maximal ergodic theorem) and #42078 (the pointwise
-  ergodic theorem for normed spaces); no Mathlib pull request treats subadditive processes or
-  Lyapunov exponents.
+- **Mathlib.** The maximal ergodic theorem and the pointwise ergodic theorem for normed spaces
+  have been developed for Mathlib (pull requests #34031 and #42078); no Mathlib development treats
+  subadditive processes or Lyapunov exponents.
 
 ## References
 

@@ -12,7 +12,9 @@ checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sor
 headlines of the README that carry a Lean name, each with every conclusion the README attaches
 to it, together with the definitions their statements need. The README's other headlines are
 targets of the same standing, stated there in prose with their locators or proof routes, and are
-not stated here.
+not stated here. One of them, Furstenberg's formula in 6.3, is left in prose because the pinned
+Mathlib has no measurable structure on the projective space `ℙ ℝ E` (it has the quotient
+topology only), so its stationary measures would have to be stated for `borel (ℙ ℝ E)` by hand.
 
 The conventions of the README are used throughout. A system is a measure-preserving map `T` of a
 probability space `(Ω, μ)`. A subadditive process is indexed by `n ≥ 1`; its value at `0` is never
