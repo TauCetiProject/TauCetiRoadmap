@@ -123,10 +123,11 @@ columns and `ν_i = λ_κ(i)` (when `N ≥ 2`): the identity for diagonal `β` s
 of an earlier column to a later one. That roadmap writes `λ` for the row lengths; with `λ = (λ_κ(0), …, λ_κ(N − 1))`,
 whose last entry is `0`, `∇_R(κ)` is its dual Weyl lattice `∇_R(λ)` (its Conventions).
 
-(d) *Standard basis.* For each `τ` fix a finite set `B_τ` of fillings of the one-place diagram of `κ_τ` by the rows
+(d) *Standard basis.* For each `τ` let `B_τ` be a finite set of fillings of the one-place diagram of `κ_τ` by the rows
 `n_τ` such that, over every commutative ring, the products of minors `Π_T`, `T ∈ B_τ`, are linearly independent and
-span the span of all products of minors of fillings of `κ_τ`, and such that the character identity 1.2 (c) holds;
-such sets exist by 1.2. They need not be the semistandard tableaux. Put `B(κ) := ∏_τ B_τ` and, for `i ∈ B(κ)`,
+span the span of all products of minors of fillings of `κ_τ`, and such that the character identity of 1.2 (c) holds
+for the fillings in `B_τ`; it is chosen once and for all among the sets with these properties, which exist by
+1.2 (e). They need not be the semistandard tableaux. Put `B(κ) := ∏_τ B_τ` and, for `i ∈ B(κ)`,
 `b_i := ∏_τ Π_{i_τ}` (each factor in the rows of colour `τ`).
 
 (e) *The Weyl module.* `W_R(κ) := R^{B(κ)}`, read as `Hom_R(∇_R(κ), R)` through the dual basis of `(b_i)`. For an array
@@ -140,7 +141,7 @@ such sets exist by 1.2. They need not be the semistandard tableaux. Put `B(κ) :
 `b′_i(zy) = Σ_j S_κ(z)_{ij}·b_j(y)·∏_τ det(y_τ)^{d_τ}` for every `i`, where `b′` is the basis of (d) for `n′` and `κ`,
 and `b` that for `n` and the restriction of `κ` to the heights `< N_τ` (its existence and uniqueness are 1.3 (a)). For
 `n′ = n` and `e ∈ ℤ^Φ`, `ρ_{κ,e}(g) := ∏_τ det(g_τ)^{e_τ}·S_κ(g)` for `g ∈ ∏_τ GL(n_τ, R)` is the *representation of
-weight `(κ, e)`*, of highest weight `λ_κ + e`.
+weight `(κ, e)`* (a homomorphism by 1.3 (b)), of highest weight `λ_κ + e`.
 
 (g) *Kernel and Gram matrix.* `v_κ := ∏_τ ∏_{1≤h<N_τ} Δ_{τ,h}^{κ_τ(h)}`, with `Δ_{τ,h}` the leading `h × h` minor of the
 rows of colour `τ` in the fixed numbering, and
@@ -163,13 +164,13 @@ highest-weight vector `v_λ` of that roadmap, `λ` the row lengths of `κ`, and 
 colours `H(κ)` is the product of these numbers over `τ`, the pairing being multiplicative on products of polynomials
 in disjoint sets of variables.
 
-*Needs:* 1.2 (b), (c) (existence of the standard sets of (d)); Mathlib `MvPolynomial`, `Matrix.det`.
+*Needs:* Mathlib `MvPolynomial`, `Matrix.det`.
 
 [ShortProof], `Lib/GLn/SchurModule/Basic` (`New.MatrixPoly`, `New.minor`, `New.tableauPoly`, `New.diagramWeight`,
 `New.nabla`, `New.IsTableauBasis`, `New.BasisTableau`, `New.WeylIndexFamily`, `New.nablaBasis`, `New.weylEval`,
 `New.schurDetExp`, `New.FitsRanks`, `New.schur`, `New.highestPoly`, `New.weylKernel`, `New.weylGram`, `New.toPoly`,
-`New.fockPairing`, `New.hookNumber`); `Lib/GLn/SchurModule/SchurMatrix` (`New.weylRep`);
-`Lib/GLn/SchurModule/TensorModel` (`New.ColumnFilling`, `New.fillingPoly`, `New.fillingMatrix`, `New.minorsMatrix`)
+`New.fockPairing`, `New.hookNumber`); `Lib/GLn/SchurModule/TensorModel` (`New.ColumnFilling`, `New.fillingPoly`,
+`New.fillingMatrix`, `New.minorsMatrix`)
 
 ### 1.2 A basis of products of minors over every ring, and its character
 
@@ -188,7 +189,8 @@ such a leading term is a semi-invariant of the other rows for the weight `l − 
 `y_x^γ` times the old product, with coefficient `1`. Over all admissible `γ`, these completed families have distinct
 leading terms with unit coefficients, hence are independent, and they span by subtraction of leading terms and the
 induction hypothesis; no step depends on the ring. For (c) the same recursion is compared with the expansion of the
-alternant along `x`.
+alternant along `x`. For (e), (a)–(c) are applied to one colour and the columns of `κ_τ`; distinct indices `x` give
+distinct fillings, since their products of minors are independent, so the `I_x` form a set as 1.1 (d) asks.
 
 Let `m` be a finite set of rows with a colouring `c : m → Φ`, and `J` a finite set of columns, the column `j` of colour
 `τ_j` and height `h_j ≥ 0`; let `l(τ, i) := #{j : τ_j = τ, h_j > i}`. A filling `I` gives each column `j` an
@@ -203,10 +205,14 @@ Let `m` be a finite set of rows with a colouring `c : m → Φ`, and `J` a finit
 `u ∈ ℂ^m`:
 `(Σ_{x∈X} ∏_j ∏_{s<h_j} u_{I_x(j,s)})·det(u_{e(a)}^{b})_{a,b<M} = det(u_{e(a)}^{l(M−1−b)+b})_{a,b<M}`.
 
-(d) Consequently, with the standard sets of 1.1 (d): for every `R` and every `e ∈ ℕ^Φ`, the products
-`b_i·∏_τ det(y_τ)^{e_τ}`, `i ∈ B(κ)`, form an `R`-basis of the semi-invariants of the weight `κ` with `e_τ` further
-columns of height `N_τ` at each `τ`; for `e = 0`, `(b_i)` is a basis of `∇_R(κ)`. If an additive subgroup `A ⊂ R`
-contains all coefficients of `Σ_j x_j·b_j·∏_τ det(y_τ)^{e_τ}`, it contains all `x_j`.
+(d) Consequently, with the standard sets of 1.1 (d), which have the properties asked there by (e): for every `R` and
+every `e ∈ ℕ^Φ`, the products `b_i·∏_τ det(y_τ)^{e_τ}`, `i ∈ B(κ)`, form an `R`-basis of the semi-invariants of the
+weight `κ` with `e_τ` further columns of height `N_τ` at each `τ`; for `e = 0`, `(b_i)` is a basis of `∇_R(κ)`. If an
+additive subgroup `A ⊂ R` contains all coefficients of `Σ_j x_j·b_j·∏_τ det(y_τ)^{e_τ}`, it contains all `x_j`.
+
+(e) *Standard sets exist.* For every finite set of rows `n_τ` of one colour and every one-place weight `κ_τ` there is a
+finite set of fillings of the diagram of `κ_τ` by `n_τ` with the properties asked of `B_τ` in 1.1 (d); so the sets
+chosen there have them.
 
 The library has neither general column heights over a ring nor the identification of the span with the
 semi-invariants. On Tau Ceti's main branch, later than the revision pinned here: the case of a single column height,
@@ -214,14 +220,16 @@ for the algebra generated by the maximal minors, over any commutative ring (`Tau
 build on. IntegralWeylModulesOfGeneralLinearGroups §0.1 states (a) and (b) for one colour over integral domains, for
 the semistandard family.
 
-*Needs:* 1.1 (a)–(c) (minors, weights, semi-invariants), and for (d) 1.1 (d)–(f) (the standard sets and the blocks
-`y_τ`); Mathlib `MvPolynomial`, `MonomialOrder`, `Matrix.det`.
+*Needs:* 1.1 (a)–(c) (minors, weights, semi-invariants), for (e) also 1.1 (d) (the properties asked of the standard
+sets), and for (d) 1.1 (d)–(f) (the standard sets and the blocks `y_τ`); Mathlib `MvPolynomial`, `MonomialOrder`,
+`Matrix.det`.
 
 [ShortProof], `Lib/GLn/SchurModule/MinorBasis` (`New.GL.minorProduct_mem_nabla`, `New.GL.exists_bordering`,
 `New.GL.degree_rowExpansion_mem_interlacing`, `New.GL.HasLeadingTerm.leadingCoeff_mem_nabla`,
 `New.GL.IsStdMinorFamily`, `New.GL.exists_isStdMinorFamily`); `Lib/GLn/SchurModule/SchurMatrix`
-(`New.exists_isTableauBasis`, `New.linearIndependent_nablaBasis`, `New.nabla_le_span_nablaBasis_mul_detPow`,
-`New.range_nablaCombination`, `New.GL.linearIndependent_nablaBasis_mul_detPow`, `New.GL.coord_mem_of_coeff_mem`)
+(`New.exists_isTableauBasis`, `New.isTableauBasis_epsilon`, `New.linearIndependent_nablaBasis`,
+`New.nabla_le_span_nablaBasis_mul_detPow`, `New.range_nablaCombination`,
+`New.GL.linearIndependent_nablaBasis_mul_detPow`, `New.GL.coord_mem_of_coeff_mem`)
 
 ### 1.3 Schur matrices
 

@@ -422,7 +422,8 @@ the vacuum.
 
 *Method of the formal proof:* definitions.
 
-Let `E` be a CM field with CM type `Φ` that contains a primitive `5040`-th root of unity.
+Let `E` be a CM field with CM type `Φ`. The first item is a definition for every such `E`; from the second on, `E`
+contains a primitive `5040`-th root of unity.
 
 - A *splitting character* of `E` is a unitary character `υ` of `𝔸^×/E^×` with `υ(x̄) = υ(x)⁻¹`, and with
   `υ(x) = ∏_{w∈Φ} x_w/|x_w|` whenever the finite part of `x` is a unit of `Ô`.
@@ -439,8 +440,11 @@ Let `E` be a CM field with CM type `Φ` that contains a primitive `5040`-th root
   (`y ∈ ℂ^{Φ×n}`); `finVec(z) = (0, αz)` for `z ∈ 𝔸_f^n`; the *finite image* of `γ ∈ E^n` is `α⁻¹γ ∈ 𝔸_f^n`; and the
   *semicharacter* is `semi(z) = ψ₀(½c₀·z*z)`.
 
-*Needs:* AdelicUnitaryGroupsAndAlgebraicModularForms §2.1 (adeles, standard character, 5040 condition);
-IdelicReciprocityCountsAndCyclotomicClassGroups §7.2 (existence of splitting characters).
+Splitting characters exist under a condition on the roots of unity of `E`, and each of them satisfies the condition
+`υ(ϖ_w) = −1` of Weil data (IdelicReciprocityCountsAndCyclotomicClassGroups §7.2 (a), (b)). No section of this
+roadmap uses either fact.
+
+*Needs:* AdelicUnitaryGroupsAndAlgebraicModularForms §2.1 (adeles, standard character, 5040 condition).
 
 [ShortProof], `Lib/Weil/Construction/WeilData` (`New.SplittingChar`, `New.WeilData`, `New.WeilData.scaleIdele`,
 `New.WeilData.traceOne`, `New.vacuumFn`, `New.vacuumFn_eq_exp_mul_ite`, `New.adelicHeisenberg`),
@@ -2455,7 +2459,7 @@ duality of `ℤ`-lattices under projection and intersection (8.2), local determi
 - From the other background roadmaps of this family, cited in the sections that use them:
   AdelicUnitaryGroupsAndAlgebraicModularForms §§1.1, 1.4, 2.1, 3.1–3.5, 3.9, 4.2, 4.4, 5.1, 5.4, 6.1 (adeles, hermitian
   spaces and their groups, heights and reduction, automorphic and algebraic forms);
-  IdelicReciprocityCountsAndCyclotomicClassGroups §§7.1, 7.2 (characters of `U(1)`, splitting characters);
+  IdelicReciprocityCountsAndCyclotomicClassGroups §7.1 (characters of `U(1)`);
   HolomorphicDiscreteSeriesOfUnitaryGroups §§4.1, 4.2, 4.4, 6.1, 8.1, 8.2, 8.5, 8.6 (holomorphy of a weight,
   discrete-series kernels, Fock data, block rule, joint harmonics, local correspondence);
   AbelianSchemesWithThetaStructuresAndTheirCohomology §1.2 (c) (Frobenius' dimension formula);

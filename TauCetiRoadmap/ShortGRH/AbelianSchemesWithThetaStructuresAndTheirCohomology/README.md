@@ -1307,7 +1307,9 @@ The base of the universal family is the reduced closure of the theta values of t
 smoothness of relative dimension `n − 1` at good primes rests on an upper bound for first-order deformations, proved with
 the reduction of isogeny kernels (7.1), a count of `w`-torsion points (7.2) and Drinfeld's lifting lemma (7.3). The
 universal family exists (7.4); its fibre powers carry points given by linear data, which are dense and identified up to
-isomorphism at a level (7.5); and analytic families immerse into them (7.6).
+isomorphism at a level (7.5); and analytic families immerse into them (7.6). Sections 7.5 and 7.6 hold for every
+universal family in the sense of 7.4 without using that one exists, and the proof of existence in 7.4 uses the argument
+of 7.5 (a), the first assertion of 7.6 (a) and 7.6 (b).
 
 ### 7.1 Reduction of isogeny kernels
 
@@ -1407,10 +1409,14 @@ nearest published result is Mumford's construction of moduli of abelian varietie
 
 *Method of the formal proof:* the base `S` is the smallest reduced closed subscheme of a product of projective spaces,
 one factor for each level point, that contains the vectors of theta coordinates of the level points of every theta
-torus of 5.5. Flatness over the good primes comes from 3.6 (c) and 6.5, and 6.7 builds the theta family on `S`.
-Smoothness of relative dimension `n − 1` is checked along arcs whose closed point lies over a good prime: the analytic
-families give `n − 1` independent directions at the generic point (7.6), and 7.3 bounds the tangent space at the closed
-point by `n − 1`.
+torus of 5.5. Finitely many of these points are dense in `S`: finitely many analytic families reach every moduli point
+up to isomorphism at level `K(𝔑)` (7.6 (b)); in each family the point at a suitable parameter specialises to the points
+at all parameters of its domain; and two parameters whose moduli points are isomorphic at level `K(𝔑)` give the same
+point of `S`, by the argument of 7.5 (a) applied to the theta family that 6.7 puts on the closure of the two points.
+Flatness over the good primes comes from 3.6 (c) and 6.5, and 6.7 builds the theta family on `S`. Smoothness of
+relative dimension `n − 1` is checked along arcs whose closed point lies over a good prime: the analytic families give
+`n − 1` independent directions at the generic point (7.6 (a)), and 7.3 bounds the tangent space at the closed point by
+`n − 1`.
 
 Let `D` be PEL data and `R ⊂ E` an `𝓞_E`-subalgebra. A *universal family* `𝒰` for `D` over `R` consists of: `R` a
 Dedekind domain; an `R`-scheme `S` with a projective embedding over `R`, smooth of relative dimension `n − 1`; a theta
@@ -1422,7 +1428,8 @@ these points being dense in `S`; for each `(f, b)` a model (6.2) of the object a
 Let `R` be the localisation of `𝓞_E` at a submonoid of non-zero-divisors, and `D` good over `R` (3.2). Then a universal
 family for `D` over `R` exists.
 
-*Needs:* 3.4, 3.6, 5.5, 6.5, 6.7, 7.3, 7.6.
+*Needs:* 3.4, 3.6, 5.5, 6.5, 6.7, 7.3, 7.5 (a) (by its proof, which holds for the points of any theta family given by
+modelled objects), 7.6 (a) (the first assertion), 7.6 (b).
 
 Relation to PELModuli §§M2.8–M2.9: for the unitary data of §M5.5 and a neat level, those sections give a smooth separated
 algebraic space of finite type with a universal object, which represents the moduli problem `M_H` of §M1.7, over the
@@ -1444,14 +1451,18 @@ its nonzero `𝔪`-torsion and its marked vectors, their identification up to is
 density and smoothness at level one, and the closures of graphs of translations; the nearest published result is the
 description of the complex points of a Kuga–Sato variety over a unitary Shimura variety by an adelic double coset.
 
-*Method of the formal proof:* two points are equal if and only if the objects are isomorphic compatibly with the
+*Method of the formal proof:* the point `[a]_𝔪` exists because `a` is the point at `0` of a ball family (5.5 (d)), and
+`𝒰` has a model at that parameter. Two points are equal if and only if the objects are isomorphic compatibly with the
 torsion and the marked vectors, which by 6.1 (c) and 6.4 is a homomorphism of modelled objects, hence a rational matrix
-(6.2 (d)); conversely 6.2 (e). Smoothness of the fibre power from that of the base and the abelian scheme.
+(6.2 (d)); conversely 6.2 (e). Smoothness of the fibre power from that of the base and the abelian scheme; density from
+that of the points `o(f, b)` and the surjectivity of the uniformisations. Smoothness and density of the base are
+conditions in the definition of a universal family (7.4). In (c) the level is given by 8.1 (e) for the pairs
+`(𝔪_j, g_j)`.
 
-Let `𝒰` be a universal family for `D` over `R` with abelian scheme `𝒜 → S`. For a nonzero `𝔪 ∈ 𝓞_E` and `ν ∈ ℕ`, a
-moduli point `a = (x, J, P)` with `ν` marked vectors determines a complex point `[a]_𝔪` of the fibre power of `𝒜` over
-`S` indexed by the nonzero `𝔪`-torsion classes and `{1, …, ν}`: the object modelled on `(x, J)`, its nonzero
-`𝔪`-torsion points and the images of the `P_i`.
+Let `𝒰` be a universal family for `D` over `R` in the sense of 7.4, with abelian scheme `𝒜 → S`. For a nonzero
+`𝔪 ∈ 𝓞_E` and `ν ∈ ℕ`, a moduli point `a = (x, J, P)` with `ν` marked vectors determines a complex point `[a]_𝔪` of the
+fibre power of `𝒜` over `S` indexed by the nonzero `𝔪`-torsion classes and `{1, …, ν}`: the object modelled on
+`(x, J)`, its nonzero `𝔪`-torsion points and the images of the `P_i`.
 (a) `[a]_𝔪 = [b]_𝔪` if and only if `a ≅ b` at level `K(𝔑) ∩ K(𝔪)` (3.1).
 (b) At `𝔪 = 1` the fibre power `Z_ν` (with `ν` factors) is smooth over `R` of relative dimension `n − 1 + ν·n·f`, the
 points `[a]_1` are dense in it, and for each `α ∈ 𝓞_E^ν` an endomorphism `m_α` of `Z_ν` sends `[a·(g, 1)]_1` to
@@ -1460,7 +1471,7 @@ points `[a]_1` are dense in it, and for each `α ∈ 𝓞_E^ν` an endomorphism 
 closure, in the product of fibre powers, of the tuples `([a·g_j]_{𝔪_j})_j`; it is projective over `R`, and its complex
 point attached to `a` depends only on the class of `a` at some level `K(𝔪)`.
 
-*Needs:* 3.1, 6.1, 6.2, 6.4, 7.4.
+*Needs:* 3.1, 5.5, 6.1, 6.2, 6.4, 8.1 (e).
 
 Relation to PELModuli §M3.4 (complex points of PEL moduli): (a), with 6.3 and 7.6 (d), describes complex points by
 moduli points (adelic frames with a reflection and marked vectors) up to rational isomorphism at a principal level, where
@@ -1481,11 +1492,12 @@ fibre powers, finitely many analytic families reach every moduli point at a give
 is the centre of an arc of objects, and every complex point of a graph closure comes from a moduli point; the nearest
 published result is the uniformisation of unitary Shimura varieties by finitely many balls.
 
-*Method of the formal proof:* holomorphy from the holomorphic uniformisations of `𝒰` (7.4) and 5.5 (a); immersion from
-the condition on the derivative of the periods (5.5); finiteness from the finiteness of classes of signed frames
-(9.3 (c)); arcs from the valuative criterion; surjectivity on complex points from 6.3 and 7.5 (a).
+*Method of the formal proof:* holomorphy from the holomorphy of the uniformisations, a condition in the definition of a
+universal family (7.4), and 5.5 (a); immersion from the condition on the derivative of the periods (5.5); finiteness
+from the finiteness of classes of signed frames (9.3 (c)); arcs from the valuative criterion; surjectivity on complex
+points from 6.3 and 7.5 (a).
 
-Let `𝒰` be a universal family and `ν ≥ 1` the number of marked vectors (in (b) any `ν ≥ 0`).
+Let `𝒰` be a universal family in the sense of 7.4 and `ν ≥ 1` the number of marked vectors (in (b) any `ν ≥ 0`).
 (a) Let objects `x(b)` over `ℂ` of a theta family, `b ∈ ℂ^{n−1}`, have models on the theta tori `Y_b` of an analytic
 family `f`. If, for some `b` in the domain of `f`, the uniformised points are holomorphic at `(b, z)` for all `z`, then
 `b ↦ x(b)`, as a family of complex points of the base, is a holomorphic immersion at `b`. For marked vectors `P` and
@@ -1499,7 +1511,7 @@ of a valuation subring of `ℂ`) of objects.
 (d) If a morphism from `C` to the fibre power `Z_ν` sends the point of `C` attached to each `a` to `[a]_1`, every complex
 point of `C` over `R` is the point attached to some `a`.
 
-*Needs:* 5.1, 5.5, 6.3, 7.4, 7.5, 9.3.
+*Needs:* 5.1, 5.5, 6.3, 7.5, 9.3.
 
 [ShortProof], `Lib/Shimura/IntegralModel/BallImmersion` (`New.Variety.AnalyticFamily.isHolomorphicImmersionAt_of_holomorphicAt`,
 `New.Variety.ModuliPoint.exists_finite_analyticFamily_isLevelIso`,
