@@ -181,6 +181,7 @@ body:
         - DiamondsAndVStacks
         - DiamondsAndVStacksPartII
         - DifferentialGeometry
+        - DiffusionReverseStepKLBound
         - DimerModelsAndLozengeTilings
         - DiophantineApproximationAndTranscendence
         - DiophantineApproximationAndTranscendencePartII
@@ -310,6 +311,7 @@ body:
         - HamiltonianCycles
         - HamiltonianFloerOperations
         - HanfNumbers
+        - HankelFormsAndRealMomentProblems
         - HeckeStacksAndLocalShtukas
         - HeckeStacksAndLocalShtukasPartII
         - HeegaardFloer
