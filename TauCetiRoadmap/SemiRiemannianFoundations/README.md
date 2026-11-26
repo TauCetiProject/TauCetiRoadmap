@@ -9,9 +9,21 @@ For positive-definite metrics its curvature, warped-product, Jacobi, index and i
 objects agree with Tau Ceti's and RiemannianGeometry's. LorentzianGeometry specializes these
 foundations to Lorentzian geometry and causality.
 
+Three theorems head the roadmap. A strong symmetric nondegenerate metric of class `C^{k+1}`,
+`k ≤ ∞`, on a smooth manifold modelled on a real Banach space has a torsion-free covariant
+derivative of class `C^k` on the tangent bundle compatible with the metric, unique on vector
+fields differentiable at the base point. On a Hausdorff Banach manifold without boundary, a
+connection whose chart coefficients are locally Lipschitz has a unique maximal geodesic through
+each tangent vector, with an open flow domain and an exponential map, and the flow and the
+exponential map are of class `C^r` when the coefficients are. For a `C^{1,1}` metric `g` of any
+signature on a finite-dimensional Hausdorff manifold and a normal neighbourhood of `p`, the
+function `q(exp_p v) = g_p(v, v)` is `C^{1,1}` and `dq = 2g(P, ·)`, where `P` is the position
+vector field.
+
 This README is the roadmap. `Suggested.lean` gives the metric carrier, the vector characters
-and the extension predicates, states the theorems about them that are statable against the
-pinned Mathlib and Tau Ceti, and names the headline theorems that are not.
+and the extension predicates, states the existence half of the first of these theorems and the
+reduction of inextendibility to second-countable extensions against the pinned Mathlib and Tau
+Ceti, and names the headline theorems that are not statable there.
 
 ## How to read the build
 
@@ -265,12 +277,16 @@ with the existing `Bundle.ContMDiffRiemannianMetric` interface retained. A tange
 a vector field, or a piecewise `C¹` curve's one-sided velocities are timelike, null, causal
 or spacelike when their values are.
 
-Call `g` strong when `(g x).IsInvertible` for every `x`, using the metric itself as the
-continuous flat map into the continuous dual. Develop the pairing and injectivity API without strongness.
+Call `g` strong (`ContMDiffNondegenerateMetric.IsStrong`) when `(g x).IsInvertible` for every
+`x`, using the metric itself as the continuous flat map into the continuous dual. Develop the
+pairing and injectivity API without strongness.
 For strong metrics, construct the continuous linear musical isomorphisms and inverse metric,
-prove that the inverses have the same regularity by the Banach inverse-operator theorem,
+prove that the inverses have the same regularity, since operator inversion is smooth at
+invertible maps of a Banach space (Mathlib's `ContinuousLinearMap.IsInvertible.contDiffAt_map_inverse`),
 and retain the existing finite-dimensional `flat` and `sharp` interfaces as specializations.
-Prove that every finite-dimensional nondegenerate metric is strong. Smooth strong metrics
+Every finite-dimensional nondegenerate metric is strong: at each point this is Tau Ceti's
+`ContinuousLinearMap.isInvertible_of_separatingLeft`, which
+`TauCeti.Manifold.ContMDiffNondegenerateMetric.isInvertible` applies to the smooth carrier. Smooth strong metrics
 and weak metrics with supplied connections use the same downstream connection API.
 
 - Lowering the order from `k` to `l ≤ k`, with identity and composition laws, preserving
@@ -339,7 +355,7 @@ representative of `g` in
 
 The chartwise definition and change-of-chart lemmas use Banach-valued Fréchet derivatives;
 the comparison with PDE §1.7 uses its finite-dimensional Euclidean domains. In particular,
-`C^{1,1}_loc` supplies the `C^{1,1}` metric hypothesis of §3.2.
+`C^{1,1}_loc` supplies the `C^{1,1}` metric hypotheses of §2.4 and §3.4.
 
 **Checks.**
 
@@ -359,8 +375,14 @@ For a strong nondegenerate metric `g` on a Banach manifold with `1 ≤ k`, exten
 torsion-free, metric-compatible on differentiable fields
 (`X g(Y, Z) = g(∇_X Y, Z) + g(Y, ∇_X Z)`), unique on differentiable section germs,
 with the Koszul
-identity. The local construction uses the inverse continuous flat map and Fréchet
-derivatives of `g`; in finite dimensions it gives the Christoffel formula
+identity. The existence statement, for `g` of class `C^{l+1}` with `l ≤ ∞` on a manifold
+modelled on a Banach space, is `ContMDiffNondegenerateMetric.exists_leviCivitaConnection`; it
+writes torsion-freeness as `∇_X Y − ∇_Y X = [X, Y]` on fields differentiable at the base point,
+since Mathlib's torsion tensor assumes a finite-dimensional model. The local construction uses
+the inverse continuous flat map and Fréchet derivatives of `g` (for Riemannian metrics on
+Banach and Fréchet manifolds, Bruveris, §2.3, formula (1), pp. 8–9, which also notes that a weak
+metric needs the right-hand side of that formula in the image of its flat map); in finite
+dimensions it gives the Christoffel formula
 `Γ^k_ij = ½ g^{kl}(∂_i g_jl + ∂_j g_il − ∂_l g_ij)` of class `C^{k−1}`, and of class
 `C^{k−1,α}` when `g` is `C^{k,α}`. For `∞ ≤ k` it agrees with Tau Ceti's
 `ContMDiffNondegenerateMetric.leviCivitaConnection`. Generalize the existing Koszul
@@ -399,7 +421,7 @@ so it supplies the hypothesis of the single flow construction in §3.2.
 - The constant weighted `ℓ²` metric of §2.2 is weak but its Koszul covectors are represented by `Γ = 0`.
 - For the `C^{1,α}` metric of §2.3 the Christoffel field is `C^{0,α}`; local geodesic uniqueness is a separate question.
 
-*Needs:* §2.1–§2.3; HopfRinow nondegenerate Koszul and along-curve interfaces.
+*Needs:* §2.1–§2.3; Mathlib's `CovariantDerivative` and `VectorField.mlieBracket`; HopfRinow nondegenerate Koszul and along-curve interfaces.
 
 ### 2.5 Curvature identities and finite-dimensional contractions
 
@@ -502,7 +524,8 @@ Prove that for connected, second-countable `M` the target may be taken second co
 `M̃`, so some `p` lies in `closure ι(M) \ ι(M)`; for a connected chart neighbourhood `U` of `p`,
 the open set `ι(M) ∪ U` is connected, Hausdorff and second countable, and `ι` into it with the
 restricted metric is a `C^l`-extension. Hence `IsInextendible l g` is equivalent to the same
-predicate quantified over second-countable `M̃` only.
+predicate quantified over second-countable `M̃` only
+(`ContMDiffNondegenerateMetric.isInextendible_iff_forall_secondCountable`).
 
 **Checks.**
 
@@ -529,8 +552,9 @@ Layer 1 (§1.1); Mathlib connections, sections, continuous multilinear maps, Ban
 Hypotheses by target: §3.1 works on smooth manifolds, including Banach models, and assumes
 tangent differentiability almost everywhere only as an explicit hypothesis; §3.2 uses
 continuous coefficients for the geodesic predicate, finite dimension for Peano existence, and
-Banach models with locally Lipschitz coefficients for the unique flow; §3.3 uses Banach model
-spaces and `C^r` coefficients, `r ≥ 1`, with joint smoothness for smooth families; §3.4 uses
+Hausdorff manifolds with Banach models and locally Lipschitz coefficients for the unique flow;
+§3.3 uses Banach model spaces and `C^r` coefficients, `r ≥ 1`, with joint smoothness for smooth
+families; §3.4 uses
 Banach models with `C¹` or smooth coefficients for differentiable normal coordinates, finite
 dimension for Lipschitz convex normal neighbourhoods, and `C^{1,1}` metrics for the radial
 Gauss identity.
@@ -597,14 +621,18 @@ smooth case).
 
 The geodesic predicate is independent of local existence or uniqueness. Supply the
 finite-dimensional Peano existence lemma for continuous vector fields, by compactness of
-Euler approximations and Arzelà–Ascoli, and apply it to continuous connection coefficients.
+Euler approximations and Arzelà–Ascoli (Mathlib's `BoundedContinuousFunction.arzela_ascoli`),
+and apply it to continuous connection coefficients.
 This gives local existence but no uniqueness for `C¹` metric coefficients.
 
 For Banach model spaces define locally Lipschitz connection coefficients intrinsically
 through the chart field `Γ_x : E →L[ℝ] E →L[ℝ] E`, and prove chart independence. Construct
-the geodesic spray once, with chart expression `z' = (v, −Γ_x(v,v))`, `z = (x,v)`.
-Identify its integral curves with velocity lifts of the geodesic predicate. Under local
-Lipschitz hypotheses use Banach Picard–Lindelöf to construct unique maximal geodesics,
+the geodesic spray once, with chart expression `z' = (v, −Γ_x(v,v))`, `z = (x,v)` (the chart
+geodesic equation `c″ + Γ(c)(c′, c′) = 0` of a Riemannian metric on a Banach manifold is
+Bruveris, §2.5, p. 9). Identify its integral curves with velocity lifts of the geodesic
+predicate. On a Hausdorff manifold, under local Lipschitz hypotheses use Banach
+Picard–Lindelöf (Mathlib's `IsPicardLindelof.exists_eq_forall_mem_Icc_hasDerivWithinAt`, with
+uniqueness from `ODE_solution_unique_of_mem_Icc`) to construct unique maximal geodesics,
 their open flow domain and flow, and the open domain and map of the exponential of `cov`.
 Prove locally Lipschitz dependence on initial data, the flow composition and uniqueness
 laws, the rescaling law `γ_cv(t) = γ_v(ct)`, and `d(exp_p)_0 = id`.
@@ -626,6 +654,9 @@ coefficient field enters the spray.
 - For `Γ_x(v, v) = v²` on `ℝ` the geodesic with `x(0) = 0`, `x′(0) = c > 0` is
   `log(1 + ct) = γ_1(ct)`, as the rescaling law requires; `c log(1 + t)` is not a geodesic for
   `c ≠ 1`.
+- On the line with two origins, which is not Hausdorff, `Γ = 0` in both charts gives two maximal
+  geodesics `s ↦ s − 1` with initial data `(−1, 1)`, one through each origin, which differ at
+  `s = 1`: uniqueness of maximal geodesics needs the Hausdorff hypothesis.
 
 *Needs:* §2.1, §2.4, §3.1; Mathlib Banach Picard–Lindelöf and Grönwall; existing HopfRinow geodesic interfaces.
 
@@ -679,8 +710,8 @@ neighbourhood theorems for locally Lipschitz connections, using quantitative Pic
 estimates to establish `HasStrictFDerivAt` for the exponential map at the zero section,
 then applying Mathlib's `HasStrictFDerivAt.toOpenPartialHomeomorph` and the quantitative
 `ApproximatesLinearOn` estimates (Minguzzi, *Convex neighborhoods for Lipschitz connections
-and sprays*, Theorems 3 and 4, pp. 11–12; Kunzinger–Steinbauer–Stojković, Theorems 2.1 and
-4.1, pp. 2 and 10). For a `C^{1,1}` metric of any signature and a
+and sprays*, Theorems 3 and 4, pp. 11–12; for `C^{1,1}` metrics, Kunzinger–Steinbauer–Stojković,
+Theorems 2.1 and 4.1, pp. 2 and 10). For a `C^{1,1}` metric of any signature and a
 normal neighbourhood of `p`, set `q(exp_p(v)) = g_p(v,v)` and
 `P(exp_p(v)) = γ_v'(1)`. Prove the low-regularity Gauss lemma:
 `q` is `C^{1,1}` and `dq_x(w) = 2g_x(P(x),w)`, with agreement with §3.4 for smooth
@@ -941,13 +972,19 @@ completeness theorems are also outside this roadmap.
   (`Mathlib/Geometry/Manifold/IntegralCurve/`).
 - Connections: `CovariantDerivative`, `IsCovariantDerivativeOn`,
   `ContMDiffCovariantDerivative` (graded by `k : ℕ∞ω`) and the torsion API
-  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/`).
+  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/`); the Lie bracket of vector
+  fields `VectorField.mlieBracket` (`Mathlib/Geometry/Manifold/VectorField/LieBracket.lean`),
+  in which §2.4 states torsion-freeness on Banach manifolds.
 - Analysis: `LipschitzOnWith`, `LocallyLipschitzOn`, `HolderOnWith`, `iteratedFDerivWithin`,
   Arzelà–Ascoli (`BoundedContinuousFunction.arzela_ascoli`), and the ODE API of
   `Mathlib/Analysis/ODE/`.
-- Banach local analysis: `ContinuousLinearMap.IsInvertible`, its continuous inverse,
+- Banach local analysis: `ContinuousLinearMap.IsInvertible`, its continuous inverse, the
+  smoothness of inversion `ContinuousLinearMap.IsInvertible.contDiffAt_map_inverse`
+  (`Mathlib/Analysis/Calculus/ContDiff/Operations.lean`, for a complete domain),
   `ContinuousLinearEquiv`, continuous multilinear maps, operator-norm differentiation,
-  the Banach inverse-function and Picard–Lindelöf APIs. The existing manifold theorem
+  the Banach inverse-function and Picard–Lindelöf APIs, in particular
+  `IsPicardLindelof.exists_eq_forall_mem_Icc_hasDerivWithinAt` and
+  `ODE_solution_unique_of_mem_Icc` (`Mathlib/Analysis/ODE/ExistUnique.lean`). The existing manifold theorem
   `exists_isMIntegralCurveAt_of_contMDiffAt` requires `CompleteSpace E`, not finite dimension
   (`Mathlib/Geometry/Manifold/IntegralCurve/ExistUnique.lean`). Use these suppliers for
   §2.1 and §3.2–§3.3; the finite-dimensional Peano lemma is a target of §3.2.
@@ -965,10 +1002,11 @@ use finite-dimensional hypotheses; generalizing the inverse step to strong metri
 the local tensor construction to Banach bundles is part of §2.1–§2.5. Preserve their
 finite-dimensional public interfaces.
 
-- Smooth nondegenerate metrics: `TauCeti.Manifold.ContMDiffNondegenerateMetric`
-  (`TauCeti/Geometry/Manifold/VectorBundle/NondegenerateMetric/Basic.lean`), its chart
-  representative `chartMetric`, `inCoordinates`, the musical maps `flat` and `sharp` with
-  `contMDiff_sharp` (`.../NondegenerateMetric/Musical.lean`), the restriction
+- Smooth nondegenerate metrics: `TauCeti.Manifold.ContMDiffNondegenerateMetric`, its chart
+  representative `chartMetric`, `inCoordinates` and the musical maps `flat` and `sharp`
+  (`TauCeti/Geometry/Manifold/VectorBundle/NondegenerateMetric/Basic.lean`), the invertibility
+  of the flat map `ContMDiffNondegenerateMetric.isInvertible` and `contMDiff_sharp`
+  (`.../NondegenerateMetric/Musical.lean`), the restriction
   `restrictOpenTangentSpace` (`.../Restriction.lean`), the local-isometry predicate
   `ContMDiffNondegenerateMetric.IsLocalIsometry` (`.../LocalIsometry.lean`), and the
   parameter families `ContMDiffNondegenerateMetricFamily` (`.../Family.lean`).
@@ -1013,6 +1051,10 @@ finite-dimensional public interfaces.
   whose implementations are generalized to the common connection-level API in Layer 3.
 - `TauCeti.Manifold.IsPiecewiseContMDiffOn` (`TauCeti/Geometry/Manifold/PiecewisePath.lean`).
 - `TauCeti.HolderSpace` and `TauCeti.CkHolderSpace` (`TauCeti/Analysis/Holder/`), for §2.3.
+- `ContinuousLinearMap.isInvertible_of_separatingLeft`
+  (`TauCeti/Topology/Algebra/Module/BilinearForm.lean`): on a finite-dimensional space a
+  continuous map into the dual whose bilinear form is left-separating is invertible, which makes
+  every finite-dimensional nondegenerate metric strong (§2.2).
 
 ### From TauCetiRoadmap.HopfRinow (completed)
 
@@ -1057,7 +1099,7 @@ for a nondegenerate metric. §2.5 consumes the divergence for the contracted Bia
 Theorem and page numbers of a preprint are those of the arXiv version named in its entry.
 
 - M. Bruveris, *Riemannian geometry for shape analysis and computational anatomy*,
-  [arXiv:1807.11290](https://arxiv.org/abs/1807.11290): Banach/Hilbert foundations,
+  [arXiv:1807.11290v1](https://arxiv.org/abs/1807.11290v1): Banach/Hilbert foundations,
   strong and weak metrics, connections and the limits of infinite-dimensional completeness.
 - P. W. Michor, D. Mumford, *Vanishing geodesic distance on spaces of submanifolds and
   diffeomorphisms*, [arXiv:math/0409303](https://arxiv.org/abs/math/0409303): weak metrics

@@ -14,19 +14,29 @@ roadmap's statable theorems need, against the pinned Mathlib and Tau Ceti:
   strongness predicate, and the reading of a smooth metric as Tau Ceti's;
 * extensions and `C^l`-inextendibility of a metric of any signature (§2.7);
 
-and states two of the theorems about them:
+and states two theorems about them:
 
-* a finite-dimensional nondegenerate metric is strong (§2.2);
+* a strong metric of class `C^{l+1}`, `l ≤ ∞`, on a manifold modelled on a Banach space has a
+  torsion-free compatible covariant derivative of class `C^l` (§2.4);
 * for a connected second-countable manifold without boundary, `C^l`-inextendibility needs to
   exclude only second-countable extensions (§2.7).
 
-Not statable at the pins: the headline theorems on Banach manifolds and at finite regularity
-(Layers 2–5: the Levi-Civita connection of a strong `C^k` metric, the geodesic flow of a
-locally Lipschitz connection, the `C^{1,1}` Gauss lemma, the Gauss–Codazzi–Ricci equations of
-a nondegenerate immersion, Jacobi fields and index forms of an indefinite metric). Tau Ceti's
-covariant acceleration and Levi-Civita connection are finite-dimensional and smooth, its
-exponential map is the Riemannian one, and it has no second fundamental form of an immersion
-into a semi-Riemannian manifold.
+Not statable at the pins:
+
+* the single geodesic flow and exponential map of a connection with locally Lipschitz
+  coefficients on a Banach manifold (§3.2–§3.3): Tau Ceti's covariant acceleration
+  `CovariantDerivative.accelerationWithin` and its Christoffel maps of a connection assume a
+  finite-dimensional model, so a Banach manifold has no geodesic predicate and no coefficient
+  field to be locally Lipschitz;
+* the `C^{1,1}` Gauss lemma (§3.4): it is a statement about the exponential map of a `C^{1,1}`
+  metric of any signature, and the exponential maps of a metric at the pins are Tau Ceti's
+  Riemannian ones, such as `TauCeti.Manifold.riemannianExp`, of smooth positive-definite metrics;
+* the Gauss–Codazzi–Ricci equations of a nondegenerate immersion (§4.1): Tau Ceti's second
+  fundamental form is that of a map into an inner-product space, and there is none for an
+  immersion into a manifold with a nondegenerate metric;
+* Jacobi fields and index forms on Banach manifolds (§5.1): Tau Ceti's
+  `CovariantDerivative.alongCurveWithin` and `CovariantDerivative.curvatureTensor` assume a
+  finite-dimensional model, and its Jacobi fields are those of a Riemannian metric.
 
 The carrier `ContMDiffNondegenerateMetric k` is the metric of §2.2 at regularity `k`: Tau Ceti's
 `TauCeti.Manifold.ContMDiffNondegenerateMetric` is the smooth case and has no regularity
@@ -107,9 +117,23 @@ continuous linear map into the continuous dual, is a continuous linear isomorphi
 def IsStrong (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) : Prop :=
   ∀ x, (g x).IsInvertible
 
-/-- **§2.2.** Every finite-dimensional nondegenerate metric is strong. -/
-theorem isStrong_of_finiteDimensional [FiniteDimensional ℝ E]
-    (g : ContMDiffNondegenerateMetric (I := I) (M := M) k) : g.IsStrong := by
+/-- **§2.4.** The Levi-Civita theorem at finite regularity on a Banach manifold: a strong
+symmetric nondegenerate metric `g` of class `C^{l+1}`, `l ≤ ∞`, on a smooth manifold (boundary and
+corners allowed) modelled on a Banach space has a covariant derivative `∇` on `TM` of class `C^l`
+that is torsion free, `∇_X Y − ∇_Y X = [X, Y]`, and compatible with `g`,
+`v (g(Y, Z)) = g(∇_v Y, Z) + g(Y, ∇_v Z)`, on vector fields differentiable at the base point.
+Torsion is written with the Lie bracket because Mathlib's torsion tensor assumes a
+finite-dimensional model. -/
+theorem exists_leviCivitaConnection [CompleteSpace E] {l : ℕ∞ω} (hl : l ≤ ∞)
+    (g : ContMDiffNondegenerateMetric (I := I) (M := M) (l + 1)) (hg : g.IsStrong) :
+    ∃ cov : CovariantDerivative I E (fun x : M ↦ TangentSpace I x),
+      CovariantDerivative.ContMDiffCovariantDerivative cov l ∧
+      (∀ ⦃X Y : Π x : M, TangentSpace I x⦄ ⦃x : M⦄, MDiffAt (T% X) x → MDiffAt (T% Y) x →
+        cov Y x (X x) - cov X x (Y x) = VectorField.mlieBracket I X Y x) ∧
+      (∀ ⦃Y Z : Π x : M, TangentSpace I x⦄ ⦃x : M⦄, MDiffAt (T% Y) x → MDiffAt (T% Z) x →
+        ∀ v : TangentSpace I x,
+          mfderiv I 𝓘(ℝ) (fun y ↦ g y (Y y) (Z y)) x v =
+            g x (cov Y x v) (Z x) + g x (Y x) (cov Z x v)) := by
   sorry
 
 /-- **§2.7.** An extension of `(M, g)` of class `C^l`, at any signature: a smooth embedding `ι`
