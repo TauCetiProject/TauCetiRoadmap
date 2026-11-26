@@ -91,6 +91,7 @@ body:
         - AutomorphicPadicLFunctionsPartII
         - AutomorphicSpectralTheory
         - AutomorphicSpectralTheoryPartII
+        - AutomorphyLiftingBeyondTaylorWiles
         - BallQuotientsAndComplexHyperbolicLattices
         - BanachAlgebras
         - BanachSpaceTheory
@@ -257,6 +258,7 @@ body:
         - FuchsianOrbifoldsPartII
         - FukayaTheory
         - FunctionFieldArithmetic
+        - FunctionFieldArithmeticPartII
         - GL2AutomorphicRepresentationsAndTransfer
         - GL2ModularityLifting
         - GaloisActionOnEtaleCohomology
@@ -495,6 +497,7 @@ body:
         - QuadraticCharactersAndReduction
         - QuadraticFormInvariants
         - QuadraticFormInvariantsPartII
+        - QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups
         - QuantumEnvelopingAlgebras
         - QuantumFoundations
         - QuantumGroups
@@ -522,6 +525,7 @@ body:
         - RegretMinimizationAndEquilibria
         - Regularity
         - RelativeFarguesFontaine
+        - RelativeFarguesFontainePartII
         - RelativeJacobiansAndIntegralCurveModels
         - RelativisticQuantumFieldTheory
         - RepresentationTheory
@@ -549,6 +553,7 @@ body:
         - SerreModularityByCompatibleSystems
         - SerreWeightAndLevelOptimisation
         - SheafConvolutionOnAbelianVarieties
+        - SheafTheoreticSmithTheory
         - ShimuraCompactifications
         - ShimuraData
         - ShimuraVarieties
