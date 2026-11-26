@@ -37,13 +37,15 @@ the Kneser graphs as the running example. Its headline theorems are these.
   `−C(v − k − 1, k − 1)`, `χ_f(K(v, k)) = v/k` and `ϑ(K(v, k)) = C(v − 1, k − 1)`; for
   `2k < v`, `K(v, k)` is a core.
 
-The roadmap sits on GraphSpectra, which supplies the adjacency spectrum, the Kneser spectrum and
-the monotonicity of the index; on GraphSymmetryAndCayleyGraphs, which supplies vertex- and
-edge-transitivity and the transitivity of Kneser graphs; on LovaszThetaFunction, whose theta
-function, eigenvalue form, ratio bound and vertex-transitive product formula are consumed and
-not restated here; on SpectralGraphBounds and GraphColouring for the unweighted eigenvalue
-bounds, the degeneracy bound and Brooks' theorem; and on TuttePolynomialAndArrangements for the
-chromatic polynomial in Whitney's form and its count of colourings.
+The roadmap sits on [GraphSpectra](../GraphSpectra/README.md), which supplies the adjacency
+spectrum, the Kneser spectrum and the monotonicity of the index; on GraphSymmetryAndCayleyGraphs,
+which supplies vertex- and edge-transitivity and the transitivity of Kneser graphs; on
+[LovaszThetaFunction](../LovaszThetaFunction/README.md), whose theta function, eigenvalue form,
+ratio bound and vertex-transitive product formula are consumed and not restated here; on
+[SpectralGraphBounds](../SpectralGraphBounds/README.md) and
+[GraphColouring](../GraphColouring/README.md) for the unweighted eigenvalue bounds, the degeneracy
+bound and Brooks' theorem; and on TuttePolynomialAndArrangements for the chromatic polynomial in
+Whitney's form and its count of colourings.
 
 ## How to read the build
 
@@ -753,29 +755,30 @@ Owned here:
   of the Kneser graphs.
 
 Consumed, not restated (see the supplier contracts):
-- GraphSpectra 1.2, 2.4, 2.6 and 3.4: the adjacency spectrum, the Kneser and Petersen graphs,
-  the Kneser spectrum, and the strict monotonicity of the index.
+- [GraphSpectra](../GraphSpectra/README.md) 1.2, 2.4, 2.6 and 3.4: the adjacency spectrum, the
+  Kneser and Petersen graphs, the Kneser spectrum, and the strict monotonicity of the index.
 - GraphSymmetryAndCayleyGraphs 1.1 and 1.3: vertex- and edge-transitivity and the transitivity
   of Kneser graphs; 4.1 is cited for an alternative route.
-- SpectralGraphBounds 1.1, 1.2, 2.1 and 3.1: the sorted eigenvalues, interlacing for induced
-  subgraphs, the average-degree bound with its equality case, Wilf's bound and Cvetković's
-  inertia bound. Hoffman's ratio bound with its equality clause (SpectralGraphBounds 3.2) is the
-  unweighted case of 1.1 here and is not restated.
-- GraphColouring 1.1, 2.1 and 2.2: the degeneracy bound, odd cycles and the graphs with
-  `χ = Δ + 1`.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1, 1.2, 2.1 and 3.1: the sorted
+  eigenvalues, interlacing for induced subgraphs, the average-degree bound with its equality case,
+  Wilf's bound and Cvetković's inertia bound. Hoffman's ratio bound with its equality clause
+  (SpectralGraphBounds 3.2) is the unweighted case of 1.1 here and is not restated.
+- [GraphColouring](../GraphColouring/README.md) 1.1, 2.1 and 2.2: the degeneracy bound, odd cycles
+  and the graphs with `χ = Δ + 1`.
 - TuttePolynomialAndArrangements 4.1 and 4.2: the component count, the chromatic polynomial in
   Whitney's form, its count of colourings and the broken-circuit expansion.
-- LovaszThetaFunction 1.1, 1.3, 2.1, 3.1, 4.2, 4.3 and 5.1: the theta function and its
-  isomorphism invariance, its eigenvalue form, `α ≤ ϑ`, strong powers, `ϑ(G)ϑ(Ḡ) = n` for
-  vertex-transitive graphs, the ratio bound for `ϑ`, and the Shannon capacity. The values
-  `ϑ(C₅) = √5` and `ϑ = 4` for the Petersen graph used in Checks are LovaszThetaFunction 4.1 and
-  4.3.
-- TopologicalCombinatorics 3.1: the Kneser graphs, their regularity and their edgelessness for
-  `v < 2k`. Lovász's theorem `χ(K(v, k)) = v − 2k + 2` is TopologicalCombinatorics 3.3 and is not
-  used.
-- AssociationSchemes 5.2: uniqueness of the extremal Erdős–Ko–Rado families.
-- StronglyRegularAndMooreGraphs 1.1 and 1.2: the strongly regular graphs with `μ = 0` and the
-  spectrum of a strongly regular graph.
+- [LovaszThetaFunction](../LovaszThetaFunction/README.md) 1.1, 1.3, 2.1, 3.1, 4.2, 4.3 and 5.1: the
+  theta function and its isomorphism invariance, its eigenvalue form, `α ≤ ϑ`, strong powers,
+  `ϑ(G)ϑ(Ḡ) = n` for vertex-transitive graphs, the ratio bound for `ϑ`, and the Shannon capacity.
+  The values `ϑ(C₅) = √5` and `ϑ = 4` for the Petersen graph used in Checks are LovaszThetaFunction
+  4.1 and 4.3.
+- [TopologicalCombinatorics](../TopologicalCombinatorics/README.md) 3.1: the Kneser graphs, their
+  regularity and their edgelessness for `v < 2k`. Lovász's theorem `χ(K(v, k)) = v − 2k + 2` is
+  TopologicalCombinatorics 3.3 and is not used.
+- [AssociationSchemes](../AssociationSchemes/README.md) 5.2: uniqueness of the extremal
+  Erdős–Ko–Rado families.
+- [StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md) 1.1 and 1.2: the
+  strongly regular graphs with `μ = 0` and the spectrum of a strongly regular graph.
 - AsymptoticSpectra 2.3: the fractional clique cover number, with attainment and
   linear-programming duality. `fractionalChromaticNumber G` here is that number for `Gᶜ` (5.1),
   so attainment and duality are consumed from there through the complement. This roadmap adds
@@ -788,10 +791,11 @@ Consumed, not restated (see the supplier contracts):
 
 Not owned here, and not used: the eigenmatrix of the Johnson scheme and the clique–coclique
 bound for association schemes (AssociationSchemes 4.2 and 5.1; 7.1 here takes the Kneser
-spectrum from GraphSpectra 2.6); perfect graphs (PerfectAndChordalGraphs); Schrijver's `ϑ'` and
-the Delsarte linear programming bound (DelsarteTheoryOfCodesAndDesigns); the Paley graphs as a
-family (PaleyGraphsAndCharacterSums), of which one appears in a Check, described directly;
-equitable partitions and their quotients (EquitableOperatorReduction).
+spectrum from GraphSpectra 2.6); perfect graphs
+([PerfectAndChordalGraphs](../PerfectAndChordalGraphs/README.md)); Schrijver's `ϑ'` and the Delsarte
+linear programming bound (DelsarteTheoryOfCodesAndDesigns); the Paley graphs as a family
+(PaleyGraphsAndCharacterSums), of which one appears in a Check, described directly; equitable
+partitions and their quotients (EquitableOperatorReduction).
 
 Outside the scope: weighted theta functions, the spectrum of the Kneser graph beyond its least
 eigenvalue, the Tutte polynomial of a multigraph, and every procedure for computing any of these
@@ -832,7 +836,8 @@ invariants or polynomials.
 
 ### From GraphSpectra
 
-The roadmap GraphSpectra, whose definitions used here are copied verbatim in `Suggested.lean`:
+The roadmap [GraphSpectra](../GraphSpectra/README.md), whose definitions used here are copied
+verbatim in `Suggested.lean`:
 - 1.2: `adjSpectrum`, the adjacency spectrum as a multiset. Used in 7.1.
 - 1.7 and 2.4: the decidability instances for disjoint unions and Kneser graphs, copied
   verbatim; the Petersen graph `K(5, 2)`. Used in Layers 3 and 7.
@@ -851,15 +856,17 @@ The roadmap GraphSpectra, whose definitions used here are copied verbatim in `Su
 
 ### From SpectralGraphBounds
 
-- 1.1: `adjEigenvalues`, `largestEigenvalue` and `smallestEigenvalue`, copied verbatim; the
-  Rayleigh bounds and interlacing for induced subgraphs. Used throughout.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1: `adjEigenvalues`, `largestEigenvalue`
+  and `smallestEigenvalue`, copied verbatim; the Rayleigh bounds and interlacing for induced
+  subgraphs. Used throughout.
 - 1.2: `2|E| ≤ nθ₁`, with equality exactly for regular graphs. 2.1: Wilf's bound. Used in 2.1.
 - 3.1: Cvetković's inertia bound, the unweighted case of 1.1.
 
 ### From GraphColouring
 
-- 1.1: the degeneracy bound; 2.1: `IsOddCycle`, copied verbatim; 2.2: a connected graph has
-  `χ = Δ + 1` exactly when it is complete or an odd cycle. Used in 2.1.
+- [GraphColouring](../GraphColouring/README.md) 1.1: the degeneracy bound; 2.1: `IsOddCycle`, copied
+  verbatim; 2.2: a connected graph has `χ = Δ + 1` exactly when it is complete or an odd cycle. Used
+  in 2.1.
 
 ### From TuttePolynomialAndArrangements
 
@@ -871,27 +878,28 @@ The roadmap GraphSpectra, whose definitions used here are copied verbatim in `Su
 
 ### From LovaszThetaFunction
 
-- 1.1: `lovaszTheta`, copied verbatim, with `0 ≤ ϑ` and isomorphism invariance; 1.3: the
-  eigenvalue form with attainment; 2.1: `α ≤ ϑ`; 3.1: `strongPow`, copied verbatim; 4.2:
-  `ϑ(G)ϑ(Ḡ) = n` when every vertex is carried to every other by an automorphism; 4.3:
-  `ϑ(G)(d − θₙ) ≤ n(−θₙ)` for `d`-regular `G`; 5.1: `shannonCapacity`, copied verbatim. Used in
-  Layers 6 and 7.
+- [LovaszThetaFunction](../LovaszThetaFunction/README.md) 1.1: `lovaszTheta`, copied verbatim, with
+  `0 ≤ ϑ` and isomorphism invariance; 1.3: the eigenvalue form with attainment; 2.1: `α ≤ ϑ`; 3.1:
+  `strongPow`, copied verbatim; 4.2: `ϑ(G)ϑ(Ḡ) = n` when every vertex is carried to every other by
+  an automorphism; 4.3: `ϑ(G)(d − θₙ) ≤ n(−θₙ)` for `d`-regular `G`; 5.1: `shannonCapacity`, copied
+  verbatim. Used in Layers 6 and 7.
 
 ### From TopologicalCombinatorics
 
-- 3.1: `kneserGraphOf` and `kneserGraph`, copied verbatim; `K(v, k)` is `C(v − k, k)`-regular for
-  `k ≥ 1` and has no edge for `v ≤ 2k − 1`. Used in Layers 5 and 7.
+- [TopologicalCombinatorics](../TopologicalCombinatorics/README.md) 3.1: `kneserGraphOf` and
+  `kneserGraph`, copied verbatim; `K(v, k)` is `C(v − k, k)`-regular for `k ≥ 1` and has no edge for
+  `v ≤ 2k − 1`. Used in Layers 5 and 7.
 
 ### From AssociationSchemes
 
-- 5.2: for `2k < n`, an intersecting family of `k`-subsets of `Fin n` with `C(n − 1, k − 1)`
-  members is a star. Used in 7.1 and 7.2.
+- [AssociationSchemes](../AssociationSchemes/README.md) 5.2: for `2k < n`, an intersecting family of
+  `k`-subsets of `Fin n` with `C(n − 1, k − 1)` members is a star. Used in 7.1 and 7.2.
 
 ### From StronglyRegularAndMooreGraphs
 
-- 1.1: a strongly regular graph with `μ = 0` is a disjoint union of cliques. 1.2: for a strongly
-  regular graph with `μ > 0` that is not complete, the spectrum is `{k, r, s}` with `s < r < k`.
-  Used in 6.1.
+- [StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md) 1.1: a strongly
+  regular graph with `μ = 0` is a disjoint union of cliques. 1.2: for a strongly regular graph with
+  `μ > 0` that is not complete, the spectrum is `{k, r, s}` with `s < r < k`. Used in 6.1.
 
 ### From AsymptoticSpectra
 
