@@ -33,16 +33,16 @@ The headline theorems are:
   matrix has exactly two eigenvalues, meets the relative bound with equality,
   `n(1 - dα²) = d(1 - α²)`.
 
-The roadmap builds on the spectral vocabulary of GraphSpectra (spectra, Perron–Frobenius, the
-monotonicity of the index, line graphs and the spectra of the standard graphs). It takes the
-Seidel matrix, Seidel switching, two-graphs and equiangular families from
+The roadmap builds on the spectral vocabulary of [GraphSpectra](../GraphSpectra/README.md) (spectra,
+Perron–Frobenius, the monotonicity of the index, line graphs and the spectra of the standard
+graphs). It takes the Seidel matrix, Seidel switching, two-graphs and equiangular families from
 EquiangularLinesAndTwoGraphs, which also owns the bounds on equiangular lines and the consequences
-of equality in them. It rests on Tau Ceti's recognition of Dynkin and affine Dynkin diagrams
-through the form `2I - A`, on the affine recognition theorem of
-[ZigzagPreprojective](../ZigzagPreprojective/README.md), 0.1, on the classification of root
-systems of [RootSystems](../RepresentationTheory/RootSystems/README.md), §3.1, and on the root
-lattices of [IntegralLattices](../IntegralLattices/README.md). Strong regularity is read off the
-spectrum through StronglyRegularGraphsAndDesigns, Layer 1.
+of equality in them. It rests on Tau Ceti's recognition of Dynkin and affine Dynkin diagrams through
+the form `2I - A`, on the affine recognition theorem of
+[ZigzagPreprojective](../ZigzagPreprojective/README.md), 0.1, on the classification of root systems
+of [RootSystems](../RepresentationTheory/RootSystems/README.md), §3.1, and on the root lattices of
+[IntegralLattices](../IntegralLattices/README.md). Strong regularity is read off the spectrum
+through StronglyRegularGraphsAndDesigns, Layer 1.
 
 ## How to read the build
 
@@ -168,11 +168,11 @@ Targets:
   orthogonal and fixes `J`, it also conjugates `J - I - A(G)` to `J - I - A(P.switch)`.
 
 **Checks.**
-- On `Fin 7` with `X₁ = {0, 1, 2, 3}` and `Y = {4, 5, 6}`: let `G` have edges `04, 05, 06, 14,
-  25, 36`, the tree `T(2, 2, 2)`. Each `y ∈ Y` sees exactly two vertices of `X₁`, and `X₁` is
-  independent, so the partition qualifies. The switched graph has edges `15, 16, 24, 26, 34, 35`,
-  which is `C₆ ⊔ K₁`. Both have spectrum `2, 1², 0, (-1)², -2`, and their complements are
-  cospectral.
+- On `Fin 7` with `X₁ = {0, 1, 2, 3}` and `Y = {4, 5, 6}`: let `G` have edges
+  `04, 05, 06, 14, 25, 36`, the tree `T(2, 2, 2)`. Each `y ∈ Y` sees exactly two vertices of `X₁`,
+  and `X₁` is independent, so the partition qualifies. The switched graph has edges
+  `15, 16, 24, 26, 34, 35`, which is `C₆ ⊔ K₁`. Both have spectrum `2, 1², 0, (-1)², -2`, and their
+  complements are cospectral.
 - The cell sizes matter: on the same example, `conjMatrix` has the block `(1/2) J - I` on `X₁`,
   and `(1/2 J - I)² = I` because `J² = 4J`; with `(2/3) J - I` the square is not `I`.
 - The condition on `Y` matters: on `Fin 4` with the single edge `03`, `X₁ = {0, 1, 2}` and
@@ -376,9 +376,10 @@ Basic API (prose): a root representation forces all eigenvalues to be at least `
 isomorphisms and restricts to induced subgraphs.
 
 **Checks.**
-- `C₄ = L(C₄)`, with colour classes `{0, 2}`, `{1, 3}`: the vectors `e₀ - e₁, e₂ - e₁, e₂ - e₃,
-  e₀ - e₃` in `A₃` have dot products `1` around the cycle and `0` across it. The cyclic choice
-  `e₀ - e₁, e₁ - e₂, e₂ - e₃, e₃ - e₀` fails: consecutive dot products are `-1`.
+- `C₄ = L(C₄)`, with colour classes `{0, 2}`, `{1, 3}`: the vectors
+  `e₀ - e₁, e₂ - e₁, e₂ - e₃, e₀ - e₃` in `A₃` have dot products `1` around the cycle and `0` across
+  it. The cyclic choice `e₀ - e₁, e₁ - e₂, e₂ - e₃, e₃ - e₀` fails: consecutive dot products are
+  `-1`.
 - The Petersen graph has least eigenvalue `-2` and a root representation in `E₈`; `A + 2I` has
   rank `6`.
 - `K_{1,5}` has least eigenvalue `-√5 < -2`, so it has no root representation.
@@ -553,8 +554,9 @@ permutations of the petals, and its degree at an edge `xy` is
   `A_n` case absorbed into the `D_n` case through `A_n ⊆ D_{n+1}` (3.1), then 4.3.
 
 **Checks.**
-- Both bounds are attained [BH, p. 112]: join each vertex `i` of `K₈` to the vertices `jk` of
-  `L(K₈)` with `i ∉ {j, k}`. The resulting graph has `8 + 28 = 36` vertices, least eigenvalue
+- Both bounds are attained [BH, p. 112, where the remark after the proof assigns them to part
+  (ii), a misprint for (iii)]: join each vertex `i` of `K₈` to the vertices `jk` of `L(K₈)` with
+  `i ∉ {j, k}`. The resulting graph has `8 + 28 = 36` vertices, least eigenvalue
   `-2`, and degree `28` at the vertices of `K₈`. The representation given there,
   `i ↦ ½(e₁ + ⋯ + e₈) - e_i` and `jk ↦ e_j + e_k`, uses half vectors with one minus sign, which
   lie outside `rootsE8`; negating the first coordinate of every vector gives a representation in
@@ -627,7 +629,10 @@ Basic API (prose): each predicate is invariant under isomorphism of `G`.
   `-2(A - ½J) - I`, and `β = -1/2` is in the range `-1 < β < 0` of [BH, Proposition 14.4.1,
   p. 206] where regularity need not be recognized.
 
-*Needs:* GraphSpectra 1.2, 1.3; SpectralGraphBounds 1.2; LaplacianSpectraAndSpanningTrees 2.3.
+*Needs:* GraphSpectra 1.2, 1.3; SpectralGraphBounds 1.1, 1.2; LaplacianSpectraAndSpanningTrees
+2.3; Tau Ceti `Matrix.IsHermitian.trace_pow_eq_sum_eigenvalues_pow`; Mathlib
+`SimpleGraph.adjMatrix_pow_apply_eq_card_walk` and
+`SimpleGraph.card_connectedComponent_eq_finrank_ker_toLin'_lapMatrix`.
 
 ### 5.2 Regular graphs
 
@@ -892,10 +897,12 @@ The boundary with EquiangularLinesAndTwoGraphs, section by section:
   its scope, are 6.1–6.3 here.
 
 Consumed from other roadmaps, not restated (see the supplier contracts):
-- GraphSpectra 1.2, 2.4 (definitions copied), 1.3, 1.7, 2.5, 2.6, 3.2, 3.4, 3.8.
-- SpectralGraphBounds 1.1, LaplacianEigenvaluesOfGraphs 1.1 and TopologicalCombinatorics 3.1:
-  the sorted eigenvalues, the index and the Kneser graph, copied as GraphSpectra copies them;
-  SpectralGraphBounds 1.2.
+- [GraphSpectra](../GraphSpectra/README.md) 1.2, 2.4 (definitions copied), 1.3, 1.7, 2.5, 2.6, 3.2,
+  3.4, 3.8.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1,
+  [LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) 1.1 and
+  [TopologicalCombinatorics](../TopologicalCombinatorics/README.md) 3.1: the sorted eigenvalues, the
+  index and the Kneser graph, copied as GraphSpectra copies them; SpectralGraphBounds 1.2.
 - StronglyRegularGraphsAndDesigns 1.3; LaplacianSpectraAndSpanningTrees 2.3.
 - [ZigzagPreprojective](../ZigzagPreprojective/README.md) 0.1,
   [RootSystems](../RepresentationTheory/RootSystems/README.md) §3.1 and
@@ -904,8 +911,9 @@ Consumed from other roadmaps, not restated (see the supplier contracts):
   ZigzagPreprojective 0.1 states its recognition theorem as a target, consumed in 2.2.
 
 Neighbouring roadmaps, not used here:
-- StronglyRegularAndMooreGraphs: the spectrum of a strongly regular graph (1.2); 6.3 reads strong
-  regularity off the restricted eigenvalues through StronglyRegularGraphsAndDesigns 1.3 instead.
+- [StronglyRegularAndMooreGraphs](../StronglyRegularAndMooreGraphs/README.md): the spectrum of a
+  strongly regular graph (1.2); 6.3 reads strong regularity off the restricted eigenvalues through
+  StronglyRegularGraphsAndDesigns 1.3 instead.
 - CharacteristicPolynomialsAndStarComplements, which places cospectral graphs and switching
   outside its scope.
 - SphericalCodesAndKissingNumbers: the minimal vectors of `E₈` as a spherical code (1.2).
@@ -993,8 +1001,8 @@ switching; the Seidel matrix and equiangular lines themselves are EquiangularLin
 
 ### From GraphSpectra
 
-- 1.2: `adjSpectrum`, `lapSpectrum`, `signlessLapSpectrum`, the signless Laplacian
-  (copied), used throughout.
+- [GraphSpectra](../GraphSpectra/README.md) 1.2: `adjSpectrum`, `lapSpectrum`,
+  `signlessLapSpectrum`, the signless Laplacian (copied), used throughout.
 - 1.3: the trace identities, used in 1.1 and 5.1.
 - 1.7: disjoint unions and isomorphism invariance of spectra, used in 1.1, 2.4 and 5.4.
 - 2.4: the Petersen graph (copied), used in 5.4.
@@ -1008,12 +1016,14 @@ switching; the Seidel matrix and equiangular lines themselves are EquiangularLin
 
 ### From SpectralGraphBounds, LaplacianEigenvaluesOfGraphs and TopologicalCombinatorics
 
-- SpectralGraphBounds 1.1: `adjEigenvalues` and `largestEigenvalue` (copied), used throughout.
+- [SpectralGraphBounds](../SpectralGraphBounds/README.md) 1.1: `adjEigenvalues` and
+  `largestEigenvalue` (copied), used throughout; the trace identity `Σ θ_i² = 2|E|`, used in 5.1.
 - SpectralGraphBounds 1.2: on a nonempty vertex type, `n λ₁ = 2|E|` exactly when the graph is
   regular; used in 5.1.
-- LaplacianEigenvaluesOfGraphs 1.1: `lapEigenvalues` (copied), through `lapSpectrum`.
-- TopologicalCombinatorics 3.1: `kneserGraphOf` and `kneserGraph` (copied), through the Petersen
-  graph.
+- [LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) 1.1: `lapEigenvalues`
+  (copied), through `lapSpectrum`.
+- [TopologicalCombinatorics](../TopologicalCombinatorics/README.md) 3.1: `kneserGraphOf` and
+  `kneserGraph` (copied), through the Petersen graph.
 
 ### From EquiangularLinesAndTwoGraphs
 
