@@ -385,6 +385,7 @@ body:
         - MarkovChainMixing
         - MarkovChainsAndRenewal
         - MarkovDecisionProcesses
+        - MartingaleCentralLimitTheorem
         - MassFormula
         - MatchingPolynomial
         - MatchingTheory
