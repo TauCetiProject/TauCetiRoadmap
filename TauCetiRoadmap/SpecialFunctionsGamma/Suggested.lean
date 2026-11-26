@@ -157,6 +157,7 @@ theorem Complex.integral_beta_div_add_cpow {a b z : ℂ} (ha : 0 < a.re) (hb : 0
 
 /-- README 2.1; DLMF 5.12.5, in reciprocal-Gamma form, for every `b`. -/
 theorem Complex.integral_cos_cpow_mul_cos {a : ℂ} (ha : 0 < a.re) (b : ℂ) :
+    IntervalIntegrable (fun t : ℝ => (Real.cos t : ℂ) ^ (a - 1) * cos (b * t)) volume 0 (π / 2) ∧
     ∫ t in (0 : ℝ)..(π / 2), (Real.cos t : ℂ) ^ (a - 1) * cos (b * t) =
       π * Gamma a * (2 : ℂ) ^ (-a) *
         (Gamma ((a + b + 1) / 2))⁻¹ * (Gamma ((a - b + 1) / 2))⁻¹ := by
@@ -164,6 +165,7 @@ theorem Complex.integral_cos_cpow_mul_cos {a : ℂ} (ha : 0 < a.re) (b : ℂ) :
 
 /-- README 2.1; DLMF 5.12.6, in reciprocal-Gamma form, for every `b`. -/
 theorem Complex.integral_sin_cpow_mul_exp {a : ℂ} (ha : 0 < a.re) (b : ℂ) :
+    IntervalIntegrable (fun t : ℝ => (Real.sin t : ℂ) ^ (a - 1) * exp (I * b * t)) volume 0 π ∧
     ∫ t in (0 : ℝ)..π, (Real.sin t : ℂ) ^ (a - 1) * exp (I * b * t) =
       π * exp (I * π * b / 2) * Gamma a * (2 : ℂ) ^ (1 - a) *
         (Gamma ((a + b + 1) / 2))⁻¹ * (Gamma ((a - b + 1) / 2))⁻¹ := by
@@ -208,6 +210,7 @@ theorem Complex.integral_abs_cpow_mul_exp_neg_sq {c : ℝ} (hc : 0 < c) {z : ℂ
 
 /-- README 3.1; DLMF 5.9.4, Prym's decomposition. -/
 theorem Complex.Gamma_eq_integral_Ioi_one_add_tsum {z : ℂ} (hz : ∀ m : ℕ, z ≠ -m) :
+    IntegrableOn (fun t : ℝ => (t : ℂ) ^ (z - 1) * Real.exp (-t)) (Ioi 1) ∧
     Gamma z =
       (∫ t in Ioi (1 : ℝ), (t : ℂ) ^ (z - 1) * Real.exp (-t)) +
         ∑' k : ℕ, (-1) ^ k / ((z + k) * k.factorial) := by
@@ -243,23 +246,29 @@ theorem Complex.tendsto_integral_cos_pow_sin_pow {n : ℕ} (hn : 2 ≤ n) :
 
 /-- README 3.3; DLMF 5.9.13. -/
 theorem Complex.digamma_eq_log_add_integral {z : ℂ} (hz : 0 < z.re) :
+    IntegrableOn (fun t : ℝ => ((1 / t - 1 / (1 - Real.exp (-t)) : ℝ) : ℂ) * exp (-t * z))
+        (Ioi 0) ∧
     digamma z = log z + ∫ t in Ioi (0 : ℝ), ((1 / t - 1 / (1 - Real.exp (-t)) : ℝ) : ℂ) *
       exp (-t * z) := by
   sorry
 
 /-- README 3.3; DLMF 5.9.14, Dirichlet's integral. -/
 theorem Complex.digamma_eq_integral_one_add {z : ℂ} (hz : 0 < z.re) :
+    IntegrableOn (fun t : ℝ => (Real.exp (-t) - (1 + t : ℂ) ^ (-z)) / t) (Ioi 0) ∧
     digamma z = ∫ t in Ioi (0 : ℝ), (Real.exp (-t) - (1 + t : ℂ) ^ (-z)) / t := by
   sorry
 
 /-- README 3.3; DLMF 5.9.15. -/
 theorem Complex.digamma_eq_log_sub_integral {z : ℂ} (hz : 0 < z.re) :
+    IntegrableOn (fun t : ℝ => t / ((t ^ 2 + z ^ 2) * (Real.exp (2 * π * t) - 1))) (Ioi 0) ∧
     digamma z = log z - 1 / (2 * z) -
       2 * ∫ t in Ioi (0 : ℝ), t / ((t ^ 2 + z ^ 2) * (Real.exp (2 * π * t) - 1)) := by
   sorry
 
 /-- README 3.3; DLMF 5.9.16. -/
 theorem Complex.digamma_add_eulerMascheroni {z : ℂ} (hz : 0 < z.re) :
+    IntegrableOn (fun t : ℝ => (Real.exp (-t) - exp (-z * t)) / (1 - Real.exp (-t))) (Ioi 0) ∧
+    IntervalIntegrable (fun t : ℝ => (1 - (t : ℂ) ^ (z - 1)) / (1 - t)) volume 0 1 ∧
     digamma z + γ = (∫ t in Ioi (0 : ℝ), (Real.exp (-t) - exp (-z * t)) / (1 - Real.exp (-t))) ∧
       digamma z + γ = ∫ t in (0 : ℝ)..1, (1 - (t : ℂ) ^ (z - 1)) / (1 - t) := by
   sorry
@@ -274,12 +283,15 @@ theorem Real.eulerMascheroni_eq_integrals :
 
 /-- README 3.4; DLMF 5.9.19. -/
 theorem Complex.iteratedDeriv_Gamma_eq_integral (n : ℕ) {z : ℂ} (hz : 0 < z.re) :
+    IntegrableOn (fun t : ℝ => (Real.log t : ℂ) ^ n * Real.exp (-t) * (t : ℂ) ^ (z - 1)) (Ioi 0) ∧
     iteratedDeriv n Gamma z =
       ∫ t in Ioi (0 : ℝ), (Real.log t : ℂ) ^ n * Real.exp (-t) * (t : ℂ) ^ (z - 1) := by
   sorry
 
 /-- README 3.4; DLMF 5.9.20, with `∫_c^z` along the segment. -/
 theorem Complex.integral_segment_Gamma {c z : ℂ} (hc : 0 < c.re) (hz : 0 < z.re) :
+    IntegrableOn (fun t : ℝ => ((t : ℂ) ^ (z - 1) - (t : ℂ) ^ (c - 1)) / Real.log t * Real.exp (-t))
+        (Ioi 0) ∧
     ∫ s in (0 : ℝ)..1, Gamma (c + s * (z - c)) * (z - c) =
       ∫ t in Ioi (0 : ℝ), ((t : ℂ) ^ (z - 1) - (t : ℂ) ^ (c - 1)) / Real.log t * Real.exp (-t) := by
   sorry
@@ -510,6 +522,7 @@ theorem Complex.norm_Gamma_add_div_Gamma_add_le {a b : ℝ} (ha : 0 ≤ a) (hab 
 
 /-- README 8.1; DLMF 5.9.2, Hankel's loop integral, with the contour pinned. -/
 theorem Complex.inv_Gamma_eq_hankel (z : ℂ) {ε : ℝ} (hε : 0 < ε) :
+    IntegrableOn (fun r : ℝ => exp (-(r : ℂ)) * (r : ℂ) ^ (-z)) (Ioi ε) ∧
     (Gamma z)⁻¹ =
       sin (π * z) / π * (∫ r in Ioi ε, exp (-(r : ℂ)) * (r : ℂ) ^ (-z)) +
         (ε : ℂ) ^ (1 - z) / (2 * π) *
@@ -523,6 +536,7 @@ theorem Complex.inv_Gamma_eq_temme {z : ℂ} (hz : 0 < z.re) :
 
 /-- README 8.3; DLMF 5.12.10, with the loop around `1` pinned. -/
 theorem Complex.beta_loop_one {a : ℂ} (ha : 0 < a.re) (b : ℂ) {ε : ℝ} (hε₀ : 0 < ε) (hε₁ : ε < 1) :
+    IntervalIntegrable (fun t : ℝ => (t : ℂ) ^ (a - 1) * (1 - (t : ℂ)) ^ (b - 1)) volume 0 (1 - ε) ∧
     (2 * π * I)⁻¹ *
         ((exp (-I * π * (b - 1)) - exp (I * π * (b - 1))) *
             (∫ t in (0 : ℝ)..(1 - ε), (t : ℂ) ^ (a - 1) * (1 - (t : ℂ)) ^ (b - 1)) +
@@ -534,6 +548,7 @@ theorem Complex.beta_loop_one {a : ℂ} (ha : 0 < a.re) (b : ℂ) {ε : ℝ} (h�
 `e^{2πia} − 1`. -/
 theorem Complex.beta_loop_zero {a b : ℂ} (hb : 0 < b.re) (ha : ∀ m : ℕ, a ≠ -m) {ε : ℝ}
     (hε₀ : 0 < ε) (hε₁ : ε < 1) :
+    IntegrableOn (fun t : ℝ => (t : ℂ) ^ (a - 1) * (1 + (t : ℂ)) ^ (-a - b)) (Ioi ε) ∧
     (exp (2 * π * I * a) - 1) * (∫ t in Ioi ε, (t : ℂ) ^ (a - 1) * (1 + (t : ℂ)) ^ (-a - b)) +
         I * (ε : ℂ) ^ a *
           ∫ θ in (0 : ℝ)..(2 * π), exp (I * a * θ) * (1 + ε * exp (θ * I)) ^ (-a - b) =
@@ -559,6 +574,7 @@ theorem Complex.beta_pochhammer (a b : ℂ) {ε : ℝ} (hε₀ : 0 < ε) (hε₁
 /-- README 9.1; DLMF 5.12.8. -/
 theorem Complex.integral_vertical_beta {a b w z : ℂ} (hw : 0 < w.re) (hz : 0 < z.re)
     (hab : 1 < (a + b).re) :
+    Integrable (fun t : ℝ => (w + I * t) ^ (-a) * (z - I * t) ^ (-b)) ∧
     1 / (2 * π) * ∫ t : ℝ, (w + I * t) ^ (-a) * (z - I * t) ^ (-b) =
       Gamma (a + b - 1) * (w + z) ^ (1 - a - b) * (Gamma a)⁻¹ * (Gamma b)⁻¹ := by
   sorry
@@ -566,6 +582,7 @@ theorem Complex.integral_vertical_beta {a b w z : ℂ} (hw : 0 < w.re) (hz : 0 <
 /-- README 9.1; DLMF 5.12.9. -/
 theorem Complex.integral_vertical_beta_one_sub {a b : ℂ} {c : ℝ} (hc₀ : 0 < c) (hc₁ : c < 1)
     (hab : 0 < (a + b).re) :
+    Integrable (fun y : ℝ => (c + I * y) ^ (-a) * (1 - c - I * y) ^ (-1 - b)) ∧
     1 / (2 * π) * ∫ y : ℝ, (c + I * y) ^ (-a) * (1 - c - I * y) ^ (-1 - b) =
       Gamma (a + b) * (Gamma a)⁻¹ * (Gamma (1 + b))⁻¹ := by
   sorry
@@ -707,7 +724,6 @@ theorem TauCeti.integral_dyson {n : ℕ} (hn : 1 ≤ n) {b : ℂ} (hb : 0 < 1 + 
 #check @Matrix.det_vandermonde
 #check @Matrix.vandermonde
 #check @MeasureTheory.measurePreserving_piFinSuccAbove
-#check @mellinInv_mellin_eq
 #check @MvPolynomial
 #check @Nat.choose
 #check @Nat.doubleFactorial_two_mul

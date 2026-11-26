@@ -5,22 +5,22 @@ function, the psi function `ψ = Γ′/Γ` and the polygamma functions `ψ⁽ⁿ
 what Mathlib has: `Γ` (`Complex.Gamma`) with Euler's integral, Euler's limit, the recurrence,
 reflection and duplication formulas, the Beta integral and the Bohr–Mollerup theorem, and `ψ`
 (`Complex.digamma`) with its recurrence, reflection and duplication. Its organization follows the
-structure of the subject rather than any one text. The partial-fraction series of `ψ`, read off
-from the product for `1/Γ`, comes first, because almost everything about `ψ` and `ψ⁽ⁿ⁾` follows
-from it. Then come the Beta integral and its multidimensional extensions of Dirichlet and
-Liouville, and the transforms of Euler's integral that give the integral representations of `Γ`,
-`ψ` and `γ` and the asymptotics of `ψ⁽ⁿ⁾`. The uniqueness theorems of Wielandt and of the limit
-type, the multiplication formulas and the special values follow, then the series that `ψ` sums,
-the Taylor expansions at the origin and the inequalities. The contour integrals come last: Hankel's
-loop and the loop forms of the Beta integral, the Mellin–Barnes integrals along vertical lines, and
-the Selberg-type integrals. The content is drawn from Andrews–Askey–Roy (*Special Functions*,
-Chs. 1–3 and 8), Remmert (*Classical Topics in Complex Function Theory*, Ch. 2), Whittaker–Watson
-(Ch. XII), Temme (*Special Functions*, Ch. 3), Olver (*Asymptotics and Special Functions*, Ch. 2),
-Lebedev (*Special Functions and Their Applications*, Ch. 1), Beals–Wong (*Special Functions*,
-Ch. 2), Forrester (*Log-Gases and Random Matrices*, Ch. 4), Duverney (*An Introduction to
-Hypergeometric Functions*, Ch. 2), Paris–Kaminski (*Asymptotics and Mellin–Barnes Integrals*,
-§3.3) and the NIST *Digital Library of Mathematical Functions* (DLMF), and each headline cites its
-sources; see [References](#references).
+structure of the subject rather than any one text. The partial-fraction series of `ψ`, carried from
+the right half-plane to every point off the poles by the recurrence, comes first, because almost
+everything about `ψ` and `ψ⁽ⁿ⁾` follows from it. Then come the Beta integral and its
+multidimensional extensions of Dirichlet and Liouville, and the transforms of Euler's integral that
+give the integral representations of `Γ`, `ψ` and `γ` and the asymptotics of `ψ⁽ⁿ⁾`. The uniqueness
+theorems of Wielandt and of the limit type, the multiplication formulas and the special values
+follow, then the series that `ψ` sums, the Taylor expansions at the origin and the inequalities. The
+contour integrals come last: Hankel's loop and the loop forms of the Beta integral, the
+Mellin–Barnes integrals along vertical lines, and the Selberg-type integrals. The content is drawn
+from Andrews–Askey–Roy (*Special Functions*, Chs. 1–3 and 8), Remmert (*Classical Topics in Complex
+Function Theory*, Ch. 2), Whittaker–Watson (Ch. XII), Temme (*Special Functions*, Ch. 3), Olver
+(*Asymptotics and Special Functions*, Ch. 2), Lebedev (*Special Functions and Their Applications*,
+Ch. 1), Beals–Wong (*Special Functions*, Ch. 2), Forrester (*Log-Gases and Random Matrices*, Ch. 4),
+Duverney (*An Introduction to Hypergeometric Functions*, Ch. 2), Paris–Kaminski (*Asymptotics and
+Mellin–Barnes Integrals*, §3.3) and the NIST *Digital Library of Mathematical Functions* (DLMF), and
+each headline cites its sources; see [References](#references).
 
 The roadmap covers:
 - the residues of `ψ` at its poles (those of `Γ` are SpecialFunctionsParabolicCylinder 6.6(b)),
@@ -47,7 +47,7 @@ The roadmap covers:
 - Carlson's and Landau's theorems, and the integrals of Selberg, Aomoto, Mehta and Dyson on their
   full ranges of parameters (Layer 10).
 
-The roadmap rests on Mathlib and Tau Ceti, on five roadmaps on main and on ExplicitNumberFields.
+The roadmap rests on Mathlib and Tau Ceti and on six roadmaps on main.
 It consumes Stirling's formula on sectors and on vertical strips and the asymptotics of `ψ` from
 [ZerosOfLFunctions](../ZerosOfLFunctions/README.md); the complex Gamma integral, Watson's lemma in
 a sector, the rotation of the path and the Gamma bound on vertical strips from
@@ -58,30 +58,31 @@ periodic Carlson lemma from
 the product for `Γ(x)²/|Γ(x + iy)|²`, its comparison in `x` and the value of `|Γ(1 + iy)|²` from
 [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md); Gauss's
 integral for `ψ` from [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md); and the
-series of `ψ` and `ψ′` on `Re z > 0` from ExplicitNumberFields 1.1a.
+series of `ψ` and `ψ′` on `Re z > 0` from
+[ExplicitNumberFields](../ExplicitNumberFields/README.md) 1.1a.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Gamma/`, beside
 `TauCeti/Analysis/SpecialFunctions/Gamma.lean`, and `TauCeti/Analysis/SpecialFunctions/Beta.lean`.
 
 ## How to read the build
 
-Layer 1 differentiates the product for `1/Γ` logarithmically: Gauss's series of `ψ` and `ψ′`, and
-the polygamma functions with their series, which give the recurrence, the reflection, the
-multiplication formula and the values at integers and half-integers of `ψ⁽ⁿ⁾`. Layer 2 takes
-Euler's Beta identity from Mathlib and changes variables: the trigonometric and hyperbolic forms,
-and by induction on the dimension Dirichlet's and Liouville's integrals. Layer 3 transforms
-Euler's integral in the same way: scaling, splitting, subtracting Taylor polynomials, rotating to
-oscillatory integrals, and integrating in the parameter, which gives the integrals of `ψ` and `γ`;
-the Laplace representation of `ψ⁽ⁿ⁾` and Watson's lemma give its sector asymptotics. Layer 4 uses
-the functional equation: Wielandt's theorem and the limit characterization, which single out `Γ`
-among its solutions, the multiplication formulas, the values on vertical lines, Gauss's theorem on
-`ψ(p/q)` and Kummer's Fourier series. Layer 5 sums series with the partial fractions of Layer 1,
-and Layer 6 expands at the origin with them. Layer 7 combines Layers 1 and 4 with log-convexity
-into the inequalities. Layers 8–10 are contour integrals: the loops around the branch points (8),
-the vertical lines of the Mellin–Barnes integrals and Ramanujan's real-line integral (9), and the
-`n`-dimensional Beta integrals of Selberg type, continued in their parameters by Carlson's and
-Landau's theorems (10). The `**Checks.**` and `### Examples` of each layer are statements to
-prove; they test the conventions on explicit values.
+Layer 1 extends Gauss's series of `ψ` and `ψ′` from the half-plane `Re z > 0` to every `z` off the
+poles by the recurrence, and builds on them the polygamma functions with their series, which give
+the recurrence, the reflection, the multiplication formula and the values at integers and
+half-integers of `ψ⁽ⁿ⁾`. Layer 2 takes Euler's Beta identity from Mathlib and changes variables: the
+trigonometric and hyperbolic forms, and by induction on the dimension Dirichlet's and Liouville's
+integrals. Layer 3 transforms Euler's integral in the same way: scaling, splitting, subtracting
+Taylor polynomials, rotating to oscillatory integrals, and integrating in the parameter, which gives
+the integrals of `ψ` and `γ`; the Laplace representation of `ψ⁽ⁿ⁾` and Watson's lemma give its
+sector asymptotics. Layer 4 uses the functional equation: Wielandt's theorem and the limit
+characterization, which single out `Γ` among its solutions, the multiplication formulas, the values
+on vertical lines, Gauss's theorem on `ψ(p/q)` and Kummer's Fourier series. Layer 5 sums series with
+the partial fractions of Layer 1, and Layer 6 expands at the origin with them. Layer 7 combines
+Layers 1 and 4 with log-convexity into the inequalities. Layers 8–10 are contour integrals: the
+loops around the branch points (8), the vertical lines of the Mellin–Barnes integrals and
+Ramanujan's real-line integral (9), and the `n`-dimensional Beta integrals of Selberg type,
+continued in their parameters by Carlson's and Landau's theorems (10). The `**Checks.**` and
+`### Examples` of each layer are statements to prove; they test the conventions on explicit values.
 
 ```text
 Layer 1 ──┬──► Layer 3 ──► Layer 4 ──┬──► Layer 5
@@ -127,7 +128,11 @@ Layer 2 ──┬──► Layer 8                               │
 - **Integrals.** An absolutely convergent integral is a Lebesgue integral over the stated set, with
   integrability part of the target. A conditionally convergent integral at `∞` (3.2) is the limit
   of `∫₀^R` as `R → ∞`. A vertical-line integral `(2πi)⁻¹ ∫_{c−i∞}^{c+i∞} f(s) ds` is
-  `(2π)⁻¹ ∫_ℝ f(c + iy) dy`, with `y ↦ f(c + iy)` integrable.
+  `(2π)⁻¹ ∫_ℝ f(c + iy) dy`, with `y ↦ f(c + iy)` integrable. `Suggested.lean` states the
+  integrability as a conjunct wherever the equation does not force it. An equation `∫ f = v` with
+  `v ≠ 0` forces it, Lean's integral of a non-integrable function being `0`, and so does an
+  integrand continuous on a compact interval; the conjunct is there where the value can vanish in
+  the stated range (2.1, 3.3, 3.4, 9.1) or where the integral is one term of a sum (3.1, 8.1, 8.3).
 - **Contours.** The sources fix the loop contours of Hankel's integral and of the loop forms of
   the Beta integral (8.1, 8.3) by figures and words. This roadmap writes each one as a sum of
   segment, ray and circle integrals with every branch stated, depending on a radius `ε`; the
@@ -602,6 +607,10 @@ For every `a, x ∈ ℂ` and `n ∈ ℕ` (DLMF 5.2.8–5.2.9):
   `L(n, k) = C(n − 1, k − 1) n!/k!` for `1 ≤ k ≤ n`, `L(0, 0) = 1` and `L(n, k) = 0` otherwise
   (`Complex.lah`; `ascPochhammer_eval_eq_sum_lah`, `descPochhammer_eval_eq_sum_lah`).
 
+DLMF 5.2.9 prints `L(n, k) = C(n − 1, k − 1) n!/k!` with both sums from `k = 0`, where the
+binomial has the lower index `−1`; the values `L(0, 0) = 1` and `L(n, 0) = 0` for `n ≥ 1` above
+fix that case, and they are what the expansions at `n = 0` and `n = 1` need.
+
 The first is the polynomial form of the duplication formula: off the poles it is
 `Γ(a + 2n)/Γ(a)` against the duplication formula at `a/2 + n` and `a/2`.
 
@@ -672,13 +681,15 @@ on the unit circle.
 - **Kummer's series.** For `0 < x < 1`, with partial sums over `k = 1, …, N`,
   `Σ_{k≥1} (log k/k) sin 2πkx = π (log Γ(x) − ½ log 2π + ½ log(2 sin πx) − (γ + log 2π)(½ − x))`
   (`Real.tendsto_sum_log_Gamma_sine`; Andrews–Askey–Roy, Thm. 1.7.1, p. 29).
-- **The local convergence test.** Let `f : ℝ → ℂ` be `1`-periodic and integrable on `[0, 1]`,
-  with Fourier coefficients `f̂(k) = ∫₀¹ f(t) e^{−2πikt} dt`, and differentiable at `x`. Then
+- **The local convergence test.** Let `f : ℝ → ℂ` be `1`-periodic and integrable on `[0, 1]`, with
+  Fourier coefficients `f̂(k) = ∫₀¹ f(t) e^{−2πikt} dt`, and differentiable at `x`. Then
   `Σ_{|k|≤N} f̂(k) e^{2πikx} → f(x)` as `N → ∞`
-  (`TauCeti.tendsto_sum_fourierCoeffOn_of_differentiableAt`). Route: the partial sum minus `f(x)`
-  is `∫_{−1/2}^{1/2} g(t) sin((2N + 1)πt) dt` with `g(t) = (f(x + t) − f(x))/sin πt` (the Dirichlet
-  kernel); `g` is integrable on `[−½, ½]`, being bounded near `0` by differentiability, so the
-  Riemann–Lebesgue lemma gives the limit `0`.
+  (`TauCeti.tendsto_sum_fourierCoeffOn_of_differentiableAt`; Grafakos, *Classical Fourier Analysis*,
+  Thm. 3.4.7 (Dini's test), p. 212, and Katznelson, Ch. II, §2.5, p. 75, whose hypothesis
+  `∫_{|t|≤½} |f(x + t) − f(x)|/|t| dt < ∞` follows from differentiability at `x`). Route: the
+  partial sum minus `f(x)` is `∫_{−1/2}^{1/2} g(t) sin((2N + 1)πt) dt` with
+  `g(t) = (f(x + t) − f(x))/sin πt` (the Dirichlet kernel); `g` is integrable on `[−½, ½]`, being
+  bounded near `0` by differentiability, so the Riemann–Lebesgue lemma gives the limit `0`.
 
 Route: Kummer's Fourier series of `log Γ` on `(0, 1)`. The `1`-periodic extension of `log Γ` on
 `(0, 1)` is integrable on `[0, 1]` (`log Γ(x) ∼ −log x` as `x → 0⁺`) and differentiable at every
@@ -734,8 +745,9 @@ Route: subtract `Σ_k A_k/(n + 1) = 0` termwise and apply the Gauss series of 1.
 
 **Checks.**
 - `a = (−½, −1)`, `A = (1, −1)`:
-  `Σ_n (1/(n + ½) − 1/(n + 1)) = Σ_n 1/((n + ½)(n + 1)) = ψ(1) − ψ(½) = 2 log 2 = 1.3862944`
-  (Duverney, Example 2.8, pp. 34–35).
+  `Σ_n (1/(n + ½) − 1/(n + 1)) = Σ_n 1/((2n + 1)(n + 1)) = ψ(1) − ψ(½) = 2 log 2 = 1.3862944`
+  (Duverney, Example 2.8, pp. 34–35, the series `Σ 1/(2n² + 3n + 1)`); the term
+  `1/((n + ½)(n + 1))` is twice as large and sums to `4 log 2 = 2.7725887`.
 - `m = 1` forces `A₀ = 0` and both sides vanish; with `Σ A_k ≠ 0` the series diverges like the
   harmonic series, so the hypothesis cannot be dropped.
 - `a = (−z, −1)`, `A = (−1, 1)`, `z` off the poles: the identity is the Gauss series itself,
@@ -1094,11 +1106,11 @@ in the stated ranges, including the poles of `Γ(a)`, `Γ(b)`.
 
 Route: for the first, the complex Gamma integral (AsymptoticExpansions 4.1) at `w + it` gives
 `(w + it)^{−a} = Γ(a)⁻¹ ∫₀^∞ u^{a−1} e^{−(w+it)u} du` for `Re a > 0`; Fourier inversion in `t` and
-Euler's Beta integral, then continuation in `a`, `b`. The second is the first after the Möbius
-change of variable `t ↦ t/(t − 1)` on the line, or directly the Mellin inversion of the half-line
-Beta integral.
+Euler's Beta integral, then continuation in `a`, `b`. The second is the first at `w = c`,
+`z = 1 − c`, with `b + 1` in place of `b`: the hypotheses become `0 < c < 1` and `Re(a + b) > 0`,
+and `(w + z)^{−a−b} = 1`.
 
-*Needs:* AsymptoticExpansions 4.1; 2.1; Mathlib `mellinInv_mellin_eq`.
+*Needs:* AsymptoticExpansions 4.1; 2.1.
 
 **Checks.**
 - The first at `a = b = 1`: `(2π)⁻¹ ∫ dt/((w + it)(z − it)) = 1/(w + z)`.
@@ -1204,7 +1216,12 @@ Auxiliary:
   coefficients at `s*` are `∫ w g^{s*} (log g)^k`, of sign `(−1)^k`, so every term of the series at
   `s < s*` is nonnegative and monotone convergence applies.) With `g = e^{−t}` this is the theorem
   that a Laplace–Stieltjes integral with monotone determining function is singular at the real
-  point of its axis of convergence.
+  point of its axis of convergence. The case of Lebesgue measure on `(0, ∞)` and `g(u) = e^{−u}`,
+  for eventually nonnegative `w`, complex `s` and the value of the one-sided Laplace transform, is
+  [PositivityOfDirichletSeriesWithKernels][pdsk] §6.3, owned there in that form; 10.1 is the form
+  on a general measure space with a positive function `g` and real `s`, which 10.2–10.4 use.
+
+[pdsk]: ../RiemannHypothesisForDirichletLFunctions/PositivityOfDirichletSeriesWithKernels/README.md
 
 SpecialFunctionsHypergeometric 4.2 owns the periodic case of Carlson's theorem, which is all 10.2
 uses; the general theorem is needed for Dyson's integral (10.4), whose normalized integral is not
@@ -1339,7 +1356,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
 9. **Integrals along vertical lines and along the real line** (9.1–9.4).
 10. **Selberg-type integrals** (10.1–10.4).
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
 `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
 README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
 targets of the same standing, stated in prose.
@@ -1366,6 +1383,9 @@ targets of the same standing, stated in prose.
   `Real.eq_Gamma_of_log_convex`; the residue of `Γ` at `0`:
   `Complex.tendsto_self_mul_Gamma_nhds_zero`;
 - the series of `ψ` and `ψ′` for `Re z > 0` (ExplicitNumberFields 1.1a);
+- the second Dirichlet integral (DLMF 5.14.2) for real `z_k > 0`, as an `ℝ≥0∞`-valued integral
+  over the chart `{i // i ≠ i₀} → ℝ` of the Dirichlet density: Tau Ceti's
+  `TauCeti.Probability.lintegral_dirichletChartPDF_eq_one` (the real case of 2.2);
 - the scaled Gamma integral for real `ν > 0`, `z > 0` (DLMF 5.9.1):
   `integral_rpow_mul_exp_neg_mul_rpow`; the two-sided integral at `c = 1` for real `z > 0`
   (DLMF 5.9.3): Tau Ceti's `TauCeti.integral_abs_rpow_mul_exp_neg_abs_rpow` at `p = 2`,
@@ -1413,19 +1433,26 @@ nor the consumed roadmaps provide:
   the general theorem, which Dyson's integral (10.4) needs.
 - Gauss's integral for `ψ` (DLMF 5.9.12; AnalyticNumberTheoryPartI §1.8a); it consumes it.
 - The Maclaurin series of `log Γ(1 + z)` on `|z| < 1` in the form
-  `−γz + Σ_{k≥2} (−1)^k ζ(k) z^k/k` (ConformalMappingPartII 5.6) and Gauss's triplication formula,
-  the case `n = 3` of the multiplication formula (SpecialFunctionsAiry 7.1). These are owned there;
+  `−γz + Σ_{k≥2} (−1)^k ζ(k) z^k/k` ([ConformalMappingPartII](../ConformalMappingPartII/README.md)
+  5.6) and Gauss's triplication formula, the case `n = 3` of the multiplication formula
+  ([SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md) 7.1). These are owned there;
   6.1 and 4.2 here prove the general statements independently.
 - The explicit Stirling theory: Stirling's series with its remainder and the enveloping property
   on the positive axis, the explicit bounds that it gives on the positive axis and on vertical
-  lines, and Binet's formulas (ExplicitZetaBounds 1.1–1.2, 2.4 and 2.5).
-- The Barnes `G`-function (AnalyticNumberTheoryPartII §4.3).
-- The Weierstrass product for `1/Γ` (GlobalHolomorphicFunctions 6.1).
+  lines, and Binet's formulas ([ExplicitZetaBounds](../ExplicitZetaBounds/README.md) 1.1–1.2, 2.4
+  and 2.5).
+- The Barnes `G`-function ([AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md)
+  §4.3).
+- The Weierstrass product for `1/Γ`
+  ([GlobalHolomorphicFunctions](../GlobalHolomorphicFunctions/README.md) 6.1).
+- Landau's theorem for the one-sided Laplace transform of an eventually nonnegative function, with
+  complex `s` (PositivityOfDirichletSeriesWithKernels §6.3); 10.1 is the form on a general measure
+  space, for real `s`.
 - The topics listed under the last section.
 
-RandomMatrices 5.2–5.3 prove the Gaussian, Laguerre and Jacobi normalizations at `c = β/2` for
-`β ∈ {1, 2}` through matrix models, as part of their eigenvalue-density theorems; 10.2–10.3 here
-give the same constants for every `β > 0`.
+[RandomMatrices](../RandomMatrices/README.md) 5.2–5.3 prove the Gaussian, Laguerre and Jacobi
+normalizations at `c = β/2` for `β ∈ {1, 2}` through matrix models, as part of their
+eigenvalue-density theorems; 10.2–10.3 here give the same constants for every `β > 0`.
 
 **The boundary in one sentence:** this roadmap owns the identities, expansions, inequalities and
 integral evaluations of `Γ`, `B`, `ψ` and `ψ⁽ⁿ⁾` stated in the layers, through elementary
@@ -1483,7 +1510,7 @@ everything that rests on its remainder, the continued fraction for Binet's funct
 - §1.8a: Gauss's integral `ψ(z) = ∫₀^∞ (e^{−t}/t − e^{−zt}/(1 − e^{−t})) dt` for `Re z > 0`, the
   combined integrand absolutely integrable (DLMF 5.9.12) (3.3).
 
-### From ExplicitNumberFields
+### From [ExplicitNumberFields](../ExplicitNumberFields/README.md)
 
 - 1.1a: for `Re z > 0`, with `ψ′` the complex derivative of `Complex.digamma`,
   `ψ(z) = −γ + Σ_{n≥0} (1/(n + 1) − 1/(n + z))` and `ψ′(z) = Σ_{n≥0} 1/(n + z)²` (DLMF 5.7.6,
@@ -1498,6 +1525,10 @@ everything that rests on its remainder, the continued fraction for Binet's funct
   (an input of 3.1).
 - `TauCeti/Analysis/Contour/WorkedExamples/HalfDisc/SineIntegral.lean`:
   `TauCeti.Contour.tendsto_integral_sin_div_atTop` (an input of 3.2).
+- `TauCeti/Probability/Distributions/Dirichlet/Density.lean`:
+  `TauCeti.Probability.lintegral_dirichletChartPDF_eq_one`, the real case of the second Dirichlet
+  integral (DLMF 5.14.2) as an `ℝ≥0∞`-valued integral over the chart `{i // i ≠ i₀} → ℝ` (an
+  input of 2.2).
 
 ### From Mathlib
 
@@ -1519,7 +1550,7 @@ everything that rests on its remainder, the continued fraction for Binet's funct
   `Antitone.cauchySeq_series_mul_of_tendsto_zero_of_bounded`,
   `Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet` (4.6).
 - `integral_rpow_mul_exp_neg_mul_rpow`, `HasProd`, `iteratedDeriv`,
-  `Complex.VerticalIntegrable`, `mellinInv_mellin_eq`, the identity theorem
+  `Complex.VerticalIntegrable`, the identity theorem
   (`AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`), Liouville's theorem
   (`Differentiable.apply_eq_apply_of_bounded`), and Phragmén–Lindelöf
   (`PhragmenLindelof.eq_zero_on_quadrant_I` and its siblings).
@@ -1589,6 +1620,10 @@ specified by the layers.
 - D. Duverney, *An Introduction to Hypergeometric Functions*, Birkhäuser, 2024: Ch. 2 (§2.2).
 - P. J. Forrester, *Log-Gases and Random Matrices*, London Mathematical Society Monographs 34,
   Princeton University Press, 2010: Ch. 4 (§§4.1, 4.6, 4.7).
+- L. Grafakos, *Classical Fourier Analysis*, 3rd ed., Graduate Texts in Mathematics 249,
+  Springer, 2014: §3.4.4.
+- Y. Katznelson, *An Introduction to Harmonic Analysis*, 3rd ed., Cambridge Mathematical Library,
+  Cambridge University Press, 2004: Ch. II, §2.
 - N. N. Lebedev, *Special Functions and Their Applications*, Dover, 1972: Ch. 1 (§1.3).
 - NIST *Digital Library of Mathematical Functions*, Release 1.2.8 of 2026-09-15, Chapter 5
   (R. A. Askey and R. Roy), <https://dlmf.nist.gov/5>. Equation numbers refer to this release.
