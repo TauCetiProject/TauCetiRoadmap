@@ -33,12 +33,14 @@ body:
         - AdicSpacesPartIII
         - AdicSpacesPartIV
         - AdicSpacesPartV
+        - AdmissiblePairsAndPadicHodgeStructures
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCircuitsAndValiantsClasses
         - AlgebraicCurves
         - AlgebraicKTheory
         - AlgebraicModularFormsAndSerreWeights
+        - AlgebraicModularFormsAndSerreWeightsPartII
         - AlgebraicModuliForArithmeticGeometry
         - AlgebraicModuliForArithmeticGeometryPartII
         - AlgebraicTopology
@@ -52,6 +54,7 @@ body:
         - AnalyticNumberTheoryPartIII
         - AnalyticStableMaps
         - AnalyticToricGeometryPartII
+        - AnticyclotomicLocalUnits
         - ApproximationGuarantees
         - ArakelovGeometryAndAbelianHeights
         - ArakelovGeometryAndAbelianHeightsPartII
@@ -77,6 +80,8 @@ body:
         - AssociationSchemes
         - AsymptoticExpansions
         - AutomorphicBundles
+        - AutomorphicBundlesPartII
+        - AutomorphicCongruences
         - AutomorphicFormsOnReductiveGroups
         - AutomorphicGaloisRepresentations
         - AutomorphicGaloisRepresentationsPartII
@@ -84,6 +89,7 @@ body:
         - AutomorphicLFunctionsAndLocalFactorsPartII
         - AutomorphicPadicLFunctionsPartII
         - AutomorphicSpectralTheory
+        - AutomorphicSpectralTheoryPartII
         - BallQuotientsAndComplexHyperbolicLattices
         - BanachAlgebras
         - BanachSpaceTheory
@@ -110,8 +116,10 @@ body:
         - CircleMethodThreePrimes
         - ClassFieldTheory
         - ClassicalAdicEtaleCohomology
+        - ClassicalAdicEtaleCohomologyPartII
         - ClassicalArithmeticCompletion
         - ClassicalErgodicTheory
+        - ClassicalGroupsPartII
         - ClassicalSerreModularity
         - ClassifyingSpaces
         - ClusterAlgebras
@@ -148,6 +156,7 @@ body:
         - CrystallineCohomology
         - CrystallineCohomologyPartII
         - CrystallineLocalGlobalCompatibilityCM
+        - CstConjectureForDaggerVarieties
         - CurvesOverFiniteFields
         - CyclotomicClassGroupsAndStickelberger
         - DGAInfinity
@@ -172,6 +181,7 @@ body:
         - DiracScatteringAndNonlinearFourierTransform
         - DirectSummandsAndBigCohenMacaulay
         - DirichletPadicLFunctions
+        - DrinfeldModulesAndTModulesPartII
         - DynamicalDegreesOfRationalMaps
         - DysonBrownianMotion
         - ECM
@@ -181,11 +191,13 @@ body:
         - EigenvalueAndSingularValueInequalities
         - EisensteinIdealAndRationalTorsion
         - ElectricalNetworksAndRandomWalks
+        - EllAdicHomotopyTypesAndWeights
         - EllipticCohomology
         - EllipticCurveModularity
         - EllipticCurveModularityImaginaryQuadratic
         - EllipticCurveModularityImaginaryQuadraticPartII
         - EllipticCurveModularityPartII
+        - EllipticCurveModularityPartIIGL2TypeAbelianVarieties
         - EllipticCurveModularityTotallyReal
         - EllipticCurvePeriodsAndModularParametrizations
         - EllipticCurves
@@ -207,7 +219,9 @@ body:
         - EtaleMassFormula
         - EulerSystemsAndKolyvaginSystems
         - EulerSystemsCyclotomicMainConjecture
+        - ExceptionalThetaCorrespondencesForG2
         - ExcursionOperatorsAndSpectralActionPartII
+        - ExoticMonoidalStructuresAndAbstractAutomorphicity
         - ExplicitCharacterSumsAndSieves
         - ExplicitMultiplicativeFunctions
         - ExplicitNumberFields
@@ -245,6 +259,7 @@ body:
         - GL2AutomorphicRepresentationsAndTransfer
         - GL2ModularityLifting
         - GaloisActionOnEtaleCohomology
+        - GaloisSectionsPadicPeriodMaps
         - GanGrossPrasadUnitaryGroups
         - GaugeQuiltFieldTheory
         - GaussianIsoperimetryAndClusters
@@ -266,15 +281,19 @@ body:
         - GlobalGaloisDeformations
         - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
+        - GlobalShtukasAndFunctionFieldLanglands
         - GraphColouring
         - GraphConnectivityAndFlows
+        - GraphSpectra
         - GroebnerGeometry
         - GromovWittenTheory
         - GrossZagierAndArithmeticHeights
         - GrothendieckEulerForms
         - GroupActionsOnRiemannSurfaces
         - GroupSchemesOverABase
+        - HabiroCohomologyFoundations
         - HabiroCyclotomicCompletions
+        - HabiroNumberFields
         - HalfIntegralWeightModularForms
         - HamiltonianCycles
         - HamiltonianFloerOperations
@@ -282,6 +301,7 @@ body:
         - HeckeStacksAndLocalShtukas
         - HeegaardFloer
         - HeightsRationalPointsAndObstructions
+        - HeightsRationalPointsAndObstructionsPartII
         - HermitianKTheoryOfPoincareCategories
         - HiddenMarkovModels
         - HilbertModularForms
@@ -333,6 +353,7 @@ body:
         - LaplacianEigenvaluesOfGraphs
         - LargeDeviations
         - LatticePackingsAndPerfectForms
+        - LawOfTheIteratedLogarithm
         - LefschetzPencilsAndVanishingCycles
         - LefschetzPencilsAndVanishingCyclesPartII
         - LieGroupoidsPoisson
@@ -343,6 +364,7 @@ body:
         - LinearSystemsAndControl
         - LocalFieldsRamificationPartII
         - LocalGaloisDeformationRings
+        - LocalLimitTheorems
         - LocalPurity
         - LocalVariationalFieldTheory
         - LocallyAnalyticDistributions
@@ -396,12 +418,14 @@ body:
         - NoncommutativeIntegration
         - NoncompactQuantumSymmetry
         - NoncongruenceModularForms
+        - NonlinearProgrammingOptimality
         - NonordinaryCMSpecialValues
         - NumberFieldEnumeration
         - OcneanuRigidity
         - OddOrderTheorem
         - OneStepMethodsForODEs
         - OnlineConvexOptimization
+        - OnlineLearningAndLittlestoneDimension
         - OperatorAlgebraDynamics
         - OperatorKTheory
         - OperatorMonotoneFunctionsAndMatrixMeans
@@ -438,8 +462,10 @@ body:
         - PivotalSpherical
         - Poincare3D
         - PoissonApproximation
+        - PolicyGradientMethods
         - PolylogarithmFunctions
         - Polylogarithms
+        - PolynomialGaloisGroupsPartII
         - PolynomialGaloisGroupsPartIII
         - PolynomialInterpolationAndBestApproximation
         - PopulationDynamics
@@ -482,6 +508,7 @@ body:
         - RamseyNumbers
         - RandomGraphs
         - RandomMatrices
+        - RandomProjectionsAndSketching
         - RandomizedSmoothing
         - Rank24LatticeConstructions
         - RationalHomotopyModels
@@ -520,9 +547,11 @@ body:
         - SequentCalculusAndCutElimination
         - SerreModularityByCompatibleSystems
         - SerreWeightAndLevelOptimisation
+        - SheafConvolutionOnAbelianVarieties
         - ShimuraCompactifications
         - ShimuraData
         - ShimuraVarieties
+        - ShortGRH
         - SieveMethodsAndPrimePatterns
         - SmallRamificationAndAbelianVarietyBaseCases
         - SmallRamificationAndAbelianVarietyBaseCasesPartII
@@ -586,7 +615,9 @@ body:
         - TorsionCohomologyInfrastructure
         - TracesOnCStarAlgebras
         - TropicalAndBerkovichArithmetic
+        - TwistedAutomorphicDescents
         - TypeAHeckeAlgebras
+        - UniversalApproximation
         - VStackSheavesAndLisseCategories
         - VStackSheavesAndLisseCategoriesPartII
         - VariationalMethods

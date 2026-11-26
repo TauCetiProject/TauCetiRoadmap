@@ -7,10 +7,12 @@ name: progress-merge-report
 # some time after it is picked: behind the reports ahead of it, and behind a wait for a runner. A
 # pull request that joins the queue in that time holds every report not yet started.
 #
-# That look only saves the gate's runners. What protects the queue is `hold_while_queue_busy`: the
-# pinned gate reads the queue again inside its landing step, before the compare-and-swap on `main`
-# and before each retry, and leaves the report open if the queue is busy. The gate also ends each
-# refusal comment with the head it refused, which the scheduled run in progress-merge.yml reads.
+# The last look is `hold_while_queue_busy`: the pinned gate reads the queue again inside its landing
+# step, before the compare-and-swap on `main` and before each retry, and leaves the report open if
+# the queue is busy. That covers a queue that fills during the validation; only the look here holds
+# a report behind a queue whose oldest entry is over six hours old but which is still merging. The
+# gate also ends each refusal comment with the head it refused, which the scheduled run in
+# progress-merge.yml reads.
 #
 # This file holds the pin of the TauCetiProgress gate. See progress-merge.yml for why it is a full
 # SHA and what must move with it.
@@ -77,11 +79,21 @@ jobs:
             echo "::error::the merge queue could not be read; #$PR is not offered to the gate"
             exit 1
           fi
+          # The queue's last merge, and the later of that and the oldest entry's arrival.
+          since=$oldest; merged=""
+          if [ "$FORCE" != "true" ] && [ "$total" != 0 ]; then
+            if ! merged=$(gh api "repos/$GITHUB_REPOSITORY/activity?ref=refs/heads/main&activity_type=merge_queue_merge&per_page=1" --jq '.[0].timestamp // ""'); then
+              echo "::error::the merge queue's last merge could not be read; #$PR is not offered to the gate"
+              exit 1
+            fi
+            echo "last merge by the queue: ${merged:-never}"
+            if [[ "$merged" > "$since" ]]; then since=$merged; fi
+          fi
           if [ "$FORCE" = "true" ]; then
             echo "dispatched by hand; #$PR proceeds whatever the merge queue holds"
             echo "go=true" >> "$GITHUB_OUTPUT"
-          elif [ "$total" != 0 ] && [ -n "$oldest" ] && [ $(( $(date -u +%s) - $(date -u -d "$oldest" +%s) )) -lt 7200 ]; then
-            echo "::notice::merge queue holds $total entr(y/ies) (oldest enqueued $oldest); progress report #$PR waits for the next scheduled run"
+          elif [ "$total" != 0 ] && [ -n "$oldest" ] && [ $(( $(date -u +%s) - $(date -u -d "$since" +%s) )) -lt 21600 ]; then
+            echo "::notice::merge queue holds $total entr(y/ies) (oldest enqueued $oldest, last merge ${merged:-never}); progress report #$PR waits for the next scheduled run"
             echo "go=false" >> "$GITHUB_OUTPUT"
           else
             echo "go=true" >> "$GITHUB_OUTPUT"
@@ -105,9 +117,10 @@ jobs:
       progress_ref: ddaaed27a70d9f376d300edf32d521843c27cc16
       app_id: ${{ inputs.app_id }}
       # The gate's own look at the queue, at the moment it moves `main`. Off for a dispatch by hand
-      # that did not ask to wait, as `hold` above is. 7200 is the gate's default, written out so
-      # that it visibly agrees with the two hours in `hold` and in progress-merge.yml.
+      # that did not ask to wait, as `hold` above is. It counts from the oldest entry's arrival only;
+      # the number agrees with the six hours in `hold` and in progress-merge.yml, which also count
+      # from the queue's last merge and so are the ones that hold behind a long queue.
       hold_while_queue_busy: ${{ !inputs.force }}
-      queue_stale_seconds: 7200
+      queue_stale_seconds: 21600
     secrets:
       APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}

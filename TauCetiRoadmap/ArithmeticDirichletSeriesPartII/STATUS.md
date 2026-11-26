@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"ArithmeticDirichletSeriesPartII","to_sha":"7433fc3695f4fbf5a07041090628c5c94067c0b9","ts":"2026-11-25T18:48:45Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","remaining":"the smoothed limit delangeSmoothedLimit (section 2.2)","state":"partial"},{"id":"Layer 3","remaining":"monotoneUnsmoothing and delangeLaplace","state":"untouched"},{"id":"Layer 4","remaining":"logSummatory_hasLaplace, delangeDirichlet and its positive-abscissa form, finiteChange_asymptotic, lowerPole_perturbation","state":"partial"},{"id":"Layer 5","remaining":"the count in zetaPow_counting; the dyadic series identity and its two ratio limits","state":"partial"}],"readme_sha":"0f5a16c6b2f5db758d3b9929082683e8099bde5d62077dc8063b294b4641b7da","roadmap":"ArithmeticDirichletSeriesPartII","to_sha":"7433fc3695f4fbf5a07041090628c5c94067c0b9"}-->
+# Status: ArithmeticDirichletSeriesPartII
+
+This file documents the status of the ArithmeticDirichletSeriesPartII roadmap up until `7433fc3` (2026-11-25T18:48:45Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The two predicates of Layer 0 and the two auxiliary functions of Layer 1 are done, and Layer 2 has its boundary lemma and the complex Wiener–Ikehara variants. Delange's theorem (Layer 3) has not begun, and the counting side has only its setup: the Northcott instance, the Dirichlet series of the divisor functions `d_k` and the dyadic non-example. No higher-order asymptotic is proved yet.
+
+### Named results
+
+- **The Laplace transform of a derivative** — if `f` is differentiable on `(0, ∞)` and continuous at `0` from the right, and both `f` and `f'` have convergent transforms at `s`, then the transform of `f'` is `s` times that of `f` minus `f(0)`, at any complex `s` ([`hasLaplace_deriv`](https://taucetiproject.org/docs/TauCeti/Analysis/LaplaceTransform/Basic.html#TauCeti.hasLaplace_deriv)).
+- **Locally integrable boundary values of the regularised remainder** — once the model pole is subtracted and Delange's weight applied, the transform has `L¹_loc` boundary values on the line `Re s = a`, using only the boundary condition ([`regularizedBoundaryL1`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/HigherPole/Regularized.html#TauCeti.HigherPoleTauberian.regularizedBoundaryL1)).
+- **Smoothed and interval Wiener–Ikehara for complex coefficients** — at a simple pole at `1` with continuous boundary data, a Chebyshev bound gives the smoothed asymptotic ([`wienerIkehara_smoothed`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/WienerIkehara/Smoothed.html#TauCeti.LSeries.wienerIkehara_smoothed)). A nonnegative majorant gives the interval form `(S(bx) − S(ax))/x → A(b − a)` ([`wienerIkehara_interval`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/WienerIkehara/Smoothed.html#TauCeti.LSeries.wienerIkehara_interval)). The Chebyshev bound alone does not suffice ([counterexample](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/WienerIkehara/Smoothed.html#TauCeti.LSeries.exists_isBigO_sum_Icc_norm_id_and_continuousOn_eq_LSeries_and_not_tendsto_summatory_div)).
+- **The Dirichlet series of the divisor functions** — for `Re s > 1` the series of `d_k = ζ^k` converges absolutely to `ζ(s)^k` ([`LSeriesHasSum_zeta_pow`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/Zeta/Pow.html#ArithmeticFunction.LSeriesHasSum_zeta_pow)). Together with [`poleBoundary_riemannZeta_pow`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/HigherPole/PoleBoundary.html#TauCeti.HigherPoleTauberian.poleBoundary_riemannZeta_pow), this gives every analytic input of the divisor-sum test.
+- **A local pole is not enough** — the dyadic function `1/(1 − 2^(1−s))` has a simple pole of the right shape at `1` but fails the boundary condition, because of its other poles on the line ([`not_poleBoundary_inv_one_sub_cexp_log_two`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/HigherPole/PoleBoundary.html#TauCeti.HigherPoleTauberian.not_poleBoundary_inv_one_sub_cexp_log_two)).
+
+### Notable definitions and infrastructure
+
+- [`HasLaplace`](https://taucetiproject.org/docs/TauCeti/Analysis/LaplaceTransform/Basic.html#TauCeti.HasLaplace) packages absolute convergence with the value of the ordinary one-sided integral, so a totalised zero integral cannot pass for a transform. Its API also covers holomorphy on a half-plane and the model transform `k!/(s − a)^(k+1)` of `e^(at) t^k` ([`hasLaplace_exp_mul_pow`](https://taucetiproject.org/docs/TauCeti/Analysis/LaplaceTransform/Elementary.html#TauCeti.hasLaplace_exp_mul_pow)), so the Gamma model the smoothed limit needs is already available.
+- [`PoleBoundary`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/HigherPole/PoleBoundary.html#TauCeti.HigherPoleTauberian.PoleBoundary) is the boundary hypothesis for a pole of order `k + 1`, imposed only on the open half-plane. Its calculus (uniqueness of the order and coefficient, division by `s`, rescaling to abscissa `1`, and a [product rule](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/HigherPole/PoleBoundary.html#TauCeti.HigherPoleTauberian.PoleBoundary.mul) adding pole orders) is what Layers 4 and 5 consume.
+- The kernel [`squaredSinc`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/HigherPole/SquaredSinc.html#TauCeti.HigherPoleTauberian.squaredSinc) (mass one, triangle Fourier transform, concentration as `λ → ∞`) and [`delangeWeight`](https://taucetiproject.org/docs/TauCeti/NumberTheory/LSeries/HigherPole/DelangeWeight.html#TauCeti.HigherPoleTauberian.delangeWeight) (closed form, `w_k(t) tᵏ → 1`, uniform slow variation) give the smoothing and the regularisation of Delange's argument.
+
+### Roadmap coverage
+
+Layers 0 and 1 are done: both predicates, the derivative rule, the kernel and the weight, with all their stated API. Layer 2 is partial: §2.1 and the §2.2a variants are proved, but the smoothed limit `delangeSmoothedLimit` (§2.2) is not. Layer 3 is untouched. Layer 4 is partial in the thinnest sense: only the Northcott instance for the identity height, which §4.1 registers first, has landed. The bridge, the counting theorems and both perturbation theorems remain. Layer 5 is partial: the series of `d_k` and the pole data for `ζ^(k+1)` are done, and the dyadic function's failure of the boundary condition is proved. The divisor-sum count, and the dyadic series identity and its two ratio limits, are not.
+
+## The frontier
+
+- **The smoothed limit (§2.2)** — the weighted, kernel-smoothed integral of `e^(−at) α(t)` tends to `A/k!`. Its inputs (the kernel, the weight, `regularizedBoundaryL1`, the Gamma model and differentiation of transforms) are all present.
+- **Delange's theorem (§3.1–§3.2)** — monotone unsmoothing, then `α(t)/(e^(at) tᵏ) → A/k!`. This needs §2.2.
+- **The counting bridge and finite changes (§4.1, §4.4)** — the transform of `S_c(eᵗ)` is `F(s)/s`, and changing finitely many coefficients preserves a limit. Neither depends on Layers 2–3, so both can start now.
+- **The dyadic counterexample, completed (§5.2)** — the series identity for `c(2^j) = 2^j`, and the limits `2` and `4/3` along `2^j` and `3 · 2^j`. This needs only §0.2 and the summatory API.
+- **Counting theorems and the divisor-sum test (§4.2, §4.3, §4.5, §5.1)** — these are formal consequences of Delange's theorem and the bridge. `zetaPow_counting` then needs only §4.2, since its analytic inputs are proved.
