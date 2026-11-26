@@ -36,9 +36,9 @@ divisibility of jets of theta functions at non-split primes and the standard dat
 
 Layer 1 is self-contained algebra over a Frobenius cycle: the root lemma with Stepanov's count, deep forms,
 the Schur algebra of a Levi subgroup and an invariant average, edges and halfway lattices, the Pieri cone,
-and the theorem on elementary divisors of the edge Hecke operator. Layer 2 defines, on the data, the local
-prime sums, the gain, the loss, exceptional primes, marked sets of primes, the scaled Hecke operators and the
-ramified source forms. Layer 3 bounds the valuation of the chain of lifts at a prime other than `N`, moving
+and the theorem on elementary divisors of the edge Hecke operator. Layer 2 takes the local prime sums from
+OneSidedPrimeSumBoundsAndAdmissibleData §4.1, groups the prime sums by primes, and defines, on the data, the gain,
+the loss, exceptional primes, marked sets of primes, the scaled Hecke operators and the ramified source forms. Layer 3 bounds the valuation of the chain of lifts at a prime other than `N`, moving
 Hecke operators through the lifts. Layer 4 applies Layer 1 to the scaled Hecke operator, treats the level
 prime, and proves the divisibility at each prime. Layer 5 bounds the archimedean size of the composite lift
 and shows that short forms span.
@@ -108,7 +108,7 @@ over it has a Smith normal form.
 | `K°` | the stabiliser of the standard lattice in the finite adelic points of a standard definite space; `K₀ ⊂ K°` | ThetaLiftChainsAndTheSeesawIdentity, Conventions |
 | lift diagrams | the lift diagram of step `j` at `τ`: the Young diagram with `c_τ(h)` columns of height `h ≤ n_j`, whose rows are `μ(X_j)_τ + κ_{j+1}(τ) − n_{j+1}/2` | ThetaLiftChainsAndTheSeesawIdentity §2.2 |
 | `Θ_j^ϑ` | the theta kernel of the lift `X_j → X_{j+1}` for `ϑ` (the lift is written `L_j^ϑ` there) | ThetaLiftChainsAndTheSeesawIdentity §2.8 |
-| `t_x(j)` | the integral vacuum of `Hom(X_j, X_{j+1})` translated by the `j`-th entry of a tuple `x` of translations | ThetaLiftChainsAndTheSeesawIdentity §2.12 |
+| `t_x(j)` | the integral vacuum of `Hom(X_j, X_{j+1})` translated by the `j`-th entry of a tuple `x` of translations (there `v_j(x)`) | ThetaLiftChainsAndTheSeesawIdentity §2.12 |
 | `Ψ, R_ϑ^Ψ, B_ϑ^Ψ` | chain data and weak chain data; the restricted chain (the combination `Ψ` of chains of `m` lifts with data `t_x(j)`, restricted to `Y_m`); the composite lift (there `comp_ϑ(Ψ)`) | ThetaLiftChainsAndTheSeesawIdentity §2.12 |
 | `𝖦, e₀, Θ_ϑ` | the group `∏_w GL_r(𝔽_w)` over the chosen places, the good idempotent, the lower chain | ThetaLiftChainsAndTheSeesawIdentity §2.5, §2.15 |
 | `p, ι, 𝒪_ι` | a prime, an embedding `ℂ → ℂ_p`, the `ι`-integral complex numbers | Conventions |
@@ -592,7 +592,7 @@ Partners of a-places can be a-places at other inert primes too, for instance whe
 modulo `m`; those collisions are paid by the loss, which is `m` times larger at `p ≡ ±1 (mod m)` (2.1 (d),
 2.7 (b)).
 
-### 2.1 Definitions: local prime sums, the gain, the loss and exceptional primes
+### 2.1 Definitions: the gain, the loss and exceptional primes
 
 *Origin:* definitions and conventions.
 
@@ -1492,7 +1492,8 @@ source weight has at most `fa` boxes, and the size inequalities give the bound. 
   size (5.4), the passage to target forms (5.5), the codimension of the ramified source forms (2.11) and the
   short forms that span them (5.7); its §5.2 uses the gain (2.1 (c)), the integral source forms (2.4) and 4.9; its
   §5.4 uses 2.11.
-- NormsOfThetaLiftsAndExchangeIdentities uses the local prime sums and their sums over primes (2.1, 2.2).
+- NormsOfThetaLiftsAndExchangeIdentities uses the numbers at a prime and the notation `F(p)` (2.1) and the prime sums
+  grouped by primes (2.2).
 - DeterminantsOfThetaLiftChains uses the passage to target forms (5.5) and short forms at a free level (5.6).
 - CongruencesOfTwistedThetaLifts uses the class counts on the data (5.2 (a)).
 
@@ -1501,8 +1502,8 @@ source weight has at most `fa` boxes, and the size inequalities give the bound. 
 ### Owned here
 
 - The elementary divisors of an edge Hecke operator over a Frobenius cycle (Layer 1).
-- The local prime sums, the gain, the loss, exceptional primes, marked sets and scaled Hecke operators, and the
-  codimension of the ramified source forms (Layer 2).
+- The grouping of the prime sums by primes (2.2), the gain, the loss, exceptional primes, marked sets and scaled
+  Hecke operators, and the codimension of the ramified source forms (Layer 2).
 - The valuation of the chain of lifts and of the composite lift at every prime, and the divisibility of the
   composite lift (Layers 3 and 4).
 - The explicit class count of the genus of the standard lattice, the size of the composite lift, the passage to
@@ -1510,8 +1511,8 @@ source weight has at most `fa` boxes, and the size inequalities give the bound. 
 
 ### Not owned here
 
-- The data, colength of modules, the prime sums `s_fin` and Theorem A:
-  OneSidedPrimeSumBoundsAndAdmissibleData.
+- The data, colength of modules, the local prime sums `s_p(y, σ)` with their total (its §4.1, used in 2.1 (b)), the
+  prime sums `s_fin` and Theorem A: OneSidedPrimeSumBoundsAndAdmissibleData.
 - The spaces, weights, theta kernels and their gauges, source forms and ramified source forms, chain data, the
   composite lift, the operator `Up`, the lower chain and the seesaw identity:
   ThetaLiftChainsAndTheSeesawIdentity.
