@@ -1172,7 +1172,13 @@ Mathlib's `NumberField.InfinitePlace L`, bijectively. For a finite place `w`, pr
 `A_{σ • w} = σ • A_w` and `A_{w.under K} = A_w ∩ K` for a subfield `K`; that `w ↦ A_w` is injective
 on the finite places, so that the stabiliser of `w` in `G` is the stabiliser of `A_w`; and that for
 `L` algebraic over `ℚ` it is a bijection from the finite places of `L` onto the valuation subrings
-of `L` other than `L`.
+of `L` other than `L`. A finite place `w` is also a valuation `L → ℝ≥0` with the values of `w`
+(`AbsoluteValue.toValuation`, defined for every nonarchimedean real absolute value), and its
+valuation subring is `A_w`. Conversely, for a valuation `v` of `L`, prove that the absolute value
+attached to `v` along a strictly monotone homomorphism from its value group to an ordered field
+(Mathlib's `Valuation.toAbsoluteValue`), and Mathlib's real absolute value `Valuation.absoluteValue`
+of a `v` of rank at most one (`Valuation.RankLeOne`), have the valuation subring of `v` as their
+valuation subring.
 
 For a group `G` with `MulSemiringAction G L` and a place `w`, the decomposition group is
 `MulAction.stabilizer G w`, with no hypothesis relating `G` to a fixed field. The inertia group is
@@ -1228,7 +1234,8 @@ supplies the statements it lacks (Neukirch, *Algebraic Number Theory*, Ch. II, �
 SubspaceTheorem §§0.1 and 0.2; Mathlib `AbsoluteValue.under`, `AbsoluteValue.LiesOver`,
 `AbsoluteValue.IsEquiv`, `Rat.AbsoluteValue.real`, `Rat.AbsoluteValue.padic`,
 `NumberField.InfinitePlace`, `MulAction.stabilizer`, `ValuationSubring.decompositionSubgroup`,
-`ValuationSubring.inertiaSubgroup`, `MulSemiringAction.toAlgAut`,
+`ValuationSubring.inertiaSubgroup`, `Valuation.toAbsoluteValue`, `Valuation.absoluteValue`,
+`Valuation.RankLeOne`, `MulSemiringAction.toAlgAut`,
 `LocalSubring.exists_le_valuationSubring`,
 `Algebra.IsInvariant.exists_smul_of_under_eq_of_profinite`; Tau Ceti
 `Rat.AbsoluteValue.IsStandard`, `AbsoluteValue.IsEquiv.eq_of_isStandard`,
