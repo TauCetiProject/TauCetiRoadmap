@@ -89,8 +89,8 @@ extreme points; Layer 2 the bounds; Layer 3 the plane; Layer 4 the two tools; La
 
 Prove `mem_illuminatedRegion_iff_forall_support`: let `K ⊆ E` be convex with nonempty interior,
 and `x, u ∈ E`. Then `x ∈ illuminatedRegion K u` exactly when `f u < 0` for every `f` that
-supports `K` at `x`. (Proved here; for smooth bodies and boundary points this is Glazyrin,
-Lemma 2.1, p. 5.)
+supports `K` at `x`. (Proved here; for smooth bodies and boundary points the criterion is
+used in the proof of Glazyrin, Lemma 2.1, p. 5.)
 
 Route. (⇒) Let `x + s • u ∈ interior K` with `s > 0`, and let `f` support `K` at `x`. Pick `z`
 with `f z > 0`; for small `ε > 0`, `x + s • u + ε • z ∈ K`, so
@@ -145,22 +145,24 @@ Route. Fix `p ∈ interior K`.
   `w i +ᵥ interior K`, so `x + 1 • (−w i) ∈ interior K`.
 - (4 ⇒ 3) If `U = ∅`, `frontier K = ∅`, so `K` is clopen and nonempty, hence `K = univ`; a nonzero
   normed space is not compact, so `E` is the zero space, `interior K = K`, and `w = 0` works (here
-  `0 < m` is used). Otherwise put `W n = ⋃ u ∈ U, {y | y + (n + 1 : ℝ)⁻¹ • u ∈ interior K}`, open.
-  (a) On `K` these sets increase: if `y ∈ K`, `y + s • u ∈ interior K` and `0 < s' < s`, then
-  `y + s' • u = (1 − s'/s) • y + (s'/s) • (y + s • u) ∈ interior K` by the same Mathlib lemma. (b)
-  They cover `K`: a frontier point `y` has `y + s • u ∈ interior K` for some `u ∈ U` and `s > 0`,
-  and by (a) also with `s` replaced by `(n + 1)⁻¹` once `(n + 1)⁻¹ < s`; an interior point `y` has a
-  ball inside `interior K` containing `y + (n + 1)⁻¹ • u` for large `n`. (c) `K` is compact, so
-  finitely many `W n` cover it (`IsCompact.elim_finite_subcover`), and by (a) one `W N` covers it.
-  Hence `K ⊆ ⋃ u ∈ U, (−(N + 1)⁻¹ • u) +ᵥ interior K`; list `U` along a surjection `Fin m → U` (`U`
-  nonempty, `U.card ≤ m`).
-- (3 ⇒ 2) Put `K' = −p +ᵥ K`, so `0 ∈ interior K'`, and `K' ⊆ ⋃ i, w i +ᵥ interior K'`. The
-  gauge `μ = gauge K'` is continuous (`continuous_gauge`) and `μ z < 1` on `interior K'`
-  (`interior_subset_gauge_lt_one`). The function `y ↦ min_i μ (y − w i)` is continuous and
-  `< 1` on the nonempty compact `K'`, so its maximum `λ'` is `< 1`; let `t = max λ' (1/2)`. For
-  `y ∈ K'` some `i` has `μ (y − w i) ≤ t`, so `y − w i ∈ t • closure K' = t • K'` (Tau Ceti
-  `gauge_le_iff_mem_smul_closure`; `K'` is closed). Translating back,
-  `K ⊆ ⋃ i, (w i + (1 − t) • p) +ᵥ t • K`.
+  `0 < m` is used). Otherwise, for `u ∈ U` and `s > 0` let `V u s = {y | y + s • u ∈ interior K}`,
+  an open set. These sets cover `K`: a frontier point lies in some `V u s` by hypothesis, and an
+  interior point lies in `V u s` for any `u ∈ U` once `s` is small. `K` is compact and nonempty, so
+  finitely many of them cover it (`IsCompact.elim_finite_subcover`); let `s₀ > 0` be the least `s`
+  that occurs. If `y ∈ K ∩ V u s` and `s₀ ≤ s`, then `y ∈ V u s₀`, because `y + s₀ • u` is the
+  combination of `y ∈ K` and `y + s • u ∈ interior K` with weights `1 − s₀/s` and `s₀/s > 0`
+  (`Convex.combo_closure_interior_mem_interior`). Hence
+  `K ⊆ ⋃ u ∈ U, (−s₀ • u) +ᵥ interior K`; list `U` along a surjection `Fin m → U` (`U` nonempty,
+  `U.card ≤ m`).
+- (3 ⇒ 2) For `0 < t < 1` let `V t = p +ᵥ t • (−p +ᵥ interior K)`, the image of `interior K`
+  under the homothety of centre `p` and ratio `t`; it is open. The sets `V t` increase with `t`:
+  for `t ≤ t'` and `y ∈ interior K`, the point `p + (t/t') • (y − p)` is in `interior K`, which is
+  convex (`Convex.interior`). Their union is `interior K`: each `V t` is inside it by the same
+  convexity, and for `y ∈ interior K` the point `p + t⁻¹ • (y − p)` tends to `y` as `t → 1`, so it
+  is in the open set `interior K` for some `t < 1`, and then `y ∈ V t`. So the open sets
+  `w i +ᵥ V t` cover `K`; finitely many do (`IsCompact.elim_finite_subcover`), and with `t` the
+  largest ratio that occurs, `K ⊆ ⋃ i, w i +ᵥ V t`. Since
+  `w i +ᵥ V t ⊆ (w i + (1 − t) • p) +ᵥ t • K`, statement 2 follows.
 
 **Checks.**
 
@@ -178,9 +180,8 @@ Route. Fix `p ∈ interior K`.
 - The square `[0, 1]²` is covered by the four translates `v +ᵥ (2/3) • [0, 1]²` with
   `v ∈ {0, 1/3}²` (2.2) and illuminated by the four directions `(±1, ±1)`, one for each corner.
 
-*Needs:* Mathlib `Convex.combo_closure_interior_mem_interior`, `IsCompact.elim_finite_subcover`,
-`gauge`, `continuous_gauge`, `interior_subset_gauge_lt_one`, `IsCompact.exists_isMaxOn`; Tau
-Ceti `gauge_le_iff_mem_smul_closure`.
+*Needs:* Mathlib `Convex.combo_closure_interior_mem_interior`, `Convex.interior`,
+`IsCompact.elim_finite_subcover`.
 
 ### 1.3 Extreme points suffice
 
@@ -317,7 +318,7 @@ give `≤`, and 2.1 gives `≥`.
   `K = {A z | ‖z‖ ≤ 1}`, a compact convex set with empty interior, so `frontier K = K`. A
   nonzero functional `⟪y, ·⟫` attains its maximum over `K` only at `A² y / ‖A y‖`; since `A²` is
   injective, two functionals with the same maximiser are positive multiples of each other, so
-  `HasUniqueSupportAt K x` holds at every `x`. But `finrank` of `ℓ²` is `0`, and `K` is not
+  `HasUniqueSupportAt K x` holds at every `x ∈ K`. But `finrank` of `ℓ²` is `0`, and `K` is not
   covered by one smaller homothet (its diameter would shrink by the ratio).
 - In dimension `0` the frontier is empty and the value is `1`; for `[a, b] ⊆ ℝ` the supporting
   functionals at an end point are the positive multiples of one functional, and the value is `2`.
@@ -462,14 +463,18 @@ projection in `ℝ³` and the implication from right to left; proved here in thi
 
 Route. `E` is finite-dimensional, hence so is `F = range π`; both are complete, and `π` is open
 (`ContinuousLinearMap.isOpenMap`). *Key identity* `π '' interior K = interior (π '' K)`: `⊆` by
-openness (`IsOpenMap.image_interior_subset`). For `⊇`, let `z ∈ interior (π '' K)` and
-`p ∈ interior K`; if `z = π p` we are done; otherwise for small `ε ∈ (0, 1)` the point
-`z' = z + (ε / (1 − ε)) • (z − π p)` lies in `π '' K`, say `z' = π y'`, and
-`q = (1 − ε) • y' + ε • p` lies in `interior K` (`Convex.combo_closure_interior_mem_interior`)
-with `π q = z`. (⇐) Take `q ∈ interior K` with `π q = π x`. Then `q − x ∈ ker π`, so
-`q = x + s • w`, and `s ≠ 0` since `x ∉ interior K`. If `s > 0`, `w` illuminates `x`; if `s < 0`,
-`−w` does. (⇒) A point `x ± s • w ∈ interior K` has image `π x`, which lies in
-`π '' interior K ⊆ interior (π '' K)`.
+openness (`IsOpenMap.image_interior_subset`). For `⊇`, the set `A = π '' interior K` is open,
+convex (`Convex.interior`, `Convex.linear_image`) and nonempty, and `π '' K ⊆ closure A`, because
+`K ⊆ closure (interior K)` (`Convex.closure_interior_eq_closure_of_nonempty_interior`) and `π` is
+continuous (`image_closure_subset_closure_image`). So
+`interior (π '' K) ⊆ interior (closure A) = A`
+(`Convex.interior_closure_eq_interior_of_nonempty_interior`).
+
+The two sides of the equivalence both say that the line `x + ℝ ∙ w` meets `interior K`. Indeed
+`π y = π x` exactly when `y = x + s • w` for a scalar `s`, so by the key identity
+`π x ∈ interior (π '' K)` exactly when `x + s • w ∈ interior K` for some `s`. Here `s ≠ 0`, as `x`
+is a frontier point of the closed set `K`; and `x + s • w ∈ interior K` with `s > 0` says that `w`
+illuminates `x`, with `s < 0` that `−w` does (`x + s • w = x + (−s) • (−w)`).
 
 **Checks.**
 
@@ -480,7 +485,9 @@ with `π q = z`. (⇐) Take `q ∈ interior K` with `π q = π x`. Then `q − x
   `π '' K = [−1, 1]`, and no direction illuminates `x`.
 
 *Needs:* Mathlib `FiniteDimensional.of_isCompact_closedBall₀`, `ContinuousLinearMap.isOpenMap`,
-`IsOpenMap.image_interior_subset`, `Convex.combo_closure_interior_mem_interior`.
+`IsOpenMap.image_interior_subset`, `Convex.interior`, `Convex.linear_image`,
+`Convex.closure_interior_eq_closure_of_nonempty_interior`, `image_closure_subset_closure_image`,
+`Convex.interior_closure_eq_interior_of_nonempty_interior`.
 
 ### 4.2 Short curves
 
@@ -507,12 +514,18 @@ works since `0 • K = {0}`. For the second claim, if `γ a ∈ frontier K` then
 
 *Case `lam > 0`.* The sets `C s = γ s +ᵥ (−lam) • K`, `s ∈ Icc a b`, are compact and convex, and
 `v ∈ C s` means `γ s ∈ v +ᵥ lam • K`. By Helly's theorem (`Convex.helly_theorem_compact'`) it
-suffices that any `d + 1` of them meet. Let `s₁ ≤ … ≤ s_k`, `k ≤ d + 1`, `xⱼ = γ sⱼ`,
-`a_r = gauge D (x_{r+1} − x_r)` and `A = ∑ r, a_r`; the chain `s₁, …, s_k, s_k, …` gives
-`A ≤ lam`. Write `x_{r+1} − x_r = a_r • (w_r − u_r)` with `u_r, w_r ∈ K` (for `a_r = 0` take
-`u_r = w_r = k₀ ∈ K`). With `ṽ = x₁ − ∑ r, a_r • u_r − (lam − A) • k₀`,
-`xⱼ − ṽ = ∑_{r<j} a_r • w_r + ∑_{r≥j} a_r • u_r + (lam − A) • k₀`, a combination of points of
-`K` with nonnegative weights of sum `lam`, so it lies in `lam • K` and `ṽ ∈ C sⱼ` for all `j`.
+suffices that any `d + 1` of them meet. Take parameters `s₁ ≤ … ≤ s_k` in `Icc a b` with
+`k ≤ d + 1`, put `yⱼ = γ sⱼ`, let `gⱼ = gauge D (y_{j+1} − yⱼ)` for `j < k` and `G = ∑ j, gⱼ`.
+The monotone chain `s₁, …, s_k, s_k, …` shows `G ≤ lam`. Each step is a multiple of a difference
+of two points of `K`: `y_{j+1} − yⱼ = gⱼ • (qⱼ − pⱼ)` with `pⱼ, qⱼ ∈ K` (a step with `gⱼ = 0` is
+`0`, and any point of `K` serves for both). Put `c = ∑ j, gⱼ • pⱼ`. Then
+
+`yⱼ ∈ (y₁ − c) +ᵥ G • K` for every `j`,
+
+because `yⱼ − y₁ + c = ∑ i < j, gᵢ • qᵢ + ∑ i ≥ j, gᵢ • pᵢ` is a sum of points of `K` with
+nonnegative weights of total `G`, which lies in `G • K` since `K` is convex (if `G = 0`, all
+`yⱼ` coincide and `G • K = {0}`). Moreover `G • K ⊆ (−(lam − G) • k₀) +ᵥ lam • K` for any
+`k₀ ∈ K`, again by convexity. So the point `y₁ − c − (lam − G) • k₀` lies in every `C sⱼ`.
 Helly gives `v` in every `C s`. For `lam < 1` and `z ∈ K`,
 `v + lam • z = (lam • z + (1 − lam) • p) + (v − (1 − lam) • p)` and the first summand is interior
 (`Convex.combo_closure_interior_mem_interior`), so `v +ᵥ lam • K ⊆ w' +ᵥ interior K` with
@@ -640,7 +653,7 @@ supporting hyperplanes as a predicate on points, and the eleven theorems above.
   for symmetric bodies in `ℝ³`, the bounds of Papadoperakis and Prymak), bodies of constant width,
   illumination by points or by affine subspaces, the X-ray number, and support and width
   functions, mean width and Cauchy's formulas.
-- A recent preprint of Aiger, Har-Peled and Žužić (arXiv 2611.32334) states that every convex
+- A 2026 preprint of Aiger, Har-Peled and Žužić (arXiv 2611.32334) states that every convex
   body in `ℝ³` is covered by eight smaller homothets, which would settle Hadwiger's problem in
   dimension three; the authors state that the proof was found with an AI system and checked in
   Lean 4, and a Lean development accompanies the preprint as an arXiv ancillary file. This
@@ -662,11 +675,12 @@ supporting hyperplanes as a predicate on points, and the eleven theorems above.
 - `IsExtreme`, `IsExtreme.extremePoints_subset_extremePoints`, `extremePoints_convexHull_subset`
   (`Mathlib/Analysis/Convex/Extreme.lean`), `IsCompact.extremePoints_nonempty`
   (`Mathlib/Analysis/Convex/KreinMilman.lean`).
-- `Convex.combo_closure_interior_mem_interior`,
-  `Convex.closure_interior_eq_closure_of_nonempty_interior`
-  (`Mathlib/Analysis/Convex/Topology.lean`).
-- `gauge`, `continuous_gauge` (convex neighbourhood of `0`), `interior_subset_gauge_lt_one`
-  (`Mathlib/Analysis/Convex/Gauge.lean`).
+- `Convex.combo_closure_interior_mem_interior`, `Convex.interior`,
+  `Convex.closure_interior_eq_closure_of_nonempty_interior`,
+  `Convex.interior_closure_eq_interior_of_nonempty_interior`
+  (`Mathlib/Analysis/Convex/Topology.lean`); `Convex.linear_image`
+  (`Mathlib/Analysis/Convex/Basic.lean`); `image_closure_subset_closure_image`.
+- `gauge` (`Mathlib/Analysis/Convex/Gauge.lean`).
 - `parallelepiped`, `mem_parallelepiped_iff`, `parallelepiped_basis_eq`, `convex_parallelepiped`,
   `Module.Basis.parallelepiped` (`Mathlib/MeasureTheory/Measure/Haar/OfBasis.lean`).
 - `AffineMap.homothety`, `AffineMap.homothety_apply`; `FiniteDimensional.of_isCompact_closedBall₀`;
@@ -680,7 +694,7 @@ supporting hyperplanes as a predicate on points, and the eleven theorems above.
 ### From Tau Ceti
 
 - `gauge_le_iff_mem_smul_closure` (`TauCeti/Analysis/Convex/Gauge.lean`): for a convex `s ∈ 𝓝 0`
-  in a topological real vector space and `0 < t`, `gauge s x ≤ t ↔ x ∈ t • closure s` (1.2, 4.2).
+  in a topological real vector space and `0 < t`, `gauge s x ≤ t ↔ x ∈ t • closure s` (4.2).
 - `Convex.zero_mem_interior_of_symmetric` (`TauCeti/Analysis/Convex/Topology.lean`): a convex set
   symmetric about `0` with nonempty interior has `0` in its interior (4.2).
 
