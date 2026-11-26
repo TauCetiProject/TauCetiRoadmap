@@ -25,18 +25,20 @@ character (`TauCeti.LFunctions.heckeLFunctionC`). What each headline needs beyon
   with local conditions (`TauCeti.ContCohomology.SelmerStructure.selmerGroup`), not modules of
   cocycles with conditions on functions on decomposition groups.
 * Grunwald's theorem in prime exponent (6.1): the Artin map of 2.2 from the finite ideles to the
-  abelianised absolute Galois group. At the pins the global Artin map exists only at finite Galois
-  layers; the absolute map is assembled from these in 2.2.
+  abelianised absolute Galois group. Tau Ceti has, at the pins, the absolute Artin map of the
+  global class formation on idele classes (`TauCeti.ClassFieldTheory.ClassFormation.absoluteArtinMap`);
+  its restriction to the finite ideles with the properties stated in 2.2, and the existence
+  theorem of 2.3 in the form used, are not there.
 * Hecke `L`-functions at `s = 1` (8.4): the partial Euler product `L^S(s, ψ)` of a character of the
   finite ideles with integral angular exponents, which in general has infinite order, and the
   prime densities of 8.1. The pinned `L`-functions of Hecke characters are those of characters of
   finite order, through their ray class characters.
 * The `ℓ`-adic avatar (9.1): the avatar `r_θ`, built from the Artin map of 2.2 and the existence
-  theorem 2.3 (c), and the local conditions at a place of the algebraic closure of
-  GaloisRepresentationsOfUnitaryEigenforms §1.3 (finite type, Hodge–Tate jumps, polynomials killing
-  Frobenius on the periods of CrystallineRepresentationsAndKisinModules §3.1). Tau Ceti has
-  algebraic Hecke characters (`TauCeti.GlobalNumberFields.HeckeCharacter.IsAlgebraic`) but not
-  their `ℓ`-adic characters, and neither library has the period ring `B_max`.
+  theorem 2.3 (c). Tau Ceti has algebraic Hecke characters
+  (`TauCeti.GlobalNumberFields.HeckeCharacter.IsAlgebraic`) but not their `ℓ`-adic characters. Its
+  local behaviour (finite type, Hodge–Tate jumps, polynomials killing Frobenius on the periods of
+  CrystallineRepresentationsAndKisinModules §3.1, for which neither library has the period ring
+  `B_max`) is GaloisRepresentationsOfUnitaryEigenforms §6.4 (e).
 * The odd classes (10.7): the module `Sha_e(O, ν)` of 10.1, cocycles of the absolute Galois group of
   a CM field with values in `(O/ℓ^ν)(−e)`, unramified outside `ℓ`, with conditions on the inertia
   and decomposition groups above `ℓ` and odd under complex conjugation. It is a definition that

@@ -24,9 +24,10 @@ restriction through the Artin map of a Galois character killed by `p` at finitel
 the units at every place whose norm is not prime. (3) *Hecke `L`-functions at `s = 1`* (8.4): for a nontrivial Hecke
 character with integral angular exponents, the partial Euler product, as a function of real `s > 1`, agrees near `1`
 with a function analytic at `1`, its values at the primes of degree one have mean `−m`, `m ∈ ℕ`, and it has no zero on
-`[1, ∞)` if `ψ² ≠ 1`. (4) *The `ℓ`-adic avatar* (9.1): for a CM field containing a primitive `5040`-th root of unity,
-the `ℓ`-adic character of an algebraic Hecke character has, at every finite place including those above `ℓ`, finite
-type, the expected Hodge–Tate jumps and the expected action of inertia and Frobenius. (5) *Odd classes* (10.7): for a
+`[1, ∞)` if `ψ² ≠ 1`. (4) *The `ℓ`-adic avatar* (9.1): over a totally complex field, the `ℓ`-adic character of an
+algebraic Hecke character, given on Artin symbols by the character and its infinity type, and compatible with
+restriction to CM extensions; its local behaviour at every finite place, those above `ℓ` included, is
+GaloisRepresentationsOfUnitaryEigenforms §6.4 (e). (5) *Odd classes* (10.7): for a
 CM field `E ⊂ ℚ(μ_N)` and `t ≥ 0` there is an integer `0 < X ≤ 2^{4(N+t+3)^{27}}·h_E` whose valuation bounds, at every
 prime `ℓ` (`2` included), the length of the module of odd cocycles of `G_E` in `O/ℓ^ν(−e)` unramified outside `ℓ` and
 trivial on the elements of the decomposition groups above `ℓ` with trivial cyclotomic character, for all `e < t` and
@@ -152,6 +153,16 @@ Let `Γ` act on `Ω` as the Galois group of `Ω/K`, with open stabilisers.
    continuous, and restriction to a subgroup fixing a subfield is a closed embedding (an open one for subgroups of
    finite index), with image the fixer of that subfield.
 
+ArithmeticGaloisRepresentations §2.1 defines, for `Γ = G_K` with `K` a number field (read in `Gal(Ω/K)` through a
+`K`-isomorphism of the algebraic closure used there with `Ω`), the decomposition and inertia groups and the arithmetic
+Frobenius elements at a maximal ideal `Q` of the integral closure of `𝒪_K`; its valuation-subring bridge identifies them
+with the stabiliser of the valuation subring `A_Q`, its inertia group and the Frobenius elements for `q_v` at `A_Q` of
+item 2, and it states `D_{σQ} = σD_Qσ⁻¹` and that the arithmetic Frobenius elements form one coset of inertia. Items
+1–3 are wider: every valuation subring of `Ω` is a place (those above `v` are the `A_Q`, 1.2), `Γ` may be a closed
+subgroup of `G_K` such as `D_A` over its fixed field, and Frobenius elements are taken for every `q` (as in 1.4 and
+2.1 (b)); of the multiplicativity in `q` and the transport along equivariant maps of item 3 it states only cases:
+the `f`-th power relative to an intermediate field, restriction to a finite Galois layer, and the local embedding.
+
 *Needs:* Mathlib `InfiniteGalois.fixedField_fixingSubgroup`, `InfiniteGalois.fixingSubgroup_fixedField` (infinite Galois
 correspondence), `ValuationSubring`.
 
@@ -196,7 +207,15 @@ ring homomorphism `σ_v : E_{v_σ} → ℚ_p(σE) ⊂ F` with `‖σ_v(x)‖ ≤
 `‖σ_𝔸(x)‖ ≤ 1` for `x ∈ Ô_E`, and `‖σ_𝔸(x)‖ = ‖σ_𝔸(y)‖` if and only if `x` and `y` have equal valuations at `v_σ`. For a
 CM field, `v_{σ∘conj} = v̄_σ` and `σ_𝔸` is compatible with conjugation.
 
-*Needs:* 1.1; Mathlib `Ideal.ramificationIdx`, `Ideal.inertiaDeg`,
+ArithmeticGaloisRepresentations §2.1 states the existence in (a) and the transitivity in (b) for the places `A_Q` of its
+valuation-subring bridge, `Q` a maximal ideal above `v` of the integral closure `O` of `𝒪_K` in `Ω`. Every place `A`
+above `v` is of this form: `A` contains `O` and dominates its localisation at `Q = 𝔪_A ∩ O`, which is the valuation ring
+`A_Q`, so `A = A_Q`. The other clauses of (a) are not stated there. (c) is the finiteness of the ramification set of a
+representation with open kernel (ArithmeticGaloisRepresentations §2.2), applied to a faithful representation of `Γ/N`
+for an open normal subgroup `N ⊂ U`.
+
+*Needs:* 1.1; ArithmeticGaloisRepresentations §§2.1, 2.2 (existence and transitivity of the maximal ideals above `v`,
+the valuation-subring bridge; finite ramification sets); Mathlib `Ideal.ramificationIdx`, `Ideal.inertiaDeg`,
 `Ideal.ncard_primesOver_mul_ramificationIdxIn_mul_inertiaDegIn` (the formula `#{u}·e·f = [L : K]`).
 
 [ShortProof], `Lib/ClassField/Places/ValuationSubrings` (`New.FinPlace.isPlaceOver_placeOver`,
@@ -237,8 +256,15 @@ contains `I_A` and an arithmetic Frobenius at `A`.
 The library has the finite-level identification of decomposition groups with local Galois groups
 (`IsDedekindDomain.HeightOneSpectrum.decompositionEquiv`) and the maps `G_{K_v} → G_K`; (b) is the absolute form, which
 is the transfer through which the library's local theory applies at places of `Ω` in 1.4 and 2.1.
+ArithmeticGaloisRepresentations §2.1 states (b) read backwards, as a target ("The local embedding"): for an embedding
+`ι` of algebraic closures over `K → K_v`, `τ ↦ ι⁻¹τι` is a closed embedding of `G_{K_v}` onto the decomposition group of
+the prime cut out by `ι`, carrying inertia and arithmetic Frobenius lifts to those at that prime. For `ι = e` that prime
+gives the place `A` (1.2), and `j` is the inverse map, open in `Gal(ℚ̄_p/ℚ_p)` as `K_v/ℚ_p` is finite. That section
+also gives, in (c), the henselian valuation of `k_A` (its valuation ring is the henselisation of the local ring of `𝒪_K`
+at `v`) and the existence of an arithmetic Frobenius; (a), `ord_A` and (d) are not stated there.
 
-*Needs:* 1.1, 1.2.
+*Needs:* 1.1, 1.2; ArithmeticGaloisRepresentations §2.1 (the local embedding `G_{K_v} → G_K` onto a decomposition group;
+the henselian valuation of the decomposition field).
 
 [ShortProof], `Lib/ClassField/Places/DecompositionCompletion` (`New.exists_comap_intQpBar_eq`,
 `New.exists_inducesPlace`, `New.GaloisRep.InducesPlace`, `New.IsCompletionEmb`, `New.IsPlaceOver.exists_isCompletionEmb`,
@@ -284,8 +310,13 @@ a power of `f(γ_A)`, and `f(φsφ⁻¹) = f(s)^{q′}` for every Frobenius `φ`
 The library has (a)–(c) for complete nonarchimedean local fields and their absolute Galois groups
 (`TauCeti.inertiaSubgroup`, `TauCeti.exists_isArithFrobeniusLift`, `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`,
 the tame quotient in `TauCeti/NumberTheory/LocalField/Tame/Quotient.lean`); at places of `Ω` they follow through 1.3.
+ArithmeticGaloisRepresentations §2.1a transports the `ℓ`-adic tame character of `K_w`, for `ℓ` different from the
+residue characteristic, to the inertia group of a place of `Ω` along the local embedding of its §2.1, with its law under
+conjugation by Frobenius; (d) needs in addition one `γ_A` that generates the tame quotient modulo every `n` prime to the
+residue characteristic, and the factorisation of the maps `f` through it, which are not stated there.
 
-*Needs:* 1.1, 1.2, 1.3.
+*Needs:* 1.1, 1.2, 1.3; ArithmeticGaloisRepresentations §2.1a (the tame character transported to inertia at a place,
+for (d)).
 
 [ShortProof], `Lib/ClassField/Places/LocalFields` (`New.IsLocalGalois.frobenius_spec`, `New.IsLocalGalois.of_finite`,
 `New.existsUnique_unramified_char`); `Lib/ClassField/Places/DecompositionCyclotomic`
@@ -335,13 +366,13 @@ The library has ideles of number fields, ray subgroups and finiteness statements
 The library has local and global class field theory for complete local fields, the full idele class group and the
 arithmetic normalisation of the Artin map (ClassFieldTheory C.6: "All local and global Artin maps use arithmetic
 Frobenius"). Its local Artin map is absolute, with values in the abelianised absolute Galois group (ClassFieldTheory
-§7.1); its global Artin map is stated at finite layers only, `C_K → Gal(L/K)^ab` for a finite Galois extension `L/K`
-(ClassFieldTheory §11.1), and existence is a statement about open subgroups of finite index of `C_K`
-(ClassFieldTheory §12.1). The route reads class field theory at places of `Ω`, on finite ideles, in the geometric
-normalisation (uniformisers go to inverses of arithmetic Frobenius elements), with one absolute global map into
-`G_K^ab`. This layer states the form needed. The statements of 2.1 are those of the library transported by 1.3 and
-composed with inversion; those of 2.2 and 2.3 follow from the library's theory once the absolute global map is
-assembled from the finite layers, which 2.2 has to do.
+§7.1). ClassFieldTheory states the global Artin map at finite layers, `C_K → Gal(L/K)^ab` for a finite Galois extension
+`L/K` (§11.1); the pinned library also has their limit `C_K → G_K^ab`, the absolute Artin map of the global class
+formation (2.2). Existence is a statement about open subgroups of finite index of `C_K` (ClassFieldTheory §12.1). The
+route reads class field theory at places of `Ω`, on finite ideles, in the geometric normalisation (uniformisers go to
+inverses of arithmetic Frobenius elements), with one absolute global map into `G_K^ab`. This layer states the form
+needed. The statements of 2.1 are those of the library transported by 1.3 and composed with inversion; those of 2.2
+and 2.3 follow from the library's theory through the absolute global map restricted to the finite ideles.
 
 ### 2.1 The local Artin map at a place of `Ω`
 
@@ -354,8 +385,11 @@ pins the local Artin map down by a cup-product formula with cyclic classes, then
 (`TauCeti.ClassFieldTheory.geometricArtinMap`, ClassFieldTheory §7.1) and the isomorphism of 1.3 (b). Then (a) and
 (b) are the transports of `denseRange_artinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`,
 `mem_inertiaSubgroup_of_mk_eq_artinMap` and `map_artinMap_unitFiltration_zero` of ClassFieldTheory §7.1, read after
-inversion (a uniformiser goes to the class of the inverse of an arithmetic Frobenius), and the first statement of (c)
-is the transport of `artinMap_norm`; (d), (e) and the last statement of (c) are not stated there.
+inversion (a uniformiser goes to the class of the inverse of an arithmetic Frobenius). The first statement of (c) is
+the transport of `artinMap_norm`, and its last statement that of the kernel identity of ClassFieldTheory §7.1 (for a
+finite abelian extension of local fields and a character `ψ` of its Galois group, `ψ` kills the symbol of `x` exactly
+when `x` is a norm from the fixed field of `ker ψ`), applied to the abelian extension `L_u/K_v` that `χ` cuts out
+through 1.3 (b) and the injective character of `Gal(L_u/K_v)` induced by `χ`; (d) and (e) are not stated there.
 
 Let `K` be a number field, `A` a place of `Ω` above the finite place `v` of `K`, `D_A ⊂ G_K` its decomposition group
 and `D_A^ab` its topological abelianisation. Let `Art_A : K_v^× → D_A^ab` be the local Artin map of `K_v`, transported
@@ -380,7 +414,8 @@ endomorphism of `Ω` extending `K → L` and carrying the actions accordingly. I
 (e) *Tame unit.* There is a unit `u ∈ 𝒪_v^×` whose residue generates the multiplicative group of the residue field and
 with `Art_A(u)` the class of the tame generator `γ_A` of 1.4 (d).
 
-*Needs:* 1.3, 1.4; ClassFieldTheory §§5.1, 6.1, 7.1 (local invariant, reciprocity, absolute Artin map).
+*Needs:* 1.3, 1.4; ClassFieldTheory §§5.1, 6.1, 7.1 (local invariant, reciprocity, absolute Artin map and the kernel
+identity).
 
 [ShortProof], `Lib/ClassField/GaloisCohomology/ContinuousCocycles` (`New.localArtin`); `Lib/ClassField/Local/ArtinMap`
 (`New.artinAt`, `New.continuous_hom_locField_units`,
@@ -399,14 +434,26 @@ geometric normalisation, with the real places handled by total positivity.
 *Method of the formal proof:* the shorter proof builds global class field theory itself: a bound for the index of
 norm subgroups by comparing the densities of 8.1 and 8.4 at the primes of degree one; from that bound and a count of
 `S`-units, the local–global principle for Brauer classes; and the reciprocity law by reduction to the cyclotomic
-characters of prime conductor. The library's global Artin map is defined for each finite Galois extension `L/K`, on
-the idele class group, with values in `Gal(L/K)^ab` (ClassFieldTheory §11.1, `globalArtinMap`); it has no map into
-`G_K^ab`. With the library, `Art_K` is therefore the inverse limit over the finite Galois `L/K` in `Ω` of
-these maps (compatible in towers by ClassFieldTheory §11.1), restricted to the ideles with archimedean components `1`
-and composed with inversion. Its local components are those of 2.1 by `globalArtinMap_local`, the reciprocity law (b)
-comes from `globalArtinMap_principal` with the archimedean symbols of ClassFieldTheory §10.1 (`infiniteArtinAt`,
-trivial at complex places, the complex conjugation at a real place where the element is negative), and continuity,
-surjectivity and (c)–(f) have to be deduced at the limit; they are not statements of ClassFieldTheory.
+characters of prime conductor. ClassFieldTheory states the global Artin map for each finite Galois extension `L/K`,
+on the idele class group, with values in `Gal(L/K)^ab` (§11.1, `globalArtinMap`). The pinned library also has the
+limit of these maps: the absolute Artin map `TauCeti.ClassFieldTheory.ClassFormation.absoluteArtinMap` of the global
+class formation `TauCeti.ClassFieldTheory.globalClassFormation K`, read on `C_K` through
+`TauCeti.ClassFieldTheory.globalGroundEquiv K`, with values in the topological abelianisation of the absolute Galois
+group of `K`. Its restriction to each finite layer is the Artin map of that layer
+(`abelianizationRestrict_absoluteArtinMap`; `globalArtinMap_eq_of_mk_eq_absoluteArtinMap` for `globalArtinMap`), it is
+the only homomorphism with this property (`eq_absoluteArtinMap_of_forall_abelianizationRestrict`), its image is dense
+(`denseRange_absoluteArtinMap`) and its kernel is the intersection of the norm subgroups
+(`absoluteArtinMap_eq_zero_iff`). MordellLawrenceVenkatesh §1.8 states the same map on `𝔸_K^×` as a target,
+continuous and with the local Artin maps as its components, in the arithmetic normalisation. With the library, `Art_K`
+is this map on the ideles with archimedean components `1`, read in `G_K^ab` through a `K`-isomorphism of the separable
+closure with `Ω` (two such differ by an inner automorphism, which is trivial on `G_K^ab`), and composed with
+inversion. Its local components are those of 2.1 by `globalArtinMap_local` in each finite layer, and the reciprocity
+law (b) comes from `globalArtinMap_principal` with the archimedean symbols of ClassFieldTheory §10.1 (`infiniteArtinAt`,
+trivial at complex places, the complex conjugation at a real place where the element is negative). What 2.2 adds to
+the library is the restriction to the finite ideles: continuity and surjectivity there, (b) in this form, and (c)–(f).
+For the first statement of (c), Tau Ceti's main branch, later than the revision pinned here, has the norm
+compatibility of the finite layers (`TauCeti.ClassFieldTheory.globalArtinMap_ideleClassNormMap`), which gives it in the
+limit; the transport along endomorphisms of `Ω` is not stated there.
 
 Let `K` be a number field and `Art_K : 𝔸_{K,f}^× → G_K^ab` the homomorphism with `χ(Art_K(a)) = ∑_v χ(Art_v(a_v))` for
 every character `χ` of `G_K` (2.1 (d); the sum is finite). Prove:
@@ -434,7 +481,11 @@ other finite place `v` either `χ(Art_v(x)) = 0`, or `χ` is unramified at `v` a
 group vanishes on the complex conjugations, on `D_A` for the places above `S` and on `I_A` for the places above the
 places outside `S`, then `z = 0`.
 
-*Needs:* 1.3, 1.5, 2.1; ClassFieldTheory §§10.1, 11.1 (Brauer sequence, global Artin reciprocity).
+*Needs:* 1.3, 1.5, 2.1; ClassFieldTheory §§10.1, 11.1 (Brauer sequence, global Artin reciprocity); Tau Ceti
+`TauCeti.ClassFieldTheory.ClassFormation.absoluteArtinMap` at `TauCeti.ClassFieldTheory.globalClassFormation` (the
+absolute global Artin map `C_K → G_K^ab`); MordellLawrenceVenkatesh §1.8 (the same map on `𝔸_K^×`, continuous, with the
+local Artin maps as components); on Tau Ceti's main branch `TauCeti.ClassFieldTheory.globalArtinMap_ideleClassNormMap`
+(norm compatibility, for (c)).
 
 [ShortProof], `Lib/ClassField/Global/ArtinMap` (`New.abelianLift_artinMap_eq_finprod`, `New.continuous_artinMap`,
 `New.artinMap_locIdele`, `New.artinMap_map_adeleNorm`, `New.IsPlaceOver.range_abelianLift_comp_artinAt`,
@@ -455,11 +506,21 @@ on finite ideles, for totally positive elements, and with existence only for tot
 with 2.2, to the cyclic class of `x`; (c) is first proved over fields that contain `μ_n`, where the Kummer characters
 of (d) describe the abelian extensions of exponent dividing `n`, and the general case is reduced to that one through a
 cyclic subextension of `K(μ_n)/K` and the norm compatibility 2.2 (c); the detecting points are Artin symbols of
-representatives of a finite quotient of the ideles. With the library, (a) and (b) are the library's norm index
-(ClassFieldTheory §12.1, `card_ideleClassNormQuotient`) and cyclic Hasse norm theorem (ClassFieldTheory §13.1,
-`cyclicHasseNorm`) read at finite ideles, total positivity accounting for the real places; (c) is not the library's
-existence theorem but a deduction from it (ClassFieldTheory §12.1, `globalAbelianExistence`, for the open subgroups of
-finite index) together with the surjectivity of `Art_K` and the separation of the points of `G_K^ab` by characters.
+representatives of a finite quotient of the ideles. With the library, (a) is the kernel and the norm index of the
+global Artin map of `L/K` on the full idele class group (ClassFieldTheory §11.1, `ker_globalArtinMap`: the kernel is
+`N_{L/K}(C_L)`; §12.1, `card_ideleClassNormQuotient`: its index is `[L : K]`) restricted to the finite ideles, where
+`x` has to be positive at the real places of `K` that ramify in `L` and is made totally positive by multiplying it with
+the norm of an element of `L^×` of suitable signs. (b) is the placewise cyclic Hasse norm theorem (ClassFieldTheory
+§13.1, `isGlobalNorm_iff_isLocalNormEverywhere`, the placewise form of `cyclicHasseNorm`), whose hypotheses those of (b)
+imply: total positivity makes `x` a local norm at the real places, and a nonzero element of the closure of `N_{L/K}(L)`
+in `K_v` is a norm from `K_v ⊗_K L`, since `L` is dense there and the nonzero local norms form an open, hence closed,
+subgroup of `K_v^×`. (c) is not the library's existence theorem but a deduction from it (ClassFieldTheory §12.1,
+`globalAbelianExistence`, for the open subgroups of finite index) together with the surjectivity of `Art_K` and the
+separation of the points of `G_K^ab` by characters. For `n = p` prime, the second statement of (d) is the Kummer case
+of ClassFieldTheory §12.1 (`globalNormSubgroup_kummerLayer_sUnits`: for `S` containing the places above `p` and
+generating the class group, that is with `K^×·U^S = 𝔸_{K,f}^×`, the norm subgroup of `K(U_S^{1/p})/K`, `U_S` the
+`S`-units, is the image of the ideles that are `p`-th powers at `S` and at the infinite places and units elsewhere),
+read at finite ideles through 2.2, the complex places imposing no condition; for composite `n` it is not stated there.
 
 Let `K` be a number field.
 
@@ -489,7 +550,8 @@ that are `m`-th powers at `S` have finite index `i_S`. There are finitely many `
 vanishing on `I_A` for the places `A` above places outside `S`, satisfies `n_i·x(p_i) = 0` for all `i`, and is zero if
 it vanishes at every `p_i`.
 
-*Needs:* 1.5, 2.1, 2.2; ClassFieldTheory §§12.1, 13.1 (existence, norm index, cyclic Hasse).
+*Needs:* 1.5, 2.1, 2.2; ClassFieldTheory §§11.1, 12.1, 13.1 (kernel of the global Artin map, existence, norm index,
+the Kummer layer of the `S`-units, cyclic Hasse).
 
 [ShortProof], `Lib/ClassField/Global/NormTheorems` (`New.exists_isProGalois_ker_of_isCyclic`, `New.hasse_norm`,
 `New.index_ker_abelianLift_comp_artinMap`, `New.abelianLift_artinMap_eq_one_iff`); `Lib/ClassField/Global/ExistenceTheorem`
@@ -1060,9 +1122,19 @@ condition on roots of unity.
 
 *Method of the formal proof:* for (a), the character is prescribed as `∏_w x_w/|x_w|` on the ideles whose finite
 part is a unit and as `1` on the products `y·b·b̄` (`y ∈ E^×`, `b` an idele); the two prescriptions agree where both
-apply because of the hypothesis on roots of unity, and the result extends to all ideles since the circle group is
-divisible. For (b), class field theory for `E/E⁺` (2.2, 2.3) decides which ideles fixed by conjugation have the form
-`a·z·z̄` with `a = ā`, and the values of `υ` and `η` are compared through the signs at the infinite places.
+apply because of the hypothesis on roots of unity and because an `a = ā` with `a·z·z̄ = 1` for a finite idele `z` has
+`∏_w Φ_w(a) > 0`, and the result extends to all ideles since the circle group is divisible. For (b), class field theory
+for `E/E⁺` decides which ideles fixed by conjugation have the form `a·z·z̄` with `a = ā`, and the values of `υ` and `η`
+are compared through the signs at the infinite places. The formal proof reads this class field theory on finite ideles
+through 2.2 and 2.3, and uses it only for the quadratic layer `E/E⁺`, which ClassFieldTheory gives on full ideles. By
+its §11.1 the ideles of `E⁺` of the form `a·z·z̄` are the kernel of the global Artin map of `E/E⁺`, of index `2`
+(§12.1, `card_ideleClassNormQuotient`), so `η` is a character; `υ` is trivial on that kernel and is `−1` on an idele of
+`E⁺` with finite part `1` and one negative component, hence equals `η` there. At a finite place `w = w̄` the place of
+`E⁺` below `w` does not split in `E`, so by local reciprocity (§6.1) and the local components of the global Artin map
+(`globalArtinMap_local`) some element of its completion, placed at `w`, has `η = −1`. The sign in (a) holds because
+the idele of `E⁺` with the components of `a` at the infinite places and `1` at the finite ones lies in that kernel, so
+that its symbol, the product of the archimedean symbols of §10.1 (complex conjugation where `a` is negative), is
+trivial and `a` is negative at an even number of places.
 
 A *splitting character* of `E` is as in WeilRepresentationsOnBanachSpacesOfData §3.1, for any CM field `E`: a unitary
 Hecke character `υ` with `υ(x̄) = υ(x)⁻¹` that equals `∏_w x_w/|x_w|` on the ideles whose finite part is a unit of `Ô_E`.
@@ -1081,7 +1153,11 @@ hypothesis of (a) implies: every `x` with `(x) = 𝔞_x𝒪_E` is then a unit `�
 product formula. Its hypothesis that `E/E⁺` is unramified at every finite place holds here, since `E` contains a
 primitive `5040`-th root of unity.
 
-*Needs:* 1.5, 2.2, 2.3, 7.1; WeilRepresentationsOnBanachSpacesOfData §3.1 (splitting characters).
+*Needs:* 1.5, 7.1; ClassFieldTheory §§6.1, 7.1, 10.1, 11.1, 12.1 (class field theory of `E/E⁺` on full ideles: local
+reciprocity, the absolute local Artin map in which §11.1 states the local components, archimedean symbols, global
+reciprocity with its local components, norm index `2`); AdelicUnitaryGroupsAndAlgebraicModularForms §3.4 (a) (under
+the 5040 condition, a unit of `Ô_E` fixed by conjugation is `t̄t` for a unit `t`);
+WeilRepresentationsOnBanachSpacesOfData §3.1 (splitting characters).
 
 [ShortProof], `Lib/ClassField/Global/CMSplittingCharacters` (`New.Cohomology.IsRealTimesNorm`,
 `New.Cohomology.quadraticIdeleChar`, `New.Cohomology.upsilon_eq_quadraticIdeleChar`,
@@ -1408,19 +1484,20 @@ those of GaloisRepresentationsOfUnitaryEigenforms §1.3.
 
 ### 9.1 The `ℓ`-adic avatar and its local behaviour
 
-*Origin:* adapted from the theory of `ℓ`-adic characters attached to algebraic Hecke characters (Serre (1968), II–III;
-for the crystalline case, Conrad, *Lifting global representations with local properties*, App. B): here for a totally
-complex field, through the Artin map on finite ideles, with local behaviour at every finite place, those above `ℓ`
-included, for CM fields containing a primitive `5040`-th root of unity.
+*Origin:* (a) adapted from the theory of `ℓ`-adic characters attached to algebraic Hecke characters (Serre (1968),
+II–III): here for a totally complex field, through the Artin map on finite ideles, with the restriction to a CM
+extension; (b) particular to this proof: an eigenform of rank one of any weight, spherical at a given split place, from
+which GaloisRepresentationsOfUnitaryEigenforms §6.4 (e) obtains the local behaviour of the avatar.
 
 *Method of the formal proof:* (a) is the existence theorem 2.3 (c) applied to the character
-`x ↦ ι(θ(x))·∏_τ (ι∘τ)_𝔸(x)^{n_τ}` of the finite ideles, which is continuous and trivial on `K^×`. For (b), a step `L/E`
-of GaloisRepresentationsOfUnitaryEigenforms §6.1 (b) (built with 6.2) is chosen so that the place of `L` below `A` is
-split with the same residue order as `w`; by the last statement of (a), `r_θ` restricted to `G_L` is the avatar of
-`θ∘N_{L/E}`, and (b) over `L` implies (b) over `E`. At a split place, `θ` is the product of the character of a
-rank-one eigenform from (c), whose attached representation has the required local behaviour, and a character whose
-infinity type vanishes at the embeddings that induce `w`, to which CrystallineRepresentationsAndKisinModules §4.4
-applies.
+`x ↦ ι(θ(x))·∏_τ (ι∘τ)_𝔸(x)^{n_τ}` of the finite ideles, which is continuous and trivial on `K^×`. For its last
+statement, both sides are continuous characters of `G_L`; at a Frobenius element of a place of `L` prime to `ℓ` both
+are `ι` of the value of `θ` at the same local idele, by the formula of (a) and the compatibility of local Artin maps with
+norms (2.1), and these elements are dense (GaloisRepresentationsOfUnitaryEigenforms §1.2 (b), (d)). For (b), take the
+forms of weight `κ` fixed by the integral elements congruent to `1` modulo one auxiliary place `v ∉ {w, w̄}` with
+`q_v > 2^{[E:ℚ]}`: at this level the classes have trivial stabilisers, so these forms make up a nonzero space of finite
+dimension, which the Hecke operators at the split places away from `v` keep and which is spanned by their eigenforms
+(AdelicUnitaryGroupsAndAlgebraicModularForms §6.3 (d)); any one of them will do.
 
 Let `K` be a totally complex number field, `ℓ` a prime and `ι : ℂ ≅ ℚ̄_ℓ` fixed.
 
@@ -1429,13 +1506,7 @@ characters `G_K → ℚ̄_ℓ^×` with `r_θ(g) = ι(θ(x))·∏_τ (ι∘τ)_�
 is the extension of `ι∘τ` to finite adeles (1.2 (e)). For a CM field `L ⊃ K`, the avatar of `θ∘N_{L/K}` is the restriction of
 `r_θ` to `G_L`.
 
-(b) *Local behaviour.* Let `E` be a CM field containing a primitive `5040`-th root of unity, `(θ, n)` an algebraic Hecke
-character, `w` a finite place of `E` and `A` a place of `Ω` above `w`. Then `r_θ` is of finite type at `A`, its Hodge–Tate
-jump at `τ` is `{−n_τ}` for the embeddings `τ` inducing `A`, and for `m ∈ {0, 1}` and every `s` such that `s⁻¹` is a
-Frobenius for `q_w^m` at `A` there is `x ∈ E_w^×` of valuation `m` with `Art_A(x)` the class of `s` and `X − ι(θ(ι_w(x)))`
-killing `s` (above `ℓ`: on the potentially crystalline periods, through the linear Frobenius).
-
-(c) For `E` a CM field containing a primitive `5040`-th root of unity, every split place `w` of `E` and every weight,
+(b) For `E` a CM field containing a primitive `5040`-th root of unity, every split place `w` of `E` and every weight,
 there is an eigenform of that weight on the definite unitary group of rank one, spherical at `w`.
 
 AutomorphicGaloisRepresentationsPartII, Layer AG2.0 (the `l`-adic character of an algebraic Hecke character), gives,
@@ -1443,14 +1514,22 @@ for every number field, the character of the first statement of (a) with its loc
 Hodge–Tate numbers; it states neither the restriction to `G_L` in (a) nor potential crystallinity and the action of
 inertia and Frobenius on the periods above `ℓ`.
 
-*Needs:* 1.2, 2.1, 2.2, 2.3, 6.2, 7.5; GaloisRepresentationsOfUnitaryEigenforms §§1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 6.1,
-6.4 (local conditions; density of most Frobenii; passage to retracts; quadratic steps; rank-one attached
-representations); AdelicUnitaryGroupsAndAlgebraicModularForms §§6.1, 6.3 (algebraic forms, Hecke eigenforms);
-CrystallineRepresentationsAndKisinModules §§4.4, 4.5 (characters trivial on inertia near `1`; twists by characters).
+The local behaviour of `r_θ` at every finite place, those above `ℓ` included (for the crystalline case, after Conrad,
+*Lifting global representations with local properties*, App. B), is stated for CM fields containing a primitive
+`5040`-th root of unity in GaloisRepresentationsOfUnitaryEigenforms §6.4 (e): its proof uses the Galois representations
+of rank one of that roadmap, which themselves use (a).
 
-[ShortProof], `Lib/PadicHodge/Characters` (`New.exists_avatar`, `New.AlgHeckeChar.avatar`, `New.GaloisRep.AvatarCompatAt`);
-`Lib/ClassField/Avatar/LocalGlobalCompatibility` (`New.GaloisRep.avatar_baseChange`, `New.GaloisRep.exists_eigenform_rank_one`,
-`New.GaloisRep.avatarCompatAt_of_isSplit`, `New.GaloisRep.avatarCompatAt_of_hasPrimitiveRoot5040`);
+*Needs:* 1.2, 2.1, 2.2, 2.3, 7.5; GaloisRepresentationsOfUnitaryEigenforms §§1.1, 1.2 (eigenforms and Hecke
+polynomials; density of most Frobenii); AdelicUnitaryGroupsAndAlgebraicModularForms §§3.9, 6.1, 6.3 (congruence levels;
+algebraic forms; Hecke eigenforms); WeilRepresentationsOnBanachSpacesOfData §9.2 (the Hecke operators at split places
+keep the forms of a level); ShortGRH background (for a CM field `E` with at least two infinite places, distinct finite
+places `w_i` with `∏_i q_{w_i} > (2n)^{[E:ℚ]}` and a subgroup `K` of the integral elements of the finite adelic unitary
+group `G_f(n)` congruent to `1` modulo every `w_i`, the rational points of the standard definite unitary group of rank
+`n` meet every `gKg⁻¹`, `g ∈ G_f(n)`, only in `1`; [ShortProof] `Lib/Shimura/HeckeTower/HeckeData`
+(`New.Variety.classAut_eq_bot`)).
+
+[ShortProof], `Lib/PadicHodge/Characters` (`New.exists_avatar`, `New.AlgHeckeChar.avatar`);
+`Lib/ClassField/Avatar/LocalGlobalCompatibility` (`New.GaloisRep.avatar_baseChange`, `New.GaloisRep.exists_eigenform_rank_one`);
 `Lib/ClassField/Avatar/HeckeBaseChange` (`New.AlgHeckeChar.baseChange`)
 
 ### 9.2 Twisting by the avatar of a character of parallel type
@@ -1459,11 +1538,11 @@ CrystallineRepresentationsAndKisinModules §§4.4, 4.5 (characters trivial on in
 an avatar shifts its Hodge–Tate jumps and rescales its Hecke polynomial at the places where the character is unramified
 and of parallel type.
 
-*Method of the formal proof:* `ρ′` is `ρ` multiplied by `χ_ℓ^d·r`, with `r` the avatar (9.1) of `ω·|·|^{−d}`. At the
-places of the statement `ω·|·|^{−d}` is unramified and has type `0` at the embeddings inducing `w`, so the local clauses
-of `r` come from CrystallineRepresentationsAndKisinModules §4.4, and under multiplication by a character
-(CrystallineRepresentationsAndKisinModules §4.5) being unramified or crystalline is kept, the jumps are shifted and the
-Hecke polynomial is rescaled by `c`.
+*Method of the formal proof:* `ρ′` is `ρ` multiplied by `χ_ℓ^d·r`, with `r` the avatar (9.1 (a)) of `ω·|·|^{−d}`. At
+the places of the statement `ω·|·|^{−d}` is unramified and has type `0` at the embeddings inducing `w`, so the local
+clauses of `r` come from CrystallineRepresentationsAndKisinModules §4.4, read through the formula of 9.1 (a) at local
+Artin symbols (2.1), and under multiplication by a character (CrystallineRepresentationsAndKisinModules §4.5) being
+unramified or crystalline is kept, the jumps are shifted and the Hecke polynomial is rescaled by `c`.
 
 Let `E` be a CM field, `ω = (θ, n)` an algebraic Hecke character and `d ∈ ℕ`. For every continuous `ℓ`-adic representation
 `ρ` of `G_E` there is a continuous `ρ′` (a twist of `ρ`) such that at every finite place `w` where `θ` is unramified and
@@ -1473,7 +1552,7 @@ all complex `t_0, …, t_a`) killing geometric Frobenius, where
 `c = θ(ι_w(ϖ_w))`, then `ρ′` has the same property with jump data `J(τ) − n_τ` and Hecke polynomial
 `∑_{j≤a} (−1)^j q^{j(j−1)/2} ι(t_j) X^{a−j}`.
 
-*Needs:* 9.1; GaloisRepresentationsOfUnitaryEigenforms §§1.1, 1.3 (Hecke polynomials; spherical above a place);
+*Needs:* 2.1, 9.1; GaloisRepresentationsOfUnitaryEigenforms §§1.1, 1.3 (Hecke polynomials; spherical above a place);
 CrystallineRepresentationsAndKisinModules §§3.2, 3.4, 3.7, 4.4, 4.5 (Tate twists; characters trivial on inertia near
 `1`; twists by characters).
 
@@ -1743,12 +1822,23 @@ Tate–Shafarevich groups for odd primes only; the route uses this bound at ever
   uses in degrees `≤ 2` to prove class field theory itself; the route takes class field theory from the library (Layer 2).
 - Global class field theory: `TauCeti.ClassFieldTheory.brLocalization_injective`, `TauCeti.ClassFieldTheory.globalArtinEquiv`,
   `TauCeti.ClassFieldTheory.apply_globalArtinMap_eq_finsum`, `TauCeti.ClassFieldTheory.globalAbelianExistence`,
-  `TauCeti.ClassFieldTheory.cyclicHasseNorm`, `TauCeti.ClassFieldTheory.natCard_H2_globalFormation_dvd_degree`; read at finite
-  ideles and at `Ω` in 2.2 and 2.3.
+  `TauCeti.ClassFieldTheory.cyclicHasseNorm`, `TauCeti.ClassFieldTheory.natCard_H2_globalFormation_dvd_degree`,
+  `TauCeti.ClassFieldTheory.ker_globalArtinMap`, `TauCeti.ClassFieldTheory.card_ideleClassNormQuotient`,
+  `TauCeti.ClassFieldTheory.isGlobalNorm_iff_isLocalNormEverywhere`,
+  `TauCeti.ClassFieldTheory.globalNormSubgroup_kummerLayer_sUnits`; read at finite ideles and at `Ω` in 2.2 and 2.3, and
+  on full ideles for `E/E⁺` in 7.2.
+- The absolute global Artin map `C_K → G_K^ab`: `TauCeti.ClassFieldTheory.ClassFormation.absoluteArtinMap` at
+  `TauCeti.ClassFieldTheory.globalClassFormation`, read on `C_K` through `TauCeti.ClassFieldTheory.globalGroundEquiv`,
+  with `TauCeti.ClassFieldTheory.ClassFormation.abelianizationRestrict_absoluteArtinMap`,
+  `TauCeti.ClassFieldTheory.ClassFormation.eq_absoluteArtinMap_of_forall_abelianizationRestrict`,
+  `TauCeti.ClassFieldTheory.ClassFormation.denseRange_absoluteArtinMap`,
+  `TauCeti.ClassFieldTheory.ClassFormation.absoluteArtinMap_eq_zero_iff` and
+  `TauCeti.ClassFieldTheory.globalArtinMap_eq_of_mk_eq_absoluteArtinMap`; restricted to the finite ideles and composed
+  with inversion it is `Art_K` of 2.2.
 - Local class field theory for complete nonarchimedean local fields: `TauCeti.ClassFieldTheory.invMap`,
   `TauCeti.ClassFieldTheory.artinMap`, `TauCeti.ClassFieldTheory.artinMap_norm`, `TauCeti.ClassFieldTheory.localArtinEquiv`,
   `TauCeti.ClassFieldTheory.geometricArtinMap`, `TauCeti.ClassFieldTheory.localSymbol_kummerClass_eq_zero_of_mem_unitFiltration`;
-  read at places of `Ω` in 2.1.
+  read at places of `Ω` in 2.1, and at the places of `E⁺` that do not split in `E` in 7.2.
 - Local Tate duality and the Euler characteristic for finite modules: `TauCeti.ClassFieldTheory.tateDualityPairing_perfect`,
   `TauCeti.ClassFieldTheory.eulerCharacteristic_mixed`; they give 5.2 (d) through 1.3.
 - Frobenius, inertia and unramified characters of complete local fields: `TauCeti.inertiaSubgroup`,
@@ -1762,7 +1852,9 @@ On Tau Ceti's main branch, later than the revision pinned here:
 `NumberField.Chebotarev.infinite_frobeniusPrimeSet_inter_setOf_inertiaDeg_eq_one` (every Frobenius class contains
 infinitely many primes of residue degree one over `ℚ`), `TauCeti.ClassFieldTheory.natCard_H1_eq_mul` (the Euler
 characteristic formula for the cohomology of a finite discrete module), `Ideal.span_stickelbergerPhi` (Stickelberger's
-relation) and `TauCeti.kolyvaginDerivative` (the Kolyvagin derivative operator in a group algebra).
+relation), `TauCeti.kolyvaginDerivative` (the Kolyvagin derivative operator in a group algebra) and
+`TauCeti.ClassFieldTheory.globalArtinMap_ideleClassNormMap` (the global Artin map of a finite layer is compatible with
+the norm of idele classes from an intermediate field; for 2.2 (c)).
 
 ## Results taken from other roadmaps
 
@@ -1773,9 +1865,16 @@ relation) and `TauCeti.kolyvaginDerivative` (the Kolyvagin derivative operator i
   6.1 and 10.5.
 - Corestriction, Shapiro's lemma, cup products in low degrees, Hilbert 90 and Kummer theory for profinite groups:
   ProfiniteCohomology Layers 6–9. Used only through class field theory.
+- Decomposition and inertia groups and arithmetic Frobenius elements at the maximal ideals of the integral closure, with
+  their valuation subrings; the local embedding `G_{K_v} → G_K` onto a decomposition group; finiteness of ramification
+  sets; the tame character transported to inertia at a place: ArithmeticGaloisRepresentations §§2.1, 2.1a, 2.2. Used in
+  1.2, 1.3 and 1.4, and compared with 1.1 there.
 - Global class field theory: ClassFieldTheory Layers 10–13 (the Brauer sequence and sum of invariants, global
-  reciprocity, existence, the norm index and the cyclic Hasse norm theorem). Used in 2.2 and 2.3.
-- Local class field theory and local duality: ClassFieldTheory §§5.1, 6.1, 7.1. Used in 2.1 and 5.2.
+  reciprocity, existence, the norm index, the Kummer layer of the `S`-units and the cyclic Hasse norm theorem). Used in
+  2.2, 2.3 and 7.2.
+- The absolute global Artin map on `𝔸_K^×`, continuous, with the local Artin maps as components:
+  MordellLawrenceVenkatesh §1.8. Used in 2.2.
+- Local class field theory and local duality: ClassFieldTheory §§5.1, 6.1, 7.1. Used in 2.1, 5.2 and 7.2.
 - The derivative operator of Kolyvagin and its identity: EulerSystemsAndKolyvaginSystems §3.1. Used in 10.4.
 
 ## References
