@@ -377,8 +377,8 @@ structure on `ZerothHomotopy`, so this is stated here and not in `Suggested.lean
 
 *Needs:* Layer 1.1 package comparison and Layer 1.5; BanachSpaceTheory B5; OperatorTheory
 PolarDecomposition; Tau Ceti `Path.index_eq`, `index_add_of_hasFiniteRange`; for the component
-monoid, Mathlib `ZerothHomotopy`, `ContinuousLinearMap.IsFredholm.comp` and
-`ContinuousLinearMap.IsFredholm.index_comp`.
+monoid, Mathlib `ZerothHomotopy`, `Joined.mul`, `ContinuousLinearMap.IsFredholm.id`,
+`ContinuousLinearMap.IsFredholm.comp` and `ContinuousLinearMap.IsFredholm.index_comp`.
 
 ### Examples
 
