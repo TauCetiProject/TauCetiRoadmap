@@ -298,6 +298,7 @@ body:
         - HamiltonianFloerOperations
         - HanfNumbers
         - HeckeStacksAndLocalShtukas
+        - HeckeStacksAndLocalShtukasPartII
         - HeegaardFloer
         - HeightsRationalPointsAndObstructions
         - HeightsRationalPointsAndObstructionsPartII
