@@ -61,6 +61,7 @@ body:
         - ArcTopologyAndDescent
         - ArithmeticDirichletSeriesPartII
         - ArithmeticDynamics
+        - ArithmeticDynamicsPartII
         - ArithmeticFuchsianGroups
         - ArithmeticGaloisDuality
         - ArithmeticGaloisRepresentations
