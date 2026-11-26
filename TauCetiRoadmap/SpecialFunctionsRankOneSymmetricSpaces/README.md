@@ -63,8 +63,9 @@ polynomial case of 0.1 (the Jacobi polynomials), they depend only on the hyperge
 functions, Carlson's theorem, the Euclidean Paley–Wiener theorem on `ℝ` and, for the unitary
 spectral representation of 1.2, the endpoint theory of Sturm–Liouville operators and the
 self-adjoint multiplication operators of OperatorTheory/UnboundedOperators (§4.8 and Layer 1,
-§1.7); their theorems hold
-for general complex or real `(α, β)`, so that they serve every rank-one space. Layer 2 is the
+§1.7), with the uniqueness of a finite measure given its resolvent transform from Tau Ceti; their
+theorems hold for general complex or real `(α, β)`, so that they serve every rank-one space.
+Layer 2 is the
 geometry of `ℍⁿ` and depends on nothing in Layers 0–1. Layer 3 joins
 them: the spherical functions of Layer 2's Gel'fand pair are the Jacobi functions of Layer 0, by the
 uniqueness theorem of 0.1. Layer 4 transfers the inversion and Plancherel theorems of Layer 1 to
@@ -446,7 +447,10 @@ the solutions of `Lu = 0` behave like `1` and `t^{−2α}` (`log t` at `α = 0`)
 `Δ(t) ~ 2^{2ρ} t^{2α+1}`, so `0` is limit circle exactly for `−1 < α < 1`, and limit point for
 `α ≥ 1`. For `α ≥ 1` the minimal operator has deficiency indices `(0, 0)` and is self-adjoint, and
 `L̄` lies between it and the maximal operator, so equals it. For `−1 < α < 1` the indices are
-`(1, 1)`; `L̄` contains the minimal operator and the functions equal to `1` near `0`, on which the
+`(1, 1)`; `L̄` contains the minimal operator (the smooth functions with compact support in
+`(0, ∞)` are a core of it: `Δ` is smooth and positive there, so a compactly supported element of
+the maximal domain lies in `H²` and its mollifications converge to it in the graph norm) and the
+functions equal to `1` near `0`, on which the
 Wronskian with `1` vanishes and that with the other solution does not, so it is a symmetric
 extension by one dimension, hence self-adjoint, with the boundary condition stated (the even
 functions satisfy it since `f′(t) = O(t)`). Let `U` be the isometry and `M` the multiplication by
@@ -455,6 +459,13 @@ functions satisfy it since `f′(t) = O(t)`). Let `U` be the isometry and `M` th
 the core, `U (L̄ − z)⁻¹ f = (M − z)⁻¹ U f`, so `∫ f̃ ḡ (h − z)⁻¹ dμ = 0` with
 `μ = (2π)⁻¹ |c|⁻² dλ`; the finite complex measure `f̃ ḡ dμ` has vanishing Stieltjes transform after
 the injective map `h`, so it is zero, and as `f̃` is a nonzero entire function for `f ≠ 0`, `g = 0`.
+The step "vanishing Stieltjes transform, so zero" is Tau Ceti's
+`MeasureTheory.Measure.ext_of_resolventTransform` (two finite positive measures on `ℝ` with the
+same resolvent transform on the upper half-plane are equal), applied to the pushforward `ν` of
+`f̃ ḡ dμ` under `h`: since the transform of `ν̄` at `z` is the conjugate of that of `ν` at `z̄`,
+vanishing at every nonreal `z` makes the transforms of `Re ν` and `Im ν` vanish on the upper
+half-plane, and the theorem applied to the positive and negative parts of each gives
+`(Re ν)⁺ = (Re ν)⁻` and `(Im ν)⁺ = (Im ν)⁻`.
 So `U` is onto, and `U L̄ U⁻¹ ⊆ M` with both sides self-adjoint gives equality.
 
 **Checks.**
@@ -474,10 +485,11 @@ So `U` is onto, and `U L̄ U⁻¹ ⊆ M` with both sides self-adjoint gives equa
 
 *Needs:* inversion and Plancherel: 0.3, 0.4, 1.1. The unitary extension: these, and the
 Paley–Wiener theorem of 1.3 (which does not use 1.2); SpecialFunctionsHypergeometric §5.1; Mathlib
-`MeasureTheory.Lp` and `LinearIsometryEquiv`. The spectral representation, and through it the unitary extension at the
-parameters the Paley–Wiener theorem and Euler's transformation do not reach: 1.1, the isometry
-of the unitary extension, OperatorTheory/UnboundedOperators §4.8 (with the boundary conditions of
-its §4.5) and Layer 1, §1.7.
+`MeasureTheory.Lp` and `LinearIsometryEquiv`. The spectral representation, and through it the
+unitary extension at the parameters the Paley–Wiener theorem and Euler's transformation do not
+reach: 1.1, the isometry of the unitary extension, OperatorTheory/UnboundedOperators §4.8 (with
+the boundary conditions of its §4.5) and Layer 1, §1.7; Tau Ceti
+`MeasureTheory.Measure.ext_of_resolventTransform`.
 
 ### 1.3 Discrete terms, the Abel transform and the Paley–Wiener theorem
 
@@ -575,7 +587,7 @@ discrete terms: 0.3 and the contour shift of 1.2.
 
 Layer 0; Mathlib `Lp`, Fourier analysis; AutomorphicSpectralTheory §1.6;
 SpecialFunctionsHypergeometric §5.1; OperatorTheory/UnboundedOperators §§4.5, 4.8 and Layer 1,
-§1.7;
+§1.7; Tau Ceti `MeasureTheory.Measure.ext_of_resolventTransform`;
 SpecialFunctionsSU11MatrixElements §5.2 for a Check.
 
 ## Layer 2: real hyperbolic space
@@ -1131,6 +1143,14 @@ the relations of DLMF §15.9 to the Jacobi functions (15.9.11–15.9.14), which 
 second owns the Jacobi polynomials `P_k^{(α,β)}` (its §3.2), consumed in 0.1.
 
 ## Exact supplier contracts
+
+### From Tau Ceti
+
+- `MeasureTheory.Measure.ext_of_resolventTransform`
+  (`TauCeti/MeasureTheory/Measure/ResolventTransform/Inversion.lean`): two finite measures on `ℝ`
+  whose resolvent transforms `z ↦ ∫ (x − z)⁻¹` agree on the upper half-plane are equal. In the
+  spectral representation of 1.2, applied to the four positive parts of the real and imaginary
+  parts of the pushforward of `f̃ ḡ dμ` under `h`.
 
 ### From Mathlib
 

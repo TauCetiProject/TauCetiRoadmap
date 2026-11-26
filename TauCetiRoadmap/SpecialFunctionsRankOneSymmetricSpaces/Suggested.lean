@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.MeasureTheory.Measure.ResolventTransform.Inversion
 
 /-!
 # Rank-one symmetric spaces: suggested target signatures
@@ -9,8 +10,13 @@ public import Mathlib
 This file states, against the pinned Mathlib and Tau Ceti, the headlines of `README.md` that
 carry a Lean name, each with every conclusion the README attaches to it, with `sorry` proofs and
 the definitions they need. These are suggested forms; the README's other headlines are targets of
-the same standing, stated in prose. Discharging this file finishes neither a layer nor the
-roadmap. Section numbers in docstrings are those of the README. Three statements
+the same standing, stated in prose. Among them is the spectral representation of README 1.2 (the
+closure of `L` is self-adjoint with the stated boundary condition, and the unitary Jacobi transform
+carries it onto the multiplication by `-(λ² + ρ²)`): it has no Lean name because the pinned
+Mathlib and Tau Ceti have neither the closure of `L` as an unbounded operator on `L²(Δ dt)` nor
+the Sturm–Liouville operators that OperatorTheory/UnboundedOperators §4.8 builds. Discharging
+this file finishes neither a layer nor the roadmap. Section numbers in docstrings are those of the
+README. Three statements
 (`jacobiFunction_even`, `jacobiTransform_neg`, `hyperbolicDist_mulVec`) are sanity checks of the
 definitions rather than targets of substance; their docstrings say so.
 
@@ -774,5 +780,6 @@ theorem helgasonFourier_hyperbolicLaplacian (n : ℕ) (f : (Fin (n + 1) → ℝ)
 #check @LinearIsometryEquiv
 #check @iteratedDeriv
 #check @ascPochhammer
+#check @MeasureTheory.Measure.ext_of_resolventTransform
 
 end TauCetiRoadmap.SpecialFunctionsRankOneSymmetricSpaces
