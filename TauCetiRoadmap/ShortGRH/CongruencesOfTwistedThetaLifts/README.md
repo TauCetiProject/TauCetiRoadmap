@@ -213,8 +213,10 @@ auxiliary sets. In addition:
 - a representation `R` is *of finite type* at a place `A` of `Ω` if it is trivial on an open subgroup of inertia at
   `A` when `A ∤ ℓ`, and potentially crystalline at `A` when `A | ℓ`; it *has jumps* `J`, a multiset `J(σ)` of
   integers for each `σ : E → ℂ`, at `A` if its Hodge–Tate jumps (with the sign of the Conventions) at the embeddings `ι∘σ` inducing `A` are `J(σ)`; it
-  is *good* at `A` if it is unramified (crystalline above `ℓ`); a polynomial `P` *kills* an inertia element `s` at `A`
-  if `P(R(s)) = 0` (above `ℓ`, the analogous condition on the Weil–Deligne datum of the periods);
+  is *good* at `A` if it is unramified (crystalline above `ℓ`); a polynomial `P` *kills* an element `s` of `G_E` at `A`
+  if `P(R(s)) = 0` (above `ℓ`, for `s` in the decomposition group, the analogous condition on the Weil–Deligne datum of
+  the periods); the element is an inertia element in 2.1 (c) and in the conditions of a type, and a geometric
+  Frobenius element in the attached representations;
 - for a lattice `ρ` over `O`, a set `T` of places, an `O`-module `B` and a set `L` of linear relations, the *Selmer
   module* is the module of locally constant cocycles `G_E → Bⁿ` for `ρ` unramified outside `T` that satisfy the
   relations of `L`; the *crystalline relations* of `ρ` are the relations that cut out the Bloch–Kato finite classes at
@@ -236,8 +238,18 @@ geometric Frobenius elements killed by the Hecke polynomial; [ShortProof]
 an algebraic Hecke character: a continuous character of `G_E` whose value at most geometric Frobenius elements is `ι` of
 the value of the Hecke character at a uniformiser; [ShortProof] `Lib/PadicHodge/Characters.lean`
 (`New.AlgHeckeChar.avatar`, `New.AlgHeckeChar.continuous_avatar`, `New.AlgHeckeChar.eventually_avatar_frob`)); ShortGRH
-background (the local conditions on an `ℓ`-adic representation at a place of `Ω`: finite type, good, Hodge–Tate jumps,
-and a polynomial that kills an element; [ShortProof] `Lib/GaloisRep/Main/LocalConditions.lean`
+background (the local conditions on an `ℓ`-adic representation `R` of `G_E` at a place `A` of `Ω`, each taken along
+every embedding of `Ω` in `ℚ̄_ℓ` that induces `A` together with the open embedding of the decomposition group of `A` in
+`Gal(ℚ̄_ℓ/ℚ_ℓ)` that goes with it, and vacuous above `ℓ` if there is none: `R` is of finite type at `A` if `R(s) = 1`
+for the inertia elements `s` at `A` in a neighbourhood of `1` when `ℓ` is a unit at `A`, and its restriction to the
+decomposition group is potentially crystalline along every such embedding; good if `R` is trivial on the inertia group
+when `ℓ` is a unit at `A`, and that restriction is crystalline along every such embedding; `R` has the jumps `J` at `A`
+if along every such embedding `e` and for every `g ∈ Gal(ℚ̄_ℓ/ℚ_ℓ)` the multiplicity of each integer `u` as a
+Hodge–Tate jump of the restriction at `g` equals its multiplicity in `J` at the embedding `ι⁻¹∘g⁻¹∘e` of `E` in `ℂ`;
+and a polynomial `P` kills an element `s` of `G_E` at `A` if `P(R(s)) = 0` when `ℓ` is a unit at `A`, and, along every
+such embedding, for `s` in the decomposition group and every `k` such that the inverse of the image of `s` is a
+Frobenius element for `ℓ^k`, the restriction is potentially crystalline and `P` vanishes at the linearised Frobenius
+of `(s, k)` on the crystalline periods; [ShortProof] `Lib/GaloisRep/Main/LocalConditions.lean`
 (`New.GaloisRep.IsFiniteTypeAt`, `New.GaloisRep.IsGoodAt`, `New.GaloisRep.HasJumpsAt`, `New.GaloisRep.PolyKillsAt`));
 ShortGRH background (Selmer modules: locally constant cocycles of `G_E` in a power of a module, unramified outside a set
 of places and obeying given linear relations; their length with coefficients in `K_O/O` bounds the length at every
@@ -400,7 +412,8 @@ both sides are `−q_w(q_w + 1)`. For the reversed polynomials `Q_w` the identit
 (1.2 (1)).
 (c) Let `R` be conjugate self-dual with twist `k′` and of finite type at the conjugate place `Ā` of a place `A`. Then
 `R` is of finite type at `A`; if `R` has at `Ā` the jumps of a weight `κ` in rank `k′` (Conventions), it has them at `A`; and a
-polynomial that kills `s` at `Ā` kills `(s^c)⁻¹` at `A`. Composing `σ` with complex conjugation replaces each jump `u` of
+polynomial that kills an inertia element `s` at `Ā` kills `(s^c)⁻¹` at `A` (the statement is for inertia elements
+only). Composing `σ` with complex conjugation replaces each jump `u` of
 a weight in rank `k′` by `k′ − 1 − u`.
 
 *Needs:* 1.2; ShortGRH background (Galois representations of eigensystems in the weak sense: over a CM field with Weil
@@ -560,9 +573,17 @@ every system `x` of `B` at principal level at `u`, the normalised representation
 type `(O, t_O, J, c̃_i·(X − 1)^{t_O}, Q(ϑ) ∪ Q(ϑ)̄ ∪ u ∪ ū)` with `(R_x(g) − ψ_ϑ(g))(R_x(g) − 1) = 0` on `I_{Q(ϑ)}`.
 
 *Needs:* 1.4, 2.3, 2.5; ShortGRH background (base data of the Taylor–Wiles method on a definite unitary group, as in the
-Conventions: the forms of a level, their systems, the integral forms above `ℓ`, and the algebra of the functions on the
-systems that preserve the integral forms; [ShortProof] `Lib/GaloisRep/TaylorWiles.lean` (`New.Patching.BaseLevel`,
-`New.Patching.BaseLevel.formsOfLevel`, `New.Patching.BaseLevel.Eigensystem`, `New.Patching.ellIntegralForms`,
+Conventions: base data are a finite set of places, a space of forms of the weight that is kept by every operator
+commuting with the translations by the stabiliser of the lattice at these places and their conjugates and on which some
+open subgroup acts by a character through its components at these places and their conjugates, and an integer divisible
+by the order of every stabiliser `Γ ∩ gK°g⁻¹`; for a family `L` of places, the forms of level `L` are the forms of the
+base data fixed by the components, off the places of the base data and their conjugates, of the principal level at `L`;
+the systems of level `L` are the isotypic spaces that contain a nonzero form of level `L`; the integral forms above `ℓ`
+are the forms whose values at the points integral above `ℓ` have coordinates that `ι` sends to `ℓ`-adic integers; and
+the Hecke algebra is the algebra of the functions `t` on the systems of level `L` whose operator, the multiplication of
+the forms of each system `x` by `ι⁻¹(t(x))`, preserves the integral forms of level `L`; [ShortProof]
+`Lib/GaloisRep/TaylorWiles.lean` (`New.Patching.BaseLevel`, `New.Patching.BaseLevel.formsOfLevel`,
+`New.Patching.BaseLevel.Eigensystem`, `New.Patching.BaseLevel.ellIntegralForms`,
 `New.Patching.BaseLevel.heckeAlgebra`)).
 
 [ShortProof], `New/Congruences/GaloisRepresentations/BaseLevelOfLabel` (`New.Selmer.isRepOfType_normalisedRep`, `New.Selmer.normalisedJumps_eq_range_add_map`, `New.Selmer.IsFormOfType.isRepOfType_normalisedRep`, `New.Selmer.exists_baseLevel`)
@@ -869,9 +890,14 @@ cocycle modulo `ℓ^{e′}` of a representation trivial on the elements of inert
 `S` and the `w_j, w̄_j`, that vanishes on `τ^±`, is unramified off `S`; (c) if `c ∈ Ev_e(O, S, ν)` and `b ∈ O/ℓ^ν` is
 killed by every additive `u : O/ℓ^ν → ℤ/ℓ^ν` for which `u∘c` is a cocycle for `cyc^(−e) mod ℓ^ν`, then `b = 0`.
 
-*Needs:* 1.1; ShortGRH background (odd classes over cyclotomic fields: the modules of odd classes in the Tate twists
-`(O/ℓ^ν)(−e)`, and the bound for their lengths by the valuation of one integer; [ShortProof]
-`Lib/GaloisRep/Main/SelmerModules.lean` (`New.Selmer.shaOdd`), `Lib/Cyclotomic/OddSha.lean`
+*Needs:* 1.1; ShortGRH background (odd classes over cyclotomic fields: the module of odd classes in the Tate twist
+`(O/ℓ^ν)(−e)` consists of the continuous cocycles of `G_E`, not taken modulo coboundaries, that are unramified outside
+`ℓ`, vanish on the local set above `ℓ`, which is the inertia groups above `ℓ` if `e = 0` and the elements of the
+decomposition groups above `ℓ` with trivial cyclotomic character otherwise, and, if `e ≠ 0`, are negated by complex
+conjugation; for a CM field `E` inside the cyclotomic field of conductor `N_c` and an integer `t`, there is one nonzero
+integer `X ≤ 2^(4(N_c + t + 3)^27)·h_E` such that for every prime `ℓ`, every coefficient ring `O` at `ℓ` with enough
+roots of unity, every `e < t` and every `ν`, the length of the odd classes in `(O/ℓ^ν)(−e)` is at most the valuation of
+`X` in `O`; [ShortProof] `Lib/GaloisRep/Main/SelmerModules.lean` (`New.Selmer.shaOdd`), `Lib/Cyclotomic/OddSha.lean`
 (`New.exists_length_shaOdd_le`)); ShortGRH background (Selmer modules: locally constant cocycles of `G_E` in a power of
 a module, unramified outside a set of places and obeying given linear relations; their length with coefficients in
 `K_O/O` bounds the length at every finite level; [ShortProof] `Lib/GaloisRep/Main/SelmerModules.lean`
@@ -910,17 +936,33 @@ elements of `x`, then `Σ_j ψ(φ_j)·2z(γ_j) = 0`; so if `ψ(φ_i) = 0` for `i
 primes of `F`, then for some finite `T` containing the primes above `ℓ` or below `x`, the reductions modulo `ℓ` of the
 Kummer maps of exponent `e` off `T` span a space of dimension greater than the number of members of `x`.
 
-*Needs:* 4.1; ShortGRH background (global duality for a finite Galois module over a number field in the form with
-relations at split primes: the relations off a finite set of primes satisfy the reciprocity law `Σ_P y(φ_P)(z(γ_P)) = 0`
-against cocycles with the local conditions, and a case of the formula of Greenberg and Wiles, as a lower bound, counts
-them and their reductions modulo `ℓ`; [ShortProof] `Lib/ClassField/GreenbergWiles/Relations.lean`
-(`New.RelationSetting.IsRelation`, `New.RelationSetting.exists_card_cocycles_le`),
-`Lib/ClassField/GreenbergWiles/RelationsModL.lean` (`New.RelationSetting.exists_pow_le_card_reductions`)); ShortGRH
-background (Selmer modules: locally constant cocycles of `G_E` in a power of a module, unramified outside a set of
-places and obeying given linear relations; their length with coefficients in `K_O/O` bounds the length at every finite
-level; [ShortProof] `Lib/GaloisRep/Main/SelmerModules.lean` (`New.selmerModule`),
-`Lib/GaloisRep/Main/DivisibleSelmerModules.lean` (`New.Selmer.divisibleSelmerLength`,
-`New.Selmer.length_le_divisibleSelmerLength`)).
+*Needs:* 4.1; ShortGRH background (global duality for a finite Galois module in the form with relations at split primes:
+a relation setting over a number field `K` is a discrete module `M` of `G_K` killed by `m` and fixed by the complex
+conjugations, an open normal subgroup `U` that fixes `M` and the `m`-th roots of unity and contains no complex
+conjugation, and a finite set `S` of primes outside which `M` is unramified, with a local condition at each prime, a
+module of functions on a decomposition group that contains the local coboundaries at the primes of `S`; a relation off a
+finite set `T` of primes is a locally constant map `y : G_K → Hom(M, ℚ/ℤ)` that is zero outside `U`, additive on `U`,
+satisfies `y(gug⁻¹) = cyc(g)·y(u)∘g⁻¹` and is zero on the inertia groups at the primes outside `T`, such that `Σ_P
+y(φ_P)(z(γ_P)) = 0` for every finite family of distinct primes `P ∉ T` with Frobenius elements `φ_P ∈ U` and tame
+generators `γ_P` and every cocycle `z` that is allowed at the primes of `S`, vanishes at the complex conjugations and is
+unramified outside `S` and the `P`; the count modulo `ℓ`, the one 4.2 uses: if `ℓ | m`, `M` is finite, `M[ℓ]` has order
+`ℓ`, `K` has at least four infinite places, `κ` is a continuous character of `G_K` with values in `1 + 4ℤ_ℓ` whose
+kernel lies in `U ∪ Uc⁻¹` for one element `c`, and the local condition is zero at the primes not above `ℓ` and vanishing
+on `ker κ` at the primes above `ℓ`, then for some finite `T ⊇ S` the reductions modulo `ℓ` of the relations off `T` form
+a group of order at least `ℓ^{k+1}`, `k` the number of primes of `S` not above `ℓ`; and the count of all relations, a
+case of the formula of Greenberg and Wiles as a lower bound, which holds for totally complex `K` only: if moreover `K`
+is totally complex, `m = ℓ^r` with `r ≠ 0`, some `σ ∈ G_K` has trivial `ℓ`-adic cyclotomic character, is central modulo
+`U` and fixes no nonzero element of `M`, and `p ≥ 1` is prime to `m`, divisible by no prime of `S` and such that the
+primes dividing `p` are unramified in the field of `U`, then for some finite `T ⊇ S` of primes not dividing `p`,
+`#Z(∅)·#M^{#S + r₂} ≤ #(relations off T)·#M·∏_{v ∈ S} #A_v`, with `Z(∅)` the cocycles of the setting unramified outside
+`S`, `A_v` the allowed local cocycles at `v` and `r₂` the number of infinite places; [ShortProof]
+`Lib/ClassField/GreenbergWiles/Relations.lean` (`New.RelationSetting`, `New.RelationSetting.IsRelation`,
+`New.RelationSetting.exists_card_cocycles_le`), `Lib/ClassField/GreenbergWiles/RelationsModL.lean`
+(`New.RelationSetting.exists_pow_le_card_reductions`)); ShortGRH background (Selmer modules: locally constant cocycles
+of `G_E` in a power of a module, unramified outside a set of places and obeying given linear relations; their length
+with coefficients in `K_O/O` bounds the length at every finite level; [ShortProof]
+`Lib/GaloisRep/Main/SelmerModules.lean` (`New.selmerModule`), `Lib/GaloisRep/Main/DivisibleSelmerModules.lean`
+(`New.Selmer.divisibleSelmerLength`, `New.Selmer.length_le_divisibleSelmerLength`)).
 
 [ShortProof], `New/Congruences/FirstOrder/KummerMaps` (`New.Selmer.IsKummerMap`, `New.Selmer.IsKummerMap.hasKummerType`, `New.Selmer.IsKummerMap.sum_eq_zero`, `New.Selmer.IsKummerMap.nsmul_apply_tameGenerator_eq_zero`, `New.Selmer.exists_card_lt_finrank_kummerReductions`)
 
@@ -968,9 +1010,14 @@ unramified outside `ℓ` and the `w_j, w̄_j`, such that `(χ(g₀)^e − 1)` ki
 `Sha_e(O, ν)`, is at most `b`, then `Z` has triangle cost `({ty(j) = e}, ℓ^h, b)` for `τ, τ′, φ, φ′`, with
 `τ′_j = (τ_j^c)⁻¹` and `φ′_j = (φ_j^c)⁻¹`.
 
-*Needs:* 3.1, 4.1; ShortGRH background (odd classes over cyclotomic fields: the modules of odd classes in the Tate
-twists `(O/ℓ^ν)(−e)`, and the bound for their lengths by the valuation of one integer; [ShortProof]
-`Lib/GaloisRep/Main/SelmerModules.lean` (`New.Selmer.shaOdd`), `Lib/Cyclotomic/OddSha.lean`
+*Needs:* 3.1, 4.1; ShortGRH background (odd classes over cyclotomic fields: the module of odd classes in the Tate twist
+`(O/ℓ^ν)(−e)` consists of the continuous cocycles of `G_E`, not taken modulo coboundaries, that are unramified outside
+`ℓ`, vanish on the local set above `ℓ`, which is the inertia groups above `ℓ` if `e = 0` and the elements of the
+decomposition groups above `ℓ` with trivial cyclotomic character otherwise, and, if `e ≠ 0`, are negated by complex
+conjugation; for a CM field `E` inside the cyclotomic field of conductor `N_c` and an integer `t`, there is one nonzero
+integer `X ≤ 2^(4(N_c + t + 3)^27)·h_E` such that for every prime `ℓ`, every coefficient ring `O` at `ℓ` with enough
+roots of unity, every `e < t` and every `ν`, the length of the odd classes in `(O/ℓ^ν)(−e)` is at most the valuation of
+`X` in `O`; [ShortProof] `Lib/GaloisRep/Main/SelmerModules.lean` (`New.Selmer.shaOdd`), `Lib/Cyclotomic/OddSha.lean`
 (`New.exists_length_shaOdd_le`)).
 
 [ShortProof], `New/Congruences/FirstOrder/TateTwistCocycles` (`New.Selmer.add_conjGal_mem_evenClasses`, `New.Selmer.hasTriangleCost_tateTwist`)
@@ -1086,19 +1133,34 @@ indicator function of the systems congruent to `π` lies in `𝕋`.
 `diag(ϖ, 1, …, 1)` for the pro-unipotent Iwahori subgroup.
 
 *Needs:* 4.1; ShortGRH background (base data of the Taylor–Wiles method on a definite unitary group, as in the
-Conventions: the forms of a level, their systems, the integral forms above `ℓ`, and the algebra of the functions on the
-systems that preserve the integral forms; [ShortProof] `Lib/GaloisRep/TaylorWiles.lean` (`New.Patching.BaseLevel`,
-`New.Patching.BaseLevel.formsOfLevel`, `New.Patching.BaseLevel.Eigensystem`, `New.Patching.ellIntegralForms`,
+Conventions: base data are a finite set of places, a space of forms of the weight that is kept by every operator
+commuting with the translations by the stabiliser of the lattice at these places and their conjugates and on which some
+open subgroup acts by a character through its components at these places and their conjugates, and an integer divisible
+by the order of every stabiliser `Γ ∩ gK°g⁻¹`; for a family `L` of places, the forms of level `L` are the forms of the
+base data fixed by the components, off the places of the base data and their conjugates, of the principal level at `L`;
+the systems of level `L` are the isotypic spaces that contain a nonzero form of level `L`; the integral forms above `ℓ`
+are the forms whose values at the points integral above `ℓ` have coordinates that `ι` sends to `ℓ`-adic integers; and
+the Hecke algebra is the algebra of the functions `t` on the systems of level `L` whose operator, the multiplication of
+the forms of each system `x` by `ι⁻¹(t(x))`, preserves the integral forms of level `L`; [ShortProof]
+`Lib/GaloisRep/TaylorWiles.lean` (`New.Patching.BaseLevel`, `New.Patching.BaseLevel.formsOfLevel`,
+`New.Patching.BaseLevel.Eigensystem`, `New.Patching.BaseLevel.ellIntegralForms`,
 `New.Patching.BaseLevel.heckeAlgebra`)); ShortGRH background (Taylor–Wiles places of level `ℓ^ν`: a family of Frobenius
 data at places `w_j` of prime norm with `ℓ^ν | q_{w_j} − 1`, no two equal or conjugate; [ShortProof]
 `Lib/GaloisRep/TaylorWiles.lean` (`New.Patching.TaylorWilesPlaces`)); ShortGRH background (attached representations at a
-place of pro-`p` Iwahori level prime to `ℓ`: on a form on which the stabiliser of a line modulo the place acts through a
-character `χ` of the first entry, with `χ` of a unit `u` not of order dividing `n!`, the Hecke operator `U` of
-`diag(ϖ, 1, …, 1)` satisfies `tr(T·M)·G(U)y = tr(G(F)·T·M)·y` through `ι`, for `F` the matrix of the Artin image of `ϖ`,
-`T` that of the Artin image of `u` minus `1`, every polynomial `G` and every matrix `M`; and on a form on which a
-parahoric subgroup acts by characters, the matrix of the Artin image of `u` is killed by the polynomial with the values
-of these characters as roots; [ShortProof] `Lib/GaloisRep/LocalGlobal/IwahoriCompatibility.lean`
-(`New.Patching.isParahoricCompatible_galRep`, `New.Patching.hecke_eq_frob_on_parahoricEigenspace`)).
+place of pro-`p` Iwahori level prime to `ℓ`: let `w ≠ w̄` be a place not above `ℓ`, `A` a place of `Ω` over `w`, `ϖ` a
+uniformiser whose local Artin image is the inverse of a Frobenius element at `A`, `u` a unit whose local Artin image
+lies in the inertia group, and `y` a form of an isotypic space fixed by the pro-`p` Iwahori subgroup at `w`; write `F`
+for the matrix of the Artin image of `ϖ` and `T` for that of the Artin image of `u` in the representation of the
+isotypic space; if the stabiliser in `GL_n(𝒪_w)` of the first coordinate line modulo `w` acts on `y` through a function
+`χ` of the first entry with `χ(u) ≠ 0` and `χ(u)^{n!} ≠ 1`, then the Hecke operator `U` of `diag(ϖ, 1, …, 1)` satisfies
+`tr((T − 1)·M)·G(U)y = tr(G(F)·(T − 1)·M)·y` through `ι`, for every polynomial `G` and every matrix `M`; and if `y ≠ 0`,
+the parahoric subgroup of a block structure acts on `y` by scalars, `d_i` is the scalar of the diagonal matrix with `u`
+in slot `i` and `1` elsewhere, and slots with equal `d_i` lie in one block, then `F` and `T` commute, `T` is killed by
+every polynomial that vanishes at all `ι(d_i)`, and there are characters `θ_i` of the local field, with an exponent
+functional for the torus character of `θ` that is not zero on `y`, such that `∏_i (X − ι(θ_i(ϖ)·d_i^b))` kills `F·T^b`
+for every `b ≥ 0`; [ShortProof] `Lib/GaloisRep/LocalGlobal/IwahoriCompatibility.lean`
+(`New.Patching.IsParahoricCompatible`, `New.Patching.isParahoricCompatible_galRep`,
+`New.Patching.hecke_eq_frob_on_parahoricEigenspace`)).
 
 [ShortProof], `New/Congruences/FirstOrder/TiedTraces` (`New.Patching.BaseLevel.charpoly_coeff_mem_heckeAlgebra`, `New.Patching.BaseLevel.exists_indicator_isCongruent`, `New.Patching.BaseLevel.traceElement`, `New.Patching.BaseLevel.tiedIdeal`, `New.Patching.BaseLevel.tameTrace_smul_eq_diamond_sub_one`, `New.Patching.BaseLevel.tameTrace_smul_eq_aevalHecke`)
 
@@ -1125,9 +1187,17 @@ are integral operators `𝒩_S`, `Y_S` (`S ⊂ J`) commuting with `𝕋`, with `
 `δ^{#J}𝒩_S ≡ Y_S·Nm` for all `S`.
 
 *Needs:* 5.1, 5.2, 5.3; ShortGRH background (base data of the Taylor–Wiles method on a definite unitary group, as in the
-Conventions: the forms of a level, their systems, the integral forms above `ℓ`, and the algebra of the functions on the
-systems that preserve the integral forms; [ShortProof] `Lib/GaloisRep/TaylorWiles.lean` (`New.Patching.BaseLevel`,
-`New.Patching.BaseLevel.formsOfLevel`, `New.Patching.BaseLevel.Eigensystem`, `New.Patching.ellIntegralForms`,
+Conventions: base data are a finite set of places, a space of forms of the weight that is kept by every operator
+commuting with the translations by the stabiliser of the lattice at these places and their conjugates and on which some
+open subgroup acts by a character through its components at these places and their conjugates, and an integer divisible
+by the order of every stabiliser `Γ ∩ gK°g⁻¹`; for a family `L` of places, the forms of level `L` are the forms of the
+base data fixed by the components, off the places of the base data and their conjugates, of the principal level at `L`;
+the systems of level `L` are the isotypic spaces that contain a nonzero form of level `L`; the integral forms above `ℓ`
+are the forms whose values at the points integral above `ℓ` have coordinates that `ι` sends to `ℓ`-adic integers; and
+the Hecke algebra is the algebra of the functions `t` on the systems of level `L` whose operator, the multiplication of
+the forms of each system `x` by `ι⁻¹(t(x))`, preserves the integral forms of level `L`; [ShortProof]
+`Lib/GaloisRep/TaylorWiles.lean` (`New.Patching.BaseLevel`, `New.Patching.BaseLevel.formsOfLevel`,
+`New.Patching.BaseLevel.Eigensystem`, `New.Patching.BaseLevel.ellIntegralForms`,
 `New.Patching.BaseLevel.heckeAlgebra`)).
 
 [ShortProof], `New/Congruences/FirstOrder/AuxiliaryPrimeTie` (`New.Patching.BaseLevel.exists_mul_traceElement_tameGenerator_eq_frob`, `New.Patching.BaseLevel.exists_deformed_norm_family`)
@@ -1192,10 +1262,15 @@ such an `o_D` once for the data; it does not depend on `ℓ`, on `ι` or on `O`.
 - for a descent pair `O`, `ram, sel ≥ 0`: `β(O, ram, sel) = sel + 2t_O·ram + r_O·loc_ℓ + e_ℓ`.
 
 *Needs:* 1.5, 4.1; SelmerBoundsForAnticyclotomicTwists §4.1 (the local loss bound `B_ℓ`); ShortGRH background (odd
-classes over cyclotomic fields: for a CM field `E` inside the cyclotomic field of conductor `N_c` and an integer `t`,
-one nonzero integer `X ≤ 2^(4(N_c + t + 3)^27)·h_E` such that for every prime `ℓ`, every coefficient ring `O` at `ℓ`
-with enough roots of unity, every `e < t` and every `ν`, the length of the odd classes in `(O/ℓ^ν)(−e)` is at most the
-valuation of `X` in `O`; [ShortProof] `Lib/Cyclotomic/OddSha.lean` (`New.exists_length_shaOdd_le`)).
+classes over cyclotomic fields: the module of odd classes in the Tate twist `(O/ℓ^ν)(−e)` consists of the continuous
+cocycles of `G_E`, not taken modulo coboundaries, that are unramified outside `ℓ`, vanish on the local set above `ℓ`,
+which is the inertia groups above `ℓ` if `e = 0` and the elements of the decomposition groups above `ℓ` with trivial
+cyclotomic character otherwise, and, if `e ≠ 0`, are negated by complex conjugation; for a CM field `E` inside the
+cyclotomic field of conductor `N_c` and an integer `t`, there is one nonzero integer `X ≤ 2^(4(N_c + t + 3)^27)·h_E`
+such that for every prime `ℓ`, every coefficient ring `O` at `ℓ` with enough roots of unity, every `e < t` and every
+`ν`, the length of the odd classes in `(O/ℓ^ν)(−e)` is at most the valuation of `X` in `O`; [ShortProof]
+`Lib/GaloisRep/Main/SelmerModules.lean` (`New.Selmer.shaOdd`), `Lib/Cyclotomic/OddSha.lean`
+(`New.exists_length_shaOdd_le`)).
 
 [ShortProof], `New/Congruences/FirstOrder/TraceRelations` (`New.Selmer.oddClassBound`, `New.Selmer.oddClassBound_le`, `New.Selmer.localDefectBound`, `New.Selmer.denominatorError`, `New.Selmer.clearingBound`, `New.Selmer.eventually_length_shaOdd_le`); `New/Congruences/FirstOrder/DenominatorBound` (`New.Selmer.liftValuationBound`); `Lib/Cyclotomic/OddSha` (`New.exists_length_shaOdd_le`)
 
@@ -1315,10 +1390,18 @@ congruent to `x₀`, the Hecke polynomial at `w_j`, has the chain of roots
 `(e_j, q_{w_j}, ι⁻¹(χ_V(φ_j))⁻¹, t_V)` with `e_j` integral, `e_j(1) = 1`, independent of `x`.
 
 *Needs:* 2.2, 4.1, 4.3, 5.2; ShortGRH background (base data of the Taylor–Wiles method on a definite unitary group, as
-in the Conventions: the forms of a level, their systems, the integral forms above `ℓ`, and the algebra of the functions
-on the systems that preserve the integral forms; [ShortProof] `Lib/GaloisRep/TaylorWiles.lean`
-(`New.Patching.BaseLevel`, `New.Patching.BaseLevel.formsOfLevel`, `New.Patching.BaseLevel.Eigensystem`,
-`New.Patching.ellIntegralForms`, `New.Patching.BaseLevel.heckeAlgebra`)).
+in the Conventions: base data are a finite set of places, a space of forms of the weight that is kept by every operator
+commuting with the translations by the stabiliser of the lattice at these places and their conjugates and on which some
+open subgroup acts by a character through its components at these places and their conjugates, and an integer divisible
+by the order of every stabiliser `Γ ∩ gK°g⁻¹`; for a family `L` of places, the forms of level `L` are the forms of the
+base data fixed by the components, off the places of the base data and their conjugates, of the principal level at `L`;
+the systems of level `L` are the isotypic spaces that contain a nonzero form of level `L`; the integral forms above `ℓ`
+are the forms whose values at the points integral above `ℓ` have coordinates that `ι` sends to `ℓ`-adic integers; and
+the Hecke algebra is the algebra of the functions `t` on the systems of level `L` whose operator, the multiplication of
+the forms of each system `x` by `ι⁻¹(t(x))`, preserves the integral forms of level `L`; [ShortProof]
+`Lib/GaloisRep/TaylorWiles.lean` (`New.Patching.BaseLevel`, `New.Patching.BaseLevel.formsOfLevel`,
+`New.Patching.BaseLevel.Eigensystem`, `New.Patching.BaseLevel.ellIntegralForms`,
+`New.Patching.BaseLevel.heckeAlgebra`)).
 
 [ShortProof], `New/Congruences/FirstOrder/DenominatorBound` (`New.Selmer.exists_cyclotomicChar_pow_sub_one_dvd`, `New.Selmer.exists_isUnit_cyclotomicChar_pow_sub_one`, `New.Selmer.exists_eventually_hasRootChain_mostFrobeniiAt`, `New.Selmer.exists_taylorWilesPlaces_hasRootChain`)
 
