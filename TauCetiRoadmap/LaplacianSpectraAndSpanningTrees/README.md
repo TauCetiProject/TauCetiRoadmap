@@ -65,16 +65,18 @@ theory of the Laplacian that other roadmaps own. Its headline theorems are these
   Laplacian; the exceptional eigenvalues `(πj)²` have multiplicities fixed by the cycle rank and
   bipartiteness; and the eigenvalue count obeys Weyl's law `N(Λ) = |E|√Λ/π + O(1)`.
 
-The roadmap builds on GraphSpectra for the signless Laplacian, the quadratic forms, the variational
-formula for the algebraic connectivity, the Laplacian spectrum of the path, line graphs and the
-degree bounds for the index; on LaplacianEigenvaluesOfGraphs for the sorted Laplacian eigenvalues,
-the complement formula, Fiedler's vertex-cut bound, the bounds `Δ + 1 ≤ ν₁ ≤ max(d(x) + d(y))` and
-the unit network of a graph; on ElectricalNetworksAndRandomWalks, whose networks and effective
-resistance receive here their spanning-tree formulas; on KernelsAndSpectralMethods for weighted
-graphs, the normalized Laplacian and its spectral gap; on
-[RandomMatrices](../RandomMatrices/README.md) for the min–max formulas of sorted eigenvalues; and on
-Tau Ceti's orientations, Serre-graph incidence boundary, Cauchy–Binet, cokernel orders, Ky Fan,
-Perron–Frobenius and connectivity invariants.
+The roadmap builds on [GraphSpectra](../GraphSpectra/README.md) for the signless Laplacian, the
+quadratic forms, the variational formula for the algebraic connectivity, the Laplacian spectrum of
+the path, line graphs and the degree bounds for the index; on
+[LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) for the sorted Laplacian
+eigenvalues, the complement formula, Fiedler's vertex-cut bound, the bounds
+`Δ + 1 ≤ ν₁ ≤ max(d(x) + d(y))` and the unit network of a graph; on
+[ElectricalNetworksAndRandomWalks](../ElectricalNetworksAndRandomWalks/README.md), whose networks
+and effective resistance receive here their spanning-tree formulas; on
+[KernelsAndSpectralMethods](../KernelsAndSpectralMethods/README.md) for weighted graphs, the
+normalized Laplacian and its spectral gap; on [RandomMatrices](../RandomMatrices/README.md) for the
+min–max formulas of sorted eigenvalues; and on Tau Ceti's orientations, Serre-graph incidence
+boundary, Cauchy–Binet, cokernel orders, Ky Fan, Perron–Frobenius and connectivity invariants.
 
 ## How to read the build
 
@@ -161,10 +163,8 @@ Each section rests only on the sections and roadmaps named in its *Needs:* line.
 - **Generalized Laplacians.** A real symmetric matrix `M` with `M x y < 0` on edges and
   `M x y = 0` at distinct nonadjacent pairs; the diagonal is arbitrary. Multiplicities of its
   eigenvalues are counted with Mathlib's unordered `Matrix.IsHermitian.eigenvalues`.
-- **Minors.** `G.IsMinor H` says that `H` is a minor of `G`, by branch sets (11.3).
-  [Mathlib pull request #36210](https://github.com/leanprover-community/mathlib4/pull/36210)
-  defines a minor as a contraction of a subgraph, with the two graphs in the opposite order; it is
-  prior art for 11.3.
+- **Minors.** `G.IsMinor H` says that `H` is a minor of `G`, by branch sets (11.3). A definition
+  of a minor as a contraction of a subgraph, proposed for Mathlib, is prior art for 11.3.
 - **Metric graphs.** An orientation `O` of `G` and lengths `ℓ : O.carrier → ℝ`; the oriented edge
   `e` from `e.fst` to `e.snd` is the interval `[0, ℓ e]`, and an edge function is a real function
   on `ℝ` vanishing off `[0, ℓ e]`. The equilateral metric graph has `ℓ = 1`.
@@ -1203,23 +1203,26 @@ space of a Serre graph and the total unimodularity of matrices with at most one 
 in each column; 1.2 and 2.2 do not need them.
 
 Consumed, not restated (see the supplier contracts for the hypotheses):
-- GraphSpectra 1.1, 1.5, 1.7, 2.2, 2.5 and 3.3: the signless Laplacian and its enumeration, the
-  quadratic forms, `Q = UUᵀ`, sign conjugation and the kernel of `Q`, the variational formula for
-  the algebraic connectivity, spectra of disjoint unions, the Laplacian spectrum of the path, the
-  line-graph identity and the degree bounds for the index of a connected graph.
-- LaplacianEigenvaluesOfGraphs 1.1, 1.2, 2.1, 3.2, 4.1, 4.2, 6.2, 6.3 and 7.1: the sorted Laplacian
-  eigenvalues with `ν₁` and the algebraic connectivity, the zero eigenvalues, the complement
-  formula, Fiedler's vertex-cut bound, `ν₁ ≤ max(d(x) + d(y))` and `Δ + 1 ≤ ν₁`, the strong and
-  weak nodal domain theorems for `L`, and the unit network of a graph. Its equality cases of 4.1
-  and 4.2 are outside its scope and are 9.2 here; it does not state the product formula of 2.3.
-  Its Kirchhoff index formula (7.1) is a different statement from Kirchhoff's formula of 3.1.
-- KernelsAndSpectralMethods 1.1–1.4 and 2.1: weighted graphs, their degrees, Laplacians and
-  positive graph, the normalized Laplacian with its kernel and its spectrum in `[0, 2]` with the
-  existence of the eigenvalue `2`, and the normalized spectral gap `fiedlerValue` with
-  `λ₁ ≤ n/(n - 1)`. The multiplicity of `2`, for weighted graphs, is 7.1 here.
-- ElectricalNetworksAndRandomWalks 1.1 and 2.1: networks, voltages and effective resistance; its
-  3.3 (Foster) is quoted in a Check. It leaves the spanning-tree expression of effective
-  resistance and random spanning trees to other roadmaps; Layer 3 states them for its networks.
+- [GraphSpectra](../GraphSpectra/README.md) 1.1, 1.5, 1.7, 2.2, 2.5 and 3.3: the signless Laplacian
+  and its enumeration, the quadratic forms, `Q = UUᵀ`, sign conjugation and the kernel of `Q`, the
+  variational formula for the algebraic connectivity, spectra of disjoint unions, the Laplacian
+  spectrum of the path, the line-graph identity and the degree bounds for the index of a connected
+  graph.
+- [LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) 1.1, 1.2, 2.1, 3.2, 4.1,
+  4.2, 6.2, 6.3 and 7.1: the sorted Laplacian eigenvalues with `ν₁` and the algebraic connectivity,
+  the zero eigenvalues, the complement formula, Fiedler's vertex-cut bound, `ν₁ ≤ max(d(x) + d(y))`
+  and `Δ + 1 ≤ ν₁`, the strong and weak nodal domain theorems for `L`, and the unit network of a
+  graph. Its equality cases of 4.1 and 4.2 are outside its scope and are 9.2 here; it does not state
+  the product formula of 2.3. Its Kirchhoff index formula (7.1) is a different statement from
+  Kirchhoff's formula of 3.1.
+- [KernelsAndSpectralMethods](../KernelsAndSpectralMethods/README.md) 1.1–1.4 and 2.1: weighted
+  graphs, their degrees, Laplacians and positive graph, the normalized Laplacian with its kernel and
+  its spectrum in `[0, 2]` with the existence of the eigenvalue `2`, and the normalized spectral gap
+  `fiedlerValue` with `λ₁ ≤ n/(n - 1)`. The multiplicity of `2`, for weighted graphs, is 7.1 here.
+- [ElectricalNetworksAndRandomWalks](../ElectricalNetworksAndRandomWalks/README.md) 1.1 and 2.1:
+  networks, voltages and effective resistance; its 3.3 (Foster) is quoted in a Check. It leaves the
+  spanning-tree expression of effective resistance and random spanning trees to other roadmaps;
+  Layer 3 states them for its networks.
 - [RandomMatrices](../RandomMatrices/README.md) 1.2: the min–max and max–min formulas for
   `Matrix.IsHermitian.eigenvalues₀`, which apply to `G.lapMatrix ℝ` at every index.
 - [GeometricTopology](../GeometricTopology/README.md) 4.4.5: the weighted matrix-tree identity for
@@ -1322,10 +1325,10 @@ procedures; directed graphs; infinite graphs; and Laplacians of simplicial compl
 
 ### From GraphSpectra
 
-- 1.1: the signless Laplacian `signlessLapMatrix` and its enumeration `signlessLapEigenvalues`,
-  copied verbatim into `Suggested.lean`; the quadratic forms of `L` and `Q`, `Q = UUᵀ`, the kernel
-  of `Q` and the sign conjugation of `L` into `Q` for a proper `2`-colouring. Used in 6.2, 6.3,
-  7.1, 9.1 and 9.2.
+- [GraphSpectra](../GraphSpectra/README.md) 1.1: the signless Laplacian `signlessLapMatrix` and its
+  enumeration `signlessLapEigenvalues`, copied verbatim into `Suggested.lean`; the quadratic forms
+  of `L` and `Q`, `Q = UUᵀ`, the kernel of `Q` and the sign conjugation of `L` into `Q` for a proper
+  `2`-colouring. Used in 6.2, 6.3, 7.1, 9.1 and 9.2.
 - 1.5: the variational formula for `ν_{n-1}`, for `n ≥ 2`, over nonzero `u` with `∑ u = 0`. Used
   in 6.1, 6.2, 6.4 and 8.1.
 - 1.7: spectra of disjoint unions. Used in 10.2.
@@ -1335,8 +1338,9 @@ procedures; directed graphs; infinite graphs; and Laplacians of simplicial compl
 
 ### From LaplacianEigenvaluesOfGraphs
 
-- 1.1: `lapEigenvalues`, `largestLapEigenvalue` (on `[Nonempty V]`) and `algebraicConnectivity`,
-  copied verbatim into `Suggested.lean`. Used in Layers 2, 6, 8, 9, 10 and 11.
+- [LaplacianEigenvaluesOfGraphs](../LaplacianEigenvaluesOfGraphs/README.md) 1.1: `lapEigenvalues`,
+  `largestLapEigenvalue` (on `[Nonempty V]`) and `algebraicConnectivity`, copied verbatim into
+  `Suggested.lean`. Used in Layers 2, 6, 8, 9, 10 and 11.
 - 1.2: the eigenvalue `0` has multiplicity the number of components. Used in 9.2.
 - 2.1: the complement formula, for `i + j + 2 = n`. Used in 9.2 and 10.2.
 - 3.2: Fiedler's vertex-cut bound, for `D` whose complement induces a graph that is not
@@ -1350,9 +1354,9 @@ procedures; directed graphs; infinite graphs; and Laplacians of simplicial compl
 
 ### From KernelsAndSpectralMethods
 
-- 1.1: `IsWeightedGraph`, `degree`, `laplacian`, `normalizedLaplacian` and `positiveGraph`, copied
-  verbatim; the Laplacian of the adjacency matrix of a simple graph is `G.lapMatrix ℝ`. Used in
-  Layers 2, 3, 6, 7 and 12.
+- [KernelsAndSpectralMethods](../KernelsAndSpectralMethods/README.md) 1.1: `IsWeightedGraph`,
+  `degree`, `laplacian`, `normalizedLaplacian` and `positiveGraph`, copied verbatim; the Laplacian
+  of the adjacency matrix of a simple graph is `G.lapMatrix ℝ`. Used in Layers 2, 3, 6, 7 and 12.
 - 1.2: `isHermitian_normalizedLaplacian`, copied verbatim; the quadratic form. 1.3–1.4: the
   kernel of `𝓛` and its spectrum in `[0, 2]`, with positive degrees. Used in Layer 7.
 - 2.1: `fiedlerValue`, copied verbatim, with `λ₁ ≤ n/(n - 1)` for a weighted graph with positive
@@ -1360,10 +1364,11 @@ procedures; directed graphs; infinite graphs; and Laplacians of simplicial compl
 
 ### From ElectricalNetworksAndRandomWalks
 
-- 1.1: `Network`, `Network.weight`, `Network.graph`, `Network.edgeCond`; 2.1: `Network.laplacian`,
+- [ElectricalNetworksAndRandomWalks](../ElectricalNetworksAndRandomWalks/README.md) 1.1: `Network`,
+  `Network.weight`, `Network.graph`, `Network.edgeCond`; 2.1: `Network.laplacian`,
   `Network.groundedLaplacian`, `Network.voltage`, `Network.effResistance`, with `R(a ↔ a) = 0` and
-  `R = 0` on a disconnected network. Copied verbatim into `Suggested.lean` and used in Layer 3;
-  3.3 (Foster) is quoted in a Check of 3.2.
+  `R = 0` on a disconnected network. Copied verbatim into `Suggested.lean` and used in Layer 3; 3.3
+  (Foster) is quoted in a Check of 3.2.
 
 ### From RandomMatrices and GeometricTopology
 

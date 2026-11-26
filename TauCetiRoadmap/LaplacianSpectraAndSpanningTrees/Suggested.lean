@@ -747,12 +747,14 @@ structure MinorModel {W : Type*} (G : _root_.SimpleGraph V) (H : _root_.SimpleGr
 def IsMinor {W : Type*} (G : _root_.SimpleGraph V) (H : _root_.SimpleGraph W) : Prop :=
   Nonempty (MinorModel G H)
 
+omit [Fintype V] [DecidableEq V] [DecidableRel G.Adj] in
 /-- **Subgraphs are minors**: an injective homomorphism `H →g G` makes `H` a minor of `G`; in
 particular subgraphs of `G` and graphs isomorphic to `G` are minors of `G`. (README 11.3) -/
 theorem IsMinor.of_injective {W : Type*} {H : _root_.SimpleGraph W} (f : H →g G)
     (hf : Function.Injective f) : G.IsMinor H := by
   sorry
 
+omit [Fintype V] [DecidableEq V] [DecidableRel G.Adj] in
 /-- **Transitivity**: a minor of a minor of `G` is a minor of `G`. (README 11.3) -/
 theorem IsMinor.trans {W U : Type*} {H : _root_.SimpleGraph W} {K : _root_.SimpleGraph U}
     (h₁ : G.IsMinor H) (h₂ : H.IsMinor K) : G.IsMinor K := by
@@ -860,7 +862,7 @@ end MetricGraph
 
 end TauCetiRoadmap.LaplacianSpectraAndSpanningTrees
 
-/-! ## Library declarations consumed -/
+-- Library declarations consumed
 
 -- Mathlib
 #check @SimpleGraph.lapMatrix
