@@ -111,6 +111,7 @@ body:
         - CircleMethodThreePrimes
         - ClassFieldTheory
         - ClassicalAdicEtaleCohomology
+        - ClassicalAdicEtaleCohomologyPartII
         - ClassicalArithmeticCompletion
         - ClassicalErgodicTheory
         - ClassicalGroupsPartII
@@ -272,6 +273,7 @@ body:
         - GlobalShtukasAndFunctionFieldLanglands
         - GraphColouring
         - GraphConnectivityAndFlows
+        - GraphSpectra
         - GroebnerGeometry
         - GromovWittenTheory
         - GrossZagierAndArithmeticHeights
