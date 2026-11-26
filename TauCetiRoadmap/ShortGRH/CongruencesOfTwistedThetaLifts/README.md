@@ -499,7 +499,7 @@ representation of type `(O, n′, jumps of κ, c_i·(X − 1)^(n′ − r_O), S)
 IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 (the `ℓ`-adic avatar of an algebraic Hecke character: a continuous character
 of `G_E` whose value at most geometric Frobenius elements is `ι` of the value of the Hecke character at a uniformiser;
 [ShortProof] `Lib/PadicHodge/Characters.lean` (`New.AlgHeckeChar.avatar`, `New.AlgHeckeChar.continuous_avatar`,
-`New.AlgHeckeChar.eventually_avatar_frob`)); GaloisRepresentationsOfUnitaryEigenforms §§1.5, 7.3 (Galois representations of eigensystems in the weak
+`New.AlgHeckeChar.eventually_avatar_frob`)); GaloisRepresentationsOfUnitaryEigenforms §6.4 (e) (the local behaviour of that avatar over a CM field containing a primitive `5040`-th root of unity: at every place of `Ω` over a finite place it is of finite type with the jumps minus the infinity type, and each inertia element and each geometric Frobenius `s` is killed by `X − ι(θ(x))` for an `x` whose local Artin symbol is `s`); GaloisRepresentationsOfUnitaryEigenforms §§1.5, 7.3 (Galois representations of eigensystems in the weak
 sense: over a CM field with Weil data, every eigenform on the standard definite unitary group has a representation
 attached to its Hecke polynomials, and at the places of `Ω` over a place where the form is spherical every attached
 representation is good, has the jumps of the weight and, if the place is split, has its geometric Frobenius elements
@@ -560,7 +560,7 @@ the roots of the label and of the characters under the tame exponent of the elem
 `Lib/GaloisRep/LocalGlobal/LabelCompatibility.lean` (`New.GaloisRep.Attached.isLabelledAt`,
 `New.GaloisRep.exists_isTameExponent`)); IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 (the `ℓ`-adic avatar of an algebraic Hecke character: a
 continuous character of `G_E` whose value at most geometric Frobenius elements is `ι` of the value of the Hecke
-character at a uniformiser).
+character at a uniformiser); GaloisRepresentationsOfUnitaryEigenforms §6.4 (e) (the local behaviour of that avatar over a CM field containing a primitive `5040`-th root of unity: each inertia element `s` at a place of `Ω` over a finite place `w` is killed by `X − ι(θ(x))` for a unit `x` of `E_w` whose local Artin symbol is `s`).
 
 [ShortProof], `New/Congruences/GaloisRepresentations/RowsAndColumnsFromLabels` (`New.Selmer.isFiniteTypeAt_and_polyKillsAt_of_mem_conjClosure`, `New.Selmer.normalisedRep_quadratic_on_inertia`)
 

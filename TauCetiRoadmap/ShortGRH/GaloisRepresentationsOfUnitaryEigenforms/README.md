@@ -57,8 +57,9 @@ Layer 1 fixes the forms, the filter of most Frobenii, the local conditions and t
 Layer 2 is the algebra of semisimple representations, lattices, pseudocharacters and limits of traces. Layer 3 gives
 the congruences that change the weight. Layer 4 gives the criterion on free weights, the Hodge–Tate cocharacter,
 cuspidal types and multiplicity-free sums. Layer 5 is base change of prime degree between definite unitary groups.
-Layer 6 constructs the representations in odd rank, Layer 7 in every rank. Layer 8 is local–global compatibility at
-split places. Layer 9 holds the Taylor–Wiles operators and the Selmer modules of cocycles.
+Layer 6 constructs the representations in odd rank, and from those of rank one the local behaviour of the `ℓ`-adic
+avatars of algebraic Hecke characters; Layer 7 constructs the representations in every rank. Layer 8 is local–global
+compatibility at split places. Layer 9 holds the Taylor–Wiles operators and the Selmer modules of cocycles.
 
 ## Conventions and notation
 
@@ -971,7 +972,8 @@ product, descent, lifts).
 In odd rank the representations come from PEL models for forms with a cuspidal type at an auxiliary split place and
 free weights (6.2). Weight congruences and limits of traces reach every form (6.3), when the CM field contains an
 imaginary quadratic field in which the relevant places split; quadratic steps and gluing on open subgroups remove this
-condition (6.4).
+condition (6.4). In rank one, these representations, read at a place made split by a step, give the local behaviour of
+the `ℓ`-adic avatar of an algebraic Hecke character at every finite place, above `ℓ` included (6.4 (e)).
 
 ### 6.1 Split places over `ℚ(√−d)` and quadratic steps
 
@@ -1021,9 +1023,10 @@ prime to the discriminant, and let `f(g·ι_{w₀}(j)) = θ(j)f(g)` for `j ∈ 1
 `w′` lies above `ℓ`. Then there is a continuous `r : G_E → GL_a(ℚ̄_ℓ)` with (a) `det(X − r(s)) = ι(P_w)` for most Frobenius
 data `(w, A, s)`, and (b) if `w′, w̄′ ∉ S`, `r` spherical above `w′` with polynomial `ι(P_{w′})` and exactly the jumps `J_κ`.
 
-*Needs:* 1.1, 1.3, 4.3, 4.5, 6.1; AbelianSchemesWithThetaStructuresAndTheirCohomology §§3.7, 8.1, 8.4, 9.2, 9.3, 9.6, 9.8
-(PEL models, definite forms, eigensystem representations); IdelicReciprocityCountsAndCyclotomicClassGroups §§7.5, 9.1, 9.2
-(algebraic Hecke characters, avatars, twists).
+*Needs:* 1.1, 1.3, 4.3, 4.5, 6.1; AbelianSchemesWithThetaStructuresAndTheirCohomology §§3.7, 7.4, 8.1, 8.4, 9.2, 9.3,
+9.6, 9.8 (existence of the universal theta family, PEL models, definite forms, eigensystem representations);
+IdelicReciprocityCountsAndCyclotomicClassGroups §§7.5, 9.1, 9.2
+(algebraic Hecke characters; their base change `θ∘N` along the norm, from 9.1 (a); twists by avatars).
 
 [ShortProof], `Lib/GaloisRep/Main/SeedRepresentation` (`New.GaloisRep.exists_frame_extension`, `New.GaloisRep.exists_central_eigenform`, `New.GaloisRep.isSplitPrimeToDisc_below_of_prime_norm`, `New.GaloisRep.centralChar_mem_algHeckeChars_and_charUnramifiedAt`, `New.GaloisRep.exists_rep_of_cuspidal_type`)
 
@@ -1053,7 +1056,7 @@ all `g`, then `ρ` is compatible with `f` in rank `a` at every place over `u`.
 place such that `u` and every place above `ℓ` lie over places of `ℚ(√−D)` split prime to the discriminant. Then
 `SphCompat(E, a, u)` holds.
 
-*Needs:* 1.5, 2.4, 3.3, 4.3, 6.1, 6.2; CrystallineRepresentationsAndKisinModules §6.4 (local clauses at trace limits).
+*Needs:* 1.5, 1.6, 2.4, 3.3, 4.3, 6.1, 6.2; CrystallineRepresentationsAndKisinModules §6.4 (local clauses at trace limits).
 
 [ShortProof], `Lib/GaloisRep/Main/SplitCase` (`New.GaloisRep.IsPlaceApart`, `New.GaloisRep.exists_place_apart`, `New.HasHeckePolyAt.coeff_pred_mem`, `New.GaloisRep.exists_attached_of_isApproximatingMonoid`, `New.GaloisRep.exists_isLevel_of_localCongruence_hom`, `New.GaloisRep.isCompatibleAt_of_isApproximatingMonoid`, `New.GaloisRep.sphericalCompat_of_split`)
 
@@ -1064,12 +1067,25 @@ place such that `u` and every place above `ℓ` lie over places of `ℚ(√−D)
 and Taylor, *Potential automorphy and change of weight* (2014), Theorem 2.1.1: here in odd rank over a CM field
 containing a primitive `5040`-th root of unity, with attachment in the sense of 1.5 and compatibility at every place
 where the form is spherical; the representations come from quadratic steps between definite unitary groups and are
-glued on open subgroups, with no base change to `GL_n`.
+glued on open subgroups, with no base change to `GL_n`. (e) is adapted from the theory of `ℓ`-adic characters attached
+to algebraic Hecke characters (Serre, *Abelian ℓ-adic representations and elliptic curves* (1968), II–III; for the
+crystalline case, Conrad, *Lifting global representations with local properties*, App. B): here for CM fields
+containing a primitive `5040`-th root of unity, at every finite place, those above `ℓ` included, and derived from (d)
+in rank one.
 
 *Method of the formal proof:* for `T ∈ ℕ` a quadratic step (6.1 (b)) over `n_T = ℓ·(T + q_w + max_{v∈S} q_v)!` puts the places
 over `n_T` above split primes of an imaginary quadratic field; the base change of `f` (5.9) has a representation by the
 split case (6.3); its restriction to the open subgroup `N_T` is attached to the polynomials of `f` (a); these restrictions
-are glued by (c), and (b), applied to a single step, gives the compatibility at `w`.
+are glued by (c), and (b), applied to a single step, gives the compatibility at `w`. For (e), the step `L/E` of 6.1 (b)
+for `n = q_w` has `D_A ⊆ U` by (iv) there, so the place `u` of `L` below `A` has norm `q_w`, and it is split by (iii).
+There `θ∘N_{L/E}` is the product of the character `θ₁` of an eigenform of rank one over `L`, spherical at `u`
+(IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 (b)), with the infinity type of `θ∘N_{L/E}` at the embeddings
+inducing `u`, and of a character of type `0` at those embeddings. The avatar of `θ₁` is compatible with that eigenform at
+`A` by (d) in rank one and 1.6 (c); the other factor has finite image on inertia, so
+CrystallineRepresentationsAndKisinModules §4.4 applies to it, and §4.5 there to the product. The clauses descend from `L`
+to `E` by 1.4, as the avatar of `θ∘N_{L/E}` is the restriction of `r_θ` (IdelicReciprocityCountsAndCyclotomicClassGroups
+§9.1 (a)) and the local norm, of residue degree one here, keeps valuations and is compatible with the Artin maps
+(IdelicReciprocityCountsAndCyclotomicClassGroups §2.1).
 
 (a) Let `χ : G_E → ℚ/ℤ` be continuous, `E′` the fixed field of `g ↦ χ(g) + χ(cgc)`, with `E′/E` a step for the idele character
 of `χ`, and `N = Gal(Ω/E′) ∩ ker χ`. Let `f, f′` be eigenforms for `P, P′` over `E`, `E′`, with `f′` a weak base change of `f`
@@ -1083,15 +1099,26 @@ is split. If `r′` is compatible with `f′` at `A` (for `u`), then `r` is comp
 lies in every `N_T` and is killed by `ρ_T`. If every arithmetic Frobenius at a place over a place of prime norm lies in
 some `N_T`, then some representation of `G_E` is attached to `P`.
 (d) Let `E` be a stably unramified CM field, `a` odd and `w` any finite place. Then `SphCompat(E, a, w)` holds.
+(e) Let `E` be a CM field containing a primitive `5040`-th root of unity, `(θ, n)` an algebraic Hecke character of `E`
+(IdelicReciprocityCountsAndCyclotomicClassGroups §7.5) and `r_θ` its `ℓ`-adic avatar
+(IdelicReciprocityCountsAndCyclotomicClassGroups §9.1 (a)), read as a representation of rank one. Let `w` be a finite
+place and `A` a place of `Ω` above `w`. Then `r_θ` is of finite type at `A`, has the jumps `τ ↦ {−n_τ}` at `A`, and for
+`m ∈ {0, 1}` and every `s` such that `s⁻¹` is an arithmetic Frobenius for `q_w^m` at `A` (`s ∈ I_A` if `m = 0`, `s` a
+geometric Frobenius of norm `q_w` if `m = 1`) there is `x ∈ E_w^×` of valuation `m` with `Art_A(x)` the class of `s` and
+`X − ι(θ(x))` killing `s` at `A`; here `θ(x)` is the value of `θ` at the finite idele equal to `x` at `w` and `1`
+elsewhere.
 
 `RiemannHypothesisForDirichletLFunctions/BaseChangeAndGaloisRepresentationsForUnitaryGroups §16.1` states the Galois
 representations of automorphic representations of definite unitary groups through weak base change to `GL_n`, with
 exact characteristic polynomials at every place away from `ℓ` at which the base change is unramified; 7.3 says how the
 statements here are related to it.
 
-*Needs:* 1.4, 1.5, 1.6, 2.1, 5.1, 5.9, 6.1, 6.3; 1.2.
+*Needs:* 1.4, 1.5, 1.6, 2.1, 5.1, 5.9, 6.1, 6.3; 1.2; IdelicReciprocityCountsAndCyclotomicClassGroups §§2.1, 7.5, 9.1
+(local Artin maps at places of `Ω` and their compatibility with norms; algebraic Hecke characters; `ℓ`-adic avatars,
+their restriction to a CM extension, eigenforms of rank one); CrystallineRepresentationsAndKisinModules §§4.4, 4.5
+(characters trivial on inertia near `1`; twists by characters).
 
-[ShortProof], `Lib/GaloisRep/Main/OddRank` (`New.GaloisRep.DescendsAt`, `New.IsWeakBaseChange.attached_comp_stepKerInclusion`, `New.IsWeakBaseChange.descendsAt`, `New.IsWeakBaseChange.isCompatibleAt_of_attached`, `New.GaloisRep.isStepUnramifiedAt_of_decompGroup_le`, `New.GaloisRep.exists_attached_of_open_subgroups`, `New.GaloisRep.sphericalCompat_of_odd`)
+[ShortProof], `Lib/GaloisRep/Main/OddRank` (`New.GaloisRep.DescendsAt`, `New.IsWeakBaseChange.attached_comp_stepKerInclusion`, `New.IsWeakBaseChange.descendsAt`, `New.IsWeakBaseChange.isCompatibleAt_of_attached`, `New.GaloisRep.isStepUnramifiedAt_of_decompGroup_le`, `New.GaloisRep.exists_attached_of_open_subgroups`, `New.GaloisRep.sphericalCompat_of_odd`), with `Lib/PadicHodge/Characters` (`New.GaloisRep.AvatarCompatAt`) and `Lib/ClassField/Avatar/LocalGlobalCompatibility` (`New.GaloisRep.avatarCompatAt_of_isSplit`, `New.GaloisRep.avatarCompatAt_of_hasPrimitiveRoot5040`)
 
 ## Layer 7: Every rank
 
@@ -1166,8 +1193,9 @@ split or not, every attached representation is compatible with the form in the s
 
 *Method of the formal proof:* with `t = n + 1`, lift `f` to rank `2n + 1` along `μ_0` and `μ_1` of 7.2 (a) (7.1); each lift has
 a representation by 6.4 (d), twisted by the avatar of `θ_{t,t}(μ_i)` (7.2 (b)); it is attached to `P_w` times the string of
-the `t` characters `θ_{n+t,t−l}(μ_i)`; cancel the two strings (7.2 (c)); the local clauses pass by 7.2 (d), and the two killing
-polynomials `P_w·R_{i,w}`, with coprime strings `R_{0,w}`, `R_{1,w}`, give that `P_w` kills.
+the `t` characters `θ_{n+t,t−l}(μ_i)`; cancel the two strings (7.2 (c)); the local clauses pass by 7.2 (d), with those of
+the avatars from 6.4 (e), and the two killing polynomials `P_w·R_{i,w}`, with coprime strings `R_{0,w}`, `R_{1,w}`, give
+that `P_w` kills.
 
 Let `E` be a CM field with Weil data, `n ≥ 1` and `w` any finite place. Then `SphCompat(E, n, w)` holds: every eigenform `f`
 of any weight `κ` on `U(n)`, for a system `P`, has an attached `r : G_E → GL_n(ℚ̄_ℓ)`; and if `f` is spherical at `w`, every `r`
@@ -1493,7 +1521,7 @@ On Tau Ceti's main branch, later than the revision pinned here:
 
 - Chebotarev's density theorem (1.2): `ArithmeticGaloisRepresentations §5.1`.
 - Local class field theory at a finite place, with the Artin map normalised by Frobenius, its compatibility with norms
-  and the image of the units in inertia (8.2, 8.3, 8.4): `ClassFieldTheory §6.1`, `ClassFieldTheory §7.1`, read at
+  and the image of the units in inertia (6.4, 8.2, 8.3, 8.4): `ClassFieldTheory §6.1`, `ClassFieldTheory §7.1`, read at
   places of `Ω` through IdelicReciprocityCountsAndCyclotomicClassGroups §2.1.
 - Global reciprocity and the cyclic Hasse norm theorem (5.6): `ClassFieldTheory §11.1`, `ClassFieldTheory §13.1`.
 
@@ -1510,6 +1538,7 @@ On Tau Ceti's main branch, later than the revision pinned here:
 - S. Chase, D. Harrison, A. Rosenberg, *Galois theory and Galois cohomology of commutative rings*, Mem. AMS 52 (1965).
 - G. Chenevier, M. Harris, *Construction of automorphic Galois representations II*, Camb. J. Math. 1 (2013).
 - L. Clozel, M. Harris, R. Taylor, Publ. IHES 108 (2008).
+- B. Conrad, *Lifting global representations with local properties* (preprint 2011), App. B.
 - K. Conrad, *Compact subgroups of GL_n(Q̄_p)* (note).
 - J. Dieudonné (1944), cited without title.
 - M. Emerton, V. Paškūnas, *On the density of supercuspidal points of fixed regular weight*, J. Éc. polytech. Math. 7
@@ -1534,6 +1563,7 @@ On Tau Ceti's main branch, later than the revision pinned here:
 - P. Scholze, *The Langlands–Kottwitz approach for some simple Shimura varieties* (2013).
 - Sen, Ann. of Math. 97 (1973).
 - J.-P. Serre, *Corps locaux* (1962).
+- J.-P. Serre, *Abelian ℓ-adic representations and elliptic curves* (1968), II–III.
 - J.-P. Serre, *Groupes algébriques associés aux modules de Hodge–Tate*, Astérisque 65 (1979).
 - S. W. Shin, Ann. of Math. 173 (2011).
 - A. Speiser (1919), cited without title.

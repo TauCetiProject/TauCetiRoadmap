@@ -1449,8 +1449,8 @@ On Tau Ceti's main branch, later than the revision pinned here:
 
 ### Not owned here
 
-- the `ℓ`-adic avatar of an algebraic Hecke character and its local behaviour: IdelicReciprocityCountsAndCyclotomicClassGroups
-  §9.1;
+- the `ℓ`-adic avatar of an algebraic Hecke character: IdelicReciprocityCountsAndCyclotomicClassGroups §9.1; its local
+  behaviour at every finite place: GaloisRepresentationsOfUnitaryEigenforms §6.4 (e);
 - the local conditions of an `ℓ`-adic Galois representation at a place of a number field, and their passage to retracts:
   GaloisRepresentationsOfUnitaryEigenforms §§1.3, 1.4;
 - local duality for crystalline cocycles: IdelicReciprocityCountsAndCyclotomicClassGroups §§5.1, 5.2;
