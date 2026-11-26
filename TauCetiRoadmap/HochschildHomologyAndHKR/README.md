@@ -2073,8 +2073,8 @@ It leaves to other roadmaps, by section:
 Topological Hochschild homology, the HKR filtration on derived Hochschild homology, Kontsevich
 formality, deformation quantisation and the Schouten–Nijenhuis bracket are not part of this
 roadmap. Nor are quasi-free algebras, defined by lifting along square-zero extensions and
-characterised over a field by the vanishing of `Ext²` over `Aᵉ`. The comparison point with them
-is §3.6, which
+characterised over a field by the vanishing of `Ext²_{Aᵉ}(A,M)` for every bimodule `M`. The
+comparison point with them is §3.6, which
 classifies the `k`-split square-zero extensions of `A` by `M` by `HH²(A,M)`, identified with
 `Ext²_{Aᵉ}(A,M)` for `k`-projective `A` by §4.4; over a field every square-zero extension is
 `k`-split and every `A` is `k`-projective.
