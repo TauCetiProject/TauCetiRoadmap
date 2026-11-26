@@ -324,6 +324,7 @@ body:
         - IndexTheory
         - InductionRestrictionPartII
         - InfinitaryModelExistence
+        - InfinitelyDivisibleLawsAndTriangularArrays
         - InstantonFloerTheory
         - IntegralHeckeAndGaloisDeterminants
         - IntegralIwasawaTheory
@@ -571,6 +572,7 @@ body:
         - SpecialFunctionsAiry
         - SpecialFunctionsAppell
         - SpecialFunctionsBessel
+        - SpecialFunctionsClebschGordan
         - SpecialFunctionsConfluent
         - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsGamma
