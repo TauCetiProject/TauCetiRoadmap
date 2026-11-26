@@ -1071,11 +1071,16 @@ map, which carries kernel into kernel by `ContinuousMonoidHom.map_lieExp`. Full 
 `existsUnique_continuousMonoidHom_lieMap_ker`: every additive map of exponential kernels is the
 restriction of `lieMap f` for exactly one continuous homomorphism `f`. Route: uniqueness is
 `ContinuousMonoidHom.lieMap_injective`, as the kernel spans `𝔱`
-(`TauCeti.span_ker_lieExpAddMonoidHom_eq_top`); for existence extend the map `ℝ`-linearly, a Lie
-map since both algebras are abelian, and descend it through
-`TauCeti.lieExpQuotientKerContinuousAddEquiv`. Essential surjectivity: `ℤⁿ` is the kernel of the
+(`TauCeti.span_ker_lieExpAddMonoidHom_eq_top`); for existence extend the map `ℝ`-linearly to `L`, a
+Lie map since both algebras are abelian, and descend it through
+`TauCeti.lieExpQuotientKerContinuousAddEquiv` to `f` with `f (lieExp Y) = lieExp (L Y)`. As also
+`f (lieExp Y) = lieExp (lieMap f Y)` (`ContinuousMonoidHom.map_lieExp`), the one-parameter
+subgroups `t ↦ lieExp (t • L X)` and `t ↦ lieExp (t • lieMap f X)` coincide for each `X`, and the
+uniqueness of §0.3 gives `lieMap f = L`. Essential surjectivity: `ℤⁿ` is the kernel of the
 `n`-fold product of circles (Mathlib's `Prod.instLieGroup`; the one-point group for `n = 0`).
-*Needs:* §§3.1–3.2, §4.3's category of Lie groups; Tau Ceti as named.
+(Knapp, Cor. 1.103(c), for the objects; Knapp, Prop. 4.58, for the morphisms into `Circle`, by the
+same descent.)
+*Needs:* §§0.3, 3.1–3.2, §4.3's category of Lie groups; Tau Ceti as named.
 
 **Checks** for the lattice equivalence.
 - `Circle`, with `Lie(Circle) ≅ ℝ` by `circleLieAlgebraEquiv`, goes to the kernel `2πℤ ≅ ℤ`, and
@@ -2210,6 +2215,9 @@ equivalence of tori with their exponential lattices and the maximal-torus theore
 root system, the rank-one representatives, the Weyl group comparison and the Weyl integration
 formula (§§6.1, 6.3–6.9); all of Layers 7, 8 and 9. Of the lower analytic dictionary of §7.9 it
 owns the reductive part: the central torus, the derived subgroup and the central multiplication.
+The character duality of ConvexityToric T1 is the case of §6.1's lattice equivalence with target
+`Circle`, whose exponential on `Lie(Circle) ≅ ℝ` has kernel `2πℤ`; its 2π normalization and its
+restriction, quotient and integral basis-change formulas are T1's.
 
 **Already in the library.** The following are proved at the pins and are used above by name (the
 exact declarations are in the supplier contracts below):
