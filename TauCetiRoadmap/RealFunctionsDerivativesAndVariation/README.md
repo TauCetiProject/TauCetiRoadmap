@@ -36,8 +36,8 @@ proof-dependency order of the subject, not the chapter order of any one source.
 The nearest roadmaps are GeometricMeasureTheory, which owns rectifiable curves and functions of
 bounded variation in several variables and consumes the one-variable variation theory only as
 the case of curves; PDE, which identifies first-order Sobolev functions on an interval with
-absolutely continuous functions and takes absolute continuity as given; and the roadmap on Young
-integration and rough paths, which owns the `p`-variation for `p ≠ 1`. Nothing passes from this
+absolutely continuous functions and takes absolute continuity as given; and
+YoungIntegrationAndRoughPaths, which owns the `p`-variation for `p ≠ 1`. Nothing passes from this
 roadmap into them as a requirement.
 
 [Suggested.lean](Suggested.lean) states, against the pinned Mathlib and Tau Ceti and each with
@@ -645,7 +645,8 @@ Zahorski's lemma writes `E = ⋃ₙ Fₙ` and builds `f` from sets supplied by L
 - **Complete regularity** (`completelyRegularSpace_densityTopology`): the density topology is
   completely regular (Kharazishvili, Appendix, p. 404).
 - **Failure of normality** (`not_normalSpace_densityTopology`): the density topology is not
-  normal.
+  normal (Thomson, Example 9.2, p. 19, where it is stated without proof with references to the
+  literature; the proof route below supplies the argument).
 - Target in prose: the density topology is not separable (Kharazishvili, Exercise 9,
   p. 408).
 
@@ -742,8 +743,9 @@ Completion means:
   This roadmap states nothing about distributional derivatives.
 - The identification of `W^{1,p}(a, b)` with absolutely continuous functions with derivative in
   `Lᵖ` is owned by [PDE](../PDE/README.md), §1.1.
-- The `p`-variation for `p ≠ 1`, controls and Hölder paths are owned by the roadmap on Young
-  integration and rough paths; this roadmap uses only the `1`-variation `eVariationOn`.
+- The `p`-variation for `p ≠ 1`, controls and Hölder paths are owned by
+  [YoungIntegrationAndRoughPaths](../YoungIntegrationAndRoughPaths/README.md), Layer 1; this
+  roadmap uses only the `1`-variation `eVariationOn`.
 - Measure-theoretic density and Lebesgue's density theorem are owned by
   [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G5, and are in Tau Ceti; Layer 7
   consumes them and owns approximate continuity, the Lusin–Menchoff theorem, Zahorski's lemma and
@@ -869,8 +871,8 @@ Completion means:
 
 - A. M. Bruckner, *Differentiation of Real Functions*, Lecture Notes in Mathematics 659,
   Springer, 1978. Chapters II–IV and XI.
-- B. S. Thomson, *Real Functions*, Lecture Notes in Mathematics 1170, Springer, 1985. §§56, 59,
-  70.
+- B. S. Thomson, *Real Functions*, Lecture Notes in Mathematics 1170, Springer, 1985. §9
+  (Example 9.2), §§56, 59, 70.
 - G. Leoni, *A First Course in Sobolev Spaces*, 2nd ed., Graduate Studies in Mathematics 181,
   American Mathematical Society, 2017. Chapters 1–3.
 - E. Hewitt and K. Stromberg, *Real and Abstract Analysis*, Graduate Texts in Mathematics 25,
