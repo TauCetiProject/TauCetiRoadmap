@@ -33,6 +33,7 @@ body:
         - AdicSpacesPartIII
         - AdicSpacesPartIV
         - AdicSpacesPartV
+        - AdmissiblePairsAndPadicHodgeStructures
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCircuitsAndValiantsClasses
@@ -52,6 +53,7 @@ body:
         - AnalyticNumberTheoryPartIII
         - AnalyticStableMaps
         - AnalyticToricGeometryPartII
+        - AnticyclotomicLocalUnits
         - ApproximationGuarantees
         - ArakelovGeometryAndAbelianHeights
         - ArakelovGeometryAndAbelianHeightsPartII
@@ -110,8 +112,10 @@ body:
         - CircleMethodThreePrimes
         - ClassFieldTheory
         - ClassicalAdicEtaleCohomology
+        - ClassicalAdicEtaleCohomologyPartII
         - ClassicalArithmeticCompletion
         - ClassicalErgodicTheory
+        - ClassicalGroupsPartII
         - ClassicalSerreModularity
         - ClassifyingSpaces
         - ClusterAlgebras
@@ -181,6 +185,7 @@ body:
         - EigenvalueAndSingularValueInequalities
         - EisensteinIdealAndRationalTorsion
         - ElectricalNetworksAndRandomWalks
+        - EllAdicHomotopyTypesAndWeights
         - EllipticCohomology
         - EllipticCurveModularity
         - EllipticCurveModularityImaginaryQuadratic
@@ -267,15 +272,19 @@ body:
         - GlobalGaloisDeformations
         - GlobalHolomorphicFunctions
         - GlobalQuadraticForms
+        - GlobalShtukasAndFunctionFieldLanglands
         - GraphColouring
         - GraphConnectivityAndFlows
+        - GraphSpectra
         - GroebnerGeometry
         - GromovWittenTheory
         - GrossZagierAndArithmeticHeights
         - GrothendieckEulerForms
         - GroupActionsOnRiemannSurfaces
         - GroupSchemesOverABase
+        - HabiroCohomologyFoundations
         - HabiroCyclotomicCompletions
+        - HabiroNumberFields
         - HalfIntegralWeightModularForms
         - HamiltonianCycles
         - HamiltonianFloerOperations
