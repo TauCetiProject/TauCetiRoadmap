@@ -1,12 +1,12 @@
 # Roadmap: Stein function algebras — characters, automatic holomorphy, and Cousin II
 
 **Summary.** Let `X` be a Stein manifold and `O(X)` the complex algebra of its global holomorphic
-functions. This roadmap proves that `X` is recovered from `O(X)` as a complex algebra. Every unital
-complex-algebra homomorphism `O(X) → ℂ` is evaluation at a unique point of `X`; for Stein `X` and
-`Y`, every unital complex-algebra homomorphism `O(Y) → O(X)` is composition with a unique
-holomorphic map `X → Y`. It proves the general Remmert–Narasimhan embedding theorem on which these
-statements rest: a Stein manifold of complex dimension `n` embeds properly and holomorphically into
-`ℂ^N` with `N ≤ 2n + 1`. It also proves the multiplicative Cousin problem (Cousin II) on Stein
+functions. This roadmap proves that `X` is recovered from `O(X)` together with the Gelfand
+topology on its character space. Every unital complex-algebra homomorphism `O(X) → ℂ` is
+evaluation at a unique point of `X`; for Stein `X` and `Y`, every unital complex-algebra
+homomorphism `O(Y) → O(X)` is composition with a unique holomorphic map `X → Y`. It proves the
+general Remmert–Narasimhan embedding theorem on which these statements rest: a Stein manifold of
+complex dimension `n` embeds properly and holomorphically into `ℂ^N` with `N ≤ 2n + 1`. It also proves the multiplicative Cousin problem (Cousin II) on Stein
 manifolds: a Cousin II datum is solvable exactly when the first Chern class of its associated
 holomorphic line bundle vanishes.
 
@@ -30,10 +30,10 @@ biholomorphisms, and the automorphism group.
 ## How to read the build
 
 A target is a numbered statement in a layer, cited as §k.n. Its proof route follows in the same
-subsection; *Needs* names the targets and the exact supplier results it consumes, and *In Tau Ceti*
-names the declarations that realise it. A statement that Tau Ceti proves is not restated as a
-target. The Lean prototypes in `Suggested.lean` are suggested forms of the headline targets, not an
-exhaustive checklist.
+subsection, and the layer's *Dependencies* paragraph names the targets and the exact supplier
+results it consumes. A statement that Tau Ceti proves is not restated as a target. The Lean
+prototypes in `Suggested.lean` are suggested forms of the headline targets, not an exhaustive
+checklist.
 
 ## Conventions
 
@@ -128,7 +128,8 @@ cotangent space at `x`.
 **Proposition 0.4** (basic API). Let `X` be a Stein manifold.
 
 1. `X` is Hausdorff.
-2. `ℂ^n` is Stein; more generally a complex normed space with compact closed balls is Stein.
+2. `ℂ^n` is Stein; indeed every finite-dimensional complex normed space is isomorphic to `ℂ^n`
+   and is Stein.
 3. A complex manifold of dimension zero is Stein.
 4. A compact Stein manifold without boundary is finite.
 5. For distinct points `x, y` there is a global holomorphic function separating them; for every
@@ -155,9 +156,10 @@ statements below use its API and do not restate the proofs.
   closed unit ball. The function `z ↦ z_1` shows that the hull of a point is the point.
 - `ℂ^* = ℂ ∖ {0}` is Stein: it is a domain in `ℂ`, and the function `z ↦ z` separates points while
   `z ↦ 1/z` is holomorphic on the whole space and unbounded near `0`. The hull of the unit circle
-  is the unit circle itself: `z` bounds it by `1` from above and `1/z` bounds it by `1` from below,
-  so no point with `|z| ≠ 1` lies in the hull. The missing point `0` is outside the ambient
-  manifold, and the hull is compact.
+  is the unit circle itself: for a point `x` in the hull, the bound from the function `z` is
+  `|x| ≤ 1` and the bound from `1/z` is `|1/x| ≤ 1`, hence `|x| = 1`. Thus no point with
+  `|x| ≠ 1` lies in the hull, while the maximum modulus principle puts the circle itself in the
+  hull. The missing point `0` is outside the ambient manifold, and the hull is compact.
 - `ℂ^n ∖ {0}` for `n ≥ 2` is **not** Stein. By Hartogs' extension theorem every holomorphic
   function on the punctured ball extends across `0`, so the hull of the unit sphere is the punctured
   closed ball, which is not compact: the sequence `z_k = (1/k, 0, …, 0)` has no convergent
@@ -390,12 +392,12 @@ maximal ideals is still zero, because a nonzero holomorphic function is nonzero 
 
 ### Dependencies
 
-SF1 (Theorem 1.1, Lemmas 1.2 and 1.5), Lemma 2.0, RealAnalyticGeometry R3.2 (Cartan's theorems A and B),
-ComplexKahlerGeometry K3.4 (coherence of ideal sheaves), Mathlib's analytic calculus and
-differentiation under the integral, and Lemma 2.0; Tau Ceti's
-`TauCeti.holomorphicStructureSheaf`, `TauCeti.ofContMDiff`, `TauCeti.evalHom`,
-`TauCeti.eval` and `TauCeti.germ_evalHom` for the structure sheaf and its stalk evaluation. The
-character theorem itself is the target of SF2.
+SF1 (Theorem 1.1, Lemmas 1.2, 1.3 and 1.5), Lemma 2.0, RealAnalyticGeometry R3.2 (Cartan's
+theorems A and B), ComplexKahlerGeometry K3.4 (coherence of ideal sheaves), Mathlib's analytic
+calculus and differentiation under the integral; Tau Ceti's
+`TauCeti.holomorphicStructureSheaf`, `TauCeti.ofContMDiff`, `TauCeti.evalHom`, `TauCeti.eval`
+and `TauCeti.germ_evalHom` for the structure sheaf and its stalk evaluation. The character theorem
+itself is the target of SF2.
 
 ## Layer 3 (SF3): Automatic holomorphy
 
@@ -422,18 +424,16 @@ The source `X` need not be Stein; only the target is. No continuity of `φ` is a
 
 so `h ∘ f = φ(h)` as functions on `X`.
 
-It remains to prove that `f` is holomorphic. Fix `x_0 ∈ X` and put `y_0 = f(x_0)`. By Definition
-0.3(3), there is a global holomorphic `F : Y → ℂ^n` with `mfderiv F y_0` injective; since the
-tangent spaces have dimension `n`, this derivative is a continuous linear equivalence. Each
-component `F_j` lies in `O(Y)`, so `F_j ∘ f = φ(F_j) ∈ O(X)`; hence `F ∘ f : X → ℂ^n` is
-holomorphic. By Lemma 1.2, `F` has a holomorphic local inverse `G` on a neighbourhood of
-`F(y_0)`. Since `F ∘ f` is continuous, for `x` near `x_0` the value `(F ∘ f)(x)` lies in the
-domain of `G`, and `f(x) = G((F ∘ f)(x))`. Thus `f` is holomorphic at `x_0`. Finally, if `f` and
-`g` both induce `φ`, then `h ∘ f = h ∘ g` for every `h ∈ O(Y)`; separation of points gives
-`f = g`. ∎
+It remains to prove that `f` is holomorphic. By Theorem 1.1, choose a proper holomorphic embedding
+`F : Y → ℂ^N`. Each component `F_j` lies in `O(Y)`, so `F_j ∘ f = φ(F_j) ∈ O(X)`; hence
+`F ∘ f : X → ℂ^N` is holomorphic and takes values in the closed complex submanifold `F(Y)`. By
+Lemma 1.3, `F` is a biholomorphism onto its image, so `F^{-1} : F(Y) → Y` is holomorphic. Since
+`f = F^{-1} ∘ (F ∘ f)`, `f` is holomorphic. Finally, if `f` and `g` both induce `φ`, then
+`h ∘ f = h ∘ g` for every `h ∈ O(Y)`; separation of points gives `f = g`. ∎
 
-The proof uses the third Stein axiom, not the embedding of `Y` in affine space. The embedding is
-used only through the character theorem of SF2, which supplies the point `f(x)`.
+The proof uses the proper embedding of `Y` supplied by Theorem 1.1; the embedding theorem rests on
+the third Stein axiom. The character theorem of SF2 supplies the point `f(x)`, and the proper
+embedding supplies the holomorphy of the resulting map.
 
 ### 3.3 Full faithfulness of the global-section functor
 
@@ -476,10 +476,10 @@ Definition 3.1. ∎
 
 ### Dependencies
 
-SF1 (Theorem 1.1, Lemma 1.2), SF2 (Theorem 2.2); Mathlib's `AlgHom`, `AlgEquiv`, `ContMDiff` and
-`mfderiv`; Tau Ceti's `TauCeti.holomorphicStructureSheaf`, its precomposition morphism
-`homOfContMDiff` and the section-level `precomp`, and `TauCeti.evalHom`. The automatic holomorphy
-theorem and its corollaries are the targets of SF3.
+SF1 (Theorem 1.1, Lemma 1.3), SF2 (Theorem 2.2); Mathlib's `AlgHom`, `AlgEquiv` and `ContMDiff`;
+Tau Ceti's `TauCeti.holomorphicStructureSheaf`, its precomposition morphism `homOfContMDiff` and
+the section-level `precomp`, and `TauCeti.evalHom`. The automatic holomorphy theorem and its
+corollaries are the targets of SF3.
 
 ## Layer 4 (SF4): Cousin II and the first Chern class
 
@@ -615,9 +615,10 @@ evaluation maps `φ ↦ φ(f)`, `f ∈ O(X)`: a subbasic open set is
 `f : X → ℂ`. For openness, let `U ⊆ X` be open and `x ∈ U`. By Definition 0.3(3), choose a global
 holomorphic `F : X → ℂ^n` with `mfderiv F x` injective. By Lemma 1.2, `F` is a local biholomorphism
 at `x`; shrinking, `F` maps a neighbourhood `V ⊆ U` of `x` homeomorphically onto a polydisc around
-`F(x)`. A polydisc is a union of sets `{y : |F_j(y) - c_j| < ε}`, and each is the preimage under
-evaluation of a Gelfand-open set. Hence `V`, and therefore `U`, is a union of Gelfand-open sets,
-and the evaluation map is open. ∎
+`F(x)`. A polydisc is an intersection of the sets `{y : |F_j(y) - c_j| < ε}`, and each is the
+preimage under evaluation of a Gelfand-open set. Hence the image of `V` is an intersection of
+Gelfand-open sets, and therefore open. Thus `V`, and therefore `U`, is a union of Gelfand-open
+sets, and the evaluation map is open. ∎
 
 The Gelfand topology is not the Zariski topology. The Zariski topology on `Char(O(X))` has basic
 open sets `{φ : φ(f) ≠ 0}`; it is coarser than the Gelfand topology, and the evaluation map is
@@ -650,7 +651,7 @@ composition and identities. ∎
 - The functor `O` is not essentially surjective and is not an equivalence onto all complex
   algebras.
 - For a non-Stein target `Y`, Theorem 3.2 can fail (uniqueness fails for `Y = ℙ^1`); for a
-  non-Stein source `X`, it still holds.
+  non-Stein source `X` and a Stein target `Y`, it still holds.
 
 ### Checks
 
@@ -674,13 +675,14 @@ the targets of SF5.
 ## Downstream consumers
 
 **Toposify's holomorphic Dubuc topos.** Toposify's Milestone H7 uses complex manifolds as a site
-model for the holomorphic Dubuc topos, with Stein manifolds as the affine stages. The Stein stage
-algebras are the quotients `HolOn U / vanishingOnIdeal U`, which are isomorphic to the sections
-`Γ(U, O)` of the holomorphic structure sheaf; this is the local comparison proved in
-`Toposify/Holomorphic/Manifold/StructureSheaf.lean`. For a Stein stage `U`, Theorem 2.2 is the
-global external statement that the characters of the stage algebra are the points of `U`. The
-internal spectrum and the internal logic of the topos are not part of this roadmap; SF2 supplies
-the ordinary points that the internal theory refines.
+model for the holomorphic Dubuc topos. For an open stage `U`, the algebra
+`HolOn U / vanishingOnIdeal U` is isomorphic to the sections `Γ(U, O)` of the holomorphic
+structure sheaf; this is the local comparison proved in
+`Toposify/Holomorphic/Manifold/StructureSheaf.lean`. A general Stein stage is a zero locus `Z(I)`;
+when `Z(I)` is a Stein manifold, Theorem 2.2 is the model statement that the characters of its
+algebra of holomorphic functions are the points of `Z(I)`. The internal spectrum and the internal
+logic of the topos are not part of this roadmap; SF2 supplies the ordinary points that the
+internal theory refines.
 
 **Stein algebra theory.** The character theorem and automatic holomorphy are the affine model for
 Stein algebras: they say that the Stein manifold is recovered from its algebra of holomorphic
