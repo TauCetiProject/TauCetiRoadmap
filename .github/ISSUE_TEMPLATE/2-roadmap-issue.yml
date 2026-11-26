@@ -418,6 +418,7 @@ body:
         - NeronModelsAndSemistableAbelianVarieties
         - NeronModelsAndSemistableAbelianVarietiesPartII
         - Neuromanifolds
+        - NewtonAndQuasiNewtonMethods
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeAndEquivariantIwasawa
