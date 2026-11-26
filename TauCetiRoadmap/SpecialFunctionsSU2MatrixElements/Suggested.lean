@@ -533,7 +533,7 @@ theorem integral_wignerSmallD_mul_wignerSmallD (d d' i k i' k' : ℕ) (hi : i �
     (hi' : i' ≤ d') (hk' : k' ≤ d') (hm : 2 * (i : ℤ) - d = 2 * i' - d')
     (hn : 2 * (k : ℤ) - d = 2 * k' - d') :
     ∫ β in (0 : ℝ)..π, wignerSmallD d i k β * wignerSmallD d' i' k' β * Real.sin β =
-      if d = d' then 2 / (d + 1) else 0 := by
+      if d = d' then 2 / ((d : ℝ) + 1) else 0 := by
   sorry
 
 /-! ### 3.4 Plancherel on SU(2) -/
