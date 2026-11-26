@@ -48,9 +48,10 @@ The nearest roadmaps, and what passes between them:
   the bound of the Wasserstein distance through its Stein class, which is the Wasserstein half
   of Layer 2. It excludes the total variation and Kolmogorov distances; their Stein bounds are
   owned here, in Layer 1.
-- MathematicalStatisticsHigherOrderAndResampling owns the Berry–Esseen theorem for sums of
-  independent variables, with its own Kolmogorov distance; this roadmap states its Kolmogorov bounds
-  pointwise in the distribution function instead, and nothing passes between the two.
+- [MathematicalStatisticsHigherOrderAndResampling](../MathematicalStatisticsHigherOrderAndResampling/README.md)
+  owns the Berry–Esseen theorem for sums of independent variables, with its own Kolmogorov distance;
+  this roadmap states its Kolmogorov bounds pointwise in the distribution function instead, and
+  nothing passes between the two.
 - [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies
   Stein's identity for Gaussian vectors, used to compare two Gaussian laws and in the
   multivariate smart path.
@@ -60,8 +61,8 @@ The nearest roadmaps, and what passes between them:
 [Suggested.lean](Suggested.lean) states, against the pinned Mathlib and Tau Ceti and each with
 `sorry`, the headlines below that carry a Lean name, each with every conclusion this README
 attaches to it, together with the definitions their statements need. It is not an exhaustive
-acceptance test: the other headlines of this README are targets of the same standing, stated in
-prose with their locators or proof routes.
+acceptance test: the other targets of this README are of the same standing, stated in prose with
+their locators or proof routes.
 
 Suggested home: `TauCeti/Probability/Malliavin/Stein/` for Layers 1–5 and 7, and
 `TauCeti/Probability/BreuerMajor/` for Layer 6.
@@ -113,7 +114,10 @@ where they add something, and *Dependencies*.
   (`Submodule.starProjection`).
 - Hermite polynomials are Mathlib's `Polynomial.hermite`, the monic probabilists' He_q, and the
   Hermite coefficients are a_q = (1/q!) ∫ f He_q dγ, so that f = ∑_q a_q He_q in L²(γ) for the
-  standard Gaussian γ; this is the normalization of Nourdin–Peccati, (7.2.1), p. 129.
+  standard Gaussian γ; this is the normalization of Nourdin–Peccati, (7.2.1), p. 129. The expansion
+  is Tau Ceti's `TauCeti.hasSum_gaussianHermite_expansion`, in the orthonormal basis He_q/√(q!) of
+  `TauCeti.gaussianHermiteHilbertBasis`; its q-th coordinate is ∫ f He_q/√(q!) dγ, so a_q is that
+  coordinate divided by √(q!).
 - In Layer 6 the letter H is the Hurst index, a real number in (0, 1].
 - The implementation namespace is `TauCeti`; the prototypes in `Suggested.lean` live in this
   roadmap's namespace.
@@ -508,10 +512,13 @@ product formula of its §3.3 for I_(p−1) I_(q−1), integration in t, and the 
 
 *Proof route.* One direction is the continuous mapping theorem. For the other, apply §2.3 to
 h(x) = cos⟪t, x⟫ and sin⟪t, x⟫: on chaoses −DL⁻¹F_i = DF_i/qᵢ, and E|C(i, j) −
-⟪DF_j, DF_i⟫/qᵢ| is at most |C(i, j) − E[F_i F_j]| plus √Var⟪DF_i, DF_j⟫/qᵢ, which §5.1 and the
-contraction inequality of §4.1 bound by contractions f_(i,n) ⊗ᵣ f_(i,n) and f_(j,n) ⊗ᵣ f_(j,n) of
-orders 1 ≤ r ≤ q − 1. These tend to 0: by §4.4 for the components with C(i, i) > 0, and for
-those with C(i, i) = 0 because ‖f ⊗ᵣ f‖ ≤ ‖f‖² and qᵢ! ‖f_(i,n)‖² = E F_(i,n)² → 0. §4.4 cannot
+⟪DF_j, DF_i⟫/qᵢ| is at most |C(i, j) − E[F_i F_j]| plus √Var⟪DF_i, DF_j⟫/qᵢ. Write p = qᵢ ≤ q = qⱼ
+(swap i and j otherwise). §5.1, the bound ‖f ⊗̃ᵣ g‖ ≤ ‖f ⊗ᵣ g‖ and the contraction inequality of
+§4.1 bound that variance by a sum of products ‖f_(i,n) ⊗_(p−r) f_(i,n)‖ ‖f_(j,n) ⊗_(q−r) f_(j,n)‖
+over 1 ≤ r ≤ min(p, q − 1). In each, the first factor is at most ‖f_(i,n)‖², which is bounded,
+and the second has order q − r between 1 and q − 1 (q − r ≥ q − p ≥ 1 when p < q). These second
+factors tend to 0: by §4.4 for the components with C(j, j) > 0, and for those with C(j, j) = 0
+because ‖f ⊗ₛ f‖ ≤ ‖f‖² and qⱼ! ‖f_(j,n)‖² = E F_(j,n)² → 0. §4.4 cannot
 be used there, since at σ² = 0 its total-variation condition fails (Checks of Layer 4).
 Characteristic functions converge, and Mathlib's
 `TendstoInDistribution.of_tendsto_charFun` concludes.
@@ -578,7 +585,8 @@ of Theorem 7.2.4, condition (c), pp. 132–133, and the tails are at most
 ∑_v |ρ(v)|^d ∑_(q>N) q! a_q², since |ρ| ≤ 1 (there, condition (d), p. 133).
 
 *Needs:* §5.3; WienerChaosAndMalliavinCalculus §§1.1, 3.1; Mathlib's characteristic functions
-of Gaussian measures.
+of Gaussian measures; Tau Ceti's `TauCeti.hasSum_gaussianHermite_expansion` (the expansion
+f = ∑_q a_q He_q in L²(γ)).
 
 ### 6.2 Quadratic variations in total variation
 
@@ -601,7 +609,7 @@ Young's inequality in this case is Hölder's inequality with exponents (2, 4, 4)
 |(u ∗ v)(j)|² ≤ (∑ₖ |u(k)|⁴ᐟ³ |v(j − k)|⁴ᐟ³) ‖u‖_(ℓ⁴ᐟ³)²ᐟ³ ‖v‖_(ℓ⁴ᐟ³)²ᐟ³, and summing
 over j (Tonelli) gives ‖u‖_(ℓ⁴ᐟ³)² ‖v‖_(ℓ⁴ᐟ³)².
 
-*Needs:* §§4.3, 6.1; Young's inequality on ℤ (the prose target above).
+*Needs:* §§2.2, 4.2, 6.1; Young's inequality on ℤ (the prose target above).
 
 ### 6.3 Fractional Gaussian noise and its Hermite variations
 
@@ -617,13 +625,14 @@ over j (Tonelli) gives ‖u‖_(ℓ⁴ᐟ³)² ‖v‖_(ℓ⁴ᐟ³)².
   N(0, q! ∑_v ρ_H(v)^q) (Nourdin–Peccati, Theorem 7.4.1, (7.4.5), p. 139, for q ≥ 2 and
   H < 1 − 1/(2q); Nualart–Nualart, Section 8.5, p. 147, for q ≥ 2 and H < 1 − 1/(2q)).
 
-*Proof route.* Positive semidefiniteness: ρ_H(k − l) is the covariance of the increments
-Bₖ₊₁ − B_k of the kernel r_H(t, s) = (|t|²ᴴ + |s|²ᴴ − |t − s|²ᴴ)/2, which is
-nonnegative definite by the integral representation of |t|²ᴴ in Nourdin–Peccati, proof of
-Proposition D.1.3, pp. 215–216; expand the increments. Summability: ρ_H(v) =
-H(2H − 1)|v|²ᴴ⁻²(1 + O(v⁻²)) by Taylor's formula applied to the second difference of
-x ↦ |x|²ᴴ, and ρ_(1/2) vanishes off 0; compare with Mathlib's `Real.summable_abs_int_rpow`.
-Hermite variations: §6.1 with f = He_q, whose rank is q by `hermiteRank_hermite`.
+*Proof route.* Positive semidefiniteness: ρ_H(k − l) is the covariance of the increments Bₖ₊₁ − B_k
+of the kernel r_H(t, s) = (|t|²ᴴ + |s|²ᴴ − |t − s|²ᴴ)/2, which is nonnegative definite: for H < 1 by
+the representation |t|²ᴴ = c_H⁻¹ ∫₀^∞ (1 − e^(−u²t²)) u^(−1−2H) du in Nourdin–Peccati, proof of
+Proposition D.1.3, p. 216, and for H = 1 because r₁(t, s) = ts, as there; expand the increments.
+Summability: ρ_H(v) = H(2H − 1)|v|²ᴴ⁻²(1 + O(v⁻²)) by Taylor's formula applied to the second
+difference of x ↦ |x|²ᴴ, and ρ_(1/2) vanishes off 0; compare with Mathlib's
+`Real.summable_abs_int_rpow`. Hermite variations: §6.1 with f = He_q, whose rank is q by
+`hermiteRank_hermite`.
 
 *Needs:* §6.1.
 
@@ -753,17 +762,19 @@ Completion means:
   this roadmap consumes its §§1.1 and 3.1. That roadmap excludes total variation, the Kolmogorov
   distance and the Malliavin–Stein method, which are the subject here.
 - The Berry–Esseen theorem and a named Kolmogorov distance belong to
-  MathematicalStatisticsHigherOrderAndResampling, which takes the Kolmogorov distance from
-  ArithmeticStatisticsPartVIII §5.14; they are not consumed, and Kolmogorov bounds here are
-  pointwise.
+  [MathematicalStatisticsHigherOrderAndResampling](../MathematicalStatisticsHigherOrderAndResampling/README.md),
+  which takes the Kolmogorov distance from
+  [ArithmeticStatisticsPartVIII](../ArithmeticStatisticsPartVIII/README.md) §5.14; they are not
+  consumed, and Kolmogorov bounds here are pointwise.
 - The finite-dimensional Ornstein–Uhlenbeck semigroup with its Mehler kernel and Hermite
   eigenfunctions belongs to OrnsteinUhlenbeckSemigroup; Layer 7 writes the Mehler average inside
   its own definition and does not define a semigroup.
 - Stein's identity for Gaussian vectors is owned by MathematicalStatisticsFoundations §4.4 and the
-  finite-dimensional Gaussian Poincaré inequality by RandomMatrices §2.2; the first is consumed,
-  the second is replaced by its Wiener-space form.
-- Poisson approximation in total variation belongs to PoissonApproximation, and the martingale
-  central limit theorem to MartingaleCentralLimitTheorem; neither is used.
+  finite-dimensional Gaussian Poincaré inequality by [RandomMatrices](../RandomMatrices/README.md)
+  §2.2; the first is consumed, the second is replaced by its Wiener-space form.
+- Poisson approximation in total variation belongs to
+  [PoissonApproximation](../PoissonApproximation/README.md), and the martingale central limit
+  theorem to MartingaleCentralLimitTheorem; neither is used.
 - Gaussian integration by parts, Mehler's formula and the Gaussian Poincaré inequality in finite
   dimension are not targets here: the routes use their Wiener-space forms from
   WienerChaosAndMalliavinCalculus §§6.1, 6.3 and 4.4, and Stein's identity from
@@ -800,6 +811,11 @@ Completion means:
 - `TauCeti.Probability.multivariateGaussian_zero_eq_map_stdGaussian_sqrt`
   (`TauCeti/Probability/Distributions/Gaussian/Multivariate.lean`): N(0, C) is the image of the
   standard Gaussian under C^(1/2), used in §2.3.
+- `TauCeti.hasSum_gaussianHermite_expansion`
+  (`TauCeti/Probability/Distributions/Gaussian/Hermite/Parseval.lean`): every element of L²(γ)
+  is the sum of its expansion in the orthonormal basis `TauCeti.gaussianHermiteHilbertBasis`,
+  whose q-th element is He_q/√(q!); with the normalization of the Conventions, a_q is the q-th
+  coordinate divided by √(q!). Used in the route of §6.1.
 
 ### From other roadmaps
 

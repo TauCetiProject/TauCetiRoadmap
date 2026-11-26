@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.MeasureTheory.OptimalTransport.Wasserstein.Basic
 public import TauCeti.MeasureTheory.Measure.TotalVariation
 public import TauCeti.Probability.Distributions.Gaussian.Multivariate
+public import TauCeti.Probability.Distributions.Gaussian.Hermite.Parseval
 
 /-!
 # The Malliavin–Stein method and the fourth moment theorem: target signatures
@@ -11,9 +12,8 @@ public import TauCeti.Probability.Distributions.Gaussian.Multivariate
 This file is not the roadmap: the roadmap is `README.md`, and this file is not an exhaustive
 checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, the headlines
 of the README that carry a Lean name, each with every conclusion the README attaches to it,
-together with the definitions their statements need. The README's other headlines are targets of
-the same standing, stated there in prose with their locators or proof routes, and are not stated
-here.
+together with the definitions their statements need. The README's other targets are of the same
+standing, stated there in prose with their locators or proof routes, and are not stated here.
 
 The conventions of the README are used throughout. Total variation is Mathlib's `tvDist`, the
 total variation norm of the difference, with values in `[0, 2]`; it is twice the distance `d_TV`
@@ -705,6 +705,8 @@ end SecondOrder
 #check @intervalIntegral.integral_deriv_eq_sub
 #check @TauCeti.wassersteinEDist
 #check @TauCeti.Probability.multivariateGaussian_zero_eq_map_stdGaussian_sqrt
+#check @TauCeti.hasSum_gaussianHermite_expansion
+#check @TauCeti.gaussianHermiteHilbertBasis
 #check @ProbabilityTheory.IsGaussianProcess
 #check @ProbabilityTheory.variance
 #check @MeasureTheory.condExp
