@@ -13,7 +13,12 @@ checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sor
 headlines of the README that carry a Lean name, each with every conclusion the README attaches
 to it, together with the definitions their statements need. The README's other headlines are
 targets of the same standing, stated there in prose with their locators or proof routes, and are
-not stated here.
+not stated here. Two of them have no carrier in the pinned libraries: the complex compound
+calculus of 5.1, since neither Mathlib nor Tau Ceti has compound matrices (their definition
+belongs to the roadmap PadicMeasuresIwasawaAlgebras, Section 6.4), and Araki's log-majorization
+of 5.3, since neither has a weak log-majorization predicate (it belongs to the roadmap
+EigenvalueAndSingularValueInequalities, Section 1.1). The others are corollaries, special cases
+or variants of stated headlines.
 
 The conventions of the README are used throughout. Matrices are complex square matrices over a
 finite index type, ordered by the Loewner order of `open scoped MatrixOrder`, so that `A ≤ B`
@@ -291,10 +296,10 @@ theorem relativeEntropy_kronecker_partialTrace {ρ : Matrix (ι × κ) (ι × κ
         vonNeumannEntropy ρ : ℝ) : EReal) := sorry
 
 /-- **Monotonicity of the mutual information** under a channel on the second factor, in Kraus
-form `1 ⊗ Kⱼ` with `∑ⱼ Kⱼᴴ Kⱼ = 1`. -/
+form `1 ⊗ Kⱼ` with `∑ⱼ Kⱼᴴ Kⱼ = 1`, for every positive semidefinite `ρ`; the trace is not used. -/
 theorem mutualInformation_kraus_le {μ : Type*} [Fintype μ] [DecidableEq μ] {r : ℕ}
     (K : Fin r → Matrix μ κ ℂ) (hK : ∑ j, (K j)ᴴ * K j = 1) {ρ : Matrix (ι × κ) (ι × κ) ℂ}
-    (hρ : ρ.PosSemidef) (htr : ρ.trace = 1) :
+    (hρ : ρ.PosSemidef) :
     let ρ' : Matrix (ι × μ) (ι × μ) ℂ :=
       ∑ j, ((1 : Matrix ι ι ℂ) ⊗ₖ K j) * ρ * ((1 : Matrix ι ι ℂ) ⊗ₖ K j)ᴴ
     vonNeumannEntropy (partialTraceRight ρ') + vonNeumannEntropy (partialTraceLeft ρ') -
@@ -384,7 +389,7 @@ theorem re_trace_mul_pow_le {A B : Matrix ι ι ℂ} (hA : A.PosSemidef) (hB : B
 #check @Matrix.IsHermitian.trace_cfc
 #check @Matrix.IsHermitian.re_trace_cfc_mul_cfc
 #check @Matrix.trace_kronecker
-#check @Matrix.charpoly_mul_comm
+#check @Matrix.charpoly_mul_comm'
 #check @Matrix.unitaryGroup
 #check @Real.negMulLog
 #check @Real.binEntropy
