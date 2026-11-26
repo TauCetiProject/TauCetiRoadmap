@@ -1,6 +1,6 @@
 # Roadmap: theta lift chains and the seesaw identity
 
-This roadmap states the first half of the upper bound in the shorter proof of the Riemann hypothesis for Dirichlet
+**Summary.** This roadmap states the first half of the upper bound in the shorter proof of the Riemann hypothesis for Dirichlet
 L-functions. The argument has this shape. A one-sided bound for a sum over primes gives the zero-free half-plane; the
 bound comes from comparing an upper and a lower bound for the covolume of a lattice of theta lifts, the lattice of the
 images of the target forms on a unitary group `U(Y_0)` under the chains `Θ_ϑ` of `m` theta lifts `Y_0 → Y_1 → ⋯ → Y_m`,
@@ -56,8 +56,7 @@ conjugate pair of places above `N`. `ϖ_M` is a finite idele that generates `(π
 places. `Ω = exp(γ − Re L′/L(1, χ_K))·2π/rd_E`, and `t₀` is the jet scale of DivisibilityOfThetaDerivatives §4.2 (the scale
 `𝔱_E` at which Taylor series of theta functions are taken).
 
-**Weil data.** `E` carries Weil data (DivisibilityOfThetaDerivatives §1.4 (c); ShortGRH background (Weil data of a CM
-field)): a splitting character `υ` (a unitary Hecke character with `υ(x̄) = υ(x)^{−1}` and infinity type
+**Weil data.** `E` carries Weil data (DivisibilityOfThetaDerivatives §1.4 (c); ShortGRH background (Weil data of a CM field containing a primitive root of unity of order `5040`: a splitting character with the scale idele of the additive character; [ShortProof] `Lib/Weil/Construction/WeilData.lean` (`New.WeilData`, `New.SplittingChar`))): a splitting character `υ` (a unitary Hecke character with `υ(x̄) = υ(x)^{−1}` and infinity type
 `∏_τ x_τ/|x_τ|`), a purely imaginary `ȷ ∈ E^×`, and a finite idele `α` such that the standard additive character `ψ`
 of `𝔸_{E,f}` makes `Ô` self-dual. `U(1)(𝔸)` is the group of norm-one ideles; a character of `U(1)(𝔸)/U(1)(F)` *has
 weight* `e : Φ → ℤ` and *tame part* `(ψ_w)_w` (characters of the `𝔽_w^×`) if on norm-one ideles with integral finite
@@ -79,7 +78,7 @@ columns of the finite part of `x`. The *standard definite space* `I_n` has `J = 
 point `g`, the lattice of `g` is the lattice spanned by `x_f g`. `K°(V)` is the stabiliser of `Λ_V` in `G_f`; a *level*
 is an open subgroup `J ⊂ K°(V)`, and `[K° : J]` is its index. For finite places `w_1, …, w_s`, no two equal or conjugate,
 and a subgroup `H ⊂ ∏_i GL_n(𝔽_{w_i})`, `K(w, H)` is the group of `k ∈ K°(V)` whose reductions at the `w_i` lie in `H`
-(ShortGRH background (congruence subgroups and levels of adelic unitary groups)). `J_M := K(chosen places, 1)` is the
+(ShortGRH background (the subgroups `K(w, H)` of the stabiliser of the lattice defined by reductions at finitely many places, no two equal or conjugate, the principal levels, and their indices; [ShortProof] `Lib/Adelic/Unitary/CongruenceLevels.lean` (`New.levelOf`, `New.principalLevel`, `New.relIndex_levelOf`))). `J_M := K(chosen places, 1)` is the
 *chosen level*: integral points that reduce to `1` at every chosen place. `Γ_V = U(V)(F)`, `[U(V)] = Γ_V \ U(V)(𝔸)`,
 with fixed Haar measures. For definite `V`, integration over `[U(V)]` is a class sum.
 
@@ -87,7 +86,7 @@ with fixed Haar measures. For definite `V`, integration over `[U(V)]` is a class
 degree times a conjugated discrete-series coefficient of `U(diag ε)` for a doubled Harish-Chandra parameter `l`), a *form
 of type `e`* on `U(V)` is a bounded continuous function on `[U(V)]` fixed by convolution with `e` at infinity and fixed on
 the right by some level; the forms of type `e` and of a given level with a character form a space with the Petersson
-product (ShortGRH background (discrete-series kernels, cusp kernels and finiteness of spaces of forms)). For the
+product (ShortGRH background (forms of a discrete-series type on an adelic unitary group as the functions fixed by convolution with the type kernel, which is a cusp kernel when the parameter has a large gap; the forms of a type and a level form a finite-dimensional space; [ShortProof] `Lib/Adelic/AutomorphicForms/RealConvolution.lean` (`New.isCuspKernel_typeKernel`), `Lib/Adelic/AutomorphicForms/Cuspidality.lean` (`New.Space.finite_levelSpace`))). For the
 standard definite space `I_n` and a dominant weight `λ = (c, e)` (at each `τ`, `c(τ, h)` columns of height `h` and the
 power `e(τ)` of the determinant), an *algebraic form* of weight `λ` is a smooth function `φ` from `G_f` to the Weyl
 module `V_λ` with `φ(γg) = ρ_λ(γ)φ(g)` for `γ ∈ Γ`; algebraic forms of weight `λ` and automorphic forms of the type of
@@ -101,12 +100,10 @@ characters `a`, `b` of `U(1)(𝔸)`, on a space `𝒮(Hom(V, V′))` of integrab
 Heisenberg action `ϱ`; `θ` is the theta functional, invariant under rational points; `vac` is the vacuum; the
 *finite Heisenberg translate* of a datum by a finite adelic matrix `x` is `ϱ_f(x) := ϱ(α x)` times a root of unity; the
 *finite part* is the span of the finite translates of `vac`; a datum `v_P ⊗ Φ` is the Fock vector of a polynomial `P` at
-the infinite places tensored with a finite part `Φ` (ShortGRH background (the Weil representation of a unitary dual
-pair, its Fock model and the theta functional)). The *theta lift* of a form `z` on `U(V)` with datum `Φ` is
+the infinite places tensored with a finite part `Φ` (ShortGRH background (the Weil representation in the realisation used: for Weil data of `E`, the representation `ω_{a,b}` of `U(V)(𝔸) × U(V′)(𝔸)` on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action, vacuum, finite part, Fock vectors at the real places and theta functional invariant under rational points; [ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.exists_isThetaFunctional`), `Lib/Weil/Construction/VacuumProjections.lean` (`New.Space.finitePart`), `Lib/Weil/Fock/Basic.lean` (`New.Fock.polyVector`), `Lib/Weil/DualPair/Defs.lean` (`New.pairWeil`, `New.pairTheta`))). The *theta lift* of a form `z` on `U(V)` with datum `Φ` is
 `h ↦ ∫_{[U(V)]} θ(ω(g, h)Φ) z(g) dg`; the *transposed lift* integrates over the other group. A datum is an *edge* from
 type `e` to type `e′` if its lifts carry forms of type `e` to forms of type `e′` and back; a joint harmonic polynomial is
-an edge when the two parameters satisfy the block rule below (ShortGRH background (theta lifts between discrete-series
-types)). The *jets* of a datum `F` at scale `s` are the Taylor coefficients `P(∂)Th_s(F)(0)` of its theta function in
+an edge when the two parameters satisfy the block rule below (ShortGRH background (theta lifts between discrete-series types: two families of parameters that satisfy the block rule at every infinite place have a joint harmonic polynomial that is an edge, so that the lifts with that datum carry forms of one type to forms of the other and back; the block rule is kept by a swap, a negation and a shift; [ShortProof] `Lib/DiscreteSeries/Theta/BlockRule.lean` (`New.IsBlockRule`), `Lib/Weil/Lift.lean` (`New.ParamsCorrespond`, `New.ParamsCorrespond.isEdge_jointHarmonic`))). The *jets* of a datum `F` at scale `s` are the Taylor coefficients `P(∂)Th_s(F)(0)` of its theta function in
 Fock coordinates scaled by `s`; the *jet matrix* of a datum for a lift weight is the matrix of its jets along the Schur
 polynomials of the weight, which is the kernel of the class-sum lift between definite spaces (ThetaLiftsForDefiniteUnitaryGroups
 §§1.2, 1.7).
@@ -131,8 +128,7 @@ on `X` and fixing the string. The *shift* `𝔢` and the *generic character* `ψ
 radical are those of the grading. For a second graded space `V′` with a string of length `s − 1`, the *string map*
 `sh : V → V′` kills `X` and sends each string vector to a fixed multiple of the string vector of `V′` with the same
 number. For a finite point `x`, `Λ_x⁻` is the intersection of the lattice of `x` with `X^⊥` and `Λ_x⁺` its projection to
-`X^⊥`; a lattice is *graded* if it contains the part in each grade of each of its vectors (ShortGRH background (graded
-spaces, Bessel subgroups and lattices of points)).
+`X^⊥`; a lattice is *graded* if it contains the part in each grade of each of its vectors (ShortGRH background (graded spaces `X ⊕ string` and their Bessel subgroups `R`, with `[R]` compact and its Haar measure; the lattice of a finite point and its pieces `Λ_x⁻`, `Λ_x⁺`; the character `ψ_U` and the function `𝒲_φ`; [ShortProof] `Lib/Weil/Periods/Grading.lean` (`New.Grading`), `Lib/Weil/Periods/BesselIntegral.lean` (`New.Grading.isCocompact_ratBessel`, `New.Grading.besselMeasure`), `Lib/Weil/Periods/PointLattice.lean` (`New.Space.lattice`, `New.Grading.latticeMinus`, `New.Grading.latticePlus`), `Lib/Weil/Periods/Equivariant.lean` (`New.Grading.unipotentChar`, `New.Grading.sourceFn`))).
 
 **The block rule.** For signs `ε` on `n` and `ε′` on `n′`, doubled parameters `l = 2λ`, `l′ = 2λ′` and integers `γ`,
 `γ′`, the *shifted entries* are `l_i − 2γ′ + |n′|` and `l′_j − 2γ + |n|`. The pair *satisfies the block rule* for
@@ -157,7 +153,7 @@ if they satisfy the block rule at every `τ ∈ Φ`.
 | `vac°, 𝒮_δ` | integral vacuum, standard data | 1.1; DivisibilityOfThetaDerivatives §4.6 (the integral vacuum), §4.8 (standard data) |
 | `X_j, Y_j, W_j, V_j` | the spaces of the chain | 2.1 |
 | `c_τ, e_j, μ(X_j), μ(Y_m), n_τ, br` | columns and last entry of the weights, the weights, the branching exponent and map | 2.2 |
-| `ς, l_Y(j)` | target parameter, doubled parameter of `Y_j` | 2.4 |
+| `ς, l_Y(j)` | target parameter (the row parameter `λ_i(v)` of OneSidedPrimeSumBoundsAndAdmissibleData §3.4), doubled parameter of `Y_j` | 2.4 |
 | `𝖦, e₀` | `∏_w GL_r(𝔽_w)` over the chosen places, the good idempotent | 2.5 |
 | `K_j, J_ϑ(Y_j)` | level of `X_j`, level of `Y_j` for `ϑ` | 2.6 |
 | `𝒜(Y_0), 𝒯` | forms of principal level on `U(Y_0)`, target forms | 2.7 |
@@ -184,11 +180,11 @@ combinations of translates of the vacuum with controlled denominators and size.
 *Method of the formal proof:* definitions; the integral vacuum and the standard data are those of the integral vacuum
 of the shorter proof.
 
-Let `V` be a space of rank `n` over `E`, `q, d ∈ ℕ`, `B ∈ ℝ` and `p` a proposition.
+Let `V` be a space of rank `n` over `E`, `q, d ∈ ℕ`, `B ∈ ℝ` and `𝖯` a condition (in the uses, either a condition that holds or the condition that the twist is trivial, `Q(ϑ) = ∅`: sizes are bounded only for the trivial twist).
 
 (a) *Admissible combinations.* For vectors `(v_x)_{x ∈ A}` of a complex vector space, `z` is an *admissible combination*
-of the `v_x`, `x ∈ A`, with denominator `d` away from `q` and size `B` under `p`, if `z = Σ_x r_x v_x` with finitely
-many `r_x ≠ 0`, all at points of `A`, each `d·r_x` integral away from `q`, and, if `p` holds,
+of the `v_x`, `x ∈ A`, with denominator `d` away from `q` and size `B` under `𝖯`, if `z = Σ_x r_x v_x` with finitely
+many `r_x ≠ 0`, all at points of `A`, each `d·r_x` integral away from `q`, and, if `𝖯` holds,
 `Σ_x |σ(r_x)| ≤ B` for every automorphism `σ` of `ℂ`.
 
 (b) *The integral vacuum and vacuum combinations.* `vac° := c₀^n·vac` is the integral vacuum of `V`, with `c₀ ≠ 0` the
@@ -204,16 +200,14 @@ the translates `ϱ_f(x) vac°` by the vectors `x` that `δ` makes integral at th
 `‖ξ‖_g` is the largest `p`-adic absolute value of a coordinate of `g^{−1}·ι_p(ξ)`, where `g` acts in weight `λ` at each
 `τ` through the `p`-adic embedding `x ↦ ι_p(τ(x̄))`. For a theta kernel `k` between `I_n` and `I_{n′}` (a
 representation `ω` of the finite points on data and a map `Φ ↦ J(Φ)` from data to linear maps `V_λ → V_{λ′}`, the jet
-matrix), finite points `d`, `d′` and `c ∈ ℝ`, a datum `Φ` *raises gauges by at most `c` from `d` to `d′`* if
-`‖J(ω(g, h)Φ)ξ‖_{hd′} ≤ max(c, 0)·‖ξ‖_{gd}` for all finite `g`, `h` and all `ξ`. These data form an additive monoid.
+matrix), finite points `d`, `d′` and a real `c ≥ 0`, a datum `Φ` *raises gauges by at most `c` from `d` to `d′`* if
+`‖J(ω(g, h)Φ)ξ‖_{hd′} ≤ c·‖ξ‖_{gd}` for all finite `g`, `h` and all `ξ`. These data form an additive monoid.
 
 [ShortProof], `New/UpperBound/Seesaw/AdmissibleCombinations.lean` (`New.Seesaw.IsAdmissibleCombination`,
 `New.Seesaw.IsAdmissibleCoeffs`, `New.Seesaw.integralAway`), `New/UpperBound/Kernels/JetConjugatesAndBounds.lean`
 (`New.Parameters.IsVacuumCombination`), `New/UpperBound/Kernels/ThetaLiftGauge.lean` (`New.Kernel.raises`).
 
-*Needs:* DivisibilityOfThetaDerivatives §4.6 (the integral vacuum vector), §4.8 (the standard data); ShortGRH background
-(the Weil representation of a unitary dual pair, its Fock model and the theta functional); ShortGRH background (the
-`p`-adic gauge of a vector of a Weyl module).
+*Needs:* DivisibilityOfThetaDerivatives §4.6 (the integral vacuum vector), §4.8 (the standard data); ShortGRH background (the Weil representation in the realisation used: for Weil data of `E`, the representation `ω_{a,b}` of `U(V)(𝔸) × U(V′)(𝔸)` on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action, vacuum, finite part, Fock vectors at the real places and theta functional invariant under rational points; [ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.exists_isThetaFunctional`), `Lib/Weil/Construction/VacuumProjections.lean` (`New.Space.finitePart`), `Lib/Weil/Fock/Basic.lean` (`New.Fock.polyVector`), `Lib/Weil/DualPair/Defs.lean` (`New.pairWeil`, `New.pairTheta`)); ShortGRH background (the `p`-adic gauge of a vector of a Weyl module at a finite point of a standard definite space: it is ultrametric, and it is unchanged by the points integral above `p`; [ShortProof] `Lib/Adelic/AutomorphicForms/SmoothAlgebraicForms.lean` (`New.weylGauge`), `Lib/Adelic/AutomorphicForms/PAdicGauge.lean` (`New.Rows.weylGauge_add_le_max`, `New.weylGauge_mul_of_mem_integralAbove`)).
 
 ### 1.2 Admissible combinations under substitution, products and the Weil action
 
@@ -224,11 +218,11 @@ that every integrality statement of the upper bound uses.
 of a finite point is computed on a vacuum translate through the finite multiplier, and for (f) the Schrödinger operator
 of a function modulo `𝔪` is expanded over the vectors modulo `𝔪`, whose number divides a power of `q` times `N(g)^n`.
 
-Let `q ∈ ℕ` and let `p` be a proposition.
+Let `q ∈ ℕ` and let `𝖯` be a condition.
 
 (a) *Substitution.* If `z` is an admissible combination of `(v_x)_{x ∈ A}` with denominator `d` and size `B`, and each
 `v_x`, `x ∈ A`, is an admissible combination of `(v′_y)_{y ∈ A′}` with denominator `d′` and size `B′`, then `z` is one of
-the `v′_y` with any denominator `e` divisible by `dd′` and any size `C ≥ B|B′|` (under `p`).
+the `v′_y` with any denominator `e` divisible by `dd′` and any size `C ≥ B|B′|` (under `𝖯`).
 (b) *Bilinear maps and tensor products.* If `z`, `z′` are admissible combinations of `(v_x)_{x∈A}`, `(v′_y)_{y∈A′}` with
 denominators `d`, `d′` and sizes `B`, `B′`, then for every bilinear map `b`, `b(z, z′)` is an admissible combination of
 `b(v_x, v′_y)`, `(x, y) ∈ A × A′`, with denominator `dd′` and size `B|B′|`; and a pure tensor `f_{m−1} ⊗ ⋯ ⊗ f_0` of
@@ -236,29 +230,28 @@ admissible combinations with denominator `d` and size `B` over product index set
 corresponding pure tensors with denominator `d^m` and size `|B|^m`. Linear maps carry admissible combinations to
 admissible combinations of the images.
 (c) *Scalars.* Admissible combinations are stable under multiplication by a scalar integral away from `q` whose
-conjugates (under `p`) have absolute value at most `1`, in particular by `0` and by roots of unity; and if each `v_x` is a
+conjugates (under `𝖯`) have absolute value at most `1`, in particular by `0` and by roots of unity; and if each `v_x` is a
 root of unity times some `v′_y`, an admissible combination of the `v_x` is one of the `v′_y` with the same denominator
 and size.
 (d) *Integrality.* If `z` is an admissible combination of `(v_x)_{x ∈ A}` with denominator `d` away from `q` and `ℓ ∤ q`
 is prime, then `d·z` lies in every `𝒪_{ι_ℓ}`-module that contains the `v_x`.
 (e) *The Weil action on a vacuum translate.* Let `g` be a finite point of `U(V)`, `μ_f(g) = υ(det u)|det u|^{−1/2}` its
 finite multiplier (`uÔ^n = Ô^n ∩ g^{−1}Ô^n`), factored as `μ_f(g) = c·C`. If `A` contains `g(x + z)` for all `z ∈ Ô^n`,
-`d·c/|μ_f(g)|²` is integral away from `q` and (under `p`) all conjugates of `c` have absolute value at most `1`, then
+`d·c/|μ_f(g)|²` is integral away from `q` and (under `𝖯`) all conjugates of `c` have absolute value at most `1`, then
 `ω(1, g)ϱ_f(x)vac` is an admissible combination of the `C·ϱ_f(y)vac`, `y ∈ A`, with denominator `d` away from `q` and size
-`1` under `p`.
+`1` under `𝖯`.
 (f) *Functions modulo an ideal.* Let `𝔪` divide `g·q` and `d·q` (`g ∈ 𝒪_E`, `d ∈ Ô`), let `Ψ` be a function on vectors
-modulo `𝔪` with values integral away from `q` and (under `p`) `Σ_x |σ(Ψ(x))| ≤ B` for all `σ`, and let `v` be the mean of
+modulo `𝔪` with values integral away from `q` and (under `𝖯`) `Σ_x |σ(Ψ(x))| ≤ B` for all `σ`, and let `v` be the mean of
 the `ϱ_f(y)u` over the integral `y` supported at the places dividing `𝔪` and their conjugates. Then the Schrödinger
 operator of `Ψ` sends `u` to an admissible combination of the `ϱ_f(y)v` over the `y` with `d̄y` integral away from `q`,
-with denominator `N(g)^n` away from `q` and size `B` under `p`.
+with denominator `N(g)^n` away from `q` and size `B` under `𝖯`.
 
 [ShortProof], `New/UpperBound/Seesaw/AdmissibleCombinations.lean` (`New.Seesaw.IsAdmissibleCombination.bind`,
 `New.Seesaw.IsAdmissibleCombination.map_bilinear`, `New.Seesaw.IsAdmissibleCombination.pure`,
 `New.Seesaw.IsAdmissibleCombination.smul_mem`, `New.Seesaw.isAdmissibleCombination_weil_vacElem`,
 `New.Seesaw.isAdmissibleCombination_schrodingerOp_of_reduction`).
 
-*Needs:* 1.1; ShortGRH background (the Weil representation of a unitary dual pair, its Fock model and the theta
-functional).
+*Needs:* 1.1; ShortGRH background (the Weil representation in the realisation used: for Weil data of `E`, the representation `ω_{a,b}` of `U(V)(𝔸) × U(V′)(𝔸)` on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action, vacuum, finite part, Fock vectors at the real places and theta functional invariant under rational points; [ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.exists_isThetaFunctional`), `Lib/Weil/Construction/VacuumProjections.lean` (`New.Space.finitePart`), `Lib/Weil/Fock/Basic.lean` (`New.Fock.polyVector`), `Lib/Weil/DualPair/Defs.lean` (`New.pairWeil`, `New.pairTheta`)).
 
 ### 1.3 Galois conjugation of jets
 
@@ -285,9 +278,9 @@ that is Schwartz–Bruhat at `R`, `Ψ ⊗` denoting the Schrödinger operator of
 [ShortProof], `New/UpperBound/Kernels/JetConjugatesAndBounds.lean` (`New.Parameters.exists_isJetConjugation`,
 `New.Parameters.IsJetConjugation.exists_map_schrodingerOp`, `New.Parameters.IsJetConjugation.map_apply_finVec`).
 
-*Needs:* ShortGRH background (the Galois law of the finite Weil representation of a CM field);
+*Needs:* ShortGRH background (the Galois law of the finite part of the Weil representation: a map of the finite part that is semilinear over an automorphism `σ` of `ℂ` and scales the finite Heisenberg translations intertwines the action of a finite point up to the ratio `σ(μ_f)/μ_f` of its finite multiplier; [ShortProof] `Lib/Weil/DualPair/GaloisLaw.lean` (`New.Space.ScalesTranslations`, `New.Space.ScalesTranslations.map_omega`, `New.multiplierRatio`));
 DivisibilityOfThetaDerivatives §1.4 (the field and its characters: the Weil data of `E`), §4.2 (the jet scale);
-ShortGRH background (the Weil representation of a unitary dual pair, its Fock model and the theta functional).
+ShortGRH background (the Weil representation in the realisation used: for Weil data of `E`, the representation `ω_{a,b}` of `U(V)(𝔸) × U(V′)(𝔸)` on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action, vacuum, finite part, Fock vectors at the real places and theta functional invariant under rational points; [ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.exists_isThetaFunctional`), `Lib/Weil/Construction/VacuumProjections.lean` (`New.Space.finitePart`), `Lib/Weil/Fock/Basic.lean` (`New.Fock.polyVector`), `Lib/Weil/DualPair/Defs.lean` (`New.pairWeil`, `New.pairTheta`)).
 
 ### 1.4 Archimedean bounds for the conjugates of jets
 
@@ -314,7 +307,7 @@ let `Q` have conjugate growth `(T, L, w, A)` for `σ`. Then the `σ`-conjugate o
 Schur polynomials of `λ` of the same translated datum at scale `c·t₀`. Then `‖σ(Sξ)‖ ≤ J(B, L, w)·‖σ(ξ)‖` for every vector
 `ξ` of the Weyl module (Gram norms, `σ` applied to coordinates), with `2w = Σ_l (l/L + log l! + l·log(|σ(c)|²/Ω))`, the
 sum over the row lengths `l` of `λ`.
-(d) An admissible combination of the `ϱ_f(x)vac°` of size `B` under a true proposition is a vacuum combination of size
+(d) An admissible combination of the `ϱ_f(x)vac°` of size `B` under a condition that holds is a vacuum combination of size
 `B`.
 
 [ShortProof], `New/UpperBound/Kernels/JetConjugatesAndBounds.lean`
@@ -323,7 +316,7 @@ sum over the row lengths `l` of `λ`.
 `New.Parameters.isVacuumCombination_of_isAdmissibleCombination`).
 
 *Needs:* 1.1, 1.3; DivisibilityOfThetaDerivatives §4.6 (the integral vacuum vector and the bounds for its conjugates);
-ShortGRH background (the Weil representation of a unitary dual pair, its Fock model and the theta functional).
+ShortGRH background (the Weil representation in the realisation used: for Weil data of `E`, the representation `ω_{a,b}` of `U(V)(𝔸) × U(V′)(𝔸)` on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action, vacuum, finite part, Fock vectors at the real places and theta functional invariant under rational points; [ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.exists_isThetaFunctional`), `Lib/Weil/Construction/VacuumProjections.lean` (`New.Space.finitePart`), `Lib/Weil/Fock/Basic.lean` (`New.Fock.polyVector`), `Lib/Weil/DualPair/Defs.lean` (`New.pairWeil`, `New.pairTheta`)).
 
 ### 1.5 `p`-adic gauge bounds for one theta lift
 
@@ -357,7 +350,7 @@ DivisibilityOfThetaDerivatives §3.1.
 
 *Needs:* 1.1; DivisibilityOfThetaDerivatives §3.1 (the predicted divisibility), §4.6 (the integral vacuum vector),
 §4.8 (stability of the standard data), §4.10 (integrality of their jets), §4.11 (divisibility of jets that counts primes);
-ShortGRH background (the `p`-adic gauge of a vector of a Weyl module).
+ShortGRH background (the `p`-adic gauge of a vector of a Weyl module at a finite point of a standard definite space: it is ultrametric, and it is unchanged by the points integral above `p`; [ShortProof] `Lib/Adelic/AutomorphicForms/SmoothAlgebraicForms.lean` (`New.weylGauge`), `Lib/Adelic/AutomorphicForms/PAdicGauge.lean` (`New.Rows.weylGauge_add_le_max`, `New.weylGauge_mul_of_mem_integralAbove`)).
 
 ### 1.6 Data from functions modulo an ideal
 
@@ -404,7 +397,7 @@ prime, `g`, `h` are integral above `p` and the coefficients of `Q` lie in `𝒪_
 [ShortProof], `New/UpperBound/Kernels/DefiniteKernelSize.lean` (`New.Rows.modKernelStdSpace_embFin_mul`,
 `New.Rows.exists_ne_zero_isModKernelScale`).
 
-*Needs:* 1.4, 1.5, 1.6; ShortGRH background (theta kernels of unitary pairs modulo an ideal and their formal laws).
+*Needs:* 1.4, 1.5, 1.6; ShortGRH background (theta kernels of a pair whose finite datum is a function modulo an ideal: invariance under the standard levels on both sides, the kernels of an orthogonal sum, and complex conjugation; [ShortProof] `Lib/Weil/DualPair/Defs.lean` (`New.modKernel`), `Lib/Weil/DualPair/KernelLaws.lean` (`New.modKernel_mul_stdLevel_left`, `New.modKernel_mul_stdLevel_right`, `New.modKernel_sum_right`, `New.exists_conj_modKernel_eq_mul_modKernel_neg`)).
 
 ## Layer 2: Source forms, target forms and chains of lifts
 
@@ -413,6 +406,10 @@ map to forms of principal level on `Y_0` (rank `r`), which `e₀` projects to th
 lifts of the lower chain to `Y_m` (rank `r + mt`). Source forms also go by the `m` lifts of the upper chain to `X_m`
 (rank `r + mt + 1`) and by restriction to `Y_m`. The single lifts of the descent pairs are `W_j` (rank `r`) to `V_j`
 (rank `r + t`).
+
+Two sections of this layer rest on sections of Layer 3 that are independent of the rest of this layer: 2.1 takes the
+glued lattice from 3.2, which uses only the Conventions, and 2.19 takes the grading of `Y_0` from 3.7, which rests on
+2.1, 2.6, 3.2 and 3.4.
 
 ### 2.1 The spaces of the chain
 
@@ -452,7 +449,8 @@ is definite of rank `n_m − 1`. (b) `W_j` has `m − j` signs `−1`, and `W_m`
 ### 2.2 Weights of the definite spaces and the branching map
 
 *Origin:* definitions and conventions; the lemma is elementary, with the existence of an integral branching map from
-the classical branching law from `U(n)` to `U(n − 1)` (ShortGRH background).
+the classical branching law from `U(n)` to `U(n − 1)` (Goodman and Wallach (2009), Theorem 8.1.1;
+IntegralWeylModulesOfGeneralLinearGroups §1.1).
 
 *Method of the formal proof:* the weights are written through their columns, the parameters as staircases of blocks,
 and the interlacing of `μ(X_m)` and `μ(Y_m)` is checked column by column; the branching map is the integral branching
@@ -464,7 +462,9 @@ matrix of the background result for these columns.
 height `h < n_j` and last entry `e_j(τ)`. The kept columns are `c°(h) := Δ/2 − (t + 1)/2` if `h ≥ k` and
 `h ≡ k (mod t + 1)`, else `0`; the weight `μ(Y_m)` of rank `n_m − 1` has
 `c^Y_τ(h) := c°(h) + c_τ(h + 1) − c°(h + 1)` columns of height `h` and last entry `e_m(τ)`. The branching exponent is
-`n_τ := |μ(X_m)_τ| − |μ(Y_m)_τ|` (`|·|` the sum of the entries).
+`n_τ := |μ(X_m)_τ| − |μ(Y_m)_τ|` (`|·|` the sum of the entries). The *lift diagram* of step `j < m` at `τ` is the Young
+diagram with the `n_j` rows `μ(X_j)_τ + κ_{j+1}(τ) − n_{j+1}/2`; by (a) below it has `c_τ(h)` columns of each height
+`h ≤ n_j`, and `μ(X_{j+1})` is this diagram, continued by `0`, shifted by `n_j/2 − κ_{j+1}`.
 
 *Lemma.* (a) `μ(X_j) + ρ` has the doubled Harish-Chandra parameter `[k] + (2a_τ, 0, …, 0)` followed by the blocks
 `−2κ_i + [t + 1]`, `1 ≤ i ≤ j`, where `a_τ = a` on `Φ_a` and `0` elsewhere; `μ(X_{j+1})` is `(μ(X_j) + κ_{j+1} − n_{j+1}/2,
@@ -483,7 +483,9 @@ A fixed such `br` is the *branching map*.
 (`New.Data.isHCParam_paramY`).
 
 *Needs:* OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks, the weights `κ_j`, the gap `Δ` and the order `a`),
-§3.3 (their parities and sizes); ShortGRH background (integral branching matrices for Weyl modules of `GL_n`).
+§3.3 (their parities and sizes); IntegralWeylModulesOfGeneralLinearGroups §1.1 (an equivariant branching map from
+`GL_N` to `GL_{N−1}` for an interlacing pair that preserves the integral structures, its weight for the last coordinate
+and its norm); ShortGRH background (the form used: for an interlacing pair of weights at every place of `Φ`, an integer matrix between the Weyl modules in the coordinates of standard fillings, equivariant for `diag(g, z)` with the character `∏_τ z_τ^{n_τ}` over every field of characteristic `0`, with an explicit bound for its squared norm, whose complex multiples are all the maps equivariant for the unitary block group; [ShortProof] `Lib/GLn/Branching/IntegralMap.lean` (`New.exists_branching_matrix`, `New.SpansBranchingMaps`)).
 
 ### 2.3 Inserting a block into a parameter
 
@@ -511,7 +513,7 @@ for `γ = c̃ + ⌊n/2⌋`, `γ′ = c̃ + ⌊n′/2⌋`. (b) If `c` is up, `−
 [ShortProof], `New/UpperBound/Objects/InsertBlock.lean` (`New.CentreSystem.IsParam.isBlockRule_insert_of_down`,
 `New.CentreSystem.IsParam.isBlockRule_neg_insert_of_up`, `New.CentreSystem.IsParam.hasGap`).
 
-*Needs:* ShortGRH background (theta lifts between discrete-series types; the block rule).
+*Needs:* ShortGRH background (theta lifts between discrete-series types: two families of parameters that satisfy the block rule at every infinite place have a joint harmonic polynomial that is an edge, so that the lifts with that datum carry forms of one type to forms of the other and back; the block rule is kept by a swap, a negation and a shift; [ShortProof] `Lib/DiscreteSeries/Theta/BlockRule.lean` (`New.IsBlockRule`), `Lib/Weil/Lift.lean` (`New.ParamsCorrespond`, `New.ParamsCorrespond.isEdge_jointHarmonic`)).
 
 ### 2.4 The grids of spaces and their parameters
 
@@ -522,11 +524,13 @@ inserts one block, so the parameters of consecutive nodes correspond.
 the steps taken so far; the separation of the system comes from the gap `Δ` between the weights `κ_l`, and 2.3 gives the
 block rule for each step; the interlacing at `(m, m)` is a count of entries above each integer.
 
-*Definitions.* The *target parameter* `ς(τ) ∈ ℤ^r` has the entries `k/2 − 1, k/2 − 2, …, 1 − k/2` (`k − 1` of them)
-followed by `Δ/2 − κ_1(τ), …, Δ/2 − κ_m(τ)`, so `ς_{r} = −κ_{m+½}` continues it. For `i, j ≥ 0` and an offset `o ≥ 0`:
+*Definitions.* The *target parameter* `ς(τ) ∈ ℤ^r` is the row parameter of OneSidedPrimeSumBoundsAndAdmissibleData §3.4
+at the place `τ`, read on its first `r` entries: `ς(τ) = (λ_0(τ), …, λ_{r−1}(τ))`, which is `k/2 − 1, k/2 − 2, …, 1 − k/2`
+(`k − 1` entries) followed by `Δ/2 − κ_1(τ), …, Δ/2 − κ_m(τ)`; the next entry of the row parameter,
+`λ_r(τ) = Δ/2 − κ_{m+1}(τ)`, continues it. For `i, j ≥ 0` and an offset `o ≥ 0`:
 - *grid `Y`, node `(i, j)`*: index set the basis of `Y_0`, then `i` blocks of `t`, then `j` blocks of `t` (rank
-  `r + (i + j)t`); the base index with number `n` has sign `(−1)^{o + a + min(a − o, j)}` (truncated subtractions,
-  `a = n + 1 − k`) and the added indices sign `+1`; the doubled parameter is `2ς(τ)` on the base, the block
+  `r + (i + j)t`); the base index with number `n` has sign `(−1)^{o + a + min(max(a − o, 0), j)}` with
+  `a = max(n + 1 − k, 0)` and the added indices sign `+1`; the doubled parameter is `2ς(τ)` on the base, the block
   `2κ_l(τ) + [t]` (doubled) for the `l`-th block of the first kind (`1 ≤ l ≤ i`) and `−2κ_{l+o}(τ) + [t]` for the `l`-th
   block of the second kind (`1 ≤ l ≤ j`), all lowered by `1` if `i + j` is odd;
 - *grid `Ỹ`, node `(i, j)`*: index set the basis of `Y_0` and one more index, then `i` blocks of `t + 1`, then `j` blocks of
@@ -553,7 +557,7 @@ parameters of `(i, j)` and `(i, j + 1)` correspond for the weights `⌊N/2⌋ �
 (`New.Data.paramsCorrespond_paramY`).
 
 *Needs:* 2.3; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks, the weights `κ_j` and the gap `Δ`), §3.3 (their
-sizes); ShortGRH background (theta lifts between discrete-series types; the block rule).
+sizes), §3.4 (the row parameter); ShortGRH background (theta lifts between discrete-series types: two families of parameters that satisfy the block rule at every infinite place have a joint harmonic polynomial that is an edge, so that the lifts with that datum carry forms of one type to forms of the other and back; the block rule is kept by a swap, a negation and a shift; [ShortProof] `Lib/DiscreteSeries/Theta/BlockRule.lean` (`New.IsBlockRule`), `Lib/Weil/Lift.lean` (`New.ParamsCorrespond`, `New.ParamsCorrespond.isEdge_jointHarmonic`)).
 
 ### 2.5 Labels, the group `𝖦` and the good idempotent
 
@@ -627,7 +631,7 @@ kernel of order `Δ/2`, and `𝒜(V)` is finite-dimensional.
 `New.Data.goodForms`, `New.Data.targetForms`, `New.Data.targetDim`, `New.Data.hasGap_signsY_paramW`,
 `New.Data.hasGap_paramW`, `New.Data.isCuspKernel_typeKernel_paramW`).
 
-*Needs:* 2.1, 2.4, 2.5; ShortGRH background (discrete-series kernels, cusp kernels and finiteness of spaces of forms).
+*Needs:* 2.1, 2.4, 2.5; ShortGRH background (forms of a discrete-series type on an adelic unitary group as the functions fixed by convolution with the type kernel, which is a cusp kernel when the parameter has a large gap; the forms of a type and a level form a finite-dimensional space; [ShortProof] `Lib/Adelic/AutomorphicForms/RealConvolution.lean` (`New.isCuspKernel_typeKernel`), `Lib/Adelic/AutomorphicForms/Cuspidality.lean` (`New.Space.finite_levelSpace`)).
 
 ### 2.8 Source forms, ramified source forms and the lifts between the `X_j`
 
@@ -639,7 +643,7 @@ jet matrix of the theta function of the translated datum.
 - The *source forms* `𝒮_X` are the algebraic forms on `U(X_0)` of weight `μ(X_0)` (weight `(a, 0, …, 0)` at the
   `a`-places and `0` elsewhere) fixed by `K_0`. `𝒜_j` denotes the algebraic forms on `U(X_j)` of weight `μ(X_j)`.
 - For `w ∈ P_N` fix a *scaling* `z_w`: an integral norm-one idele, `1` away from `w` and `w̄`, whose component at `w`
-  generates `𝔽_w^×`. The *ramified source forms* are
+  generates `𝔽_w^×` (one exists, by CompositeThetaLiftsAndShortForms §2.9 (a)). The *ramified source forms* are
   `𝒮_X^{ram} := {φ ∈ 𝒮_X : Σ_{0 ≤ i < N−1} z_w^i·φ = 0 for every w ∈ P_N}`, `z_w` acting by right translation by the
   scalar `z_w`.
 - For a tame character `ϑ` and `j ≥ 0`, the *lift* `L_j^ϑ(Φ) : 𝒜_j → 𝒜_{j+1}` with finite datum `Φ` in the finite part of
@@ -806,8 +810,7 @@ corner entry of `R′T′` (`T′ = T·diag(1, …, 1, N)_{P∩S}`, `R′ = diag
 [ShortProof], `New/UpperBound/Objects/Columns.lean` (`New.IsSplitLevel.sum_translate_eq_gluedDatum`,
 `New.IsSplitLevel.doubleLiftGluing_eq_sum_schrodingerOpAt`, `New.IsSplitLevel.pairWeilFinite_schrodingerOpAt`).
 
-*Needs:* 2.11, 2.12; ShortGRH background (the Weil representation of a unitary dual pair, its Fock model and the theta
-functional).
+*Needs:* 2.11, 2.12; ShortGRH background (the Weil representation in the realisation used: for Weil data of `E`, the representation `ω_{a,b}` of `U(V)(𝔸) × U(V′)(𝔸)` on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action, vacuum, finite part, Fock vectors at the real places and theta functional invariant under rational points; [ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.exists_isThetaFunctional`), `Lib/Weil/Construction/VacuumProjections.lean` (`New.Space.finitePart`), `Lib/Weil/Fock/Basic.lean` (`New.Fock.polyVector`), `Lib/Weil/DualPair/Defs.lean` (`New.pairWeil`, `New.pairTheta`)).
 
 ### 2.14 The lifts above `N` and the ramified source forms
 
@@ -864,8 +867,8 @@ places and to `1` at `Q(ϑ)`.
 `New.Data.lowerChain_mem_levelSpace`, `New.Data.algFormRep_lowerChain`, `New.Data.lowerChain_principalRep`),
 `New/UpperBound/Objects/Rows.lean` (`New.Data.pointDatumY`, `New.Data.thetaKernelY_omega_pointDatumY_eq_smul`).
 
-*Needs:* 2.1, 2.2, 2.4, 2.5, 2.6, 2.7; ShortGRH background (theta lifts between discrete-series types; the block rule);
-ShortGRH background (the Weil representation of a unitary dual pair, its Fock model and the theta functional).
+*Needs:* 2.1, 2.2, 2.4, 2.5, 2.6, 2.7; ShortGRH background (theta lifts between discrete-series types: two families of parameters that satisfy the block rule at every infinite place have a joint harmonic polynomial that is an edge, so that the lifts with that datum carry forms of one type to forms of the other and back; the block rule is kept by a swap, a negation and a shift; [ShortProof] `Lib/DiscreteSeries/Theta/BlockRule.lean` (`New.IsBlockRule`), `Lib/Weil/Lift.lean` (`New.ParamsCorrespond`, `New.ParamsCorrespond.isEdge_jointHarmonic`));
+ShortGRH background (the Weil representation in the realisation used: for Weil data of `E`, the representation `ω_{a,b}` of `U(V)(𝔸) × U(V′)(𝔸)` on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action, vacuum, finite part, Fock vectors at the real places and theta functional invariant under rational points; [ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.exists_isThetaFunctional`), `Lib/Weil/Construction/VacuumProjections.lean` (`New.Space.finitePart`), `Lib/Weil/Fock/Basic.lean` (`New.Fock.polyVector`), `Lib/Weil/DualPair/Defs.lean` (`New.pairWeil`, `New.pairTheta`)).
 
 ### 2.16 Descent pairs
 
@@ -900,8 +903,7 @@ numbering lists the basis vectors of each sign by decreasing `±l`, and `k^±(τ
 `New.DescentPair.FormV`, `New.DescentPair.blockDatum`, `New.DescentPair.normalizedDescent`,
 `New.DescentPair.HasLiftHeckePolynomial`, `New.DescentPair.paramV`, `New.DescentPair.FitsParams`).
 
-*Needs:* ShortGRH background (congruence subgroups and levels of adelic unitary groups); ShortGRH background (the Weil
-representation of a unitary dual pair, its Fock model and the theta functional).
+*Needs:* ShortGRH background (the subgroups `K(w, H)` of the stabiliser of the lattice defined by reductions at finitely many places, no two equal or conjugate, the principal levels, and their indices; [ShortProof] `Lib/Adelic/Unitary/CongruenceLevels.lean` (`New.levelOf`, `New.principalLevel`, `New.relIndex_levelOf`)); ShortGRH background (the Weil representation in the realisation used: for Weil data of `E`, the representation `ω_{a,b}` of `U(V)(𝔸) × U(V′)(𝔸)` on the data space `𝒮(Hom(V, V′))`, with its Heisenberg action, vacuum, finite part, Fock vectors at the real places and theta functional invariant under rational points; [ShortProof] `Lib/Weil/Construction/AdelicRepresentation.lean` (`New.Space.exists_isThetaFunctional`), `Lib/Weil/Construction/VacuumProjections.lean` (`New.Space.finitePart`), `Lib/Weil/Fock/Basic.lean` (`New.Fock.polyVector`), `Lib/Weil/DualPair/Defs.lean` (`New.pairWeil`, `New.pairTheta`)).
 
 ### 2.17 The block datum, the edge and the descent of a descent pair
 
@@ -927,8 +929,7 @@ the transposed lift, from `V` to `W`, of the conjugate of the automorphic form o
 `New.DescentPair.omega_blockDatum_eq_smul`, `New.DescentPair.FitsParams.isEdge`,
 `New.DescentPair.FitsParams.exists_isJointHarmonic`, `New.DescentPair.normalizedDescent_eq_smul_star_lift_swap`).
 
-*Needs:* 2.16; ThetaLiftsForDefiniteUnitaryGroups §1.2; ShortGRH background (theta lifts between discrete-series types;
-the block rule).
+*Needs:* 2.16; ThetaLiftsForDefiniteUnitaryGroups §1.2; ShortGRH background (theta lifts between discrete-series types: two families of parameters that satisfy the block rule at every infinite place have a joint harmonic polynomial that is an edge, so that the lifts with that datum carry forms of one type to forms of the other and back; the block rule is kept by a swap, a negation and a shift; [ShortProof] `Lib/DiscreteSeries/Theta/BlockRule.lean` (`New.IsBlockRule`), `Lib/Weil/Lift.lean` (`New.ParamsCorrespond`, `New.ParamsCorrespond.isEdge_jointHarmonic`)).
 
 ### 2.18 The descent pairs of the chain
 
@@ -973,7 +974,7 @@ For an archimedean point `g` of `U(Y_0)`, the *Poincaré map* `𝒫 = 𝒫_{g,t}
 `New.Data.inner_poincareAt`, `New.Data.poincareAt_smul`, `New.Data.integral_mul_poincareAt`,
 `New.Data.isEquivariant_sourceFn`).
 
-*Needs:* 2.7, 2.8, 3.7; ShortGRH background (graded spaces, Bessel subgroups and lattices of points).
+*Needs:* 2.7, 2.8, 3.7; ShortGRH background (graded spaces `X ⊕ string` and their Bessel subgroups `R`, with `[R]` compact and its Haar measure; the lattice of a finite point and its pieces `Λ_x⁻`, `Λ_x⁺`; the character `ψ_U` and the function `𝒲_φ`; [ShortProof] `Lib/Weil/Periods/Grading.lean` (`New.Grading`), `Lib/Weil/Periods/BesselIntegral.lean` (`New.Grading.isCocompact_ratBessel`, `New.Grading.besselMeasure`), `Lib/Weil/Periods/PointLattice.lean` (`New.Space.lattice`, `New.Grading.latticeMinus`, `New.Grading.latticePlus`), `Lib/Weil/Periods/Equivariant.lean` (`New.Grading.unipotentChar`, `New.Grading.sourceFn`)).
 
 ## Layer 3: The seesaw identity
 
@@ -999,7 +1000,7 @@ integrals are `1` on the support.
 
 Let `S`, `A`, `J` be subgroups of the finite unitary group `G_f` of a space with `J ⊂ A` levels, and `T` a finite set of
 cosets of `J`. The *cover multiplicity* `mult(t)` of a coset `t` is the number of classes of `r ∈ S` modulo `S ∩ A` with
-`r^{−1}t ∈ T` (`0` if infinite). (a) It is constant on `S`-orbits. (b) If `D` is compact, every `x ∈ D` lies in a subgroup
+`r^{−1}t ∈ T`, and `mult(t) := 0` if there are infinitely many. (a) It is constant on `S`-orbits. (b) If `D` is compact, every `x ∈ D` lies in a subgroup
 `B ⊃ A` and has `n` with `(xux^{−1})^{q^n} ∈ A` for all `u ∈ J`, and a property `W` forces the `S`-orbit of a point to meet
 `D`, then there is a finite `T` stable under `S ∩ A`, inside `B`, with `mult(x)` dividing a power of `q` whenever `xJ ∈ T`
 or `W(x)`. (c) Let `Y` be a grading with Bessel subgroup `R`, finite part `R_f`, `A` a level and `a` a function on the
@@ -1012,7 +1013,7 @@ every `b` on cosets of `J` with `∫_{[R]} f(r t) dr = [K° : J]·a(t_∞)b(t_f)
 `New.Seesaw.coverMultiplicity_smul`, `New.Seesaw.exists_finset_coverMultiplicity_dvd_pow`,
 `New.Grading.exists_integral_eq_sum_over_cut`).
 
-*Needs:* ShortGRH background (graded spaces, Bessel subgroups and lattices of points).
+*Needs:* ShortGRH background (graded spaces `X ⊕ string` and their Bessel subgroups `R`, with `[R]` compact and its Haar measure; the lattice of a finite point and its pieces `Λ_x⁻`, `Λ_x⁺`; the character `ψ_U` and the function `𝒲_φ`; [ShortProof] `Lib/Weil/Periods/Grading.lean` (`New.Grading`), `Lib/Weil/Periods/BesselIntegral.lean` (`New.Grading.isCocompact_ratBessel`, `New.Grading.besselMeasure`), `Lib/Weil/Periods/PointLattice.lean` (`New.Space.lattice`, `New.Grading.latticeMinus`, `New.Grading.latticePlus`), `Lib/Weil/Periods/Equivariant.lean` (`New.Grading.unipotentChar`, `New.Grading.sourceFn`)).
 
 ### 3.2 Glued lattices of graded spaces
 
@@ -1037,7 +1038,7 @@ with the middle vector (for odd `s`); it is unimodular over every subring of the
 `New.Grading.SpansLattice`, `New.Seesaw.IsSplitSquarefree`, `New.Seesaw.gram_gradedLatticeBasis_eq_gluedGram`,
 `New.Seesaw.isUnimodular_gradedLatticeBasis_gram`, `New.Seesaw.exists_conjTranspose_mul_gradedGram_mul_eq_signMatrix`).
 
-*Needs:* ShortGRH background (graded spaces, Bessel subgroups and lattices of points).
+*Needs:* ShortGRH background (graded spaces `X ⊕ string` and their Bessel subgroups `R`, with `[R]` compact and its Haar measure; the lattice of a finite point and its pieces `Λ_x⁻`, `Λ_x⁺`; the character `ψ_U` and the function `𝒲_φ`; [ShortProof] `Lib/Weil/Periods/Grading.lean` (`New.Grading`), `Lib/Weil/Periods/BesselIntegral.lean` (`New.Grading.isCocompact_ratBessel`, `New.Grading.besselMeasure`), `Lib/Weil/Periods/PointLattice.lean` (`New.Space.lattice`, `New.Grading.latticeMinus`, `New.Grading.latticePlus`), `Lib/Weil/Periods/Equivariant.lean` (`New.Grading.unipotentChar`, `New.Grading.sourceFn`)).
 
 ### 3.3 The glued lattice line by line
 
@@ -1106,7 +1107,7 @@ has a bounded orbit for `k = 0`.
 `New.Grading.smul_latticeMinus_le_of_map_latticePlus`, `New.Grading.SpansLattice.hasLatticeBounds_or_latticeSplitsAt`,
 `New.Grading.LatticeSplitsAt.conj_scalarFin_mem`, `New.Grading.SpansLattice.hasBoundedOrbit_zero`).
 
-*Needs:* 3.2, 3.3; ShortGRH background (graded spaces, Bessel subgroups and lattices of points).
+*Needs:* 3.2, 3.3; ShortGRH background (graded spaces `X ⊕ string` and their Bessel subgroups `R`, with `[R]` compact and its Haar measure; the lattice of a finite point and its pieces `Λ_x⁻`, `Λ_x⁺`; the character `ψ_U` and the function `𝒲_φ`; [ShortProof] `Lib/Weil/Periods/Grading.lean` (`New.Grading`), `Lib/Weil/Periods/BesselIntegral.lean` (`New.Grading.isCocompact_ratBessel`, `New.Grading.besselMeasure`), `Lib/Weil/Periods/PointLattice.lean` (`New.Space.lattice`, `New.Grading.latticeMinus`, `New.Grading.latticePlus`), `Lib/Weil/Periods/Equivariant.lean` (`New.Grading.unipotentChar`, `New.Grading.sourceFn`), `Lib/Weil/Periods/LatticeBounds.lean` (`New.Grading.exists_finite_representatives`)).
 
 ### 3.6 The shift at a nonzero constant term
 
@@ -1125,7 +1126,7 @@ the lattices of `rx_f`, `r′x′_f` graded, then `(b̄/α)·sh` maps `Λ_{rx}�
 [ShortProof], `New/UpperBound/Seesaw/Frequency.lean` (`New.Grading.smul_map_stringMapFin_latticePlus_le`,
 `New.Grading.exists_mapsTo_lattice_hasDegreeGe_sub_smul_stringMap`, `New.Grading.IsGraded.mulVec_mem_of_homogeneous`).
 
-*Needs:* 3.2; ShortGRH background (graded spaces, Bessel subgroups and lattices of points).
+*Needs:* 3.2; ShortGRH background (graded spaces `X ⊕ string` and their Bessel subgroups `R`, with `[R]` compact and its Haar measure; the lattice of a finite point and its pieces `Λ_x⁻`, `Λ_x⁺`; the character `ψ_U` and the function `𝒲_φ`; [ShortProof] `Lib/Weil/Periods/Grading.lean` (`New.Grading`), `Lib/Weil/Periods/BesselIntegral.lean` (`New.Grading.isCocompact_ratBessel`, `New.Grading.besselMeasure`), `Lib/Weil/Periods/PointLattice.lean` (`New.Space.lattice`, `New.Grading.latticeMinus`, `New.Grading.latticePlus`), `Lib/Weil/Periods/Equivariant.lean` (`New.Grading.unipotentChar`, `New.Grading.sourceFn`)).
 
 ### 3.7 The gradings, lattices and levels of the spaces `Y_k`
 
@@ -1182,7 +1183,7 @@ pair for `i = ϱ`. For finite points `y_k` of `U(Y_k)` the *evaluated datum* of 
 `New.Seesaw.middleDoubleLift`, `New.Seesaw.lastDoubleLift`, `New.Data.doubleLiftEvalY`, `New.Data.evaluatedDatum`,
 `New.Data.translatedPointDatumY`, `New.Data.residueMatrixCount`).
 
-*Needs:* 2.15, 3.7; ShortGRH background (zero terms and the mixed model of the Weil representation).
+*Needs:* 2.15, 3.7; ShortGRH background (the mixed model of the Weil representation along an isotropic splitting: the zero term `𝒮(V) → 𝒮(V₀)`, the theta functional as a sum of slices, and the zero terms of a pair under the Levi part and the radical; [ShortProof] `Lib/Weil/MixedModel/ZeroTerm.lean` (`New.Space.Splitting.zeroTerm`, `New.Space.Splitting.hasSum_theta_slice`), `Lib/Weil/DualPair/MixedModel.lean` (`New.Space.Splitting.homTarget_zeroTerm_pairWeil`)).
 
 ### 3.9 The neighbour lattice of a pair of edges
 
@@ -1220,7 +1221,7 @@ In the setting of 3.9, the *glued translate* of `t = (t_1, t_2)` is `Glue(ϱ_f(t
 `Hom(X ⊔ {e}, X′)`, `Hom(X′, X″ ⊔ {e″})`. Let `x` vanish above `N` and have rows of denominator at most `β` (first block) and
 `β̄` (second block) away from `n`. Then the translate by `x` of `Σ_{(y, c)} ϱ_f(T_y + t_c)vac`, read on the two edges, is an
 admissible combination of the `K·(glued translate of t)`, `K` the number of classes, over the `t` with `β̄t_1`, `β̄t_2`
-integral away from `n`, with denominator the number of matrices modulo `β` and size `1` under any proposition.
+integral away from `n`, with denominator the number of matrices modulo `β` and size `1` under any condition.
 
 [ShortProof], `New/UpperBound/Seesaw/NeighbourVacuum.lean` (`New.Seesaw.gluedTranslate`, `New.Seesaw.IsAdmissibleEval`,
 `New.Seesaw.isAdmissibleCombination_finHeisenbergOp_sum_neighbourCosetRep`).
@@ -1289,8 +1290,7 @@ action on `Hom(X′, X⁻ ⊕ X″)`.
 
 [ShortProof], `New/UpperBound/Seesaw/UnfoldingStages.lean` (`New.Seesaw.DoubleLiftData.exists_integral_constTermAtStringMap_mul_eq`).
 
-*Needs:* 3.8; ShortGRH background (graded spaces, Bessel subgroups and lattices of points); ShortGRH background (zero
-terms and the mixed model of the Weil representation); ShortGRH background (seesaw identity for periods of theta lifts).
+*Needs:* 3.8; ShortGRH background (graded spaces `X ⊕ string` and their Bessel subgroups `R`, with `[R]` compact and its Haar measure; the lattice of a finite point and its pieces `Λ_x⁻`, `Λ_x⁺`; the character `ψ_U` and the function `𝒲_φ`; [ShortProof] `Lib/Weil/Periods/Grading.lean` (`New.Grading`), `Lib/Weil/Periods/BesselIntegral.lean` (`New.Grading.isCocompact_ratBessel`, `New.Grading.besselMeasure`), `Lib/Weil/Periods/PointLattice.lean` (`New.Space.lattice`, `New.Grading.latticeMinus`, `New.Grading.latticePlus`), `Lib/Weil/Periods/Equivariant.lean` (`New.Grading.unipotentChar`, `New.Grading.sourceFn`)); ShortGRH background (the mixed model of the Weil representation along an isotropic splitting: the zero term `𝒮(V) → 𝒮(V₀)`, the theta functional as a sum of slices, and the zero terms of a pair under the Levi part and the radical; [ShortProof] `Lib/Weil/MixedModel/ZeroTerm.lean` (`New.Space.Splitting.zeroTerm`, `New.Space.Splitting.hasSum_theta_slice`), `Lib/Weil/DualPair/MixedModel.lean` (`New.Space.Splitting.homTarget_zeroTerm_pairWeil`)); ShortGRH background (one step of the unfolding of a theta integral over the Bessel subgroup of a graded space: for a `ψ_U`-equivariant function `W` and a form `y` of rapid decay, `∫_{[R]} W(r) ∫ θ(ω(r, h)Φ) y(h) dh dr` is the integral over the next Bessel quotient of `y` times the integral of `W` against the constant term along the string map; [ShortProof] `Lib/Weil/Periods/Unfolding.lean` (`New.Grading.hasSum_unfoldStep`, `New.Grading.integral_besselGroup_unfold`), `Lib/Weil/Periods/ConstantTerm.lean` (`New.Grading.constTermAtStringMap`)).
 
 ### 3.14 The functions of the unfolding
 
@@ -1381,8 +1381,7 @@ For every linear form `t` on `V_{μ(X_m)}` there is `C ∈ ℂ` such that for ev
 [ShortProof], `New/UpperBound/Seesaw/SeesawIdentity.lean` (`New.Data.exists_integral_eq_mul_inner_restrictToFormY`,
 `New.Data.lowerChain_eq_of_lowerChainUpTo_eq`).
 
-*Needs:* 2.2, 2.12, 2.15; ThetaLiftsForDefiniteUnitaryGroups §1.2; ShortGRH background (Schur orthogonality for
-matrix coefficients of algebraic forms on a definite group).
+*Needs:* 2.2, 2.12, 2.15; ThetaLiftsForDefiniteUnitaryGroups §1.2; ShortGRH background (Schur orthogonality for the algebraic representation `ρ` of weight `(κ, e)` restricted to the compact group `U(n)^Φ`, with Haar measure of mass one: `∫ ⟨a, ρ(x⁻¹)b⟩·f(ρ(x)c) dx = (dim ρ)⁻¹·⟨a, c⟩·f(b)` for a linear form `f`; [ShortProof] `Lib/GLn/SchurModule/SchurOrthogonality.lean` (`New.schur_orthogonality`)).
 
 ### 3.18 The outer integrals of the seesaw
 
@@ -1450,8 +1449,80 @@ twist `ϑ` there is a chain datum `Ψ` for `ϑ` (2.12) with
 
 *Needs:* 2.12, 2.15, 2.19, 3.17, 3.19; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the data), §3.4 (the twists).
 
+## Downstream consumers
+
+- CompositeThetaLiftsAndShortForms uses the gauges and the bounds for one kernel (1.1 (d), 1.4, 1.5), the spaces,
+  weights, lift diagrams and levels (2.1, 2.2, 2.6), the group `𝖦`, `e₀`, the forms of principal level and the lower
+  chain (2.5, 2.7, 2.15), source forms, scalings, ramified source forms and the lifts (2.8), and the operator `Up`,
+  chain data, the glued datum at `N` and the lifts above `N` (2.11 to 2.14).
+- OneSidedPrimeSumBoundsAndAdmissibleData §§5.1–5.4 use the spaces (2.1), `𝖦` and `e₀` (2.5), source forms (2.8), the
+  lower chain (2.15), the Poincaré map (2.19) and the seesaw identity (3.20).
+- SecondMomentsOfPoincareSeries uses the spaces, the grids and the target parameter (2.1, 2.4), `e₀`, good forms and
+  target forms (2.5, 2.7), source forms (2.8), free levels (2.10) and the Poincaré map (2.19).
+- DeterminantsOfThetaLiftChains and CongruencesOfTwistedThetaLifts use the spaces and grids (2.1, 2.4), labels and `e₀`
+  (2.5), characters and levels (2.6), good forms (2.7), the orders of stabilisers (2.10), the lower chain (2.15) and the
+  descent pairs (2.16, 2.18).
+- NormsOfThetaLiftsAndExchangeIdentities uses the estimates for one kernel (1.3 to 1.6), the spaces, labels, good forms
+  and stabiliser orders (2.1, 2.5, 2.7, 2.10) and the descent pairs with their block datum (2.16 to 2.18).
+- SelmerBoundsForAnticyclotomicTwists uses the orders of stabilisers (2.10).
+
+## Scope and ownership
+
+### Owned here
+
+- The estimates for one theta kernel between standard definite spaces: admissible combinations, Galois conjugates of
+  jets, archimedean and `p`-adic bounds, data modulo an ideal, integrality and size (Layer 1).
+- The objects of the chain: the spaces `X_j`, `Y_j`, `W_j`, `V_j`, their weights and grids, labels and the good
+  idempotent, levels, good forms and target forms, source forms and ramified source forms, the lifts and chain data,
+  the composite lift, the lower chain, descent pairs and the Poincaré map (Layer 2).
+- The seesaw identity and the unfolding that proves it (Layer 3).
+
+### Not owned here
+
+- The data, the row parameter, twists and the characters `μ_j⁰`: OneSidedPrimeSumBoundsAndAdmissibleData §3.2, §3.4.
+- Weil data of `E`, the jet scale, the integral vacuum and standard data: DivisibilityOfThetaDerivatives §1.4, §4.2,
+  §4.6, §4.8.
+- The divisibility and the size of the composite lift: CompositeThetaLiftsAndShortForms.
+- The Weil representation, its Fock and mixed models, theta lifts between discrete-series types, graded spaces with
+  their Bessel subgroups, and automorphic forms of a discrete-series type are background results of [ShortProof], in
+  its own realisation (a data space `𝒮(V)` built from Weil data with one splitting character `υ`, twisted by characters
+  of `U(1)`). ThetaKernelsForUnitaryDualPairs §3.45 and §4.4a state the Fock model and the global Weil representation
+  of a unitary pair on Schwartz functions with two splitting characters `χ_V`, `χ_W`; no section states the
+  identification of the two realisations, so the *Needs:* lines here name the realisation used as background.
+- SeesawForThetaChains §6.2 (the double step) and §6.14 (the seesaw identity) are the corresponding statements for the
+  chain of ThetaChainsOnDefiniteUnitaryGroups. There the identity is between periods: the top period of the column
+  chain against a row form is a root of unity, depending on the tuple of characters, times a pairing with a descended
+  row. Sections 3.13 to 3.20 here state an identity between forms, `Θ_ϑ(𝒫_{g,t}φ) = c·comp_ϑ(Ψ)(φ)`, for the data of
+  this family, with one constant for all twists and with control of the chain datum `Ψ`; neither is deduced from the
+  other.
+
+## Exact supplier contracts
+
+### From OneSidedPrimeSumBoundsAndAdmissibleData
+
+§2.1, §2.2 (the parameters and the field); §3.2 (admissible data: ranks, weights `κ_j`, gap, scales, level primes);
+§3.3 (parities and sizes); §3.4 (the row parameter, twists and the characters `μ_j⁰` of the lifts).
+
+### From DivisibilityOfThetaDerivatives
+
+§1.4 (Weil data and the splitting character `υ`); §3.1 (the predicted divisibility of a family of Young diagrams);
+§4.2 (the jet scale `t₀`); §4.6 (the integral vacuum and its scale `c₀`); §4.8 (standard data); §§4.10–4.11 (integrality
+and divisibility of jets).
+
+### From other roadmaps
+
+ThetaLiftsForDefiniteUnitaryGroups §1.2 (algebraic forms on a definite group and the lift as a class sum), §1.7 (the
+kernel as a Fock pairing); FiniteReductiveGroups §5.7 (the characters and the central idempotent of a label);
+HermitianFormsAndLattices §4.9, §5.2 (lattices and the orders of finite stabilisers);
+IntegralWeylModulesOfGeneralLinearGroups §1.1 (integral branching).
+
 ## References
 
+- `[ShortProof]`: the folder `grh` of <https://github.com/lsernau/grh-lean> at commit
+  `72fead102f663d5c7a407964a13dc0cf9d977207`; this roadmap covers `src/New/UpperBound/Kernels`,
+  `src/New/UpperBound/Objects` and `src/New/UpperBound/Seesaw`.
+- R. Goodman, N. Wallach, *Symmetry, Representations, and Invariants*, Graduate Texts in Mathematics 255 (2009):
+  Theorem 8.1.1 (2.2).
 - B. Gross, *Algebraic modular forms*, Israel J. Math. 113 (1999), 61–93: the class set of a group compact at infinity
   (3.1, 3.17; 2.17).
 - B. P. J. Wang (Bryan Wang Peng Jun), *Global theta lifting and automorphic periods associated to nilpotent orbits*,
