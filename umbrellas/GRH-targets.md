@@ -566,7 +566,7 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 - [ ] `ArithmeticGaloisRepresentations.1.4` — §1.4 Discrete coefficients and finite image (needs: ArithmeticGaloisRepresentations.1.1)
 - [ ] `ArithmeticGaloisRepresentations.1.7` — §1.7 Semisimplification and absolute irreducibility (needs: none)
 - [ ] `ArithmeticGaloisRepresentations.1.8` — §1.8 Brauer–Nesbitt (needs: none)
-- [ ] `ArithmeticGaloisRepresentations.2.1` — §2.1 Decomposition groups (serves: IdelicReciprocityCountsAndCyclotomicClassGroups; needs: ArithmeticGaloisRepresentations.1.1, ArithmeticGaloisRepresentations.1.2, ArithmeticGaloisRepresentations.1.3, ArithmeticGaloisRepresentations.1.4)
+- [ ] `ArithmeticGaloisRepresentations.2.1` — §2.1 Decomposition groups (serves: IdelicReciprocityCountsAndCyclotomicClassGroups; needs: ArithmeticGaloisRepresentations.1.1, ArithmeticGaloisRepresentations.1.2, ArithmeticGaloisRepresentations.1.3, ArithmeticGaloisRepresentations.1.4, SubspaceTheorem.0.1, SubspaceTheorem.0.2)
 - [ ] `ArithmeticGaloisRepresentations.2.1a` — §2.1a Arithmetic transport of the henselian-trait tame character (serves: IdelicReciprocityCountsAndCyclotomicClassGroups; needs: ArithmeticGaloisRepresentations.2.1, EtaleCohomologyFoundations.F.3a)
 - [ ] `ArithmeticGaloisRepresentations.2.2` — §2.2 Ramification and Frobenius (serves: IdelicReciprocityCountsAndCyclotomicClassGroups; needs: ClassFieldTheory.9.1)
 - [ ] `ArithmeticGaloisRepresentations.2.7` — §2.7 Local constants (needs: AnalyticNumberTheoryPartII.5.3g, AnalyticNumberTheoryPartII.5.3j, ClassFieldTheory.7.1, ClassFieldTheory.9.1, ClassFieldTheory.11.1, ClassFieldTheory.12.1)
@@ -3123,6 +3123,8 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 - [ ] `StableReduction.J-A2` — §J-A2 (needs: none)
 
 ## SubspaceTheorem
+- [ ] `SubspaceTheorem.0.1` — §0.1 Absolute values above a place (needs: none)
+- [ ] `SubspaceTheorem.0.2` — §0.2 Conjugate absolute values (needs: SubspaceTheorem.0.1)
 - [ ] `SubspaceTheorem.4.1` — §4.1 Approximation domains (needs: none)
 - [ ] `SubspaceTheorem.4.2` — §4.2 Successive minima over K (needs: SubspaceTheorem.4.1)
 
@@ -3678,7 +3680,7 @@ change. A line starting with `>` records a dependency dropped to break a cycle.
 - [ ] `HolomorphicDiscreteSeriesOfUnitaryGroups.8.4` — §8.4 The Casimir operators of an oscillator pair (needs: HolomorphicDiscreteSeriesOfUnitaryGroups.4.1, HolomorphicDiscreteSeriesOfUnitaryGroups.4.2, HolomorphicDiscreteSeriesOfUnitaryGroups.8.1)
 - [ ] `HolomorphicDiscreteSeriesOfUnitaryGroups.8.5` — §8.5 Existence of joint harmonics and Howe's argument (serves: WeilRepresentationsOnBanachSpacesOfData; needs: HolomorphicDiscreteSeriesOfUnitaryGroups.8.1, HolomorphicDiscreteSeriesOfUnitaryGroups.8.3)
 - [ ] `HolomorphicDiscreteSeriesOfUnitaryGroups.8.6` — §8.6 The local theta correspondence for oscillator pairs (serves: WeilRepresentationsOnBanachSpacesOfData; needs: HolomorphicDiscreteSeriesOfUnitaryGroups.5.4, HolomorphicDiscreteSeriesOfUnitaryGroups.6.1, HolomorphicDiscreteSeriesOfUnitaryGroups.8.1, HolomorphicDiscreteSeriesOfUnitaryGroups.8.3, HolomorphicDiscreteSeriesOfUnitaryGroups.8.4, HolomorphicDiscreteSeriesOfUnitaryGroups.8.5)
-- [ ] `IdelicReciprocityCountsAndCyclotomicClassGroups.1.1` — §1.1 Places of Ω, decomposition and inertia groups, Frobenius elements (serves: SelmerBoundsForAnticyclotomicTwists, GaloisRepresentationsOfUnitaryEigenforms, PadicComparisonForFunctorCohomology and 1 more; needs: none)
+- [ ] `IdelicReciprocityCountsAndCyclotomicClassGroups.1.1` — §1.1 Places of Ω, decomposition and inertia groups, Frobenius elements (serves: SelmerBoundsForAnticyclotomicTwists, GaloisRepresentationsOfUnitaryEigenforms, PadicComparisonForFunctorCohomology and 1 more; needs: ArithmeticGaloisRepresentations.2.1)
 - [ ] `IdelicReciprocityCountsAndCyclotomicClassGroups.1.2` — §1.2 Places above a prime and embeddings into p-adic fields (needs: ArithmeticGaloisRepresentations.2.1, ArithmeticGaloisRepresentations.2.2, IdelicReciprocityCountsAndCyclotomicClassGroups.1.1)
 - [ ] `IdelicReciprocityCountsAndCyclotomicClassGroups.1.3` — §1.3 Decomposition groups as absolute Galois groups of completions (serves: GaloisRepresentationsOfUnitaryEigenforms, PadicComparisonForFunctorCohomology; needs: ArithmeticGaloisRepresentations.2.1, IdelicReciprocityCountsAndCyclotomicClassGroups.1.1, IdelicReciprocityCountsAndCyclotomicClassGroups.1.2)
 - [ ] `IdelicReciprocityCountsAndCyclotomicClassGroups.1.4` — §1.4 Frobenius, inertia, roots of unity and tame inertia at a place of Ω (serves: SelmerBoundsForAnticyclotomicTwists, GaloisRepresentationsOfUnitaryEigenforms; needs: ArithmeticGaloisRepresentations.2.1a, IdelicReciprocityCountsAndCyclotomicClassGroups.1.1, IdelicReciprocityCountsAndCyclotomicClassGroups.1.2, IdelicReciprocityCountsAndCyclotomicClassGroups.1.3)
