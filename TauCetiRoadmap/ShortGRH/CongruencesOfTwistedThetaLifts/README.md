@@ -31,7 +31,8 @@ twist, the traces of the normalised representations of the lifted eigenforms up 
 cyclotomic character.
 
 The roadmap rests on OneSidedPrimeSumBoundsAndAdmissibleData for the data (fields, places, sizes, level, twists,
-heights); on ThetaLiftChainsAndTheSeesawIdentity for the descent pairs, the good forms and the lifts `W_j → V_j`; on
+heights); on ThetaLiftChainsAndTheSeesawIdentity for the descent pairs and the good forms; on
+DeterminantsOfThetaLiftChains for the lifts `W_j → V_j` and the main pairs; on
 NormsOfThetaLiftsAndExchangeIdentities for the false lifts and the denominator predicate; and on
 SelmerBoundsForAnticyclotomicTwists for the twisting theorem and the local losses above `ℓ`. Its regular families are
 used by DeterminantsOfThetaLiftChains, which defines them and proves Theorem C with them.
@@ -45,9 +46,13 @@ Ribet's element and the bound for denominators. Layer 7 chooses the twists and s
 
 ## Conventions and notation
 
-Notation not restated here is that of OneSidedPrimeSumBoundsAndAdmissibleData (the data), whose letters follow the
-reading guide of the formal proof; descent pairs, labels, good forms and lifts are those of
-ThetaLiftChainsAndTheSeesawIdentity.
+Notation not restated here is that of OneSidedPrimeSumBoundsAndAdmissibleData §2.1 (the parameters), §2.2 (the field
+and its infinite places), §3.2 (admissible data), §3.3 (their sizes), §3.4 (twists and the characters of the lifts)
+and §4.1 (the unit of the errors), whose letters follow the reading guide of the formal proof, and of
+DivisibilityOfThetaDerivatives §1.5 (the chosen places and the residue characters `ω`). Descent pairs, labels, good
+forms and lifts are those of ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs), §2.18 (the descent pairs of
+the chain), §2.5 (labels and the idempotent `e₀`), §2.7 (good forms) and of DeterminantsOfThetaLiftChains §2.1 (the
+lift of a descent pair).
 
 **Data and fields.** `D` is admissible data. `E = K(ζ)` is its CM field, `K = ℚ(√−d)`, `F = E⁺`, `f` the number of
 infinite places of `E`, `Φ` its CM type, and for an embedding `σ : E → ℂ`, `ε(σ) = 1` if `σ ∈ Φ` and `ε(σ) = −1`
@@ -65,9 +70,9 @@ places and of order `q₂` at them. `n_GL` is the product over the chosen places
 
 **Twists.** A *twist* `ϑ` is a tame automorphic character of `U(1)` of weight `0`, with tame part `ϑ_tame` nontrivial
 at every place of its modulus `Q(ϑ)`; an `m`-fold twist `τ` has `τ_tame,w^n ≠ 1` for `w ∈ Q(τ)` and `1 ≤ n ≤ m`, and
-`τ^j` denotes its `j`-th power as a twist (OneSidedPrimeSumBoundsAndAdmissibleData (the data)). The *level places* of
-`D` for `ϑ` are the chosen places and the places of `Q(ϑ)` (ThetaLiftChainsAndTheSeesawIdentity (the level places of
-the data for a twist)).
+`τ^j` denotes its `j`-th power as a twist (OneSidedPrimeSumBoundsAndAdmissibleData §3.4 (tame characters, twists and
+`m`-fold twists)). The *level places* of `D` for `ϑ` are the chosen places and the places of `Q(ϑ)`
+(ThetaLiftChainsAndTheSeesawIdentity §2.6 (the level places of a twist)).
 
 **Coefficients.** `ℓ` is a prime and `ι : ℂ ≃ ℚ̄_ℓ` a fixed isomorphism. A *coefficient ring* is the ring of integers
 `O` of a finite Galois extension of `ℚ_ℓ` in `ℚ̄_ℓ`, with fraction field `K_O`; "for all large `O`" means for all
@@ -83,10 +88,25 @@ inertia, and a *Frobenius datum* is a place `w` of prime norm, a place `A` over 
 there. "For most Frobenii" refers to the filter of the formal proof: a set of Frobenius data belongs to it if every
 nonempty open set of `G_E` has a nonempty open part `U` such that, for almost all `w`, it contains every datum with
 Frobenius in `U`; "near `g`" refines this by Frobenius near `g` (ShortGRH background (most Frobenii)). `R` is
-*attached* to a system `H` of Hecke polynomials if, for each `η > 0` and most Frobenii at `w`, the coefficients of the
-characteristic polynomial of the Frobenius are within `η` of those of `ι(H_w)` (ShortGRH background (Galois
-representations of eigensystems, in the weak sense)). The *avatar* of an algebraic Hecke character is its `ℓ`-adic
-Galois character through `ι`; `ψ_ϑ` is the avatar of the base change of `ϑ⁻¹` to `E`.
+*attached* to a system `H` of Hecke polynomials if three things hold: `R` is continuous; the trace form
+`(X, Y) ↦ tr(XY)` is nondegenerate on the `ℚ̄_ℓ`-span of `R(G_E)`; and, for each `η > 0` and most Frobenius data
+`(w, A, s)`, the coefficients of the characteristic polynomial `det(X − R(s))` of the geometric Frobenius element `s`
+are within `η` of those of `ι(H_w)` (ShortGRH background (Galois representations of eigensystems, in the weak
+sense)). The first two conditions are part of the definition: a representation that is not semisimple can satisfy the
+third alone. A system of Hecke polynomials may have several attached representations; a statement about "`R` attached
+to `H`" is about every one of them. The *avatar* of an algebraic Hecke character is its `ℓ`-adic Galois character
+through `ι`; `ψ_ϑ` is the avatar of the base change of `ϑ⁻¹` to `E`.
+
+**Frobenius elements and Hodge–Tate jumps.** Frobenius elements in this roadmap are geometric: the inverse of an
+element that stabilises `A` and acts on residues as `x ↦ x^{Nw}`. (SelmerBoundsForAnticyclotomicTwists uses the
+arithmetic Frobenius element, and writes `χ` for the cyclotomic character itself, where this roadmap writes
+`χ = cyc⁻¹`.) Hodge–Tate jumps have the sign of SelmerBoundsForAnticyclotomicTwists §3.1: for a `ℤ_ℓ`-algebra map
+`γ` from the coefficients to `ℂ_ℓ`, the multiplicity of the jump `u` of a representation on `T` is the dimension of
+the space of `γ`-semilinear maps `f : T → ℂ_ℓ` with `f(gx) = cyc(g)^{−u}·g(f(x))` for `g` near `1` in the
+decomposition group. So `cyc` has the jump `−1`, `χ = cyc⁻¹` has the jump `1`, and `O(−e) = χ^e` has the jump `e`.
+For a weight `κ` on a unitary group of rank `N`, with highest weight `λ_1(v) ≥ … ≥ λ_N(v)` at the infinite place `v`,
+*the jumps of `κ` in rank `N`* are the family that has, at `σ : E → ℂ` over `v`, the `N` integers `j − 1 − λ_j(v)`,
+`1 ≤ j ≤ N`, if `σ ∈ Φ`, and the `N` integers `λ_j(v) + N − j` if `σ ∉ Φ`.
 
 **Places and sets of places.** A finite set `Q` of places of `E` is *auxiliary* for a set `S` if its places have prime
 norm, neither they nor their conjugates lie in `S`, and no conjugate of a place of `Q` lies in `Q`. `Q̄` is the set of
@@ -97,7 +117,7 @@ it is *primitive* if it is irreducible with a root generating the units of the e
 of Green's characters of `GL_n` of the field, and its idempotent is the central idempotent of that character (ShortGRH
 background (Green's characters of `GL_n` over a finite field and the idempotents of labels)).
 
-**Descent pairs.** A descent pair `O` (ThetaLiftChainsAndTheSeesawIdentity (descent pairs)) has a hermitian space `W`
+**Descent pairs.** A descent pair `O` (ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs)) has a hermitian space `W`
 of rank `r_O`, the standard definite space `V` of rank `n_O > r_O`, `t_O = n_O − r_O`, chosen places `w_i`, twist
 places, weights, and a character `μ_O` of `U(1)` of weight `w_O` with tame part `ψ_O`. `F(O)` is the space of algebraic
 forms on `V` of the weight and level of `O`, with its Petersson product; `T_{w,i}` are the Hecke operators at a split
@@ -105,34 +125,54 @@ place `w` off the places of `O` and their conjugates, and the Hecke polynomial o
 `Σ_{i ≤ n_O} (−x)^i q_w^{i(i−1)/2} T_{w,i}`. The *normalising character* `χ_O` is the avatar of the algebraic Hecke
 character made from the inverse of the character of `W`, of weight `−r_O`; the *normalised representation* of `R` is
 `R ⊗ χ_O`. For a twist `ϑ` and `1 ≤ j ≤ m`, `O_j(ϑ)` is the `j`-th descent pair for `ϑ` (`W = W_j`, `V = V_j` of rank
-`r + t`, character of weight `−κ_j` twisted by `ϑ`), and `Z_j(ϑ) ⊂ F(O_j(ϑ))` is the space of lifts, the image of the
-good forms on `W_j` under the lift `W_j → V_j`. A *system* is a space of forms with given Hecke eigenvalues at almost
-all places; it carries Hecke polynomials and an attached representation.
+`r + t`, character of weight `−κ_j` twisted by `ϑ`; ThetaLiftChainsAndTheSeesawIdentity §2.18 (the descent pairs of
+the chain)), and `Z_j(ϑ) ⊂ F(O_j(ϑ))` is the space of lifts, the image of the good forms on `W_j`
+(ThetaLiftChainsAndTheSeesawIdentity §2.7 (good forms)) under the lift `W_j → V_j` (DeterminantsOfThetaLiftChains §2.1
+(the lift of a descent pair)). A *system* is a space of forms with given Hecke eigenvalues at almost
+all places; it carries Hecke polynomials and an attached representation, chosen once among those attached to them.
+The *weight of `O`* is the weight of the forms of `F(O)` on `V`, and *the jumps of the weight of `O`* are its jumps in
+rank `n_O` (above). The *normalised jumps* `J_O` of `O` are these jumps, each lowered at `σ` by the exponent at `σ` of
+the infinity type of the algebraic Hecke character whose avatar is `χ_O`; they are the jumps of the normalised
+representation `R ⊗ χ_O` of a representation `R` with the jumps of the weight of `O`. This defines `J_O` for `n_O`
+of either parity; 2.6 (a) writes it out when `n_O` is even.
+
+**Base data.** *Base data* `B` on the standard definite space `V` of rank `n`, for a weight `κ` and an integer
+`n_B ≥ 1`, consist of: a finite set `S_B` of finite places of `E`; a space `F_B` of algebraic forms of weight `κ` on
+`V`, stable under every operator on the forms of weight `κ` that commutes with the translations by the components at
+`S_B ∪ S̄_B` of the integral points of `U(V)(𝔸_f)`, and on which some open subgroup acts by a character through its
+components at `S_B ∪ S̄_B`; such that `n_B` is a common multiple of the orders of the stabilisers `Γ ∩ gK₀g⁻¹`, `Γ`
+the rational points of `U(V)`, `K₀` the integral points and `g ∈ U(V)(𝔸_f)`. For a finite family `u` of finite places
+of `E`, the *forms of `B` of level `u`* are the forms of `F_B` fixed by the components, at the places off
+`S_B ∪ S̄_B`, of the integral points that reduce to `1` at the places of `u`; the *forms of base level* are those of
+level `u = ∅`, and "principal level at `u`" means level `u`. A *system of `B` at level `u`* is a system that contains
+a nonzero form of `B` of level `u`; the *base systems* are those at level `∅`. A form of `B` is *integral above `ℓ`*
+if its values at the points whose components above `ℓ` are integral have coordinates that `ι` sends to integers of
+`ℚ̄_ℓ`. These are the base data of the Taylor–Wiles method on a definite unitary group (ShortGRH background (base data
+of the Taylor–Wiles method on a definite unitary group)).
 
 **Labels of the formal proof.** Under each heading, `*Origin:*` says where the statement comes from and
 `*Method of the formal proof:*` how the shorter formal proof proves it; `[ShortProof]` names the file and declaration
-where it does. Sections cite the sibling roadmaps of this family by name, with the result in words where a section
-number is not fixed.
+where it does. Sections cite the sibling roadmaps of this family by section number, `<Roadmap> §k.n`.
 
 ### Table of symbols
 
 | Symbol | Meaning | Defined |
 |---|---|---|
-| `D, E, K, F, f, Φ, ε(σ)` | data, CM field, `ℚ(√−d)`, `E⁺`, number of infinite places, CM type, sign of an embedding | OneSidedPrimeSumBoundsAndAdmissibleData (the data); Conventions |
+| `D, E, K, F, f, Φ, ε(σ)` | data, CM field, `ℚ(√−d)`, `E⁺`, number of infinite places, CM type, sign of an embedding | OneSidedPrimeSumBoundsAndAdmissibleData §2.1, §2.2, §3.2; Conventions |
 | `Ω, G_E, c, g^c` | algebraic closure of `ℚ`, `Gal(Ω/E)`, complex conjugation, `cgc` | Conventions |
-| `p₀, p₁, M, N, π_M` | level primes, `p₀p₁`, level, the integer whose divisors are the chosen places | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `m, r, k, t` | number of lifts, ranks, `k = r + 1 − m`, `t = 5r` | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `Δ, h_Δ, κ_j, λ_q(v)` | gap `2r⁸`, `r⁸`, lift weight, target parameter | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `x, x₁, b, a, u_err, B_den` | scales, `xb`, `f·a·(log b)³`, `u_err/(mk)` | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
-| `ω, q₂` | residue characters at the chosen places, their order | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
+| `p₀, p₁, M, N, π_M` | level primes, `p₀p₁`, level, the integer whose divisors are the chosen places | OneSidedPrimeSumBoundsAndAdmissibleData §3.2; chosen places DivisibilityOfThetaDerivatives §1.5 |
+| `m, r, k, t` | number of lifts, ranks, `k = r + 1 − m`, `t = 5r` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
+| `Δ, h_Δ, κ_j, λ_q(v)` | gap `2r⁸`, `r⁸`, lift weight, target parameter | OneSidedPrimeSumBoundsAndAdmissibleData §3.2, §3.4 (there the row parameter); ThetaLiftChainsAndTheSeesawIdentity §2.4 |
+| `x, x₁, b, a, u_err, B_den` | scales, `xb`, `f·a·(log b)³`, `u_err/(mk)` | OneSidedPrimeSumBoundsAndAdmissibleData §3.2, §4.1; Conventions |
+| `ω, q₂` | residue characters at the chosen places, their order | DivisibilityOfThetaDerivatives §1.5; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 |
 | `n_GL` | `∏_{w chosen} #GL_{rt}(k_w)` | Conventions |
-| `ϑ, Q(ϑ), ϑ_tame, τ^j` | twist, its modulus, tame part, `j`-th power of an `m`-fold twist | OneSidedPrimeSumBoundsAndAdmissibleData (the data) |
+| `ϑ, Q(ϑ), ϑ_tame, τ^j` | twist, its modulus, tame part, `j`-th power of an `m`-fold twist | OneSidedPrimeSumBoundsAndAdmissibleData §3.4 |
 | `ℓ, ι, O, K_O, v_ℓ` | prime, `ℂ ≃ ℚ̄_ℓ`, coefficient ring, its fraction field, valuation | Conventions |
 | `cyc, χ, O(−e), G_ν` | cyclotomic character, its inverse, Tate twist, kernel modulo `ℓ^ν` | Conventions |
 | `ψ_ϑ, χ_O` | avatar of `ϑ⁻¹`, normalising character of a descent pair | Conventions |
-| `O, r_O, n_O, t_O, w_i, μ_O, ψ_O, w_O, F(O)` | descent pair and its data, forms on `V` | ThetaLiftChainsAndTheSeesawIdentity (descent pairs) |
-| `O_j(ϑ), Z_j(ϑ)` | `j`-th descent pair for `ϑ`, space of lifts | ThetaLiftChainsAndTheSeesawIdentity (the lifts `W_j → V_j`) |
-| `e₀` | idempotent of the good forms | ThetaLiftChainsAndTheSeesawIdentity (good forms) |
+| `O, r_O, n_O, t_O, w_i, μ_O, ψ_O, w_O, F(O)` | descent pair and its data, forms on `V` | ThetaLiftChainsAndTheSeesawIdentity §2.16 |
+| `O_j(ϑ), Z_j(ϑ)` | `j`-th descent pair for `ϑ`, space of lifts | ThetaLiftChainsAndTheSeesawIdentity §2.18; DeterminantsOfThetaLiftChains §2.1 (the lift) |
+| `e₀` | idempotent of the good forms | ThetaLiftChainsAndTheSeesawIdentity §2.5 |
 | `c̃_i, e_c` | scaled label, type projection | 1.4 |
 | `e′_ℓ` | the twist allowance `(4f + 3)·r·v_ℓ(n_GL) + 2^(−ℓ)` | 1.5 |
 | `sel(ρ, Q, γ)` | crystalline Selmer length with divisible coefficients | 1.5 |
@@ -160,7 +200,7 @@ auxiliary sets. In addition:
 
 - a representation `R` is *of finite type* at a place `A` of `Ω` if it is trivial on an open subgroup of inertia at
   `A` when `A ∤ ℓ`, and potentially crystalline at `A` when `A | ℓ`; it *has jumps* `J`, a multiset `J(σ)` of
-  integers for each `σ : E → ℂ`, at `A` if its Hodge–Tate weights at the embeddings `ι∘σ` inducing `A` are `J(σ)`; it
+  integers for each `σ : E → ℂ`, at `A` if its Hodge–Tate jumps (with the sign of the Conventions) at the embeddings `ι∘σ` inducing `A` are `J(σ)`; it
   is *good* at `A` if it is unramified (crystalline above `ℓ`); a polynomial `P` *kills* an inertia element `s` at `A`
   if `P(R(s)) = 0` (above `ℓ`, the analogous condition on the Weil–Deligne datum of the periods);
 - for a lattice `ρ` over `O`, a set `T` of places, an `O`-module `B` and a set `L` of linear relations, the *Selmer
@@ -173,7 +213,7 @@ auxiliary sets. In addition:
 *Needs:* ShortGRH background (most Frobenii); ShortGRH background (Galois representations of eigensystems, in the
 weak sense); ShortGRH background (`ℓ`-adic avatars of algebraic Hecke characters); ShortGRH background (finite type,
 Hodge–Tate jumps and crystalline relations at places of `Ω`); ShortGRH background (continuous cocycles and Selmer
-modules); ThetaLiftChainsAndTheSeesawIdentity (descent pairs).
+modules); ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs).
 
 [ShortProof], `New/Congruences/GaloisRepresentations/SelmerHypotheses` (`New.Selmer.badPlaces`, `New.Selmer.normalizingAvatar`, `New.Selmer.normalisedRep`, `New.Data.TameChar.invAvatar`)
 
@@ -207,8 +247,8 @@ finite places of `E`.
 
 *Origin:* definitions and conventions.
 
-*Method of the formal proof:* the conditions are those that the twisting theorem (SelmerBoundsForAnticyclotomicTwists)
-and Ribet's method (6.4, 6.5) use; the residual consequences (5) follow from the spanning clause by linear algebra.
+*Method of the formal proof:* the conditions are those that the twisting theorem (SelmerBoundsForAnticyclotomicTwists
+§5.4) and Ribet's method (6.4, 6.5) use; the residual consequences (5) follow from the spanning clause by linear algebra.
 
 1. *Weight conditions.* For `1 ≤ r′ ≤ r` and `t′ ≤ t`, jumps `J` satisfy the *main-summand weight conditions* for
    `(r′, t′)` if there is `j ≤ m` such that every `u ∈ J(σ)` is low, `Δ ≤ 4|u|` and `|u| ≤ 2mΔ`, or high,
@@ -230,14 +270,14 @@ and Ribet's method (6.4, 6.5) use; the residual consequences (5) follow from the
 4. *Main summand of a pair and a system.* For a descent pair `O` and a system of Hecke eigenvalues `z`, `R` is a main
    summand for `(O, z)` if it is a main summand with string length `t_O` for some jumps, and for every tame character
    `ϑ`, every descent pair `V′` with `μ_{V′} = μ_O·ϑ`, every eigenform `y` for `V′` lifting `z` (its Hecke polynomials
-   at the split places off the level are those of a lift of `z`, ThetaLiftChainsAndTheSeesawIdentity (lifted Hecke
-   polynomials)), with Hecke polynomials `H`, and every `S′` attached to `H`, the normalised representation of `S′`
+   at the split places off the level are those of a lift of `z`, ThetaLiftChainsAndTheSeesawIdentity §2.16 (the Hecke
+   polynomial of a lift)), with Hecke polynomials `H`, and every `S′` attached to `H`, the normalised representation of `S′`
    for `V′` has lift trace `(ψ_ϑ, R, t_{V′})`.
 5. *Residual consequences.* If `R` is a main summand of rank `r′`, then for all large `O`: (a) for every lattice `u`
    and every ring map `O → k` to a field, the only `u(G_E)`-stable subspaces of `k^{r′}` are `0` and `k^{r′}`; (b) if
    `R` has matrices over `O` in two bases `B`, `B′`, then `B′ = α·B·κ` with `α ∈ ℚ̄_ℓ^×` and `κ ∈ GL_{r′}(O)`.
 
-*Needs:* 1.1, 1.2; ThetaLiftChainsAndTheSeesawIdentity (lifted Hecke polynomials).
+*Needs:* 1.1, 1.2; ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs and lifted Hecke polynomials).
 
 [ShortProof], `New/Congruences/GaloisRepresentations/SelmerHypotheses` (`New.Selmer.IsMainSummandLike`, `New.Selmer.HasLiftTrace`, `New.Selmer.IsMainSummand`, `New.Selmer.IsMainSummandLike.eventually_lattice_unique`), with the weight conditions in `New/Congruences/LocalLoss/Basic` (`New.Selmer.IsMainSummandWeights`)
 
@@ -268,7 +308,7 @@ and every split place `w` with `w, w̄` off the places of `O`;
 (c) infinitely many split places of `E` lie, with their conjugates, off the places of `O`.
 
 *Needs:* 1.1; ShortGRH background (Green's characters of `GL_n` over a finite field and the idempotents of labels);
-ThetaLiftChainsAndTheSeesawIdentity (descent pairs; the level places of the data for a twist).
+ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs), §2.6 (the level places of a twist).
 
 [ShortProof], `New/Congruences/GaloisRepresentations/SelmerHypotheses` (`New.Selmer.IsLiftSetting`, `New.Selmer.scaledTypePoly`, `New.Selmer.typeProjection`, `New.Selmer.IsLiftSetting.range_typeProjection_mem_invtSubmodule`)
 
@@ -318,10 +358,11 @@ most Frobenii near `g`.
 
 (a) Let `f ≠ 0` be a form in rank `k′ + 1`, spherical at a split place `w` and at `w̄`, with Hecke polynomials `Q_w`,
 `Q_{w̄}`. Then `Q_w(0)·[X^{k′}]Q_{w̄} = q_w^{k′}·[X]Q_w`.
-(b) If `f` is an eigenform of rank `n` with system `Q` of Hecke polynomials and `R` is attached to `Q`, then `R` is
-conjugate self-dual with twist `n` (1.2 (1)).
+(b) If `f` is an eigenform of rank `n` with system `Q` of Hecke polynomials, then every representation `R` attached to
+`Q` (continuity and the nondegenerate trace form included, as in the Conventions) is conjugate self-dual with twist `n`
+(1.2 (1)).
 (c) Let `R` be conjugate self-dual with twist `k′` and of finite type at the conjugate place `Ā` of a place `A`. Then
-`R` is of finite type at `A`; if `R` has at `Ā` the jumps of a weight `κ` in rank `k′`, it has them at `A`; and a
+`R` is of finite type at `A`; if `R` has at `Ā` the jumps of a weight `κ` in rank `k′` (Conventions), it has them at `A`; and a
 polynomial that kills `s` at `Ā` kills `(s^c)⁻¹` at `A`. Composing `σ` with complex conjugation replaces each jump `u` of
 a weight in rank `k′` by `k′ − 1 − u`.
 
@@ -349,8 +390,9 @@ not above `ℓ`, with residue field of order `p₀` or `p₁`.
 (e) A lattice `u` of `R` over `O` is continuous if `R` is, is trivial where `R` is, has the traces of `R`, and comes
 with an injective `O`-algebra map `M_n(O) → M_n(ℚ̄_ℓ)` that sends `u(g)` to `R(g)` and keeps traces and determinants.
 
-*Needs:* 1.4; ThetaLiftChainsAndTheSeesawIdentity (good tuples of labels; descent pairs); DeterminantsOfThetaLiftChains
-(main pairs); NormsOfThetaLiftsAndExchangeIdentities (the theta lift of a character of `U(1)` to `U(2z)` and its lifted
+*Needs:* 1.4; ThetaLiftChainsAndTheSeesawIdentity §2.5 (good tuples of labels), §2.16 (descent pairs), §2.18 (the
+descent pairs `O_j(ϑ)` of the chain); DeterminantsOfThetaLiftChains §1.1 (main pairs);
+NormsOfThetaLiftsAndExchangeIdentities (the theta lift of a character of `U(1)` to `U(2z)` and its lifted
 form).
 
 [ShortProof], `New/Congruences/GaloisRepresentations/AttachedRepresentations` (`New.Selmer.isLiftSetting_descentPair`, `New.Selmer.isLiftSetting_mainPair`, `New.Selmer.trivialLift_mem_range_typeProjection`, `New.Selmer.ellVal_levelPrime_pow_sub_one_le`)
@@ -441,14 +483,14 @@ Let `O` with `c` be a lift setting for `ϑ`, with `Q(ϑ)` auxiliary for the bad 
 (a) If `f` is an eigenform of the weight of `O` with the labels `c̃_i` at the chosen places (completed by trivial
 characters on further blocks), spherical at the places outside `S` or above `ℓM` except the chosen places and their
 conjugates, and `R` is attached to its Hecke polynomials, then `R ⊗ χ_O` is a representation of type
-`(O, t_O, J_O, c̃_i·(X − 1)^{t_O}, S)`, where `J_O` are the normalised jumps. If `n_O` is even and `l = 2λ` is the
+`(O, t_O, J_O, c̃_i·(X − 1)^{t_O}, S)`, where `J_O` are the normalised jumps of `O` (Conventions). If `n_O` is even and `l = 2λ` is the
 doubled parameter on `W` that fits `O`, then `J_O(σ)` consists of `0, 1, …, t_O − 1` and the numbers
 `(t_O − 1 − ε(σ)(l_q(v) − 2w_O(v)))/2`, `q < r_O`, `v` the place of `σ`.
 (b) A `(c, S)`-form is an eigenform of the weight of `O`, of type `c`, with the level and character of `O` off `S ∪ S̄`.
 If `S` avoids the bad places, the normalised representation of a `(c, S)`-form is a representation of type
 `(O, t_O, J_O, c̃_i·(X − 1)^{t_O}, Q(ϑ) ∪ Q(ϑ)̄ ∪ S ∪ S̄)`.
-(c) There are jumps `J` and base data `B` on the definite space of rank `n_O`, of the weight of `O`, with `n_GL` a
-common multiple of the stabiliser orders, such that: the forms `e_c y` (`y ∈ F(O)`) are forms of `B` of base level; if
+(c) There are jumps `J` and base data `B` (Conventions) on the definite space of rank `n_O`, for the weight of `O`
+and the integer `n_B = n_GL`, such that: the forms `e_c y` (`y ∈ F(O)`) are forms of `B` of base level; if
 `y` is integral above `ℓ`, so is `n_GL·e_c y`; and for every finite family `u` of places outside the bad places and
 every system `x` of `B` at principal level at `u`, the normalised representation `R_x` of `x` is a representation of
 type `(O, t_O, J, c̃_i·(X − 1)^{t_O}, Q(ϑ) ∪ Q(ϑ)̄ ∪ u ∪ ū)` with `(R_x(g) − ψ_ϑ(g))(R_x(g) − 1) = 0` on `I_{Q(ϑ)}`.
@@ -474,7 +516,9 @@ rank `r` at `σ`, lowered by `(r − t)/2 + ε(σ)w`, are the numbers `⌊t/2⌋
 (c) For a main pair `p = (ν, z)` for `j`, with `ν` of weight `−c_p`, the single jump `z − 1 − ε(σ)c_p(v)` satisfies
 `|ε(σ)u + κ_j(v)| ≤ t` and the main-summand weight conditions for `(1, 2z − 1)`.
 
-*Needs:* 1.3; OneSidedPrimeSumBoundsAndAdmissibleData (the data); DeterminantsOfThetaLiftChains (main pairs).
+*Needs:* 1.3; OneSidedPrimeSumBoundsAndAdmissibleData §3.2 (the ranks, `t`, the gap `Δ` and the lift weights `κ_j`),
+§3.3 (their sizes), §3.4 (the row parameter `λ_q(v)`, here the target parameter);
+DeterminantsOfThetaLiftChains §1.1 (main pairs).
 
 [ShortProof], `New/Congruences/GaloisRepresentations/RowsFromEigensystems` (`New.Selmer.isMainSummandWeights_descentPair`, `New.Selmer.isMainSummandWeights_mainPair`, `New.Selmer.map_jumps_sub_eq_map_targetParameter`)
 
@@ -504,7 +548,8 @@ main-summand weight conditions for `(r_O, t_O)`, then there is a main summand fo
 (d) If the Hecke eigenvalues `p(w, i)` occur in a nonzero good form on `W_m`, then for each `1 ≤ j ≤ m` there is a
 rank-`r` representation that is a main summand for `(O_j(1), p)`.
 
-*Needs:* 1.3, 1.4, 2.1, 2.4, 2.6, 2.7; ThetaLiftChainsAndTheSeesawIdentity (good forms; lifted Hecke polynomials);
+*Needs:* 1.3, 1.4, 2.1, 2.4, 2.6, 2.7; ThetaLiftChainsAndTheSeesawIdentity §2.7 (good forms), §2.16 (lifted Hecke
+polynomials), §2.18 (the descent pairs `O_j(1)` of the chain and the fit of the target parameter);
 ShortGRH background (Galois representations of eigensystems, in the weak sense); ShortGRH background (most Frobenii);
 ShortGRH background (`ℓ`-adic avatars of algebraic Hecke characters).
 
@@ -978,31 +1023,44 @@ systems where `δ₀ ≠ 0` (`s·y` the diagonal operator).
 ## Layer 6: Ribet's element and the bound for denominators
 
 The algebra of Layer 3, the triangles of Layer 4 and the operators of Layer 5 are assembled for the representations of
-the descent pairs. The local defects above `ℓ` (SelmerBoundsForAnticyclotomicTwists) bound the cocycles at the lift; a
+the descent pairs. The local defects above `ℓ` (SelmerBoundsForAnticyclotomicTwists §4.6) bound the cocycles at the lift; a
 lattice adapted to the block decomposition gives Ribet's element with its top coefficient bounded (6.5); the
 operators at the auxiliary places then clear the denominator at each base system (6.7), and a projection argument
 for forms orthogonal to the false lifts gives the bound for denominators (6.9).
 
 ### 6.1 The constants of the denominator bound
 
-*Origin:* definitions and conventions.
+*Origin:* adapted from the published theory of the minus parts of class groups of cyclotomic fields (Stickelberger's
+theorem; for large `ℓ` a bound of this kind follows from the main conjecture of Mazur and Wiles): here an upper bound
+for the lengths of the odd classes at every prime and every finite level by the valuations of one integer of explicit
+size, the same for all primes; with the definitions of the constants of the denominator bound.
 
-*Method of the formal proof:* the odd class bound is chosen from the background bound for odd classes over cyclotomic
-fields; the others are explicit.
+*Method of the formal proof:* (a) is the background bound for odd classes over cyclotomic fields: for `0 < e < t` a
+nonzero Stickelberger bound of size at most `2^((N_c + e + 3)^6)` gives an integer that kills the module, a power of
+their product bounds the length for small and for large `ℓ`, and the class number serves for `e = 0`; `o_D` is the
+integer so obtained for the conductor and the `t` of the data. The other constants are explicit.
 
-Let `o_D` be a positive integer, at most `2^(4(N_c + t + 3)^27)·h_E` (`N_c` the cyclotomic conductor of `E`, `h_E` its
-class number), whose `ℓ`-adic valuation bounds, for all large `O`, all `e < t` and all `ν`, the length of the odd
-classes `Sha_e(O, ν)` (for `e = 0`: of the unramified homomorphisms). Put
-- `loc_ℓ = 4f·d_ℓ`, with `d_ℓ` the local loss of SelmerBoundsForAnticyclotomicTwists (the local loss bound
-  `10⁶(m/k)(b·v_ℓ(M) + v_ℓ((2b)!·Π^{h_Δ³}))`, `Π` the product of the integers in `(b − 30h_Δ³, b + 30h_Δ³]`);
+(a) *The odd class bound.* The integer comes before the prime: there is a positive integer `o_D`, depending on the
+data `D` only, with `o_D ≤ 2^(4(N_c + t + 3)^27)·h_E` (`N_c` the conductor of a cyclotomic field containing `E`, `h_E`
+the class number of `E`), such that for every prime `ℓ`, for all large coefficient rings `O` at `ℓ`, all `e < t` and
+all `ν ≥ 0`, the length over `O` of the odd classes `Sha_e(O, ν)` (for `e = 0`: of the everywhere unramified
+homomorphisms) is at most the valuation of `o_D` in `O`, that is, its normalised length is at most `v_ℓ(o_D)`. Fix
+such an `o_D` once for the data; it does not depend on `ℓ`, on `ι` or on `O`.
+
+(b) *The constants at a prime `ℓ`.* Put
+- `loc_ℓ = 4f·d_ℓ`, with `d_ℓ` the local loss of SelmerBoundsForAnticyclotomicTwists §4.1 (the local loss bound, there
+  the defect bound `B_ℓ`: `10⁶(m/k)(b·v_ℓ(M) + v_ℓ((2b)!·Π^{h_Δ³}))`, `Π` the product of the integers in `(b − 30h_Δ³, b + 30h_Δ³]`);
 - `e_ℓ = t·v_ℓ(o_D) + 8ft·v_ℓ(n_GL) + 2v_ℓ(n_GL) + ((4t + 1)h_Δ²² + h_Δ)·v_ℓ(n_GL)`;
 - `β_ℓ = loc_ℓ + (1 + 2t)·e′_ℓ + e_ℓ + v_ℓ(n_GL)`, the *clearing bound*;
 - for a descent pair `O`, `ram, sel ≥ 0`: `β(O, ram, sel) = sel + 2t_O·ram + r_O·loc_ℓ + e_ℓ`.
 
-*Needs:* 1.5, 4.1; SelmerBoundsForAnticyclotomicTwists (the local loss bound); ShortGRH background (odd classes over
-cyclotomic fields).
+*Needs:* 1.5, 4.1; SelmerBoundsForAnticyclotomicTwists §4.1 (the local loss bound `B_ℓ`); ShortGRH background (odd classes over
+cyclotomic fields: for a CM field `E` inside the cyclotomic field of conductor `N_c` and an integer `t`, one nonzero
+integer `X ≤ 2^(4(N_c + t + 3)^27)·h_E` such that for every prime `ℓ`, every coefficient ring `O` at `ℓ` with enough
+roots of unity, every `e < t` and every `ν`, the length of the odd classes in `(O/ℓ^ν)(−e)` is at most the valuation
+of `X` in `O`).
 
-[ShortProof], `New/Congruences/FirstOrder/TraceRelations` (`New.Selmer.oddClassBound`, `New.Selmer.localDefectBound`, `New.Selmer.denominatorError`, `New.Selmer.clearingBound`, `New.Selmer.eventually_length_shaOdd_le`); `New/Congruences/FirstOrder/DenominatorBound` (`New.Selmer.liftValuationBound`)
+[ShortProof], `New/Congruences/FirstOrder/TraceRelations` (`New.Selmer.oddClassBound`, `New.Selmer.oddClassBound_le`, `New.Selmer.localDefectBound`, `New.Selmer.denominatorError`, `New.Selmer.clearingBound`, `New.Selmer.eventually_length_shaOdd_le`); `New/Congruences/FirstOrder/DenominatorBound` (`New.Selmer.liftValuationBound`); `Lib/Cyclotomic/OddSha` (`New.exists_length_shaOdd_le`)
 
 ### 6.2 Block-diagonal lattices and the local defects of Ribet's cocycles
 
@@ -1020,7 +1078,7 @@ model of `ψ` such that `ψ′R₀` spans `M_{r′}(O)`. Then `R′` has a latti
 `ψ′R₀` and `O(−e)`, `e < t′`; and for a finite family of such representations with lattices, there are lattices of all
 of them that are block diagonal at the members with this trace.
 (b) Let `u_x` (finitely many) and `ρ` be lattices whose restrictions to each place `v` above `ℓ` lie in one class of
-local lattices of SelmerBoundsForAnticyclotomicTwists (classes of local lattices). Then the Ribet cocycles of `ρ` modulo
+local lattices of SelmerBoundsForAnticyclotomicTwists §3.1 (classes of local lattices). Then the Ribet cocycles of `ρ` modulo
 `ℓ^{M′}` satisfying the crystalline relations above `ℓ` have colength at most the sum over `v` of the dual defects of
 `ρ` at `v`.
 (c) Let `V` with `c` be a lift setting for `ϑ`, `R` a main summand of rank `r′` with string length `t′`, and `ρ_x`
@@ -1029,8 +1087,9 @@ is block diagonal with summands `T` and `O(−e)`, `T` agreeing above `ℓ` with
 `ℓ` some class of local lattices contains all `u_x` and the summands of `u_π`, and the normalised dual defects of the
 `t′ + 1` summands at all places above `ℓ` add up to at most `r′·loc_ℓ`.
 
-*Needs:* 1.3, 1.4, 6.1, 3.1; SelmerBoundsForAnticyclotomicTwists (classes of local lattices and the defect of the dual of a
-summand at a place above `ℓ`).
+*Needs:* 1.3, 1.4, 6.1, 3.1; SelmerBoundsForAnticyclotomicTwists §3.1 (classes of local lattices and dual defects),
+§4.8 (the class of a lattice read at a place above `ℓ`), §4.7 (the colength of the crystalline relations, by the dual
+defect), §4.6 (the defect of the dual of a summand at a place above `ℓ`).
 
 [ShortProof], `New/Congruences/FirstOrder/TraceRelations` (`New.Selmer.exists_blockDiagonal_lattice`, `New.Selmer.exists_blockDiagonal_lattices`, `New.Selmer.crystallineColength_le_sum_dualDefect`, `New.Selmer.eventually_exists_inClass_sum_dualDefect_le`)
 
@@ -1168,8 +1227,8 @@ operators and under `e_c` with `range e_c ⊂ range E′`, and `y` orthogonal to
 (b) The span of the lift generators of `Z` is stable under the Hecke polynomial operators and under every `e_c` of a
 lift setting.
 
-*Needs:* 1.3, 1.4, 1.5, 4.1, 5.2; NormsOfThetaLiftsAndExchangeIdentities (false lifts); ThetaLiftChainsAndTheSeesawIdentity
-(lifted Hecke polynomials).
+*Needs:* 1.3, 1.4, 1.5, 4.1, 5.2; NormsOfThetaLiftsAndExchangeIdentities (false lifts);
+ThetaLiftChainsAndTheSeesawIdentity §2.16 (descent pairs and lifted Hecke polynomials).
 
 [ShortProof], `New/Congruences/FirstOrder/DenominatorBound` (`New.Selmer.IsLiftGenerator`, `New.Selmer.typeProjection_sub_starProjection_mem_of_isOrthogonalToFalseLifts`, `New.Selmer.span_isLiftGenerator_mem_invtSubmodule`)
 
@@ -1202,7 +1261,7 @@ is, the projection to `Z` has denominator at most `β_ℓ log ℓ` in the sense 
 
 ## Layer 7: The choice of twists
 
-For each prime and each identification `ι`, the twisting theorem (SelmerBoundsForAnticyclotomicTwists) gives an
+For each prime and each identification `ι`, the twisting theorem (SelmerBoundsForAnticyclotomicTwists §5.4) gives an
 `m`-fold twist whose powers make the Selmer groups of finitely many main summands short; with 6.9 these bound the
 denominators of the projections to the lifts and to the lines of the main pairs; and the bounds, summed over the
 primes, fit the budget.
@@ -1219,15 +1278,17 @@ the scale inequalities of the data compare the total with `B_den`.
 Reals `e_ℓ′ ≥ 0` are *negligible with exponent `C′`* if `Σ_{ℓ∈T} e_ℓ′ log ℓ ≤ x^{C′}` for every finite set `T` of primes.
 (a) For every finite set `T` of primes and `a′ ≤ b′`, `Σ_{ℓ∈T} v_ℓ(a′) log ℓ ≤ log b′`.
 (b) `Σ_{ℓ∈T} loc_ℓ log ℓ ≤ 4·10⁶·e¹⁸⁰·f·(m/k)·b·log b`.
-(c) `v_ℓ(o_D)`, `e′_ℓ`, `e_ℓ` and the valuation of the class number of `U(1)` at the chosen level are negligible with
-exponents `2000`, `999`, `4000` and `30`.
+(c) The families `ℓ ↦ v_ℓ(o_D)`, `ℓ ↦ e′_ℓ`, `ℓ ↦ e_ℓ` and `ℓ ↦ v_ℓ(h_{U(1)})` are negligible with exponents `2000`,
+`999`, `4000` and `30`. For the first this uses that `o_D` is one integer for all primes (6.1 (a)), so that (a)
+applies with `a′ = o_D` and `b′ = 2^(4(N_c + t + 3)^27)·h_E`, and `log b′ ≤ x^{2000}` by the sizes of the data.
 (d) `Σ_{ℓ∈T}(β_ℓ log ℓ + v_ℓ(h_{U(1)}) log ℓ) ≤ B_den`, where `h_{U(1)}` is the number of classes of `U(1)` at the chosen
 level.
 
-*Needs:* 6.1; OneSidedPrimeSumBoundsAndAdmissibleData (the data: scale inequalities, the bound for the class number of
-`E`); CompositeThetaLiftsAndShortForms (the bound for the number of classes of `U(1)` at a level).
+*Needs:* 6.1; OneSidedPrimeSumBoundsAndAdmissibleData §3.3 (the sizes of the data: the scale inequalities, the bound
+for the class number of `E`), §2.3 (a) (a cyclotomic field containing `E`, for the conductor `N_c`);
+CompositeThetaLiftsAndShortForms §5.2 (a) (the bound for the number of classes of `U(1)` at a level).
 
-[ShortProof], `New/Congruences/FitTwistsExist` (`New.Selmer.sum_localDefectBound_mul_log_le`, `New.Selmer.isNegligible_denominatorError`, `New.Selmer.isNegligible_twistError`, `New.Selmer.sum_clearingBound_add_padicValNat_le`)
+[ShortProof], `New/Congruences/FitTwistsExist` (`New.Selmer.sum_localDefectBound_mul_log_le`, `New.Selmer.isNegligible_padicValNat_oddClassBound`, `New.Selmer.isNegligible_denominatorError`, `New.Selmer.isNegligible_twistError`, `New.Selmer.sum_clearingBound_add_padicValNat_le`)
 
 ### 7.2 Main summands of the lifts and denominators for the powers of a twist
 
@@ -1237,7 +1298,13 @@ main summands bounds the denominators for the lifts and for the lines of the mai
 
 *Method of the formal proof:* the lifts of good eigenforms on `W_j` span the space of lifts; their systems occur on
 `W_m` by equality of multiplicities; the main summands come from 2.8 (d), and for a main pair from the trivial
-representation with the jump `0` (2.7 (c)); 6.9 (b) gives the denominators.
+representation with the jump `0` (2.7 (c)); 6.9 (b) gives the denominators. For (e), let `s_c` be representatives,
+integral above `ℓ`, of the classes `c` of `U(1)` at the chosen level; the sum `Ξ″` over `c` of the translates of `Ξ′` by
+the central elements `s_c⁻¹`, each multiplied by the value of the character of `V` there, is integral above `ℓ`, is
+orthogonal to the false lifts for the complement of the line (the same sum applied to a false lift in that complement
+lies in the kernel of the descent, because the stabilisers are trivial), and has `pr Ξ″ = h_{U(1)}·pr Ξ′`, because
+these translations fix `φ`. On a line the clearing operator is a scalar `μ` with `|ι(μ)| ≥ e^{−β}`, and the
+denominator bound applied to `Ξ″` and paired with `Ξ` gives `|ι(μ·h_{U(1)}·⟨Ξ, pr Ξ′⟩)| ≤ 1`.
 
 (a) The trivial rank-one representation is a representation of type `(O, 1, {0}, X − 1, ∅)` for every descent pair `O`
 with `W` of rank one; for every main pair `p` for `j` there is a rank-one main summand for the lift of the untwisted
@@ -1252,13 +1319,31 @@ its rank-one main summand has divisible Selmer length at most `e′_ℓ`, the pr
 the lift of the character of `p` twisted by `ϑ` has denominator at most `β_ℓ log ℓ` for the idempotent of the labels
 `X − 1`.
 (d) A denominator bound `β` for `Z_j(ϑ)` and `e₀` gives, for every `β′ ≥ β`, an operator clearing the projection in the
-sense of DeterminantsOfThetaLiftChains (regular families of twists).
+sense of DeterminantsOfThetaLiftChains §1.3 (b) (regular families of twists).
+(e) *From the denominator of a line to the pairing of test forms.* Let `p = (ν, z)` be a main pair for `j`, `ϑ` a
+twist, `V` the definite space of rank `2z` of the lift of `νϑ` from `U(1)` (2.2 (b)), `φ` the lifted form and `pr` the
+orthogonal projection to the line `ℂφ`. A *test form* at `ℓ` is a form on `V`, of the weight and level of that descent
+pair, that is integral at every embedding `ℂ → ℂ_ℓ` and orthogonal to the false lifts taken for the idempotent of the
+labels `X − 1` and for the kernel of the descent to `U(1)`, the adjoint of the lift
+(NormsOfThetaLiftsAndExchangeIdentities (test forms)). Suppose that the projection to `ℂφ` has denominator at most `β`
+at `ι` for the idempotent of the labels `X − 1`, in the sense of 6.9 (b) with `Z = ℂφ` (there the false lifts are
+taken for `Z^⊥`, not for the kernel of the descent), and that the stabiliser in `U(1)(E⁺)` of every class of `U(1)` at
+the chosen level is trivial, as it is on the data. Then, for any two test forms `Ξ, Ξ′` at `ℓ`,
+`|ι(h_{U(1)}·⟨Ξ, pr Ξ′⟩)| ≤ e^β` and hence `|ι⟨pr Ξ, pr Ξ′⟩| ≤ exp(β + v_ℓ(h_{U(1)})·log ℓ)`, with `h_{U(1)}` the number
+of classes of `U(1)` at the chosen level. This is the second clause of the denominators of
+DeterminantsOfThetaLiftChains §1.3 (b) (regular families of twists) for `ϑ` and `j`, with the bound
+`β + v_ℓ(h_{U(1)})·log ℓ`; the class number is the price of passing from the complement of the line to the kernel of
+the descent.
 
-*Needs:* 1.3, 2.2, 2.7, 2.8, 6.9; ThetaLiftChainsAndTheSeesawIdentity (the lifts `W_j → V_j`; lifted Hecke
-polynomials); SecondMomentsOfPoincareSeries (equality of multiplicities of eigensystems in the good forms);
-DeterminantsOfThetaLiftChains (regular families of twists).
+*Needs:* 1.3, 2.2, 2.7, 2.8, 6.9; ThetaLiftChainsAndTheSeesawIdentity §2.18 (the descent pairs of the lifts
+`W_j → V_j`), §2.7 (good forms), §2.16 (lifted Hecke polynomials), §2.10 (trivial stabilisers at levels inside the
+chosen level); SecondMomentsOfPoincareSeries §2.3 (equality of multiplicities of eigensystems in the good forms);
+DeterminantsOfThetaLiftChains §2.1 (the lifts `W_j → V_j` and the Hecke polynomials of a lifted eigenform), §1.1 (main
+pairs), §1.3 (regular families of twists); NormsOfThetaLiftsAndExchangeIdentities (test forms, false lifts and the
+denominator predicate; the lift of a character of `U(1)`, its lifted form and its descent; the central translations
+and the classes of `U(1)`).
 
-[ShortProof], `New/Congruences/FitTwistsExist` (`New.Selmer.isRepOfType_one`, `New.Selmer.exists_isMainSummand_mainPair`, `New.Selmer.range_goodLift_le_span_hasLiftHeckePolynomial`, `New.Selmer.denominatorLe_range_goodLift`, `New.Selmer.denominatorLe_span_trivialLift`, `New.Selmer.DenominatorLe.clearsProjection`)
+[ShortProof], `New/Congruences/FitTwistsExist` (`New.Selmer.isRepOfType_one`, `New.Selmer.exists_isMainSummand_mainPair`, `New.Selmer.range_goodLift_le_span_hasLiftHeckePolynomial`, `New.Selmer.denominatorLe_range_goodLift`, `New.Selmer.denominatorLe_span_trivialLift`, `New.Selmer.DenominatorLe.clearsProjection`); for (e), `New/OneLift/HeckeValues/CentralAction` (`New.Selmer.DenominatorLe.norm_card_mul_inner_starProjection_le`, `New.Selmer.DenominatorLe.norm_inner_starProjection_le`, `New.LValueData.isOrthogonalToFalseLifts_sum_normalizedCentralOp_inv`)
 
 ### 7.3 All data have regular families of `m`-fold twists
 
@@ -1269,20 +1354,24 @@ hypothesis on the groups of even classes.
 
 *Method of the formal proof:* the eigensystems of the good forms on `W_m` are finitely many, so finitely many main
 summands occur (2.8 (d), 7.2 (a)); the twisting theorem gives one `m`-fold twist for all of them; 7.2 (c) bounds the
-denominators of each power; the sums over the primes are 7.1.
+denominators of each power, for the space of lifts and for the line of each main pair; 7.2 (d) turns the first into
+the clearing operator and 7.2 (e) the second into the bound for the pairing of test forms, which costs
+`v_ℓ(h_{U(1)})·log ℓ`; the sums over the primes are 7.1.
 
 (a) For every prime `ℓ` and `ι : ℂ ≃ ℚ̄_ℓ` there is an `m`-fold twist `τ` with modulus of norm prime to `ℓ` such that, for
 `1 ≤ j ≤ m`, every ramified pair `p` and `s = ±1`, `|ι(ratio_p(τ^j, s))⁻¹| ≤ ℓ^{e′_ℓ}`, and the denominators for `τ^j` and
-`j` (for the lifts and for the main pairs, DeterminantsOfThetaLiftChains (regular families of twists)) are at most
+`j` (both clauses: the clearing operator for the lifts, by 7.2 (c), (d), and the pairing of test forms for the main
+pairs, by 7.2 (c), (e); DeterminantsOfThetaLiftChains §1.3 (b) (regular families of twists)) are at most
 `β_ℓ log ℓ + v_ℓ(h_{U(1)}) log ℓ`.
 (b) For all admissible data `D` there is a family `θ_ι` of `m`-fold twists, one for each prime `ℓ` and each
-`ι : ℂ ≃ ℚ̄_ℓ`, that is regular in the sense of DeterminantsOfThetaLiftChains (regular families of twists): the modulus of
+`ι : ℂ ≃ ℚ̄_ℓ`, that is regular in the sense of DeterminantsOfThetaLiftChains §1.3 (regular families of twists): the modulus of
 `θ_ι` is prime to `ℓ`; for every ramified pair, `1 ≤ j ≤ m` and `s = ±1`, the family `ι ↦ ratio_p(θ_ι^j, s)⁻¹` has height at
 most `x₁`; and for each `j` there are `γ_ℓ` with `Σ_{ℓ∈T} γ_ℓ ≤ B_den` for every finite set `T` of primes such that the
 denominators for `θ_ι^j` and `j` are at most `γ_ℓ` at every `ι` over `ℓ`.
 
-*Needs:* 2.8, 7.1, 7.2; SelmerBoundsForAnticyclotomicTwists (the twisting theorem for finitely many main summands);
-DeterminantsOfThetaLiftChains (regular families of twists; ramified pairs and ratios of `L`-values);
-OneSidedPrimeSumBoundsAndAdmissibleData (the data: heights).
+*Needs:* 2.8, 7.1, 7.2; SelmerBoundsForAnticyclotomicTwists §5.4 (the twisting theorem for finitely many main summands);
+DeterminantsOfThetaLiftChains §1.3 (regular families of twists), §1.1 (ramified pairs and ratios of `L`-values);
+OneSidedPrimeSumBoundsAndAdmissibleData §1.2 (heights of families over the pairs `ι`), §3.2 (admissible data and the
+scale `x₁`), §3.4 (`m`-fold twists).
 
 [ShortProof], `New/Congruences/FitTwistsExist` (`New.Selmer.exists_mFoldTwist_hasDenominatorsLe`, `New.exists_isRegularFamily`)
