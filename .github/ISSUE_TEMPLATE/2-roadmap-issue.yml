@@ -49,6 +49,7 @@ body:
         - AnalyticNumberTheoryPartIII
         - AnalyticStableMaps
         - AnalyticToricGeometryPartII
+        - AnticyclotomicLocalUnits
         - ApproximationGuarantees
         - ArakelovGeometryAndAbelianHeights
         - ArakelovGeometryAndAbelianHeightsPartII
@@ -180,6 +181,7 @@ body:
         - EigenvalueAndSingularValueInequalities
         - EisensteinIdealAndRationalTorsion
         - ElectricalNetworksAndRandomWalks
+        - EllAdicHomotopyTypesAndWeights
         - EllipticCohomology
         - EllipticCurveModularity
         - EllipticCurveModularityImaginaryQuadratic

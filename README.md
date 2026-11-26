@@ -531,6 +531,7 @@ then read its guidance on [writing](CONTRIBUTING.md#the-roadmap-writing-process)
 - [Shimura towers and perfectoid representability](TauCetiRoadmap/PerfectoidShimuraVarieties/README.md)
 - [Siegel and PEL moduli problems](TauCetiRoadmap/PELModuli/README.md)
 - [Sieve methods, prime gaps and prime patterns](TauCetiRoadmap/SieveMethodsAndPrimePatterns/README.md)
+- [Signed anticyclotomic local units](TauCetiRoadmap/AnticyclotomicLocalUnits/README.md)
 - [Six operations, cohomological smoothness and biduality for diamonds](TauCetiRoadmap/DiamondSixOperations/README.md)
 - [Small ramification and abelian-variety base cases, part II — low-degree Hodge vanishing](TauCetiRoadmap/SmallRamificationAndAbelianVarietyBaseCasesPartII/README.md)
 - [Small ramification and the base cases for Serre modularity](TauCetiRoadmap/SmallRamificationAndAbelianVarietyBaseCases/README.md)
@@ -619,6 +620,7 @@ then read its guidance on [writing](CONTRIBUTING.md#the-roadmap-writing-process)
 - [Étale cohomology of diamonds and its four operations](TauCetiRoadmap/DiamondEtaleCohomology/README.md)
 - [Étale duality and perverse sheaves, part II: quasi-excellent finiteness, affine Lefschetz and excellent duality](TauCetiRoadmap/EtaleDualityAndPerverseSheavesPartII/README.md)
 - [Étale homotopy types and pro-spaces](TauCetiRoadmap/EtaleHomotopyTypes/README.md)
+- [ℓ-adic homotopy types and weights](TauCetiRoadmap/EllAdicHomotopyTypesAndWeights/README.md)
 
 ## Completed roadmaps
 
