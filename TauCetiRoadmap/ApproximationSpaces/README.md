@@ -172,7 +172,7 @@ satisfies `E^B_n(T f) ≤ M E^A_n(f)` and maps `A^s_q` into `B^s_q` with `‖T f
 
 ### AS-A09 Jackson and Bernstein inequalities
 
-For an additive map `ι : Y → X` from a quasi-normed group `Y` with `N_X (ι y) ≤ C N_Y y`, write as
+For a linear map `ι : Y → X` from a quasi-normed group `Y` with `N_X (ι y) ≤ C N_Y y`, write as
 explicit hypotheses: Jackson's inequality of order `r > 0`,
 `∀ y n, 1 ≤ n → E_n(ι y) ≤ C n^{−r} N_Y y`; Bernstein's inequality of order `r`,
 `∀ n a, 1 ≤ n → a ∈ A n → ∃ y, ι y = a ∧ N_Y y ≤ C n^r N_X a`. Prove that Jackson's inequality of
@@ -249,8 +249,8 @@ charges every nonempty open set and every approximant is the class of a bounded 
 function, then `f` has a bounded continuous representative. Route: near-best approximants
 `b_k ∈ S_{2^k}`, the blocks `b_{k+1} − b_k` with AS-A15, convergence in measure and Fatou's lemma
 in `L_r`, then AS-A02 (DeVore–Popov 1988, Theorem 7.1, for dyadic splines, with the limiting case
-`s = α`, `q = r`; Kerkyacharian–Petrushev 2015, Proposition 6.14). *Needs:* AS-A02, AS-A15;
-Mathlib `TendstoInMeasure`, `lintegral_liminf_le`.
+`s = α`, `q = r`; Kerkyacharian–Petrushev 2015, Proposition 6.14, for `r < ∞`). *Needs:* AS-A02,
+AS-A15; Mathlib `TendstoInMeasure`, `lintegral_liminf_le`.
 
 ### AS-A17 Block decompositions in `L_p`
 
@@ -290,7 +290,8 @@ additive `T` with `N'_i (T x) ≤ M_i N_i x`, and completeness when `X₀` and `
 (`N_i x = ‖x‖_{X_i}` on the range of `X_i`, `∞` off it) with the same K-functional, and for
 `1 ≤ q ≤ ∞` the same space and norm as `TauCeti.CompatibleCouple.kMethod`. *Needs:* AS-A01; Tau Ceti
 `TauCeti.CompatibleCouple`, `CompatibleCouple.kFunctional`, `CompatibleCouple.kMethod`,
-`CompatibleCouple.kMethodENorm`.
+`CompatibleCouple.kMethodENorm` (on Tau Ceti `main`, newer than the Tau Ceti pin of this
+repository; NoncommutativeIntegration §2.2 and §2.4 specify them).
 
 **Checks.**
 - The couple `(N, N)` for a quasi-norm `N` with constant `K_N`:
@@ -302,16 +303,19 @@ additive `T` with `N'_i (T x) ≤ M_i N_i x`, and completeness when `X₀` and `
 
 ### AS-B02 Discrete K-method
 
-Prove: for `ρ > 0`, `‖x‖_{θ,q}` is equivalent to `‖(2^{kρθ} K(2^{−kρ}, x))_{k ∈ ℤ}‖_{ℓ_q}`; when
-`N₀ ≤ C N₁`, to `N₀ x + ‖(2^{kρθ} K(2^{−kρ}, x))_{k ≥ 0}‖_{ℓ_q}` (Bergh–Löfström, Lemma 3.1.3 and
+Prove: for `κ > 0`, `‖x‖_{θ,q}` is equivalent to `‖(2^{kκθ} K(2^{−kκ}, x))_{k ∈ ℤ}‖_{ℓ_q}`; when
+`N₀ ≤ C N₁`, to `N₀ x + ‖(2^{kκθ} K(2^{−kκ}, x))_{k ≥ 0}‖_{ℓ_q}` (Bergh–Löfström, Lemma 3.1.3 and
 §3.11). *Needs:* AS-B01, AS-A02.
 
 ### AS-B03 Holmstedt's formula
 
 Prove: for `0 ≤ θ₀ < θ₁ ≤ 1`, `λ = θ₁ − θ₀`, `Y_i = X_{θ_i, q_i}` for `0 < θ_i < 1` and
 `Y_i = X_i` at the endpoints,
-`K(t, x; Y₀, Y₁) ≍ (∫_0^{t^{1/λ}} (s^{−θ₀} K(s, x))^{q₀} ds/s)^{1/q₀} +
-t (∫_{t^{1/λ}}^∞ (s^{−θ₁} K(s, x))^{q₁} ds/s)^{1/q₁}`; at an endpoint the term is
+
+    K(t, x; Y₀, Y₁) ≍ (∫_0^{t^{1/λ}} (s^{−θ₀} K(s, x))^{q₀} ds/s)^{1/q₀}
+                      + t (∫_{t^{1/λ}}^∞ (s^{−θ₁} K(s, x))^{q₁} ds/s)^{1/q₁};
+
+at an endpoint the term is
 `K(t^{1/λ}, x)` for `Y₀ = X₀` and `t^{1 − 1/λ} K(t^{1/λ}, x)` for `Y₁ = X₁` (Holmstedt 1970;
 Bergh–Löfström, Theorem 3.6.1). *Needs:* AS-B02.
 
@@ -365,9 +369,10 @@ and `C`: `ω(f + g, k)^ρ ≤ ω(f, k)^ρ + ω(g, k)^ρ`; `ω(f, k) ≤ C N f`; 
 `E_{2^k}(f) ≤ C ω(f, k)`; and the inverse inequality `ω(a, k) ≤ C 2^{−(k−j)_+ θ} N a` for
 `a ∈ A (2^j)`. Prove: for `0 ≤ s < θ` and `0 < q ≤ ∞`, `f ∈ A^s_q` if and only if
 `N f + ‖(2^{ks} ω(f, k))_k‖_{ℓ_q} < ∞`, with equivalent quasi-norms, and the inclusion of the space
-of `ω` in `A^s_q` holds for every `s ≥ 0`. If moreover `ω(−f, k) = ω(f, k)`, then for
-`0 < s < t ≤ θ` and `0 < q ≤ ∞`, `(X, B^t_{∞,ω})_{s/t,q} = B^s_{q,ω}`, where `B^t_{q,ω}` carries the
-quasi-norm `N f + ‖(2^{kt} ω(f, k))_k‖_{ℓ_q}`, and `(X, B^{t}_{q₁,ω})_{η,q} = B^{ηt}_{q,ω}` for
+of `ω` in `A^s_q` holds for every `s ≥ 0`. If moreover `ω(c f, k) = ‖c‖ ω(f, k)` for every scalar
+`c`, then for `0 < s < t ≤ θ` and `0 < q ≤ ∞`, `(X, B^t_{∞,ω})_{s/t,q} = B^s_{q,ω}`, where
+`B^t_{q,ω}` carries the quasi-norm `N f + ‖(2^{kt} ω(f, k))_k‖_{ℓ_q}`, and
+`(X, B^{t}_{q₁,ω})_{η,q} = B^{ηt}_{q,ω}` for
 `0 < t < θ`, `0 < η < 1` and every `0 < q₁, q ≤ ∞`. Route: near-best approximants and AS-A02 for the
 coincidence; AS-B06 with `|f|_Y = sup_k 2^{kt} ω(f, k)` and AS-B07 for the interpolation
 (DeVore–Popov 1988, §5, for splines). *Needs:* AS-A02, AS-A05, AS-B06, AS-B07.
@@ -415,7 +420,9 @@ An Apache-2.0 formalisation of a large part of this roadmap exists in
 [Lean-FunctionSpaces](https://github.com/mario-ullrich/Lean-FunctionSpaces) (Mario Ullrich, Lean 4
 with Mathlib `v4.36.0`, sorry-free, with a blueprint that names the Lean declaration of every
 statement). The roadmap specifies the mathematics; the repository is a cited source, and its file
-map is not prescriptive.
+map is not prescriptive. The Lean names below are declarations of that repository, in its root
+namespace (`FunctionScheme.…` in its modules `FunctionSpaces.MeasureSpaces.Besov.*`), and differ
+from the declarations of `Suggested.lean`.
 
 - *Banach range.* Schemes and approximation spaces in normed spaces (AS-A03–AS-A12), `n`-term
   approximation from a Hilbert basis (AS-A13), couples of extended quasi-norms with the discrete
@@ -459,8 +466,9 @@ scheme (Part B). Its suggested home in Tau Ceti is `TauCeti/Analysis/Approximati
   [SNumbers](../SNumbers/README.md) own approximation numbers and Bernstein numbers of operators;
   the Bernstein inequality of a scheme here is an inverse inequality.
 
-Moduli of smoothness, the Littlewood–Paley Besov spaces and the trigonometric, band-limited,
-spline, step and Haar schemes belong to ClassicalApproximationSpaces.
+Moduli of smoothness, the Littlewood–Paley Besov spaces for `p < 1` or `q < 1` and the
+trigonometric, band-limited, spline, step and Haar schemes belong to ClassicalApproximationSpaces;
+[PDE](../PDE/README.md) §7.1–7.2 owns the Littlewood–Paley Besov spaces for `1 ≤ p, q ≤ ∞`.
 
 ## Exact supplier contracts
 
@@ -479,7 +487,8 @@ Paths are under `TauCeti/`.
 - *Real interpolation of Banach couples* (`Analysis/Normed/Interpolation/CompatibleCouple.lean`,
   `KFunctional.lean`, `RealMethod/Basic.lean`): `TauCeti.CompatibleCouple`,
   `CompatibleCouple.kFunctional`, `CompatibleCouple.kMethod`, `CompatibleCouple.kMethodENorm`,
-  `CompatibleCouple.KMethodSpace`.
+  `CompatibleCouple.KMethodSpace`. These are on Tau Ceti `main` and newer than the Tau Ceti pin of
+  this repository.
 - *Rearrangements*: `TauCeti.decreasingRearrangement`
   (`Topology/Order/DecreasingRearrangement.lean`, the decreasing rearrangement of a nonnegative null
   family), consumed in AS-A13.

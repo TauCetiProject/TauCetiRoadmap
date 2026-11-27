@@ -23,10 +23,12 @@ as explicit hypotheses (README, Convention 7). The declarations are public, so t
 
 * Part A: quasi-norms and the `ρ`-triangle inequality of `L_p` (AS-A01), discrete Hardy
   inequalities (AS-A02), approximation schemes, errors and approximation spaces (AS-A03–AS-A06),
-  block decompositions (AS-A12), schemes of functions with Nikolskii's inequality, the
-  embeddings and block decompositions in `L_p` (AS-A14–AS-A17);
+  block decompositions (AS-A12), `n`-term approximation from a Hilbert basis (AS-A13), schemes of
+  functions with Nikolskii's inequality, the embeddings and block decompositions in `L_p`
+  (AS-A14–AS-A17);
 * Part B: quasi-normed couples and the K-method (AS-B01), the E-functional (AS-B05), the
-  representation theorem (AS-B06), moduli compatible with a scheme (AS-B10).
+  representation theorem (AS-B06), approximation spaces interpolating themselves (AS-B07), moduli
+  compatible with a scheme (AS-B10).
 -/
 
 @[expose] public section
@@ -77,9 +79,15 @@ def lpQuasiENorm {α : Type*} [MeasurableSpace α] (μ : Measure α) (p : ℝ≥
   toFun f := eLpNorm f p μ
   K := max 1 (ENNReal.LpAddConst p).toNNReal
   one_le_K := le_max_left _ _
-  map_zero := sorry
-  map_smul := sorry
-  add_le := sorry
+  map_zero := by rw [eLpNorm_congr_ae (Lp.coeFn_zero ℂ p μ)]; exact eLpNorm_zero
+  map_smul := fun c f => by
+    rw [eLpNorm_congr_ae (Lp.coeFn_smul c f)]; exact eLpNorm_const_smul c f p μ
+  add_le := fun f g => by
+    rw [eLpNorm_congr_ae (Lp.coeFn_add f g)]
+    refine (eLpNorm_add_le' p).trans ?_
+    gcongr
+    rw [ENNReal.coe_max, ENNReal.coe_toNNReal (ENNReal.LpAddConst_lt_top p).ne]
+    exact le_max_right _ _
 
 /-- **Hardy's inequality for dyadic tails**: for `s > 0` and `ρ > 0`,
 `‖(2^{ks} (∑_{i ≥ 0} a_{k+i}^ρ)^{1/ρ})_k‖_{ℓ_q} ≤ C ‖(2^{ks} a_k)_k‖_{ℓ_q}`.
@@ -164,14 +172,12 @@ theorem exists_approxNorm_equiv {s : ℝ} (hs : 0 ≤ s) {q : ℝ≥0∞} (hq : 
         S.approxNormDyadic s q f ≤ C * S.approxNorm s q f := by
   sorry
 
-/-- The approximation space `A^s_q`, the elements of finite quasi-norm.
+/-- The approximation space `A^s_q`, the elements of finite quasi-norm; by AS-A06 it is a
+submodule.
 
 Roadmap: `AS-A06`. -/
-def approxSpace (s : ℝ) (q : ℝ≥0∞) : Submodule 𝕜 X where
-  carrier := {f | S.approxNorm s q f < ⊤}
-  zero_mem' := sorry
-  add_mem' := sorry
-  smul_mem' := sorry
+def approxSpace (s : ℝ) (q : ℝ≥0∞) : Set X :=
+  {f | S.approxNorm s q f < ⊤}
 
 /-- **Block decompositions** in a `ρ`-normed group, without completeness: for `s > 0`,
 `f ∈ A^s_q` iff `f` is the limit of the partial sums of blocks `g k ∈ A (2^k)` with
@@ -187,6 +193,19 @@ theorem approxNorm_lt_top_iff_exists_blocks {ρ : ℝ} (hρ : 0 < ρ)
   sorry
 
 end ApproximationScheme
+
+/-- **`n`-term approximation from a Hilbert basis**: for the scheme of the vectors with at most `n`
+nonzero coefficients, `0 < τ < 2` and `α = 1/τ - 1/2`, `f ∈ A^α_τ` iff the coefficients of `f`
+lie in `ℓ_τ`.
+
+Roadmap: `AS-A13`. -/
+theorem approxNorm_lt_top_iff_memℓp_repr {𝕂 ι H : Type*} [RCLike 𝕂] [NormedAddCommGroup H]
+    [InnerProductSpace 𝕂 H] (b : HilbertBasis ι 𝕂 H) (N : QuasiENorm 𝕂 H)
+    (hN : ∀ x, N.toFun x = ‖x‖ₑ) (S : ApproximationScheme N)
+    (hS : ∀ n, S.A n = {x | ∃ Λ : Finset ι, Λ.card ≤ n ∧ ∀ i ∉ Λ, b.repr x i = 0})
+    {τ : ℝ≥0∞} (hτ0 : 0 < τ) (hτ2 : τ < 2) (f : H) :
+    S.approxNorm (1 / τ.toReal - 1 / 2) τ f < ⊤ ↔ Memℓp (fun i => b.repr f i) τ := by
+  sorry
 
 section FunctionScheme
 
@@ -322,9 +341,29 @@ def embeddingCouple {Y : Type*} [AddCommGroup Y] [Module 𝕜 Y] (N : QuasiENorm
     { toFun := fun x => ⨅ (y : Y) (_ : ι y = x), NY.toFun y
       K := NY.K
       one_le_K := NY.one_le_K
-      map_zero := sorry
-      map_smul := sorry
-      add_le := sorry }
+      map_zero := le_antisymm (iInf₂_le_of_le 0 (map_zero ι) NY.map_zero.le) bot_le
+      map_smul := fun c x => by
+        rcases eq_or_ne c 0 with rfl | hc
+        · rw [zero_smul, enorm_zero, zero_mul]
+          exact le_antisymm (iInf₂_le_of_le 0 (map_zero ι) NY.map_zero.le) bot_le
+        have hc0 : ‖c‖ₑ ≠ 0 := enorm_ne_zero.2 hc
+        refine le_antisymm ?_ ?_
+        · simp_rw [ENNReal.mul_iInf_of_ne hc0 enorm_ne_top]
+          refine le_iInf₂ fun y hy => ?_
+          rw [← NY.map_smul]
+          exact iInf₂_le (c • y) (by rw [map_smul, hy])
+        · refine le_iInf₂ fun y hy => ?_
+          calc ‖c‖ₑ * ⨅ (y' : Y) (_ : ι y' = x), NY.toFun y'
+              ≤ ‖c‖ₑ * NY.toFun (c⁻¹ • y) := by
+                gcongr
+                exact iInf₂_le _ (by rw [map_smul, hy, inv_smul_smul₀ hc])
+            _ = NY.toFun y := by rw [← NY.map_smul, smul_inv_smul₀ hc]
+      add_le := fun x x' => by
+        have hK0 : (NY.K : ℝ≥0∞) ≠ 0 := by
+          exact_mod_cast (zero_lt_one.trans_le NY.one_le_K).ne'
+        simp_rw [ENNReal.iInf_add, ENNReal.add_iInf, ENNReal.mul_iInf_of_ne hK0 ENNReal.coe_ne_top]
+        refine le_iInf₂ fun y hy => le_iInf₂ fun y' hy' => ?_
+        exact (iInf₂_le (y + y') (by rw [map_add, hy, hy'])).trans (NY.add_le y y') }
 
 /-- **The representation theorem** for quasi-normed `X` and `Y`: under Jackson's and Bernstein's
 inequalities of order `r`, `A^s_q = (X, ι Y)_{s/r, q}` for `0 < s < r` and every `0 < q ≤ ∞`.
@@ -339,6 +378,17 @@ theorem approxNorm_lt_top_iff_kMethodENorm_lt_top {Y : Type*} [AddCommGroup Y] [
       ∃ y, ι y = a ∧ NY.toFun y ≤ B * (n : ℝ≥0∞) ^ r * N.toFun a)
     {s : ℝ} (hs : 0 < s) (hsr : s < r) {q : ℝ≥0∞} (hq : 0 < q) (f : X) :
     S.approxNorm s q f < ⊤ ↔ (embeddingCouple N NY ι).kMethodENorm (s / r) q f < ⊤ := by
+  sorry
+
+/-- **Approximation spaces interpolate themselves**: for `0 < s < r` and `0 < q, τ ≤ ∞`,
+`A^s_q = (X, A^r_τ)_{s/r, q}`, where `A^r_τ` carries its dyadic quasi-norm `NY`.
+
+Roadmap: `AS-B07`. -/
+theorem approxNorm_lt_top_iff_kMethodENorm_approxNormDyadic {N : QuasiENorm 𝕜 X}
+    (S : ApproximationScheme N) (NY : QuasiENorm 𝕜 X) {r : ℝ} {τ : ℝ≥0∞} (hτ : 0 < τ)
+    (hNY : ∀ f, NY.toFun f = S.approxNormDyadic r τ f)
+    {s : ℝ} (hs : 0 < s) (hsr : s < r) {q : ℝ≥0∞} (hq : 0 < q) (f : X) :
+    S.approxNorm s q f < ⊤ ↔ (QuasiCouple.mk N NY).kMethodENorm (s / r) q f < ⊤ := by
   sorry
 
 /-- **Moduli compatible with a scheme**: a modulus `ω f k` at the scales `2^{-k}` whose `ρ`-th
