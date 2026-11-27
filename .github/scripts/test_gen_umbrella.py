@@ -139,6 +139,69 @@ Nothing needed.
 """,
 }
 UMBRELLA = 'description = "A goal, \\"quoted\\" verbatim."\nroot = "Fam"\nweight = 3\n'
+COMPARISON = "Comparison with the standard theory"
+EXCLUDING = UMBRELLA + f'exclude_layers = ["{COMPARISON}"]\n'
+
+
+def comparison_family(route_needs: str = "Mathlib groups", other: str | None = None) -> dict:
+    """A root family whose roadmap FamRoute ends with layers titled `COMPARISON` (after a colon, a
+    dash and a full stop), and one titled in lower case; `route_needs` ends the *Needs:* line of
+    the route section 1.2, and `other`, when given, is the *Needs:* line of a second roadmap."""
+    route = f"""# Roadmap: route
+
+## Layer 1: the route
+
+### 1.1 Base
+
+*Needs:* Alpha §1.2.
+
+**In standard terms.** Through 3.1 and §3.2, with Zeta §1.1, this is the standard theorem; Layer 3 says more.
+
+### 1.2 Uses the base
+
+*Needs:* 1.1; {route_needs}.
+
+## Layer 2: an ordinary layer
+
+### 2.1 Ordinary
+
+*Needs:* Gamma §2.1.
+
+## Layer 3: {COMPARISON}
+
+### 3.1 The standard objects
+
+*Needs:* 1.1; Zeta §1.1; Alpha Layer 5.
+
+### 3.2 Another comparison
+
+*Needs:* 3.1; Gamma §3.2.
+
+## Layer 4 — {COMPARISON}
+
+### 4.1 Under a dash
+
+*Needs:* Delta §1.1.
+
+## Layer 5. {COMPARISON}
+
+A layer without sections.
+
+*Needs:* Gamma §3.3.
+
+## Layer 6: {COMPARISON.lower()}
+
+### 6.1 Case counts
+
+*Needs:* Gamma §1.1.
+"""
+    family = {"Fam": "# Roadmap: f\n\n- [Route](FamRoute/README.md)\n- [Other](FamOther/README.md)\n",
+              "Fam/FamRoute": route,
+              "Zeta": "# Roadmap: zeta\n\n### 1.1 Needed only by a comparison\n",
+              **SUPPLIERS}
+    if other is not None:
+        family["Fam/FamOther"] = f"# Roadmap: other\n\n### 1.1 Cites the route\n\n*Needs:* {other}.\n"
+    return family
 
 
 class GenUmbrellaTest(unittest.TestCase):
@@ -1091,6 +1154,89 @@ A table of the layer's internal needs.
         self.tree(clash, {"Fam": "# Roadmap: clash\n\n### A1 First\n### Aα1 Second\n"})
         code, output = self.run_script("--fix", root=clash)
         assert code == 1 and "two items would be named Fam.A1" in output, output
+
+    def excluding_tree(self, name: str, umbrella: str = EXCLUDING, **family) -> pathlib.Path:
+        root = self.root / name
+        self.tree(root, comparison_family(**family), umbrella)
+        return root
+
+    def test_an_excluded_layer_is_outside_the_goal(self) -> None:
+        root = self.excluding_tree("excluded")
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0 and "error" not in output, output
+        items = self.items_of(root)
+        route = sorted(s for s in items if s.startswith("FamRoute."))
+        # the layers titled `COMPARISON` after a colon, a dash or a full stop, and every unit in them,
+        # are no items; the title in lower case is another title
+        assert route == ["FamRoute.1.1", "FamRoute.1.2", "FamRoute.2.1", "FamRoute.6.1"], route
+        code, output = self.run_script(root=root)
+        assert code == 0 and "Umbrellas in sync" in output, output
+        umbrella = tomllib.loads((root / "umbrellas" / "GRH.toml").read_text(encoding="utf-8"))
+        assert umbrella["exclude_layers"] == [COMPARISON], umbrella       # written by hand, kept
+        code, output = self.run_script("--stats", root=root)
+        assert "layers outside the goal (exclude_layers): 3 in 1 roadmaps, standing for 4 items; needs of them " \
+               "from the goal, not followed (errors): 0" in output, output
+
+    def test_what_an_excluded_layer_needs_is_not_followed(self) -> None:
+        root = self.excluding_tree("unfollowed")
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        # needed only by the excluded units: not in the goal, and Zeta is no member
+        for slug in ("Zeta.1.1", "Alpha.Layer5", "Gamma.3.2", "Gamma.3.3", "Delta.1.1"):
+            assert slug not in items, (slug, sorted(items))
+        umbrella = tomllib.loads((root / "umbrellas" / "GRH.toml").read_text(encoding="utf-8"))
+        assert "Zeta" not in [a["name"] for a in umbrella["area"]], umbrella["area"]
+        # the route's own needs are followed as before; a paragraph in standard terms that names the
+        # excluded sections is prose, no need and no error
+        assert items["FamRoute.1.1"]["needs"] == ["Alpha.1.2"], items["FamRoute.1.1"]
+        for slug in ("Alpha.1.2", "Gamma.1.1", "Gamma.2.1"):
+            assert slug in items, (slug, sorted(items))
+
+    def test_a_need_of_an_excluded_unit_is_reported(self) -> None:
+        root = self.excluding_tree("needs-excluded", route_needs="3.1",
+                                   other="FamRoute §3.2; FamRoute Layer 4; Alpha §1.2")
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output                                # the files are written all the same
+        items = self.items_of(root)
+        assert items["FamRoute.1.2"]["needs"] == ["FamRoute.1.1"], items["FamRoute.1.2"]
+        assert items["FamOther.1.1"]["needs"] == ["Alpha.1.2"], items["FamOther.1.1"]
+        assert not [s for s in items if s.startswith(("FamRoute.3", "FamRoute.4", "Zeta."))], sorted(items)
+        expected = [
+            "FamRoute/README.md:13: FamRoute.1.2 needs FamRoute §3.1 (*Needs:*), in FamRoute Layer 3 "
+            f"({COMPARISON}), which `exclude_layers` sets outside the goal",
+            "FamOther/README.md:5: FamOther.1.1 needs FamRoute §3.2, in FamRoute Layer 3",
+            f"FamOther/README.md:5: FamOther.1.1 needs FamRoute Layer 4, in FamRoute Layer 4 ({COMPARISON})",
+        ]
+        for line in expected:
+            assert line in output, (line, output)
+        code, output = self.run_script(root=root)              # the check fails, though in sync
+        assert code == 1 and "out of sync" not in output, output
+        assert "sets outside the goal:" in output and all(line in output for line in expected), output
+        code, output = self.run_script("--stats", root=root)
+        assert "needs of them from the goal, not followed (errors): 3" in output, output
+
+    def test_an_umbrella_without_the_key_is_unchanged(self) -> None:
+        # without the key the comparison layers are in the goal, with all they need
+        root = self.excluding_tree("unexcluded", umbrella=UMBRELLA)
+        code, output = self.run_script("--fix", root=root)
+        assert code == 0, output
+        items = self.items_of(root)
+        for slug in ("FamRoute.3.1", "FamRoute.3.2", "FamRoute.4.1", "FamRoute.Layer5", "Zeta.1.1",
+                     "Alpha.Layer5", "Delta.1.1"):
+            assert slug in items, (slug, sorted(items))
+        text = (root / "umbrellas" / "GRH.toml").read_text(encoding="utf-8")
+        assert "exclude_layers" not in text, text
+        code, output = self.run_script("--stats", root=root)
+        assert "exclude_layers" not in output, output
+        # a key that names no layer of the tree changes no item
+        self.fix()
+        keyed = self.root / "keyed"
+        self.tree(keyed, umbrella=EXCLUDING)
+        code, output = self.run_script("--fix", root=keyed)
+        assert code == 0, output
+        name = "GRH-targets.md"
+        assert (keyed / "umbrellas" / name).read_bytes() == (self.root / "umbrellas" / name).read_bytes()
 
 
 if __name__ == "__main__":

@@ -120,6 +120,17 @@ are generated from the roadmaps' READMEs:
   the item's text), so a citation added or removed elsewhere never renames it.
 - Roadmaps under `Completed/` are never members or items, and citing one needs
   nothing.
+- An umbrella file may set `exclude_layers`, a list of layer titles, such as
+  `exclude_layers = ["Comparison with the standard theory"]`. A layer of a
+  roadmap under `TauCetiRoadmap/<root>/` whose heading's title, the text after
+  `Layer k` and the colon, full stop or dash that follows it, equals one of these
+  strings (case counts) is outside the goal: it and every unit in its text are
+  not items, and what they need is not followed, so a section of another roadmap
+  that only they need is not in the goal. A unit of the goal whose statement of
+  dependency names a unit of such a layer is an error: the check fails, and
+  `--fix` and `--stats` name the unit and the reference. A mention of such a
+  section elsewhere in the text, as in a paragraph that relates a result to the
+  standard theory, is not a statement of dependency and is no error.
 - The worker rejects a target list with a cycle. A dependency stated on the
   first sentence of a unit's own `*Needs:*` line outranks the others: inside
   each cycle the generator first keeps, among those stated ones, the
@@ -129,16 +140,17 @@ are generated from the roadmaps' READMEs:
   dependency is dropped that could be put back on its own. Each dropped one is
   recorded in a line starting with `>`.
 
-Only `description`, `goal` and `root` in an umbrella file are written by hand;
-the generator keeps them and writes everything else. In a target list, an
-item's mark (`[x]` done, `[~]` in flight) and the clauses of its trailing group
+Only `description`, `goal`, `root` and `exclude_layers` in an umbrella file are
+written by hand; the generator keeps them and writes everything else. In a
+target list, an item's mark (`[x]` done, `[~]` in flight) and the clauses of its trailing group
 that the generator does not write (`partial: #N`, `in flight: #M`) are kept by
 slug when it is regenerated, so an operator may tick items in the file and a
 check of that change passes. A slug that is no longer an item loses what was
 recorded for it, and `--fix` and `--stats` name it.
 
 - `python3 .github/scripts/gen_umbrella.py` checks that the committed files equal
-  the generator's output and exits non-zero on drift.
+  the generator's output and exits non-zero on drift, or when a unit of a goal
+  needs a unit of a layer that `exclude_layers` sets outside it.
 - `--fix` writes them.
 - `--stats` writes nothing and prints counts and problems: ids that resolve in
   no README, dependencies stated and written, dependencies dropped to break
@@ -159,5 +171,5 @@ run `--fix` on the branch and commit the result.
 
 To add an umbrella, write `umbrellas/NAME.toml` with a one-line `description`
 and the `root` directory (optionally a `goal`, the statement the target list
-opens with), run `--fix`, and commit both files. An umbrella file without `root`
+opens with, and `exclude_layers`), run `--fix`, and commit both files. An umbrella file without `root`
 is left as it is.
