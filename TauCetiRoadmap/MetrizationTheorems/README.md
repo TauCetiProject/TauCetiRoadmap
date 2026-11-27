@@ -106,7 +106,7 @@ stage is discrete.
   `2⁻ⁿ` apart. Their centres `y` (for `i`) and `z` (for `j`) are at least `3·2⁻ⁿ` apart, since the
   ball of radius `3·2⁻ⁿ` about `y` lies in `u i` while `z`, whose least covering index is `j`, is
   not in `u i`; the triangle inequality loses at most `2·2⁻ⁿ`.
-- Hence any set of diameter less than `2⁻ⁿ`, in particular a ball of radius `2⁻ⁿ⁻¹` about any
+- Hence any set of diameter at most `2⁻ⁿ`, in particular a ball of radius `2⁻ⁿ⁻¹` about any
   point, meets at most one member of `b n`, so `b n` is discrete.
 
 Nowhere is `d(x, y) = 0 ⇒ x = y` used, so the theorem holds for pseudometrizable spaces.
@@ -212,7 +212,10 @@ union of the members of `𝓗 n` meeting `F i` and `Q n i` the union of those me
   `P k j \ closure (Q k' j)` for `k' ≤ k`; with `n ≤ k`, it lies in `P n i ⊆ Q n j` and outside
   `closure (Q n j)`, which is absurd.
 
-No T₁ axiom is used. For a pseudometrizable space the hypothesis holds by 1.2, which gives Bing's
+No T₁ axiom is used, and the argument uses only that each stage `𝓗 n` is locally finite: its
+discreteness enters once, through `LocallyFinite.closure_iUnion`. So the conclusion also holds
+when every open cover has a σ-locally finite open refinement, that is, by 2.1, for a paracompact
+regular space. For a pseudometrizable space the hypothesis holds by 1.2, which gives Bing's
 theorem that metrizable spaces are collectionwise normal.
 
 *Needs:* 1.1; Mathlib `exists_mem_nhds_isClosed_subset`, `LocallyFinite.closure_iUnion`.
@@ -437,7 +440,7 @@ Already in the library and not restated: Urysohn's metrization theorem
 (`TopologicalSpace.metrizableSpace_of_t3_secondCountable` and its pseudometrizable form); the
 paracompactness and normality of (pseudo-extended) metric spaces (`Metric.instParacompactSpace`,
 `Metric.t4Space`), which 1.2 sharpens to a locally finite σ-discrete refinement; metrizability of
-uniform spaces with countably generated uniformity (`UniformSpace.metrizableSpace`); perfect
+T₀ uniform spaces with countably generated uniformity (`UniformSpace.metrizableSpace`); perfect
 normality of pseudometrizable spaces; Dieudonné's theorem that paracompact R₁ spaces are normal;
 and, in Mathlib's counterexample files (not importable), the Sorgenfrey line (not metrizable, not
 second countable, completely normal, with non-normal square) and the non-normal product
