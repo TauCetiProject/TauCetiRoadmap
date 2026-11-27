@@ -34,6 +34,18 @@ Tau Ceti's `TemperedDistribution.MemBesov` (README, Conventions 5 and 6, CA-B05)
   Peetre's maximal function (CA-B03);
 * Part C: the trigonometric polynomials and the trigonometric scheme (CA-C01), Jackson's theorem
   (CA-C04), the description by moduli (CA-C06) and Nikolskii's inequality (CA-C10).
+
+## Headline theorems not stated here
+
+A definition in this file carries real proofs, and the remaining headline theorems of the Summary
+rest on carriers whose definitions need proofs of their own, so the README alone states them: the
+band-limited scheme in `L_p(E)` for the description on `E` (CA-D01–CA-D05; closure under addition
+uses the Fourier support of `L_p` functions); the periodic formula (CA-B07) and the realisation of
+CA-B09 for the identification with the Littlewood–Paley spaces for `s > σ_p` (CA-C06, CA-D05); a
+quasi-normed couple of two `besovENorm`s on `𝓢'(E, F)` for their interpolation (CA-B08; the
+quasi-triangle inequality of `besovENorm` is a theorem); the dyadic spline and step schemes and
+the Haar functions on the cube (CA-E04–CA-E06, CA-E11, CA-E13; Tau Ceti's Haar basis is newer than
+the pin).
 -/
 
 @[expose] public section

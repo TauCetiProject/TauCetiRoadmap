@@ -179,9 +179,10 @@ same Besov spaces. *Needs:* CA-A03, CA-A05, CA-A06.
 Prove: for every `0 < p ≤ ∞` and `r ≥ 1` there is `C` such that for `a < b` and `f ∈ L_p[a, b]`
 some polynomial `P` of degree less than `r` satisfies
 `‖f − P‖_{L_p[a,b]} ≤ C ω_r(f, (b − a)/r)_{p,[a,b]}` (DeVore–Lorentz, Chapter 6, Theorem 4.2, for
-`p ≥ 1`; Storozhenko 1977, Theorem 2, for `0 < p < 1`, with the step `(b − a)/(2r + 1)`); on boxes
-the same with polynomials of degree less than `r` in each variable and the isotropic modulus
-(Storozhenko–Oswald 1978, Theorems 1 and 2, for `0 < p < 1`). *Needs:* CA-A08, CA-A10;
+`p ≥ 1`; Storozhenko 1977, Theorem 2, for `0 < p < 1`, with the step `(b − a)/(2r + 1)`); on a
+cube `x + [0, L]^d` the same with polynomials of degree less than `r` in each variable and the
+isotropic modulus at `L/r`, with `C` independent of the cube (Storozhenko–Oswald 1978, Theorems 1
+and 2, for `0 < p < 1`). *Needs:* CA-A08, CA-A10;
 Mathlib `Polynomial`.
 
 ### CA-A10 Whitney's inequality in averaged form
@@ -283,12 +284,16 @@ CA-B02–CA-B06 hold for trigonometric polynomials and periodic distributions (S
 ### CA-B08 Interpolation of Besov spaces
 
 Prove: for real `s₀ ≠ s₁`, `0 < η < 1` and all `0 < p, q₀, q₁, q ≤ ∞`, on `E` and on `𝕋^d`:
-`(B^{s₀}_{p,q₀}, B^{s₁}_{p,q₁})_{η,q} = B^{(1−η)s₀ + ηs₁}_{p,q}` with equivalent quasi-norms,
-through the retraction of `B^s_{p,q}` onto the weighted sequence space `ℓ^s_q(L_p)` (analysis by the
-blocks, synthesis by enlarged blocks) and the interpolation of weighted sequence spaces
-(Bergh–Löfström, Theorems 5.6.1, 6.4.3 and 6.4.5(1); Triebel 1983, 2.4.2). For `p, q₀, q₁, q ≥ 1`
-this is Tau Ceti's `TauCeti.CompatibleCouple.besovKMethodEquiv`; the other ranges use AS-B01.
-*Needs:* AS-B01, AS-B02, CA-B05, CA-B07; Tau Ceti `TauCeti.CompatibleCouple.besovKMethodEquiv`,
+`(B^{s₀}_{p,q₀}, B^{s₁}_{p,q₁})_{η,q} = B^{(1−η)s₀ + ηs₁}_{p,q}` with equivalent quasi-norms.
+Route: for a bump supported in `B(0, 2)` (enough by CA-B05), `B^s_{p,q}` is a retract of the space
+of the sequences `(g_j)` in the weighted sequence space `ℓ^s_q(L_p)` with Fourier support of `g_j`
+in the ball of radius `2^{j+1}`: analysis by the blocks, synthesis by enlarged blocks, bounded on
+this space by CA-B04 for every `0 < p ≤ ∞`. The K-functional of two such weighted spaces is
+computed by splitting a sequence by its index, which keeps the support condition, so they
+interpolate as weighted sequence spaces do (Bergh–Löfström, Theorems 5.6.1, 6.4.3 and 6.4.5(1);
+Triebel 1983, 2.4.2). For `p, q₀, q₁, q ≥ 1` this is Tau Ceti's
+`TauCeti.CompatibleCouple.besovKMethodEquiv`; the other ranges use AS-B01. *Needs:* AS-B01,
+AS-B02, CA-B04, CA-B05, CA-B07; Tau Ceti `TauCeti.CompatibleCouple.besovKMethodEquiv`,
 `TauCeti.CompatibleCouple.weightedLpKMethodEquiv`,
 `TauCeti.CompatibleCouple.kMethod_eq_map_of_leftInverse`.
 
@@ -376,11 +381,11 @@ Prove: for `0 < α < 1`, `E_n(f)_∞ = O(n^{−α})` if and only if `f` is `α`-
 
 ### CA-C08 The case `p = 2`
 
-Prove: `E_n(f)_2² = ∑_{‖k‖_∞ ≥ n} |f̂(k)|²`; `f ∈ A^s_q(L_2, T)` if and only if
-`(2^{js} (∑_{2^{j−1} ≤ ‖k‖_∞ < 2^j} |f̂(k)|²)^{1/2})_j ∈ ℓ_q`; and
+Prove: `E_n(f)_2² = ∑_{‖k‖_∞ ≥ n} |f̂(k)|²`; for `s > 0` and `0 < q ≤ ∞`, `f ∈ A^s_q(L_2, T)` if
+and only if `(2^{js} (∑_{2^{j−1} ≤ ‖k‖_∞ < 2^j} |f̂(k)|²)^{1/2})_j ∈ ℓ_q`; and for `s > 0`,
 `A^s_2 = {f : ∑_k (1 + |k|²)^s |f̂(k)|² < ∞}`, which for `d = 1` is Tau Ceti's
-`TauCeti.CircleSobolev s`. *Needs:* CA-C01, AS-A05; Mathlib `UnitAddTorus.mFourierBasis`; Tau Ceti
-`TauCeti.CircleSobolev`.
+`TauCeti.CircleSobolev s`. *Needs:* CA-C01, AS-A02, AS-A05; Mathlib `UnitAddTorus.mFourierBasis`;
+Tau Ceti `TauCeti.CircleSobolev`.
 
 ### CA-C09 Realisation
 
@@ -572,8 +577,8 @@ bound. *Needs:* AS-A15, AS-A16, CA-E03, CA-E06.
 
 Define `B^s_{p,q}(Q)` by the isotropic moduli of CA-A08 for `0 < s < r`, and prove that tensor
 dyadic splines of order `r` describe it for `0 < s < min(r, r − 1 + 1/p)` and every
-`0 < p, q ≤ ∞`, as in CA-E04–CA-E06 with CA-A09 on boxes (DeVore–Popov 1988, Theorem 5.1).
-*Needs:* CA-A08, CA-A09, AS-B10.
+`0 < p, q ≤ ∞`, as in CA-E04–CA-E06 with CA-A09 on dyadic cubes (DeVore–Popov 1988,
+Theorem 5.1). *Needs:* CA-A08, CA-A09, AS-B10.
 
 ### CA-E11 Dyadic steps on the cube for `p ≤ 1`
 
@@ -659,7 +664,8 @@ An Apache-2.0 formalisation of a large part of this roadmap exists in
 with Mathlib `v4.36.0`, sorry-free, with a blueprint that names the Lean declaration of every
 statement). It states its Besov spaces as approximation spaces of schemes, subsets of `L_p`; this
 roadmap identifies them with the distributional formula of Convention 6. The roadmap specifies the
-mathematics; the repository is a cited source, and its file map is not prescriptive.
+mathematics; the repository is a cited source, and its file map is not prescriptive. The Lean names
+below are declarations of that repository.
 
 - *Banach range.* Moduli of smoothness and the descriptions of Besov spaces on `ℝ^d` and `𝕋^d` by
   band-limited and trigonometric approximation and by differences for `1 ≤ p < ∞` (Parts A, C, D),
@@ -701,8 +707,8 @@ their descriptions of Besov spaces (Parts C–E). Its suggested home in Tau Ceti
   Bernstein's inequality for spectrally supported functions, the square-function theorem and the
   Besov spaces for `1 ≤ p, q ≤ ∞` on `ℝ^d` and `𝕋^d`. This roadmap owns the same formula for `p < 1`
   or `q < 1` and every description of it by approximation and by differences.
-- *Maximal functions.* PDE §2.1 owns the maximal function and the Fefferman–Stein inequality; this
-  roadmap adds the case `r = ∞` (CA-B01) and Peetre's maximal function.
+- *Maximal functions.* PDE §2.1 owns the maximal function and the Fefferman–Stein inequality for
+  `ℓ²`; this roadmap states it for every `1 < r ≤ ∞` (CA-B01) and owns Peetre's maximal function.
 - *Real interpolation of Banach couples.*
   [NoncommutativeIntegration](../NoncommutativeIntegration/README.md) owns Banach couples, the
   K-functional and the K-method for `1 ≤ q ≤ ∞`; CA-B08 uses its Tau Ceti implementation for
@@ -751,7 +757,10 @@ restrictions of the spaces of CA-B05.
 
 ### From Tau Ceti
 
-Paths are under `TauCeti/`.
+Paths are under `TauCeti/`. Except `TauCeti.maximalFunction`, `TauCeti.eLpNorm_maximalFunction_le`,
+`TauCeti.CircleSobolev` and `TauCeti.Wkp`, these declarations are on Tau Ceti `main` and newer than
+the Tau Ceti pin of this repository; PDE §2.1 and §7.1–7.2, BanachSpaceTheory §3.5 and
+NoncommutativeIntegration §2.4 specify them.
 
 - *Littlewood–Paley and Besov spaces on `E`* (`Analysis/Calculus/BumpFunction/LittlewoodPaley.lean`,
   `Analysis/Distribution/TemperedDistribution/LittlewoodPaley.lean`,
@@ -853,8 +862,8 @@ Paths are under `TauCeti/`.
   (CA-C03–CA-C05).
 - E. A. Storozhenko and P. Oswald, *Jackson's theorem in the spaces `L_p(ℝ^k)`, `0 < p < 1`*,
   Sibirsk. Mat. Zh. **19** (1978), 888–901; Siberian Math. J. **19** (1978), 630–640: Theorems 1
-  and 2 (Whitney on boxes, CA-A09), Theorem 3 (Jackson on `𝕋^k` for every order, `0 < p < 1`,
-  CA-C04).
+  and 2 (Whitney's inequality in several variables, CA-A09), Theorem 3 (Jackson on `𝕋^k` for every
+  order, `0 < p < 1`, CA-C04).
 - E. A. Storozhenko, *On the approximation by algebraic polynomials of functions of class `L^p`,
   `0 < p < 1`*, Izv. Akad. Nauk SSSR Ser. Mat. **41** (1977), 652–662; Math. USSR-Izv. **11**
   (1977), 613–623: Theorems 1 and 2, Lemmas 1–3 (CA-A09, CA-A10).
@@ -872,7 +881,8 @@ Paths are under `TauCeti/`.
   arXiv:1808.08156: Theorem 1 and the end of §2 (CA-E01, CA-E07).
 - P. Oswald, *Multivariate Haar systems in Besov function spaces*, Sb. Math. **212** (2021),
   810–842, translated from Mat. Sb. **212** (2021), no. 6, 73–108, arXiv:2002.12917: Lemma 2.1,
-  (2.3), Theorem 1.1, Theorem 3.1 with (3.13), §5.4 (CA-E07, CA-E11, CA-E13).
+  (2.3), Theorem 1.1, Theorem 3.1 with (3.13), §5.4 (CA-E07, CA-E11, CA-E13), numbering of the
+  journal version (arXiv v1: Lemma 1, (7), Theorem 1, Theorem 3 with (23), §5.4).
 - H. Triebel, *Theory of Function Spaces*, Birkhäuser, 1983, 1.3.1, 1.3.2, 1.5.2, 1.6.3, 2.3.2,
   2.4.2, 2.5.3, 2.5.12: Part B, CA-D05, CA-D07; *Theory of Function Spaces II*, 1992, Chapter 4:
   CA-B06.
