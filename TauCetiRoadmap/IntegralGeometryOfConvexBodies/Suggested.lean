@@ -5,6 +5,7 @@ public import TauCeti.Geometry.Euclidean.Volume.OrthogonalGroup
 public import TauCeti.LinearAlgebra.OrthogonalGroup
 public import TauCeti.Geometry.Euclidean.Volume.Parallel
 public import TauCeti.Analysis.BoundedVariation.ParallelVolume
+public import TauCeti.Probability.Distributions.Uniform.Sphere.Basic
 
 /-!
 # Integral geometry of convex bodies: target signatures
@@ -30,9 +31,12 @@ on flats is the product of the rotation probability and Lebesgue measure and no 
 is needed. Integrals of signed integrands are Bochner integrals, and every theorem that
 integrates one asserts its integrability as a conclusion.
 
-The support function is a local copy of the definition of `ConvexAnalysisAndDuality` §2.1, with
-a docstring naming its owner. The implementation namespace of the README is `TauCeti`; the
-prototypes live in this roadmap's namespace.
+The support function is a local copy of the definition of `ConvexAnalysisAndDuality` §2.1, and
+the real support function, the width and the mean width are local copies of the definitions of
+`MeanWidthAndCauchyFormulas` §§1.1, 1.2 and 3.1, each with a docstring naming its owner. The
+volume clause `intrinsicVolume_top` is proved, as a sanity check of the definition of the
+intrinsic volumes. The implementation namespace of the README is `TauCeti`; the prototypes live
+in this roadmap's namespace.
 -/
 
 @[expose] public section
@@ -49,13 +53,40 @@ attribute [local instance] Classical.propDecidable
 /-- The model Euclidean space `ℝ^d`. -/
 abbrev Eucl (d : ℕ) := EuclideanSpace ℝ (Fin d)
 
-/-! ## Local copy of vocabulary owned elsewhere -/
+/-! ## Local copies of vocabulary owned elsewhere -/
+
+namespace ConvexAnalysisAndDuality
+
+variable {E F : Type*} [AddCommGroup E] [Module ℝ E] [AddCommGroup F] [Module ℝ F]
 
 /-- Local copy of `ConvexAnalysisAndDuality` §2.1: the support function
 `σ_C(y) = ⨆ x ∈ C, B x y`, equal to `⊥` for empty `C`. -/
-def supportFunction {E F : Type*} [AddCommGroup E] [Module ℝ E] [AddCommGroup F] [Module ℝ F]
-    (B : E →ₗ[ℝ] F →ₗ[ℝ] ℝ) (C : Set E) (y : F) : EReal :=
+def supportFunction (B : E →ₗ[ℝ] F →ₗ[ℝ] ℝ) (C : Set E) (y : F) : EReal :=
   ⨆ x ∈ C, (B x y : EReal)
+
+end ConvexAnalysisAndDuality
+
+section MeanWidthCopies
+
+variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+
+/-- Local copy of `MeanWidthAndCauchyFormulas` §1.1: the real support function
+`h_K(u) = sup_{x ∈ K} ⟪x, u⟫`, the real value of the support function of
+ConvexAnalysisAndDuality §2.1 for the inner product pairing. -/
+def realSupportFunction (K : Set E) (u : E) : ℝ :=
+  (ConvexAnalysisAndDuality.supportFunction (innerₗ E) K u).toReal
+
+/-- Local copy of `MeanWidthAndCauchyFormulas` §1.2: the width of `K` in the direction `u`,
+`w_K(u) = h_K(u) + h_K(-u)`. -/
+def widthFunction (K : Set E) (u : E) : ℝ :=
+  realSupportFunction K u + realSupportFunction K (-u)
+
+/-- Local copy of `MeanWidthAndCauchyFormulas` §3.1: the mean width, the average of the width
+over the unit sphere for Tau Ceti's uniform law. -/
+def meanWidth [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E] (K : Set E) : ℝ :=
+  ∫ u, widthFunction K (u : E) ∂TauCeti.Probability.uniformSphereMeasure E
+
+end MeanWidthCopies
 
 /-! ## Layer 1: the Steiner formula and the intrinsic volumes -/
 
@@ -97,10 +128,26 @@ theorem steiner_formula {K : Set (Eucl d)} (hK : IsCompact K) (hKc : Convex ℝ 
       ∑ j ∈ Finset.range (d + 1), ε ^ (d - j) * unitBallVolume (d - j) * intrinsicVolume j K := by
   sorry
 
-/-- 1.2: `V_d` is the volume. -/
-theorem intrinsicVolume_top {K : Set (Eucl d)} (hK : IsCompact K) (hKc : Convex ℝ K) :
-    intrinsicVolume d K = volume.real K := by
-  sorry
+/-- 1.2, a sanity check of the definition: `V_d(K)` is the volume of `K`, for every set, since
+the constant term of the Steiner polynomial is its value at the node `0`. -/
+theorem intrinsicVolume_top (K : Set (Eucl d)) : intrinsicVolume d K = volume.real K := by
+  have hκ : unitBallVolume 0 = 1 := by
+    have h : closedBall (0 : Eucl 0) 1 = univ := by
+      ext x; simp [Subsingleton.elim x 0]
+    have := (PiLp.volume_preserving_ofLp (Fin 0)).measure_preimage
+      (s := univ) nullMeasurableSet_univ
+    simp only [preimage_univ] at this
+    rw [unitBallVolume, h, Measure.real, this, MeasureTheory.volume_pi, Measure.pi_univ]
+    simp
+  have hinj : Set.InjOn (fun i : ℕ ↦ (i : ℝ)) (Finset.range (d + 1) : Set ℕ) :=
+    fun a _ b _ h ↦ by simpa using h
+  have h0 := Lagrange.eval_interpolate_at_node (s := Finset.range (d + 1))
+    (v := fun i : ℕ ↦ (i : ℝ)) (i := 0)
+    (fun i ↦ volume.real (K + closedBall (0 : Eucl d) (i : ℝ))) hinj
+    (Finset.mem_range.2 (Nat.succ_pos d))
+  simp only [Nat.cast_zero, closedBall_zero, add_singleton, add_zero, image_id'] at h0
+  rw [intrinsicVolume, ite_eq_left_iff.2 (fun h ↦ (h le_rfl).elim), Nat.sub_self, hκ, div_one,
+    coeff_zero_eq_eval_zero, steinerPolynomial, ← h0]
 
 /-- 1.3: `V_j` is invariant under every affine isometry, for every set. -/
 theorem intrinsicVolume_image_affineIsometryEquiv (f : Eucl d ≃ᵃⁱ[ℝ] Eucl d) (j : ℕ)
@@ -271,7 +318,7 @@ def IsZonoid (Z : Set (Eucl d)) : Prop :=
 origin is a difference of zonoids: `K + Z₁ = Z₂` for zonoids `Z₁`, `Z₂`. -/
 theorem exists_isZonoid_add_eq {K : Set (Eucl d)} (hK : IsCompact K) (hKc : Convex ℝ K)
     (hKn : K.Nonempty) (hsymm : ∀ x ∈ K, -x ∈ K)
-    (hsmooth : ContDiffOn ℝ ∞ (fun u ↦ (supportFunction (innerₗ (Eucl d)) K u).toReal) {0}ᶜ) :
+    (hsmooth : ContDiffOn ℝ ∞ (realSupportFunction K) {0}ᶜ) :
     ∃ Z₁ Z₂ : Set (Eucl d), IsZonoid Z₁ ∧ IsZonoid Z₂ ∧ K + Z₁ = Z₂ := by
   sorry
 
@@ -348,10 +395,9 @@ Haar measure divided by its total mass. -/
 def rotationMeasure (d : ℕ) : Measure (Matrix.orthogonalGroup (Fin d) ℝ) :=
   (TauCeti.orthogonalGroupMeasure d univ)⁻¹ • TauCeti.orthogonalGroupMeasure d
 
-/-- 4.1: the normalized surface measure of the unit sphere, as a measure on `ℝ^d`. -/
+/-- 4.1: Tau Ceti's uniform law on the unit sphere, carried to a measure on `ℝ^d`. -/
 def uniformSphere (d : ℕ) : Measure (Eucl d) :=
-  ((volume : Measure (Eucl d)).toSphere univ)⁻¹ •
-    ((volume : Measure (Eucl d)).toSphere).map Subtype.val
+  (TauCeti.Probability.uniformSphereMeasure (Eucl d)).map Subtype.val
 
 /-- 4.1: the rotation measure is a probability, left and right invariant and inversion
 invariant, and it is the only left-invariant probability on the orthogonal group. -/
@@ -481,7 +527,7 @@ section Layer5
 variable {d : ℕ}
 
 /-- 5.1, **Crofton formula**: for `j ≤ k ≤ d`,
-`∫_{A(d,k)} V_j(K ∩ F) μ_k(dF) = c^{k, d-k+j}_{j, d} V_{d-k+j}(K)`. -/
+`∫_{A(d,k)} V_j(K ∩ F) μ_k(dF) = c^k_j c^{d-k+j}_d V_{d-k+j}(K)`. -/
 theorem crofton {K : Set (Eucl d)} (hK : IsCompact K) (hKc : Convex ℝ K) {k j : ℕ}
     (hkd : k ≤ d) (hj : j ≤ k) :
     Integrable (fun p ↦ intrinsicVolume j (K ∩ affineFlat k p.1 p.2)) (flatMeasure d k) ∧
@@ -495,7 +541,7 @@ theorem intrinsicVolume_nonneg_and_mono {K M : Set (Eucl d)} (hK : IsCompact K)
     0 ≤ intrinsicVolume j K ∧ intrinsicVolume j K ≤ intrinsicVolume j M := by
   sorry
 
-/-- 5.3, **Kubota's formula**: `V_m(K) = c^{0,d}_{m,d-m} ∫_{G(d,m)} λ_m(K|L) ν_m(dL)`. -/
+/-- 5.3, **Kubota's formula**: `V_m(K) = c^0_m c^d_{d-m} ∫_{G(d,m)} λ_m(K|L) ν_m(dL)`. -/
 theorem kubota {K : Set (Eucl d)} (hK : IsCompact K) (hKc : Convex ℝ K) {m : ℕ} (hm : m ≤ d) :
     Integrable (fun L : Subspaces d ↦
         volume.real (L.toSubmodule.orthogonalProjectionOnto '' K))
@@ -505,13 +551,8 @@ theorem kubota {K : Set (Eucl d)} (hK : IsCompact K) (hKc : Convex ℝ K) {m : �
           ∂grassmannianMeasure d m := by
   sorry
 
-/-- 5.3: the **mean width** `w(K)`, the mean of `h_K(u) + h_K(-u)` over the uniform law on the
-unit sphere. -/
-def meanWidth (K : Set (Eucl d)) : ℝ :=
-  ∫ u, ((supportFunction (innerₗ (Eucl d)) K u).toReal +
-    (supportFunction (innerₗ (Eucl d)) K (-u)).toReal) ∂uniformSphere d
-
-/-- 5.3: `V_1(K) = d κ_d / (2 κ_{d-1}) w(K)` for nonempty compact convex `K`. -/
+/-- 5.3: `V_1(K) = d κ_d / (2 κ_{d-1}) w(K)` for nonempty compact convex `K`, with the mean width
+`w` of MeanWidthAndCauchyFormulas §3.1. -/
 theorem intrinsicVolume_one_eq_meanWidth (hd : 1 ≤ d) {K : Set (Eucl d)} (hK : IsCompact K)
     (hKc : Convex ℝ K) (hKn : K.Nonempty) :
     intrinsicVolume 1 K = d * unitBallVolume d / (2 * unitBallVolume (d - 1)) * meanWidth K := by
@@ -530,13 +571,13 @@ theorem intrinsicVolume_zonotope {m : ℕ} (a : Fin m → Eucl d) (j : ℕ) :
         Real.sqrt (gramDet (a ∘ e)) := by
   sorry
 
-/-- 5.4: the intrinsic volumes of a zonoid with generating measure `ρ`, an even finite measure
-on the unit sphere with `h_Z(u) = ∫ |⟪u, v⟫| ρ(dv)`:
+/-- 5.4: the intrinsic volumes of a zonoid with generating measure `ρ`, a finite measure on the
+unit sphere with `h_Z(u) = ∫ |⟪u, v⟫| ρ(dv)`:
 `V_j(Z) = 2^j / j! ∫ ⋯ ∫ vol_j(v_1, …, v_j) ρ(dv_1) ⋯ ρ(dv_j)`. -/
 theorem intrinsicVolume_zonoid {ρ : Measure (Eucl d)} [IsFiniteMeasure ρ]
-    (hρS : ∀ᵐ v ∂ρ, ‖v‖ = 1) (hρeven : ρ.map Neg.neg = ρ) {Z : Set (Eucl d)}
+    (hρS : ∀ᵐ v ∂ρ, ‖v‖ = 1) {Z : Set (Eucl d)}
     (hZ : IsCompact Z) (hZc : Convex ℝ Z) (hZn : Z.Nonempty)
-    (hh : ∀ u, (supportFunction (innerₗ (Eucl d)) Z u).toReal = ∫ v, |⟪u, v⟫| ∂ρ) (j : ℕ) :
+    (hh : ∀ u, realSupportFunction Z u = ∫ v, |⟪u, v⟫| ∂ρ) (j : ℕ) :
     intrinsicVolume j Z = 2 ^ j / j.factorial *
       ∫ v, Real.sqrt (gramDet v) ∂Measure.pi (fun _ : Fin j ↦ ρ) := by
   sorry
@@ -563,7 +604,7 @@ theorem kinematic_valuation {φ : Set (Eucl d) → ℝ} (hval : IsConvexValuatio
   sorry
 
 /-- 6.2, **principal kinematic formula**:
-`∫_{G_d} V_j(K ∩ gM) μ(dg) = ∑_{k=j}^d c^{k, d-k+j}_{j, d} V_k(K) V_{d-k+j}(M)`. -/
+`∫_{G_d} V_j(K ∩ gM) μ(dg) = ∑_{k=j}^d c^k_j c^{d-k+j}_d V_k(K) V_{d-k+j}(M)`. -/
 theorem principal_kinematic {K M : Set (Eucl d)} (hK : IsCompact K) (hKc : Convex ℝ K)
     (hM : IsCompact M) (hMc : Convex ℝ M) {j : ℕ} (hj : j ≤ d) :
     Integrable (fun p ↦ intrinsicVolume j (K ∩ motion p.1 p.2 '' M)) (motionMeasure d) ∧
@@ -664,6 +705,9 @@ end Layer7
 #check @MeasureTheory.Measure.isMulLeftInvariant_eq_smul
 #check @MeasureTheory.Measure.euclideanHausdorffMeasure
 #check @MeasureTheory.Measure.toSphere
+#check @TauCeti.Probability.uniformSphereMeasure
+#check @TauCeti.Probability.uniformSphereMeasure_def
+#check @Lagrange.eval_interpolate_at_node
 #check @EuclideanSpace.volume_closedBall
 #check @Real.Gamma_mul_Gamma_add_half
 #check @ConvexBody

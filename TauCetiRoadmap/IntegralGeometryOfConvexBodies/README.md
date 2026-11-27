@@ -21,11 +21,12 @@ and the stereological formulas, are the integral formulas of this roadmap taken 
 parallel volume with the boundary area, which gives the surface-area form of `V_{d-1}`;
 [GeometricMeasureTheory](../GeometricMeasureTheory/README.md) supplies the normalization of the
 Hausdorff measures; [ConvexAnalysisAndDuality](../ConvexAnalysisAndDuality/README.md) supplies
-the support function; and SpecialFunctionsHigherSpheres supplies the
-Funk–Hecke formula used to represent smooth centrally symmetric bodies through zonoids in the
-proof of Hadwiger's theorem. The roadmap is a synthesis of Schneider and Weil's monograph, of
-Kiderlen's lectures, of the integral-geometric chapter of Adler and Taylor and of the survey of
-Chiu, Stoyan, Kendall and Mecke; it follows none of them section by section.
+the support function; MeanWidthAndCauchyFormulas supplies its real form, the width and the mean
+width, and this roadmap identifies the mean width with `V_1`; and SpecialFunctionsHigherSpheres
+supplies the Funk–Hecke formula used to represent smooth centrally symmetric bodies through
+zonoids in the proof of Hadwiger's theorem. The roadmap is a synthesis of Schneider and Weil's
+monograph, of Kiderlen's lectures, of the integral-geometric chapter of Adler and Taylor and of
+the survey of Chiu, Stoyan, Kendall and Mecke; it follows none of them section by section.
 
 ## How to read the build
 
@@ -81,9 +82,11 @@ to 5, and Layer 7 combines Layer 6 with the extension of Layer 2.
   quotient space is formed, and the uniqueness of these measures is stated through 4.1–4.2.
 - **Integrals.** Integrands of signed functionals are Bochner integrals, and every theorem that
   integrates one asserts its integrability as a conclusion.
-- **Support function.** `h_K(u)` is the support function of ConvexAnalysisAndDuality §2.1,
-  `supportFunction (innerₗ (Eucl d)) K u`, an extended real that is finite for nonempty compact
-  `K`; it is read as a real number through `EReal.toReal` only for nonempty compact `K`.
+- **Support function.** `h_K(u)` is `realSupportFunction K u` of MeanWidthAndCauchyFormulas
+  §1.1, the `EReal.toReal` of the support function of ConvexAnalysisAndDuality §2.1,
+  `supportFunction (innerₗ (Eucl d)) K u`; it is used only for nonempty compact `K`, where the
+  extended real is finite. The width is `w_K(u) = h_K(u) + h_K(-u)`, `widthFunction` there
+  (§1.2).
 
 ## Layer 1: the Steiner formula and the intrinsic volumes
 
@@ -97,14 +100,18 @@ p. 172 (the constants of the Crofton formula); Chiu et al. (1.22)–(1.24), p. 1
   `c^r_s = (2√π)^{r - s} Γ((r + 1)/2) / Γ((s + 1)/2)` with an integer exponent. Route: the first
   is `EuclideanSpace.volume_closedBall` (for `j = 0` the space is a point), and the second follows
   from the first and the duplication formula `Real.Gamma_mul_Gamma_add_half`. Schneider and Weil
-  print the second form on p. 172 without the factor `(2√π)^{r - s}`.
+  print the second form on p. 172 for a single `c^r_s` without the factor `(2√π)^{r - s}`; the
+  printed quotient is exact for the product `c^k_j c^{d-k+j}_d` of Crofton's formula, where the
+  two powers cancel.
 
 **Checks.**
 - `κ_0, κ_1, κ_2, κ_3 = 1, 2, π, 4π/3`, and `κ_4 = π²/2 = 4.93480`.
 - `c^1_0 = 2`; the form printed on p. 172 gives `Γ(1)/Γ(1/2) = 1/√π = 0.56419`, so the factor
   `(2√π)^{r-s}` is needed (negative control).
-- `c^1_1 c^1_2 = 2/π` and `c^2_1 c^2_3 = π/4`, the constants of Crofton's formula for lines in the
-  plane and for planes in space.
+- `c^1_0 c^1_2 = 2/π` and `c^2_1 c^2_3 = π/4`, the constants of Crofton's formula (5.1) for `V_0`
+  of sections by lines in the plane (`d = 2`, `k = 1`, `j = 0`) and for `V_1` of sections by
+  planes in space (`d = 3`, `k = 2`, `j = 1`); the product `c^1_1 c^1_2 = 1/π` is not a constant
+  of 5.1 (negative control).
 
 ### 1.2 The Steiner formula
 
@@ -117,8 +124,10 @@ p. 142; Chiu et al. (1.28)–(1.31), p. 14.
   polytopes by decomposing the parallel body over the normal cones of the faces and pass to
   convex bodies by continuity of the volume; with the interpolation definition the content of the
   theorem is that `ε ↦ V_d(K + ε B^d)` is a polynomial of degree at most `d` on `[0, ∞)`.
-- **Volume** (`intrinsicVolume_top`): `V_d(K) = volume.real K` for a convex body; the constant
-  term of the Steiner polynomial.
+- **Volume** (`intrinsicVolume_top`), a sanity check of the definition: `V_d(K) = volume.real K`
+  for every set `K`. The constant term of the Steiner polynomial is its value at the node `0`,
+  which is `V_d(K + 0 · B^d) = V_d(K)`, and `κ_0 = 1`; `Suggested.lean` proves it with Mathlib's
+  `Lagrange.eval_interpolate_at_node`.
 
 **Checks.**
 - For a box with sides `a, b, c` in `ℝ³`, `V_0, …, V_3 = 1, a + b + c, ab + bc + ca, abc`, the
@@ -233,8 +242,11 @@ p. 620), with (14.47), p. 617; Kiderlen pp. 27–28; Adler–Taylor (6.3.9)–(6
 
 **Checks.**
 - The square frame `[0, 3]² \ (1, 2)²` as the union of four rectangles has inclusion–exclusion
-  Euler characteristic `4 - 4 + 0 = 0`, and as the union of eight unit squares around the hole
-  also `8 - 8 + 0 = 0`.
+  Euler characteristic `4 - 4 + 0 = 0`. As the union of eight unit squares around the hole it is
+  `8 - 12 + 4 = 0`: eight neighbouring pairs share an edge, the two edge squares flanking a
+  corner square meet in a point (four more pairs), and each corner square with its two
+  neighbours gives a nonempty triple (four triples). A sum that dropped the point contacts
+  would read `8 - 8 + 0`.
 - The L-shaped union of three unit squares has half perimeter `V_1 = 4` and area `3`.
 
 ### 2.3 Euler characteristic and convex ring index
@@ -312,7 +324,7 @@ Source: Schneider–Weil Proposition 14.4.1, p. 629, with its proof pp. 629–63
 
 ### 3.3 Hadwiger's theorem
 
-Sources: Schneider–Weil Theorem 14.4.6, p. 628; Kiderlen Theorems 2.1–2.2, pp. 24–25 (the monotone
+Sources: Schneider–Weil Theorem 14.4.6, p. 628; Kiderlen Theorem 2.1, p. 24 (the monotone
 version, stated without proof); Adler–Taylor Theorem 6.3.1, p. 146 (the monotone version on basic
 complexes); Chiu et al. (1.44), p. 16.
 
@@ -339,9 +351,9 @@ complexes); Chiu et al. (1.44), p. 16.
   So `φ(M + t C) ≤ φ(M) + L t` with `L = d (φ((R + d) C) - φ({0}))`. If nonempty convex bodies
   `K, K' ⊆ R B^d` have Hausdorff distance `t ≤ 1`, then `K ⊆ K' + t B^d ⊆ K' + t C`, so
   `φ(K) ≤ φ(K') + L t`, and symmetrically. No polytope approximation is used, so bodies of
-  lower dimension, such as thin rectangles near a segment, need no separate treatment. None of
-  the four sources prints this step: Kiderlen (p. 24) states the monotone theorem without proof
-  and refers to Hadwiger, and Adler and Taylor (p. 146) refer to Hadwiger's monograph.
+  lower dimension, such as thin rectangles near a segment, need no separate treatment. Kiderlen
+  (p. 24) states the monotone theorem without proof and refers to Hadwiger, and Adler and Taylor
+  (p. 146) refer to Hadwiger's monograph.
 - **Monotone version** (`hadwiger_monotone`): an increasing motion-invariant valuation with
   `φ(∅) = 0` is `∑_{i=0}^{d} c_i V_i` on nonempty bodies with every `c_i ≥ 0`. Route: the previous
   item and `hadwiger` give the expansion; `c_0 = φ({0}) ≥ φ(∅) = 0`, and on the `i`-dimensional
@@ -374,8 +386,9 @@ complexes); Chiu et al. (1.44), p. 16.
 Sources: Schneider–Weil Theorem 13.2.9, p. 584; Adler–Taylor (6.3.11)–(6.3.12), p. 145.
 
 - **Definitions** (`rot`, `rotationMeasure`, `uniformSphere`): rotations as in the Conventions;
-  the normalized Haar measure; the surface measure of the unit sphere, `Measure.toSphere` of
-  Mathlib, normalized and transported to `Eucl d`.
+  the normalized Haar measure; and Tau Ceti's uniform law on the unit sphere,
+  `TauCeti.Probability.uniformSphereMeasure`, the normalized surface measure, carried to a
+  measure on `Eucl d` by the inclusion of the sphere.
 - **Rotation probability** (`rotationMeasure_spec`): `rotationMeasure d` is a probability that
   is left and right invariant and invariant under inversion, and it is the only left-invariant
   probability. Route: Tau Ceti gives the Haar property and `TauCeti.orthogonalGroupVolume_pos`;
@@ -383,8 +396,10 @@ Sources: Schneider–Weil Theorem 13.2.9, p. 584; Adler–Taylor (6.3.11)–(6.3
   `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`.
 - **Sphere** (`map_rotationMeasure_eq_uniformSphere`): for a unit vector `e`, the image of
   `rotationMeasure d` under `ϑ ↦ ϑ e` is `uniformSphere d`. Route: Tau Ceti's
-  `TauCeti.map_orthogonalGroupLastColumn_orthogonalGroupMeasure` for the last basis vector, and
-  invariance for the others.
+  `TauCeti.map_orthogonalGroupLastColumn_orthogonalGroupMeasure` gives a multiple of Mathlib's
+  `MeasureTheory.Measure.toSphere` for the last basis vector, whose normalization is the uniform
+  law (`TauCeti.Probability.uniformSphereMeasure_def`); right invariance gives the other unit
+  vectors.
 
 **Checks.**
 - `d = 1`: the group is `{±1}`, each of mass `1/2`, and `uniformSphere 1` puts mass `1/2` on `±1`.
@@ -485,27 +500,35 @@ Source: Schneider–Weil p. 601 (the property list).
 
 ### 5.3 Kubota, Cauchy and the mean width
 
-Sources: Schneider–Weil (5.8), p. 172, and (14.7), p. 601; Kiderlen Theorem 2.3, p. 26; Chiu et al.
-(1.50), p. 16.
+Sources: Schneider–Weil (5.8), p. 172, and (14.7), p. 601; Chiu et al. (1.50), p. 16.
 
 - **Kubota's formula** (`kubota`): for `m ≤ d`,
   `V_m(K) = c^0_m c^d_{d-m} ∫ λ_m(K | L) ν_m(dL)`, with `K | L` the orthogonal projection and
   `λ_m` Lebesgue measure on `L`. Route: Crofton with `j = 0` and `k = d - m`, by Fubini over the
   flats `L^⊥ + y` and the complement clause of 4.2. The constant is the flag coefficient
   `(d choose m) κ_d / (κ_m κ_{d-m})`.
-- **Definition** (`meanWidth`): the mean of `h_K(u) + h_K(-u)` over `uniformSphere d`.
+- The mean width `w(K) = meanWidth K` is that of MeanWidthAndCauchyFormulas §3.1, the mean of
+  the width `h_K(u) + h_K(-u)` for Tau Ceti's uniform law on the sphere; a local copy is in
+  `Suggested.lean`.
 - **Mean width** (`intrinsicVolume_one_eq_meanWidth`): for `d ≥ 1` and a nonempty convex body,
   `V_1(K) = (d κ_d / (2 κ_{d-1})) w(K)`. Route: Kubota with `m = 1`; the projection onto the line
-  `ℝ u` has length `h_K(u) + h_K(-u)`, and 4.1 carries `ν_1` to the sphere.
-- Cauchy's surface area formula, `V_{d-1}(K) = (1/κ_{d-1}) ∫ λ_{d-1}(K | u^⊥) σ(du)` with `σ`
-  the unnormalized sphere measure, is Kubota with `m = d - 1` and the complement clause; it is a
-  target in prose.
+  `ℝ u` has length `h_K(u) + h_K(-u)`, and 4.1 carries `ν_1`, through `ℝ e ↦ ℝ ϑ e`, to the law
+  of the line spanned by a point of `uniformSphere d`, the image of the law used by `meanWidth`.
+- Cauchy's surface area formula, `V_{d-1}(K) = (1/(2 κ_{d-1})) ∫ λ_{d-1}(K | u^⊥) σ(du)` with
+  `σ` the unnormalized sphere measure, of mass `d κ_d`, is Kubota with `m = d - 1` and the
+  complement clause: the constant of Kubota is `d κ_d / (2 κ_{d-1})` against the probability
+  `ν_{d-1}`. Since `2 V_{d-1}` is the surface area (1.4), it says that the mean shadow area is a
+  quarter of the surface area in `ℝ³`. It is a target in prose.
 
 **Checks.**
 - The constant `d κ_d / (2 κ_{d-1})` is `π/2` for `d = 2` and `2` for `d = 3`.
 - The unit square has mean width `4/π = 1.27324` and `V_1 = (π/2)(4/π) = 2`.
-- The unit cube has mean shadow area `3/2`, a quarter of its surface area (Monte Carlo
-  `1.4991`), as Cauchy's formula requires.
+- Cauchy's formula on the unit ball of `ℝ³`: every shadow has area `π` and `σ` has mass `4π`, so
+  the right side is `(1/(2π)) · 4π · π = 2π = V_2(B³)`.
+- The unit cube of `ℝ³` has shadow area `|u_1| + |u_2| + |u_3|` on `u^⊥`, and `|u_i|` has mean
+  `1/2` under the uniform law on the sphere, so the mean shadow area is `3/2`; Cauchy's formula
+  gives `(1/(2π)) · 4π · 3/2 = 3 = V_2`. Negative control: the constant `1/κ_{d-1}` gives `6`,
+  the surface area `2 V_2`.
 
 ### 5.4 Zonotopes and zonoids
 
@@ -520,18 +543,25 @@ Sources: Schneider–Weil (14.35), p. 614, and (14.39), p. 615.
   of `λ_j(Z | L)`, the case `j = d` inside `L` writes that as a sum over `j`-subsets of the
   projected parallelepipeds, and Kubota with 1.4 gives back their `j`-volumes.
 - **Zonoids** (`intrinsicVolume_zonoid`): if `Z` has support function
-  `h_Z(u) = ∫ |⟪u, v⟫| ρ(dv)` for an even finite measure `ρ` on the sphere, then
+  `h_Z(u) = ∫ |⟪u, v⟫| ρ(dv)` for a finite measure `ρ` on the sphere, then
   `V_j(Z) = (2^j / j!) ∫ ⋯ ∫ ∇_j(v_1, …, v_j) ρ(dv_1) ⋯ ρ(dv_j)`, with `∇_j` the `j`-volume of the
-  parallelepiped; Schneider–Weil (14.35), p. 614. Route: for atomic `ρ`, `Z` is a centred
-  zonotope and this is the previous item; approximate `ρ` weakly by atomic even measures, so that
-  support functions converge uniformly and 2.1 applies.
+  parallelepiped; Schneider–Weil (14.35), p. 614, for even `ρ`. Evenness is not needed: `|⟪u, v⟫|`
+  and `∇_j` are unchanged when any `v_i` is replaced by `-v_i`, so replacing `ρ` by its
+  symmetrization changes neither side. Route: for atomic `ρ = ∑ ρ_i δ_{v_i}`, `Z` is the centred
+  zonotope `∑ [-ρ_i v_i, ρ_i v_i]` and both sides are
+  `2^j ∑_{i_1 < ⋯ < i_j} ρ_{i_1} ⋯ ρ_{i_j} ∇_j(v_{i_1}, …, v_{i_j})` by the previous item;
+  approximate `ρ` weakly by atomic measures, so that support functions converge uniformly and 2.1
+  applies.
 
 **Checks.**
-- For four random vectors in `ℝ²`, the area of the zonotope and the sum of `|det|` over pairs
-  agree (`6.40460`); in `ℝ³`, the volume and the sum over triples agree (`18.34500`), and half the
-  surface area and the sum over pairs of `|a × b|` agree (`5.28200`).
-- For a centred zonotope `∑ [-a_i, a_i]` the zonoid formula with `j = 2` in the plane gives the
-  area `7.62833` and with `j = 1` half the perimeter `6.53100`.
+- `a = (e_1, e_2, e_1 + e_2)` in `ℝ²`: the zonotope is a hexagon of area `3 = 1 + 1 + 1`, the sum
+  of `|det|` over the three pairs, and half perimeter `2 + √2`, the sum of the lengths.
+- `a = (e_1, e_2, e_3, e_1 + e_2 + e_3)` in `ℝ³`: the volume is `4`, the sum of `|det|` over the
+  four triples, and half the surface area is `3 + 3√2`, the sum of `|a × b|` over the six pairs.
+- The centred zonotope `∑ [-a_i, a_i]` for the planar `a` above is the zonoid with
+  `ρ = ∑ |a_i| δ_{a_i/|a_i|}`: the formula with `j = 2` gives the area `4 · 3 = 12` and with
+  `j = 1` the half perimeter `2 (2 + √2) = 4 + 2√2`.
+- `ρ = δ_{e_1}`, not even, has `h_Z(u) = |u_1|`, so `Z = [-e_1, e_1]` and `V_1(Z) = 2 = 2 · 1`.
 - `j = 0` gives `V_0 = 1` on both sides (empty sum and empty product).
 
 ## Layer 6: kinematic formulas
@@ -554,8 +584,10 @@ without proof).
 **Checks.**
 - `φ = V_d`: `∫ V_d(K ∩ g M) = V_d(K) V_d(M)`, the term `k = d` (the other `φ_{d-k}` vanish since
   `V_d` of a section by a flat of lower dimension is `0`).
-- `φ = V_0`, `d = 2`: the measure of motions of a unit segment that meet the unit square is
-  `1 + 4/π = 2.27324` (Monte Carlo `2.27303`).
+- `φ = V_0`, `d = 2`, `K` the unit square, `M` a unit segment: the right side is
+  `V_2(K) + (2/π) V_1(K) · V_1(M) = 1 + 4/π = 2.27324`. Directly, the translations that move the
+  segment of direction `θ` onto the square form the square plus a segment, of area
+  `1 + |cos θ| + |sin θ|`, whose mean over `θ` is `1 + 4/π`.
 
 ### 6.2 The principal kinematic formula
 
@@ -639,20 +671,14 @@ Kiderlen p. 28; Adler–Taylor Theorem 13.1.1, p. 332, and (13.1.2), p. 333.
 
 ## Downstream consumers
 
-- GaussianFieldsSupremaAndExcursions (a sibling roadmap) consumes the constants (1.1), the
-  intrinsic volumes (1.2) and the product formula (1.4) for the intrinsic volumes of boxes in its
-  mean Euler characteristic of excursion sets.
-- RandomClosedSetsAndBooleanModels (a sibling roadmap) consumes the constants, the intrinsic
-  volumes and the Steiner formula (1.1–1.2), their dimension independence (1.3), valuations, the
-  convex ring and Groemer's extension (2.1–2.3), the unit cube (3.2), the principal, iterated and
-  translative kinematic formulas (6.2–6.4), the principal kinematic formula on the convex ring
-  (7.1) and the bound of 7.2, for the Boolean model, the specific intrinsic volumes, the mean
-  value formulas of Miles and stereology.
-- RandomTessellations (a sibling roadmap) consumes the intrinsic volumes (1.1–1.2) and the
-  content of lower-dimensional bodies (1.4), the unit cube (3.2), the rotation, Grassmannian and
-  flat parameters with the invariance of the flat measure (4.1–4.3) for flat processes,
-  Crofton's formula (5.1), the mean width (5.3) and the zonoid formulas (5.4) for hyperplane
-  processes and their associated zonoids.
+No roadmap on main or in an open pull request consumes this one. Its intended consumers, by
+subject:
+- the mean Euler characteristic of excursion sets of Gaussian fields, through the constants
+  (1.1), the intrinsic volumes (1.2) and the product formula (1.4) for boxes;
+- Boolean models, random closed sets and stereology, through Layers 1–2, the unit cube (3.2), the
+  kinematic formulas (6.2–6.4), their extension to the convex ring (7.1) and the bound of 7.2;
+- flat processes, hyperplane processes and tessellations, through the invariant measures (4.1–4.3),
+  Crofton's formula (5.1), the mean width (5.3) and the zonoid formulas (5.4).
 
 ## Scope and ownership
 
@@ -662,14 +688,21 @@ Kiderlen p. 28; Adler–Taylor Theorem 13.1.1, p. 332, and (13.1.2), p. 333.
 - Consumed, not reproved: the boundary-area identification of Isoperimetry §2.3; the
   normalization of the Hausdorff measures of GeometricMeasureTheory (Conventions); the support
   function of ConvexAnalysisAndDuality §2.1; the Funk–Hecke formula and the completeness of the
-  harmonics of SpecialFunctionsHigherSpheres §§4.3, 2.2; the Haar measure on the orthogonal group
-  and the parallel volume results of Tau Ceti.
-- Boundary with RandomClosedSetsAndBooleanModels: measurability of additive functionals on the
-  convex ring with its Fell topology (Schneider–Weil Theorem 14.4.4, p. 624), random closed sets,
-  standard random sets, specific intrinsic volumes and every statement in expectation are owned
-  there.
-- Boundary with RandomTessellations: flat processes, hyperplane processes and tessellations are
-  owned there; this roadmap owns only the deterministic measures they are built on.
+  harmonics of SpecialFunctionsHigherSpheres §§4.3, 2.2; the real support function, the width and
+  the mean width of MeanWidthAndCauchyFormulas §§1.1, 1.2, 3.1; the Haar measure on the orthogonal
+  group, the uniform law on the sphere and the parallel volume results of Tau Ceti.
+- Boundary with MeanWidthAndCauchyFormulas: that roadmap owns the calculus of support and width
+  functions, the mean width with its spherical constant, Crofton's formula for curves and Cauchy's
+  perimeter formula in the plane; this roadmap owns the identity `V_1 = (d κ_d / (2 κ_{d-1})) w`,
+  Kubota's formulas and Cauchy's surface area formula in every dimension.
+- Boundary with SpecialFunctionsHigherSpheres: its sphere measure (§1.2) is the image of the Haar
+  probability of the special orthogonal group; the statement of 4.1 is for the full orthogonal
+  group, every unit vector and Tau Ceti's uniform law, and is not a copy of it.
+- Outside this roadmap: random closed sets and Boolean models, the measurability of additive
+  functionals on the convex ring with its Fell topology (Schneider–Weil Theorem 14.4.4, p. 624),
+  specific intrinsic volumes, flat processes, hyperplane processes and tessellations, and every
+  statement in expectation; this roadmap owns only the deterministic formulas and measures they
+  are built on.
 
 ## Exact supplier contracts
 
@@ -684,8 +717,15 @@ Kiderlen p. 28; Adler–Taylor Theorem 13.1.1, p. 332, and (13.1.2), p. 333.
 
 ### From ConvexAnalysisAndDuality
 
-- §2.1: the definition of `supportFunction`, finite on nonempty bounded sets, consumed in 3.1 and
-  5.3; a local copy is in `Suggested.lean`.
+- §2.1: the definition of `supportFunction`, finite on nonempty bounded sets, consumed through
+  MeanWidthAndCauchyFormulas in 3.1, 5.3 and 5.4; a local copy is in `Suggested.lean`.
+
+### From MeanWidthAndCauchyFormulas
+
+- §1.1: the definition of `realSupportFunction`, the `EReal.toReal` of the support function,
+  consumed in 3.1 and 5.4; §1.2: the definition of `widthFunction`; §3.1: the definition of
+  `meanWidth`, the mean width for Tau Ceti's uniform law on the sphere, consumed in 5.3. Local
+  copies of the three definitions are in `Suggested.lean`.
 
 ### From SpecialFunctionsHigherSpheres
 
@@ -702,9 +742,11 @@ Kiderlen p. 28; Adler–Taylor Theorem 13.1.1, p. 332, and (13.1.2), p. 333.
   `TauCeti.orthogonalGroupToLinearIsometryEquiv` (4.1);
   `TauCeti.tendsto_volume_real_add_smul_closedBall_div`,
   `Convex.hasDerivWithinAt_measureReal_add_smul_closedBall`, `TauCeti.perimeter` (1.4);
-  `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`, `MeasureTheory.Measure.toSphere`,
-  `EuclideanSpace.volume_closedBall`, `Real.Gamma_mul_Gamma_add_half`, `ConvexBody` (1.1, 2.1,
-  4.1).
+  `TauCeti.Probability.uniformSphereMeasure`, `TauCeti.Probability.uniformSphereMeasure_def`
+  (4.1, 5.3); `MeasureTheory.Measure.toSphere` (4.1);
+  `MeasureTheory.Measure.isMulLeftInvariant_eq_smul`, `EuclideanSpace.volume_closedBall`,
+  `Real.Gamma_mul_Gamma_add_half`, `Lagrange.eval_interpolate_at_node`, `ConvexBody` (1.1, 1.2,
+  2.1, 4.1).
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -717,7 +759,7 @@ Kiderlen p. 28; Adler–Taylor Theorem 13.1.1, p. 332, and (13.1.2), p. 333.
 - **Euler relation for polytopes** (Schneider–Weil (14.63), p. 626): the face-number identity from
   the Euler characteristic on relatively open polyhedra.
 - **Blaschke–Petkantschin formulas** (Schneider–Weil §7.2): decomposition of products of Lebesgue
-  measures through Grassmannians; consumed by RandomTessellations, which can carry them.
+  measures through Grassmannians, the input of the mean value formulas for tessellations.
 - **Alesker's theory of valuations**: smooth and non-invariant valuations, the product and
   convolution of valuations.
 
