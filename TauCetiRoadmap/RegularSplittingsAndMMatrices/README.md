@@ -130,7 +130,7 @@ Mathlib `Matrix.isUnit_iff_isUnit_det`, `Matrix.det_mul`. (Saad, Theorem 1.29, p
 
 ### Dependencies
 
-1.1 uses Mathlib; 1.2 Tau Ceti; 1.3 IterativeMethodsForLinearSystems §1.2 and Tau Ceti.
+1.1 uses Tau Ceti and Mathlib; 1.2 Tau Ceti; 1.3 IterativeMethodsForLinearSystems §1.2 and Tau Ceti.
 
 ## Layer 2: regular splittings
 
@@ -196,7 +196,7 @@ Route: with `C = A⁻¹`, `a_ii c_ii = 1 − ∑_(k ≠ i) a_ik c_ki ≥ 1`, so 
 The Jacobi splitting `M = D`, `N = D − A` is regular, as `D⁻¹` is diagonal and positive and `N`
 has zero diagonal and entries `−a_ij ≥ 0`; `M⁻¹ N = jacobiMatrix A`, and 2.1 applies. For
 `0 < ω ≤ 1` put `M_ω = (D + ω L)/ω` and `N_ω = ((1 − ω) D − ω U)/ω`. Then `A = M_ω − N_ω` and
-`M_ω⁻¹ N_ω = sorMatrix A ω`. `M_ω = (D/ω)(I − K)` with `K = −D⁻¹ L ≥ 0` strictly lower triangular,
+`M_ω⁻¹ N_ω = sorMatrix A ω`. `M_ω = (D/ω)(I − K)` with `K = −ω D⁻¹ L ≥ 0` strictly lower triangular,
 so `K^n = 0` and `M_ω⁻¹ = (∑_(k<n) K^k)(ω D⁻¹) ≥ 0`; `N_ω` has diagonal `((1 − ω)/ω) a_ii ≥ 0`,
 entries `−a_ij ≥ 0` above the diagonal and `0` below it. The splitting is regular and 2.1 applies.
 
@@ -290,7 +290,8 @@ Mathlib `Matrix.pow_apply_pos_iff_nonempty_path`, `spectrum.map_pow`,
 
 ### Dependencies
 
-2.1 uses 1.3; 2.2 uses 2.1 (and 1.1); 2.3 uses 2.1; 2.4 uses 1.1, 1.2, 1.3, 2.1; all use Tau Ceti.
+2.1 uses 1.3; 2.2 uses 2.1 (and 1.1); 2.3 uses 2.1; 2.4 uses 1.1, 1.2, 1.3, 2.1; 2.1, 2.2 and 2.4
+use Tau Ceti.
 
 ## Layer 3: irreducible diagonal dominance
 
@@ -500,3 +501,6 @@ nonnegative splittings; the Frobenius normal form as an object.
   Theorems 5.4 (p. 36) and 5.5 (p. 37).
 - H. Fawzi, *Numerical Analysis*, Mathematical Tripos Part II, Lecture 16, Michaelmas 2021, on the
   author's DAMTP page: Theorem 4.12 (the Householder–John theorem), Corollary 4.13, p. 33.
+- P. Stein and R. L. Rosenberg, *On the solution of linear simultaneous equations by iteration*,
+  J. London Math. Soc. 23 (1948), 111–118, doi:10.1112/jlms/s1-23.2.111 (the origin of 2.4,
+  which is proved here).
