@@ -334,6 +334,7 @@ body:
         - IharaZetaFunction
         - ImaginaryQuadraticClassNumber
         - ImplicitAtlases
+        - ImportanceSamplingAndVarianceReduction
         - IncompressibleFluids
         - IndexTheory
         - InductionRestrictionPartII
@@ -409,6 +410,7 @@ body:
         - MathematicalStatisticsSemiparametric
         - MatroidOptimization
         - McKaySkewGroup
+        - MeanWidthAndCauchyFormulas
         - MeansMajorizationAndDiscreteInequalities
         - MetaplecticAutomorphicForms
         - MetaplecticAutomorphicFormsPartII
