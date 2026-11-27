@@ -233,14 +233,15 @@ Deduce, for every place `v`, infinite or finite:
 ### 0.2 Conjugate absolute values
 
 (Bombieri–Gubler, Corollaries 1.3.2 and 1.3.5.) The action `σ • w = w ∘ σ⁻¹` of `F ≃ₐ[K] F` on all of
-`AbsoluteValue F ℝ` is a case of Tau Ceti's `AbsoluteValue.instMulAction`, with `σ • w` lying over
-`v` when `w` does; it has to be on all of `AbsoluteValue F ℝ`, because the elements of the fibre
-over a finite place are not finite places. `AbsoluteValue.instMulAction` is a single instance for a
-group `G` acting on a semiring `F` by ring automorphisms (`MulSemiringAction G F`), with
-`(g • w) x = w (g⁻¹ • x)` (`AbsoluteValue.smul_apply`); the action of `F ≃ₐ[K] F` is the case of
-Mathlib's `AlgEquiv.applyMulSemiringAction`. For an `R`-algebra `F` with `SMulCommClass G R F`,
-`(g • w).under R = w.under R` is `AbsoluteValue.under_smul`, and `g • w` lies over `v` exactly when
-`w` does (`AbsoluteValue.liesOver_smul_iff`). For `F/K` Galois and `v` finite,
+`AbsoluteValue F ℝ`, for any algebra of semirings, is Tau Ceti's `AbsoluteValue.instMulActionAlgEquiv`,
+with `σ • w` lying over `v` when `w` does; it has to be on all of `AbsoluteValue F ℝ`, because the
+elements of the fibre over a finite place are not finite places. Define the action in the
+generality of a group `G` acting on `F` by ring automorphisms (`MulSemiringAction G F`), as a single
+instance with `(g • w) x = w (g⁻¹ • x)` of which the action of `F ≃ₐ[K] F` is the case of Mathlib's
+`AlgEquiv.applyMulSemiringAction`, and prove `(g • w).under R = w.under R` for an `R`-algebra `F`
+with `SMulCommClass G R F`. Tau Ceti's main branch has this, newer than the pinned Tau Ceti, as
+`AbsoluteValue.instMulAction` with `AbsoluteValue.under_smul` and `AbsoluteValue.liesOver_smul_iff`.
+For `F/K` Galois and `v` finite,
 transitivity on the absolute values over `v` is Tau Ceti's
 `NumberField.exists_smul_eq_of_liesOver_finitePlace` and
 `NumberField.setOf_liesOver_finitePlace_eq_orbit`.
@@ -2467,7 +2468,7 @@ Ceti at the pins; they are consumed above by the names below and are not planned
 | --- | --- | --- |
 | 0.1 | classification over a finite place, the prime of `w`, finiteness and nonemptiness of the fibre, extension to further fields, the size bound | `NumberField.existsUnique_finitePlace_rpow_inv_eq_of_liesOver`, `NumberField.liesOver_finitePlace_mk_iff`, `NumberField.exists_finitePlace_rpow_inv_eq_of_liesOver`, `NumberField.exists_liesOver_forall_mem_iff_apply_lt_one`, `NumberField.finite_setOf_liesOver_finitePlace_mk`, `NumberField.nonempty_setOf_liesOver_finitePlace_mk`, `NumberField.FinitePlace.exists_liesOver_of_liesOver`, `NumberField.FinitePlace.max_apply_one_le_mulHeight₁_of_liesOver` |
 | 0.1 | nonarchimedean infrastructure | `AbsoluteValue.isNonarchimedean_of_forall_natCast_le_one`, `IsNonarchimedean.apply_le_one_of_isIntegral`, `AbsoluteValue.nonarchRpow` |
-| 0.2 | the action, transitivity and the local extension formula at finite places, the vocabulary of finite places over finite places | `AbsoluteValue.instMulAction`, `AbsoluteValue.under_smul`, `NumberField.exists_smul_eq_of_liesOver_finitePlace`, `NumberField.setOf_liesOver_finitePlace_eq_orbit`, `NumberField.FinitePlace.prod_algebraMap_pow_localDegree`, `NumberField.FinitePlace.LiesOver`, `NumberField.FinitePlace.localDegree`, `NumberField.FinitePlace.placesOver`, `NumberField.FinitePlace.sum_localDegree`, `NumberField.FinitePlace.liesOver_val_iff_localDegree_eq_one` |
+| 0.2 | the action, transitivity and the local extension formula at finite places, the vocabulary of finite places over finite places | `AbsoluteValue.instMulActionAlgEquiv`, `NumberField.exists_smul_eq_of_liesOver_finitePlace`, `NumberField.setOf_liesOver_finitePlace_eq_orbit`, `NumberField.FinitePlace.prod_algebraMap_pow_localDegree`, `NumberField.FinitePlace.LiesOver`, `NumberField.FinitePlace.localDegree`, `NumberField.FinitePlace.placesOver`, `NumberField.FinitePlace.sum_localDegree`, `NumberField.FinitePlace.liesOver_val_iff_localDegree_eq_one` |
 | 0.3 | the whole `S`-adic dictionary | `NumberField.prod_abs_eq_one_of_mem_unit`, `NumberField.mulHeight_le_prod`, `NumberField.mulHeight_eq_prod_of_forall_iSup_eq_one`, `Set.isPrimitive_iff_finitePlace`, `IsDedekindDomain.exists_finset_superset_isPrincipalIdealRing_integer`, `Set.exists_isPrimitive_smul`, `NumberField.exists_finset_superset_forall_exists_mulHeight_eq`, `NumberField.FinitePlace.hasFiniteMulSupport_iSup` |
 | 0.4 | the fundamental inequality | `NumberField.prod_min_one_apply_eq_inv_mulHeight₁`, `NumberField.inv_mulHeight₁_le_prod_apply`, `NumberField.prod_apply_le_mulHeight₁` and the one-place forms |
 | 1.1 | `LiouvilleWith.inv`, Möbius invariance of the irrationality exponent, the height characterization, Northcott for integer polynomials, the height gaps | `LiouvilleWith.inv`, `TauCeti.irrationalityExponent_mul_add_div_mul_add`, `Real.le_irrationalityExponent_iff`, `TauCeti.liouvilleWith_iff_frequently_max`, `Polynomial.finite_setOf_natDegree_le_supNorm_le`, `Polynomial.exists_pos_lt_supNorm_of_norm_aeval_lt`, `Polynomial.exists_pos_lt_supNorm_of_norm_sub_root_lt` |
