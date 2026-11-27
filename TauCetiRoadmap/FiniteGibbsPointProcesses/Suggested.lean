@@ -26,11 +26,12 @@ Local copies. `expNeg`, `IsIntegerValued`, `IsPoissonRandomMeasure`, `LocallyFin
 `PointMeasure`, their coercions, the vague topology and its Borel σ-algebra, and
 `IsPoissonPointProcess` are verbatim copies of the definitions of the
 SpatialPointProcessFoundations roadmap of the spatial statistics family (§§1.1–1.2, 5.1–5.2), at
-their short names in this roadmap's namespace, as that roadmap places them; the first three are
-its copies of Tau Ceti's definitions. `mhKernel` is a verbatim copy of the Metropolis–Hastings
-kernel of LangevinAndHamiltonianMonteCarlo §1.1. Finite point processes with a density, the
-Papangelou intensity, the Georgii–Nguyen–Zessin formula and the hard-core density are owned
-here (§§1.3, 4.1).
+their short names in this roadmap's namespace. `mhKernel` is a verbatim copy of the
+Metropolis–Hastings kernel of LangevinAndHamiltonianMonteCarlo §1.1. Finite point processes with
+a density, the Papangelou intensity, the Georgii–Nguyen–Zessin formula and the hard-core density
+are owned here in their finite-set form, on `Finset S` with `ℝ≥0`-valued densities (§§1.3, 4.1);
+the open PointProcesses roadmap states the same theory on point measures (README, Scope and
+ownership).
 
 The prototypes live in the namespace `TauCetiRoadmap.FiniteGibbsPointProcesses`; the
 implementation namespace of the README is `TauCeti`.
@@ -53,18 +54,16 @@ section Copies
 
 variable {Ω X : Type*} [MeasurableSpace Ω] [MeasurableSpace X]
 
-/-- Local copy of SpatialPointProcessFoundations §5.2 (its copy of Tau Ceti's `expNeg`): the
-negative exponential, with value zero at infinity. -/
+/-- Local copy of SpatialPointProcessFoundations §5.2: the negative exponential, with value zero
+at infinity. -/
 def expNeg (x : ℝ≥0∞) : ℝ≥0 := (EReal.exp (-x.toEReal)).toNNReal
 
-/-- Local copy of SpatialPointProcessFoundations §1.1 (its copy of Tau Ceti's
-`MeasureTheory.Measure.IsIntegerValued`): a measure is integer-valued if every measurable set of
-finite mass has natural-number mass. -/
+/-- Local copy of SpatialPointProcessFoundations §1.1: a measure is integer-valued if every
+measurable set of finite mass has natural-number mass. -/
 def IsIntegerValued (μ : Measure X) : Prop :=
   ∀ ⦃A : Set X⦄, MeasurableSet A → μ A < ∞ → ∃ n : ℕ, μ A = n
 
-/-- Local copy of SpatialPointProcessFoundations §5.1 (its copy of Tau Ceti's
-`TauCeti.Probability.IsPoissonRandomMeasure`): a measurable random measure with independent
+/-- Local copy of SpatialPointProcessFoundations §5.1: a measurable random measure with independent
 Poisson counts on disjoint measurable sets of finite intensity and almost surely infinite counts
 on measurable sets of infinite intensity. -/
 def IsPoissonRandomMeasure (P : Measure Ω) (N : Ω → Measure X) (Λ : Measure X) : Prop :=
@@ -199,12 +198,14 @@ omit [MetricSpace S] [PolishSpace S] [LocallyCompactSpace S] [BorelSpace S] in
 theorem measurable_toConfig (n : ℕ) : Measurable (toConfig (S := S) (n := n)) :=
   fun _ hs => MeasurableSpace.measurableSet_iInf.1 hs n
 
-/-- 1.1: a function of configurations is measurable iff it is measurable on every tuple space
-(the universal property of the final σ-algebra). -/
+omit [MetricSpace S] [PolishSpace S] [LocallyCompactSpace S] [BorelSpace S] in
+/-- Supporting step, proved here: a function of configurations is measurable iff it is measurable
+on every tuple space (the universal property of the final σ-algebra). -/
 theorem measurable_iff_measurable_comp_toConfig {β : Type*} [MeasurableSpace β]
     (f : Finset S → β) :
-    Measurable f ↔ ∀ n : ℕ, Measurable fun x : Fin n → S => f (toConfig x) := by
-  sorry
+    Measurable f ↔ ∀ n : ℕ, Measurable fun x : Fin n → S => f (toConfig x) :=
+  ⟨fun h n => h.comp (measurable_toConfig n),
+    fun h _ hs => MeasurableSpace.measurableSet_iInf.2 fun n => h n hs⟩
 
 /-- 1.1: the configurations of a Polish space form a standard Borel space. -/
 theorem standardBorelSpace_finset : StandardBorelSpace (Finset S) := by
@@ -330,10 +331,11 @@ def IsLocallyStable (W : Set S) (φ : S → ℝ≥0) (h : Finset S → ℝ≥0) 
 def IsRuelleStable (W : Set S) (φ : S → ℝ≥0) (h : Finset S → ℝ≥0) : Prop :=
   ∃ a : ℝ≥0, ∀ x : Finset S, (x : Set S) ⊆ W → h x ≤ a * ∏ ξ ∈ x, φ ξ
 
-/-- 2.1: local stability gives Ruelle stability, heredity on `W` and the bound `λ* ≤ φ`. -/
+/-- 2.1: local stability gives Ruelle stability with `a = h ∅`, heredity on `W` and the bound
+`λ* ≤ φ`. -/
 theorem isLocallyStable_consequences {W : Set S} {φ : S → ℝ≥0} {h : Finset S → ℝ≥0}
     (hls : IsLocallyStable W φ h) :
-    IsRuelleStable W φ h ∧
+    IsRuelleStable W φ h ∧ (∀ x : Finset S, (x : Set S) ⊆ W → h x ≤ h ∅ * ∏ ξ ∈ x, φ ξ) ∧
       (∀ x y : Finset S, (x : Set S) ⊆ W → y ⊆ x → h x ≠ 0 → h y ≠ 0) ∧
       ∀ x : Finset S, (x : Set S) ⊆ W → ∀ ξ ∈ W, ξ ∉ x → papangelou h x ξ ≤ φ ξ := by
   sorry
@@ -356,12 +358,14 @@ theorem lintegral_le_of_isLocallyStable_const (μ : Measure S) [SigmaFinite μ]
       h ∅ * ENNReal.ofReal (Real.exp (((β : ℝ) - 1) * (μ W).toReal)) := by
   sorry
 
-/-- 2.2: a locally stable `h` with `h ∅ ≠ 0` and integrable bound is normalisable. -/
+/-- 2.2: a locally stable `h` with `h ∅ ≠ 0` and integrable bound is normalisable, and
+`configLaw μ W h` is a probability measure. -/
 theorem normalisable_of_isLocallyStable (μ : Measure S) [SigmaFinite μ] {W : Set S}
     (hWm : MeasurableSet W) (hW : μ W ≠ ∞) {φ : S → ℝ≥0} (hφm : Measurable φ)
     (hφ : ∫⁻ u in W, φ u ∂μ ≠ ∞) {h : Finset S → ℝ≥0} (hm : Measurable h)
     (hls : IsLocallyStable W φ h) (h0 : h ∅ ≠ 0) :
-    0 < ∫⁻ x, h x ∂poissonConfigLaw μ W ∧ ∫⁻ x, h x ∂poissonConfigLaw μ W < ∞ := by
+    0 < ∫⁻ x, h x ∂poissonConfigLaw μ W ∧ ∫⁻ x, h x ∂poissonConfigLaw μ W < ∞ ∧
+      IsProbabilityMeasure (configLaw μ W h) := by
   sorry
 
 end Stability
@@ -382,10 +386,10 @@ def IsMarkovFunction (r : α → α → Prop) (h : Finset α → ℝ≥0) : Prop
   IsHereditary h ∧ ∀ x ξ, h x ≠ 0 → ξ ∉ x →
     h (insert ξ x) / h x = h (insert ξ (x.filter (r ξ))) / h (x.filter (r ξ))
 
-/-- 3.1, Hammersley–Clifford–Ripley–Kelly: for a reflexive symmetric relation, a hereditary
-`h` is a Markov function iff it is a product of clique interactions. -/
+/-- 3.1, Hammersley–Clifford–Ripley–Kelly: for a reflexive symmetric relation, `h` is a Markov
+function iff it is a product of clique interactions (each side makes `h` hereditary). -/
 theorem isMarkovFunction_iff (r : α → α → Prop) (hrefl : ∀ ξ, r ξ ξ)
-    (hsymm : ∀ ξ η, r ξ η → r η ξ) {h : Finset α → ℝ≥0} (hher : IsHereditary h) :
+    (hsymm : ∀ ξ η, r ξ η → r η ξ) {h : Finset α → ℝ≥0} :
     IsMarkovFunction r h ↔
       ∃ φ : Finset α → ℝ≥0, (∀ y, ¬ IsClique r y → φ y = 1) ∧
         ∀ x, h x = ∏ y ∈ x.powerset, φ y := by
@@ -406,7 +410,7 @@ theorem eq_of_prod_powerset_eq {h φ ψ : Finset α → ℝ≥0}
 /-- 3.2: a Markov function factorises across two unrelated sets. -/
 theorem markov_density_factorization (r : α → α → Prop) (hrefl : ∀ ξ, r ξ ξ)
     (hsymm : ∀ ξ η, r ξ η → r η ξ) {h : Finset α → ℝ≥0} (hM : IsMarkovFunction r h)
-    {A B : Set α} (hAB : Disjoint A B) (hrel : ∀ a ∈ A, ∀ b ∈ B, ¬ r a b) :
+    {A B : Set α} (hrel : ∀ a ∈ A, ∀ b ∈ B, ¬ r a b) :
     ∃ g k : Finset α → ℝ≥0, ∀ x, h x = g (x.filter (· ∉ B)) * k (x.filter (· ∉ A)) := by
   sorry
 
@@ -422,7 +426,7 @@ theorem condIndepFun_of_isMarkovFunction {Ω : Type*} {mΩ : MeasurableSpace Ω}
     (hW : μ W ≠ ∞) {f : Finset S → ℝ≥0} (hf : Measurable f) (hX : HasConfigDensity P X μ W f)
     {r : S → S → Prop} (hrefl : ∀ ξ, r ξ ξ) (hsymm : ∀ ξ η, r ξ η → r η ξ)
     (hM : IsMarkovFunction r f) {A B : Set S} (hA : MeasurableSet A) (hB : MeasurableSet B)
-    (hAB : Disjoint A B) (hrel : ∀ a ∈ A, ∀ b ∈ B, ¬ r a b)
+    (hrel : ∀ a ∈ A, ∀ b ∈ B, ¬ r a b)
     (hm : MeasurableSpace.comap (fun ω => (X ω).filter (· ∈ W \ (A ∪ B))) inferInstance ≤ mΩ) :
     CondIndepFun (MeasurableSpace.comap (fun ω => (X ω).filter (· ∈ W \ (A ∪ B))) inferInstance)
       hm (fun ω => (X ω).filter (· ∈ A)) (fun ω => (X ω).filter (· ∈ B)) P := by
@@ -654,21 +658,24 @@ theorem gibbs_variational (μ : Measure S) [SigmaFinite μ] {Λ : Set S}
         Q = gibbsLaw μ Λ z β H) := by
   sorry
 
-/-- 5.5: `d/dz E n = Var(n) / z` for a finite-valued stable energy. -/
+/-- 5.5: `d/dz E n = Var(n) / z` for a non-degenerate stable measurable energy, at every
+`β ≥ 0`. -/
 theorem hasDerivAt_gibbs_meanCount (μ : Measure S) [SigmaFinite μ] {Λ : Set S}
-    (hΛm : MeasurableSet Λ) (hΛ : μ Λ ≠ ∞) {H : Finset S → ℝ} (hHm : Measurable H)
-    {A : ℝ} (hA : ∀ x, A * x.card ≤ H x) {z : ℝ≥0} (hz : 0 < z) {β : ℝ} (hβ : 0 ≤ β) :
-    HasDerivAt
-      (fun t : ℝ => ∫ x, (x.card : ℝ) ∂gibbsLaw μ Λ t.toNNReal β fun x => (H x : WithTop ℝ))
-      (variance (fun x => (x.card : ℝ)) (gibbsLaw μ Λ z β fun x => (H x : WithTop ℝ)) / z) z := by
+    (hΛm : MeasurableSet Λ) (hΛ : μ Λ ≠ ∞) {H : Finset S → WithTop ℝ} (hnd : IsNonDegenerate H)
+    (hst : IsStableEnergy H) (hHm : IsEnergyMeasurable H) {z : ℝ≥0} (hz : 0 < z) {β : ℝ}
+    (hβ : 0 ≤ β) :
+    HasDerivAt (fun t : ℝ => ∫ x, (x.card : ℝ) ∂gibbsLaw μ Λ t.toNNReal β H)
+      (variance (fun x => (x.card : ℝ)) (gibbsLaw μ Λ z β H) / z) z := by
   sorry
 
-/-- 5.5: `d/dβ E H = -Var(H)` at `β > 0` for a finite-valued stable energy. -/
+/-- 5.5: `d/dβ E H = -Var(H)` at `β > 0` for a non-degenerate stable measurable energy; `E H`
+and `Var(H)` are those of the finite part, since `{H = ⊤}` is null under the Gibbs measure. -/
 theorem hasDerivAt_gibbs_meanEnergy (μ : Measure S) [SigmaFinite μ] {Λ : Set S}
-    (hΛm : MeasurableSet Λ) (hΛ : μ Λ ≠ ∞) {H : Finset S → ℝ} (hHm : Measurable H)
-    {A : ℝ} (hA : ∀ x, A * x.card ≤ H x) {z : ℝ≥0} (hz : 0 < z) {β : ℝ} (hβ : 0 < β) :
-    HasDerivAt (fun b : ℝ => ∫ x, H x ∂gibbsLaw μ Λ z b fun x => (H x : WithTop ℝ))
-      (-variance H (gibbsLaw μ Λ z β fun x => (H x : WithTop ℝ))) β := by
+    (hΛm : MeasurableSet Λ) (hΛ : μ Λ ≠ ∞) {H : Finset S → WithTop ℝ} (hnd : IsNonDegenerate H)
+    (hst : IsStableEnergy H) (hHm : IsEnergyMeasurable H) {z : ℝ≥0} (hz : 0 < z) {β : ℝ}
+    (hβ : 0 < β) :
+    HasDerivAt (fun b : ℝ => ∫ x, (H x).untopD 0 ∂gibbsLaw μ Λ z b H)
+      (-variance (fun x => (H x).untopD 0) (gibbsLaw μ Λ z β H)) β := by
   sorry
 
 end Gibbs

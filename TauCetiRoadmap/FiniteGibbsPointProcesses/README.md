@@ -49,8 +49,8 @@ reversibility criterion it uses. The Hammersley–Clifford theorem for finite gr
 [GraphicalModelsAndConditionalIndependence](../GraphicalModelsAndConditionalIndependence/README.md)
 is the lattice analogue of Layer 3, and the lattice Gibbs measures of
 [GibbsMeasuresAndTheIsingModel](../GibbsMeasuresAndTheIsingModel/README.md) are the lattice
-analogue of Layer 5; neither is consumed. Two other roadmaps of the spatial statistics family
-consume this one (Downstream consumers).
+analogue of Layer 5; neither is consumed. The open PointProcesses roadmap states the same density
+theory on point measures; the boundary with it is in Scope and ownership.
 
 `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
 README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
@@ -104,10 +104,10 @@ These are fixed for every target. A statement that departs from them is a differ
   law to the other.
 - **Reference law.** `poissonConfigLaw μ W` is the law of the Poisson process with intensity
   `μ|W`, the sum over `n` of `e^{−μ(W)}/n!` times the image of `(μ|W)^n` under `toConfig`, where
-  `e^{−t}` is `expNeg t`, Tau Ceti's `(EReal.exp (-t.toEReal)).toNNReal` as copied in
-  SpatialPointProcessFoundations §5.2, which is `0` at `t = ∞`. For `μ` Lebesgue measure
-  on a window of `ℝ^d` it is Møller and Waagepetersen's `Poisson(W, 1)` and van Lieshout's unit
-  rate Poisson process.
+  `e^{−t}` is `expNeg t`, the `(EReal.exp (-t.toEReal)).toNNReal` of
+  SpatialPointProcessFoundations §5.2 (local copy), which is `0` at `t = ∞`. For `μ` Lebesgue
+  measure on a window of `ℝ^d` it is Møller and Waagepetersen's `Poisson(W, 1)` and van
+  Lieshout's unit rate Poisson process.
 - **Densities.** Unnormalised densities `h : Finset S → ℝ≥0` are finite-valued, as in the
   sources. Laws, integrals and partition functions are in `ℝ≥0∞`, so an unnormalisable `h` has
   integral `∞` and never a junk value. `configLaw μ W h` is the law with density proportional to
@@ -142,10 +142,10 @@ These are fixed for every target. A statement that departs from them is a differ
 ### 1.1 Configurations
 
 - `toConfig x`, the image of a tuple, and `configMeasurableSpace`, the final σ-algebra of all
-  `toConfig`. Supporting step: `measurable_toConfig`.
-- **The universal property** (`measurable_iff_measurable_comp_toConfig`): `f : Finset S → β` is
-  measurable iff `fun x => f (toConfig x)` is measurable on `Fin n → S` for every `n`. It is the
-  universal property of a final σ-algebra.
+  `toConfig`. Supporting steps, proved in `Suggested.lean`: `measurable_toConfig`, and
+  `measurable_iff_measurable_comp_toConfig`, the universal property of a final σ-algebra:
+  `f : Finset S → β` is measurable iff `fun x => f (toConfig x)` is measurable on `Fin n → S` for
+  every `n`.
 - **Standard Borel** (`standardBorelSpace_finset`): `Finset S` is a standard Borel space. Proof
   route: the configurations with `n` points are the image of the injective tuples, a Borel subset
   of `Sⁿ`, and the tuple whose entries are increasing for a Borel linear order of `S` (from a
@@ -219,10 +219,10 @@ These are fixed for every target. A statement that departs from them is a differ
 
 ### 1.3 Densities and the Papangelou intensity
 
-Finite point processes given by a density against the Poisson reference law are owned here, on
-the carrier `Finset S`; SpatialPointProcessFoundations treats Janossy measures in general and
-leaves densities, the Papangelou intensity and the finite-volume Georgii–Nguyen–Zessin formula to
-this roadmap.
+Finite point processes given by a density against the Poisson reference law are owned here in
+their finite-set form: on the carrier `Finset S` with the final σ-algebra of 1.1 and `ℝ≥0`-valued
+densities. The bridge of 1.2 and `PointMeasure.ofFinset` tie this form to the point-measure form
+of the open PointProcesses roadmap (Scope and ownership).
 
 - `HasConfigDensity P X μ W f`, `IsHereditary f` (`f x ≠ 0` and `y ⊆ x` give `f y ≠ 0`; Møller
   and Waagepetersen (6.9)) and `papangelou f x ξ` (Conventions; Møller and Waagepetersen,
@@ -284,9 +284,10 @@ this roadmap.
   `φ : S → ℝ≥0`. Møller and Waagepetersen, Definition 6.2 and (6.10); van Lieshout (2019),
   Proposition 4.2, p. 106.
 - **Consequences of local stability** (`isLocallyStable_consequences`): a locally stable `h` is
-  Ruelle stable with `a = h(∅)`, hereditary on `W`, and its Papangelou intensity is at most `φ`
-  on `W`. Møller and Waagepetersen, text after Definition 6.2; van Lieshout (2019),
-  Proposition 4.2, p. 106. Proof: induction on the number of points added to a subset.
+  Ruelle stable with `a = h(∅)`, that is `h(x) ≤ h(∅) ∏_{ξ ∈ x} φ(ξ)` for `x ⊆ W`; it is
+  hereditary on `W`; and its Papangelou intensity is at most `φ` on `W`. Møller and
+  Waagepetersen, text after Definition 6.2; van Lieshout (2019), Proposition 4.2, p. 106. Proof:
+  induction on the number of points added to a subset.
 
 **Checks.**
 
@@ -330,8 +331,10 @@ Throughout, `r` is a relation on a type `α`; it is reflexive and symmetric wher
   `ξ`. Møller and Waagepetersen, Definition 6.3 and (6.21); van Lieshout (2000), Definition 2.2,
   p. 46; Gaetan and Guyon, Definition 3.4, p. 102.
 - **Hammersley–Clifford–Ripley–Kelly** (`isMarkovFunction_iff`): for reflexive symmetric `r` and
-  hereditary `h : Finset α → ℝ≥0`, `h` is a Markov function iff `h(x) = ∏_{y ⊆ x} φ(y)` for some
-  `φ : Finset α → ℝ≥0` with `φ(y) = 1` whenever `y` is not a clique. Møller and Waagepetersen,
+  `h : Finset α → ℝ≥0`, `h` is a Markov function iff `h(x) = ∏_{y ⊆ x} φ(y)` for some
+  `φ : Finset α → ℝ≥0` with `φ(y) = 1` whenever `y` is not a clique. Each side makes `h`
+  hereditary: a Markov function is hereditary by definition, and `h(x) ≠ 0` for a product makes
+  every factor `φ(y)`, `y ⊆ x`, nonzero. Møller and Waagepetersen,
   Theorem 6.1 and (6.22)–(6.24); van Lieshout (2000), Theorem 2.2, p. 49, proof pp. 49–50; van
   Lieshout (2019), Theorem 4.4, p. 110; Ripley (1977), §3.3, p. 176. Proof: define `φ` on
   `{h > 0}` by Möbius inversion, `φ(y) = ∏_{z ⊆ y} h(z)^{(−1)^{|y∖z|}}`, and `φ(y) = 0` on the
@@ -352,8 +355,8 @@ Throughout, `r` is a relation on a type `α`; it is reflexive and symmetric wher
   `φ({ξ, η}) = γ^{1[d(ξ, η) ≤ R]}` and `φ = 1` on larger sets: at `β = 2`, `γ = 1/2`, `R = 1`,
   `x = {0, 0.5, 2}` both sides are `4`.
 - `isMarkovFunction_iff` (negative control): `h(x) = 1` if `x = ∅` or `x = {a, b}` and `0`
-  otherwise is not hereditary, and no product of interactions gives it, since `h({a}) = 0` forces
-  a zero factor in `h({a, b})`.
+  otherwise is not hereditary, so it is not a Markov function, and no product of interactions
+  gives it, since `h({a}) = 0` forces a zero factor in `h({a, b})`; both sides are false.
 - `isMarkovFunction_iff` (negative control for reflexivity): for the empty relation `⊥` only `∅`
   is a clique, so every product of interactions is the constant `φ(∅)`; but `h(x) = 2^{n(x)}` is
   hereditary and Markov for `⊥` (every ratio is `2`). The reflexivity hypothesis cannot be
@@ -362,12 +365,12 @@ Throughout, `r` is a relation on a type `α`; it is reflexive and symmetric wher
 ### 3.2 The global Markov property
 
 - **Factorisation across unrelated sets** (`markov_density_factorization`): if `h` is Markov for
-  a reflexive symmetric `r`, and `A`, `B` are disjoint with no point of `A` related to a point of
-  `B`, then `h(x) = g(x ∖ B) k(x ∖ A)` for some `g`, `k`. Proof: by
+  a reflexive symmetric `r`, and no point of `A` is related to a point of `B` (so `A` and `B` are
+  disjoint, by reflexivity), then `h(x) = g(x ∖ B) k(x ∖ A)` for some `g`, `k`. Proof: by
   `isMarkovFunction_iff`, no clique meets both `A` and `B`; split the product.
 - **Conditional independence** (`condIndepFun_of_isMarkovFunction`): if `X` has a measurable Markov
-  density on a window `W` (atomless `μ`, standard Borel `Ω`) and `A`, `B` are disjoint measurable
-  sets with no point of `A` related to a point of `B`, then `X ∩ A` and `X ∩ B` are conditionally
+  density on a window `W` (atomless `μ`, standard Borel `Ω`) and `A`, `B` are measurable sets with
+  no point of `A` related to a point of `B`, then `X ∩ A` and `X ∩ B` are conditionally
   independent (`CondIndepFun`) given `X ∩ (W ∖ (A ∪ B))`. Møller and Waagepetersen, Proposition 6.1;
   van Lieshout (2000), Theorem 2.1, p. 47. Proof: the restrictions are measurable by
   `measurable_configOps`, so the σ-algebra of the outside configuration lies in that of `Ω`; the
@@ -427,8 +430,9 @@ Throughout, `r` is a relation on a type `α`; it is reflexive and symmetric wher
   Papangelou intensity is `0` at `ξ = 0.8`, within `R` of `0`, and `2` at `ξ = 3`.
 - `straussDensity_zero_eq` (negative control on the convention): at `x = {0, 1}` with `R = 1`
   the density is `0`, since the pair at distance exactly `R` is a close pair; the convention
-  "distance at least `R`" would give `β²`. The two conventions differ only on a null set when
-  distances have atomless laws.
+  "distance at least `R`" of the hard-core case of the open PointProcesses roadmap (Layer 5)
+  would give `β²`. The two conventions differ only on a null set when distances have atomless
+  laws.
 - `strauss_lintegral_eq_top` at `β μ(W ∩ B) = 0.3`, `γ = 1.5`: the partial sums of the
   dominating series are `1.388` at `n ≤ 10`, `4.24 · 10⁴` at `n ≤ 20` and `3.3 · 10⁶⁸` at
   `n ≤ 40`.
@@ -570,13 +574,17 @@ Throughout, `r` is a relation on a type `α`; it is reflexive and symmetric wher
 
 ### 5.5 Derivatives in the activity and the inverse temperature
 
-- **Activity** (`hasDerivAt_gibbs_meanCount`): for a finite-valued measurable energy with
-  `H(x) ≥ A n(x)`, `β ≥ 0` and `z > 0`, `d/dz E n = Var(n)/z` under the Gibbs measure.
-  Dereudre, Proposition 5.2, p. 190.
+- **Activity** (`hasDerivAt_gibbs_meanCount`): for a non-degenerate, stable, measurable energy
+  `H : Finset S → WithTop ℝ` of 5.1, `β ≥ 0` and `z > 0`, `d/dz E n = Var(n)/z` under the Gibbs
+  measure. Dereudre, Proposition 5.2, p. 190.
 - **Inverse temperature** (`hasDerivAt_gibbs_meanEnergy`): under the same hypotheses with
-  `β > 0`, `d/dβ E H = −Var(H)`. Dereudre, Proposition 5.2, p. 190. Proof of both:
-  differentiate the tilted family `z^{n} e^{−βH}` under the integral, with the moment bounds that
-  stability gives.
+  `β > 0`, `d/dβ E H = −Var(H)`, where `E H` and `Var(H)` are those of the finite part
+  `(H x).untopD 0`; the Gibbs measure gives `{H = ⊤}` mass `0` for `β > 0`. Dereudre,
+  Proposition 5.2, p. 190, states this derivative on the closed half-line; at `β = 0` the Gibbs
+  measure is the Poisson law of 5.1, under which `E H` can be infinite (a hard core charges a set
+  of positive mass), so the target takes `β > 0`. Proof of both: differentiate the tilted family
+  `z^{n} e^{−βH}` under the integral, with the moment bounds that stability gives
+  (`|H| e^{−bH} ≤ |A| n e^{−bAn} + 1/(e b)` for `b > 0` on `{H < ⊤}`, and similarly for `H²`).
 
 **Checks.**
 
@@ -584,6 +592,10 @@ Throughout, `r` is a relation on a type `α`; it is reflexive and symmetric wher
   Poisson with mean
   `z e^{−βA} μ(Λ) = 4.9124`; finite differences give `d/dz E n = 1.63746 = Var(n)/z` and
   `d/dβ E H = −0.78598 = −Var(H)`.
+- An energy with a hard core, on the two-atom space with `μ = 0.7 δ_a + 1.3 δ_b`: `H = 0, 0.5, 0.3`
+  on `∅, {a}, {b}` and `H({a, b}) = ⊤`, stable with `A = 0`. At `z = 1.5`, `β = 0.8` finite
+  differences give `d/dz E n = 0.104024 = Var(n)/z` and `d/dβ E H = −0.024954 = −Var(H)`; at
+  `β = 0`, where `{a, b}` is charged, `d/dz E n = 0.266160 = Var(n)/z`.
 
 ## Layer 6: likelihood and pseudolikelihood
 
@@ -666,9 +678,12 @@ Let `C : S → ℝ^p` (in `EuclideanSpace ℝ (Fin p)`) be measurable and bounde
   `0.45756`. Without the factor `e^{−μ(A)}` the product tends to `e · 0.45756`.
 - `pseudolikelihood_poisson` with `ρ ≡ 2` on `[0, 1]` and two points: both sides are
   `4 e^{−2} = 0.54134`.
-- `pseudolikelihood` (negative control): Gaetan and Guyon print the limit of Theorem 5.8 with the
-  factor `exp{λ ν(S) − Λ_θ(S, x)}`; the factor `λ` is a misprint, since for the Poisson process of
-  intensity `1` the cell product is `1` and the limit is `exp{ν(S) − ν(S)}`.
+- `pseudolikelihood` (negative control): Gaetan and Guyon print the limit of Theorem 5.8, p. 220,
+  with the factor `exp{λ ν(S) − Λ_θ(S, x)}`, the densities being taken against the unit-rate
+  Poisson process, as the theorem itself states. The factor `λ` is a misprint for `1`: for the
+  Poisson process of intensity `ρ` the density is `e^{(1 − ρ)ν(S)} ρ^{n(x)}`, every cell
+  conditional density is `e^{(1 − ρ)ν(B)} ρ^{n(x ∩ B)}`, so the cell product is
+  `e^{ν(S) − ρ ν(S)} ρ^{n(x)}`, which is `exp{ν(S) − Λ_θ(S, x)} ∏ λ_θ`.
 
 ## Layer 7: ergodicity of Markov kernels on general state spaces
 
@@ -713,7 +728,10 @@ points:
   iterating the drift gives `κ^n V ≤ aⁿ V + b/(1 − a)`; take `R > 2b/(1 − a)²` and its `n`,
   and show that `κ^n` contracts the weighted norm `‖ν‖ = ∫ (1 + δ V) d|ν|` for a small `δ > 0`
   (on `{V ≤ R}` by the minorisation, off it by the drift); intermediate times use
-  `κ^r V ≤ V + b/(1 − a)`.
+  `κ^r V ≤ V + b/(1 − a)`. This is Hairer and Mattingly, Assumptions 1–2, p. 2, and Theorems
+  1.2, p. 2, and 1.3, p. 3, applied to `κ^n` on `E` with `γ = aⁿ` and `K = b/(1 − a)`: since
+  `1 − aⁿ ≥ 1 − a`, `R > 2b/(1 − a)²` gives their condition `R > 2K/(1 − γ)` for every `n`, so
+  `R` can be fixed before `n` is chosen.
 
 **Checks.**
 
@@ -827,15 +845,16 @@ locally stable on `W` with bound `φ`, `h(∅) ≠ 0`, `h = 0` off the configura
 
 ## Downstream consumers
 
-- InfiniteVolumeGibbsPointProcesses (spatial statistics family) consumes the configuration
-  carrier and the reference law with its Poisson sums (1.1–1.2), the area-interaction density
-  (4.3), the energies, the Gibbs weight with its `β = 0` convention, the finiteness of the
-  partition function, the Georgii–Nguyen–Zessin characterisation and the DLR equation
-  (5.1–5.3), and the pseudolikelihood (6.3) for its pseudolikelihood consistency theorem.
-- PointProcessLikelihood (spatial statistics family) consumes the configuration carrier, the
-  reference law with its Poisson sums, `poissonConfigDensity`, the Poisson density theorem and
-  Campbell's formula (1.1–1.3); its log-likelihood of a parametric intensity generalizes the
-  log-linear case of 6.1.
+No roadmap on main or in an open pull request consumes this one. By subject, its consumers are:
+- infinite-volume Gibbs point processes, which use the configuration carrier and the reference
+  law with its Poisson sums (1.1–1.2), the area-interaction density (4.3), the energies, the
+  Gibbs weight with its `β = 0` convention, the finiteness of the partition function, the
+  Georgii–Nguyen–Zessin characterisation and the DLR equation (5.1–5.3), and the
+  pseudolikelihood (6.3) for the consistency of the maximum pseudolikelihood estimator;
+- likelihood theory of point processes, which uses the configuration carrier, the reference law
+  with its Poisson sums, `poissonConfigDensity`, the Poisson density theorem and Campbell's
+  formula (1.1–1.3), and generalizes the log-linear likelihood of 6.1 to parametric
+  intensities.
 
 ## Scope and ownership
 
@@ -845,9 +864,9 @@ The roadmap is complete when Tau Ceti proves all of the following.
    measurability of the operations on configurations and of sums over their points, the
    conversions to and from point measures, the Poisson reference law with its Poisson sums and
    generating function, and the bridge to the Poisson process of
-   SpatialPointProcessFoundations; finite point processes with a density, Poisson densities,
-   the Papangelou intensity, the factorisation by it, the Georgii–Nguyen–Zessin formula and the
-   determination of the law by the Papangelou intensity.
+   SpatialPointProcessFoundations; in the finite-set form of 1.3, finite point processes with a
+   density, Poisson densities, the Papangelou intensity, the factorisation by it, the
+   Georgii–Nguyen–Zessin formula and the determination of the law by the Papangelou intensity.
 2. **Stability.** Local and Ruelle stability, their consequences and the normalisability
    bounds.
 3. **Markov functions.** The Hammersley–Clifford–Ripley–Kelly theorem with the conditional
@@ -880,16 +899,23 @@ The roadmap is complete when Tau Ceti proves all of the following.
   relative entropy and conditional independence: Mathlib.
 
 Boundaries with neighbouring roadmaps:
+- the open PointProcesses roadmap states, in its Layer 5, finite point processes with a Poisson
+  density, heredity, the Papangelou intensity, the Georgii–Nguyen–Zessin formula with its
+  converse, the Poisson case and the hard-core case on the carrier `PointMeasure S` with
+  `ℝ≥0∞`-valued densities and hard-core distance at least `r`. This roadmap owns the finite-set
+  form (1.3, 4.1, on `Finset S` with the final σ-algebra and `ℝ≥0`-valued densities, hard-core
+  distance more than `R`); the bridge of 1.2 with `PointMeasure.ofFinset` and
+  `PointMeasure.toFinset` transports each statement to the other form. Which form is the
+  library's primary statement is to be agreed with that roadmap;
 - the Hammersley–Clifford theorem for positive laws on finite graphs is Layer 3 of
 [GraphicalModelsAndConditionalIndependence](../GraphicalModelsAndConditionalIndependence/README.md)
   and a different theorem (positive densities on product spaces, not hereditary functions on
   finite sets);
 - lattice Gibbs measures and the Ising model are
   [GibbsMeasuresAndTheIsingModel](../GibbsMeasuresAndTheIsingModel/README.md);
-- infinite-volume Gibbs point processes, their existence and uniqueness, and Takacs–Fiksel
-  estimation are InfiniteVolumeGibbsPointProcesses; summary statistics of point patterns are
-  SpatialPointPatternStatistics; asymptotic theory of Poisson likelihood (Kutoyants) is
-  PointProcessLikelihood (all in the spatial statistics family);
+- infinite-volume Gibbs point processes, their existence and uniqueness, Takacs–Fiksel
+  estimation, summary statistics of point patterns and the asymptotic theory of Poisson
+  likelihood are outside this roadmap;
 - ergodicity of finite-state chains and mixing times are
   [MarkovChainMixing](../MarkovChainMixing/README.md), which excludes general state spaces; the
   minorisation contraction of transition laws on countable types is
@@ -931,11 +957,9 @@ Polish space. This roadmap consumes, by section of that roadmap:
 - §5.4: the almost sure simplicity of a Poisson process with atomless locally finite intensity,
   and the binomial form of its restriction given the count in a window.
 
-The local copies sit in this roadmap's namespace under their short names, as the foundations
-roadmap places its copies of Tau Ceti's definitions. The Poisson property and §§4.3, 5.3–5.4
-serve the bridge of 1.2; the Mecke
-equation is the case `f = 1` of the Georgii–Nguyen–Zessin formula of 1.3 and the case `H = 0` of
-the characterisation of 5.2.
+The local copies sit in this roadmap's namespace under their short names. The Poisson property
+and §§4.3, 5.3–5.4 serve the bridge of 1.2; the Mecke equation is the case `f = 1` of the
+Georgii–Nguyen–Zessin formula of 1.3 and the case `H = 0` of the characterisation of 5.2.
 
 ### From LangevinAndHamiltonianMonteCarlo
 
@@ -972,8 +996,8 @@ under this roadmap.
 Parts of Layers 1–6 and 8 are in `MSSS/GibbsPointProcesses/` of
 [lean-MSSS](https://github.com/bjbraams/lean-MSSS), the lean-MSSS spatial statistics project, at
 commit 6826ba2, on the carrier `Finset E` of a measure space `E` (its `volume`) with real-valued
-densities. Proved there without `sorry` (by inspection of the sources at that commit; a
-declaration counts when neither it nor a lemma it uses contains `sorry`), as counterparts of the
+densities. Proved there without `sorry` (neither the declaration nor a lemma it uses contains
+`sorry`), as counterparts of the
 sections named, under the lean-MSSS names in the namespace MSSS:
 - 1.1, 1.3, 2: in `MSSS/GibbsPointProcesses/Finite/Reference.lean`, isConfigMeasurable_sum_erase
   (measurability of sums over the points, on tuples), poissonIntegral_sum_erase (the Poisson-sum
@@ -1021,10 +1045,9 @@ The map, which is not prescriptive:
 | 6.1–6.2 | `MSSS/GibbsPointProcesses/PoissonLikelihood.lean` |
 | 8 | `MSSS/GibbsPointProcesses/BirthDeath.lean` |
 
-Related libraries: the open Mathlib pull requests on Markov chains (#34713 on stationary
-distributions, #45387 on contraction of row-stochastic matrices) concern finite stochastic
-matrices; none concerns Gibbs point processes, Papangelou intensities or general-state
-ergodicity.
+Related libraries: Mathlib's work in progress on Markov chains (stationary distributions and the
+contraction of row-stochastic matrices) concerns finite stochastic matrices; none of it concerns
+Gibbs point processes, Papangelou intensities or general-state ergodicity.
 
 ## References
 
@@ -1033,6 +1056,8 @@ The locators refer to these editions; page numbers are printed page numbers.
 - D. Dereudre, Introduction to the theory of Gibbs point processes, in D. Coupier (ed.),
   *Stochastic Geometry*, Lecture Notes in Mathematics 2237, Springer, 2019, pp. 181–229.
 - C. Gaetan and X. Guyon, *Spatial Statistics and Modeling*, Springer, 2010.
+- M. Hairer and J. C. Mattingly, Yet another look at Harris' ergodic theorem for Markov chains,
+  arXiv:0810.2777v1, 2008 (pages of that version).
 - J. Møller and R. P. Waagepetersen, *Statistical Inference and Simulation for Spatial Point
   Processes*, Chapman and Hall/CRC, 2004 (cited by number only).
 - J. Møller and R. P. Waagepetersen, Modern statistics for spatial point processes, *Scandinavian
