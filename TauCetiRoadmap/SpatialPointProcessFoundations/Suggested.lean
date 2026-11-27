@@ -12,13 +12,13 @@ the README attaches to it, against the pinned Mathlib and Tau Ceti, with `sorry`
 definitions they need. These are suggested forms; the README's other headlines are targets of the
 same standing, stated in prose.
 
-Local copies of Tau Ceti's point-process library. Tau Ceti's library of random measures and
-Poisson processes is younger than the pin, so its definitions are copied verbatim, at their Tau
-Ceti names, each with a docstring naming the Tau Ceti module: `ENNReal.expNeg`,
-`MeasureTheory.Measure.IsIntegerValued`, `MeasureTheory.Measure.laplaceFunctional`,
-`TauCeti.Probability.IsPoissonRandomMeasure`, `TauCeti.Probability.finitePoissonLaw`,
-`MeasureTheory.Measure.finitePoissonLawOf`, `MeasureTheory.Measure.poissonPiece` and
-`MeasureTheory.Measure.poissonLaw`. The private abbreviation `poissonPieceLaw` of Tau Ceti's
+Local copies of Tau Ceti's point-process library. The definitions of Tau Ceti's library of random
+measures and Poisson processes (commit `d395922`) are copied with their bodies, at their short
+names in this roadmap's namespace, each with a docstring naming the Tau Ceti declaration and
+module it copies: `expNeg` (`ENNReal.expNeg`), `IsIntegerValued` and `laplaceFunctional` (in
+`MeasureTheory.Measure`), `IsPoissonRandomMeasure` and `finitePoissonLaw` (in
+`TauCeti.Probability`), and `finitePoissonLawOf`, `poissonPiece` and `poissonLaw` (in
+`MeasureTheory.Measure`). The private abbreviation `poissonPieceLaw` of Tau Ceti's
 `poissonLaw` is unfolded in the copy. The two instances that `poissonLaw` needs are proved here as
 supporting steps.
 
@@ -45,19 +45,23 @@ open scoped ENNReal NNReal CompactlySupported Pointwise
 
 attribute [local instance] Classical.propDecidable
 
-/-! ## Local copies of Tau Ceti's point-process library -/
+namespace TauCetiRoadmap.SpatialPointProcessFoundations
 
-namespace ENNReal
+open TauCeti.Probability
 
-/-- Local copy of `ENNReal.expNeg` (Tau Ceti, `TauCeti.Analysis.SpecialFunctions.Exp.Negative`):
-the negative exponential, with value zero at infinity. -/
-def expNeg (x : ℝ≥0∞) : ℝ≥0 := (EReal.exp (-x.toEReal)).toNNReal
+/-! ## Local copies of Tau Ceti's point-process library
 
-end ENNReal
+Each copy keeps the body of the Tau Ceti declaration named in its docstring, at the same short
+name in this roadmap's namespace, so that the file still compiles once the pin contains the
+library. -/
 
-namespace MeasureTheory.Measure
+section Copies
 
 variable {Ω X : Type*} [MeasurableSpace Ω] [MeasurableSpace X]
+
+/-- Local copy of `expNeg` (Tau Ceti, `TauCeti.Analysis.SpecialFunctions.Exp.Negative`):
+the negative exponential, with value zero at infinity. -/
+def expNeg (x : ℝ≥0∞) : ℝ≥0 := (EReal.exp (-x.toEReal)).toNNReal
 
 /-- Local copy of `MeasureTheory.Measure.IsIntegerValued` (Tau Ceti,
 `TauCeti.MeasureTheory.Measure.IntegerValued.Basic`): a measure is integer-valued if every
@@ -70,13 +74,7 @@ def IsIntegerValued (μ : Measure X) : Prop :=
 `TauCeti.Probability.RandomMeasure.LaplaceFunctional`): the Laplace functional of a random
 measure, with `exp (-∞) = 0`. -/
 def laplaceFunctional (P : Measure Ω) (N : Ω → Measure X) (f : X → ℝ≥0∞) : ℝ≥0∞ :=
-  ∫⁻ ω, (ENNReal.expNeg (∫⁻ x, f x ∂N ω) : ℝ≥0∞) ∂P
-
-end MeasureTheory.Measure
-
-namespace TauCeti.Probability
-
-variable {Ω X : Type*} [MeasurableSpace Ω] [MeasurableSpace X]
+  ∫⁻ ω, (expNeg (∫⁻ x, f x ∂N ω) : ℝ≥0∞) ∂P
 
 /-- Local copy of `TauCeti.Probability.IsPoissonRandomMeasure` (Tau Ceti,
 `TauCeti.Probability.PointProcess.Poisson.Basic`): a measurable random measure with independent
@@ -98,14 +96,6 @@ count. It specializes `compoundPoissonMeasure` to Dirac-measure jumps. For non-p
 this still denotes the convolution-power mixture, not necessarily a probability measure. -/
 noncomputable def finitePoissonLaw (r : ℝ≥0) (Q : Measure X) : Measure (Measure X) :=
   compoundPoissonMeasure r (Q.map Measure.dirac)
-
-end TauCeti.Probability
-
-namespace MeasureTheory.Measure
-
-open TauCeti.Probability
-
-variable {X : Type*} [MeasurableSpace X]
 
 /-- Local copy of `MeasureTheory.Measure.finitePoissonLawOf` (Tau Ceti,
 `TauCeti.Probability.PointProcess.Poisson.Finite`): use the total mass of `μ` as Poisson rate
@@ -146,7 +136,7 @@ theorem isProbabilityMeasure_compoundPoissonMeasure_zero {α : Type*} [Measurabl
 
 /-- Supporting step (Tau Ceti proves it in `TauCeti.Probability.PointProcess.Poisson.Finite`):
 normalized finite sampling is a probability law, including for zero intensity. -/
-instance (μ : Measure X) [IsFiniteMeasure μ] : IsProbabilityMeasure μ.finitePoissonLawOf := by
+instance (μ : Measure X) [IsFiniteMeasure μ] : IsProbabilityMeasure (finitePoissonLawOf μ) := by
   by_cases hμ : μ = 0
   · subst μ
     rw [finitePoissonLawOf, finitePoissonLaw, FunLike.coe_zero, Pi.zero_apply,
@@ -163,13 +153,9 @@ instance (μ : Measure X) [IsFiniteMeasure μ] : IsProbabilityMeasure μ.finiteP
 of `Λ`, then superpose the samples. The rate on each piece is its mass, including zero-mass
 pieces. -/
 def poissonLaw (Λ : Measure X) [SigmaFinite Λ] : Measure (Measure X) :=
-  (Measure.infinitePi (fun n => (Λ.poissonPiece n).finitePoissonLawOf)).map Measure.sum
+  (Measure.infinitePi (fun n => finitePoissonLawOf (poissonPiece Λ n))).map Measure.sum
 
-end MeasureTheory.Measure
-
-namespace TauCetiRoadmap.SpatialPointProcessFoundations
-
-open TauCeti.Probability
+end Copies
 
 /-! ## Layer 1: carriers -/
 
@@ -181,7 +167,7 @@ def LocallyFiniteMeasure (S : Type*) [TopologicalSpace S] [MeasurableSpace S] :=
 
 /-- 1.1: point measures, the locally finite integer-valued measures. -/
 def PointMeasure (S : Type*) [TopologicalSpace S] [MeasurableSpace S] :=
-  {μ : Measure S // IsFiniteMeasureOnCompacts μ ∧ μ.IsIntegerValued}
+  {μ : Measure S // IsFiniteMeasureOnCompacts μ ∧ IsIntegerValued μ}
 
 /-- 1.1: marked locally finite measures, finite on `K × univ` for compact `K`. -/
 def MarkedLocallyFiniteMeasure (S E : Type*) [TopologicalSpace S] [MeasurableSpace S]
@@ -191,7 +177,7 @@ def MarkedLocallyFiniteMeasure (S E : Type*) [TopologicalSpace S] [MeasurableSpa
 /-- 1.1: marked point measures. -/
 def MarkedPointMeasure (S E : Type*) [TopologicalSpace S] [MeasurableSpace S]
     [MeasurableSpace E] :=
-  {μ : Measure (S × E) // (∀ K : Set S, IsCompact K → μ (K ×ˢ Set.univ) < ∞) ∧ μ.IsIntegerValued}
+  {μ : Measure (S × E) // (∀ K : Set S, IsCompact K → μ (K ×ˢ Set.univ) < ∞) ∧ IsIntegerValued μ}
 
 variable {S : Type*} [MetricSpace S] [PolishSpace S] [LocallyCompactSpace S] [MeasurableSpace S]
   [BorelSpace S]
@@ -312,11 +298,13 @@ variable {Ω Ω' X : Type*} [MeasurableSpace Ω] [MeasurableSpace Ω'] [Measurab
 def intensity (P : Measure Ω) (N : Ω → Measure X) : Measure X :=
   P.bind N
 
-/-- 2.1: Campbell's formula. -/
+/-- 2.1, sanity check of `intensity`: Campbell's formula, Mathlib's
+`MeasureTheory.Measure.lintegral_bind` after unfolding the definition. -/
 theorem lintegral_intensity {P : Measure Ω} {N : Ω → Measure X} (hN : Measurable N)
     {f : X → ℝ≥0∞} (hf : Measurable f) :
     ∫⁻ x, f x ∂intensity P N = ∫⁻ ω, ∫⁻ x, f x ∂N ω ∂P := by
-  sorry
+  unfold intensity
+  exact Measure.lintegral_bind hN.aemeasurable hf.aemeasurable
 
 variable {S : Type*} [MetricSpace S] [PolishSpace S] [LocallyCompactSpace S] [MeasurableSpace S]
   [BorelSpace S]
@@ -336,7 +324,7 @@ theorem map_eq_of_forall_map_count_eq {P : Measure Ω} {P' : Measure Ω'} [IsPro
 theorem map_eq_of_laplaceFunctional_eq {P : Measure Ω} {Q : Measure Ω'} [IsFiniteMeasure P]
     {N : Ω → Measure X} {M : Ω' → Measure X} (hN : AEMeasurable N P) (hM : AEMeasurable M Q)
     (h : ∀ f : X → ℝ≥0∞, Measurable f →
-      P.laplaceFunctional N f = Q.laplaceFunctional M f) :
+      laplaceFunctional P N f = laplaceFunctional Q M f) :
     P.map N = Q.map M := by
   sorry
 
@@ -401,7 +389,8 @@ theorem exists_isReducedPalmKernel [TopologicalSpace X] [PolishSpace X] [BorelSp
 
 /-- 3.2: the Campbell–Little–Mecke formula. -/
 theorem IsPalmKernel.lintegral {P : Measure Ω} {N : Ω → Measure X} {κ : Kernel X (Measure X)}
-    (hκ : IsPalmKernel P N κ) (hN : Measurable N) {g : X → Measure X → ℝ≥0∞}
+    [SigmaFinite (intensity P N)] (hκ : IsPalmKernel P N κ) (hN : Measurable N)
+    {g : X → Measure X → ℝ≥0∞}
     (hg : Measurable (uncurry g)) :
     ∫⁻ ω, ∫⁻ x, g x (N ω) ∂N ω ∂P = ∫⁻ x, ∫⁻ μ, g x μ ∂κ x ∂intensity P N := by
   sorry
@@ -475,7 +464,7 @@ theorem measurable_factorialMeasure (n : ℕ) :
 space, the factorial powers are almost everywhere measurable, so the `bind` in
 `factorialMomentMeasure` is not the junk value `0`. -/
 theorem aemeasurable_factorialMeasure [MeasurableSpace.CountablyGenerated X] {P : Measure Ω}
-    {N : Ω → Measure X} (hN : Measurable N) (hint : ∀ᵐ ω ∂P, (N ω).IsIntegerValued)
+    {N : Ω → Measure X} (hN : Measurable N) (hint : ∀ᵐ ω ∂P, IsIntegerValued (N ω))
     (hσ : ∀ᵐ ω ∂P, SigmaFinite (N ω)) (n : ℕ) :
     AEMeasurable (fun ω => factorialMeasure (N ω) n) P := by
   sorry
@@ -567,14 +556,14 @@ abbrev IsPoissonPointProcess (P : Measure Ω) (N : Ω → PointMeasure S) (Λ : 
 
 /-- 5.1: existence: `poissonLaw Λ` is the law of a Poisson random measure with intensity `Λ`. -/
 theorem isPoissonRandomMeasure_poissonLaw (Λ : Measure X) [SigmaFinite Λ] :
-    IsPoissonRandomMeasure Λ.poissonLaw id Λ := by
+    IsPoissonRandomMeasure (poissonLaw Λ) id Λ := by
   sorry
 
 /-- 5.1: uniqueness: every Poisson random measure with σ-finite intensity `Λ` has law
 `poissonLaw Λ`. -/
 theorem IsPoissonRandomMeasure.map_eq_poissonLaw {P : Measure Ω} {N : Ω → Measure X}
     {Λ : Measure X} [SigmaFinite Λ] (h : IsPoissonRandomMeasure P N Λ) :
-    P.map N = Λ.poissonLaw := by
+    P.map N = poissonLaw Λ := by
   sorry
 
 /-- 5.1: a locally finite intensity has a Poisson law on the point-measure carrier. -/
@@ -590,15 +579,15 @@ theorem IsPoissonRandomMeasure.intensity_eq {P : Measure Ω} {N : Ω → Measure
 /-- 5.2: the Laplace functional `exp (-∫ (1 - e^{-f}) dΛ)`. -/
 theorem IsPoissonRandomMeasure.laplaceFunctional_eq_expNeg {P : Measure Ω} {N : Ω → Measure X}
     {Λ : Measure X} (h : IsPoissonRandomMeasure P N Λ) {f : X → ℝ≥0∞} (hf : Measurable f) :
-    P.laplaceFunctional N f =
-      (ENNReal.expNeg (∫⁻ x, 1 - (ENNReal.expNeg (f x) : ℝ≥0∞) ∂Λ) : ℝ≥0∞) := by
+    laplaceFunctional P N f =
+      (expNeg (∫⁻ x, 1 - (expNeg (f x) : ℝ≥0∞) ∂Λ) : ℝ≥0∞) := by
   sorry
 
 /-- 5.2: void probabilities `P(N(B) = 0) = e^{-Λ(B)}` for every measurable `B`, with
 `e^{-∞} = 0`. -/
 theorem IsPoissonRandomMeasure.measure_setOf_eq_zero {P : Measure Ω} {N : Ω → Measure X}
     {Λ : Measure X} (h : IsPoissonRandomMeasure P N Λ) {B : Set X} (hB : MeasurableSet B) :
-    P {ω | N ω B = 0} = ENNReal.expNeg (Λ B) := by
+    P {ω | N ω B = 0} = expNeg (Λ B) := by
   sorry
 
 /-- 5.3: the Mecke equation. -/
@@ -640,7 +629,7 @@ theorem IsPoissonRandomMeasure.janossyMeasure_eq [MeasurableSpace.CountablyGener
     (n : ℕ) :
     AEMeasurable (fun ω => factorialMeasure ((N ω).restrict W) n) P ∧
       janossyMeasure P N W n =
-        ((ENNReal.expNeg (Λ W) : ℝ≥0∞) / n.factorial) •
+        ((expNeg (Λ W) : ℝ≥0∞) / n.factorial) •
           Measure.pi fun _ : Fin n => Λ.restrict W := by
   sorry
 
@@ -667,14 +656,16 @@ theorem isPoissonPointProcess_of_measure_count_eq_zero {P : Measure Ω} [IsProba
     {N : Ω → PointMeasure S} (hN : Measurable N) {Λ : Measure S} [IsFiniteMeasureOnCompacts Λ]
     (hΛ : ∀ x, Λ {x} = 0) (hs : ∀ᵐ ω ∂P, (N ω).IsSimple)
     (hv : ∀ B : Set S, MeasurableSet B → IsCompact (closure B) →
-      P {ω | (N ω).count B = 0} = ENNReal.expNeg (Λ B)) :
+      P {ω | (N ω).count B = 0} = expNeg (Λ B)) :
     IsPoissonPointProcess P N Λ := by
   sorry
 
-/-- 5.5: Slivnyak–Mecke: a point process with σ-finite intensity is Poisson exactly when the law
-of the process itself is a reduced Palm kernel. -/
-theorem isPoissonRandomMeasure_iff_isReducedPalmKernel {P : Measure Ω} [IsProbabilityMeasure P]
-    {N : Ω → Measure X} (hN : Measurable N) (hint : ∀ᵐ ω ∂P, (N ω).IsIntegerValued)
+/-- 5.5: Slivnyak–Mecke: on a countably generated space, an almost surely integer-valued random
+measure with σ-finite intensity is Poisson exactly when the law of the process itself is a
+reduced Palm kernel. -/
+theorem isPoissonRandomMeasure_iff_isReducedPalmKernel [MeasurableSpace.CountablyGenerated X]
+    {P : Measure Ω} [IsProbabilityMeasure P]
+    {N : Ω → Measure X} (hN : Measurable N) (hint : ∀ᵐ ω ∂P, IsIntegerValued (N ω))
     [SigmaFinite (intensity P N)] :
     IsPoissonRandomMeasure P N (intensity P N) ↔
       IsReducedPalmKernel P N (Kernel.const X (P.map N)) := by
@@ -691,7 +682,7 @@ variable {Ω X Y : Type*} [MeasurableSpace Ω] [MeasurableSpace X] [MeasurableSp
 /-- 6.2: `-log ∫ e^{-g(x, y)} K(x, dy)`, the exponent contributed by a point at `x` to the
 conditional Laplace functional of a `K`-marking. -/
 def markExponent (K : Kernel X Y) (g : X × Y → ℝ≥0∞) (x : X) : ℝ≥0∞ :=
-  (-ENNReal.log (∫⁻ y, (ENNReal.expNeg (g (x, y)) : ℝ≥0∞) ∂K x)).toENNReal
+  (-ENNReal.log (∫⁻ y, (expNeg (g (x, y)) : ℝ≥0∞) ∂K x)).toENNReal
 
 /-- 6.2: `M` is a `K`-marking of `N`: given `N`, the marks are independent with laws `K(x, ·)`,
 expressed through the conditional Laplace functional
@@ -700,8 +691,8 @@ def IsMarking (P : Measure Ω) (N : Ω → Measure X) (M : Ω → Measure (X × 
     Prop :=
   Measurable N ∧ Measurable M ∧
     ∀ C : Set (Measure X), MeasurableSet C → ∀ g : X × Y → ℝ≥0∞, Measurable g →
-      ∫⁻ ω in N ⁻¹' C, (ENNReal.expNeg (∫⁻ z, g z ∂M ω) : ℝ≥0∞) ∂P =
-        ∫⁻ ω in N ⁻¹' C, (ENNReal.expNeg (∫⁻ x, markExponent K g x ∂N ω) : ℝ≥0∞) ∂P
+      ∫⁻ ω in N ⁻¹' C, (expNeg (∫⁻ z, g z ∂M ω) : ℝ≥0∞) ∂P =
+        ∫⁻ ω in N ⁻¹' C, (expNeg (∫⁻ x, markExponent K g x ∂N ω) : ℝ≥0∞) ∂P
 
 /-- 6.1: the mapping theorem. -/
 theorem IsPoissonRandomMeasure.map {P : Measure Ω} {N : Ω → Measure X} {Λ : Measure X}
@@ -739,7 +730,7 @@ theorem isMarking_of_condDistrib [StandardBorelSpace Y] [Nonempty Y] {P : Measur
 theorem IsMarking.intensity_eq {P : Measure Ω} [IsProbabilityMeasure P] {N : Ω → Measure X}
     [SFinite (intensity P N)] {M : Ω → Measure (X × Y)} {K : Kernel X Y} [IsMarkovKernel K]
     (hM : IsMarking P N M K)
-    (hint : ∀ᵐ ω ∂P, (N ω).IsIntegerValued) :
+    (hint : ∀ᵐ ω ∂P, IsIntegerValued (N ω)) :
     intensity P M = intensity P N ⊗ₘ K := by
   sorry
 
@@ -770,7 +761,7 @@ probabilities. -/
 theorem IsMarking.factorialMomentMeasure_thinning [MeasurableSpace.CountablyGenerated X]
     {P : Measure Ω} [IsProbabilityMeasure P] {N : Ω → Measure X} {M : Ω → Measure (X × Bool)}
     {K : Kernel X Bool} [IsMarkovKernel K] (hM : IsMarking P N M K)
-    (hint : ∀ᵐ ω ∂P, (N ω).IsIntegerValued) (hσ : ∀ᵐ ω ∂P, SigmaFinite (N ω)) (n : ℕ) :
+    (hint : ∀ᵐ ω ∂P, IsIntegerValued (N ω)) (hσ : ∀ᵐ ω ∂P, SigmaFinite (N ω)) (n : ℕ) :
     AEMeasurable (fun ω => factorialMeasure (N ω) n) P ∧
     AEMeasurable
       (fun ω => factorialMeasure (((M ω).restrict (univ ×ˢ {true})).map Prod.fst) n) P ∧
@@ -928,10 +919,10 @@ def palmProbability (P : Measure Ω) (N : Ω → PointMeasure (E d)) :
   (intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure (E d))) (unitCube d))⁻¹ •
     P.bind fun ω => ((N ω : Measure (E d)).restrict (unitCube d)).map fun x => x +ᵥ N ω
 
-/-- 8.1: for finite positive intensity the Palm probability is a probability measure. -/
-theorem IsStationary.isProbabilityMeasure_palmProbability {P : Measure Ω}
+/-- 8.1: for finite positive intensity the Palm probability is a probability measure;
+stationarity is not needed. -/
+theorem isProbabilityMeasure_palmProbability {P : Measure Ω}
     [IsProbabilityMeasure P] {N : Ω → PointMeasure (E d)} (hN : Measurable N)
-    (hst : IsStationary P N)
     (hγ₀ : 0 < intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure (E d))) (unitCube d))
     (hγ : intensityDensity P (fun ω => (N ω : LocallyFiniteMeasure (E d))) (unitCube d) < ∞) :
     IsProbabilityMeasure (palmProbability P N) := by
@@ -967,6 +958,7 @@ end StationaryPalm
 
 /-! ## Upstream declarations consumed (Exact supplier contracts) -/
 
+#check @MeasureTheory.Measure.lintegral_bind
 #check @MeasureTheory.Measure.bind
 #check @MeasureTheory.Measure.compProd
 #check @ProbabilityTheory.Kernel.const

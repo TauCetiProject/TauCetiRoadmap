@@ -21,14 +21,15 @@ The roadmap is a synthesis of several sources: the lectures of Last and Penrose 
 theory, Kallenberg and Daley–Vere-Jones for random measures and Palm theory, the manuscript of
 Baccelli, Błaszczyszyn and Karray for Janossy measures and stationary frameworks, and
 Chiu–Stoyan–Kendall–Mecke and Schneider–Weil for the stochastic-geometry forms. Its Poisson
-definitions are those of Tau Ceti's library of random measures, which proves a large part of
-Layer 5. [ClassicalErgodicTheory](../ClassicalErgodicTheory/README.md) supplies the implication
-from mixing to ergodicity used in Layer 7, and
+definitions are local copies of those of Tau Ceti's library of random measures, which proves a
+large part of Layer 5 (Prior formalization).
+[ClassicalErgodicTheory](../ClassicalErgodicTheory/README.md) supplies the implication from
+mixing to ergodicity used in Layer 7, and
 [GeometryOfNumbersAndQuadraticArithmetic](../GeometryOfNumbersAndQuadraticArithmetic/README.md)
-§4.2 the point measure of a finite configuration. It is the foundation for spatial-statistics
-roadmaps on determinantal, finite-volume and infinite-volume Gibbs, Cox and cluster processes,
-point-pattern statistics, random closed sets and Boolean models, random tessellations, and
-point-process likelihood; each takes the parts listed under Downstream consumers.
+§4.2 the point measure of a finite configuration. Its consumers are the theories of
+determinantal processes, finite-volume and infinite-volume Gibbs processes, Cox and cluster
+processes, point-pattern statistics, point-process likelihoods, Boolean models and random closed
+sets, and random tessellations; the parts each one uses are listed under Downstream consumers.
 
 ## How to read the build
 
@@ -53,9 +54,10 @@ uses §2.2, §4.2 and Layer 5; Layer 8 uses Layer 7 and the Mecke equation of §
   and use the lower Lebesgue integral, so no statement needs integrability.
 - A random measure is a map `N : Ω → Measure X` (or into one of the carriers) on a probability
   space `(Ω, P)`; its law is `P.map N`. The intensity measure is the mixture `B ↦ 𝔼 N(B)`.
-- `ENNReal.expNeg x` is `e^{-x}` with `expNeg ∞ = 0`, as in Tau Ceti; the Laplace functional
-  `𝔼 e^{-∫ f dN}` is `MeasureTheory.Measure.laplaceFunctional`.
-- A Poisson random measure with intensity `Λ` is `TauCeti.Probability.IsPoissonRandomMeasure P N Λ`:
+- `expNeg x` is `e^{-x}` with `expNeg ∞ = 0`, the copy of Tau Ceti's `expNeg`; the
+  Laplace functional `𝔼 e^{-∫ f dN}` is `laplaceFunctional P N f`.
+- A Poisson random measure with intensity `Λ` is `IsPoissonRandomMeasure P N Λ`, the copy of
+  Tau Ceti's `TauCeti.Probability.IsPoissonRandomMeasure`:
   measurability, independent Poisson counts on disjoint sets of finite intensity, and almost
   surely infinite counts on measurable sets of infinite intensity. The last clause makes void
   probabilities and Laplace functionals correct without finiteness assumptions. No topology,
@@ -78,7 +80,8 @@ p. 6].
 - **Carriers** (`LocallyFiniteMeasure`, `PointMeasure`, `PointMeasure.toLocallyFinite`,
   `MarkedLocallyFiniteMeasure`, `MarkedPointMeasure`, `PointMeasure.count`,
   `PointMeasure.IsSimple`). Marked measures live on `S × E` and are finite on `K × E` for compact
-  `K`; their marks need no topology. `MeasureTheory.Measure.IsIntegerValued` is Tau Ceti's.
+  `K`; their marks need no topology. `IsIntegerValued` is the copy of Tau Ceti's
+  `MeasureTheory.Measure.IsIntegerValued`.
 - **Counts are masses** (`PointMeasure.coe_count`). On a measurable set the count, cast to
   `ℝ≥0∞`, is the mass. Route: integer values on sets of finite mass, and `⊤ ↦ ∞`.
 - **Atomic decomposition** (`PointMeasure.exists_eq_sum_dirac`). Every point measure is
@@ -122,7 +125,7 @@ Lemma 9.1.V, p. 6]; [BBK, Proposition 1.5.3, p. 15].
 - `δ_{1/n} → δ_0` vaguely on `ℝ`, and the counts on `[0, 1]` converge, while those on `(0, 1]`
   stay `1` against the limit `0`: counts are measurable, not continuous.
 - `δ_n → 0` vaguely on `ℝ` as `n → ∞`, although every `δ_n` has total mass `1`; in total
-  variation `δ_n` stays at distance `2` from `0`, so the vague topology is strictly coarser.
+  variation `δ_n` stays at distance `1` from `0`, so the vague topology is strictly coarser.
 - Negative control: `n δ_0` has no vague limit, so the space is not compact.
 - `δ_{1/n} + δ_{-1/n} → 2δ_0`, a limit of simple point measures that is not simple: simple point
   measures do not form a closed set.
@@ -154,7 +157,8 @@ Sources: [LP, Proposition 2.7, p. 13]; [K, Lemma 2.4, p. 53]; [SW, Theorem 3.1.2
 Theorem 4.1, p. 114].
 
 - **Intensity measure** (`intensity`). The mixture `P.bind N`, `B ↦ 𝔼 N(B)`.
-- **Campbell's formula** (`lintegral_intensity`). `∫ f d(intensity) = 𝔼 ∫ f dN` for measurable
+- **Campbell's formula** (`lintegral_intensity`, a proved sanity check of `intensity`: it is
+  Mathlib's `MeasureTheory.Measure.lintegral_bind`). `∫ f d(intensity) = 𝔼 ∫ f dN` for measurable
   `f ≥ 0` [LP, Proposition 2.7, p. 13].
 
 **Checks.**
@@ -170,7 +174,8 @@ Theorem 4.1, p. 114].
 Sources: [LP, Proposition 2.10, p. 14]; [K, Theorem 2.2, p. 52]; [DVJ2, Proposition 9.2.III,
 p. 26]; [BBK, Corollary 1.3.4, p. 10; Proposition 1.3.11, p. 12].
 
-- **Laplace functional** (`MeasureTheory.Measure.laplaceFunctional`, Tau Ceti's).
+- **Laplace functional** (`laplaceFunctional`, the copy of Tau Ceti's
+  `MeasureTheory.Measure.laplaceFunctional`).
 - **Joint count laws determine the law** (`map_eq_of_forall_map_count_eq`). Two point processes
   with the same joint count laws on all finite families of disjoint relatively compact Borel
   windows have the same law [DVJ2, Proposition 9.2.III, p. 26]; [BBK, Corollary 1.3.4, p. 10].
@@ -253,9 +258,10 @@ Sources: [DVJ2, Proposition 13.1.IV, p. 273]; [K, Theorem 1.23, p. 37; Lemma 6.1
   disjoint relatively compact windows. Route: the definition at
   `g(x, μ) = 1_A(x) ∏ⱼ μ(Bⱼ)^{(nⱼ)}`, and the counts of `N - δ_x` at a point `x` of `N`. The
   converse needs moment determinacy (§4.2).
-- **Campbell–Little–Mecke** (`IsPalmKernel.lintegral`).
-  `𝔼 ∫ g(x, N) N(dx) = ∫∫ g(x, μ) κ(x, dμ) intensity(dx)` for measurable `g ≥ 0` [BBK,
-  Theorem 3.1.9, p. 121].
+- **Campbell–Little–Mecke** (`IsPalmKernel.lintegral`). For measurable `N` with σ-finite
+  intensity and a Palm kernel `κ`, `𝔼 ∫ g(x, N) N(dx) = ∫∫ g(x, μ) κ(x, dμ) intensity(dx)` for
+  measurable `g ≥ 0` [BBK, Theorem 3.1.9, p. 121]; the σ-finiteness keeps the Campbell measure
+  from being the junk value `0` (§3.1).
 
 **Checks.**
 
@@ -364,15 +370,13 @@ Corollary 4.3.9, p. 175; Proposition 4.3.10, p. 176].
 Sources: [LP, Proposition 3.2, p. 20; Theorem 3.6, p. 21]; [BBK, Definition 2.1.1, p. 29;
 Proposition 2.5.5, p. 76]; [SW, Theorem 3.2.1, p. 60].
 
-- **Poisson random measures** (`TauCeti.Probability.IsPoissonRandomMeasure`,
-  `IsPoissonPointProcess`). Tau Ceti's definition, and the same property on the point-measure
-  carrier.
-- **Existence** (`MeasureTheory.Measure.poissonLaw`, `isPoissonRandomMeasure_poissonLaw`). For
-  σ-finite `Λ`, the identity map under Tau Ceti's sampling law `poissonLaw Λ` is a Poisson random
+- **Poisson random measures** (`IsPoissonRandomMeasure`, `IsPoissonPointProcess`). The copy of
+  Tau Ceti's definition, and the same property on the point-measure carrier.
+- **Existence** (`poissonLaw`, `isPoissonRandomMeasure_poissonLaw`). For
+  σ-finite `Λ`, the identity map under the sampling law `poissonLaw Λ` is a Poisson random
   measure [LP, Theorem 3.6, p. 21]; [BBK, Proposition 2.5.5, p. 76]. The law superposes the finite
-  samples `MeasureTheory.Measure.finitePoissonLawOf` of the pieces
-  `MeasureTheory.Measure.poissonPiece`, which are the compound Poisson laws
-  `TauCeti.Probability.finitePoissonLaw`.
+  samples `finitePoissonLawOf` of the pieces `poissonPiece`, which are the compound Poisson laws
+  `finitePoissonLaw`; all four are copies of Tau Ceti's declarations of the same short names.
 - **Uniqueness** (`IsPoissonRandomMeasure.map_eq_poissonLaw`). Every Poisson random measure with
   σ-finite intensity has law `poissonLaw Λ` [LP, Proposition 3.2, p. 20].
 - **Point-measure carrier** (`exists_isPoissonPointProcess`). A locally finite intensity on `S`
@@ -401,15 +405,15 @@ Sources: [LP, Theorem 3.9, p. 23; (6.6) in Theorem 6.10, p. 50]; [BBK, Propositi
 - **Laplace functional** (`IsPoissonRandomMeasure.laplaceFunctional_eq_expNeg`).
   `𝔼 e^{-∫ f dN} = exp(-∫ (1 - e^{-f}) dΛ)` for measurable `f ≥ 0`, with `exp(-∞) = 0` and no
   finiteness assumption [LP, Theorem 3.9, p. 23]; [BBK, Proposition 2.1.4, p. 30]. The converse,
-  that this formula characterises Poisson random measures, is [LP, Theorem 3.9, p. 23] and is
-  proved in Tau Ceti.
+  that this formula characterises Poisson random measures, is [LP, Theorem 3.9, p. 23]
+  (Prior formalization).
 - **Void probabilities** (`IsPoissonRandomMeasure.measure_setOf_eq_zero`).
   `P(N(B) = 0) = e^{-Λ(B)}` for every measurable `B`. Route: Poisson zero mass, and the infinite
   clause when `Λ(B) = ∞`.
 
 **Checks.**
 
-- `ENNReal.expNeg 0 = 1`, `ENNReal.expNeg ∞ = 0` and `ENNReal.expNeg (log 2) = 1/2`.
+- `expNeg 0 = 1`, `expNeg ∞ = 0` and `expNeg (log 2) = 1/2`.
 - At `f = t 1_B`, `𝔼 e^{-tN(B)} = e^{-Λ(B)(1 - e^{-t})}`; at `λ = 2`, `t = 0.7` both sides are
   `0.365376`.
 - Negative control: without the infinite clause, `N = 0` with `Λ = ∞ · δ_a` would give
@@ -425,7 +429,7 @@ p. 229]; [SW, Theorem 3.2.5, p. 67; Theorem 3.2.3, p. 65]; [BBK, Proposition 2.3
 - **Multivariate Mecke equation** (`IsPoissonRandomMeasure.lintegral_factorialMeasure_mecke`).
   `𝔼 ∫ f(x, N) N⁽ⁿ⁾(dx) = ∫ 𝔼 f(x, N + ∑ᵢ δ_{xᵢ}) Λⁿ(dx)` [LP, Theorem 4.4, p. 30], stated for
   σ-finite `Λ` on a countably generated space, where Poisson random measures are almost surely
-  integer-valued (Tau Ceti).
+  integer-valued (Prior formalization).
 - **Mecke characterisation** (`isPoissonRandomMeasure_iff_mecke`). For σ-finite `Λ`, the Mecke
   equation characterises Poisson random measures [LP, Theorem 4.1, p. 27]; for random measures
   [K, Lemma 6.15, p. 229].
@@ -474,10 +478,12 @@ p. 50].
   with void probabilities `e^{-Λ(B)}` on relatively compact windows, for diffuse locally finite
   `Λ`, is Poisson [LP, Theorem 6.10, p. 50]; [K, Corollary 3.9, p. 80]. Route: §2.3 compares it
   with the Poisson process of §5.1, simple by §5.4.
-- **Slivnyak–Mecke** (`isPoissonRandomMeasure_iff_isReducedPalmKernel`). A point process with
-  σ-finite intensity is Poisson exactly when the constant kernel `x ↦ law(N)` is a reduced Palm
-  kernel [K, Lemma 6.15, p. 229]; [BBK, Theorem 3.2.4, p. 130]; [DVJ2, Proposition 13.1.VII,
-  p. 281]; [CSKM, (2.43), p. 50].
+- **Slivnyak–Mecke** (`isPoissonRandomMeasure_iff_isReducedPalmKernel`). On a countably
+  generated space, an almost surely integer-valued random measure with σ-finite intensity is
+  Poisson exactly when the constant kernel `x ↦ law(N)` is a reduced Palm kernel [K, Lemma 6.15,
+  p. 229]; [BBK, Theorem 3.2.4, p. 130]; [DVJ2, Proposition 13.1.VII, p. 281]; [CSKM, (2.43),
+  p. 50]. Countable generation makes such a measure a sum of point masses that the σ-algebra
+  sees, so that `N - δ_x` removes a point.
 
 **Checks.**
 
@@ -488,6 +494,11 @@ p. 50].
 - Negative control: the integer-valued hypothesis matters. For the deterministic diffuse
   `N = Λ ≠ 0`, Measure subtraction gives `N - δ_x = N`, so the constant kernel `δ_Λ` is a reduced
   Palm kernel; but `N` is not Poisson, since `Var N(B) = 0 ≠ Λ(B)`.
+- Negative control: countable generation matters. On `ℝ` with the countable–co-countable
+  σ-algebra, the measure `ν` with `ν(A) = 0` for countable `A` and `1` otherwise is
+  integer-valued with `ν - δ_x = ν`; the deterministic `N = ν` satisfies the reduced-Palm
+  identity for `δ_ν` but has `N(ℝ) = 1`, not `Po(1)`, and the Poisson `N = Kν`, `K ~ Po(1)`,
+  would need `𝔼 K² = 𝔼 K`, that is `2 = 1`.
 
 ## Layer 6: operations
 
@@ -501,8 +512,9 @@ p. 36]; [DVJ2, Proposition 9.4.IX, p. 63].
 - **Images of point processes.** On the point-measure carrier the image intensity must be locally
   finite for the image to be a point process; the first Check below has infinite counts.
 - **Restriction theorem** (`IsPoissonRandomMeasure.iIndepFun_restrict`). Restrictions to disjoint
-  measurable sets are independent [LP, Theorem 5.2, p. 39]. That each restriction `N|_C` is
-  Poisson with intensity `Λ|_C` is proved in Tau Ceti (Prior formalization).
+  measurable sets are independent [LP, Theorem 5.2, p. 39].
+- **Restrictions are Poisson.** Each restriction `N|_C` is Poisson with intensity `Λ|_C`
+  [LP, Theorem 5.2, p. 39] (Prior formalization).
 - **Superposition** (`isPoissonRandomMeasure_sum`). A countable independent family of Poisson
   random measures sums to a Poisson random measure with the summed intensity [LP, Theorem 3.3,
   p. 20]; [BBK, Corollary 2.2.3, p. 36].
@@ -537,11 +549,12 @@ p. 75]; [BBK, Theorem 2.2.21, p. 45].
   the defining identity at `C = univ` and the Poisson Laplace functional (§5.2) at
   `markExponent K g` give `exp(-∫ (1 - e^{-g}) d(Λ ⊗ K))`, and Laplace functionals of this form
   characterise Poisson random measures (§5.2).
-- **Tau Ceti's marking is a marking.** The marked realization that Tau Ceti main constructs for a
-  Poisson random measure with σ-finite intensity on a standard Borel space, by a Markov kernel
-  from `Measure X` to `Measure (X × E)` (Prior formalization), is a `K`-marking of `N` in the
-  sense of `IsMarking`. Route: the kernel acts on `N` alone, and it is an independent marking of
-  a measurable enumeration of the points, so `isMarking_of_condDistrib` applies.
+- **Kernel markings are markings.** For a Poisson random measure with σ-finite intensity on a
+  standard Borel space, the marked realization given by a realization-level Markov kernel from
+  `Measure X` to `Measure (X × E)` that marks the points independently (the construction listed
+  under Prior formalization) is a `K`-marking of `N` in the sense of `IsMarking`. Route: the
+  kernel acts on `N` alone, and it is an independent marking of a measurable enumeration of the
+  points, so `isMarking_of_condDistrib` applies.
 
 **Checks.**
 
@@ -686,8 +699,9 @@ p. 307].
 - **Palm probability** (`palmProbability`).
   `P⁰(A) = γ⁻¹ 𝔼 ∫_{[0,1)^d} 1{x +ᵥ N ∈ A} N(dx)`, the Campbell ratio of [LP, (9.4), p. 83] with
   `B = [0,1)^d`.
-- **Normalization** (`IsStationary.isProbabilityMeasure_palmProbability`). For `0 < γ < ∞`, `P⁰`
-  is a probability measure. Route: its mass is `γ⁻¹ 𝔼 N(unitCube d) = 1`.
+- **Normalization** (`isProbabilityMeasure_palmProbability`). For a measurable point process
+  with `0 < γ < ∞`, `P⁰` is a probability measure; stationarity is not needed. Route: its mass is
+  `γ⁻¹ 𝔼 N(unitCube d) = 1`.
 - **Window independence.** Any window `B` with `0 < |B| < ∞` in place of `[0,1)^d` gives the same
   `P⁰` [LP, (9.4), p. 83]. Route: the refined Campbell theorem (§8.2) at `f = 1_B ⊗ 1_A`.
 
@@ -746,7 +760,7 @@ Sources: [LP, Theorem 9.4, p. 85]; [SW, Theorem 3.3.5, p. 77]; [CSKM, (2.43), p.
 
 ## Downstream consumers
 
-- DeterminantalPointProcesses consumes the carriers, counts and simplicity (§1.1), the vague
+- Determinantal point processes use the carriers, counts and simplicity (§1.1), the vague
   topology and the generation of the σ-algebra by counts (§1.2), restriction and tuples (§1.3),
   the intensity (§2.1), the reduced Palm kernels, their existence and window form (§3.2),
   factorial powers and `factorialCountMoment` (§4.1), factorial moment measures, product
@@ -754,35 +768,35 @@ Sources: [LP, Theorem 9.4, p. 85]; [SW, Theorem 3.3.5, p. 77]; [CSKM, (2.43), p.
   Poisson property and the Poisson law on point measures (§5.1), the Poisson factorial moments
   (§5.3), markings by a `Bool`-valued kernel and the factorial moments of a thinning (§§6.2–6.3),
   and translation and stationarity (§7.1).
-- FiniteGibbsPointProcesses consumes the carriers (§§1.1–1.2), `ENNReal.expNeg` (§5.2), Janossy
+- Finite-volume Gibbs point processes use the carriers (§§1.1–1.2), `expNeg` (§5.2), Janossy
   reconstruction (§4.3), the Poisson property, its Janossy measures, simplicity, the binomial form
   and the Mecke equation (§§5.1, 5.3, 5.4).
-- InfiniteVolumeGibbsPointProcesses consumes the carriers, simplicity and the σ-algebra
+- Infinite-volume Gibbs point processes use the carriers, simplicity and the σ-algebra
   (§§1.1–1.2), the intensity and Campbell's formula (§2.1), existence, uniqueness,
-  `ENNReal.expNeg`, the Mecke equation and its multivariate form (§§5.1–5.3), mapping and
+  `expNeg`, the Mecke equation and its multivariate form (§§5.1–5.3), mapping and
   superposition (§6.1), translation, intensity density and ergodicity (§§7.1, 7.2, 7.4), the
   Palm probability, the refined Campbell theorem and Slivnyak's theorem (Layer 8).
-- PointProcessLikelihood consumes `MeasureTheory.Measure.IsIntegerValued`,
+- Point-process likelihoods use `IsIntegerValued`,
   `MarkedLocallyFiniteMeasure`, `MarkedPointMeasure` and the atomic decomposition (§1.1),
-  `ENNReal.expNeg` and the Poisson property with its existence (§§5.1–5.2), simplicity (§5.4),
+  `expNeg` and the Poisson property with its existence (§§5.1–5.2), simplicity (§5.4),
   and the mapping and restriction theorems (§6.1).
-- RandomClosedSetsAndBooleanModels consumes the Poisson property (§5.1) and the marking theorem
+- Boolean models and random closed sets use the Poisson property (§5.1) and the marking theorem
   with enumerated marks (§6.2).
-- RandomTessellations consumes the carriers, simplicity and the vague topology (§§1.1–1.2), the
+- Random tessellations use the carriers, simplicity and the vague topology (§§1.1–1.2), the
   intensity (§2.1), the Poisson property and its mean (§5.1), void probabilities (§5.2), the
   Mecke equations and factorial moments (§5.3), stationarity, the stationary intensity and
   `intensityDensity` (§§7.1–7.2), the Palm probability, the refined Campbell theorem and
   Slivnyak's theorem (Layer 8).
-- SpatialCoxAndClusterProcesses consumes the carriers, counts, the vague topology and the
+- Cox and cluster processes use the carriers, counts, the vague topology and the
   generation of the σ-algebras by counts and masses (§§1.1–1.2), the intensity, Campbell's
   formula, the Laplace functional and the determination of laws (§§2.1–2.2), Palm kernels and
   the Campbell–Little–Mecke formula (§3.2), factorial powers (§4.1), factorial moment measures
   and product densities with their window form (§4.2), the Poisson property, the Poisson law on
-  point measures, `ENNReal.expNeg` and the Poisson Laplace functional (§§5.1–5.2), the Poisson
+  point measures, `expNeg` and the Poisson Laplace functional (§§5.1–5.2), the Poisson
   factorial moments and the Mecke equations (§5.3), the marking theorem (§6.2), thinning and its
   factorial moment measures (§6.3), translation and stationarity (§7.1), and mixing of the
   stationary Poisson process (§7.4).
-- SpatialPointPatternStatistics consumes the carriers and counts and the vague topology
+- Point-pattern statistics uses the carriers and counts and the vague topology
   (§§1.1–1.2), the intensity and Campbell's formula (§2.1), factorial powers and their
   measurability (§4.1), factorial moment measures and product densities (§4.2), the Poisson
   property, void probabilities, Mecke equation, factorial moments and binomial form
@@ -862,6 +876,7 @@ theory on `ℝ^d` are here; specific models and their statistics are downstream.
   `MeasureTheory.Measure.infinitePi`, `MeasureTheory.Measure.pi`.
 - `MeasureTheory.VAddInvariantMeasure`, `ErgodicVAdd`, `Filter.cocompact`.
 - `ProbabilityTheory.poissonMeasure`, `ENNReal.log`, `EReal.exp`.
+- `MeasureTheory.Measure.lintegral_bind`, which proves Campbell's formula (§2.1).
 
 ### From Tau Ceti
 
@@ -871,8 +886,11 @@ theory on `ℝ^d` are here; specific models and their statistics are downstream.
 - The definitions `ENNReal.expNeg`, `MeasureTheory.Measure.IsIntegerValued`,
   `MeasureTheory.Measure.laplaceFunctional`, `TauCeti.Probability.IsPoissonRandomMeasure`,
   `TauCeti.Probability.finitePoissonLaw`, `MeasureTheory.Measure.finitePoissonLawOf`,
-  `MeasureTheory.Measure.poissonPiece` and `MeasureTheory.Measure.poissonLaw` of Tau Ceti's
-  random-measure library, as verbatim local copies in `Suggested.lean`.
+  `MeasureTheory.Measure.poissonPiece` and `MeasureTheory.Measure.poissonLaw` of Tau Ceti at
+  commit `d395922`, copied with their bodies into this roadmap's namespace under their short
+  names (`expNeg`, `IsIntegerValued`, `laplaceFunctional`, `IsPoissonRandomMeasure`,
+  `finitePoissonLaw`, `finitePoissonLawOf`, `poissonPiece`, `poissonLaw`), each docstring naming
+  the declaration and module it copies.
 
 ### From GeometryOfNumbersAndQuadraticArithmetic
 
@@ -908,10 +926,8 @@ No Tau Ceti roadmap owns these topics; each is material for a further roadmap bu
 
 ## Prior formalization
 
-Tau Ceti's library of random measures and Poisson random measures, younger than the pinned
-commit, proves without `sorry` the following targets of Layers 2, 5 and 6 and the copied
-definitions, in its own form (Tau Ceti main at commit `d395922`, modules under
-`TauCeti/Probability/`):
+Tau Ceti at commit `d395922` contains the copied definitions and proves without `sorry` the
+following targets of Layers 2, 5 and 6, in its own form (modules under `TauCeti/Probability/`):
 
 - §2.2: `map_eq_of_laplaceFunctional_eq` (`RandomMeasure/Determination.lean`), and the
   finite-family form of the determination by counts (`RandomMeasure/Law.lean`).
