@@ -81,8 +81,9 @@ uses Layers 1 and 3, and Layer 5 uses Layer 3.
   `A *ᵥ (fun i ↦ (x i : ℚ)) = 0`. Spans of columns are `Submodule.span ℚ`.
 - **Namespaces.** Declarations named here use Mathlib-style names: `Finset.*` and `Fin.*` for the
   Ramsey forms of Layer 1, `Matrix.*` for Rado's theorem, and root names (`vdWNumber`, `mpcSet`,
-  `folkmanNumber`, …) for the arithmetic numbers and sets. The prototype `Suggested.lean` declares
-  everything in its own namespace.
+  `folkmanNumber`, …) for the arithmetic numbers and sets. `Suggested.lean` declares the headline
+  targets in its own namespace, without these prefixes. A name in code font that `Suggested.lean`
+  does not declare is the proposed name of a README target.
 
 ## Layer 1: simultaneous and ordered Ramsey theorems
 
@@ -296,7 +297,8 @@ integers with finitely many colours has a monochromatic `(m, p, c)`-set of posit
 ### 3.4 Brauer's theorem
 
 Prove `exists_mono_ap_and_diff`: for every `k` and finite `κ`, every colouring `χ : ℕ → κ` has
-`a, d ≥ 1` with `a + (k − 1) d ≤ mpcNumber 2 k 1 κ` and `χ d = χ (a + j d)` for all `j < k`.
+`a, d ≥ 1` with `a + k d ≤ mpcNumber 2 k 1 κ` and `χ d = χ (a + j d)` for all `j < k`; the bound
+on `a + k d` constrains `d` also when `k ≤ 1`.
 Route: a monochromatic `(2, k, 1)`-set with generators `x₁, x₂` contains `x₂` and `x₁ + j x₂` for
 `0 ≤ j ≤ k`; take `a = x₁`, `d = x₂`. This is the strengthening of van der Waerden's theorem in
 Chua, §3, p. 27.
@@ -380,7 +382,7 @@ Define `orderedProd a A` as in Conventions (with `@[to_additive orderedSum]`) an
 `orderedProd_biUnion`: for ordered blocks `D` and `J : Finset (Fin m)`,
 `orderedProd a (J.biUnion D) = orderedProd (fun j ↦ orderedProd a (D j)) J`. Prove:
 
-- `exists_orderedProd_blocks_mono`: for `[Finite κ]` and every `n` with `IsFinUnionsBound m κ n`,
+- `exists_orderedProd_blocks_mono`: for every `n` with `IsFinUnionsBound m κ n`,
   for every monoid `M`, every `a : Fin n → M` and every `χ : M → κ`, there are ordered blocks
   `D : Fin m → Finset (Fin n)` such that, with `bⱼ = orderedProd a (D j)`,
   `χ (orderedProd b I) = χ (orderedProd b J)` for all nonempty `I, J`. Route: colour `A` by
@@ -477,8 +479,8 @@ and equals `1` at `s`. Choose `c` clearing the denominators of all `d_{is}` and
   `c = p = 1`, and `y = (x₁ − x₂, x₂, x₁)`: `y₁, y₃` lie in row `1` and `y₂` in row `2`, and
   `y₁ + y₂ − y₃ = 0`.
 - The bound of the second item for Schur's matrix with `r` colours is `mpcNumber 2 1 1 (Fin r)`;
-  for `r = 2` it is `17`, against the value `5` of RamseyNumbers 6.1's Check, which allows
-  `x = y`.
+  for `r = 2` it is `17`, against the value `5` of RamseyNumbers 6.1's Check: here all four of
+  `x₁ − x₂, x₂, x₁, x₁ + x₂` must have one colour, not only the three entries of the solution.
 
 *Needs:* 3.1, 3.3, 5.1, 5.2.
 
@@ -528,7 +530,7 @@ solution, of some colour `c`, would restrict to a solution of `A_c` in colour `c
 ## Worked examples
 
 - Schur's theorem: `!![1, 1, -1]` satisfies the columns condition, so 5.3 gives a monochromatic
-  `x + y = z`. RamseyNumbers 6.1 gives the sharper bound `R(3, …, 3) − 1` with `x = y` allowed;
+  `x + y = z`. RamseyNumbers 6.1 gives the bound `R(3, …, 3) − 1` with `x = y` allowed;
   4.1 gives `x ≠ y` with the bound `folkmanNumber 2 κ`.
 - Van der Waerden with the common difference (Brauer, 3.4), and geometric progressions with their
   ratio from 3.4 applied to `t ↦ χ (2 ^ t)`.
@@ -626,11 +628,9 @@ At Mathlib `1b1ccf4b`:
 
 The simultaneous Ramsey theorem (1.2) and its ordered form (1.3) were formalized, with Ramsey's
 theorem for arbitrary finite sets and a demand per colour, in openai/math (Apache-2.0, commit
-`adc7f124`, `OAI/Analysis/MarkovType/FiniteRamsey.lean`), and adapted in another Lean development.
-That development also proves the finite form of Folkman's theorem without distinctness and without a
-bound, from Mathlib's Hindman theorem and `Finset.rado_selection`, and the selection of products of
-ordered blocks by the argument of 4.3. Neither source is prescriptive: Layers 2, 3 and 5 have no
-formal precursor there, and the bounds of Layers 3 and 4 replace the compactness argument.
+`adc7f124`, `OAI/Analysis/MarkovType/FiniteRamsey.lean`). That source is not prescriptive: Layers 2,
+3 and 5 have no formal precursor there, and the bounds of Layers 3 and 4 replace compactness
+arguments.
 
 ## References
 
@@ -643,11 +643,11 @@ formal precursor there, and the bounds of Layers 3 and 4 replace the compactness
   dissertation, arXiv:1712.03620v1 (Lemma 1, the iterated Ramsey theorem; Theorem 2 and
   Corollary 1.1, the finite sums theorem; §1.2).
 - R. L. Graham, B. L. Rothschild and J. H. Spencer, *Ramsey Theory*, Wiley (1980; second edition
-  1990), which names the finite sums theorem after J. Folkman; not consulted, no locator given.
+  1990), which names the finite sums theorem after J. Folkman.
 - The papers of R. Rado (*Studien zur Kombinatorik*, Math. Z. 36 (1933)), R. Rado (*Some partition
   theorems*, 1970), W. Deuber (*Partitionen und lineare Gleichungssysteme*, Math. Z. 133 (1973)),
-  A. Brauer (1928) and B. L. van der Waerden (1927) are named as Chua and Sanders attribute the
-  results; they were not consulted, and no locator into them is given.
+  A. Brauer (1928) and B. L. van der Waerden (1927), to whom Chua and Sanders attribute the
+  results.
 - R. Alweiss, *Monochromatic sums and products over ℚ*, arXiv:2307.08901 (Downstream consumers).
 - N. Hindman, *Partitions and sums and products of integers*, Trans. Amer. Math. Soc. 247 (1979),
   227–245 (the finite sums-and-products question; Scope).

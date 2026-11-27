@@ -173,7 +173,7 @@ theorem mpcNumber_le [Finite κ] (m p c : ℕ) :
 
 /-- 3.4 Brauer's theorem: a monochromatic progression together with its common difference. -/
 theorem exists_mono_ap_and_diff [Finite κ] (k : ℕ) (χ : ℕ → κ) :
-    ∃ a d : ℕ, 1 ≤ a ∧ 1 ≤ d ∧ a + (k - 1) * d ≤ mpcNumber 2 k 1 κ ∧
+    ∃ a d : ℕ, 1 ≤ a ∧ 1 ≤ d ∧ a + k * d ≤ mpcNumber 2 k 1 κ ∧
       ∀ j < k, χ (a + j * d) = χ d := by
   sorry
 
@@ -260,7 +260,7 @@ theorem orderedProd_biUnion {M : Type*} [Monoid M] {n m : ℕ} (a : Fin n → M)
 /-- 4.4 Products of ordered blocks of any sequence in any monoid: the ordered nonempty
 subproducts of the block products have one colour. -/
 @[to_additive]
-theorem exists_orderedProd_blocks_mono [Finite κ] {m n : ℕ} (hn : IsFinUnionsBound m κ n)
+theorem exists_orderedProd_blocks_mono {m n : ℕ} (hn : IsFinUnionsBound m κ n)
     {M : Type*} [Monoid M] (a : Fin n → M) (χ : M → κ) :
     ∃ D : Fin m → Finset (Fin n), (∀ j, (D j).Nonempty) ∧
       (∀ i j, i < j → ∀ x ∈ D i, ∀ y ∈ D j, x < y) ∧
@@ -271,7 +271,7 @@ theorem exists_orderedProd_blocks_mono [Finite κ] {m n : ℕ} (hn : IsFinUnions
 
 /-- 4.4 The commutative form: products of disjoint blocks. -/
 @[to_additive]
-theorem exists_finsetProd_blocks_mono [Finite κ] {m n : ℕ} (hn : IsFinUnionsBound m κ n)
+theorem exists_finsetProd_blocks_mono {m n : ℕ} (hn : IsFinUnionsBound m κ n)
     {M : Type*} [CommMonoid M] (a : Fin n → M) (χ : M → κ) :
     ∃ D : Fin m → Finset (Fin n), (∀ j, (D j).Nonempty) ∧
       (∀ i j, i < j → ∀ x ∈ D i, ∀ y ∈ D j, x < y) ∧
@@ -314,8 +314,16 @@ theorem columnsCondition_of_frequently_lastDigit (A : Matrix ι κ ℚ)
 /-- 5.3 Under the columns condition, every `(t, p, c)`-set contains a solution, for suitable
 `p, c`. -/
 theorem ColumnsCondition.exists_mpc {A : Matrix ι κ ℚ} (hA : ColumnsCondition A) :
-    ∃ t p c : ℕ, 1 ≤ c ∧ ∀ x : Fin t → ℤ, ∃ y : κ → ℤ, (∀ i, y i ∈ mpcSet p c x) ∧
+    ∃ t p c : ℕ, 1 ≤ p ∧ 1 ≤ c ∧ ∀ x : Fin t → ℤ, ∃ y : κ → ℤ, (∀ i, y i ∈ mpcSet p c x) ∧
       A.mulVec (fun i ↦ (y i : ℚ)) = 0 := by
+  sorry
+
+/-- 5.3 Sufficiency with a bound: under the columns condition, every finite colouring has a
+monochromatic positive solution with entries at most an `(m, p, c)` number. -/
+theorem ColumnsCondition.exists_mono_solution_le {A : Matrix ι κ ℚ} (hA : ColumnsCondition A) :
+    ∃ t p c : ℕ, 1 ≤ p ∧ 1 ≤ c ∧ ∀ (κ' : Type) [Finite κ'] (χ : ℕ → κ'),
+      ∃ x : κ → ℕ, (∀ i, 0 < x i ∧ x i ≤ mpcNumber t p c κ') ∧
+        A.mulVec (fun i ↦ (x i : ℚ)) = 0 ∧ ∀ i j, χ (x i) = χ (x j) := by
   sorry
 
 /-- 5.3 Rado's theorem. -/
