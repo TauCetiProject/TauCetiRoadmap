@@ -115,6 +115,7 @@ body:
         - CategoricalOperatorAlgebras
         - CharacterSumsOverFiniteFields
         - CharacteristicClasses
+        - CharacteristicPolynomialsAndStarComplements
         - ChevalleyGroups
         - CircleMethodThreePrimes
         - ClassFieldTheory
