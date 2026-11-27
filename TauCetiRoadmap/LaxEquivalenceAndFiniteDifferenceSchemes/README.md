@@ -58,8 +58,9 @@ Layer 2 no semigroups; the two layers can be built in either order.
   `θ_k = 2π k.val / N`.
 - **Two-level schemes.** A two-level scheme `B u^(n+1) = A u^n` is given by two stencils `b`, `a`;
   its step matrix is `B⁻¹ A`, with Mathlib's matrix inverse, which is `0` for a singular matrix.
-  Every statement about `B⁻¹ A` assumes that `ρ_b` does not vanish where it is evaluated, and then
-  `B` is invertible. The amplification factor is `g = ρ_a / ρ_b`. An explicit scheme has `b = δ₀`,
+  Statements 2.2 and 2.3 assume that `ρ_b` does not vanish where it is evaluated, and then `B` is
+  invertible; in 2.4 the value `0` on grids where `B` is singular is harmless, as its route shows.
+  The amplification factor is `g = ρ_a / ρ_b`. An explicit scheme has `b = δ₀`,
   whose matrix is the identity, and its step matrix is written `A`.
 - **Stability on periodic grids.** A two-level scheme with fixed coefficients is called stable on
   periodic grids if there is `K` with `‖(B⁻¹ A)ⁿ‖ ≤ K` for all `N ≥ 1` and all `n`. The
@@ -90,12 +91,13 @@ Define, for a scheme `C`, a semigroup `S` and a horizon `T`:
   `C (τ j) ^ (n j) x` tend to `S t x`.
 
 Stability and convergence are those of Trefethen, (4.2.8) and (4.2.7), p. 156, which go back to
-Lax and Richtmyer 1956; Trefethen asks for `n k = t` exactly, the definition here for
-`n j τ j → t`. Consistency is usually stated with the generator `A` of `S`: `(C τ − 1) u / τ → A u`
+Lax and Richtmyer 1956; Trefethen asks for the bound at all steps with `n k ≤ T` and for
+`n k = t` exactly, while here stability is asked for `τ ≤ τ₀` and convergence for `n j τ j → t`.
+Consistency is usually stated with the generator `A` of `S`: `(C τ − 1) u / τ → A u`
 along solutions. `IsConsistentScheme` states it with the semigroup, so no generator enters; for a
-dense set `D` inside the domain of `A` the two forms agree, since `(S τ − 1) S t x / τ → S t A x`
-uniformly for `t ≤ T`. Convergence is asked only along step sequences with `n j τ j ≤ T`, the range
-on which stability gives information.
+dense set `D` inside the domain of `A` the two forms agree on a Banach space, since
+`(S τ − 1) S t x / τ → S t A x` uniformly for `t ≤ T`. Convergence is asked only along step
+sequences with `n j τ j ≤ T`, the range on which stability gives information.
 
 **Checks.**
 - The bound in stability is restricted to `n τ ≤ T`. On `X = ℝ` with `S t = e^t` and
@@ -104,8 +106,8 @@ on which stability gives information.
   unbounded over all `n`: with the bound required for all `n` the equivalence 1.5 would fail.
 - `T = 0`: `n τ ≤ 0` forces `n = 0`, every scheme is stable with `K = 1` and convergent, since
   `C τ ^ 0 x = x = S 0 x`.
-- The exact scheme `C τ = S τ` is consistent with `D = X` and stable with `K` the bound of
-  `‖S t‖` on `[0, T]`.
+- On a Banach space, the exact scheme `C τ = S τ` is consistent with `D = X` and stable with `K`
+  the bound of `‖S t‖` on `[0, T]`.
 
 *Needs:* Tau Ceti `TauCeti.Semigroups.StronglyContinuousSemigroup`. (Definitions.)
 
