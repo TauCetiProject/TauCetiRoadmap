@@ -2119,8 +2119,10 @@ named sections.
   `TopRep.explicitH1AddEquivContinuousCohomologyOfDiscrete` is an additive equivalence from `H1` to
   `continuousCohomology 1` of a discrete object with continuous action, natural in compatible
   pairs (`TopRep.explicitH1AddEquivContinuousCohomologyOfDiscrete_map`); applied to the equivariant
-  endomorphism `r • ·`, the naturality makes the class map `Z1 → continuousCohomology 1`
-  `k`-linear for the pointwise action on cocycles. `H1` itself is used as an additive group only:
+  endomorphism `r • ·`, the naturality, with the `k`-linearity of the functor
+  (`TauCeti.ContinuousCohomology.continuousCohomologyFunctor_linear`, in
+  `TauCeti/RepresentationTheory/Homological/ContCohomology/Additive.lean`), makes the class map
+  `Z1 → continuousCohomology 1` `k`-linear for the pointwise action on cocycles. `H1` itself is used as an additive group only:
   dimensions are never read from it, and its pointwise quotient topology is not the intended
   topology of continuous cohomology.
 - `TauCeti.Topology.Algebra.Group.Generation` supplies

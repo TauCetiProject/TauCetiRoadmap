@@ -296,7 +296,8 @@ This is the foundation the roadmap builds on; it is consumed, not rebuilt.
   (`Ω[F⁄K]`, `KaehlerDifferential.map`), and the valuation/`ValuationSubring` material on which
   Layer 0's places are built.
 - **Continuous cohomology.** Continuous cohomology of topological groups
-  (`continuousCohomology`, in `Mathlib/RepresentationTheory/Homological/ContCohomology/`),
+  (`continuousCohomology`, in `Mathlib/RepresentationTheory/Homological/ContCohomology/`,
+  R. Hill, A. Yang and E. Xie),
   consumed by Layer 7 with the coefficient module forced discrete, as fixed at the head of that
   layer. (Mathlib's Weierstrass
   `℘`-function exists but is not consumed anywhere on this roadmap — complex uniformisation
@@ -1360,12 +1361,12 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   discrete `A`. *This* layer's coefficient modules (`E[m]`, `E(Kˢᵉᵖ)`, and the
   Cassels/local-duality material) are all abelian, so what it needs from below is instead
   continuous cohomology with **forced-discrete coefficients**, as fixed at the head of this
-  layer. Beyond that, the **Galois-specific packaging**, none
-  of it upstream yet: profinite Galois groups acting continuously on discrete modules such
-  as `E(Kˢᵉᵖ)` with the finite-level comparison (`H¹` as the colimit over finite Galois
-  quotients); the Kummer/descent connecting map and exact sequence for `[m] : E → E`;
-  inflation–restriction in that continuous setting; and the **local–global interface, made
-  explicit**: the finite and infinite places with their completions; embeddings
+  layer. The finite-level comparison (`H¹` as the colimit over finite Galois quotients) and
+  inflation–restriction in that continuous setting are ProfiniteCohomology's (Layers 4 and
+  10, §9.4, §5.4). Beyond that, the **Galois-specific packaging**, none of it upstream yet:
+  profinite Galois groups acting continuously on discrete modules such as `E(Kˢᵉᵖ)`; the
+  Kummer/descent connecting map and exact sequence for `[m] : E → E`; and the **local–global
+  interface, made explicit**: the finite and infinite places with their completions; embeddings
   `Kˢᵉᵖ → K_vˢᵉᵖ` (equivalently a decomposition-group construction) with independence of the
   choice up to conjugacy; restriction maps on continuous cohomology; local Kummer maps and
   the local-condition subgroups; unramified local cohomology; the finite set `S` of places

@@ -1008,10 +1008,11 @@ here (`Mathlib/CategoryTheory/Sites/NonabelianCohomology/H1.lean` is Čech-style
 presheaf of groups, not continuous nonabelian cohomology of a profinite group on a discrete one).
 The cohomology of this layer is Mathlib's `continuousCohomology` of `TauCeti.ofDiscreteModule`
 applied to the `TauCeti.ForcedDiscrete` coefficient module, as fixed at the head of `README.md`
-§Layer 7. What the layer builds is the **Galois-specific packaging** on top: profinite Galois
-modules with the finite-level comparison, the Kummer connecting map for `[m]`,
-inflation–restriction there, and the local conditions at the places of `K`, listed precisely
-in `README.md` §Layer 7. Nothing is pinned here; the layer states its objects against that API
+§Layer 7. The finite-level comparison (`H¹` as the colimit over finite Galois quotients) and
+inflation–restriction are ProfiniteCohomology's (Layers 4 and 10, §9.4, §5.4). What this layer
+builds on top is the elliptic part: `E[m]` and `E(Kˢᵉᵖ)` as such coefficient modules, the Kummer
+connecting map for `[m]`, and the local conditions at the places of `K`, listed precisely in
+`README.md` §Layer 7. Nothing is pinned here; the layer states its objects against that API
 once it exists. -/
 
 /-! ## Layer 8: selected `ℚ`-specific database adapters
