@@ -36,7 +36,7 @@ open scoped ENNReal NNReal Topology
 namespace TauCetiRoadmap.MarkovDiffusionOperators
 
 /-- The Gaussian isoperimetric profile `I = φ ∘ Φ⁻¹` on `(0, 1)`, and `0` elsewhere, owned by
-GaussianIsoperimetryAndClusters §1.1 and implemented on Tau Ceti `main` as
+GaussianIsoperimetryAndClusters §1.1 and implemented in Tau Ceti as
 `TauCeti.Probability.gaussianIsoperimetricProfile`, with the same formula. It is restated here
 so that this file imports only `TauCeti.Probability.Quantile` for it. -/
 noncomputable def gaussianIsoperimetricProfile (v : ℝ) : ℝ :=
@@ -199,8 +199,10 @@ variable {d : ℕ}
 measure `volume.tilted (−V)`. It is a probability measure when `e^{−V}` is integrable (Mathlib's
 `isProbabilityMeasure_tilted`) and `0` otherwise, so every statement about it assumes
 integrability. Under `∇²V ≥ ρ > 0` integrability follows from `V(x) ≥ V(0) + ⟨∇V(0), x⟩ +
-ρ‖x‖²/2`; the hypothesis `hint` is kept in the uniformly convex statements for uniformity, and is
-needed in `gibbs_brascampLieb` (`V = eˣ`). -/
+ρ‖x‖²/2`; the hypothesis `hint` is kept in the uniformly convex statements for uniformity. In
+`gibbs_brascampLieb` it is what makes `μ_V` a probability measure and the statement non-trivial:
+a positive-definite Hessian does not imply integrability (`V = eˣ`), and without it
+`gibbsMeasure V = 0` and the inequality reads `0 ≤ 0`. -/
 noncomputable def gibbsMeasure (V : EuclideanSpace ℝ (Fin d) → ℝ) :
     Measure (EuclideanSpace ℝ (Fin d)) :=
   volume.tilted (fun x => -V x)
