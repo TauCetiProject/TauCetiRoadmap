@@ -3470,6 +3470,9 @@ sections = [
 [[area]]
 name = "TopologicalKTheory"
 sections = [
+  "§T1.1",
+  "§T1.2",
+  "§T1.4",
   "§T1.5",
   "§T1.6a",
   "§T2.5",
