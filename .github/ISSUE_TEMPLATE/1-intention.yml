@@ -614,8 +614,10 @@ body:
         - SpecialFunctionsJacobiElliptic
         - SpecialFunctionsLegendre
         - SpecialFunctionsMathieu
+        - SpecialFunctionsMotionGroupsBessel
         - SpecialFunctionsOrthogonalPolynomialsGeneral
         - SpecialFunctionsParabolicCylinder
+        - SpecialFunctionsRankOneSymmetricSpaces
         - SpecialFunctionsSU11MatrixElements
         - SpecialFunctionsSU2MatrixElements
         - SpecialFunctionsStruve
