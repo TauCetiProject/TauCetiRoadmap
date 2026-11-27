@@ -10,7 +10,8 @@ this measure: the isometry it gives, how it is recovered from the periodogram, i
 linear filters, differentiation and sampling do to it.
 
 The headline theorems are these, each for a second-order stationary, mean-square continuous
-family; the isometry and every statement that integrates in `E` take `E` complete.
+family; the isometry, the differentiability criterion and every statement that integrates in `E`
+take `E` complete.
 
 - *Spectral isometry.* There is a linear isometry from `L²(μ)` onto the closed linear span of the
   family that sends the exponential `ξ ↦ exp(2πitξ)` to `X t` for every `t`.
@@ -20,9 +21,9 @@ family; the isometry and every statement that integrates in `E` take `E` complet
 - *Atoms.* The averages `T⁻¹ ∫₀ᵀ exp(−2πiνt) X t dt` converge, and the squared norm of the limit
   is the mass `μ{ν}`; so do the averages of `exp(−2πiνt) C(t)`, to `μ{ν}` itself.
 - *Filters, derivatives and sampling.* Filtering by an integrable impulse response `h`
-  multiplies `μ` by `|𝓕h|²`; the family is mean-square differentiable exactly when
-  `∫ ξ² dμ < ∞`, and the derivative has spectral measure `(2πξ)² μ`; if `μ` is carried by the open
-  band `(−W, W)`, then `X t = ∑ₖ sinc(π(2Wt − k)) X(k/2W)` in norm.
+  multiplies `μ` by `|𝓕h|²`; for `E` complete the family is mean-square differentiable exactly
+  when `∫ ξ² dμ < ∞`, and the derivative has spectral measure `(2πξ)² μ`; if `μ` is carried by
+  the open band `(−W, W)`, then `X t = ∑ₖ sinc(π(2Wt − k)) X(k/2W)` in norm.
 
 The spectral measure is Tau Ceti's Bochner measure of the autocovariance read backwards in time,
 so Bochner's theorem, which Tau Ceti proves on finite-dimensional spaces, is used and not
