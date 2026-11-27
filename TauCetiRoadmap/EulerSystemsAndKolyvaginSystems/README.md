@@ -465,7 +465,7 @@ The precise hypotheses are the invariants hypothesis of Layer 0.8 The core rank 
 
 By Layer 0.9 The core rank is independent of the modulus and the supplier The Euler characteristic formula for Selmer modules applied to `T^*[m^k], k(χ(T) − χ(T^*))` is a sum of local terms `length H⁰(K_v, T^*[m^k]) − length H¹_{F^*}(K_v, T^*[m^k])` up to a bounded error.
 
-At `v | ∞` the term is `∼ k·corank H⁰(K_v, T^*)`; at `q ∤ p∞` it is bounded (unramified-dimension-count of SelmerIwasawaCohomology L2); at `p` it is `∼ k·corank H⁰(ℚ_p, T^*)` for `F_can^*` strict, and bounded for `F_ur` by Mazur–Rubin 2016 Lemma 5.2.
+At `v | ∞` the term is `∼ k·corank H⁰(K_v, T^*)`; at `q ∤ p∞` it is bounded (SelmerIwasawaCohomology §2.14 (Dimensions of unramified classes)); at `p` it is `∼ k·corank H⁰(ℚ_p, T^*)` for `F_can^*` strict, and bounded for `F_ur` by Mazur–Rubin 2016 Lemma 5.2.
 
 `T = ℤ_p(1) ⊗ ρ^{-1}: χ(T, F_can) = 1` if `ρ` is even with `ρ(p) ≠ 1`; `T = T_pE: χ(T, F_can) = 1`.
 
@@ -1522,7 +1522,7 @@ The precise hypotheses are `f_q≡g_q (mod N(q)−1)` for `(a)`; Laurent polynom
 
 Since `[K(q) : K(1)]` divides `N(q) − 1, (f_q − g_q)(Fr_q^{-1})` is divisible by the degree of the `q`-part; correct `c̃_F` by an explicit alternating sum over the primes ramified in `F` (Rubin, Lemma IX.6.1).
 
-The Mazur–Rubin and Rubin polynomials are congruent modulo `N(q) − 1` by euler-polynomial.
+The Mazur–Rubin and Rubin polynomials are congruent modulo `N(q) − 1` by Layer 2.1 Euler polynomials and their conventions.
 
 Rubin's Example IX.6.2: `K = ℚ, f_q = 1 − x` and `g_q = 1 − q^{-1}x`.
 
@@ -2036,7 +2036,7 @@ The precise hypotheses are: `c` an anticyclotomic Euler system for `(T, χ)` ove
 
 At `n=1` choose `b=a c_1` in the definition of Layer 3.7; corestriction gives `κ(1)=a³c_K`.
 
-The uniform restriction lemma proves the relative bound, including every intermediate `K_{cm}`; it is a consequence of the tower hypotheses. For `n=mℓ`, comparison with the cyclic cocycle before localization is the factorisation identity `res_{K_{cm}}D_M(n)=a³z` in ring-class-local-operator. This supplies the canonical local relation and transversality for arbitrary `χ`.
+The uniform restriction lemma proves the relative bound, including every intermediate `K_{cm}`; it is a consequence of the tower hypotheses. For `n=mℓ`, comparison with the cyclic cocycle before localization is the factorisation identity `res_{K_{cm}}D_M(n)=a³z` in Layer 3.7 The finite–singular relation with its Frobenius operator. This supplies the canonical local relation and transversality for arbitrary `χ`.
 
 At good primes outside `np`, both the class and field extension are unramified, so the restriction to inertia is zero. At places dividing `c_oN` the chosen a kills the local cohomology and the selected class already contains `a²`. This proves (K1) away from `p`. At `p`, (E5) is exactly the required extra hypothesis; for generalized cycles its arithmetic verification must use the correction to Proposition7.8, footnote5.
 
@@ -2493,7 +2493,7 @@ Under (ii)`′(a)` the theorem reduces to Layer 3.13 Local behaviour of derivati
 
 For distinct `ℓ, q ∈ P` and `n = ℓq: (i) (κ_{ℓq})_{ℓ,s} = φ^fs_ℓ(κ_q)` and `(κ_{ℓq})_{q,s} = φ^fs_q(κ_ℓ)`; (ii) `(κ_{ℓq})_{ℓ,f} = (κ_1)_{ℓ,f} ⊗ ρ_ℓ(P_ℓ(Fr_q^{-1})) ⊗ ρ_q(P_q(Fr_ℓ^{-1}))`; (iii) the corrected class `κ′_{ℓq} = κ_{ℓq} − κ_1 ⊗ ρ_ℓ(P_ℓ(Fr_q^{-1})) ⊗ ρ_q(P_q(Fr_ℓ^{-1}))` has zero finite part at `ℓ` and at `q` and the same singular parts as `κ_{ℓq}` at `ℓ` and `q`, because the correction term `κ_1` is unramified at `ℓ` and `q`; (iv) `κ′_{ℓq}` is symmetric in `ℓ` and `q`. Hence `κ′` satisfies both edge relations of the square 1 — `ℓ` — `ℓq` — `q` — 1.
 
-The precise hypotheses are the setting of euler-to-kolyvagin.
+The precise hypotheses are the setting of Layer 3.17 The map from Euler systems to Kolyvagin systems.
 
 ([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Appendix `A`, Theorem A.4 and (33), p. 80). The two formulas specialised to two primes.
 
@@ -2762,7 +2762,7 @@ Image lemmas: with `H♭` the maximal pro-`p` subextension of `K_{c_o}` in the r
 
 Prime selection: `π^{B₁}` kills `H¹(Gal(L/K), T_M ⊗ χ^{-1})` (a scalar in the image), and Chebotarev gives infinitely many inert `ℓ` with prescribed Frobenius `g ∈ G_S^+` that are `M`-admissible.
 
-Descent: retain the paired classes with coefficients `T_M⊗χ⁻¹` and `T_M⊗χ`. The image and Chebotarev arguments of CH Lemmas7.10–7.16 use `B₁,B₂`, the bottom divisibility `B₃` and `B₄=min ord_π(χ²(σ)−1)` for `χ²≠1` (zero otherwise). Replace the printed scalar (K2) by ring-class-local-operator. On each of the two auxiliary primes its two operators have `π^{B₁}`-scaled inverses. Thus local orders change by at most `B₁`; when two finite vectors span up to `π^d`, the singular vectors span up to `π^{d+2B₁}`. Enlarge the fixed constants in the prime selection and CH Lemma7.18 by these losses and by `3ν·ord_π(p)` from the selected bottom class. These are fixed in `M` and in the number of selected primes (at most two in this argument). Local Tate duality pairs the opposite twists, and the global reciprocity sum gives a fixed `π`-power annihilator of `Sel_{F*}(K,T_M⊗χ)/(O·κ(1)^τ)`. Let `M` tend to infinity and invert `π` to obtain `(a)`. The numerical `C₁` from the printed scalar proof is not asserted unchanged.
+Descent: retain the paired classes with coefficients `T_M⊗χ⁻¹` and `T_M⊗χ`. The image and Chebotarev arguments of CH Lemmas7.10–7.16 use `B₁,B₂`, the bottom divisibility `B₃` and `B₄=min ord_π(χ²(σ)−1)` for `χ²≠1` (zero otherwise). Replace the printed scalar (K2) by Layer 3.7 The finite–singular relation with its Frobenius operator. On each of the two auxiliary primes its two operators have `π^{B₁}`-scaled inverses. Thus local orders change by at most `B₁`; when two finite vectors span up to `π^d`, the singular vectors span up to `π^{d+2B₁}`. Enlarge the fixed constants in the prime selection and CH Lemma7.18 by these losses and by `3ν·ord_π(p)` from the selected bottom class. These are fixed in `M` and in the number of selected primes (at most two in this argument). Local Tate duality pairs the opposite twists, and the global reciprocity sum gives a fixed `π`-power annihilator of `Sel_{F*}(K,T_M⊗χ)/(O·κ(1)^τ)`. Let `M` tend to infinity and invert `π` to obtain `(a)`. The numerical `C₁` from the printed scalar proof is not asserted unchanged.
 
 `(b)`: apply `(a)` to the specialisations of the Iwasawa classes, with `F` the orthogonal complement of the line spanned by `loc_v(z^χ)` at `v | p`, and use the Poitou–Tate sequence; for `j ≥ r` the Bloch–Kato condition is relaxed at one prime above `p` and strict at the other. The verification that these classes satisfy (E5) uses a corestriction step that the authors correct in the footnote to Proposition 7.8.
 
@@ -2882,7 +2882,7 @@ The precise hypotheses are `Hyp(K, T)` for `(a), (b)`; `Hyp(K, V)` for the weake
 
 The loss between `K` and `Ω` is `H¹(Ω/K, W_M)` and `H¹(Ω/K, W_M^*)`: the source of `n_W` and `n_W^*`.
 
-With `H¹(Ω/K, W) = H¹(Ω/K, W^*) = 0` the selection has no loss, as in chebotarev-nonvanishing.
+With `H¹(Ω/K, W) = H¹(Ω/K, W^*) = 0` the selection has no loss, as in Layer 1.21 Simultaneous nonvanishing of localisations.
 
 The primes avoid `N` and all earlier `q_j`.
 
@@ -3070,9 +3070,9 @@ The precise hypotheses are `(H.0)`–`(H.6), R` principal artinian of `length k,
 
 ([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Theorem 4.2.2, p. 40). Vanishing in core rank zero.
 
-Well-definedness and surjectivity of the maps: Layer 4.2 Selmer lengths across an edge`(c)`, third statement. The description of `ℋ′(n)`: the structure theorem of core-vertices.
+Well-definedness and surjectivity of the maps: Layer 4.2 Selmer lengths across an edge`(c)`, third statement. The description of `ℋ′(n)`: the structure theorem of Layer 4.12 Core vertices and leading vertices.
 
-Local cyclicity and hubs for `χ = 1`: Theorem 4.3.4 via paths in `X⁰` (Lemmas 4.3.8–4.3.9, Propositions 4.3.10–4.3.11, Theorem 4.3.12); then sheaf-monodromy.
+Local cyclicity and hubs for `χ = 1`: Theorem 4.3.4 via paths in `X⁰` (Lemmas 4.3.8–4.3.9, Propositions 4.3.10–4.3.11, Theorem 4.3.12); then Layer 4.11 Locally cyclic sheaves, hubs, monodromy and primitive sections.
 
 `Γ(ℋ′) = Γ(ℋ)`: induction on `λ(n, T̄^*)` using Lemma 4.2.1 and Layer 1.21 Simultaneous nonvanishing of localisations (Theorem 4.4.1). `χ = 0`: Theorem 4.2.2 by the same lemma.
 
@@ -3203,7 +3203,7 @@ The precise hypotheses are as stated in `(a), (b)`.
 
 ([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Corollary 4.4.5, p. 47). The artinian bound.
 
-`(a): κ_1 ∈ ℋ′(1) = m^{λ(1,T^*)}H¹_F(ℚ, T)` by stub-sheaf.
+`(a): κ_1 ∈ ℋ′(1) = m^{λ(1,T^*)}H¹_F(ℚ, T)` by Layer 4.16 The sheaf of stub Selmer modules.
 
 `(b): ∂^{(0)}(κ)` is finite when `κ_1 ≠ 0` since `H¹(ℚ, T)` has no nonzero divisible submodule; the image `κ^{(k)} ∈ KS(T/m^k)` has `κ^{(k)}_1 ∈ m^{∂^{(0)}}H¹_F(ℚ, T/m^k)`; `T/m^k` satisfies `(H.6)` by Lemma 3.7.1`(i)`; apply `(a)` and `H¹_{F^*}(ℚ, T^*)[m^k] = H¹_{F^*}(ℚ, T^*[m^k])` (Layer 0.6 Selmer modules of quotients and torsion submodules), then take the union over `k`.
 
@@ -4517,7 +4517,7 @@ The zero Euler system maps to 0.
 
 ### 8.5 The `Λ`-adic representation `𝐓 = T ⊗ Λ` and its Selmer structures
 
-Let `K∞/K` be a `Z_p`-extension `(d = 1)` with `Γ = Gal(K∞/K), Λ = O[[Γ]], Ψ: G_K ↠ Γ ⊂ Λ^×` the tautological character, and `T` a free `O`-module of finite rank with a continuous `G_K`-action unramified outside a finite set. Put `𝐓 = T ⊗_O Λ` with `G_K` acting on both factors (on `Λ` through `Ψ`), so that Shapiro's lemma gives `H^i(K, 𝐓) ≅ lim_n H^i(K_n, T)` along corestriction (SelmerIwasawaCohomology §3.2 (Shapiro’s lemma for Iwasawa cohomology), which pins the twist), and `𝐓* = Hom(𝐓, μ_{p^∞})`. `A Λ`-adic Selmer structure `F_Λ` on `𝐓` is a Selmer structure over `R = Λ` (SelmerIwasawaCohomology L2, dual-selmer-structure): a finite set `Σ(F_Λ)` of places containing `∞`, the primes above `p` and the primes where `T` ramifies, and `Λ`-submodules `H¹_{F_Λ}(K_v, 𝐓) ⊂ H¹(K_v, 𝐓), v ∈ Σ(F_Λ)`; `F_Λ*` is its dual on `𝐓*` and `X = Hom(H¹_{F_Λ*}(K, 𝐓*), Q_p/Z_p)`. Two instances: `(a)` the canonical structure (Mazur–Rubin, Definition 5.3.2, `K = Q, K∞ = Q∞`): `H¹_{F_Λ}(K_v, 𝐓) = H¹(K_v, 𝐓)` for all `v ∈ Σ`, so `H¹_{F_Λ}(K, 𝐓) = H¹(K, 𝐓)`; `(b)` the ordinary structure (Howard, Definition 2.2.6; Castella–Grossi–Lee–Skinner §3.4): given `Fil_v T ⊂ T` at `v | p, H¹_{F_Λ}(K_v, 𝐓) =` image of `H¹(K_v, Fil_v T ⊗ Λ)`, and the unramified (Howard) or full (Castella et al.) condition at `v ∤ p`. `F_Λ` induces Selmer structures on the quotients `𝐓/I𝐓` by propagation.
+Let `K∞/K` be a `Z_p`-extension `(d = 1)` with `Γ = Gal(K∞/K), Λ = O[[Γ]], Ψ: G_K ↠ Γ ⊂ Λ^×` the tautological character, and `T` a free `O`-module of finite rank with a continuous `G_K`-action unramified outside a finite set. Put `𝐓 = T ⊗_O Λ` with `G_K` acting on both factors (on `Λ` through `Ψ`), so that Shapiro's lemma gives `H^i(K, 𝐓) ≅ lim_n H^i(K_n, T)` along corestriction (SelmerIwasawaCohomology §3.2 (Shapiro’s lemma for Iwasawa cohomology), which pins the twist), and `𝐓* = Hom(𝐓, μ_{p^∞})`. `A Λ`-adic Selmer structure `F_Λ` on `𝐓` is a Selmer structure over `R = Λ` (SelmerIwasawaCohomology §2.13 (Dual Selmer structures)): a finite set `Σ(F_Λ)` of places containing `∞`, the primes above `p` and the primes where `T` ramifies, and `Λ`-submodules `H¹_{F_Λ}(K_v, 𝐓) ⊂ H¹(K_v, 𝐓), v ∈ Σ(F_Λ)`; `F_Λ*` is its dual on `𝐓*` and `X = Hom(H¹_{F_Λ*}(K, 𝐓*), Q_p/Z_p)`. Two instances: `(a)` the canonical structure (Mazur–Rubin, Definition 5.3.2, `K = Q, K∞ = Q∞`): `H¹_{F_Λ}(K_v, 𝐓) = H¹(K_v, 𝐓)` for all `v ∈ Σ`, so `H¹_{F_Λ}(K, 𝐓) = H¹(K, 𝐓)`; `(b)` the ordinary structure (Howard, Definition 2.2.6; Castella–Grossi–Lee–Skinner §3.4): given `Fil_v T ⊂ T` at `v | p, H¹_{F_Λ}(K_v, 𝐓) =` image of `H¹(K_v, Fil_v T ⊗ Λ)`, and the unramified (Howard) or full (Castella et al.) condition at `v ∤ p`. `F_Λ` induces Selmer structures on the quotients `𝐓/I𝐓` by propagation.
 
 The precise hypotheses are For the canonical structure, every `v ∤ p` must have infinite decomposition group in `K∞/K` (true for the cyclotomic `Z_p`-extension), so that `H¹(K_v, 𝐓) = H¹_ur(K_v, 𝐓)` and the structure does not depend on `Σ` (Mazur–Rubin, Lemma 5.3.1(ii)); The induced structure on a quotient `𝐓/I𝐓` is in general smaller than the full local cohomology: for a nonzero principal ideal `I = (f)`, the cokernel of `H¹(K_p, 𝐓) → H¹(K_p, 𝐓/f𝐓)` is `H²(K_p, 𝐓)[f]`. For a nonprincipal `I` no `I`-torsion formula is asserted: the cokernel is governed by the derived specialization `RΓ(K_p, 𝐓) ⊗^L_Λ Λ/I` and its `Tor` terms; Fix the `G_K`-action on `Λ` through `Ψ` and the specialized character `α_𝔓=Ψ` mod `𝔓`. Source formulas using `Ψ^{-1}` require simultaneous transport by `ι`; With `G_K` acting on `Λ` through `Ψ`, the Shapiro isomorphism `H¹(K, 𝐓) ≅ lim_n H¹(K_n, T)` is semilinear for the involution `ι`: multiplication by `γ ∈ Γ` on `𝐓` corresponds to the conjugation action of `γ^{-1}` on `lim_n H¹(K_n, T)` (SelmerIwasawaCohomology §3.2 (Shapiro’s lemma for Iwasawa cohomology): `𝓕_Γ(M)^ι ≅ (M ⊗ R̄)⟨1⟩`). Comparisons with Rubin's `H¹_∞(K, T), ind_Λ` and `X∞` in the first part of this layer therefore pass through `ι`; both sides of every divisibility are transported together, so the theorems agree.
 
@@ -4527,7 +4527,7 @@ The precise hypotheses are For the canonical structure, every `v ∤ p` must hav
 
 ([Benjamin Howard, The Heegner point Kolyvagin system](https://arxiv.org/pdf/1202.6340v1), §2.2, Definition 2.2.6, p. 25). The ordinary structure `(b)`.
 
-The local and global Shapiro identifications are SelmerIwasawaCohomology §§3.1–3.2 (Iwasawa cohomology and Shapiro); for `v ∤ p` with infinite decomposition group every norm-coherent family is unramified (universal-norms-unramified), which gives Mazur–Rubin's Lemma 5.3.1(ii) and makes `(a)` independent of `Σ`.
+The local and global Shapiro identifications are SelmerIwasawaCohomology §§3.1–3.2 (Iwasawa cohomology and Shapiro); for `v ∤ p` with infinite decomposition group every norm-coherent family is unramified (SelmerIwasawaCohomology §3.5 (Universal norms are unramified away from `p`)), which gives Mazur–Rubin's Lemma 5.3.1(ii) and makes `(a)` independent of `Σ`.
 
 For `(b), Fil_v T ⊗ Λ ⊂ 𝐓` is `G_{K_v}`-stable; when `Fil_v T` is its own exact orthogonal complement under a pairing `T × T → O(1)`, the conditions on `𝐓` and `𝐀` are exact orthogonal complements under Howard's pairing `e_Λ` (Howard, Proposition 2.2.4 and the comment after Definition 2.2.5).
 
@@ -4612,7 +4612,7 @@ Every `φ` is `Λ`-linear, so `ind_Λ(λx) = λ·ind_Λ(x)` and `ind_Λ(x)` is a
 
 Every `φ` kills the `Λ`-torsion; conversely, if `x` is not torsion then, `Λ` being a noetherian domain, `H¹_∞/torsion` embeds in a free module of finite rank and some coordinate of `x` is nonzero. Hence `ind_Λ(x) = 0` iff `x` is `Λ`-torsion.
 
-For `d = 1`, the reflexive hull of `H = H¹_∞/torsion` is free over the two-dimensional regular local ring `Λ` (PadicMeasuresIwasawaAlgebras L4, reflexive-free-over-regular-local), `Hom_Λ(H, Λ) = Hom_Λ(H**, Λ)`, and in coordinates `x ↦ (a_1, …, a_r): ind_Λ(x) = (a_1, …, a_r)`, so a principal ideal `(f)` contains `ind_Λ(x)` iff `f` divides `gcd(a_i)`.
+For `d = 1`, the reflexive hull of `H = H¹_∞/torsion` is free over the two-dimensional regular local ring `Λ` (PadicMeasuresIwasawaAlgebras §4.2 (Structure of finitely generated Λ-modules)), `Hom_Λ(H, Λ) = Hom_Λ(H**, Λ)`, and in coordinates `x ↦ (a_1, …, a_r): ind_Λ(x) = (a_1, …, a_r)`, so a principal ideal `(f)` contains `ind_Λ(x)` iff `f` divides `gcd(a_i)`.
 
 The definition exposes the following operations and relations.
 
@@ -5084,7 +5084,7 @@ Indeed `p = uϖ^e` and `rank_ℤ_p(Λ/P) = e f_O deg g`, so the uniformizer form
 
 ### 8.19 Mazur–Rubin's principal index `Ind(c)`
 
-In the cyclotomic setting `K=Q, K∞=Q∞`, assume `H¹(Q,𝐓)` is finitely generated and `Λ`-torsion-free (as provided under MR`(H.0)`–`(H.4)`). For `c` in that module, fix a pseudo-isomorphism `ψ: H¹(Q, 𝐓) → Λ^r` and write `ψ(c) = (a_1, …, a_r)`; `Ind(c)` is the principal ideal generated by `gcd(a_1, …, a_r)`, so `Ind(0) = 0`. For `c ≠ 0` this equals `char((H¹(Q, 𝐓)/Λc)_tors)` (Mazur–Rubin, Definition 5.3.8, with the convention of the zero-class convention below at `c = 0`). For `κ ∈ KS‾(𝐓), Ind(κ) = Ind(κ_1)`.
+In the cyclotomic setting `K=Q, K∞=Q∞`, assume `H¹(Q,𝐓)` is finitely generated and `Λ`-torsion-free (as provided under MR`(H.0)`–`(H.4)`). For `c` in that module, fix a pseudo-isomorphism `ψ: H¹(Q, 𝐓) → Λ^r` and write `ψ(c) = (a_1, …, a_r)`; `Ind(c)` is the principal ideal generated by `gcd(a_1, …, a_r)`, so `Ind(0) = 0`. For `c ≠ 0` this equals `char((H¹(Q, 𝐓)/Λc)_tors)` (Mazur–Rubin, Definition 5.3.8, with the convention `Ind(0) = 0` at `c = 0`). For `κ ∈ KS‾(𝐓), Ind(κ) = Ind(κ_1)`.
 
 The precise hypotheses are `Ind(c)` is principal; Rubin's `ind_Λ` (Layer 8.7 The `Λ`-adic index of divisibility `ind_Λ`) need not be, but a principal ideal contains `ind_Λ(c)` iff it contains `Ind(c)`, both computed in the same `Λ`-module `H¹(Q, 𝐓)`. Transported along the Shapiro identification `H¹(Q, 𝐓) ≅ H¹_∞(Q, T)`, which is `ι`-semilinear (Layer 8.5 The `Λ`-adic representation `𝐓 = T ⊗ Λ` and its Selmer structures), `Ind(c_{Q,∞})` is the image under `ι` of the smallest principal ideal containing Rubin's `ind_Λ(c)`; There is an ideal `B` of finite index in `Λ` with `Bc ⊂ Ind(c)H¹(Q, 𝐓)` (Mazur–Rubin, after Definition 5.3.8); The pseudo-isomorphism/gcd construction is on a finitely generated `Λ`-torsion-free module; the arithmetic carrier is supplied under the MR standing hypotheses, not asserted torsion-free for an arbitrary `T`.
 
@@ -5371,7 +5371,7 @@ Rank one, `Hyp(K∞, T), O = Z_p` and `H¹(Ω∞/K∞, W*) = 0: g_i = f_iΛ` and
 
 Let `K = Q, K∞ = Q∞, T` satisfy `(H.0)`–`(H.4), F_Λ` canonical, `X∞ = Hom(H¹_{F_Λ*}(Q, 𝐓*), Q_p/Z_p)`, and `κ ∈ KS‾(𝐓, F_Λ, P)`, with the retained Frobenius prime-set hypotheses of §8.18. Use the relative blind spot of §8.24 and relative specializations; where the restriction-isomorphism hypotheses hold, §8.18 identifies these with the intrinsic arithmetic systems. `(i) char(X∞)` divides `Ind(κ)`. (ii) If `χ(𝐓) = 1, κ_1 ≠ 0` and `𝔓` is a height-one prime not in the blind spot of `κ`, then `ord_𝔓 char(X∞) = ord_𝔓 Ind(κ)`. (iii) If `χ(𝐓) = 1, κ_1 ≠ 0` and `κ` is `Λ`-primitive, then `char(X∞) = Ind(κ)`.
 
-The precise hypotheses are `(i)` is a divisibility only; equality needs all three conditions of (iii): generic core rank one, nonvanishing bottom class and `Λ`-primitivity. Nonvanishing alone does not give equality; With `Ind(0) = 0` (Layer 8.19 Mazur–Rubin's principal index `Ind(c)`), `(i)` is trivial when `κ_1 = 0`; For `κ` coming from an Euler system `c` via Layer 8.17 From Euler systems to `Λ`-adic Kolyvagin systems (Mazur–Rubin, Theorem 5.3.3), `Ind(κ) = Ind(c_{Q,∞})` and `(i)` is consistent with rubin-iwasawa-divisibility.
+The precise hypotheses are `(i)` is a divisibility only; equality needs all three conditions of (iii): generic core rank one, nonvanishing bottom class and `Λ`-primitivity. Nonvanishing alone does not give equality; With `Ind(0) = 0` (Layer 8.19 Mazur–Rubin's principal index `Ind(c)`), `(i)` is trivial when `κ_1 = 0`; For `κ` coming from an Euler system `c` via Layer 8.17 From Euler systems to `Λ`-adic Kolyvagin systems (Mazur–Rubin, Theorem 5.3.3), `Ind(κ) = Ind(c_{Q,∞})` and `(i)` is consistent with Layer 8.37 Rubin's Iwasawa divisibility `char(X∞) | ind_Λ(c)` (Theorem II.3.3).
 
 (Barry Mazur and Karl Rubin, Kolyvagin systems, §5.3, Theorem 5.3.10, p. 62). Parts `(i)`–(ii) in the roadmap conventions.
 
@@ -5475,7 +5475,7 @@ Scaling `κ` by a non-unit of `Λ` destroys `Λ`-primitivity at the primes divid
 
 ### 8.33 The error-tolerant Iwasawa bound `char(X∞) | a_τ^{5r} ind_Λ(c)` (Rubin, Theorem VII.1.9)
 
-Let `K∞/K` be admissible, `c` an Euler system for `(T, K∞)`, and assume `Hyp(K∞, V)` and `Hyp(K∞/K)`. Let `r` be the number of elementary divisors of `X∞` (with `r = 0` if `X∞` is pseudo-null) and `a_τ` the constant of iwasawa-evaluation-maps. Then `char(X∞)` divides `a_τ^{5r} ind_Λ(c)`, that is, `a_τ^{5r} ind_Λ(c) ⊂ char(X∞)`.
+Let `K∞/K` be admissible, `c` an Euler system for `(T, K∞)`, and assume `Hyp(K∞, V)` and `Hyp(K∞/K)`. Let `r` be the number of elementary divisors of `X∞` (with `r = 0` if `X∞` is pseudo-null) and `a_τ` the constant of Layer 8.10 Rubin's evaluation maps and the constant `a_τ`. Then `char(X∞)` divides `a_τ^{5r} ind_Λ(c)`, that is, `a_τ^{5r} ind_Λ(c) ⊂ char(X∞)`.
 
 The precise hypotheses are If `c_{K,∞}` is `Λ`-torsion then `ind_Λ(c) = 0` and there is nothing to prove; otherwise `X∞` is torsion by Layer 8.25 Weak Leopoldt from an Euler system (Rubin, Theorem II.3.2) and `r` is finite; The error `a_τ^{5r}` is an explicit integer: this is the Iwasawa-theoretic counterpart of Layer 4's error-tolerant interface, and it equals 1 exactly when `a_τ=1` or `r=0`; the first case holds under `Hyp(K∞,T)`.
 
@@ -5692,7 +5692,7 @@ For `T = O²` with `τ = (1 ϖ^m; 0 1), V` irreducible over `G_{K∞}` and `Hyp(
 
 ### 8.39 Divisibility for the true Selmer group (Rubin, Theorem II.3.8)
 
-Let `K∞/K` be admissible, `c` an Euler system for `(T, K∞)`, and suppose `V` satisfies `Hyp(K∞, V)` and `Hyp(K∞/K)`, with local conditions at `p` as in true-iwasawa-selmer-and-singular-quotient. If `loc^s_{Σp}(c_{K,∞}) ∉ H¹_{∞,s}(K_p, T)_{Λ-tors}` and `H¹_{∞,s}(K_p, T)/Λ loc^s_{Σp}(c_{K,∞})` is a torsion `Λ`-module, then `Hom_O(S(K∞, W*), D)` is a torsion `Λ`-module and `(i)` for some `t ≥ 0, char(Hom_O(S(K∞, W*), D))` divides `p^t char(H¹_{∞,s}(K_p, T)/Λ loc^s_{Σp}(c_{K,∞}))`; (ii) if `T` satisfies `Hyp(K∞, T), char(Hom_O(S(K∞, W*), D))` divides `char(H¹_{∞,s}(K_p, T)/Λ loc^s_{Σp}(c_{K,∞}))`.
+Let `K∞/K` be admissible, `c` an Euler system for `(T, K∞)`, and suppose `V` satisfies `Hyp(K∞, V)` and `Hyp(K∞/K)`, with local conditions at `p` as in Layer 8.8 The true Iwasawa Selmer group and the singular local term at `p`. If `loc^s_{Σp}(c_{K,∞}) ∉ H¹_{∞,s}(K_p, T)_{Λ-tors}` and `H¹_{∞,s}(K_p, T)/Λ loc^s_{Σp}(c_{K,∞})` is a torsion `Λ`-module, then `Hom_O(S(K∞, W*), D)` is a torsion `Λ`-module and `(i)` for some `t ≥ 0, char(Hom_O(S(K∞, W*), D))` divides `p^t char(H¹_{∞,s}(K_p, T)/Λ loc^s_{Σp}(c_{K,∞}))`; (ii) if `T` satisfies `Hyp(K∞, T), char(Hom_O(S(K∞, W*), D))` divides `char(H¹_{∞,s}(K_p, T)/Λ loc^s_{Σp}(c_{K,∞}))`.
 
 The precise hypotheses are The right-hand side is principal, so the divisibility is between principal ideals; The torsion hypothesis on `H¹_{∞,s}(K_p, T)/Λ loc^s(c_{K,∞})` is the rank-one condition at `p`; it is a hypothesis of each application, where it is verified through Coleman maps and explicit reciprocity laws.
 
