@@ -177,6 +177,15 @@ def torusTrigPoly (d n : ℕ) : Submodule ℂ (UnitAddTorus (Fin d) → ℂ) :=
   Submodule.span ℂ
     (Set.range fun k : {k : Fin d → ℤ // ∀ i, |k i| < n} => ⇑(UnitAddTorus.mFourier k.1))
 
+/-- The trigonometric polynomials increase with the degree.
+
+Roadmap: `CA-C01`. -/
+theorem torusTrigPoly_mono (d : ℕ) {m n : ℕ} (hmn : m ≤ n) :
+    torusTrigPoly d m ≤ torusTrigPoly d n := by
+  refine Submodule.span_mono ?_
+  rintro _ ⟨k, rfl⟩
+  exact ⟨⟨k.1, fun i => (k.2 i).trans_le (by exact_mod_cast hmn)⟩, rfl⟩
+
 /-- The trigonometric scheme, a scheme of functions in `L_∞(𝕋^d)` in the sense of
 ApproximationSpaces: `T_0 = {0}` and, for `n ≥ 1`, the classes of the trigonometric polynomials of
 coordinate degree `< n`.
@@ -184,11 +193,35 @@ coordinate degree `< n`.
 Roadmap: `CA-C01`. -/
 def torusTrigScheme (d : ℕ) : FunctionScheme (volume : Measure (UnitAddTorus (Fin d))) where
   A n := if n = 0 then {0} else {a | ∃ T ∈ torusTrigPoly d n, ⇑a =ᵐ[volume] T}
-  A_zero := sorry
-  mono := sorry
-  smul_mem := sorry
-  add_mem := sorry
-  finite := sorry
+  A_zero := ite_eq_left rfl
+  mono n a ha := by
+    rw [ite_eq_right n.succ_ne_zero]
+    split_ifs at ha with hn
+    · rw [Set.mem_singleton_iff.1 ha]
+      exact ⟨0, zero_mem _, Lp.coeFn_zero ℂ ∞ volume⟩
+    · obtain ⟨T, hT, haT⟩ := ha
+      exact ⟨T, torusTrigPoly_mono d n.le_succ hT, haT⟩
+  smul_mem c n a ha := by
+    split_ifs at ha ⊢ with hn
+    · rw [Set.mem_singleton_iff.1 ha, smul_zero]
+      exact Set.mem_singleton _
+    · obtain ⟨T, hT, haT⟩ := ha
+      exact ⟨c • T, Submodule.smul_mem _ c hT, (Lp.coeFn_smul c a).trans (haT.const_smul c)⟩
+  add_mem m n a b ha hb := by
+    rcases eq_or_ne m 0 with rfl | hm
+    · rw [ite_eq_left rfl, Set.mem_singleton_iff] at ha
+      rwa [ha, zero_add, zero_add]
+    rcases eq_or_ne n 0 with rfl | hn
+    · rw [ite_eq_left rfl, Set.mem_singleton_iff] at hb
+      rwa [hb, add_zero, add_zero]
+    rw [ite_eq_right hm] at ha
+    rw [ite_eq_right hn] at hb
+    rw [ite_eq_right (by omega)]
+    obtain ⟨T, hT, haT⟩ := ha
+    obtain ⟨T', hT', hbT'⟩ := hb
+    exact ⟨T + T', add_mem (torusTrigPoly_mono d (by omega) hT)
+      (torusTrigPoly_mono d (by omega) hT'), (Lp.coeFn_add a b).trans (haT.add hbT')⟩
+  finite _ a _ := Lp.eLpNorm_lt_top a
 
 /-- **Jackson's theorem** on `𝕋^d` for every order `r` and every `0 < p ≤ ∞`
 (Storozhenko–Oswald 1978, Theorem 3, for `0 < p < 1`).

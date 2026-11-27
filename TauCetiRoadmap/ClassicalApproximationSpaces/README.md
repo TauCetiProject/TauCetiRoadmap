@@ -126,7 +126,7 @@ Define `modulusOfSmoothness μ p r f t = ⨆ h, ‖h‖ ≤ t → eLpNorm (Δ_h^
 ### CA-A03 Elementary properties
 
 Prove: `ω_r(f, 0)_p = 0`; monotone in `t`; `ω_r(f + g, t)_p^ρ ≤ ω_r(f, t)_p^ρ + ω_r(g, t)_p^ρ`;
-`ω_r(−f, t)_p = ω_r(f, t)_p`; `ω_r(f, t)_p ≤ 2^{r/ρ} ‖f‖_p`;
+`ω_r(c f, t)_p = |c| ω_r(f, t)_p` for `c ∈ ℂ`; `ω_r(f, t)_p ≤ 2^{r/ρ} ‖f‖_p`;
 `ω_{r+k}(f, t)_p ≤ 2^{k/ρ} ω_r(f, t)_p`; `ω_r(f, mt)_p^ρ ≤ m^r ω_r(f, t)_p^ρ` for `m ∈ ℕ`, and
 `ω_r(f, λt)_p ≤ r^{(1/p − 1)_+} (1 + λ)^{r + (1/p − 1)_+} ω_r(f, t)_p` for `λ > 0`; for `p < ∞`,
 `ω_r(f, t)_p → 0` as `t → 0`. On `𝕋^d` every step of length at most `mt` is `m` times a step of
