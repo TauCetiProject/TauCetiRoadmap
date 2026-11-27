@@ -237,14 +237,14 @@ with `Finset` operations. Each `Finset` corollary of Layers 2–3 is obtained th
 
 ## Layer 1: moment inequalities for sums of independent random variables
 
-### 1.1 Khintchine and Marcinkiewicz–Zygmund
+### 1.1 Marcinkiewicz–Zygmund and Khintchine
 
 On a probability space, prove the following.
 
-- **Khintchine.** For independent Rademacher signs `εᵢ`, complex scalars `zᵢ` and `m ≥ 1`:
-  `𝔼 |Σ εᵢ zᵢ|^{2m} ≤ m^m (Σ |zᵢ|²)^m`.
 - **Marcinkiewicz–Zygmund.** For independent complex `X₁, …, Xₖ` with `𝔼 Xᵢ = 0` and
   `𝔼 |Xᵢ|^{2m} < ∞`: `𝔼 |Σ Xᵢ|^{2m} ≤ (4m)^m 𝔼 (Σ |Xᵢ|²)^m`.
+- **Khintchine.** For independent Rademacher signs `εᵢ`, complex scalars `zᵢ` and `m ≥ 1`:
+  `𝔼 |Σ εᵢ zᵢ|^{2m} ≤ m^m (Σ |zᵢ|²)^m`.
 
 State independence with Mathlib's `ProbabilityTheory.iIndepFun`. Derive Marcinkiewicz–Zygmund from
 Khintchine by symmetrisation with an independent copy; the complex case of Khintchine follows from
@@ -476,7 +476,7 @@ the reduction statement, which assumes `G` compact).
 **Checks.**
 
 - A one-dimensional model `m` with character `ψ = m.rep · 1`: `‖m.rep x − 1‖ = |ψ x − 1|`.
-- `G = ℤ/2`, sign character, `ρ < 2`: the Bohr set is `{0}`; for `ρ ≥ 2` it is `G`.
+- `G = ℤ/2`, sign character, `0 ≤ ρ < 2`: the Bohr set is `{0}`; for `ρ < 0` it is empty; for `ρ ≥ 2` it is `G`.
 
 ### 4.3 Measure and covering of Bohr sets
 
@@ -664,9 +664,13 @@ the Bohr-set form with these bounds is the one stated here.
 The proof is the argument for densely modelled sets sketched in Sanders (2012), §3 ("the case of
 good modelling"), with the Croot–Sisask lemma in the form of Sanders (2013), §§7–8:
 
-1. Apply Croot–Sisask (2.2) with `S = A`, so that `K ≤ 1/α`, to a triple convolution of normalised
-   indicators of `A` and `−A`. This gives a set `T` of measure `e^{−O(L⁴)}`. Its iterated differences
-   (2.3, about `L` iterations) are `L^∞`-almost periods, with error a small multiple of `α²`.
+1. Replace `A` by a compact subset of measure at least `α/2`, so that `A + A` is measurable. Apply
+   Croot–Sisask (2.2) with `S = A`, so that `K ≤ 1/α`, and `B = A + A`, `W = A`, so that
+   `μB/μW ≤ 1/α` and `m ≈ L`, with `ε ≈ 1/L`, to the triple convolution
+   `1_{−A} ⋆ 1_{A+A} ⋆ 1_{−A}`, whose normalisation `μ_{−A} ⋆ 1_{A+A} ⋆ μ_{−A}` equals `1` at
+   `0` and is supported in `2A − 2A`. This gives a set `T` of measure `e^{−O(L⁴)}`. Its iterated
+   differences (2.3, about `L` iterations) are `L^∞`-almost periods of the unnormalised triple
+   convolution, with error a small multiple of `α²`.
 2. Chang's lemma (5.3) with `η = 1/2`, applied to `T`, gives a spanning set `Δ` with `#Δ = O(L⁴)`.
 3. Fourier inversion (5.1) shows that the averaged convolution is nearly invariant on the Bohr set
    of `Δ` with radius of order `α/#Δ`, so that Bohr set lies in `2A − 2A`.
@@ -822,8 +826,8 @@ Proof:
 1. Reduce to `G` finitely generated, hence `G ≅ ℤʳ`. A homomorphism `ℤʳ → ℤ` that is injective on
    the finite set `k • A − k • A` is a Freiman `k`-isomorphism on `A`; so reduce to `G = ℤ`.
 2. For `A ⊆ ℤ`, take a prime `P > 2k max |a|`, so that reduction mod `P` is a Freiman
-   `k`-isomorphism on `A`, and compose a dilation `a ↦ λa` of `ℤ/P` with a rescaling of `[0, P)`
-   onto `ZMod q`. Split `[0, P)` into `k` arcs of equal length. On the part of `A` mapped into one
+   `k`-isomorphism on `A`, and compose a dilation `a ↦ λa` of `ℤ/P` with the map taking a residue
+   to its integer representative in `[0, P)` reduced mod `q`. Split `[0, P)` into `k` arcs of equal length. On the part of `A` mapped into one
    arc, the composite is a Freiman `k`-homomorphism; pigeonholing gives an arc holding at least
    `#A/k` points, and averaging over `λ` gives one for which the composite is also injective on
    `k • A' − k • A'`.

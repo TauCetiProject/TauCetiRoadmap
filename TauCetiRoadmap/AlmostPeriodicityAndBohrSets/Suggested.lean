@@ -30,9 +30,10 @@ The headline theorems are:
 * Layer 10: Ellis's theorem and the unique invariant mean on weakly almost periodic functions;
 * Layer 11: the qualitative Bogolyubov theorem and the Følner–Bogolyubov theorem.
 
-Two results of the Summary are not stated here: the factorisation of almost periodic functions
+One result of the Summary is not stated here: the factorisation of almost periodic functions
 through the Bohr compactification (Layer 8.3), which needs the carrier `BohrCompactification`, a
-README target; and the de Leeuw–Glicksberg decomposition (Layer 10.5).
+README target. The de Leeuw–Glicksberg decomposition (Layer 10.5) is stated in its elementwise form
+`exists_isAlmostPeriodic_add`.
 
 Conventions: general groups are multiplicative; abelian layers are additive. Convolution is
 `mconvolution f g μ x = ∫ y, f y * g (y⁻¹ * x) ∂μ`. Bohr sets use the operator-norm (chord)
@@ -258,9 +259,9 @@ theorem exists_isAddFreimanIso_zmod {G : Type*} [AddCommGroup G] [IsAddTorsionFr
 
 /-- **Ruzsa modelling in vector spaces over `𝔽_p`** (Layer 7.3): a finite set is Freiman
 `s`-isomorphic, through a linear map, to a subset of a finite `𝔽_p`-vector space of size at most
-`p * #(s • A - s • A)`. -/
+`p * #(s • A - s • A)`, for `s ≥ 1`. -/
 theorem exists_linearMap_isAddFreimanIso {p : ℕ} [Fact p.Prime] {G : Type*} [AddCommGroup G]
-    [Module (ZMod p) G] [DecidableEq G] (A : Finset G) (hA : A.Nonempty) (s : ℕ) :
+    [Module (ZMod p) G] [DecidableEq G] (A : Finset G) (hA : A.Nonempty) (s : ℕ) (hs : 1 ≤ s) :
     ∃ (G' : Type u) (_ : AddCommGroup G') (_ : Module (ZMod p) G') (_ : Fintype G')
       (φ : G →ₗ[ZMod p] G'), Fintype.card G' ≤ p * (s • A - s • A).card ∧
       IsAddFreimanIso s (A : Set G) (φ '' A) φ := by
@@ -345,6 +346,15 @@ theorem exists_isWAPMean : ∃ m : (G →ᵇ ℂ) →ₗ[ℂ] ℂ, IsWAPMean m :
 /-- **Uniqueness of the invariant mean** on weakly almost periodic functions (Layer 10.2). -/
 theorem IsWAPMean.eq {m m' : (G →ᵇ ℂ) →ₗ[ℂ] ℂ} (hm : IsWAPMean m) (hm' : IsWAPMean m')
     {f : G →ᵇ ℂ} (hf : IsWeaklyAlmostPeriodic f) : m f = m' f := by
+  sorry
+
+/-- **The de Leeuw–Glicksberg decomposition** (Layer 10.5), elementwise: a weakly almost
+periodic function is an almost periodic one plus a weakly almost periodic one whose absolute value
+has mean zero. -/
+theorem exists_isAlmostPeriodic_add {m : (G →ᵇ ℂ) →ₗ[ℂ] ℂ} (hm : IsWAPMean m) {f : G →ᵇ ℂ}
+    (hf : IsWeaklyAlmostPeriodic f) :
+    ∃ g h n : G →ᵇ ℂ, f = g + h ∧ IsAlmostPeriodic g ∧ IsWeaklyAlmostPeriodic h ∧
+      (∀ x, n x = ‖h x‖) ∧ m n = 0 := by
   sorry
 
 /-- **The qualitative Bogolyubov theorem** (Layer 11.2): if `f ≥ 0` is weakly almost periodic
