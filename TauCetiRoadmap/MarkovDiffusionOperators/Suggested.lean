@@ -38,7 +38,7 @@ namespace TauCetiRoadmap.MarkovDiffusionOperators
 /-- The Gaussian isoperimetric profile `I = φ ∘ Φ⁻¹` on `(0, 1)`, and `0` elsewhere, owned by
 GaussianIsoperimetryAndClusters §1.1 and implemented on Tau Ceti `main` as
 `TauCeti.Probability.gaussianIsoperimetricProfile`, with the same formula. It is restated here
-because the pinned Tau Ceti does not contain it. -/
+so that this file imports only `TauCeti.Probability.Quantile` for it. -/
 noncomputable def gaussianIsoperimetricProfile (v : ℝ) : ℝ :=
   if 0 < v ∧ v < 1 then
     ProbabilityTheory.gaussianPDFReal 0 1 ((ProbabilityTheory.gaussianReal 0 1).quantile v)
