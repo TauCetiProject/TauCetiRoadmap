@@ -43,8 +43,8 @@ GaloisRepresentationsOfUnitaryEigenforms (avatars, steps of prime degree), Cryst
 and PadicComparisonForFunctorCohomology (places of the algebraic closure, Galois descent), WeilRepresentationsOnBanachSpacesOfData and
 SiegelWeilAndRallisFormulasOnUnitaryGroups (characters of `U(1)` on determinants, Tate integrals).
 
-Layer 1 sets up places of the fixed algebraic closure `Ω` as valuation subrings and identifies decomposition groups
-with absolute Galois groups of completions. Layer 2 reads the library's local and global class field theory at `Ω`:
+Layer 1 sets up places of the fixed algebraic closure `Ω`, finite ones written as valuation subrings, and identifies
+decomposition groups with absolute Galois groups of completions. Layer 2 reads the library's local and global class field theory at `Ω`:
 the local Artin map at a place of `Ω`, the global Artin map on finite ideles, norm groups, the existence theorem for
 totally complex fields. Layer 3 treats cocycles with local conditions at tamely ramified places. Layer 4 counts
 cocycles at split primes, in place of duality. Layer 5 is local duality for crystalline cocycles, as an inequality.
@@ -93,7 +93,7 @@ in words where a section number is not fixed.
 | Symbol | Meaning | Defined |
 |---|---|---|
 | `Ω, G_K, Γ` | fixed algebraic closure of `ℚ`, `Gal(Ω/K)`, profinite group acting as `Gal(Ω/K)` | Conventions, 1.1 |
-| `A, D_A, I_A` | place of `Ω` (valuation subring), its decomposition and inertia groups | 1.1 |
+| `A, D_A, I_A` | finite place of `Ω` (valuation subring), its decomposition and inertia groups | 1.1 |
 | `I_S` | union of the inertia groups `I_A` of the places `A` above primes in a set `S` | 1.1 |
 | Frobenius for `q` at `A` | `σ ∈ D_A` with `σx ≡ x^q` modulo the maximal ideal of `A` | 1.1 |
 | `k_A` | fixed field of `D_A` in `Ω` (a henselian local field) | 1.3 |
@@ -118,7 +118,7 @@ in words where a section number is not fixed.
 
 ## Layer 1: Places of the algebraic closure and their completions
 
-The shorter proof works inside one algebraic closure `Ω` of `ℚ`, with places of `Ω` given as valuation subrings and
+The shorter proof works inside one algebraic closure `Ω` of `ℚ`, with finite places of `Ω` given as valuation subrings and
 decomposition groups as stabilisers. The library's local theory is stated for completions and their absolute Galois
 groups. This layer sets up the vocabulary (1.1), the places above a prime (1.2), the identification of decomposition
 groups with absolute Galois groups of completions, which is the bridge to the library (1.3), the local facts used at
@@ -134,19 +134,27 @@ and onto because its image is a closed subgroup with fixed field `K`.
 
 Let `Γ` act on `Ω` as the Galois group of `Ω/K`, with open stabilisers.
 
-1. A *place* of `Ω` is a valuation subring `A` of `Ω`, with maximal ideal `𝔪_A`. `A` *lies over* the finite place `v`
-   of `K` if `𝒪_K ∩ 𝔪_A = v`.
-2. The *decomposition group* `D_A ⊂ Γ` is the stabiliser of `A`. For `q ≥ 1`, `σ ∈ Γ` is a *Frobenius for `q` at `A`*
-   if `σ ∈ D_A` and `σ(x) − x^q ∈ 𝔪_A` for every `x ∈ A`; an *arithmetic Frobenius* at `A` over `v` is a Frobenius for
-   `q_v`. The *inertia group* `I_A` is the set of Frobenius elements for `q = 1`; it is a closed normal subgroup of
-   `D_A`. For a set `S` of finite places of `K`, `I_S` is the union of the `I_A` over the places `A` above the places of
-   `S`.
+1. A *place* of `Ω` is a place in the sense of ArithmeticGaloisRepresentations §2.1 (*Absolute-value places*): an
+   absolute value `w` of `Ω` whose restriction to `ℚ` is the real absolute value or a `p`-adic one, with `Γ` acting by
+   `(σw)(x) = w(σ⁻¹x)`. It is *finite* if it is nonarchimedean and *infinite* otherwise. A finite place `w` has the
+   valuation subring `A_w = {x : w(x) ≤ 1}`, with maximal ideal `𝔪_w = {x : w(x) < 1}`, and `w ↦ A_w` is a bijection
+   from the finite places of `Ω` onto the valuation subrings of `Ω` other than `Ω`, with `A_{σw} = σA_w`. This valuation
+   subring is an equivalent description of a finite place, and the one `[ShortProof]` uses; below, a finite place is
+   written as its valuation subring `A`, with maximal ideal `𝔪_A`. `A` *lies over* the finite place `v` of `K` if
+   `𝒪_K ∩ 𝔪_A = v`; an infinite place lies over the infinite place of `K` to which it restricts.
+2. The *decomposition group* `D_w ⊂ Γ` of a place `w` is its stabiliser; at a finite place it is the stabiliser `D_A`
+   of `A = A_w`. For `q ≥ 1`, `σ ∈ Γ` is a *Frobenius for `q` at `A`* if `σ ∈ D_A` and `σ(x) − x^q ∈ 𝔪_A` for every
+   `x ∈ A`; an *arithmetic Frobenius* at `A` over `v` is a Frobenius for `q_v`. The *inertia group* `I_A` is the set of
+   Frobenius elements for `q = 1`, and at an infinite place `w` the inertia group `I_w` is `D_w`; it is a closed normal
+   subgroup of the decomposition group. For a set `S` of finite places of `K`, `I_S` is the union of the `I_A` over the
+   places `A` above the places of `S`.
 3. The calculus of Frobenius elements: if `σ` is a Frobenius for `q` at `A`, then `gσg⁻¹` is one at `gA`; `στ` is a
    Frobenius for `qq′` if and only if `τ` is one for `q′`; two Frobenius elements for the same `q` differ by inertia.
    Frobenius elements are carried along equivariant ring maps `Ω → Ω′` to Frobenius elements at the pulled-back place.
 4. A *henselian local field datum* `(k, A)`: `Ω` is algebraically closed of characteristic `0`, `Γ = Gal(Ω/k)` fixes
-   the place `A`, and `A ∩ k` is a discrete valuation ring with finite residue field (of order `q`); `k` need not be
-   complete.
+   a valuation subring `A` of `Ω`, and `A ∩ k` is a discrete valuation ring with finite residue field (of order `q`);
+   `k` need not be complete. `A` is then `A_w` for exactly one finite place `w` of `Ω`, and items 2 and 3 are read
+   at it.
 5. The facts of infinite Galois theory used, for such `Γ`: the fixed field of a closed subgroup `H` is a field over
    which `H` acts as the Galois group, the correspondence between intermediate fields and closed subgroups is
    bijective with `[L : K] = [Γ : H]` for open `H`, a map of such groups compatible with a ring map of the top fields is
@@ -157,14 +165,22 @@ ArithmeticGaloisRepresentations §2.1 defines, for `Γ = G_K` with `K` a number 
 `K`-isomorphism of the algebraic closure used there with `Ω`), the decomposition and inertia groups and the arithmetic
 Frobenius elements at a maximal ideal `Q` of the integral closure of `𝒪_K`; its valuation-subring bridge identifies them
 with the stabiliser of the valuation subring `A_Q`, its inertia group and the Frobenius elements for `q_v` at `A_Q` of
-item 2, and it states `D_{σQ} = σD_Qσ⁻¹` and that the arithmetic Frobenius elements form one coset of inertia. Items
-1–3 are wider: every valuation subring of `Ω` is a place (those above `v` are the `A_Q`, 1.2), `Γ` may be a closed
-subgroup of `G_K` such as `D_A` over its fixed field, and Frobenius elements are taken for every `q` (as in 1.4 and
-2.1 (b)); of the multiplicativity in `q` and the transport along equivariant maps of item 3 it states only cases:
-the `f`-th power relative to an intermediate field, restriction to a finite Galois layer, and the local embedding.
+item 2, and it states `D_{σQ} = σD_Qσ⁻¹` and that the arithmetic Frobenius elements form one coset of inertia. Its
+*Absolute-value places* target states items 1 and 2 for any group acting on `Ω` by field automorphisms, so also for a
+closed subgroup of `G_K` such as `D_A` over its fixed field: the places and the action, the bijection `w ↦ A_w` with
+`A_{σw} = σA_w` (the finite places above `v` are then the `A_Q`, 1.2), the decomposition group as the stabiliser of `w`,
+which is the stabiliser of `A_w`, and the inertia group, normal in it, and closed when the group is
+topological and acts continuously on the discrete `Ω`. It writes the condition of item 2,
+for every `q`, as the two hypotheses `σ ∈ D_w` and `w(σ(x) − x^q) < 1` for every `x` with `w(x) ≤ 1`, and for
+`Γ = G_K` it matches `w` with the maximal ideal `Q_w` of the integral closure of `𝒪_K` formed by its elements `x` with
+`w(x) < 1`, decomposition and inertia groups and arithmetic Frobenius elements included. Of item 3 it states
+conjugation, that `στ` is a Frobenius for `qq′` when `σ` is one for `q` and `τ` for `q′`, and restriction to a subfield
+that `Γ` maps to itself; of the converse and of the transport along other equivariant maps §2.1 states only cases: the
+`f`-th power relative to an intermediate field, restriction to a finite Galois layer, and the local embedding.
 
-*Needs:* Mathlib `InfiniteGalois.fixedField_fixingSubgroup`, `InfiniteGalois.fixingSubgroup_fixedField` (infinite Galois
-correspondence), `ValuationSubring`.
+*Needs:* ArithmeticGaloisRepresentations §2.1 (absolute-value places); Mathlib
+`InfiniteGalois.fixedField_fixingSubgroup`, `InfiniteGalois.fixingSubgroup_fixedField` (infinite Galois correspondence),
+`ValuationSubring`, `AbsoluteValue`.
 
 [ShortProof], `Lib/ClassField/Places/GaloisDefs` (`New.IsProGalois`, `New.IsLocalGalois`, `New.decompGroup`,
 `New.inertiaGroup`, `New.IsFrob`, `New.IsPlaceOver`, `New.IsFrob.conj`, `New.IsFrob.mul_iff`,
@@ -189,7 +205,7 @@ Let `K` be a number field and `Γ = G_K` (or a group as in 1.1).
 
 (a) Every finite place `v` has a place of `Ω` above it. A place lies over at most one `v`, and then `A ∩ K` is the
 valuation ring of `v`: for `x ∈ K`, `x` is a unit at `A` if and only if `v(x) = 0`, and `π ∈ K` is a uniformiser of
-`A ∩ K` if and only if it is one at `v`. A place whose valuation is nontrivial on `Ω^×` lies over some `v`.
+`A ∩ K` if and only if it is one at `v`. Every finite place of `Ω` lies over some `v`.
 
 (b) If `A` lies over `v`, so does `gA` for every `g ∈ Γ`, and `Γ` acts transitively on the places above `v`.
 
