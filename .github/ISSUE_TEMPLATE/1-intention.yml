@@ -609,6 +609,7 @@ body:
         - SpecialFunctionsGeneralizedHypergeometric
         - SpecialFunctionsGroupModels
         - SpecialFunctionsHeun
+        - SpecialFunctionsHigherSpheres
         - SpecialFunctionsHypergeometric
         - SpecialFunctionsJacobiElliptic
         - SpecialFunctionsLegendre
