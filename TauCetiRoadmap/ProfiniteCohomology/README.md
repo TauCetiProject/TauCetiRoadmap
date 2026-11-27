@@ -90,22 +90,29 @@ with their hypotheses and normalizations.
   `TopRep k G` for canonical-facing statements, and the translation between the two is a Layer 1
   target modelled on the pin's discrete `Rep.ofDistribMulAction`.
 - **Cohomology objects.** For a topological group `G` and a discrete `G`-module `M`, `Hⁱ(G, M)` is
-  Mathlib's `continuousCohomology i (TauCeti.ofDiscreteModule ℤ G M)`, and for an object
-  `X : TopRep R G` it is `continuousCohomology i X`. Every statement about `Hⁱ(G, M)` in this
-  roadmap, and in a roadmap that cites it, is a statement about this object. The explicit groups
-  `H0`, `H1`, `H2` of Layer 2 are its description in low degrees. They are reached through the
-  comparisons of Layer 3, and each operation on the explicit side has a transport lemma
-  identifying it with the canonical one, in the layer where both sides are first available (3.4).
+  Mathlib's `continuousCohomology i (TauCeti.ofDiscreteModule ℤ G M)`. For a discrete
+  `X : TopRep R G` this is the object of its carrier `X.V`, and `continuousCohomology i X` is
+  reached from it through `TauCeti.ContCohomology.ofDiscreteModuleRestrictScalarsIntEquiv`; for
+  an `X : TopRep R G` that is not discrete, `Hⁱ(G, X)` is `continuousCohomology i X`. Every
+  statement about `Hⁱ(G, M)` in this roadmap, and in a roadmap that cites it, is a statement about
+  this object. The explicit groups `H0`, `H1`, `H2` of Layer 2 are its description in low degrees,
+  reached through the comparisons of Layer 3: `H0` and `H1` for every topological group, `H2` for
+  locally compact `G` (3.2). An explicit degree-two statement over a group that is not locally
+  compact is a statement about `H2` alone. Each operation on the explicit side has a transport
+  lemma identifying it with the canonical one, in the layer where both sides are first available
+  (3.4).
   The explicit degree-0 and degree-1 formulas (invariants, and crossed homomorphisms modulo
   principal ones) are the primary computational interface. Explicit degree-2 cochains are used where a particular cochain is the
   content of the statement: the transgression (Layer 5), the factor set of a group extension and
   its class (Layer 11), the Evens graph cocycle (Layer 13) and the defining systems of Massey
   products (ProfiniteCohomologyPartII). A result that holds in every degree is stated for the
   canonical object (Layers 10 and 12), and its explicit degree-2 form is that statement read
-  through Layer 3. The one statement made for an explicit group with coefficients that are not
-  discrete is Layer 11's class-module theorem, over a finite discrete group, where the topology of
-  the coefficients plays no part. Nonabelian `H⁰` and `H¹`, in the roadmaps that use them, are a
-  separate cocycle-level notion and are not instances of this one.
+  through Layer 3. The definitions and formal identities of Layer 2, including the cocycle counts
+  of 2.1, hold for every topological module, and for coefficients that are not discrete the
+  explicit group is the object of the statement. The one theorem about cohomology groups proved
+  for such coefficients is Layer 11's class-module theorem, over a finite discrete group, where
+  the topology of the coefficients plays no part. Nonabelian `H⁰` and `H¹`, in the roadmaps that
+  use them, are a separate cocycle-level notion and are not instances of this one.
 - **Coefficient rings.** The coefficient ring takes no part in the definition of cohomology. The
   explicit theory is stated for `DistribMulAction G M` and the canonical statements against
   `TopRep ℤ G`, and for `X : TopRep R G` the additive group of `continuousCohomology i X` is the
@@ -118,10 +125,13 @@ with their hypotheses and normalizations.
   instance on that same object, obtained from functoriality in the coefficients: `r` acts as the
   coefficient map of the equivariant endomorphism `m ↦ r • m` (1.7). For a discrete
   `X : TopRep R G` it agrees with the `R`-module structure of `continuousCohomology i X` under the
-  equivalence above. Every named operation (the maps of compatible pairs, restriction, inflation,
-  corestriction, connecting maps, cup products, and the comparisons of Layer 3) is `R`-linear when
-  both sides carry such a structure; for an operation that is natural in the coefficients, this
-  is its naturality applied to `m ↦ r • m`. An object of `TopRep R G` needs more than the instance does:
+  equivalence above. The instance is stated for discrete coefficients only; for an
+  `X : TopRep R G` that is not discrete, the `R`-module structure is that of
+  `continuousCohomology i X`. Every named operation (the maps of compatible pairs, restriction,
+  inflation, corestriction, connecting maps, cup products, and the comparisons of Layer 3) is
+  `R`-linear when both sides carry such a structure; for an operation that is natural in the
+  coefficients, this is its
+  naturality applied to `m ↦ r • m`. An object of `TopRep R G` needs more than the instance does:
   it requires `[ContinuousSMul R M]`, and discreteness of `M` does not make scalar multiplication
   continuous when `R` has a nondiscrete topology. A nonzero real vector space with the discrete
   topology is the basic counterexample, since `r ↦ r • v` pulls `{0}` back to the non-open
@@ -578,10 +588,12 @@ cochain map of `f`, is `cochainsMap_smul` at `φ = id`.
 equivariant additive endomorphism `m ↦ r • m` of `M`, hence an endomorphism of
 `TauCeti.ofDiscreteModule ℤ G M` (`TauCeti.ofDiscreteModuleMap`), and `r` acts on
 `continuousCohomology n (TauCeti.ofDiscreteModule ℤ G M)` as its
-`TauCeti.ContinuousCohomology.coeffMap`. The targets are: this action as a `Module R` instance,
-the module axioms being `map_id`, `map_comp`, `map_add` and `map_zero`; its agreement with the
-`ℤ`-module structure of the object at `R = ℤ`; `R`-linearity of `map φ f n` for a compatible pair
-whose coefficient map is `R`-linear, and so of restriction, inflation and coefficient maps; and,
+`TauCeti.ContinuousCohomology.coeffMap`. The targets are: this action as a global `Module R`
+instance of low priority (so that at `R = ℤ` scalar multiplication keeps resolving to the
+`ℤ`-module structure of the object), the module axioms being `map_id`, `map_comp`, `map_add` and
+`map_zero`; its agreement with the `ℤ`-module structure of the object at `R = ℤ`; `R`-linearity
+of `map φ f n` for a compatible pair whose coefficient map is `R`-linear, and so of restriction,
+inflation and coefficient maps; and,
 for a discrete `X : TopRep R G`, `R`-linearity of
 `TauCeti.ContCohomology.ofDiscreteModuleRestrictScalarsIntEquiv X n`, which identifies the
 instance with the `R`-module structure of `continuousCohomology n X`. This is the structure of
@@ -591,8 +603,9 @@ Conventions, *Coefficient rings*.
 
 - For trivial `C₂` on `𝔽₄`, `H¹` is `Hom(C₂, 𝔽₄)`, of dimension one over `𝔽₄` and two over
   `𝔽₂`; the action of `𝔽₄` is by post-composition.
-- For `M = ZMod n` with `R = ZMod n`, the scalar `n` acts as zero on every `Hⁱ`, which the
-  `ℤ`-module structure alone does not say.
+- For trivial `C₂` on `M = R = ℤ[i]`, `H²` is `ℤ[i]/2`, with four elements, and `i` sends the
+  class of `1` to the class of `i ≠ 1`. The `R`-module structure on `ℤ[i]/2` through the ring map
+  `ℤ[i] → 𝔽₂`, `i ↦ 1`, would fix the class of `1`.
 
 The API for the carrier includes:
 
@@ -683,15 +696,16 @@ trivial-action characterizations are Tau Ceti's, in `ContCohomology/LowDegree.le
 - For `C₂` acting by sign on `ℤ`, `d⁰(1)(s) = −2`, so `B¹ = 2ℤ` and `H¹ = ℤ/2`; reversing the sign changes the cochain value to `2`.
 - For trivial coefficients on `ℤ_p`, `H¹(ℤ_p, ℤ/p^k)` has `p^k` elements (one when `k = 0`), and `H¹(ℤ_p, ℤ) = 0`; both values also hold abstractly. Discrete `ℚ` gives continuous `H¹ = 0`, while an abstract map taking `1` to `1` exists by extending `1` to a `ℚ`-basis of `ℚ_p`.
 
-**Cocycle counts from class counts.** For a subgroup `W ≤ Z¹(G, M)` with image `π(W)` in
-`H¹(G, M)` under the class map `TauCeti.ContCohomology.H1pi`,
+**Cocycle counts from class counts.** For a subgroup `W ≤ Z¹(G, M)` and an additive map `π` on
+`Z¹(G, M)` with kernel `B¹(G, M)`, such as the class map `TauCeti.ContCohomology.H1pi` or, for
+discrete `M`, its composite with `TauCeti.ContCohomology.explicitH1AddEquivContinuousCohomology`,
 ```
 Nat.card W = Nat.card π(W) · Nat.card (W ⊓ B¹),
 ```
 and in particular `Nat.card W = Nat.card π(W) · Nat.card B¹` when `B¹ ≤ W`. The differential `d⁰`
-induces `M ⧸ H⁰(G, M) ≃+ B¹`, so for finite `M`,
+induces `M ⧸ H⁰(G, M) ≃+ B¹`, so
 `Nat.card B¹ · Nat.card H⁰ = Nat.card M` and
-`Nat.card Z¹ · Nat.card H⁰ = Nat.card H¹ · Nat.card M`. The first two equations hold for every
+`Nat.card Z¹ · Nat.card H⁰ = Nat.card H¹ · Nat.card M`. All four equations hold for every
 topological `G`-module `M`, with `Nat.card` zero on infinite types. Every count of cocycles in a
 roadmap that cites this one is derived from a statement for classes through these equations
 (Conventions, *Counting*).
@@ -925,7 +939,9 @@ in the layer where both sides are first available. The table in Scope and owners
 entry on it is a milestone. For a discrete `M` with `[Module R M] [SMulCommClass G R M]`, the
 explicit groups `H0`, `H1` and `H2` carry the `R`-module structure induced by `m ↦ r • m` on
 cochains, and the comparisons of 3.2 are `R`-linear for it and for the coefficient-ring action of
-1.7.
+1.7. At `R = ZMod n` the pin already has `TauCeti.instModuleH1` and
+`TauCeti.ContCohomology.instModuleZModH2`, defined from `n`-torsion; a target is that the structure
+induced on cochains is theirs, so that it replaces them rather than adding a second one beside them.
 
 The chain-level correspondence between inhomogeneous and homogeneous cochains is
 classical and is displayed above; what has to be watched is the hypothesis. `ContinuousMap.curry`

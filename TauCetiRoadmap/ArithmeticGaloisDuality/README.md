@@ -6404,6 +6404,7 @@ ClassFieldTheory Layer 13.
 - EllipticCurves: Layer 7 *Selmer structures, the Selmer group, and Sha*.
 - Earlier targets: §§D7.7.1–D7.7.2 (perfect pairings and dual local conditions).
 - TauCetiRoadmap ClassFieldTheory: Layers 5, 13.
+- TauCetiRoadmap ProfiniteCohomology: Layer 2.
 
 ## Layer D8: Adjoint coefficients and first-order lifts
 
