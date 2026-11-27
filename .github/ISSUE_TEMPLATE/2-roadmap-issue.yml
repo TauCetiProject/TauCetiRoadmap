@@ -123,6 +123,7 @@ body:
         - ClassifyingSpaces
         - ClusterAlgebras
         - CoboundaryExpansion
+        - CocliquesColouringsAndTheta
         - CohomologyComparisons
         - CohomologyComparisonsPartII
         - ColemanIntegration
@@ -229,6 +230,7 @@ body:
         - ExceptionalThetaCorrespondencesForG2
         - ExcursionOperatorsAndSpectralActionPartII
         - ExoticMonoidalStructuresAndAbstractAutomorphicity
+        - ExpanderGraphs
         - ExplicitCharacterSumsAndSieves
         - ExplicitMultiplicativeFunctions
         - ExplicitNumberFields
