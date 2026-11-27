@@ -4,6 +4,7 @@ public import Mathlib
 public import TauCeti.Analysis.InnerProductSpace.Gram.Hadamard
 public import TauCeti.LinearAlgebra.Matrix.Divisibility
 public import TauCeti.Analysis.OperatorIdeal.Nuclear.Basic
+public import TauCeti.Analysis.Bochner.BochnerTheorem
 
 /-!
 # Determinantal point processes: suggested target signatures
@@ -26,9 +27,10 @@ are measurable sets with compact closure. The order on `ℂ` is `ComplexOrder`, 
 that `z` is a nonnegative real number. Fourier transforms are Mathlib's `𝓕`, with kernel
 `exp (-2πi ⟪x, ξ⟫)`.
 
-Local copies. `IsIntegerValued`, `IsPoissonRandomMeasure` and `expNeg` are the copies of Tau
-Ceti's definitions in SpatialPointProcessFoundations (§§1.1, 5.1, 6.2), kept, as there, with their
-bodies at their short names in this roadmap's namespace. `LocallyFiniteMeasure`, `PointMeasure`
+Local copies. `IsIntegerValued`, `IsPoissonRandomMeasure` and `expNeg` are verbatim copies of the
+definitions of SpatialPointProcessFoundations §§1.1, 5.1 and 6.2, which copies them, with their
+bodies, from the Tau Ceti library at commit `d395922` (its reference [TC]); the pinned Tau Ceti
+does not contain them. `LocallyFiniteMeasure`, `PointMeasure`
 with its coercions, vague topology and Borel structure, `PointMeasure.count`,
 `PointMeasure.IsSimple`, `PointMeasure.restrict`, `intensity`, `IsReducedPalmKernel`,
 `factorialMeasure`, `factorialMomentMeasure`, `IsProductDensity`, `factorialCountMoment`,
@@ -38,15 +40,17 @@ definitions of SpatialPointProcessFoundations, each with a docstring naming its 
 `maternCorrelation`, `maternSpectralDensity` and `positiveAxisBesselK` are verbatim copies from
 SecondOrderRandomFields (§4.1 and its copy of AnalyticNumberTheoryPartI §2.1a).
 
-Bold headlines of the README not stated here: the pair correlation function (2.2), which is
-`pairCorrelation_determinantal` read through the case `n = 2` of the definition; the
-continuous-kernel bridge to RandomMatrices 8.3 (3.3); the central limit theorem for counts
-(4.2), which is RandomMatrices 8.3's theorem for Bernoulli sums; the Janossy densities (4.3),
-whose kernel `K (I - K)⁻¹` is defined through the window operator; and the global form of the
-Macchi–Soshnikov theorem (5.1), which concerns the operator on all of `L²(μ)`.
+Bold headlines of the README not stated here, each for the reason given: the pair correlation
+function (2.2), which is `pairCorrelation_determinantal` read through the case `n = 2` of the
+definition; the bridge from continuous kernels to RandomMatrices 8.3 (3.3), whose accepted
+kernels and joint count laws are that roadmap's definitions, not copied here; the central limit
+theorem for counts (4.2), which is RandomMatrices 8.3's theorem for Bernoulli sums; the Janossy
+densities (4.3), whose kernel `K (I - K)⁻¹` is defined through the window operator; and the
+global form of the Macchi–Soshnikov theorem (5.1), which concerns the operator on all of `L²(μ)`.
 
-Three declarations are supporting steps proved here, not targets: `det_kernelMatrix_eq_zero`,
-`det_kernelMatrix_gauge` and the copied `map_sub_add_eq_map_map_sub`.
+Four declarations are supporting steps proved here, not targets: `det_kernelMatrix_eq_zero`,
+`det_kernelMatrix_gauge`, `posSemidef_kernelMatrix` and the copied
+`map_sub_add_eq_map_map_sub`.
 -/
 
 @[expose] public section
@@ -67,19 +71,18 @@ section TauCetiCopies
 
 variable {Ω X : Type*} [MeasurableSpace Ω] [MeasurableSpace X]
 
-/-- Local copy of SpatialPointProcessFoundations §1.1, its copy of
-`MeasureTheory.Measure.IsIntegerValued` (Tau Ceti,
-`TauCeti.MeasureTheory.Measure.IntegerValued.Basic`): a measure is integer-valued if every
-measurable set of finite mass has natural-number mass. Sets of infinite mass are allowed, and
-multiplicities need not be at most one. -/
+/-- Local copy of SpatialPointProcessFoundations §1.1 (there a copy of
+`MeasureTheory.Measure.IsIntegerValued` of the Tau Ceti library at commit `d395922`): a measure
+is integer-valued if every measurable set of finite mass has natural-number mass. Sets of
+infinite mass are allowed, and multiplicities need not be at most one. -/
 def IsIntegerValued (μ : Measure X) : Prop :=
   ∀ ⦃A : Set X⦄, MeasurableSet A → μ A < ∞ → ∃ n : ℕ, μ A = n
 
-/-- Local copy of SpatialPointProcessFoundations §5.1, its copy of
-`TauCeti.Probability.IsPoissonRandomMeasure` (Tau Ceti,
-`TauCeti.Probability.PointProcess.Poisson.Basic`): a measurable random measure with independent
-Poisson counts on disjoint measurable sets of finite intensity and almost surely infinite counts
-on measurable sets of infinite intensity. No topology or simplicity assumption is imposed. -/
+/-- Local copy of SpatialPointProcessFoundations §5.1 (there a copy of
+`TauCeti.Probability.IsPoissonRandomMeasure` of the Tau Ceti library at commit `d395922`): a
+measurable random measure with independent Poisson counts on disjoint measurable sets of finite
+intensity and almost surely infinite counts on measurable sets of infinite intensity. No topology
+or simplicity assumption is imposed. -/
 def IsPoissonRandomMeasure (P : Measure Ω) (N : Ω → Measure X) (Λ : Measure X) : Prop :=
   Measurable N ∧
     (∀ (n : ℕ) (A : Fin n → Set X), (∀ i, MeasurableSet (A i) ∧ Λ (A i) < ∞) →
@@ -89,9 +92,8 @@ def IsPoissonRandomMeasure (P : Measure Ω) (N : Ω → Measure X) (Λ : Measure
             ((poissonMeasure (Λ (A i)).toNNReal).map (Nat.cast : ℕ → ℝ≥0∞)) P)
     ∧ ∀ A, MeasurableSet A → Λ A = ∞ → ∀ᵐ ω ∂P, N ω A = ∞
 
-/-- Local copy of SpatialPointProcessFoundations §6.2, its copy of `expNeg` (Tau Ceti,
-`TauCeti.Analysis.SpecialFunctions.Exp.Negative`): the negative exponential, with value zero at
-infinity. -/
+/-- Local copy of SpatialPointProcessFoundations §6.2 (there a copy of `expNeg` of the Tau Ceti
+library at commit `d395922`): the negative exponential, with value zero at infinity. -/
 def expNeg (x : ℝ≥0∞) : ℝ≥0 := (EReal.exp (-x.toEReal)).toNNReal
 
 end TauCetiCopies
@@ -290,12 +292,15 @@ variable {S : Type*}
 def kernelMatrix {n : ℕ} (K : S → S → ℂ) (x : Fin n → S) : Matrix (Fin n) (Fin n) ℂ :=
   Matrix.of fun i j => K (x i) (x j)
 
-/-- A positive semidefinite kernel: every kernel matrix is positive semidefinite. -/
-def IsPSDKernel (K : S → S → ℂ) : Prop :=
-  ∀ (n : ℕ) (x : Fin n → S), (kernelMatrix K x).PosSemidef
+/-- A positive semidefinite kernel, `Matrix.PosSemidef K` with `K` read as a matrix indexed by
+`S`, has positive semidefinite kernel matrices at every tuple, repeated points allowed. -/
+theorem posSemidef_kernelMatrix {K : S → S → ℂ} (hK : Matrix.PosSemidef K) {n : ℕ}
+    (x : Fin n → S) : (kernelMatrix K x).PosSemidef :=
+  hK.submatrix x
 
 /-- **Hadamard's inequality for kernel matrices** (HKPV (4.2.15), p. 53). -/
-theorem det_kernelMatrix_mem_Icc {K : S → S → ℂ} (hK : IsPSDKernel K) {n : ℕ} (x : Fin n → S) :
+theorem det_kernelMatrix_mem_Icc {K : S → S → ℂ} (hK : Matrix.PosSemidef K) {n : ℕ}
+    (x : Fin n → S) :
     0 ≤ (kernelMatrix K x).det ∧ (kernelMatrix K x).det ≤ ∏ i, K (x i) (x i) := by
   sorry
 
@@ -332,7 +337,7 @@ def pairCorrelation (K : S → S → ℂ) (x y : S) : ℝ :=
 
 /-- **The pair correlation of a positive semidefinite kernel** (LMR (2.3), p. 857): the second
 kernel determinant is `K x x K y y g(x, y)` with `0 ≤ g ≤ 1`. -/
-theorem pairCorrelation_determinantal {K : S → S → ℂ} (hK : IsPSDKernel K) {x y : S}
+theorem pairCorrelation_determinantal {K : S → S → ℂ} (hK : Matrix.PosSemidef K) {x y : S}
     (hx : 0 < (K x x).re) (hy : 0 < (K y y).re) :
     (kernelMatrix K ![x, y]).det.re = (K x x).re * (K y y).re * pairCorrelation K x y ∧
       0 ≤ pairCorrelation K x y ∧ pairCorrelation K x y ≤ 1 := by
@@ -352,8 +357,8 @@ theorem det_kernelMatrix_cons (K : S → S → ℂ) {u : S} (hu : K u u ≠ 0) {
   sorry
 
 /-- **The reduced kernel of a positive semidefinite kernel is positive semidefinite.** -/
-theorem isPSDKernel_reducedKernel {K : S → S → ℂ} (hK : IsPSDKernel K) (u : S) :
-    IsPSDKernel (reducedKernel K u) := by
+theorem posSemidef_reducedKernel {K : S → S → ℂ} (hK : Matrix.PosSemidef K) (u : S) :
+    Matrix.PosSemidef (reducedKernel K u) := by
   sorry
 
 /-! ### 1.4 Finite-rank kernels -/
@@ -431,20 +436,20 @@ theorem ae_isSimple [IsProbabilityMeasure P] (h : IsDeterminantal P N K μ) (hK 
     (hloc : IsLocallyIntegrableDiagonal K μ) : ∀ᵐ ω ∂P, (N ω).IsSimple := by
   sorry
 
-/-- **Change of reference measure** (HKPV §4.2, observation (4), pp. 48–49). -/
+/-- **Change of reference measure** (HKPV §4.2, observation (4), pp. 48–49, for `f > 0`). -/
 theorem isDeterminantal_withDensity_iff {f : S → ℝ≥0} (hf : Measurable f)
     (hK : Measurable (uncurry K)) [SigmaFinite (μ.withDensity fun x => (f x : ℝ≥0∞))] :
     IsDeterminantal P N K (μ.withDensity fun x => (f x : ℝ≥0∞)) ↔
       IsDeterminantal P N (fun x y => (NNReal.sqrt (f x) : ℂ) * K x y * NNReal.sqrt (f y)) μ := by
   sorry
 
-/-- **Gauge invariance** (HKPV §4.2, observation (4), p. 48). -/
+/-- **Gauge invariance**: `det_kernelMatrix_gauge` under the integrals. -/
 theorem isDeterminantal_gauge_iff {h : S → ℂ} (hm : Measurable h) (hh : ∀ x, h x ≠ 0) :
     IsDeterminantal P N (fun x y => h x * K x y * (h y)⁻¹) μ ↔ IsDeterminantal P N K μ := by
   sorry
 
-/-- **Indistinguishable kernels define the same processes** (BBK Definition 5.1.8 and
-Proposition 5.1.11, p. 231): agreement `μ ⊗ μ`-a.e. and on the diagonal `μ`-a.e. -/
+/-- **Indistinguishable kernels define the same processes** (BBK Definition 5.1.8, p. 230,
+and Proposition 5.1.11, p. 231): agreement `μ ⊗ μ`-a.e. and on the diagonal `μ`-a.e. -/
 theorem isDeterminantal_congr {K' : S → S → ℂ} (hK : Measurable (uncurry K))
     (hK' : Measurable (uncurry K')) (hdiag : ∀ᵐ x ∂μ, K x x = K' x x)
     (hoff : ∀ᵐ p ∂μ.prod μ, K p.1 p.2 = K' p.1 p.2) :
@@ -507,7 +512,8 @@ theorem map_eq_map_of_isDeterminantal {Ω' : Type*} [MeasurableSpace Ω'] {P' : 
     P.map N = P'.map N' := by
   sorry
 
-/-- **The void probability series** (BBK Corollary 5.1.19(i), p. 235). -/
+/-- **The void probability series** (BBK Corollary 5.1.19(iii), p. 235): for an a.e. positive
+semidefinite kernel with locally integrable diagonal, on a bounded window. -/
 theorem void_probability_eq_tsum [IsProbabilityMeasure P] (h : IsDeterminantal P N K μ)
     (hK : IsAEPSDKernel K μ) (hloc : IsLocallyIntegrableDiagonal K μ) {W : Set S}
     (hW : MeasurableSet W) (hWc : IsCompact (closure W)) :
@@ -569,10 +575,11 @@ def IsSpectralKernel (K : S → S → ℂ) (μ : Measure S) : Prop :=
   ∀ W : Set S, MeasurableSet W → IsCompact (closure W) → Nonempty (SpectralForm K μ W)
 
 /-- **The canonical version of a kernel** (HKPV Lemma 4.2.2, p. 50; BBK Proposition 5.2.9,
-p. 243): a kernel whose integral operator on a window is positive and trace class agrees
-`μ ⊗ μ`-a.e. on the window with a kernel that has a spectral form there. -/
-theorem exists_ae_eq_spectralForm {μ : Measure S} [SigmaFinite μ] {K : S → S → ℂ} {W : Set S}
-    (hW : MeasurableSet W) {T : Lp ℂ 2 (μ.restrict W) →L[ℂ] Lp ℂ 2 (μ.restrict W)}
+p. 243): a measurable kernel whose integral operator on a window is positive and trace class
+agrees `μ ⊗ μ`-a.e. on the window with a kernel that has a spectral form there. -/
+theorem exists_ae_eq_spectralForm {μ : Measure S} [SigmaFinite μ] {K : S → S → ℂ}
+    (hKm : Measurable (uncurry K)) {W : Set S} (hW : MeasurableSet W)
+    {T : Lp ℂ 2 (μ.restrict W) →L[ℂ] Lp ℂ 2 (μ.restrict W)}
     (hT : HasIntegralKernel T K) (hpos : T.IsPositive) (htr : T.nuclearENorm ≠ ⊤) :
     ∃ K' : S → S → ℂ, Measurable (uncurry K') ∧
       (∀ᵐ p ∂(μ.restrict W).prod (μ.restrict W), K' p.1 p.2 = K p.1 p.2) ∧
@@ -595,6 +602,15 @@ semidefinite kernel matrices**, so that Layer 2 applies to them. -/
 theorem IsSpectralKernel.isAEPSDKernel {μ : Measure S} [SigmaFinite μ] {K : S → S → ℂ}
     (hK : IsSpectralKernel K μ) :
     IsLocallyIntegrableDiagonal K μ ∧ IsAEPSDKernel K μ := by
+  sorry
+
+/-! ### 3.3 Continuous kernels -/
+
+/-- **Continuous kernels are spectral kernels**: Mercer's theorem on the support of `μ`
+restricted to each bounded window (RandomMatrices 8.3). -/
+theorem isSpectralKernel_of_continuous {μ : Measure S} [SigmaFinite μ]
+    [IsFiniteMeasureOnCompacts μ] {K : S → S → ℂ} (hc : Continuous (uncurry K))
+    (hK : Matrix.PosSemidef K) : IsSpectralKernel K μ := by
   sorry
 
 end Spectral
@@ -739,12 +755,10 @@ def stationaryKernel (C₀ : E d → ℂ) (x y : E d) : ℂ := C₀ (x - y)
 
 /-! ### 7.1 Intensity and pair correlation -/
 
-/-- **Intensity and pair correlation of a stationary kernel** (LMR (3.1), p. 861):
-`ρ = C₀(0)` and `g(x, y) = 1 - |C₀(x - y)|² / C₀(0)²`. -/
+/-- **The intensity of a stationary kernel** (LMR (3.1), p. 861): `ρ = C₀(0)`. -/
 theorem intensity_stationary {P : Measure Ω} {N : Ω → PointMeasure (E d)} {C₀ : E d → ℂ}
     (h : IsDeterminantal P N (stationaryKernel C₀) volume) :
-    intensity P (fun ω => (N ω : Measure (E d))) = ENNReal.ofReal (C₀ 0).re • volume ∧
-      ∀ x y, pairCorrelation (stationaryKernel C₀) x y = 1 - ‖C₀ (x - y)‖ ^ 2 / (C₀ 0).re ^ 2 := by
+    intensity P (fun ω => (N ω : Measure (E d))) = ENNReal.ofReal (C₀ 0).re • volume := by
   sorry
 
 /-- **Stationarity** (BBK Proposition 5.6.1, p. 275; LMR (3.1), p. 861): for an a.e. positive
@@ -764,7 +778,7 @@ theorem isStationary_iff_det_kernelMatrix_add {P : Measure Ω} [IsProbabilityMea
 Theorem 5.6.8, p. 279): for a continuous square-integrable covariance function, a stationary
 determinantal point process exists iff the spectral density is at most `1`. -/
 theorem exists_isDeterminantal_stationary_iff {C₀ : E d → ℂ} (hc : Continuous C₀)
-    (hpsd : IsPSDKernel (stationaryKernel C₀)) (h2 : MemLp C₀ 2) :
+    (hpsd : Matrix.PosSemidef (stationaryKernel C₀)) (h2 : MemLp C₀ 2) :
     (∃ L : Measure (PointMeasure (E d)), IsProbabilityMeasure L ∧
         IsDeterminantal L id (stationaryKernel C₀) volume) ↔
       ∀ᵐ ξ, ((𝓕 (h2.toLp C₀) : Lp ℂ 2 (volume : Measure (E d))) ξ).re ≤ 1 := by
@@ -772,12 +786,13 @@ theorem exists_isDeterminantal_stationary_iff {C₀ : E d → ℂ} (hc : Continu
 
 /-- **Spectral construction** (LMR Corollary 1, p. 862; BBK Proposition 5.6.13, p. 282): an
 integrable spectral density with values in `[0, 1]` defines a stationary determinantal point
-process with intensity `∫ φ`. -/
+process with intensity `∫ φ` times Lebesgue measure. -/
 theorem exists_isDeterminantal_of_spectralDensity {φ : E d → ℝ} (hφi : Integrable φ)
     (hφ : ∀ ξ, φ ξ ∈ Icc 0 1) :
-    (𝓕⁻ (fun ξ => (φ ξ : ℂ)) : E d → ℂ) 0 = ∫ ξ, φ ξ ∧
-      ∃ L : Measure (PointMeasure (E d)), IsProbabilityMeasure L ∧
-        IsDeterminantal L id (stationaryKernel (𝓕⁻ fun ξ => (φ ξ : ℂ))) volume := by
+    ∃ L : Measure (PointMeasure (E d)), IsProbabilityMeasure L ∧
+      IsDeterminantal L id (stationaryKernel (𝓕⁻ fun ξ => (φ ξ : ℂ))) volume ∧
+      intensity L (fun ξ : PointMeasure (E d) => (ξ : Measure (E d))) =
+        ENNReal.ofReal (∫ ξ, φ ξ) • volume := by
   sorry
 
 /-! ### 7.3 Parametric families -/
@@ -866,7 +881,7 @@ theorem exists_isDeterminantal_matern_iff {ρ α ν : ℝ} (hα : 0 < α) (hν :
         0 ≤ ρ ∧ ρ ≤ Real.Gamma ν / (Real.Gamma (ν + d / 2) * (2 * √π * α) ^ d)) := by
   sorry
 
-/-- **The power exponential model** (LMR (3.7), p. 864): `C₀(0) = ρ` and
+/-- **The power exponential model** (LMR (3.7), p. 863): `C₀(0) = ρ` and
 `ρ_max = π^{d/2} Γ(d/ν + 1) / (Γ(d/2 + 1) α^d)`. -/
 theorem exists_isDeterminantal_powerExponential_iff {ρ α ν : ℝ} (hα : 0 < α) (hν : 0 < ν) :
     powerExponentialCovariance (d := d) ρ α ν 0 = ρ ∧
@@ -878,12 +893,19 @@ theorem exists_isDeterminantal_powerExponential_iff {ρ α ν : ℝ} (hα : 0 < 
 
 end Stationary
 
-/-! ## Supplier declarations consumed -/
+/-! ## Supplier names cited in the README
+
+This block declares nothing. It pins every Mathlib and Tau Ceti name that the README writes in
+code font to the pinned libraries, so that a renamed or removed supplier breaks the build here
+instead of leaving a stale name in the README. -/
 
 #check @Matrix.det_gram_le_prod_norm_sq
 #check @Matrix.det_mul_eq_sum_prod_mul_det_submatrix
 #check @ContinuousLinearMap.nuclearENorm
 #check @Matrix.PosSemidef.det_nonneg
+#check @Matrix.PosSemidef
+#check @Matrix.PosSemidef.submatrix
+#check @TauCeti.bochner_posSemidef
 #check @fourier_gaussian_innerProductSpace
 #check @MeasureTheory.Lp.fourierTransformₗᵢ
 #check @Matrix.det_fromBlocks₁₁
