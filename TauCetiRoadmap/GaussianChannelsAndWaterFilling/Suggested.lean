@@ -21,7 +21,7 @@ open scoped ENNReal NNReal RealInnerProductSpace
 
 namespace TauCetiRoadmap.GaussianChannelsAndWaterFilling
 
-/-! ## Layer 1: mutual information of additive noise channels -/
+/-! ## Layer 1: mutual information and Gaussian divergences -/
 
 section MutualInformation
 
@@ -45,14 +45,31 @@ def inputOutputLaw (γ : Measure (E × E)) : Measure (E × E) :=
 
 end AdditiveNoise
 
+section GoldenFormula
+
+variable {α β : Type*} [MeasurableSpace α] [MeasurableSpace β]
+
+/-- 1.1 The golden formula: for an input law `μ` on a standard Borel space, a Markov kernel `κ`
+(the channel) and every probability measure `Q` on the output space, the average divergence of
+the output laws `κ x` from `Q` is the mutual information of the joint law `μ ⊗ₘ κ` plus the
+divergence of the output law `κ ∘ₘ μ` from `Q`. -/
+theorem lintegral_klDiv_eq_mutualInfo_add [StandardBorelSpace α] [Nonempty α] (μ : Measure α)
+    [IsProbabilityMeasure μ] (κ : Kernel α β) [IsMarkovKernel κ] (Q : Measure β)
+    [IsProbabilityMeasure Q] :
+    ∫⁻ x, klDiv (κ x) Q ∂μ = mutualInfo (μ ⊗ₘ κ) + klDiv (κ ∘ₘ μ) Q :=
+  sorry
+
+end GoldenFormula
+
 section Golden
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   [MeasurableSpace E] [BorelSpace E]
 
-/-- 1.1 The golden formula for an additive channel: for independent input `μ` and noise `ν` and
-every probability measure `Q`, the average divergence of the shifted noise laws from `Q` is the
-mutual information plus the divergence of the output law `μ ∗ ν` from `Q`. -/
+/-- 1.1 The golden formula for an additive channel, the case of the shift kernel
+`x ↦ ν.map (x + ·)`: for independent input `μ` and noise `ν` and every probability measure `Q`,
+the average divergence of the shifted noise laws from `Q` is the mutual information plus the
+divergence of the output law `μ ∗ ν` from `Q`. -/
 theorem lintegral_klDiv_map_add_eq (μ ν Q : Measure E) [IsProbabilityMeasure μ]
     [IsProbabilityMeasure ν] [IsProbabilityMeasure Q] :
     ∫⁻ x, klDiv (ν.map fun z ↦ x + z) Q ∂μ =
@@ -108,9 +125,9 @@ theorem le_mutualInfo_of_uncorrelated (γ : Measure (ℝ × ℝ)) [IsProbability
   sorry
 
 /-- 2.3 Ihara's bound: for a noise `ν` with a finite second moment and positive variance `σ²`,
-and an independent input with a finite second moment and variance at most `P`, the mutual information exceeds
-`(1/2) log (1 + P/σ²)` by at most the divergence of `ν` from the Gaussian law with its mean and
-variance. -/
+and an independent input with a finite second moment and variance at most `P`, the mutual
+information exceeds `(1/2) log (1 + P/σ²)` by at most the divergence of `ν` from the Gaussian law
+with its mean and variance. -/
 theorem mutualInfo_le_add_klDiv (μ ν : Measure ℝ) [IsProbabilityMeasure μ]
     [IsProbabilityMeasure ν] (hμ : Integrable (fun x ↦ x ^ 2) μ)
     (hν : Integrable (fun z ↦ z ^ 2) ν) (hσ : 0 < variance id ν) {P : ℝ≥0}
@@ -159,8 +176,8 @@ theorem existsUnique_isWaterFilling [Nonempty ι] (N : ι → ℝ) {P : ℝ} (hP
   sorry
 
 /-- 3.3 Water-filling is optimal: for positive noise levels on a nonempty finite index set and
-every total power `P`, an allocation maximizes `∑ i, log (1 + p i / N i)` over the nonnegative allocations of
-total at most `P` exactly when it is the water-filling allocation. -/
+every total power `P`, an allocation maximizes `∑ i, log (1 + p i / N i)` over the nonnegative
+allocations of total at most `P` exactly when it is the water-filling allocation. -/
 theorem isMaxOn_iff_isWaterFilling [Nonempty ι] {N : ι → ℝ} (hN : ∀ i, 0 < N i) (P : ℝ)
     (p : ι → ℝ) :
     (p ∈ {q : ι → ℝ | (∀ i, 0 ≤ q i) ∧ ∑ i, q i ≤ P} ∧

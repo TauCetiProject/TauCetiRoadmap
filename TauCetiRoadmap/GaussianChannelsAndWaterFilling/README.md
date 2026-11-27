@@ -41,8 +41,9 @@ Ihara's bound), Layer 3 the vector channel, water-filling and parallel channels.
 - **Additive channels.** For a joint law `γ` of an input and a noise on `E × E`,
   `inputOutputLaw γ = γ.map (fun p ↦ (p.1, p.1 + p.2))` is the joint law of input and output.
   Independent `μ` and `ν` give `inputOutputLaw (μ.prod ν)`, with output marginal `μ ∗ ν`. Here `E`
-  is `ℝ`, `EuclideanSpace ℝ ι` or `Fin n → ℝ` with the Borel σ-algebra; in 1.1 it is any
-  finite-dimensional real normed space.
+  is `ℝ`, `EuclideanSpace ℝ ι` or `Fin n → ℝ` with the Borel σ-algebra; in the additive form of
+  1.1 it is any finite-dimensional real normed space. A general channel is a Markov kernel `κ`,
+  with joint law `μ ⊗ₘ κ` and output law `κ ∘ₘ μ`.
 - **Gaussian laws** are Mathlib's `gaussianReal m v` (Dirac for `v = 0`) and
   `multivariateGaussian m S` (Dirac unless `S` is positive semidefinite); `B x` is
   `B.toEuclideanLin x`.
@@ -54,34 +55,46 @@ Ihara's bound), Layer 3 the vector channel, water-filling and parallel channels.
 
 ## Layer 1: mutual information and Gaussian divergences
 
-### 1.1 The golden formula for additive channels
+### 1.1 The golden formula
 
-Define `mutualInfo` and `inputOutputLaw`. Prove `lintegral_klDiv_map_add_eq`: for a
-finite-dimensional real normed space `E` with its Borel σ-algebra and probability measures `μ`,
-`ν`, `Q` on `E`,
-`∫⁻ x, klDiv (ν.map (x + ·)) Q ∂μ = mutualInfo (inputOutputLaw (μ.prod ν)) + klDiv (μ ∗ ν) Q`
-in `ℝ≥0∞`, with no finiteness assumption (Polyanskiy–Wu, Theorem 4.1, p. 67, for any channel;
-the resulting bound `I ≤ ∫⁻ x, klDiv (ν.map (x + ·)) Q ∂μ` is their Corollary 4.2, p. 68).
+Define `mutualInfo` and `inputOutputLaw`. Prove `lintegral_klDiv_eq_mutualInfo_add`: for a
+probability measure `μ` on a nonempty standard Borel space `α`, a Markov kernel `κ` from `α` to a
+measurable space `β` and a probability measure `Q` on `β`,
+`∫⁻ x, klDiv (κ x) Q ∂μ = mutualInfo (μ ⊗ₘ κ) + klDiv (κ ∘ₘ μ) Q`
+in `ℝ≥0∞`, with no finiteness assumption (Polyanskiy–Wu, Theorem 4.1, p. 67; the resulting bound
+`I ≤ ∫⁻ x, klDiv (κ x) Q ∂μ` is their Corollary 4.2, p. 68).
 
-Route. Let `κ` be the Markov kernel `x ↦ ν.map (x + ·)` (the image of
-`Kernel.id ×ₖ Kernel.const E ν` under addition) and `ρ = inputOutputLaw (μ.prod ν)`. Both `ρ` and
-`μ ⊗ₘ κ` give `A ×ˢ B` the mass `∫ x in A, ν ((x + ·) ⁻¹' B) ∂μ`, so they are equal, `ρ.fst = μ`
-and `ρ.snd = μ ∗ ν`. As `μ.prod Q = μ ⊗ₘ Kernel.const E Q` (`Measure.compProd_const`),
+Prove `lintegral_klDiv_map_add_eq`, its case for an additive channel: for a finite-dimensional
+real normed space `E` with its Borel σ-algebra and probability measures `μ`, `ν`, `Q` on `E`,
+`∫⁻ x, klDiv (ν.map (x + ·)) Q ∂μ = mutualInfo (inputOutputLaw (μ.prod ν)) + klDiv (μ ∗ ν) Q`.
+Layers 2 and 3 use this form.
+
+Route. Let `ρ = μ ⊗ₘ κ`; then `ρ.fst = μ` and `ρ.snd = κ ∘ₘ μ` (`Measure.fst_compProd`,
+`Measure.snd_compProd`). As `μ.prod Q = μ ⊗ₘ Kernel.const α Q` (`Measure.compProd_const`),
 `TauCeti.klDiv_compProd_right` turns the left side into `klDiv ρ (μ.prod Q)`. The swap
 `MeasurableEquiv.prodComm` preserves divergences (`klDiv_map_le` both ways) and sends `μ.prod Q`
-to `Q.prod μ` (`Measure.prod_swap`). With `ρ' = ρ.map Prod.swap`: `E` is Polish, hence standard
-Borel, so `ρ' = ρ.snd ⊗ₘ ρ'.condKernel` (`Measure.disintegrate`), and `klDiv_compProd_eq_add`
-with `Q.prod μ = Q ⊗ₘ Kernel.const E μ` gives
+to `Q.prod μ` (`Measure.prod_swap`). With `ρ' = ρ.map Prod.swap`: `α` is standard Borel and
+nonempty, so `ρ' = ρ.snd ⊗ₘ ρ'.condKernel` (`Measure.disintegrate`), and `klDiv_compProd_eq_add`
+with `Q.prod μ = Q ⊗ₘ Kernel.const β μ` gives
 `klDiv ρ' (Q.prod μ) = klDiv ρ.snd Q + klDiv ρ' (ρ.snd.prod μ)`; swapping back, the last term is
 `klDiv ρ (μ.prod ρ.snd) = mutualInfo ρ`.
 
+*The additive case.* Let `κ` be the Markov kernel `x ↦ ν.map (x + ·)` (the image of
+`Kernel.id ×ₖ Kernel.const E ν` under addition). Both `inputOutputLaw (μ.prod ν)` and `μ ⊗ₘ κ`
+give `A ×ˢ B` the mass `∫ x in A, ν ((x + ·) ⁻¹' B) ∂μ`, so they are equal, and
+`κ ∘ₘ μ = μ ∗ ν`; `E` is Polish, hence standard Borel, and the general statement applies.
+
 **Checks.**
 - For `μ` uniform on `{0, 1}`, `ν` of masses `1/3`, `2/3` at `0`, `1`, and two laws `Q` on
-  `{0, 1, 2}`, both sides agree exactly.
+  `{0, 1, 2}`, both sides of the additive form agree exactly.
+- A channel that is not additive: `α = β = {0, 1}`, `μ` uniform, `κ 0 = δ_0`, `κ 1` uniform, `Q`
+  uniform. The left side is `(log 2)/2`. The output law is `(3/4, 1/4)`, the mutual information
+  is `(3/4) log (4/3)` and the divergence of the output law from `Q` is
+  `(3/4) log (3/2) − (1/4) log 2`; their sum is `(1/2) log 2`.
 
-*Needs:* Mathlib `Measure.compProd_const`, `Measure.prod_swap`, `MeasurableEquiv.prodComm`,
-`klDiv_map_le`, `Measure.disintegrate`, `Measure.condKernel`, `klDiv_compProd_eq_add`; Tau Ceti
-`TauCeti.klDiv_compProd_right`.
+*Needs:* Mathlib `Measure.fst_compProd`, `Measure.snd_compProd`, `Measure.compProd_const`,
+`Measure.prod_swap`, `MeasurableEquiv.prodComm`, `klDiv_map_le`, `Measure.disintegrate`,
+`Measure.condKernel`, `klDiv_compProd_eq_add`; Tau Ceti `TauCeti.klDiv_compProd_right`.
 
 ### 1.2 The divergence between Gaussian laws on the line
 
@@ -424,7 +437,7 @@ Layers 1 and 2; Mathlib's product measures and convexity; MathematicalStatistics
 
 ## Scope and ownership
 
-This roadmap owns `mutualInfo`, `inputOutputLaw`, `IsWaterFilling` and the ten theorems above.
+This roadmap owns `mutualInfo`, `inputOutputLaw`, `IsWaterFilling` and the eleven theorems above.
 In the libraries and not targets: the divergence with its chain rules, data processing
 and Csiszár's Pythagorean identity, and Gaussian laws with their characteristic functions,
 convolutions, densities and covariance matrices (Mathlib and Tau Ceti).
@@ -432,7 +445,9 @@ convolutions, densities and covariance matrices (Mathlib and Tau Ceti).
 - MathematicalStatisticsNonparametric 1.3 states the tensorization `klDiv_pi`, used in 3.4,
   `klDiv_gaussianReal` for a common variance, the case `s = t` of 1.2, and
   `klDiv_multivariateGaussian`, the case `ι = Fin d`, `S = T = v • 1` of 1.3; its 2.4 defines the
-  mutual information of a uniformly distributed finite index for Fano's inequality.
+  mutual information `mutualInfoUniform` of a uniformly distributed finite index for Fano's
+  inequality, and its compensation identity `inv_mul_sum_klDiv_eq` is the case of 1.1 with the
+  uniform input on `Fin M`, there on an arbitrary measurable space.
 - DiffusionReverseStepKLBound 1.2 states how the divergence from an isotropic Gaussian reference
   changes when its centre moves; the route of 2.3 uses instead Tau Ceti's Csiszár identity for a
   reference with the mean and variance of the noise.
