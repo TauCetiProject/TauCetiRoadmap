@@ -460,12 +460,12 @@ theorem measurable_factorialMeasure (n : ℕ) :
     Measurable fun ξ : PointMeasure S => factorialMeasure (ξ : Measure S) n := by
   sorry
 
-/-- 4.1: for an almost surely integer-valued and σ-finite random measure on a countably generated
-space, the factorial powers are almost everywhere measurable, so the `bind` in
-`factorialMomentMeasure` is not the junk value `0`. -/
+/-- 4.1: for an almost surely integer-valued random measure with σ-finite intensity on a
+countably generated space, the factorial powers are almost everywhere measurable, so the `bind`
+in `factorialMomentMeasure` is not the junk value `0`. -/
 theorem aemeasurable_factorialMeasure [MeasurableSpace.CountablyGenerated X] {P : Measure Ω}
-    {N : Ω → Measure X} (hN : Measurable N) (hint : ∀ᵐ ω ∂P, IsIntegerValued (N ω))
-    (hσ : ∀ᵐ ω ∂P, SigmaFinite (N ω)) (n : ℕ) :
+    {N : Ω → Measure X} (hN : Measurable N) [SigmaFinite (intensity P N)]
+    (hint : ∀ᵐ ω ∂P, IsIntegerValued (N ω)) (n : ℕ) :
     AEMeasurable (fun ω => factorialMeasure (N ω) n) P := by
   sorry
 
@@ -531,7 +531,7 @@ theorem IsReducedPalmKernel.lintegral_factorialCountMoment {P : Measure Ω}
     (hQ : IsReducedPalmKernel P (fun ω => (N ω : Measure S))
       (Q.map fun ξ : PointMeasure S => (ξ : Measure S)))
     {A : Set S} (hA : MeasurableSet A) {m n : ℕ} (B : Fin m → Set S) (c : Fin n → Fin m)
-    (hB : ∀ j, MeasurableSet (B j) ∧ IsCompact (closure (B j))) (hd : Pairwise (Disjoint on B)) :
+    (hB : ∀ j, MeasurableSet (B j) ∧ IsCompact (closure (B j))) :
     ∫⁻ ω, ∫⁻ x in A, ∏ j, ((Nat.descFactorial
         (((N ω).count (B j)).toNat - (B j).indicator (fun _ => 1) x)
         (Finset.univ.filter fun i => c i = j).card : ℕ) : ℝ≥0∞) ∂(N ω : Measure S) ∂P =
@@ -729,8 +729,7 @@ theorem isMarking_of_condDistrib [StandardBorelSpace Y] [Nonempty Y] {P : Measur
 /-- 6.2: the intensity of a marking of a point process is `intensity ⊗ K`. -/
 theorem IsMarking.intensity_eq {P : Measure Ω} [IsProbabilityMeasure P] {N : Ω → Measure X}
     [SFinite (intensity P N)] {M : Ω → Measure (X × Y)} {K : Kernel X Y} [IsMarkovKernel K]
-    (hM : IsMarking P N M K)
-    (hint : ∀ᵐ ω ∂P, IsIntegerValued (N ω)) :
+    (hM : IsMarking P N M K) :
     intensity P M = intensity P N ⊗ₘ K := by
   sorry
 
@@ -760,8 +759,8 @@ theorem IsPoissonRandomMeasure.thinning {P : Measure Ω}
 probabilities. -/
 theorem IsMarking.factorialMomentMeasure_thinning [MeasurableSpace.CountablyGenerated X]
     {P : Measure Ω} [IsProbabilityMeasure P] {N : Ω → Measure X} {M : Ω → Measure (X × Bool)}
-    {K : Kernel X Bool} [IsMarkovKernel K] (hM : IsMarking P N M K)
-    (hint : ∀ᵐ ω ∂P, IsIntegerValued (N ω)) (hσ : ∀ᵐ ω ∂P, SigmaFinite (N ω)) (n : ℕ) :
+    {K : Kernel X Bool} [IsMarkovKernel K] (hM : IsMarking P N M K) [SigmaFinite (intensity P N)]
+    (hint : ∀ᵐ ω ∂P, IsIntegerValued (N ω)) (n : ℕ) :
     AEMeasurable (fun ω => factorialMeasure (N ω) n) P ∧
     AEMeasurable
       (fun ω => factorialMeasure (((M ω).restrict (univ ×ˢ {true})).map Prod.fst) n) P ∧
