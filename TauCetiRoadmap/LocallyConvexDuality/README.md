@@ -20,9 +20,11 @@ zero, and bornological when every absolutely convex set that absorbs all bounded
 The roadmap proves that a metrizable space is bornological, that a sequentially complete Hausdorff
 bornological space is barrelled, and that both classes pass to quotients, direct sums and
 inductive limits. For the spaces of continuous linear maps with the topology of uniform
-convergence on a family of bounded sets it proves: maps from a bornological space into a complete
-space form a complete space; maps from a barrelled space into a quasi-complete space form a
-quasi-complete space; on an equicontinuous set, pointwise and precompact convergence agree. It
+convergence on a family of bounded sets that covers the source it proves: maps from a bornological
+space into a complete Hausdorff space form a complete space when the family contains the range of
+every sequence converging to zero; maps from a barrelled space into a quasi-complete Hausdorff
+space form a quasi-complete space; on an equicontinuous set, pointwise and precompact convergence
+agree. It
 proves Grothendieck's completeness theorem, the characterizations of semi-reflexive and reflexive
 spaces, and that a barrelled space in which closed bounded sets are compact (a Montel space) is
 reflexive with a Montel strong dual. The strong dual of a metrizable space is a (DF)-space, and
@@ -33,10 +35,13 @@ sequence of Fréchet spaces; it is strict when each step carries the topology in
 For a strict inductive limit of a sequence with closed steps the roadmap proves the theorems of
 Dieudonné and Schwartz: the limit induces on each step its own topology, a set is bounded
 exactly when it is contained and bounded in one step, and the limit of complete steps is
-complete. It identifies the dual of an inductive limit with the projective limit of the duals.
+complete. It identifies the dual of an inductive limit with the projective limit of the duals:
+for the weak topologies always, and for the strong topologies exactly when every bounded set of
+the limit lies in the closure of a bounded set of a step, in particular for regular sequences.
 Grothendieck's factorization theorem says that a linear map with closed graph from a Fréchet
-space into a Hausdorff space covered by countably many continuous linear images of Fréchet
-spaces has its range in one of them and factors continuously through it. From it the roadmap
+space into a Hausdorff space, whose range is covered by the ranges of countably many continuous
+linear maps from Fréchet spaces, has its range in one of these ranges, and factors continuously
+through the corresponding Fréchet space when the map from it is injective. From it the roadmap
 derives the closed graph theorem for maps from an ultrabornological space into such a covered
 space, and the open mapping theorem: a continuous linear surjection between LF-spaces is open.
 
@@ -556,10 +561,11 @@ Let `E` and `F` be topological vector spaces and `H` an equicontinuous set of li
 - `H` is bounded in `L_𝔖(E, F)` for every family `𝔖` of bounded sets;
 - on `H`, the uniformities of pointwise convergence on a subset `D` with dense span, of pointwise
   convergence on `E`, and of precompact convergence coincide;
-- the closure of `H` in `E → F` for the product topology consists of continuous linear maps and
-  is equicontinuous (Mathlib `Equicontinuous.closure'`);
-- if moreover `{u x | u ∈ H}` is relatively compact in `F` for each `x`, then `H` is relatively
-  compact for precompact convergence (Mathlib `ArzelaAscoli.isCompact_closure_of_isClosedEmbedding`).
+- the closure of `H` in `E → F` for the product topology is equicontinuous (Mathlib
+  `Equicontinuous.closure'`), and if `F` is Hausdorff it consists of continuous linear maps;
+- if `F` is Hausdorff and `{u x | u ∈ H}` is relatively compact in `F` for each `x`, then `H` is
+  relatively compact for precompact convergence (Mathlib
+  `ArzelaAscoli.isCompact_closure_of_isClosedEmbedding`).
 
 (Bourbaki, EVT III §3; Schaefer–Wolff, Ch. III §4.)
 
@@ -570,6 +576,8 @@ Let `E` and `F` be topological vector spaces and `H` an equicontinuous set of li
 - The functionals `n • eₙ*` on `ℓ²` converge to `0` at each `e_k` and not at
   `(k⁻¹)ₖ`: without equicontinuity, convergence on a set with dense span does not give pointwise
   convergence.
+- Hausdorffness of `F` is needed for linearity of the limits: if `F ≠ 0` is indiscrete, the closure
+  of `{0}` in `E → F` is the set of all maps.
 
 *Needs:* §2.1; Mathlib `Equicontinuous`, `UniformEquicontinuous`, `Equicontinuous.closure'`,
 `ArzelaAscoli.isCompact_closure_of_isClosedEmbedding`.
@@ -583,10 +591,11 @@ Prove for a barrelled `E` and a locally convex `F`:
 
 - for every family `𝔖` of bounded sets covering `E`, the bounded subsets of `L_𝔖(E, F)` are the
   equicontinuous sets; in particular they do not depend on `𝔖`;
-- if a filter on `E →L[𝕜] F` contains a pointwise bounded set and converges pointwise to a map
-  `u : E → F`, then `u` is linear and continuous and the convergence is uniform on precompact
-  sets. Mathlib's `continuousLinearMapOfTendsto` is the case of a countably generated filter, where
-  the bounded set comes for free.
+- if `F` is Hausdorff and a proper filter (`Filter.NeBot`) on `E →L[𝕜] F` contains a pointwise
+  bounded set and converges pointwise to a map `u : E → F`, then `u` is linear and continuous and
+  the convergence is uniform on precompact sets. Mathlib's `continuousLinearMapOfTendsto` treats a
+  countably generated filter, without the bounded set, by passing to a sequence along the filter;
+  a pointwise convergent sequence is pointwise bounded.
 
 The joint continuity of a separately continuous bilinear map on first countable barrelled spaces
 is Tau Ceti's `LinearMap.continuous_uncurry_of_barrelledSpace` and is not restated.
@@ -598,6 +607,10 @@ is Tau Ceti's `LinearMap.continuous_uncurry_of_barrelledSpace` and is not restat
 - For `E = ℓ²` the coordinate functionals are pointwise bounded and equicontinuous.
 - On `c₀₀` the functionals `fₙ x = n xₙ` converge pointwise to `0`, and not uniformly on the
   precompact set `{eₙ/√n} ∪ {0}`, where `fₙ (eₙ/√n) = √n`: barrelledness is needed.
+- On the barrelled space `𝕜^(ℕ)` with its finest locally convex topology, the sets
+  `Sₙ = {c • eⱼ* | j ≥ n, c : 𝕜}` generate a countably generated filter that converges pointwise
+  to `0` and contains no pointwise bounded set: for a countably generated filter the bounded set
+  is a hypothesis of the filter statement and not a consequence of convergence.
 
 *Needs:* §§1.1, 2.2; Mathlib `PolynormableSpace.banach_steinhaus`, `continuousLinearMapOfTendsto`;
 Tau Ceti `Bornology.IsVonNBounded.equicontinuous`.
@@ -942,8 +955,11 @@ inductive sequence, respectively a strict inductive sequence, of Fréchet spaces
   `u` maps bounded sets to bounded sets;
 - a Hausdorff quotient of an LF-space by a closed subspace `L` is an LF-space, with steps
   `X n ⧸ (ι n)⁻¹ L`; a countable locally convex direct sum of LF-spaces is an LF-space; a finite
-  product of LF-spaces is an LF-space;
-- a closed subspace of an LF-space, with the subspace topology, need not be an LF-space (§6.5).
+  product of LF-spaces is an LF-space.
+
+No statement is made here for closed subspaces: a closed subspace of an LF-space, with the
+subspace topology, need not be an LF-space, and §6.5 proves that it is one exactly when it is a
+limit subspace.
 
 Layer 4 proves that any two inductive sequences of Fréchet spaces with the same limit are
 equivalent in the sense of §3.3, so the regularity notions of Layer 6 do not depend on the
@@ -1328,7 +1344,9 @@ maps onto their ranges. Prove, for an inductive sequence of Fréchet spaces with
 - if the steps are Fréchet–Montel spaces, the sequence is acyclic if and only if it is regular
   (§6.3).
 
-By §4.4 acyclicity of an LF-space does not depend on the inductive sequence of Fréchet spaces.
+Acyclicity of an LF-space does not depend on the inductive sequence of Fréchet spaces: by
+Wengenroth's theorem it is equivalent to bounded retractivity, which is a property of the space
+by §§4.4 and 6.3.
 
 (Palamodov 1971; Retakh 1970; Wengenroth 1996; Wengenroth 2003, Ch. 6; Vogt 1992.)
 
