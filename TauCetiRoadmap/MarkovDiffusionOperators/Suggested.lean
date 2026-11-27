@@ -1,6 +1,7 @@
 module
 
 import Mathlib
+import TauCeti.Analysis.Calculus.Morse.Linearization
 import TauCeti.Probability.Quantile
 
 /-!
@@ -194,13 +195,15 @@ section Gibbs
 
 variable {d : ℕ}
 
-/-- The Gibbs probability measure `μ_V = e^{−V} dx / Z` on `ℝᵈ` (Layer 9). It is a probability
-measure when `e^{−V}` is integrable; otherwise the Bochner integral is `0`, its inverse is `∞`,
-and the value is meaningless, so every statement about it assumes integrability. -/
+/-- The Gibbs probability measure `μ_V = e^{−V} dx / Z` on `ℝᵈ` (Layer 9), Mathlib's tilted
+measure `volume.tilted (−V)`. It is a probability measure when `e^{−V}` is integrable (Mathlib's
+`isProbabilityMeasure_tilted`) and `0` otherwise, so every statement about it assumes
+integrability. Under `∇²V ≥ ρ > 0` integrability follows from `V(x) ≥ V(0) + ⟨∇V(0), x⟩ +
+ρ‖x‖²/2`; the hypothesis `hint` is kept in the uniformly convex statements for uniformity, and is
+needed in `gibbs_brascampLieb` (`V = eˣ`). -/
 noncomputable def gibbsMeasure (V : EuclideanSpace ℝ (Fin d) → ℝ) :
     Measure (EuclideanSpace ℝ (Fin d)) :=
-  (ENNReal.ofReal (∫ x, Real.exp (-V x)))⁻¹ •
-    volume.withDensity (fun x => ENNReal.ofReal (Real.exp (-V x)))
+  volume.tilted (fun x => -V x)
 
 /-- Bakry–Émery Poincaré inequality `P(1/ρ)` for a Gibbs measure with `∇²V ≥ ρ > 0`
 (`README.md`, Layer 9, from Layer 7), on compactly supported smooth functions, the class of
@@ -263,11 +266,12 @@ theorem gibbs_enlargement (V : EuclideanSpace ℝ (Fin d) → ℝ) (hV : ContDif
       (gibbsMeasure V).real (Metric.thickening r A) := by
   sorry
 
-/-- The inverse Hessian `(∇²V(x))⁻¹` of `V` at `x`, as an operator on `ℝᵈ`: the derivative of the
-gradient of `V`, inverted (`ContinuousLinearMap.inverse`, junk `0` when not invertible). -/
+/-- The inverse Hessian `(∇²V(x))⁻¹` of `V` at `x`, as an operator on `ℝᵈ`: Tau Ceti's Hessian
+operator (the derivative of the gradient, `TauCeti.fderiv_gradient`), inverted
+(`ContinuousLinearMap.inverse`, junk `0` when not invertible, which `hpos` excludes). -/
 noncomputable def invHessian (V : EuclideanSpace ℝ (Fin d) → ℝ) (x : EuclideanSpace ℝ (Fin d)) :
     EuclideanSpace ℝ (Fin d) →L[ℝ] EuclideanSpace ℝ (Fin d) :=
-  ContinuousLinearMap.inverse (fderiv ℝ (gradient V) x)
+  (TauCeti.hessianOperator V x).inverse
 
 /-- Brascamp–Lieb inequality (BGL Thm 4.9.1; Brascamp–Lieb 1976, Theorem 4.1; `README.md`,
 Layer 11): for smooth `V` with positive-definite Hessian and `e^{−V}` integrable, and smooth `f`
