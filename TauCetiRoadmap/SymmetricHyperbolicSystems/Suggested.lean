@@ -175,7 +175,7 @@ theorem integral_dotProduct_A0_le {S : LinearSystem n N} {lam : ℝ}
     (hsupp : ∃ R, ∀ t ∈ Icc 0 T, ∀ x, R < ‖x‖ → u t x = 0) :
     ∀ t ∈ Icc 0 T, ∫ x, u t x ⬝ᵥ (S.A0 t x *ᵥ u t x) ≤
       Real.exp ((κ + 1) / lam * t) *
-        (∫ x, u 0 x ⬝ᵥ (S.A0 0 x *ᵥ u 0 x) + ∫ s in (0 : ℝ)..t, ∫ x, F s x ⬝ᵥ F s x) := by
+        ((∫ x, u 0 x ⬝ᵥ (S.A0 0 x *ᵥ u 0 x)) + ∫ s in (0 : ℝ)..t, ∫ x, F s x ⬝ᵥ F s x) := by
   sorry
 
 end Layer2
