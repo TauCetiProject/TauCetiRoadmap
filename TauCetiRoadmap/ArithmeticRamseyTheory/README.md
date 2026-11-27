@@ -298,7 +298,7 @@ integers with finitely many colours has a monochromatic `(m, p, c)`-set of posit
 
 Prove `exists_mono_ap_and_diff`: for every `k` and finite `κ`, every colouring `χ : ℕ → κ` has
 `a, d ≥ 1` with `a + k d ≤ mpcNumber 2 k 1 κ` and `χ d = χ (a + j d)` for all `j < k`; the bound
-on `a + k d` constrains `d` also when `k ≤ 1`.
+on `a + k d` constrains `d` for every `k ≥ 1`.
 Route: a monochromatic `(2, k, 1)`-set with generators `x₁, x₂` contains `x₂` and `x₁ + j x₂` for
 `0 ≤ j ≤ k`; take `a = x₁`, `d = x₂`. This is the strengthening of van der Waerden's theorem in
 Chua, §3, p. 27.
