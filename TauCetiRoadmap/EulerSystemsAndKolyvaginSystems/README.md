@@ -778,7 +778,7 @@ The precise hypotheses are `T` free of finite rank over a coefficient ring, unra
 
 `P(1) = 0` gives `Q`; `P(Fr^{-1}) = 0` on `T` by Cayley–Hamilton (Mathlib's LinearMap.`aeval_self_charpoly` after reversing the polynomial), so `(Fr^{-1} − 1)Q(Fr^{-1}) = 0` and `Q(Fr^{-1})` kills `(Fr − 1)T`.
 
-Compose with the identifications of finite-singular-decomposition.
+Compose with the identifications of Layer 1.2 Finite and singular parts at an unramified prime.
 
 Isomorphism statement: reduce to `R` a field by Nakayama, where it is the corollary of Rubin's book that Mazur–Rubin cite as Corollary A.2.6; then compare lengths of `T/(Fr − 1)T` and `T^{Fr=1}` (Mazur–Rubin 2004, Lemma 1.2.3).
 
@@ -1228,7 +1228,7 @@ The precise hypotheses are `p ≥ 5`; surjective mod-`p` representation.
 
 `(H.1)`–`(H.3)` follow from surjectivity onto `GL₂(𝔽_p)`; `(H.4b)` holds as `p > 4`; `(H.6)` by Lemma 3.7.1 since the Kummer images on `T_pE` have torsion-free quotient.
 
-`χ(T, F) = 0` because `F` is self-dual (Layer 0.8 The core rank of a cartesian Selmer structure); `χ(T, F_can) = rank T_pE^− = 1` by core-rank-formula.
+`χ(T, F) = 0` because `F` is self-dual (Layer 0.8 The core rank of a cartesian Selmer structure); `χ(T, F_can) = rank T_pE^− = 1` by Layer 0.10 Core rank of the canonical and unramified structures.
 
 Both structures on the same `T` have different core ranks, 0 and 1: the core rank depends on `F`.
 
@@ -4898,7 +4898,7 @@ For `T = Z_p(1), H²(Q_p, 𝐓) ≅ Z_p` with trivial action, so the augmentatio
 
 ### 8.14 Invariance of the Iwasawa-theoretic statements under twisting
 
-Let `c` be an Euler system for `(T, K∞)` and `ρ: Γ → O^×` a character, with `c^ρ` the twisted Euler system of twisting-by-characters-of-gamma. Then `X∞(T ⊗ ρ) ≅ X∞(T) ⊗ ρ, Tw_ρ(char X∞(T ⊗ ρ)) = char X∞(T), Tw_ρ(ind_Λ(c^ρ)) = ind_Λ(c)`, and `Hyp(K∞, T), Hyp(K∞, V), Hyp(K∞/K)` hold for `T` iff they hold for `T ⊗ ρ`. Consequently Theorems II.3.2, II.3.3 and II.3.4 for `(T, c)` are equivalent to the same theorems for `(T ⊗ ρ, c^ρ)`.
+Let `c` be an Euler system for `(T, K∞)` and `ρ: Γ → O^×` a character, with `c^ρ` the twisted Euler system of Layer 8.9 Twisting Euler systems by characters of infinite order. Then `X∞(T ⊗ ρ) ≅ X∞(T) ⊗ ρ, Tw_ρ(char X∞(T ⊗ ρ)) = char X∞(T), Tw_ρ(ind_Λ(c^ρ)) = ind_Λ(c)`, and `Hyp(K∞, T), Hyp(K∞, V), Hyp(K∞/K)` hold for `T` iff they hold for `T ⊗ ρ`. Consequently Theorems II.3.2, II.3.3 and II.3.4 for `(T, c)` are equivalent to the same theorems for `(T ⊗ ρ, c^ρ)`.
 
 The precise hypotheses are `ρ` is a character of `Γ = Gal(K∞/K)`, so `G_{K∞}` acts on `T ⊗ ρ` as on `T`; The equalities of characteristic ideals use that `Tw_ρ` preserves heights of ideals of `Λ`.
 
