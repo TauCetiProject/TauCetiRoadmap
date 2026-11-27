@@ -665,10 +665,10 @@ The proof is the argument for densely modelled sets sketched in Sanders (2012), 
 good modelling"), with the Croot–Sisask lemma in the form of Sanders (2013), §§7–8:
 
 1. Replace `A` by a compact subset of measure at least `α/2`, so that `A + A` is measurable. Apply
-   Croot–Sisask (2.2) with `S = A`, so that `K ≤ 1/α`, and `B = A + A`, `W = A`, so that
-   `μB/μW ≤ 1/α` and `m ≈ L`, with `ε ≈ 1/L`, to the triple convolution
-   `1_{−A} ⋆ 1_{A+A} ⋆ 1_{−A}`, whose normalisation `μ_{−A} ⋆ 1_{A+A} ⋆ μ_{−A}` equals `1` at
-   `0` and is supported in `2A − 2A`. This gives a set `T` of measure `e^{−O(L⁴)}`. Its iterated
+   Croot–Sisask (2.2) with `−A` as the set called `A` there, `S = A`, so that `μ(S − A) ≤ 1` and
+   `K ≤ 2/α`, and `B = A + A`, `W = −A`, so that `μB/μW ≤ 2/α` and `m ≈ L`, with `ε ≈ 1/L`, to
+   the triple convolution `1_{−A} ⋆ 1_{A+A} ⋆ 1_{−A}`, whose normalisation
+   `μ_{−A} ⋆ 1_{A+A} ⋆ μ_{−A}` equals `1` at `0` and is supported in `2A − 2A`. This gives a set `T` of measure `e^{−O(L⁴)}`. Its iterated
    differences (2.3, about `L` iterations) are `L^∞`-almost periods of the unnormalised triple
    convolution, with error a small multiple of `α²`.
 2. Chang's lemma (5.3) with `η = 1/2`, applied to `T`, gives a spanning set `Δ` with `#Δ = O(L⁴)`.
