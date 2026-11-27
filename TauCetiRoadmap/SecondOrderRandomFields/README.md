@@ -39,10 +39,12 @@ roadmap reads them for random fields. The modified Bessel function `K_ν` of the
 comes from AnalyticNumberTheoryPartI and its asymptotics from SpecialFunctionsBessel; the zonal
 functions of the sphere, with the addition theorem and the Funk–Hecke formula behind Schoenberg's
 theorem on spheres, come from the roadmaps on higher spheres and on Euclidean motion groups;
-isonormal Gaussian processes come from WienerChaosAndMalliavinCalculus. The roadmap feeds the
-spatial-statistics roadmaps on Gaussian suprema and excursion sets, on kriging and likelihood, on
-equivalence of Gaussian measures, on Gaussian Markov random fields, on Cox processes, on
-point-pattern statistics and on determinantal point processes (see
+isonormal Gaussian processes come from WienerChaosAndMalliavinCalculus. Three roadmaps treat
+one-dimensional neighbours of Layers 1, 2 and 5: MathematicalStatisticsFoundations (stationary
+sequences), PowerSpectraAndWienerKhinchin (spectral measures of stationary families in continuous
+time) and InfinitelyDivisibleLawsAndTriangularArrays (the Lévy–Khintchine formula on the line);
+[Scope and ownership](#scope-and-ownership) draws the boundaries. The roadmap on determinantal
+point processes takes the Matérn family from Layer 4 (see
 [Downstream consumers](#downstream-consumers)).
 
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
@@ -357,10 +359,12 @@ vector measures. `expLp F t` is the plane wave `ω ↦ e^{i⟪ω, t⟫}` in `L²
   for every Borel set `A` (Chilès–Delfiner, p. 67). Route: `f ↦ conj(f ∘ neg)` is a
   conjugate-linear isometry of `L²(F)` (`F` is symmetric by 2.1) fixing every plane wave, and
   `I` intertwines it with conjugation on the dense span of the plane waves.
-- **The converse** (`spectralIntegral_properties`): for every linear isometry `I` with centred
-  values, `t ↦ I(expLp F t)` is a centred, mean-square continuous field with
-  `E Z(s) conj Z(t) = ∫ e^{i⟪s − t, ω⟫} dF(ω)`, and it is real when `W(−A) = conj W(A)` for every
-  `A` (Stein, §2.5, p. 23; Adler–Taylor, Theorem 5.4.2, p. 110).
+- **The converse** (`spectralIntegral_properties`): for every linear isometry `I` whose random
+  measure is centred, `E W(A) = 0` for every Borel set `A`, the field `t ↦ I(expLp F t)` is
+  centred and mean-square continuous with `E Z(s) conj Z(t) = ∫ e^{i⟪s − t, ω⟫} dF(ω)`, and it
+  is real when `W(−A) = conj W(A)` for every `A` (Stein, §2.5, p. 23; Adler–Taylor,
+  Theorem 5.4.2, p. 110). Route: centredness passes from the indicators to their span, the
+  simple functions, which is dense in `L²(F)`, by continuity of `f ↦ E I(f)` on `L²(P)`.
 
 **Checks.**
 
@@ -459,8 +463,12 @@ Layer 1; Tau Ceti `TauCeti.bochner_charFun`,
   (Gneiting (2013), p. 1330, citing Sun). Route: if the quadratic form vanishes, then
   `∑ cⱼ e^{i⟪xⱼ, ω⟫} = 0` on the support of `F`, which is a union of spheres `‖ω‖ = r` with some
   `r > 0`; on such a sphere, for `d ≥ 2`, the exponentials at distinct points are linearly
-  independent (the analytic function `∑ cⱼ e^{i⟪xⱼ, ·⟫}` vanishing on a sphere of dimension
-  `≥ 1` vanishes identically on `ℝ^d`).
+  independent. For that step, `g = ∑ cⱼ e^{i⟪xⱼ, ·⟫}` is entire on `ℂ^d`; vanishing on the real
+  sphere `‖ω‖ = r`, a totally real submanifold of maximal dimension of the quadric
+  `z · z = r²`, it vanishes on the quadric, which is connected and smooth for `d ≥ 2`. Take real
+  unit vectors `a ⟂ b` with the `⟪xⱼ, b⟫` distinct and the points `r(s a + i√(s² − 1) b)` of the
+  quadric: as `s → ∞` the term with the least `⟪xⱼ, b⟫` dominates, so its coefficient is `0`, and
+  induction on the number of points gives `c = 0`.
 
 **Checks.**
 
@@ -491,7 +499,8 @@ Layer 1; Tau Ceti `TauCeti.bochner_charFun`,
   `4.4934`, `inf Ω_4 = −0.1323` at `5.1356`; all exceed `−1/d = −0.5, −0.333, −0.25`. The sources
   round outward (Stein, p. 45, the Handbook, Table 2.1, p. 22, Matérn, p. 16, and Gaetan–Guyon,
   p. 6, print `−0.218` for `d = 3`; Matérn prints `−0.133` for `d = 4`); Gaetan–Guyon, p. 6,
-  print `−0.113` for `d = 4`, a misprint.
+  print `−0.113` for `d = 4`, a misprint, and Gneiting (2013), p. 1331, prints `−0.2127` for
+  `d = 3`, a transposition of the digits of `−0.2172`.
 - For `d = 1` the two bounds agree: `inf cos = −1`, attained by `cos ∈ Φ_1`.
 - Negative control for rigidity: `cos ∈ Φ_1` has `cos(2π) = 1` and is not constant, so `d ≥ 2`
   is needed.
@@ -678,9 +687,11 @@ Layers 2–3; AnalyticNumberTheoryPartI §2.1a; SpecialFunctionsBessel §§2.1�
 
 - `γ(h) = |h|/2` of Brownian motion (1.3): `γ(nh) = n|h|/2 ≤ n²|h|/2`, with equality only at
   `n = 1`; `γ(h) = h²/2` of `tX` (1.3) attains `γ(nh) = n²γ(h)`.
-- For `γ = ‖h‖^α` on twelve random points of `ℝ³`, the form `−∑ aᵢ aⱼ γ(sᵢ − sⱼ)` restricted to
-  `∑ aᵢ = 0` has smallest eigenvalue `0` to rounding for `α = 0.5, 1, 2`, and `−5.08` for
-  `α = 2.5`: negative control, `‖h‖^{2.5}` is no semivariogram.
+- For `γ = ‖h‖^α` on twelve standard normal points of `ℝ³`, the form `−∑ aᵢ aⱼ γ(sᵢ − sⱼ)` in an
+  orthonormal basis of the hyperplane `∑ aᵢ = 0` has smallest eigenvalue `0.61` for `α = 0.5` and
+  `0.34` for `α = 1`, positive as 5.2's integral form requires; `0` to rounding for `α = 2`, where
+  the form is `2‖∑ aᵢ sᵢ‖²`, of rank `3`; and `−5.08` for `α = 2.5`: negative control,
+  `‖h‖^{2.5}` is no semivariogram.
 
 ### 5.2 The Schoenberg–von Neumann theorem
 
@@ -695,7 +706,11 @@ Layers 2–3; AnalyticNumberTheoryPartI §2.1a; SpecialFunctionsBessel §§2.1�
   `μ_t` symmetric probability measures, and `t⁻¹ (1 − cos⟪ω, h⟫) μ_t(dω)` converges, after
   splitting at `‖ω‖ = 1` and using the moment of order `2` near `0`, to the Lévy measure
   `‖ω‖⁻² χ(dω)` and the quadratic part; (c)⇒(a) for every `γ`, since each `1 − cos⟪ω, ·⟫` and `Q`
-  are conditionally negative definite. Continuity is used only in (b)⇒(c). The bound
+  are conditionally negative definite. For `d = 1`, (b)⇒(c) is also the symmetric case of
+  InfinitelyDivisibleLawsAndTriangularArrays §3.2: `e^{−γ}` is the characteristic function of a
+  symmetric law whose `n`th root has characteristic function `e^{−γ/n}`, and its triplet
+  `(0, σ², ν)` gives `Q(h) = σ²h²/2` and `χ(dω) = ω² ν(dω)`. Continuity is used only in
+  (b)⇒(c). The bound
   `(1 − cos⟪ω, h⟫)/‖ω‖² ≤ (‖h‖²/2 + 2)(1 + ‖ω‖²)⁻¹` makes the integral in (c) a Bochner integral
   of an integrable function, and the junk value `0` of the integrand at `ω = 0` is harmless by
   `χ{0} = 0`.
@@ -719,7 +734,8 @@ Layers 2–3; AnalyticNumberTheoryPartI §2.1a; SpecialFunctionsBessel §§2.1�
 
 ### Dependencies
 
-Layers 1–2; FactorRigidity §4.1; Tau Ceti `TauCeti.bochner_charFun`.
+Layers 1–2; FactorRigidity §4.1; InfinitelyDivisibleLawsAndTriangularArrays §3.2 (for `d = 1`);
+Tau Ceti `TauCeti.bochner_charFun`.
 
 ## Layer 6: space–time covariances
 
@@ -900,27 +916,6 @@ Tau Ceti `TauCeti.hausdorff_bernstein_widder`; Mathlib `Polynomial.Chebyshev.T`.
 
 ## Downstream consumers
 
-Within the spatial-statistics family of roadmaps:
-- GaussianFieldsSupremaAndExcursions takes second-order fields, stationarity, mean-square
-  continuity and the stationary increment identity (1.1, 1.3, 1.5) for the canonical metric,
-  the spectral measure (2.1) for its spectral continuity criterion, and mean-square derivatives
-  with the derivative covariance (2.3) for the second spectral moment of Rice's formula and the
-  excursion-set formulas;
-- SpatialLinearPredictionAndLikelihood takes second-order fields, second-order and intrinsic
-  stationarity and the semivariogram (1.1, 1.3), conditional negative definiteness with the
-  variance identity for contrasts (5.1) and the realization of semivariograms by Gaussian fields
-  (5.2) for kriging with a variogram and for variogram estimation;
-- EquivalenceOfGaussianMeasuresAndInfillAsymptotics takes second-order and stationary fields,
-  the existence and uniqueness of Gaussian field laws (1.1–1.3), spectral measures and densities
-  (2.1) and the Matérn correlation and spectral measure (4.1);
-- GaussianMarkovRandomFieldsAndTheSPDELink takes second-order fields, stationarity and
-  mean-square continuity (1.1, 1.3, 1.5), stationary Gaussian fields with given covariance (1.4),
-  uniqueness of the spectral measure (2.1) and the Matérn correlation and spectral measure (4.1);
-- SpatialCoxAndClusterProcesses takes Gaussian fields with given mean and covariance and the
-  stationarity notions (1.1–1.3) for log-Gaussian Cox processes, and the simplex bound (3.2) for
-  their pair correlations;
-- SpatialPointPatternStatistics takes second-order stationary fields and their covariance
-  (1.1, 1.3) for the directing fields of reweighted and space–time Cox processes;
 - DeterminantalPointProcesses takes the Matérn spectral density and correlation (4.1) for its
   Whittle–Matérn model (7.3).
 
@@ -971,13 +966,35 @@ The numbers are those of the layers above, and `k.n` names subsection `n` of Lay
 - Schoenberg's theorem that `e^{−tψ}` is positive definite for conditionally negative definite
   `ψ`: FactorRigidity §4.1.
 
-**Boundaries with the family.** The existence theorem of Kolmogorov for consistent families of
-finite-dimensional laws in general is StochasticCalculus's (1.1), and this roadmap needs only its
-Gaussian case, through 1.2. Sample-path continuity, suprema, Dudley's bound, Fernique's theorem,
-the Borell–TIS inequality, Rice formulas and excursion sets belong to
-GaussianFieldsSupremaAndExcursions. Kriging, likelihood and variogram estimation belong to
-SpatialLinearPredictionAndLikelihood, and equivalence of Gaussian measures to
-EquivalenceOfGaussianMeasuresAndInfillAsymptotics.
+**Neighbouring roadmaps.**
+- StochasticCalculus (Layer 1) owns the Kolmogorov extension theorem for consistent families of
+  finite-dimensional laws on an arbitrary index set; this roadmap needs only the Gaussian case,
+  which 1.2 builds from the feature map and an isonormal process.
+- [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) §9.6 owns
+  second-order stationarity of families `ℤ → H` in an inner-product space and the positive
+  semidefiniteness of their autocovariance matrices. 1.3 and 1.4 state the condition for real
+  fields with constant mean on an arbitrary additive commutative group; for a centred field on
+  `G = ℤ`, with `H = L²(P)`, 1.3's second-order stationarity and the positive-definiteness
+  conjunct of 1.4 are §9.6's, which is cited for that case.
+- InfinitelyDivisibleLawsAndTriangularArrays §3.2 (see the supplier contracts) owns the
+  Lévy–Khintchine representation on `ℝ`; 5.2 consumes it for `d = 1` and states the
+  conditionally negative definite form on `ℝ^d`, which is not a statement about infinitely
+  divisible laws.
+- PowerSpectraAndWienerKhinchin owns, for stationary families `ℝ → E` in a complex
+  inner-product space, the spectral measure in ordinary frequency (1.0), the spectral isometry
+  (1.1), the density of an integrable autocovariance (2.2), the differentiability criterion (3.2)
+  and the derivative process (3.3). At `E = L²(P)` with a
+  centred field and `ω = 2πξ`, these are the case `d = 1` of 2.1, of the existence part of 2.2
+  and of the case `m = 1` of 2.3. Neither statement contains the other: here the field is real
+  and indexed by `ℝ^d`, 2.1 identifies the measure as symmetric with the cosine form, 2.2 adds
+  uniqueness of the isometry, centred values and the conjugate symmetry `W(−A) = conj W(A)`, and
+  2.3 covers every order `m` with the condition on `K^{(2m)}(0)`; that roadmap treats complex
+  Hilbert-space values. Each is proved in its own generality and the common case follows from
+  either.
+
+Sample-path continuity and suprema of Gaussian fields, Dudley's bound, Fernique's theorem, the
+Borell–TIS inequality, Rice formulas and excursion sets, kriging, likelihood and variogram
+estimation, and equivalence of Gaussian measures are outside this roadmap.
 
 Every result that is not listed in a layer belongs to the
 [boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
@@ -1044,6 +1061,12 @@ semidefiniteness of Gaussian scale-mixture kernels `∫ e^{−t‖x − y‖²} 
 isonormal Gaussian process on every real inner-product space, with its laws and linearity, used
 in 1.2.
 
+### From InfinitelyDivisibleLawsAndTriangularArrays
+
+InfinitelyDivisibleLawsAndTriangularArrays §3.2 supplies the Lévy–Khintchine representation of
+an infinitely divisible law on `ℝ` by a triplet `(b, σ², ν)` with `ν{0} = 0` and
+`∫ min(1, x²) dν < ∞`, and its uniqueness, used in 5.2 for `d = 1`.
+
 ### From FactorRigidity
 
 [FactorRigidity](../FactorRigidity/README.md) §4.1 owns conditionally negative definite
@@ -1079,7 +1102,7 @@ under this roadmap.
   the Dagum family, covariances on manifolds other than spheres and on graphs, and
   space–time covariances on spheres.
 - **Schoenberg's metric-embedding theorem** and the theory of conditionally negative definite
-  kernels on metric spaces; no local source states it.
+  kernels on metric spaces.
 - **Spectral theory of non-stationary fields**: Karhunen–Loève expansions, oscillatory and
   harmonizable processes.
 
@@ -1087,8 +1110,7 @@ under this roadmap.
 
 [lean-MSSS](https://github.com/bjbraams/lean-MSSS) (commit `6826ba2`, Apache-2.0), by the author
 of this roadmap, states most targets of this roadmap in `MSSS/RandomFields/`, in its own form.
-Judged from the source text, with dependencies followed inside `MSSS/RandomFields/`, it proves
-the following without `sorry`:
+It proves the following without `sorry`:
 - 1.1 and 1.2 (covariance kernels; existence and uniqueness of Gaussian laws):
   `MSSS/RandomFields/Basic.lean`;
 - the mixture bullet of 1.4, and all of Layer 6: `MSSS/RandomFields/SpaceTime.lean`;
@@ -1108,8 +1130,9 @@ Schoenberg's theorems on `ℝ^d` and on spheres, the characterizations of `Φ_�
 positive definiteness results on `ℝ^d`, on `S^d` for `d ≥ 2` and on all spheres, Pólya's
 criterion and truncated powers, the equivalence of 2.3 and its Matérn case in 4.2, and the
 Schoenberg–von Neumann theorem are stated there with `sorry`. The conjugate symmetry of 2.2, the
-mean-square-continuity and realness conjuncts of its converse, 1.3, the bullets of 1.4 other
-than mixtures, 1.5, 2.1, 3.2, 5.1, the circle criterion of 7.2 and 7.4 are not stated there.
+centredness, mean-square-continuity and realness conjuncts of its converse, 1.3, the bullets of
+1.4 other than mixtures, 1.5, 2.1, 3.2, 5.1, the circle criterion of 7.2 and 7.4 are not stated
+there.
 
 The design differs in three places: lean-MSSS defines `K_ν` by its own cosh integral, where 4.1
 uses the kernel of AnalyticNumberTheoryPartI; it defines `Ω_d` through `J_{(d−2)/2}` and

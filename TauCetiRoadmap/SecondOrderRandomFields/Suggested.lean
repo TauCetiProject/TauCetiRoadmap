@@ -303,7 +303,7 @@ theorem isPositiveDefiniteSub_iff_lattice (d : ℕ) (φ : (Fin d → ℤ) → �
   sorry
 
 /-- 2.2. The plane wave is square integrable for a finite measure: it has modulus `1`. -/
-lemma memLp_exp_inner_mul_I (F : Measure E) [IsFiniteMeasure F] (t : E) :
+theorem memLp_exp_inner_mul_I (F : Measure E) [IsFiniteMeasure F] (t : E) :
     MemLp (fun ω : E ↦ Complex.exp ((⟪ω, t⟫ : ℂ) * I)) 2 F := by
   refine MemLp.of_bound (by fun_prop) 1 (ae_of_all _ fun ω ↦ ?_)
   rw [Complex.norm_exp_ofReal_mul_I]
@@ -336,12 +336,14 @@ theorem spectralRepresentation_neg {P : Measure Ω} [IsProbabilityMeasure P]
       fun ω ↦ conj (I (indicatorConstLp 2 hA (measure_ne_top F A) (1 : ℂ)) ω) := by
   sorry
 
-/-- 2.2. **The converse**: for a centred orthogonally scattered random measure with control
-measure `F`, the field `Z(t) = I(exp(i⟪t, ·⟫))` is centred and mean-square continuous with
-`E Z(s) conj Z(t) = ∫ exp(i⟪s − t, ω⟫) dF(ω)`, and it is real when `W(−A) = conj W(A)`. -/
+/-- 2.2. **The converse**: for an orthogonally scattered random measure with control measure `F`
+and centred values `E W(A) = 0`, the field `Z(t) = I(exp(i⟪t, ·⟫))` is centred and mean-square
+continuous with `E Z(s) conj Z(t) = ∫ exp(i⟪s − t, ω⟫) dF(ω)`, and it is real when
+`W(−A) = conj W(A)`. -/
 theorem spectralIntegral_properties {P : Measure Ω} [IsProbabilityMeasure P]
     (F : Measure E) [IsFiniteMeasure F] (I : Lp ℂ 2 F →ₗᵢ[ℂ] Lp ℂ 2 P)
-    (hcent : ∀ f, ∫ ω, I f ω ∂P = 0) :
+    (hcent : ∀ (A : Set E) (hA : MeasurableSet A),
+      ∫ ω, I (indicatorConstLp 2 hA (measure_ne_top F A) (1 : ℂ)) ω ∂P = 0) :
     (∀ t, ∫ ω, I (expLp F t) ω ∂P = 0) ∧
     (∀ s t, ∫ ω, I (expLp F s) ω * conj (I (expLp F t) ω) ∂P = charFun F (s - t)) ∧
     (∀ s, Tendsto (fun t ↦ ∫ ω, ‖I (expLp F t) ω - I (expLp F s) ω‖ ^ 2 ∂P) (𝓝 s) (𝓝 0)) ∧
