@@ -296,8 +296,10 @@ This is the foundation the roadmap builds on; it is consumed, not rebuilt.
   (`Ω[F⁄K]`, `KaehlerDifferential.map`), and the valuation/`ValuationSubring` material on which
   Layer 0's places are built.
 - **Continuous cohomology.** Continuous cohomology of topological groups
-  (`Mathlib/Algebra/Category/ContinuousCohomology/`, R. Hill and A. Yang), consumed by
-  Layer 7 through the forced-discrete constructor itemised there. (Mathlib's Weierstrass
+  (`continuousCohomology`, in `Mathlib/RepresentationTheory/Homological/ContCohomology/`,
+  R. Hill, A. Yang and E. Xie),
+  consumed by Layer 7 with the coefficient module forced discrete, as fixed at the head of that
+  layer. (Mathlib's Weierstrass
   `℘`-function exists but is not consumed anywhere on this roadmap — complex uniformisation
   is out of scope; the complex-analytic successor roadmap is where it becomes relevant.)
 
@@ -1179,7 +1181,7 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   two constructed sides. Concrete quadratic twists (below) are **core**; the full nonabelian-
   `H¹` classification is a **stretch** milestone, and the continuous nonabelian `H¹`
   prerequisite (spelled out in §Layer 7's dependency note) is **this layer's**: Layer 7's own
-  coefficient modules are abelian, so it needs the forced-discrete constructor, not this. For `j ≠ 0, 1728`, `Aut (E, O) ≅ {±1}` — in characteristics
+  coefficient modules are abelian, so it needs continuous cohomology with forced-discrete coefficients, not this. For `j ≠ 0, 1728`, `Aut (E, O) ≅ {±1}` — in characteristics
   `2` and `3` the two exceptional values coincide at `j = 0 = 1728` — and the twists are the
   **quadratic twists**: for `char K ≠ 2` classified by the square classes `K^×/(K^×)²` (Kummer;
   AEC X.5.4); in characteristic `2`, where separable quadratic extensions are Artin–Schreier, by
@@ -1267,13 +1269,18 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   place `v`, unramified at almost all `v` — with its Selmer group `Sel_𝓕(M/K) ⊆ H¹(K, M)`, à la
   Rubin's *Euler Systems* I.§1–2, so the same API later serves abelian varieties and other
   Kummer sequences. Cohomology is taken with the
-  coefficient module **forced discrete**, and the **first named milestone of this layer is
-  the constructor** — `H^i` of a topological group acting with **open stabilisers** on a
-  bare abelian group, defined by locally constant cochains (equivalently, continuous
-  cohomology after *imposing* the discrete topology, stated so that it wins even when the
-  module already carries a different topology: `K̄ˣ` over a `p`-adic `K` is the cautionary
-  case) — with the finite-Galois-quotient colimit comparison as its API. Mathlib does not
-  have this constructor. This is the standard setting for `E[m]` and `E(Kˢᵉᵖ)`, and all
+  coefficient module **forced discrete**: for a topological group `G` acting on a bare
+  abelian group `M` with **open stabilisers**, `H^i(G, M)` is Mathlib's
+  `continuousCohomology i (TauCeti.ofDiscreteModule ℤ G (TauCeti.ForcedDiscrete M))`, where
+  `TauCeti.ForcedDiscrete M` is the type synonym of `M` carrying the topology `⊥`, so that
+  the discrete topology is the only one in play even when `M` already carries a different
+  one (`K̄ˣ` over a `p`-adic `K` is the cautionary case), and
+  `TauCeti.ForcedDiscrete.continuousSMul_iff` turns open stabilisers into continuity of the
+  action. This layer introduces no cohomology constructor of its own. The locally constant
+  cochain description in degrees `0`, `1`, `2` and the finite-Galois-quotient colimit are API
+  of this object, supplied by ProfiniteCohomology Layers 2, 3, 4 and 10, and are not a second
+  definition. Local conditions `H¹_𝓕(K_v, M)` and Selmer groups are subgroups of this object.
+  This is the standard setting for `E[m]` and `E(Kˢᵉᵖ)`, and all
   that `Sel_m` and `Ш` need. The elliptic instances plug in the classical conditions:
   the `m`-descent exact sequence (**`m ≥ 2`** throughout — `m = 1` is tautological with all
   three terms zero, and `[0]` is not a finite isogeny, so the Kummer sequence does not apply)
@@ -1352,20 +1359,21 @@ scheme-facing roadmap. This layer deliberately does not conflate the two.
   nonabelian `1`-cocycles, the coboundary equivalence, the pointed set `H¹_cts(G, A)`,
   functoriality and restriction, and the reduction to finite quotients for profinite `G` and
   discrete `A`. *This* layer's coefficient modules (`E[m]`, `E(Kˢᵉᵖ)`, and the
-  Cassels/local-duality material) are all abelian, so what it needs from below is instead the
-  **forced-discrete constructor** itemised at the head of this layer. Beyond that, the **Galois-specific packaging**, none
-  of it upstream yet: profinite Galois groups acting continuously on discrete modules such
-  as `E(Kˢᵉᵖ)` with the finite-level comparison (`H¹` as the colimit over finite Galois
-  quotients); the Kummer/descent connecting map and exact sequence for `[m] : E → E`;
-  inflation–restriction in that continuous setting; and the **local–global interface, made
-  explicit**: the finite and infinite places with their completions; embeddings
+  Cassels/local-duality material) are all abelian, so what it needs from below is instead
+  continuous cohomology with **forced-discrete coefficients**, as fixed at the head of this
+  layer. The finite-level comparison (`H¹` as the colimit over finite Galois quotients) and
+  inflation–restriction in that continuous setting are ProfiniteCohomology's (Layers 4 and
+  10, §9.4, §5.4). Beyond that, the **Galois-specific packaging**, none of it upstream yet:
+  profinite Galois groups acting continuously on discrete modules such as `E(Kˢᵉᵖ)`; the
+  Kummer/descent connecting map and exact sequence for `[m] : E → E`; and the **local–global
+  interface, made explicit**: the finite and infinite places with their completions; embeddings
   `Kˢᵉᵖ → K_vˢᵉᵖ` (equivalently a decomposition-group construction) with independence of the
   choice up to conjugacy; restriction maps on continuous cohomology; local Kummer maps and
   the local-condition subgroups; unramified local cohomology; the finite set `S` of places
   outside which the conditions are unramified; the global kernel defining `Sel_m`; and an
   explicit finiteness route for `H¹(G_{K,S}, E[m])` — via finite extensions of bounded
-  degree and Hermite–Minkowski. The discreteness of coefficient modules is carried by the
-  forced-discrete constructor above (a wrapper, so no reliance on one topology instance
+  degree and Hermite–Minkowski. The discreteness of coefficient modules is carried by
+  `TauCeti.ForcedDiscrete` (a type synonym, so no reliance on one topology instance
   "winning" against a pre-existing one). The layer is stated against that packaging once it
   exists. (***Proving*** BSD, which would relate `Ш` and the rank to
   `L(E, s)`, is out of scope — it needs the analytic continuation of `L(E, s)` that Mathlib does

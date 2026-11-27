@@ -1928,10 +1928,17 @@ presentations.
 
 It does not own, and cites instead:
 
-- **Continuous cohomology** (Tau Ceti library at the pins): continuous cocycles, coboundaries and
-  first cohomology `TauCeti.ContCohomology.Z1`, `B1`, `H1` in
-  `TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree`. `B1` is the algebraic range
-  of the differential; its inclusion in continuous cocycles uses continuity of the action.
+- **Continuous cohomology** (Mathlib and the Tau Ceti library at the pins): for a discrete
+  `k`-module `M` with a continuous `k`-linear action of `G`, `Hⁱ(G, M)` is Mathlib's
+  `continuousCohomology i (TauCeti.ofDiscreteModule k G M)`, an object of `TopModuleCat k`. Selmer
+  groups and local conditions are `k`-subspaces of it, and every dimension `hⁱ` is
+  `Module.finrank k` of it. Continuous cocycles and coboundaries `TauCeti.ContCohomology.Z1`, `B1`
+  and their quotient `H1`, in `TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree`,
+  are its explicit presentation in degree one, compared with it by
+  `TopRep.explicitH1AddEquivContinuousCohomologyOfDiscrete`. They are used where a cocycle is the
+  content of a statement: first-order lifts and the framed tangent subspaces `L¹_v ⊆ Z¹`. `B1` is
+  the algebraic range of the differential; its inclusion in continuous cocycles uses continuity of
+  the action.
 - **Profinite generation** (Tau Ceti library). At the pins: `TauCeti.IsTopologicallyFinitelyGenerated`,
   `TauCeti.IsTopologicallyFinitelyGenerated.finite_monoidHom_isOpen_ker` (finitely many
   homomorphisms with open kernel to a fixed finite group) and `TauCeti.maximalProPQuotient`; also
@@ -2013,7 +2020,10 @@ the anchor by which other roadmaps cite it.
 
 - **Tangent spaces of the lifting and deformation functors.** For
   `k[ε] = k[X]/(X²)`, `f ↦ (1 + εf)ρ̄` identifies `Z¹(G, ad ρ̄)` with `Lift_ρ̄(k[ε])`, strict
-  equivalence changes cocycles by coboundaries so that `Def_ρ̄(k[ε]) ≅ H¹(G, ad ρ̄)`, the stabiliser of
+  equivalence changes cocycles by coboundaries so that `Def_ρ̄(k[ε]) ≅ H¹(G, ad ρ̄)` (here `Z¹` is
+  the explicit `TauCeti.ContCohomology.Z1`, and the class of a cocycle in
+  `continuousCohomology 1` is its image under `TauCeti.ContCohomology.H1pi` followed by
+  `TopRep.explicitH1AddEquivContinuousCohomologyOfDiscrete`), the stabiliser of
   a framed lift is `1 + ε H⁰(G, ad ρ̄)`, and fixed determinant corresponds to trace-zero cocycles
   modulo the boundary of the trace sequence: ArithmeticGaloisDuality §D8.1, *First-order Galois cocycle
   comparison* and *Trace-zero adjoint duality without division by n*, and
@@ -2074,8 +2084,8 @@ continuity of matrix multiplication and of entrywise maps (`Continuous.matrix_mu
 `Continuous.matrix_map`); `MulAction.orbitRel` and its quotient; `IsLocalRing`,
 `IsLocalRing.maximalIdeal` and `IsLocalRing.ResidueField`; `IsArtinianRing`, `IsNoetherianRing`;
 `IsAdicComplete`; `MvPowerSeries` and `PowerSeries`; `Algebra.FormallySmooth`; `DualNumber`;
-`OpenSubgroup`, `ProfiniteGrp`, `ContinuousMonoidHom`; module bases, quotients and finite-rank
-formulas. A Mathlib carrier is only a carrier: none of the deformation theorems follows from a
+`OpenSubgroup`, `ProfiniteGrp`, `ContinuousMonoidHom`; `TopRep`, `TopModuleCat` and
+`continuousCohomology`; module bases, quotients and finite-rank formulas. A Mathlib carrier is only a carrier: none of the deformation theorems follows from a
 carrier's name.
 
 ### From Tau Ceti
@@ -2091,12 +2101,30 @@ named sections.
   `Representation.isIrreducible_charTwist_iff`. ArithmeticGaloisRepresentations §1.2 supplies
   the continuous-representation packaging. Target 4.4 supplies the comparison with the matrix
   adapter and its compatibility with deformation problems, determinants and representing rings.
+- `TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic` supplies
+  `TauCeti.ofDiscreteModule`, and Mathlib's `continuousCohomology` applied to
+  `TauCeti.ofDiscreteModule k G M` is the cohomology of this roadmap. It is an object of
+  `TopModuleCat k`, and its `k`-module structure is the one in which local conditions and Selmer
+  groups are subspaces and dimensions are `Module.finrank k`. In
+  `TauCeti.RepresentationTheory.Homological.ContCohomology.RestrictScalars`,
+  `TauCeti.ContCohomology.restrictScalarsIntIso` identifies its underlying additive group with the
+  continuous cohomology of the underlying `ℤ`-representation, so finiteness and cardinality do not
+  depend on the coefficient ring.
 - `TauCeti.RepresentationTheory.Homological.ContCohomology.LowDegree` supplies
-  `TauCeti.ContCohomology.Z1`, `B1` and `H1`. For a topological monoid acting continuously on a
-  topological additive group, `Z1` consists of continuous cocycles, `B1` is the range of the degree-zero
-  differential, and `B1_le_Z1` supplies the inclusion required for `H1 = Z1/B1`. Use the quotient
-  as an additive group; its pointwise quotient topology is not the intended topology of continuous
-  cohomology.
+  `TauCeti.ContCohomology.Z1`, `B1` and `H1`, the explicit presentation in degree one. For a
+  topological monoid acting continuously on a topological additive group, `Z1` consists of
+  continuous cocycles, `B1` is the range of the degree-zero differential, and `B1_le_Z1` supplies
+  the inclusion required for `H1 = Z1/B1`. In
+  `TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologyComparison`,
+  `TopRep.explicitH1AddEquivContinuousCohomologyOfDiscrete` is an additive equivalence from `H1` to
+  `continuousCohomology 1` of a discrete object with continuous action, natural in compatible
+  pairs (`TopRep.explicitH1AddEquivContinuousCohomologyOfDiscrete_map`); applied to the equivariant
+  endomorphism `r • ·`, the naturality, with the `k`-linearity of the functor
+  (`TauCeti.ContinuousCohomology.continuousCohomologyFunctor_linear`, in
+  `TauCeti/RepresentationTheory/Homological/ContCohomology/Additive.lean`), makes the class map
+  `Z1 → continuousCohomology 1` `k`-linear for the pointwise action on cocycles. `H1` itself is used as an additive group only:
+  dimensions are never read from it, and its pointwise quotient topology is not the intended
+  topology of continuous cohomology.
 - `TauCeti.Topology.Algebra.Group.Generation` supplies
   `TauCeti.IsTopologicallyFinitelyGenerated`,
   `TauCeti.IsTopologicallyFinitelyGenerated.of_openSubgroup` and
