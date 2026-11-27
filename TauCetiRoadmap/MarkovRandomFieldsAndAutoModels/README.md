@@ -29,8 +29,9 @@ pointwise from the density. The roadmap proves:
   given the rest, so the coding likelihood is a conditional likelihood; the pseudolikelihood of
   the one-parameter Gaussian autoregression has a closed-form maximizer;
 - the *finite Gibbs sampler*: single-site updates are reversible, a sweep leaves the target
-  invariant, a random scan is reversible, and both converge in total variation uniformly in the
-  initial state.
+  invariant and a random scan is reversible; for a positive target, a sweep that visits every
+  site and a random scan with positive site probabilities both converge in total variation
+  uniformly in the initial state.
 
 The material is the conditional-specification theory of Besag's 1974 paper, in the forms given
 by Cressie, Gaetan–Guyon, van Lieshout, Rue–Held, the *Handbook of Spatial Statistics*, the
@@ -53,9 +54,6 @@ The nearest roadmaps:
   specifications in the Markov case.
 
 [GMCI]: ../GraphicalModelsAndConditionalIndependence/README.md
-
-Two roadmaps build on this one; they are listed under
-[Downstream consumers](#downstream-consumers).
 
 `Suggested.lean` states the headlines below that carry a Lean name, each with every conclusion the
 README attaches to it, and the definitions those statements need. It is not an exhaustive
@@ -177,10 +175,15 @@ These are fixed for every target. A statement that departs from them is a differ
 
 **Checks.**
 
-- On the path `1 − 2 − 3` with binary states, every product `f(x₁, x₂) g(x₂, x₃)` with
-  nonnegative `f`, `g` is a Markov random field; the agreement theorem was tested against the
-  margin identity on 3000 random laws on `{0, 1}³` with zeros (half of them such products, half
-  arbitrary), with agreement in every case; 1771 of them are Markov.
+- On the path `1 − 2 − 3` with binary states, let `p ∝ f(x₁, x₂) g(x₂, x₃)` with
+  `f(0,0) = 1`, `f(0,1) = 2`, `f(1,0) = 3`, `f(1,1) = 0` and `g(0,0) = g(0,1) = 1`,
+  `g(1,0) = 2`, `g(1,1) = 3`; the total weight is `18` and `p(1,1,·) = 0`. Both sides of the
+  agreement theorem hold: given `x₂ = 0` the full conditional at site `1` is `(1/4, 3/4)` for
+  either `x₃`, given `x₂ = 1` it is the point mass at `0`, the normalizer at site `3` vanishes at
+  `(1,1,·)` and elsewhere the conditional depends on `x₂` only, and the margin identity holds at
+  every site and configuration. Multiplying `p` by `2` where `x₁ = x₃` breaks both sides: given
+  `x₂ = 0` the full conditional at site `1` is `(2/5, 3/5)` at `x₃ = 0` and `(1/7, 6/7)` at
+  `x₃ = 1`, and the margin identity at site `1` and `x = (0,0,0)` reads `6/169 ≠ 15/676`.
 - Negative control: the law of three copies of one fair bit is a Markov random field for the
   path `1 − 2 − 3` (where the normalizer at `1` is nonzero, `x₂ = x₃` and the full conditional
   is the point mass at `x₂`), but not for the graph with the single edge `2 − 3`: there
@@ -239,7 +242,7 @@ These are fixed for every target. A statement that departs from them is a differ
   ratio of full conditionals at `w_i` is the ratio of `π` at the two configurations that differ
   only at site `i`, because the normalizers cancel. Rue–Held and the Handbook assume only that
   `x` and `y` have positive density; the hypothesis on the intermediate configurations is needed
-  (first Check).
+  (second Check).
 - **Under the positivity condition** (`brook_factorization_of_satisfiesPositivity`): on countable
   state spaces with finite total mass, `SatisfiesPositivity π`, `π x ≠ 0` and `π y ≠ 0` give the
   identity with counting measures. Every intermediate configuration takes each coordinate from
@@ -260,8 +263,8 @@ These are fixed for every target. A statement that departs from them is a differ
 
 **Checks.**
 
-- On `{0, 1} × {0, 1, 2}` with a random positive law, `x = (1, 2)` and `y = (0, 0)`, both sides of
-  Brook's lemma equal `0.8270976`.
+- On `{0, 1} × {0, 1, 2}` with `p(a, b) = (3a + b + 1)/21`, `x = (1, 2)` and `y = (0, 0)`:
+  `π(x)/π(y) = 6`, and the product is `π_1(1 ∣ 0)/π_1(0 ∣ 0) · π_2(2 ∣ 1)/π_2(0 ∣ 1) = 4 · 3/2`.
 - Negative control (the intermediate hypothesis): for the law of 1.1 with `p(1,0) = 0`, `x = (1,1)`
   and `y = (0,0)` have positive mass and `π(x)/π(y) = 1/2`, but the intermediate configuration
   `(1, 0)` has mass `0`; the first factor of the product is `0` and the second is `1/0`, so
@@ -289,10 +292,10 @@ Fix a reference configuration `a`. For `B ⊆ S` write `x^B` for the configurati
   `π` positive).
 - **Möbius inversion** (`canonicalPotential_spec`): for every `π` and `a`,
   `log π x = ∑_A canonicalPotential π a A x`; each `canonicalPotential π a A` depends only on the
-  coordinates in `A` (Mathlib's `DependsOn`); and `canonicalPotential π a A x = 0` when `A` is
-  nonempty and `x_i = a_i` for some `i ∈ A`. Van Lieshout, Theorem 3.2, p. 56, with the Möbius
-  formula as Theorem 3.3, p. 56; Besag, (3.3), p. 197, with `a = 0`; Gaetan–Guyon, proof of
-  Theorem 2.1, p. 66; Cressie, (6.4.5)–(6.4.6), p. 415. Route: Möbius inversion on the Boolean
+  coordinates in `A` (Mathlib's `DependsOn`); and `canonicalPotential π a A x = 0` when
+  `x_i = a_i` for some `i ∈ A` (so `A` is nonempty). Van Lieshout, Theorem 3.2, p. 56, with the
+  Möbius formula as Theorem 3.3, p. 56; Besag, (3.3), p. 197, with `a = 0`; Gaetan–Guyon, proof
+  of Theorem 2.1, p. 66; Cressie, (6.4.5)–(6.4.6), p. 415. Route: Möbius inversion on the Boolean
   lattice of subsets of `S`, Mathlib's `Finset.sum_powerset_neg_one_pow_card`; normalization
   pairs `B` with `B ∪ {i}`, since `x^B = x^{B ∪ {i}}` when `x_i = a_i`. For positive `π` the
   first conjunct is `π = exp (∑_A V_A)`.
@@ -310,12 +313,14 @@ Fix a reference configuration `a`. For `B ⊆ S` write `x^B` for the configurati
 
 **Checks.**
 
-- Two binary sites, `a = 0`, a random positive law: `V_∅ + V_1 + V_2 + V_{12}` reproduces
-  `log π` at all four points; `V_{12}(0, 1) = 0`, and `V_{12}(1, 1) = −2.288394`, which the
-  full-conditional formula reproduces as
-  `log [(π_1(1 ∣ 1)/π_1(0 ∣ 1)) / (π_1(1 ∣ 0)/π_1(0 ∣ 0))]`.
-- Negative control: `V_∅ = log π(a)` is not normalized to `0`; the normalization conjunct is for
-  nonempty `A` only, and dropping `A.Nonempty` makes it false for any `π` with `π(a) ≠ 1`.
+- Two binary sites, `a = 0`, `π(0,0) = 0.1`, `π(0,1) = 0.2`, `π(1,0) = 0.3`, `π(1,1) = 0.4`:
+  `V_∅ = log 0.1`, `V_1(1) = log 3`, `V_2(1) = log 2`, and `V_∅ + V_1 + V_2 + V_{12}` reproduces
+  `log π` at all four points; `V_{12}(0, 1) = 0`, and `V_{12}(1, 1) = log (2/3) = −0.405465`,
+  which the full-conditional formula reproduces as
+  `log [(π_1(1 ∣ 1)/π_1(0 ∣ 1)) / (π_1(1 ∣ 0)/π_1(0 ∣ 0))] = log (2/3)`.
+- Negative control: `V_∅ = log π(a)` is not normalized to `0`, so the variant of the
+  normalization asking `V_A(a) = 0` for every `A` fails at `A = ∅` whenever `π(a) ≠ 1`; the
+  normalization as stated is vacuous at `A = ∅`, since no site of `∅` agrees with `a`.
 - For the Gaussian density of 4.1 with `a = μ`, `V_{{i}}(x) = −Q_{ii}(x_i − μ_i)²/2` and
   `V_{{i,j}}(x) = −Q_{ij}(x_i − μ_i)(x_j − μ_j)`, with `Q = M⁻¹(I − C)`, and `V_A = 0` for
   `|A| > 2` (van Lieshout, Example 3.6, p. 56).
@@ -371,8 +376,10 @@ Fix a reference configuration `a`. For `B ⊆ S` write `x^B` for the configurati
   only on the coordinates at sites outside `A` adjacent to `A`. Besag, p. 198 (the corollary
   after the proof); Gaetan–Guyon, Definition 2.2, p. 65, takes this as the definition. Route: by
   2.2, `π(w on A, x off A)` is a function of `w` and `x_{∂A}` times a function of `x_{S ∖ A}`;
-  the second factor cancels, and when the block normalizer is infinite it is infinite at every
-  `x'` with the same boundary values, both conditionals then being `0`.
+  the second factor is a positive finite constant in the block integral, so it comes out of the
+  lower integral of any function, measurable or not, and cancels; when the block normalizer is
+  infinite it is infinite at every `x'` with the same boundary values, both conditionals then
+  being `0`.
 
 **Checks.**
 
@@ -506,9 +513,11 @@ matrix with zero diagonal, `κ` a vector of positive conditional variances, `M =
 
 **Checks.**
 
-- `n = 3`, `Q = AAᵀ + 3I` for a random `A`, `κ_i = 1/Q_{ii}`, `C = −M(Q − diag Q)`:
-  `(I − C)⁻¹ M = Q⁻¹` to `6 · 10⁻¹⁷`, and the conditional mean `0.143508` and variance
-  `0.252137 = κ_1` of site `1` agree with the formulas.
+- `n = 3`, `μ = 0`, `Q` the path precision with `Q_{ii} = 2` and `Q_{12} = Q_{23} = −1`,
+  `κ_i = 1/Q_{ii} = 1/2`, `C = −M(Q − diag Q)`, so `C_{12} = C_{21} = C_{23} = C_{32} = 1/2`:
+  `(I − C)⁻¹ M = Q⁻¹ = [[3, 2, 1], [2, 4, 2], [1, 2, 3]]/4`, and Gaussian conditioning of
+  `N(0, Q⁻¹)` at `x₂ = 1`, `x₃ = 3` gives site `1` the mean `1/2 = C_{12} x₂ + C_{13} x₃` and
+  the variance `1/2 = κ_1`.
 - Negative control (symmetry): `C_{12} = C_{21} = 1/2` with `κ = (1, 2)` violates
   `C_{12} κ_2 = C_{21} κ_1`; Brook's lemma from `0` to `(1, 1)` gives `log π(1,1) − log π(0)`
   equal to `−1/2` along one order and `−1/4` along the other, so no joint density exists.
@@ -562,9 +571,10 @@ matrix with zero diagonal, `κ` a vector of positive conditional variances, `M =
 
 **Checks.**
 
-- A random `B` with zero diagonal and `λ ∈ [0.5, 1.5]³`: `κ⁻¹ = (0.94156, 1.68918, 2.11005)` both
-  as the diagonal of `(I − B)ᵀ Λ⁻¹ (I − B)` and by the formula, and `(I − C)⁻¹ M` reproduces the
-  covariance to `5 · 10⁻¹⁵`.
+- `b_{12} = 1/2`, `b_{23} = 1/4`, `b_{31} = 1/2`, other entries `0`, `λ = (1, 2, 1/2)`:
+  `κ⁻¹ = (3/2, 3/4, 65/32)` both as the diagonal of `(I − B)ᵀ Λ⁻¹ (I − B)` and by the formula,
+  `C = [[0, 1/3, 2/3], [2/3, 0, 1/6], [32/65, 4/65, 0]]`, and `(I − C)⁻¹ M` equals the covariance
+  exactly; `C_{13} ≠ 0` comes from `b_{31} ≠ 0` alone.
 - Negative control (the converse of the neighbour statement): `λ = 1`,
   `b_{12} = b_{13} = b_{23} = 1`, all other entries `0`, give
   `(I − B)ᵀ(I − B) = [[1, −1, −1], [−1, 2, 0], [−1, 0, 3]]`, so `C_{23} = 0` although `b_{23} ≠ 0`:
@@ -588,15 +598,16 @@ matrix with zero diagonal, `κ` a vector of positive conditional variances, `M =
   window `D` (Gaetan–Guyon, §5.4.2, p. 191; van Lieshout, p. 64). Over a coding set it is the
   coding likelihood (Besag, p. 211). For a parametric family `θ ↦ π_θ` the pseudolikelihood is
   `θ ↦ pseudoLikelihood ρ π_θ D x`.
-- **Coding sets** (`setConditional_eq_prod_of_isIndepSet`): for a positive Markov random field
-  with proper normalizers and a coding set `C`, the conditional density of `x_C` given
-  `x_{S ∖ C}` is `∏_{i ∈ C} π_i(z_i ∣ x_{-i})`, so the coordinates in `C` are conditionally
+- **Coding sets** (`setConditional_eq_prod_of_isIndepSet`): for a measurable positive Markov
+  random field with proper normalizers and a coding set `C`, the conditional density of `x_C`
+  given `x_{S ∖ C}` is `∏_{i ∈ C} π_i(z_i ∣ x_{-i})`, so the coordinates in `C` are conditionally
   independent given the others with the full conditionals as their laws; in particular the
   coding likelihood `pseudoLikelihood ρ π C x` is the conditional density
-  `setConditional ρ π C x x`. Besag, §6.1, p. 211; Gaetan–Guyon, p. 194 (the property behind Theorem
-  5.4). Route: by
-  2.2 the factors of `π` that involve a site of `C` are functions of that site and its
-  neighbours, which lie outside `C`; the block normalizer factors into site normalizers.
+  `setConditional ρ π C x x`. Besag, §6.1, p. 211; Gaetan–Guyon, p. 194 (the property behind
+  Theorem 5.4). Route: by 2.2 the factors of `π` that involve a site of `C` are functions of
+  that site and its neighbours, which lie outside `C`; the block normalizer factors into site
+  normalizers by Tonelli for a product of measurable functions of separate coordinates, which is
+  where measurability of `π` enters.
 
 **Checks.**
 
@@ -624,9 +635,9 @@ matrix with zero diagonal, `κ` a vector of positive conditional variances, `M =
 
 **Checks.**
 
-- `n = 6`, a random symmetric `W` with zero diagonal and a random `x`: numerical maximization
-  gives `b̂ = −0.715615`, `k̂ = 0.657787`, equal to the formulas; the misprinted variance formula
-  gives `0.840936`.
+- `W` the adjacency matrix of the `4`-cycle and `x = (1, 2, 0, −1)`: `Wx = (1, 1, 1, 1)`,
+  `⟨x, Wx⟩ = 2`, `⟨Wx, Wx⟩ = 4`, `⟨x, x⟩ = 6`, so `b̂ = 1/2` and `k̂ = (6 − 1)/4 = 5/4`, which
+  numerical maximization reproduces; the misprinted variance formula gives `(6 − 2)/4 = 1`.
 - Negative control: if `x = c Wx` then `RSS(b̂) = 0` and the pseudolikelihood is unbounded as
   `k → 0`, so the hypothesis on `x` is needed.
 
@@ -703,8 +714,8 @@ measure on the configurations.
   `ε ≤ 0` the bound is at least `1 ≥ d(n)`, and `ε > 1` is impossible. Winkler, Lemma 4.3.1,
   p. 84, and Theorem 4.3.1, p. 85, in the language of contraction coefficients. Route: every row
   of `κ^N` is `ε π + (1 − ε) R_x` for probability laws `R_x`, so the distance between two rows is
-  at most `1 − ε`; MarkovChainMixing 1.2 gives `d(t) ≤ d̄(t)`, `d̄(s + t) ≤ d̄(s) d̄(t)` and
-  monotonicity.
+  at most `1 − ε` (the argument of HiddenMarkovModels 6.1 for one step); MarkovChainMixing 1.2
+  gives `d(t) ≤ d̄(t)`, `d̄(s + t) ≤ d̄(s) d̄(t)` and monotonicity.
 - **Sweeps converge** (`tendsto_tvToStationary_gibbsSweep`): if `π` is positive and the list `l`
   contains every site, then for some `ε > 0` every row of the sweep dominates `ε π`, and
   `tvToStationary (gibbsSweep π l) π n → 0`; that is, `ν P^n → π` in total variation uniformly
@@ -734,18 +745,18 @@ measure on the configurations.
 
 ## Downstream consumers
 
-- GaussianMarkovRandomFieldsAndTheSPDELink consumes the normalizer and full conditional of 1.1,
-  the Gaussian conditional specifications of 4.1 and the conditional form of the finite
-  simultaneous autoregression of 4.3, as the finite-dimensional starting point of improper
-  Gaussian Markov random fields and of stationary autoregressions on `ℤ^d`.
-- GibbsSpecificationsGeneralSpinAndPseudolikelihood consumes the Markov property of 1.2, the
-  canonical potential of 2.1, the coding sets, finite-volume coding identity and
-  `pseudoLikelihood` of 5.1, and the auto-models of Layer 3 as examples, for the consistency and
-  asymptotic normality of the maximum pseudolikelihood and coding estimators on infinite graphs.
+No roadmap on main or among the open pull requests consumes this one. Its natural consumers are
+two bodies of mathematics outside it:
+- the theory of Gaussian Markov random fields (precision matrices, improper and intrinsic
+  models, stationary autoregressions on `ℤ^d`), whose finite-dimensional starting point is the
+  normalizer and full conditional of 1.1, the Gaussian conditional specifications of 4.1 and
+  the conditional form of the finite simultaneous autoregression of 4.3;
+- the asymptotics of maximum pseudolikelihood and coding estimators on infinite graphs, which
+  start from the Markov property of 1.2, the canonical potential of 2.1, the coding sets,
+  coding identity and `pseudoLikelihood` of 5.1, with the auto-models of Layer 3 as examples.
 
-No other roadmap on main or in the family consumes this one; the finite Gibbs point processes of
-the family (FiniteGibbsPointProcesses) have their own Hammersley–Clifford theorem and do not use
-2.2.
+The finite Gibbs point processes of the roadmap FiniteGibbsPointProcesses have their own
+Hammersley–Clifford theorem and do not use 2.2.
 
 ## Scope and ownership
 
@@ -794,6 +805,10 @@ Neighbours that are separate subjects: the heat-bath dynamics of the Ising model
 machines (the roadmap RestrictedBoltzmannMachines), whose two-block update is a sweep in
 the sense of 6.2 with blocks in place of sites; error bounds for Markov chain Monte Carlo
 (the roadmap MarkovChainMonteCarloGuarantees).
+[HiddenMarkovModels](../HiddenMarkovModels/README.md) 6.1 states the one-step contraction of
+the `ℓ¹` distance under a minorization for mass functions on countable spaces; Doeblin's bound of
+6.4 is its `N`-step variant for Mathlib kernels on a finite type, stated for the distance to the
+stationary law with the exponent `⌊n/N⌋`, and is proved here, not consumed.
 
 Every result that is not listed in a layer belongs to the
 [boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
@@ -861,11 +876,10 @@ under this roadmap.
 
 - **Infinite graphs and asymptotics.** Markov random fields on countable graphs as Gibbs
   measures, existence and uniqueness, and the consistency and asymptotic normality of maximum
-  pseudolikelihood and coding estimators with the coding likelihood-ratio test
-  (GibbsSpecificationsGeneralSpinAndPseudolikelihood).
+  pseudolikelihood and coding estimators with the coding likelihood-ratio test.
 - **Gaussian Markov random fields.** Precision matrices and conditional independence, Cholesky
   factors, intrinsic models, and stationary autoregressions on `ℤ^d` with their spectral
-  densities (GaussianMarkovRandomFieldsAndTheSPDELink).
+  densities.
 - **Without positivity.** Factorization theorems for non-positive laws on decomposable graphs,
   and Markov random fields with structural zeros.
 - **Further samplers.** Metropolis-within-Gibbs, block updates on general partitions, simulated

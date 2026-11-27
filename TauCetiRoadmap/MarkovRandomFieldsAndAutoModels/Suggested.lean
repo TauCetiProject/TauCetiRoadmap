@@ -217,13 +217,12 @@ def canonicalPotential (π : (∀ i, E i) → ℝ≥0) (a : ∀ i, E i) (A : Fin
     Real.log (π fun j ↦ if j ∈ B then x j else a j)
 
 /-- 2.1: Möbius inversion: `log π` is the sum of the canonical potentials, each `V_A` depends
-only on the coordinates in `A`, and `V_A(x) = 0` when `A` is nonempty and `x` agrees with `a` at
-some site of `A`. -/
+only on the coordinates in `A`, and `V_A(x) = 0` when `x` agrees with `a` at some site of `A`
+(which forces `A` to be nonempty). -/
 theorem canonicalPotential_spec (π : (∀ i, E i) → ℝ≥0) (a : ∀ i, E i) :
     (∀ x, Real.log (π x) = ∑ A : Finset S, canonicalPotential π a A x) ∧
       (∀ A : Finset S, DependsOn (canonicalPotential π a A) (A : Set S)) ∧
-      ∀ (A : Finset S) x, A.Nonempty → (∃ i ∈ A, x i = a i) →
-        canonicalPotential π a A x = 0 := by
+      ∀ (A : Finset S) x, (∃ i ∈ A, x i = a i) → canonicalPotential π a A x = 0 := by
   sorry
 
 /-- 2.1: uniqueness: a family `V` with the three properties of `canonicalPotential_spec` is the
@@ -231,7 +230,7 @@ canonical potential. -/
 theorem eq_canonicalPotential (π : (∀ i, E i) → ℝ≥0) (a : ∀ i, E i)
     (V : Finset S → (∀ i, E i) → ℝ) (hsum : ∀ x, Real.log (π x) = ∑ A : Finset S, V A x)
     (hloc : ∀ A : Finset S, DependsOn (V A) (A : Set S))
-    (hnorm : ∀ (A : Finset S) x, A.Nonempty → (∃ i ∈ A, x i = a i) → V A x = 0) :
+    (hnorm : ∀ (A : Finset S) x, (∃ i ∈ A, x i = a i) → V A x = 0) :
     V = canonicalPotential π a := by
   sorry
 
@@ -477,13 +476,13 @@ def pseudoLikelihood (ρ : ∀ i, Measure (E i)) (π : (∀ i, E i) → ℝ≥0)
     (x : ∀ i, E i) : ℝ≥0∞ :=
   ∏ i ∈ D, fullConditional ρ π i x (x i)
 
-/-- 5.1 **Coding sets**: for a positive Markov random field and a set `C` of pairwise
+/-- 5.1 **Coding sets**: for a measurable positive Markov random field and a set `C` of pairwise
 non-adjacent sites, the coordinates in `C` are conditionally independent given the others, with
 the full conditionals as their laws; in particular the coding likelihood is the conditional
 density of `x_C` given `x_{S ∖ C}`. -/
 theorem setConditional_eq_prod_of_isIndepSet (ρ : ∀ i, Measure (E i))
-    [∀ i, SigmaFinite (ρ i)] (G : SimpleGraph S) {π : (∀ i, E i) → ℝ≥0} (hπ : ∀ x, π x ≠ 0)
-    (hZ : ∀ i x, siteNormalizer ρ π i x ≠ 0 ∧ siteNormalizer ρ π i x ≠ ∞)
+    [∀ i, SigmaFinite (ρ i)] (G : SimpleGraph S) {π : (∀ i, E i) → ℝ≥0} (hπm : Measurable π)
+    (hπ : ∀ x, π x ≠ 0) (hZ : ∀ i x, siteNormalizer ρ π i x ≠ 0 ∧ siteNormalizer ρ π i x ≠ ∞)
     (hG : IsMarkovRandomField ρ G π) {C : Finset S} (hC : G.IsIndepSet (C : Set S)) :
     (∀ x z, setConditional ρ π C x z = ∏ i ∈ C, fullConditional ρ π i x (z i)) ∧
       ∀ x, pseudoLikelihood ρ π C x = setConditional ρ π C x x := by
