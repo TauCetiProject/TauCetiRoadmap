@@ -595,6 +595,7 @@ body:
         - SobolevPolynomialApproximation
         - SolidAnalyticRings
         - SpanningTreesAndShortestPaths
+        - SpecialFunctionsAffineHeisenbergGroups
         - SpecialFunctionsAiry
         - SpecialFunctionsAppell
         - SpecialFunctionsBessel
