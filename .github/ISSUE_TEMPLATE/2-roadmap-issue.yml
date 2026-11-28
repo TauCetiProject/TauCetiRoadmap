@@ -314,6 +314,7 @@ body:
         - HabiroCyclotomicCompletions
         - HabiroNumberFields
         - HalfIntegralWeightModularForms
+        - HamiltonJacobiAndConservationLaws
         - HamiltonianCycles
         - HamiltonianFloerOperations
         - HanfNumbers
