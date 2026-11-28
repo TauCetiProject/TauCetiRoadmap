@@ -99,6 +99,7 @@ body:
         - BanachSpaceTheory
         - BelyiMaps
         - BernoulliPercolation
+        - BestArmIdentification
         - BianchiModularForms
         - BochnerSpaces
         - BooleanFunctionAnalysis
