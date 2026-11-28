@@ -646,7 +646,8 @@ Zahorski's lemma writes `E = ⋃ₙ Fₙ` and builds `f` from sets supplied by L
   completely regular (Kharazishvili, Appendix, p. 404).
 - **Failure of normality** (`not_normalSpace_densityTopology`): the density topology is not
   normal (Thomson, Example 9.2, p. 19, where it is stated without proof with references to the
-  literature; the proof route below supplies the argument).
+  literature, among them Goffman–Neugebauer–Nishiura 1961; the proof route below supplies the
+  argument).
 - Target in prose: the density topology is not separable (Kharazishvili, Exercise 9,
   p. 408).
 
@@ -873,6 +874,9 @@ Completion means:
   Springer, 1978. Chapters II–IV and XI.
 - B. S. Thomson, *Real Functions*, Lecture Notes in Mathematics 1170, Springer, 1985. §9
   (Example 9.2), §§56, 59, 70.
+- C. Goffman, C. J. Neugebauer and T. Nishiura, Density topology and approximate continuity,
+  *Duke Math. J.* 28 (1961), 497–506. Cited for the density topology through Thomson,
+  Example 9.2.
 - G. Leoni, *A First Course in Sobolev Spaces*, 2nd ed., Graduate Studies in Mathematics 181,
   American Mathematical Society, 2017. Chapters 1–3.
 - E. Hewitt and K. Stromberg, *Real and Abstract Analysis*, Graduate Texts in Mathematics 25,
