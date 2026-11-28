@@ -91,8 +91,8 @@ The layers are in build order: each layer needs only earlier layers and the supp
   SobolevPolynomialApproximation §1.3 (`seminorm`, local copy). A Lagrange function is a genuine
   function on `E d` (zero off the mesh); its Sobolev version is an element of `W1p` whose value is
   almost everywhere equal to it.
-- **Lagrange nodes** are `node K k α = ∑ᵢ (αᵢ / k) vᵢ` for `α` in
-  `Finset.Nat.antidiagonalTuple (d + 1) k`, the multi-indices of length `d + 1` and sum `k`. For
+- **Lagrange nodes** are `node K k α = ∑ᵢ (αᵢ / k) vᵢ` for `α : LatticeIndex d k`, the subtype
+  of `Finset.Nat.antidiagonalTuple (d + 1) k`: the multi-indices of length `d + 1` and sum `k`. For
   `k = 0` the expression is the origin (`0 / 0 = 0`); every statement that uses the position of the
   nodes assumes `1 ≤ k`.
 - **Constants.** Every `∃ C` is quantified before the meshes, mesh families, cells and functions,
@@ -140,13 +140,16 @@ u_h ∈ X.
   `γ ‖P w‖ ≤ ‖w‖`, then the discrete inf-sup constant is at least `γ α`. Ern–Guermond II,
   Lemma 26.9 (i), p. 31; Boffi–Brezzi–Fortin, Proposition 5.4.2, pp. 303–304. No linearity of `P`
   and no Hilbert structure is used.
-- **Converse of Fortin's criterion** (`exists_fortin_of_infSup`): if the test space `H` is an inner
-  product space and the discrete inf-sup condition holds with constant `α`, there is a linear
-  idempotent Fortin operator `P : H →L[ℝ] Y` with `(α / ‖A‖) ‖P w‖ ≤ ‖w‖`. Ern–Guermond II,
-  Lemma 26.9 (ii), p. 31, which assumes both spaces Hilbert. Proof route: the map
-  `Y → StrongDual ℝ X`, `y ↦ (v ↦ A v y)`, is onto by the inf-sup condition; `P w` is the solution
-  orthogonal to its kernel, and the inf-sup constant of the transpose on that complement is `α`.
-  The trial space `V` needs only a norm.
+- **Converse of Fortin's criterion** (`exists_fortin_of_infSup`): for `X` and `Y`
+  finite-dimensional, if the test space `H` is an inner product space and the discrete inf-sup
+  condition holds with constant `α`, there is a linear idempotent Fortin operator
+  `P : H →L[ℝ] Y` with `(α / ‖A‖) ‖P w‖ ≤ ‖w‖`. Ern–Guermond II, Lemma 26.9 (ii), p. 31, which
+  assumes both spaces Hilbert and, as throughout its Chapter 26 (Section 26.1, p. 28), the
+  discrete spaces finite-dimensional. Proof route: the map `Y → StrongDual ℝ X`,
+  `y ↦ (v ↦ A v y)`, has an injective transpose by the inf-sup condition and is therefore onto,
+  since both spaces are finite-dimensional; `P w` is the solution orthogonal to its kernel, and
+  the inf-sup constant of the transpose on that complement is `α`. The trial space `V` needs only
+  a norm.
 
 *Needs:* 1.1.
 
@@ -159,6 +162,11 @@ u_h ∈ X.
   discrete problem is not surjective: the equivalence needs equal dimensions.
 - Fortin: with `X = span e₁`, `Y = span (e₁ + e₂)` and the identity form, `P w = (w₁) (e₁ + e₂)`
   is a Fortin operator with `‖P‖ = √2`, giving `γ α = 1/√2`, the exact discrete constant.
+- Negative control: the converse needs `Y` finite-dimensional. Take `V = X = ℝ`, `H = ℓ²`, `Y`
+  the finitely supported sequences, `h ∈ ℓ²` not in `Y`, and `A v w = v ⟪h, w⟫`. Since `Y` is
+  dense the discrete inf-sup condition holds with `α = ‖h‖ = ‖A‖`, but a Fortin operator with
+  `‖P w‖ ≤ ‖w‖` would be an orthogonal projection onto a closed subspace `R ⊆ Y` with `h ⊥ Rᗮ`,
+  forcing `h ∈ R ⊆ Y`.
 
 ### 1.3 Quasi-optimality
 
@@ -431,7 +439,7 @@ u_h ∈ X.
   has measure `1`, so the sum counts it twice.
 
 *Needs:* 4.1; Tau Ceti `W1p`, `W1p0` and the almost-everywhere linearity of `W1p.value`
-(`TauCeti.W1p.value_add_ae`).
+(`TauCeti.W1p.value_add_ae`); PDE §1.6 for the trace in the converse.
 
 **Checks.**
 
@@ -573,10 +581,11 @@ and a family of meshes has `(T n).domainOpens = Ω` for all `n`.
   Corollary 26.15, pp. 34–35. Proof route: Céa, density of `C_c^∞(Ω)` in `H¹₀(Ω)`, and the
   interpolation estimate of 5.1 with `p = ∞`, `r = 2`, `m = 1` for a test function, whose nodal
   interpolant vanishes on the frontier by face unisolvence.
-- **Rate** (`exists_galerkin_rate`): for `1 ≤ s ≤ k`, shape regularity and connected stars, if
+- **Rate** (`exists_galerkin_rate`): for `s ≤ k`, shape regularity and connected stars, if
   `u` is the first-order part of `w ∈ W^{s+1,2}(Ω)`, then
   `‖∇(u - u_h)‖ ≤ C h^s |w|_{s+1,2}`. Brenner–Scott (5.4.4), p. 136; Ern–Guermond II,
-  Theorem 32.2, p. 117. Proof route: Céa with the Scott–Zhang operator of 5.2, `p = 2`.
+  Theorem 32.2, p. 117. Proof route: Céa with the Scott–Zhang operator of 5.2, `p = 2`. At
+  `s = 0` the bound is Céa's with `v = 0` and `C = Λ / λ`.
 
 *Needs:* 5.1, 5.2, 6.1.
 
@@ -584,7 +593,9 @@ and a family of meshes has `(T n).domainOpens = Ω` for all `n`.
 
 - `d = 1`, `k = 1`, `u = sin πx`: `‖∇(u - u_h)‖ = 0.2512, 0.1258, 0.06295, 0.03148` for
   `n = 8, 16, 32, 64`, ratio `2.00` (rate `h¹`).
-- Negative control: `s = 0` is excluded; for `u ∈ H¹₀` only, convergence holds without a rate.
+- Negative control: `s ≤ k` cannot be dropped. For `k = 1` and `s = 2` the bound would be
+  `C h² |w|_{3,2}`, but for `u = sin πx` the errors above times `n²` are `16.1`, `32.2`, `64.5`,
+  `128.9`, unbounded.
 
 ### 6.3 Duality and the `L²` rate
 
@@ -669,6 +680,7 @@ generalization.
 ### From PDE
 
 - §1.2: the zero-boundary space `H¹₀(Ω)` and density of test functions in it (6.2).
+- §1.6: the trace on a Lipschitz domain, applied to a single cell (the converse in 4.2).
 - §4.1: the weak formulation and the energy form of a divergence-form operator (Layer 6).
 - §4.2: existence and uniqueness in the coercive case, for the weak solution `u` that Layer 6
   approximates and for the adjoint problem of 6.3.
@@ -687,9 +699,8 @@ generalization.
 
 - Interpolation of functions in fractional Sobolev spaces (`r ∉ ℕ`) and rates `h^{s}` for
   fractional `s`, which need fractional Sobolev spaces on domains.
-- Polynomial approximation in `W^{k,∞}` on Lipschitz domains (the residual of the polynomial
-  approximation item beyond cells): cells are convex and are covered by
-  SobolevPolynomialApproximation §4.1.
+- Approximation by polynomials in `W^{k,∞}` on a Lipschitz domain that is not convex: cells are
+  convex and are covered by SobolevPolynomialApproximation §4.1.
 - `H²` regularity on convex polyhedra and the `H^{1+s}` regularity of polygonal domains, which
   would discharge `HasAdjointH2Regularity`.
 - Mesh refinement, bisection and the closure estimates of adaptive methods.

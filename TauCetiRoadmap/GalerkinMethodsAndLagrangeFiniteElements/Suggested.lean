@@ -35,6 +35,9 @@ Seven declarations carry proofs: `norm_le_of_infSup`, `infSup_of_coercive`,
 Bold headlines of the README not stated here: the stability of the Scott–Zhang operator and its
 `p = ∞` form (5.2), and the converse of the boundary characterization of 4.2, which are stated in
 prose.
+
+The `#check` lines at the end of the file pin the Mathlib and Tau Ceti declarations that the
+README names as suppliers.
 -/
 
 @[expose] public section
@@ -171,10 +174,10 @@ theorem norm_sub_le_of_infSup (A : V →L[ℝ] StrongDual ℝ W) (X : Submodule 
     (horth : ∀ w : Y, A (u - uh) w = 0) :
     ‖u - uh‖ ≤ (1 + ‖A‖ / α) * infDist u (X : Set V) := sorry
 
-/-- **Xu–Zikatanov** (README 1.3): on a Hilbert trial space with equal dimensions and
+/-- **Xu–Zikatanov** (README 1.3): on an inner product trial space with equal dimensions and
 `X ≠ ⊥` the constant improves to `‖A‖ / α`. -/
 theorem norm_sub_le_of_infSup_of_hilbert {H : Type*} [NormedAddCommGroup H]
-    [InnerProductSpace ℝ H] [CompleteSpace H] (A : H →L[ℝ] StrongDual ℝ W)
+    [InnerProductSpace ℝ H] (A : H →L[ℝ] StrongDual ℝ W)
     (X : Submodule ℝ H) (Y : Submodule ℝ W) [FiniteDimensional ℝ X] [FiniteDimensional ℝ Y]
     (hdim : Module.finrank ℝ X = Module.finrank ℝ Y) (hX : X ≠ ⊥) {α : ℝ} (hα : 0 < α)
     (hstab : ∀ v : X, α * ‖v‖ ≤ ‖(A v).comp Y.subtypeL‖) {u : H} {uh : X}
@@ -210,7 +213,7 @@ theorem norm_sub_le_strang_second {Z : Type*} [NormedAddCommGroup Z] [NormedSpac
 
 /-- **Strang's lemma in the energy inner product** (README 1.4). -/
 theorem norm_sub_le_strang_energy {Z : Type*} [NormedAddCommGroup Z] [InnerProductSpace ℝ Z]
-    (Xh : Submodule ℝ Z) [FiniteDimensional ℝ Xh] (u : Z) (uh : Xh) :
+    (Xh : Submodule ℝ Z) (u : Z) (uh : Xh) :
     ‖u - uh‖ ≤ infDist u (Xh : Set Z) + ‖(innerSL ℝ (u - uh)).comp Xh.subtypeL‖ := sorry
 
 /-- **Abstract Aubin–Nitsche lemma** (README 1.4). -/
@@ -659,8 +662,8 @@ theorem tendsto_galerkin {lam Lam σ : ℝ} {k : ℕ} (hk : 1 ≤ k)
     Tendsto (fun n => ‖W1p.gradient ((u : W1p volume Ω 2) - (uh n : W1p volume Ω 2))‖) atTop
       (𝓝 0) := sorry
 
-/-- **Energy-norm rate** `h^s` for `u ∈ H^{s+1}(Ω)`, `1 ≤ s ≤ k` (README 6.2). -/
-theorem exists_galerkin_rate {lam Lam σ : ℝ} {k s : ℕ} (hs : 1 ≤ s) (hsk : s ≤ k)
+/-- **Energy-norm rate** `h^s` for `u ∈ H^{s+1}(Ω)`, `s ≤ k` (README 6.2). -/
+theorem exists_galerkin_rate {lam Lam σ : ℝ} {k s : ℕ} (hsk : s ≤ k)
     (hA : UniformlyEllipticOn (Ω : Set (E d)) A lam Lam)
     (hAm : AEStronglyMeasurable A (volume.restrict (Ω : Set (E d)))) :
     ∃ C : ℝ, 0 ≤ C ∧ ∀ T : ℕ → SimplicialMesh d, (∀ n, (T n).domainOpens = Ω) →
@@ -696,7 +699,7 @@ theorem exists_aubinNitsche {lam Lam σ Creg : ℝ} {k : ℕ} (hk : 1 ≤ k)
               ‖W1p.gradient ((u : W1p volume Ω 2) - (uh : W1p volume Ω 2))‖ := sorry
 
 /-- **`L²` rate** `h^{s+1}` (README 6.3). -/
-theorem exists_galerkin_L2_rate {lam Lam σ Creg : ℝ} {k s : ℕ} (hs : 1 ≤ s) (hsk : s ≤ k)
+theorem exists_galerkin_L2_rate {lam Lam σ Creg : ℝ} {k s : ℕ} (hsk : s ≤ k)
     (hA : UniformlyEllipticOn (Ω : Set (E d)) A lam Lam)
     (hAm : AEStronglyMeasurable A (volume.restrict (Ω : Set (E d))))
     (hreg : HasAdjointH2Regularity Ω A Creg) :
@@ -710,8 +713,6 @@ theorem exists_galerkin_L2_rate {lam Lam σ Creg : ℝ} {k s : ℕ} (hs : 1 ≤ 
             C * (T n).meshSize ^ (s + 1) * seminorm (s + 1) (s + 1) le_rfl w := sorry
 
 end ErrorEstimates
-
-/-! ## Supplier declarations named in the README -/
 
 #check @IsCoercive
 #check @IsCoercive.continuousLinearEquivOfBilin
