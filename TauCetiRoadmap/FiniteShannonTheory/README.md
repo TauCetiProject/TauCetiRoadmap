@@ -32,8 +32,8 @@ Layer 1 defines the entropy of a finite distribution with its complete basic
 API. Layer 2 defines conditional entropy and mutual information of a joint
 distribution and proves the chain rule, subadditivity and data processing.
 Layer 3 defines the finite Kullback–Leibler divergence, proves Gibbs'
-inequality, and identifies the divergence with Mathlib's `klDiv` of counting
-measures. Layer 4 proves the bridges to the label and partition entropies.
+inequality, and identifies the divergence with Mathlib's `klDiv` of the
+distributions' own mass measures. Layer 4 proves the bridges to the label and partition entropies.
 Layer 5 proves Fano's inequality. Layer 6 develops typical sequences and
 states and proves the channel coding theorem for finite channels.
 
@@ -56,8 +56,9 @@ states and proves the channel coding theorem for finite channels.
 - **Names.** New declarations live in the `InformationTheory` namespace
   region of Tau Ceti, next to the existing label entropy API, and are named
   to be distinguishable from it at a glance: the distribution-level notions
-  carry `Dist` in their names where a label-level namesake exists
-  (`entropy` has none and keeps the plain name, as in the Suggested file).
+  are `entropy`, `condEntropy`, `mutualInfo` and `relEntropy`, against the
+  label-level `labelEntropy` and `condLabelEntropy`; no name is shared
+  between the two APIs, as in the Suggested file.
 
 ## Layer 1: Entropy of a finite distribution
 
@@ -184,7 +185,7 @@ probability measure.
 - `condEntropy_eq_condLabelEntropy`: for a joint distribution `p` on
   `α × β`, `condEntropy p = condLabelEntropy (μ p) Prod.fst Prod.snd`
   (with the label-entropy argument order as in
-  `TauCeti.ConditionalLabelEntropy`).
+  `TauCeti.InformationTheory.LabelEntropy`).
 - `mutualInfo_eq_labelEntropy_gap`: `mutualInfo p` equals the label gap
   `labelEntropy (μ p) Prod.fst + labelEntropy (μ p) Prod.snd -
   labelEntropy (μ p) id`, hence, by the existing label theory, the chain
@@ -314,8 +315,8 @@ and the `mutualInfo` definition of Layer 2.
 
 - T. M. Cover and J. A. Thomas, *Elements of Information Theory*, 2nd ed.,
   Wiley, 2006. Chapter 2 (entropy, relative entropy, mutual information,
-  chain rules, Fano), Chapter 7–8 (channel capacity and the coding
-  theorem), Chapter 8's typicality in the form of Chapter 3's AEP.
+  chain rules, Fano), Chapter 3 (the asymptotic equipartition property),
+  Chapter 7 (channel capacity and the coding theorem).
 - R. M. Gray, *Entropy and Information Theory*, 2nd ed., Springer, 2011.
 - Mathlib's `InformationTheory` folder and Tau Ceti's
   `TauCeti/InformationTheory/` tree, as cited in the supplier contracts.
