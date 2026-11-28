@@ -12,7 +12,7 @@ Two parity theorems close the roadmap. The first concerns a family of self-dual 
 
 The roadmap builds on ArithmeticGaloisDuality for continuous cochains and for Tate and Poitou–Tate duality. For number fields and lattice coefficients, its Selmer complexes and Iwasawa cochains are those of NoncommutativeAndEquivariantIwasawa, which it extends to general coefficients. IntegralIwasawaTheory provides the cyclotomic class-group and unit towers. HeightsRationalPointsAndObstructions compares its own Cassels–Tate constructions with the pairing built here.
 
-Layer 0 treats completions, Kummer theory and weak semisimplicity: invariants of a procyclic action mapping isomorphically onto coinvariants. Layer 2 sets up Selmer groups and complexes with their dualities, and shows that `Ш(A/K)[p^∞]` is finitely many copies of `ℚ_p/ℤ_p` plus a finite group. Layer 2A compares Selmer complexes with deformation tangent spaces and proves the function-field Greenberg–Wiles formula. Layer 3 develops Iwasawa cohomology with its descent, control and étale comparison, and proves Greenberg's theorems. Layer 4 compares the Bloch–Kato and ordinary local conditions through p-adic period rings, and computes the pole orders of Hodge Gamma factors. It relates cyclotomic units and class groups to Selmer groups, and states the Iwasawa–Greenberg main conjecture as a proposition without proving it.
+Layer 0 treats completions, Kummer theory and weak semisimplicity: invariants of a procyclic action mapping isomorphically onto coinvariants. Layer 2 sets up Selmer groups and complexes with their dualities, realizes every classical Selmer structure by simple local conditions whose Selmer complex has the classical Selmer group as its `H¹`, and shows that `Ш(A/K)[p^∞]` is finitely many copies of `ℚ_p/ℤ_p` plus a finite group. Layer 2A compares Selmer complexes with deformation tangent spaces and proves the function-field Greenberg–Wiles formula. It also treats change of coefficient ring: local conditions whose base change is computed termwise, the module co-representing Selmer groups with finite-length and discrete torsion coefficients when residual invariants vanish, and the derived base change of simple conditions, which locates the failure of classical Selmer groups to commute with base change in global `Tor` terms and local cones. Layer 3 develops Iwasawa cohomology with its descent, control and étale comparison, and proves Greenberg's theorems. Layer 4 compares the Bloch–Kato and ordinary local conditions through p-adic period rings, and computes the pole orders of Hodge Gamma factors. It relates cyclotomic units and class groups to Selmer groups, and states the Iwasawa–Greenberg main conjecture as a proposition without proving it.
 
 `Suggested.lean` states some of the headline results in Lean; it is not exhaustive.
 
@@ -809,6 +809,71 @@ Prove this as follows. Write the LES segment in degrees zero and one, including 
 
 *Needs:* §2.21 (Selmer complex as a mapping fibre); §2.2 (Compact and rational Selmer kernel).
 
+### 2.22a Simple local conditions and classical Selmer structures
+
+Specify the ordinary or the modified local diagram of §2.21, and let `T` be a coefficient module in degree zero over the coefficient ring `R`, with local complexes `C_v = C_v(T)` for `v ∈ S`. A local condition `i_v : U_v^+ → C_v` is *simple* if `H^j(i_v)` is bijective for every `j ≤ 0` and injective for `j = 1`, and `H^j(U_v^+) = 0` for every `j ≥ 2`; a structure `(U_v^+, i_v)_{v∈S}` is simple if each of its conditions is. The classical condition of a simple condition is `L_v = im H¹(i_v) ⊆ H¹(C_v)`. For an `R`-submodule `L ⊆ H¹(C_v)` let `U(L) ⊆ τ_{≤1}C_v` be the subcomplex equal to `C_v` in degrees `≤ 0`, to `Z¹_L = {z ∈ Z¹(C_v) : [z] ∈ L}` in degree one and to zero above. Then `U(L)` is simple with classical condition `L`; a simple condition `U` with classical condition `L` is joined to `U(L)` by the quasi-isomorphisms of local conditions `U ← τ_{≤1}U → U(L)`, so that by §2.21 the Selmer complex of a simple structure depends, up to equivalence, only on the submodules `L_v`; and for `L ⊆ L′` the inclusion `U(L) ⊆ U(L′)` is a morphism of local conditions whose cone is `(L′/L)[−1]`. Among simple conditions the submodule therefore determines the condition up to quasi-isomorphism of local conditions, which fails for the general conditions of §2.21.
+
+For a simple structure with classical conditions `L_v`: `H^j(RΓ_f) = 0` for `j < 0`, `H⁰(RΓ_f) = H⁰(G_{F,S}, T)`, and `H¹(RΓ_f) = Sel_L` is the classical Selmer kernel of §2.2 for the localizations of the diagram, the correction `J` of §2.22 being zero. The higher cohomology is §2.23a.
+
+A Selmer structure `F` of §2.13 on `T`, over the number field written `K` there, with `S = Σ(F)`, gives the simple structure `Δ(F) = (U(H¹_F(K_v, T)))_{v∈S}`, and `H¹(RΓ_f(Δ(F))) = H¹_F(K, T)`. The same formula defines `Δ(F)` over every coefficient ring `R` of this section, for a family `F` of `R`-submodules `H¹_F(K_v, T) ⊆ H¹(C_v)`, `v ∈ S`, and then `H¹(RΓ_f(Δ(F)))` is the classical Selmer kernel `Sel_L` of these submodules, by the statement above. For structures `F`, `F′` with the same `Σ` and `H¹_F(K_v, T) ⊆ H¹_{F′}(K_v, T)` at every `v`, the inclusions form a morphism of structures `Δ(F) → Δ(F′)` whose local cones are `(H¹_{F′}(K_v, T)/H¹_F(K_v, T))[−1]`. The classical strict and relaxed conditions are `U(0)` and `U(H¹(C_v)) = τ_{≤1}C_v`; they are simple, and the strict and relaxed conditions `0` and `C_v` of §2.21 are not simple in general. The inclusions `0 → U(0)` and `τ_{≤1}C_v → C_v` have cones `τ_{≤0}C_v`, which is `H⁰(K_v, T)[0]` at a finite place, and `τ_{≥2}C_v`. With every place strict, the compact-support triangle of §2.21 reads `RΓ_f(0) → RΓ_f(U(0)) → ⊕_v τ_{≤0}C_v`: the two Selmer complexes have the same `H^j` for `j ≥ 2`, and in degrees `≤ 1` they are related by the long exact sequence of this triangle, whose part in degrees zero and one is the `H⁰` correction of §2.22. With every place relaxed, the global triangle of §2.21 reads `RΓ_f(τ_{≤1}C) → C(G_{F,S}, T) → ⊕_v τ_{≥2}C_v`: the two have the same `H^j` for `j ≤ 1`, and `H²(RΓ_f(τ_{≤1}C)) = ker(H²(G_{F,S}, T) → ⊕_v H²(C_v))`. Changing the condition at some of the places is §2.23a.
+
+For finitely generated coefficients with action continuous for the `𝔪`-adic topology, and
+cofinite-type coefficients with action continuous for the discrete topology, over a complete
+Noetherian local ring `R` with finite residue field, ArithmeticGaloisDuality §D7.3 (*Continuous
+cochains in the derived category*) identifies `H¹(G_{F,S}, T)` with Mathlib's
+`continuousCohomology 1` of `T` and, in the ordinary diagram, `H¹(C_v)` with that of `T` restricted
+to `G_v`; in the modified diagram `H¹(q_v)` carries this identification to `H¹(C_v)`. For these
+coefficients a family `(L_v)_{v∈S}` of `R`-submodules is the same datum as a
+`TauCeti.ContinuousCohomology.TopSelmerStructure`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/SelmerStructure/Continuous/Basic.lean` at
+Tau Ceti `2a9233e5`) on `T` whose local groups are the decomposition groups `G_v → G_{F,S}`,
+`v ∈ S`, and whose local coefficient morphisms are identities: its `R`-linear localisations are the
+restrictions, the Selmer module of its Selmer data is `Sel_L`, and `Δ` takes such a structure as
+input.
+
+The Selmer complex of a classical structure does not depend on the diagram. `H¹(q_v)` identifies `H¹(C_v^ord)` with `H¹(C_v^mod)`, `q_v` maps `U(L_v)` formed in `C_v^ord` into `U(L_v)` formed in `C_v^mod`, and the induced map of Selmer complexes, the identity on the global cochains, is a quasi-isomorphism, with or without `(P)`. Under `(P)`, for every coefficient module of this section on which `2` acts invertibly when `p` is odd (the compact and rational coefficients, the discrete `p`-primary ones and every module of the second case below), `H¹(F_v, T) = 0` at every archimedean `v`; a condition there is simple exactly when `i_v` is a quasi-isomorphism, so `U(0) ≃ T^{G_v}[0]` in the ordinary diagram and `U(0)` is acyclic in the modified one, and in both diagrams the Selmer complex of a simple structure is quasi-isomorphic to the fibre over the finite places of `S`. Without `(P)`, at a real place with `p = 2`, `U(L_v)` formed in the modified diagram has the Tate groups `Ĥ^j(G_v, T)` as its cohomology in degrees `j ≤ 0`, and the Selmer complex still has no cohomology in negative degrees. Transport along `q_v` (§2.21) does not preserve simplicity: under `(P)` and for the same coefficients the ordinary `U(0) ≃ T^{G_v}[0]` at a real place has acyclic target `C_v^mod`, so its transport is simple only when `T^{G_v} = 0`.
+
+`S` finite; the `L_v` are `R`-submodules; `T` a module in degree zero, either with the compact,
+rational or discrete coefficients of §2.21, or a finite free `R`-module with continuous `R`-linear
+action of `G_{F,S}`, for `R` a complete Noetherian local ring with finite residue field of
+characteristic `p`. In the second case the global and local complexes are the continuous cochains
+of ArithmeticGaloisDuality §D7.3 (*Continuous cochains in the derived category*), with the complete
+Tate cochains of §2.21 at the real places of the modified diagram and the zero complex at its
+complex places, and the Selmer complex is the fibre of §2.21 formed from them. Every statement of
+this section holds in the second case, with the same proof, except two that keep their own
+coefficients: the identification of `H¹(RΓ_f(Δ(F)))` with `H¹_F(K, T)` for a Selmer structure `F`
+of §2.13, whose coefficients are those of §2.13, and the first Check, whose coefficients are named
+there. The proofs use only the shape of the complexes (the global and finite-place complexes vanish
+in negative degrees, and `H^j(q_v)` is bijective for `j ≥ 1` for every coefficient module) and, for
+the archimedean statements under `(P)`, their hypothesis that `2` acts invertibly on `T` when `p`
+is odd; it holds for every `R`-module of the second case, `R` being local with residue
+characteristic `p`.
+
+Prove this as follows. Since `B¹(C_v) ⊆ Z¹_L`, `H^j(U(L)) = H^j(C_v)` for `j ≤ 0` and `H¹(U(L)) = L`. For a simple `U`, the vanishing of `H^j(U)` for `j ≥ 2` makes `τ_{≤1}U → U` a quasi-isomorphism; `i_v` carries `Z¹(U)` into `Z¹_L`, and the three clauses make `τ_{≤1}U → U(L)` bijective on cohomology; both maps commute with the maps to `C_v`. A degreewise injective map has cone quasi-isomorphic to its cokernel, here `Z¹_{L′}/Z¹_L ≅ L′/L` in degree one. In the triangle `RΓ_f → C(G_{F,S}, T) → ⊕_v U_v^−` of §2.21, simplicity gives `H^j(U_v^−) = 0` for `j ≤ 0`, `H¹(U_v^−) = H¹(C_v)/L_v` and `H^j(U_v^−) = H^j(C_v)` for `j ≥ 2`; this gives `H^j(RΓ_f)` for `j ≤ 1`. Since `H^j(q_v)` is bijective for `j ≥ 1`, `q_v` induces quasi-isomorphisms of the cones `U_v^−` of the two diagrams, and the five lemma compares the two Selmer complexes. A place where `i_v` is a quasi-isomorphism can be deleted from the fibre, because the projection forgetting it is surjective with acyclic kernel `Cone(i_v)[−1]`. Archimedean cohomology under `(P)`: at a real place multiplication by `2 = #G_v` is invertible on the coefficients and kills `H^j(G_v, T)` for `j ≥ 1` and the Tate groups; at a complex place `G_v` is trivial and `C_v^mod = 0`.
+
+(Kings–Loeffler–Zerbes (arXiv v6), §11.2, Definition 11.2.3, p. 54 (arXiv v6), for the notion, and the paragraph after it, p. 55 (arXiv v6), for its determination by the submodule and the simplicity of the unramified condition; there bijectivity is asked in degree zero only and the degree-two clause is printed as the vanishing of the map `H²(i_v)`; here bijectivity is asked in every degree `≤ 0`, as in Nekovář, §6.1.4, pp. 136–137, and the degree-two clause is the vanishing of `H^j(U_v^+)` for `j ≥ 2`, see the Checks. Kings–Loeffler–Zerbes (arXiv v6), Proposition 11.2.9, p. 56 (arXiv v6), for `H⁰` and `H¹`, and Remark 12.1.4, p. 62 (arXiv v6), for the agreement with the Selmer structures of Mazur and Rubin; Nekovář, §6.1.4, pp. 136–137.)
+
+The library targets include the following operations and identities:
+
+- The predicate *simple* for a local condition on a specified diagram, and for a structure.
+- `U(L)` with its inclusion into `C_v`, simple with classical condition `L`.
+- The zigzag `U ← τ_{≤1}U → U(L)` of quasi-isomorphisms of local conditions over `C_v`.
+- `Cone(U(L) ⊆ U(L′)) ≃ (L′/L)[−1]`.
+- `H^j = 0` for `j < 0`, `H⁰ = H⁰(G_{F,S}, T)` and `H¹ = Sel_L` for the Selmer complex of a simple structure.
+- `Δ(F)`, its morphisms for `F ≤ F′`, and `H¹(RΓ_f(Δ(F))) = H¹_F(K, T)`.
+- The quasi-isomorphism between the ordinary and the modified Selmer complexes of `(U(L_v))`.
+
+**Checks.**
+
+- At a finite place, inflation `C(G_v/I_v, T^{I_v}) → C(G_v, T)` is simple with classical condition the `H¹_ur(K_v, T)` of §2.7 when `T` is discrete `p`-primary, a finitely generated `O`-module or a finite-dimensional `E`-space: its `H⁰` is `T^{G_v}`, its `H¹` is the inflation of §2.7, and `H^j(Ẑ, T^{I_v}) = 0` for `j ≥ 2`, by `cd_p(Ẑ) = 1` for `p`-primary torsion, by Tate's inverse-limit theorem for the finite quotients `T^{I_v}/p^nT^{I_v}`, and by rationalisation. For the discrete module `T = ℤ` with trivial action, `H²(Ẑ, ℤ) ≅ H¹(Ẑ, ℚ/ℤ) = ℚ/ℤ ≠ 0`, so the condition is not simple: for discrete coefficients that are not torsion the vanishing of `H²(Ẑ, T^{I_v})` can fail.
+- For a nonzero module `N`, the condition `U(L) ⊕ N[−2]`, with zero map on `N`, has `H²(i_v) = 0` but `H²(U) = N`, and its Selmer complex is `RΓ_f(U(L)) ⊕ N[−2]`. A degree-two clause asking only that `H²(i_v)` vanish does not make the Selmer complex depend only on `L`.
+- At a real place with `p = 2` and `T = 𝔽₂`, the transport along `q_v` of the ordinary `U(L)` has `H⁰(i_v)` bijective, as `T^{G_v} → T^{G_v}/N_vT` is the identity of `𝔽₂`, `H¹(i_v)` injective and no cohomology above degree one, but `H^{−1}(i_v)` maps `0` to `Ĥ^{−1}(G_v, 𝔽₂) = 𝔽₂`; with simple conditions at the other places its Selmer complex has `H^i = 𝔽₂` for every `i ≤ −1`, whereas that of `U(L)` formed in the modified diagram has none. Bijectivity in degree zero alone does not determine the Selmer complex in the modified diagram.
+- For `T = 𝔽_p` with trivial action at a finite place, the strict condition `0` is not simple, as `H⁰(K_v, 𝔽_p) = 𝔽_p`; for `T = μ_p`, `H²(K_v, μ_p) ≅ ℤ/p`, so the relaxed condition `C_v` is not simple and differs from `τ_{≤1}C_v` by `(ℤ/p)[−2]`.
+- `F = ℚ`, `S = {p, ∞}`, `p` odd, `T = k = 𝔽_p`, classical strict structure: in both diagrams `H¹(RΓ_f)` is the strict kernel, which is `0` because the generator of `H¹(G_{ℚ,S}, k)`, cut out by the first layer of the cyclotomic `ℤ_p`-extension, is ramified at `p`. The strict ordinary fibre of §2.22 has `H¹ = k`.
+- `F = ℚ`, `S = {2, ∞}`, `T = 𝔽₂`, classical strict structure in the modified diagram: `H^i(RΓ_f) = 0` for `i < 0` and `H⁰(RΓ_f) = 𝔽₂`, whereas the strict modified fibre of §2.21 has `H^i = 𝔽₂` for every `i < 0`.
+
+*Needs:* §2.21 (Selmer complex as a mapping fibre); §2.22 (The `H⁰` correction before the classical Selmer kernel); §2.2 (Compact and rational Selmer kernel); §2.13 (Dual Selmer structures); §2.7 (The unramified condition); TauCetiRoadmap.ProfiniteCohomology Layer 11; ArithmeticGaloisDuality §R02.1.2 (*Tate's inverse-limit theorem*); ArithmeticGaloisDuality §R02.1.3 (*Rationalisation of lattice cohomology*); ArithmeticGaloisDuality §D7.3 (*Continuous cochains in the derived category*); Tau Ceti `TauCeti.ContinuousCohomology.TopSelmerStructure` (`TauCeti/RepresentationTheory/Homological/ContCohomology/SelmerStructure/Continuous/Basic.lean` at Tau Ceti `2a9233e5`); Mathlib `continuousCohomology`.
+
 ### 2.23 Primitive, imprimitive and strict condition-change triangles
 
 For local-condition maps `U^+→U′^+` commuting with their maps to `C_v`, let `D_v=Cone(U_v^+→U′_v^+)`. There is a triangle `RΓ_f(U)→RΓ_f(U′)→⊕D_v`. At `H¹`-submodule level `L⊆L′` it gives `0→Sel_L→Sel_L′→⊕_v L′_v/L_v`, exact at the first three terms, with the cokernel beyond that term governed by the fibre `H²` map and `H⁰` corrections. Relaxation at `Σ` replaces `U_v^+` by `C_v` and `D_v` by `U_v^−`; strict modification uses zero. Surjectivity of the displayed localization to local quotients is a separate theorem, never part of the definition of imprimitive Selmer.
@@ -826,6 +891,37 @@ Prove this as follows. Use cone functoriality and the octahedral axiom on `res�
 - Relaxing one place retains exactly its `U_v^−`, including its degree-zero terms.
 
 *Needs:* §2.21 (Selmer complex as a mapping fibre); §2.22 (The `H⁰` correction before the classical Selmer kernel); §2.3 (Change of local conditions).
+
+### 2.23a Selmer complexes of simple structures: `H²` and the change of conditions
+
+Let `(U(L_v))_{v∈S}` be a simple structure on a module `T` in a specified diagram (§2.22a), with Selmer complex `RΓ_f(L)`. Then the sequence
+
+```text
+0 → coker(H¹(G_{F,S}, T) → ⊕_{v∈S} H¹(C_v)/L_v) → H²(RΓ_f(L)) → ker(H²(G_{F,S}, T) → ⊕_{v∈S} H²(C_v)) → 0
+```
+
+is exact, and for `j ≥ 3` the sequence `H^{j−1}(G_{F,S}, T) → ⊕_v H^{j−1}(C_v) → H^j(RΓ_f(L)) → H^j(G_{F,S}, T) → ⊕_v H^j(C_v)` is exact. If `L_v ⊆ L′_v` for every `v ∈ S`, the triangle of §2.23 for the morphism of structures `U(L_v) ⊆ U(L′_v)`, whose third vertex is `⊕_v (L′_v/L_v)[−1]` (§2.22a), gives `H⁰(RΓ_f(L)) = H⁰(RΓ_f(L′))`, `H^j(RΓ_f(L)) ≅ H^j(RΓ_f(L′))` for `j ≥ 3`, and the exact sequence
+
+```text
+0 → Sel_L → Sel_{L′} → ⊕_{v∈S} L′_v/L_v → H²(RΓ_f(L)) → H²(RΓ_f(L′)) → 0,
+```
+
+whose third arrow is induced by localization. The last arrow is onto because the third vertex has no cohomology in degree two; the sequence continues the sequence of §2.3, with no `H⁰` correction. The same triangle compares, at any set of places, the classical strict and relaxed conditions `U(0)` and `τ_{≤1}C_v` with the conditions `0` and `C_v` of §2.21, with third vertices `⊕ τ_{≤0}C_v` and `⊕ τ_{≥2}C_v`.
+
+For finite coefficients the group `H²(RΓ_f(L))` is dual to a dual Selmer group. Let `p` be odd, `T = M` a finite discrete `G_{F,S}`-module of `p`-power order, `M^∨(1) = Hom(M, μ_{p^∞})` its Pontryagin dual twisted once, and for each finite `v ∈ S` let `L_v^⊥ ⊆ H¹(F_v, M^∨(1))` be the annihilator of `L_v` under the local Tate pairing of ArithmeticGaloisDuality §R02.4.2 (*The defined local Tate pairing*), in the sense of ArithmeticGaloisDuality §D7.7.1; at archimedean `v` both groups `H¹` vanish. Then `H²(RΓ_f(M; L))` is isomorphic to the Pontryagin dual of `Sel_{L^⊥}(M^∨(1)) = ker(H¹(G_{F,S}, M^∨(1)) → ⊕_{v∈S} H¹(F_v, M^∨(1))/L_v^⊥)`. This identification is asserted for these coefficients only; it uses Pontryagin duality over `ℤ_p`, which agrees with the `O`-linear duality of §2.13 when `O = ℤ_p`.
+
+`S` finite; `T` any coefficient module of §2.22a, the finite free modules over complete Noetherian local rings there included, for the two sequences and the change of conditions; two simple structures in the same diagram for the change of conditions; for the duality `p` odd, `M` finite of `p`-power order, and `S` containing the places above `p` and the infinite places, as in the Conventions.
+
+Prove this as follows. The first two sequences are the long exact sequence of the triangle `RΓ_f → C(G_{F,S}, T) → ⊕_v U_v^−` of §2.21, with the cohomology of the cones `U_v^−` computed in §2.22a. The change of conditions is the long exact sequence of the triangle of §2.23, whose third vertex has cohomology only in degree one. For the duality, the Poitou–Tate sequence (ArithmeticGaloisDuality §R02.4.3) and the induced perfect pairing between `L_v` and `H¹(F_v, M^∨(1))/L_v^⊥` (ArithmeticGaloisDuality §D7.7.1) present the dual of `Sel_{L^⊥}(M^∨(1))` as an extension of `ker(H²(G_{F,S}, M) → ⊕_v H²(F_v, M))` by `coker(H¹(G_{F,S}, M) → ⊕_v H¹(F_v, M)/L_v)`, the same two groups as for `H²(RΓ_f(M; L))`, so the orders agree. The isomorphism is Nekovář's duality theorem for the perfect evaluation pairing `M ⊗ M^∨(1) → μ_{p^∞}` and the structures `(U(L_v))` and `(U(L_v^⊥))`, whose archimedean places are deleted by §2.22a. At a finite `v` the cup product followed by truncation, `U(L_v) ⊗ U(L_v^⊥) → τ_{≥2}C_v(μ_{p^∞}) = (C²_v/B²_v → C³_v → ⋯)`, is zero: its source vanishes above degree two and its target below degree two, and in degree two its only component is the cup product of a cocycle with class in `L_v` and a cocycle with class in `L_v^⊥`, which has invariant zero and is therefore a coboundary. So the two conditions are orthogonal with zero homotopy, and the adjoint `U(L_v) → RHom(Cone(U(L_v^⊥) → C_v(M^∨(1))), ℚ_p/ℤ_p)[−2]` is a quasi-isomorphism: on `H⁰` it is local duality between `H⁰(F_v, M)` and `H²(F_v, M^∨(1))`, on `H¹` the perfect pairing of `L_v` with `H¹(F_v, M^∨(1))/L_v^⊥`, and both sides vanish in the other degrees, by §2.22a and because `H^j(F_v, M^∨(1)) = 0` for `j ≥ 3`. Hence `RΓ_f(M; L) ≅ RHom(RΓ_f(M^∨(1); L^⊥), ℚ_p/ℤ_p)[−3]`, and `H²` of the left side is dual to `H¹(RΓ_f(M^∨(1); L^⊥)) = Sel_{L^⊥}(M^∨(1))` (§2.22a).
+
+(Kings–Loeffler–Zerbes (arXiv v6), §11.2, Proposition 11.2.9, p. 56 (arXiv v6), deduced there from Theorem 11.2.7 and Proposition 11.2.8, pp. 55–56 (arXiv v6), for the duality, with simple conditions in the sense of §2.22a; Nekovář, §§6.2.1.2–6.2.2, p. 138, Lemma–Definition 6.2.7, p. 140, and Theorem 6.3.4, p. 143, in the case 6.2.5 (A), p. 139, for the isomorphism.)
+
+**Checks.**
+
+- `F = ℚ`, `S = {p, ∞}`, `p` odd, `T = 𝔽_p`, `L = 0` and `L′` relaxed at every place: since `H¹(G_{ℚ,S}, 𝔽_p) = 𝔽_p` injects into the plane `H¹(ℚ_p, 𝔽_p)` and `H²(G_{ℚ,S}, 𝔽_p) = 0`, the sequence reads `0 → 0 → 𝔽_p → 𝔽_p² → H²(RΓ_f(L)) → 0 → 0`, so `H²(RΓ_f(L)) ≅ 𝔽_p`. It is dual to `Sel_{L^⊥}(μ_p) = H¹(G_{ℚ,S}, μ_p)`, which is the line spanned by the Kummer class of `p`; and `Sel_{L′^⊥}(μ_p) = 0`, as `p` is not a `p`-th power in `ℚ_p`.
+- At a place above `p` the annihilator of the unramified condition need not be unramified: for `ℚ_p`, `p` odd and `M = 𝔽_p`, `H¹_ur(ℚ_p, 𝔽_p)` is a line in the plane `H¹(ℚ_p, 𝔽_p)`, so its annihilator is a line in the plane `H¹(ℚ_p, μ_p)`, whereas `H¹_ur(ℚ_p, μ_p) = 0` because `μ_p` has no nonzero inertia invariants.
+
+*Needs:* §2.22a (Simple local conditions and classical Selmer structures); §2.21 (Selmer complex as a mapping fibre); §2.23 (Primitive, imprimitive and strict condition-change triangles); §2.3 (Change of local conditions); §2.10 (Pontryagin duals with the contragredient action); §2.13 (Dual Selmer structures); §2.7 (The unramified condition); ArithmeticGaloisDuality §R02.4.2 (*The defined local Tate pairing*); ArithmeticGaloisDuality §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*); ArithmeticGaloisDuality §D7.7.1 (Perfect pairings and dual local conditions); ArithmeticGaloisDuality §D7.7.3 (Local conditions and derived orthogonal complements); ArithmeticGaloisDuality §D7.7.4 (Duality for a global mapping fibre with local conditions); ArithmeticGaloisDuality §D7.4 (*Derived local Tate duality*).
 
 ### 2.24 Lattice changes with global and local errors
 
@@ -871,11 +967,11 @@ For a fibre `Cone(f)[−1]` with global and local-condition complexes zero and l
 
 ### Dependencies
 
-Layer 0 and ArithmeticGaloisDuality §§D7.7.1–D7.7.6, R02.2.3a, together with the supplier interfaces: Mathlib `ContinuousMonoidHom.comp`; Mathlib `Module.finrank`; Mathlib `MulDistribMulAction.toMonoidHom`; Mathlib `PontryaginDual`; Mathlib `Submodule.map_le_iff_le_comap`; TauCetiRoadmap.EllipticCurves Layer 7; TauCetiRoadmap.LocalFieldsRamification Layer 4; TauCetiRoadmap.ProfiniteCohomology Layer 11; TauCetiRoadmap.ProfiniteCohomology Layer 5; ArithmeticGaloisDuality Layer R02.4; ArithmeticGaloisDuality §D7.5 (*Continuous cochains with compact support*); DerivedModuleAlgebra §1.T.1 (*Mittag-Leffler towers have vanishing `lim¹`*); DerivedModuleAlgebra §1.T.1 (*The six-term sequence of `lim` and `lim¹`*); PerfectoidTowers §P9.0 (*Comparison with the canonical carrier for compact coefficients*); PerfectoidTowers §P9.0 (*Continuous cochains into an inverse limit*); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*); ArithmeticGaloisDuality §R02.1.2 (*Tate's inverse-limit theorem*); ArithmeticGaloisDuality §R02.1.3 (*The sequence `T → V → W` and the torsion of `H¹(T)`*); ArithmeticGaloisDuality §R02.2.1 (*The Hochschild–Serre spectral sequence*); ArithmeticGaloisDuality §R02.2.2 (*The five-term sequence and the transgression*); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); ArithmeticGaloisDuality §R02.3.1 (*Finiteness of `H¹(G_{K,S}, M)`*); ArithmeticGaloisDuality §R02.3.1 (*Localisation maps and the modified local groups*); ArithmeticGaloisDuality §R02.3.1 (*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*); ArithmeticGaloisDuality §R02.4.2 (*Restricted products of local cohomology and `Ш^r_S`*); ArithmeticGaloisDuality §R02.4.2 (*Unramified classes are exact annihilators*); ArithmeticGaloisDuality §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*).
+Layer 0 and ArithmeticGaloisDuality §§D7.7.1–D7.7.6, R02.2.3a, together with the supplier interfaces: Mathlib `ContinuousMonoidHom.comp`; Mathlib `Module.finrank`; Mathlib `MulDistribMulAction.toMonoidHom`; Mathlib `PontryaginDual`; Mathlib `Submodule.map_le_iff_le_comap`; TauCetiRoadmap.EllipticCurves Layer 7; TauCetiRoadmap.LocalFieldsRamification Layer 4; TauCetiRoadmap.ProfiniteCohomology Layer 11; TauCetiRoadmap.ProfiniteCohomology Layer 5; ArithmeticGaloisDuality Layer R02.4; ArithmeticGaloisDuality §D7.5 (*Continuous cochains with compact support*); DerivedModuleAlgebra §1.T.1 (*Mittag-Leffler towers have vanishing `lim¹`*); DerivedModuleAlgebra §1.T.1 (*The six-term sequence of `lim` and `lim¹`*); PerfectoidTowers §P9.0 (*Comparison with the canonical carrier for compact coefficients*); PerfectoidTowers §P9.0 (*Continuous cochains into an inverse limit*); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*); ArithmeticGaloisDuality §R02.1.2 (*Tate's inverse-limit theorem*); ArithmeticGaloisDuality §R02.1.3 (*The sequence `T → V → W` and the torsion of `H¹(T)`*); ArithmeticGaloisDuality §R02.2.1 (*The Hochschild–Serre spectral sequence*); ArithmeticGaloisDuality §R02.2.2 (*The five-term sequence and the transgression*); ArithmeticGaloisDuality §R02.2.3 (*Restriction and corestriction descent for finite index*); ArithmeticGaloisDuality §R02.3.1 (*Finiteness of `H¹(G_{K,S}, M)`*); ArithmeticGaloisDuality §R02.3.1 (*Localisation maps and the modified local groups*); ArithmeticGaloisDuality §R02.3.1 (*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*); ArithmeticGaloisDuality §R02.4.2 (*Restricted products of local cohomology and `Ш^r_S`*); ArithmeticGaloisDuality §R02.4.2 (*Unramified classes are exact annihilators*); ArithmeticGaloisDuality §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*); ArithmeticGaloisDuality §R02.1.3 (*Rationalisation of lattice cohomology*); ArithmeticGaloisDuality §R02.4.2 (*The defined local Tate pairing*); ArithmeticGaloisDuality §D7.4 (*Derived local Tate duality*); ArithmeticGaloisDuality §D7.3 (*Continuous cochains in the derived category*); Tau Ceti `TauCeti.ContinuousCohomology.TopSelmerStructure` (`TauCeti/RepresentationTheory/Homological/ContCohomology/SelmerStructure/Continuous/Basic.lean` at Tau Ceti `2a9233e5`); Mathlib `continuousCohomology`.
 
 ## Layer 2A: Arithmetic Selmer comparisons and deformation tangents
 
-This layer specializes the mapping fibres and `H⁰` correction of §§2.21–2.22 to arithmetic compact support, compares Selmer groups with first-order deformation tangents, and retains the trace boundaries and derived `Tor` terms under determinant constraints and coefficient change. Ordinary cochains compute deformation tangents; the modified arithmetic diagram supplies compact support and duality.
+This layer specializes the mapping fibres and `H⁰` correction of §§2.21–2.22 to arithmetic compact support, compares Selmer groups with first-order deformation tangents, and retains the trace boundaries and derived `Tor` terms under determinant constraints and coefficient change. Ordinary cochains compute deformation tangents; the modified arithmetic diagram supplies compact support and duality. Sections 2A.6–2A.8 supply local conditions with flat quotient and their base change, the module co-representing Selmer groups with finite-length and discrete torsion coefficients, and the derived base change of the simple conditions of §2.22a.
 
 ### 2A.1 Selmer complex `H¹` with its `H⁰` correction
 
@@ -1210,13 +1306,408 @@ groups*](https://msp.org/ant/2013/7-7/ant-v7-n7-p02-p.pdf), §1, Theorem 1.1, Le
   `0 → H¹(C_f)/p → H¹(C′_f) → H²(C_f)[p] → 0`; so `H¹(C′_f) ≠ H¹(C_f)/p` as soon as `H²(C_f)` has
   `p`-torsion, and a quotient `R′` does not give ordinary tensor compatibility in general.
 
+### 2A.6 Local conditions with flat quotient and their base change
+
+**Local conditions with flat quotient and their base change.** Let `R` be a complete Noetherian
+local ring with finite residue field of characteristic `p`, `𝕋` a finite free `R`-module with
+continuous `R`-linear action of `G_{F,S}`, `v ∈ S`, and `C_v(𝕋)` the local complex of the diagram
+specified as in §2.21. At a real place of the modified diagram the complete Tate cochains are
+`Hom_{ℤ[G_v]}(P, 𝕋)` for the periodic complete resolution `P` of `ℤ` by free `ℤ[G_v]`-modules of
+rank one, as in §2.21, so each term is a copy of `𝕋`. The terms of `C_v(𝕋)` are flat over `R`, and
+`C_v(𝕋) ⊗_R B = C_v(𝕋 ⊗_R B)` for every finitely generated `R`-module `B`: for continuous
+cochains, global ones included, this is ArithmeticGaloisDuality §D7.3 (*Cochain tensor comparison
+for profinite groups*), and for the complete Tate cochains it holds termwise. A local condition
+*with flat quotient* is a subcomplex `U ⊆ C_v(𝕋)` such that every term of `C_v(𝕋)/U` is flat over
+`R`.
+
+1. *Termwise base change, for every `R`.* The terms of `U` are flat. For every finitely generated
+   `B` the map `U ⊗_R B → C_v(𝕋 ⊗_R B)` is injective, so `U ⊗_R B` is a local condition on
+   `𝕋 ⊗_R B`, and `B ↦ U ⊗_R B` is exact. For a local `R`-algebra `R′` that is finitely generated as
+   an `R`-module, for instance `R/I`, `U ⊗_R R′ ⊆ C_v(𝕋 ⊗_R R′)` is a local condition with flat
+   quotient over `R′`, the base-changed condition, and this is transitive in `R → R′ → R″`. For `R′`
+   not finite over `R`, `C_v(𝕋) ⊗_R R′` need not be the cochain complex of `𝕋 ⊗_R R′` (at a finite
+   place, for `R = ℤ_p`, trivial `𝕋 = ℤ_p` and `R′ = ℤ_p⟦T⟧`, the comparison is not surjective in
+   degree one: ArithmeticGaloisDuality §D7.3 (*Cochain tensor comparison for profinite groups*),
+   Checks), and no base-changed condition is defined for such `R′`.
+2. *Termwise and derived.* The general statement, for any complex of flat modules: let `A` be a
+   commutative ring, `X` a complex of flat `A`-modules and `B` an `A`-module. The map
+   `B ⊗^L_A X → B ⊗_A X` is a quasi-isomorphism if (α) `B` has a finite resolution by flat modules,
+   for instance `B = A/f` with `f` a nonzerodivisor, or any finitely generated `B` when `A` is a
+   regular local ring; or (β) there is an integer `e` with `H^n(X ⊗_A B′) = 0` for every `n > e` and
+   every finitely generated `B′`. It is not one in general, even for `X` bounded below (Check).
+
+   Its instance for the complexes of this section, with `A = R`: by ArithmeticGaloisDuality §D7.3
+   (*Cohomological finiteness and perfect amplitude*), (β) holds with `e = 2` for `C_v(𝕋)` at a
+   finite place and for `C(G_{F,S}, 𝕋)` under `(P)`; it holds for `C_v(𝕋)` at an archimedean place
+   under `(P)`; at each place where it holds for `C_v(𝕋)` it holds for `U` whenever `C_v(𝕋)/U`
+   vanishes in all large degrees; and it holds for the instance (c) below at a finite place, and at
+   an archimedean place under `(P)`. Under (α) for `R′`, or (β) for `U`, the canonical morphism
+   `R′ ⊗^L_R U → U ⊗_R R′` is a quasi-isomorphism: this is the local-condition hypothesis of §2A.5,
+   with `U′ = U ⊗_R R′`. Under `(P)` and for `R′` finite over `R`, (β) also gives the global and
+   local base-change hypotheses of §2A.5.
+3. *Instances.* (a) The relaxed condition `U = C_v(𝕋)` and the strict condition `U = 0`.
+   (b) Conditions cut out in degree one: `U^i = C^i_v(𝕋)` for `i ≠ 1`, and `B¹ ⊆ U¹ ⊆ C¹_v(𝕋)`
+   with `C¹_v(𝕋)/U¹` flat. Then `H^j(U) = H^j(C_v(𝕋))` for `j ≤ 0` and `H¹(U) → H¹(C_v(𝕋))` is
+   injective with image `L = (U¹ ∩ Z¹)/B¹`, so by §2.22, when every condition of the structure is
+   of this kind or simple (§2.22a), the `H¹` of the Selmer complex is `Sel_L`, with `L_v` the image
+   of `H¹(U_v)`; for a condition of this kind `L_v` consists of the classes of the cocycles in
+   `U¹_v`. The simple condition `U(L)` of §2.22a is a subcomplex of `U` with the same `H⁰` and
+   `H¹`, and `U/U(L) ≃ τ_{≥2}U`, where `H²(U) = Z²/d(U¹)` is an extension of `H²(C_v(𝕋))` by
+   `C¹_v(𝕋)/(U¹ + Z¹)` and `H^j(U) = H^j(C_v(𝕋))` for `j ≥ 3`. By §2.23 the Selmer complexes of
+   `U(L)` and of `U` have the same `H^j` for `j ≤ 1`, and
+   `0 → H²(RΓ_f(U(L))) → H²(RΓ_f(U)) → ⊕_v H²(U_v) → H³(RΓ_f(U(L))) → ⋯` is exact. Two ways to
+   obtain a flat `C¹/U¹`: `U¹` is the kernel of an `R`-linear surjection from `C¹_v(𝕋)` onto a flat
+   module vanishing on `B¹`, for instance `c ↦ (c(g_j) − s_j c(h_j))_j` for finitely many pairwise
+   distinct `g_j ∈ G_v` different from all the `h_k`, with `s_j ∈ R` and `g_j − 1 = s_j(h_j − 1)`
+   on `𝕋`, which is onto `𝕋^m` because evaluation at finitely many points of the profinite `G_v` is
+   a split surjection; or `R` is an `O`-algebra finitely generated as an `O`-module, `𝕋 = T ⊗_O R`
+   with `G_v` acting through an `O`-lattice `T`, and `U¹ = U¹_O ⊗_O R` for the preimage `U¹_O`
+   under `C¹(G_v, T) → C¹(G_v, V)` of the `E`-subspace spanned by a given set of cocycles in
+   `Z¹(G_v, V)` and by `B¹(G_v, V)`; it is saturated by §2.6, so `C¹(G_v, T)/U¹_O` is
+   torsion-free, hence flat over `O`, and `C¹_v(𝕋)/U¹ = (C¹(G_v, T)/U¹_O) ⊗_O R` is flat over `R`
+   by ArithmeticGaloisDuality §D7.3 (*Cochain tensor comparison for profinite groups*) over `O`.
+   (c) At a finite place, or in the ordinary diagram, `U = C(G_v, 𝕋⁺)` for a `G_v`-stable
+   `R`-direct summand `𝕋⁺ ⊆ 𝕋`: the quotient is `C(G_v, 𝕋/𝕋⁺)` and `U ⊗_R B = C(G_v, 𝕋⁺ ⊗_R B)`,
+   so this condition is stable under base change. The image of its `H¹` in `H¹(G_v, 𝕋)` is the
+   image of `H¹(G_v, 𝕋⁺)`, which lies in the condition of §2.8 for `F⁺ = 𝕋⁺` and differs from it
+   in general. (d) The unramified condition, inflation `C(G_v/I_v, 𝕋^{I_v}) → C_v(𝕋)`, has flat
+   quotient exactly when `𝕋^{I_v}` is a direct summand of `𝕋`. It is then still not stable under
+   base change in general: its termwise base change is `C(G_v/I_v, 𝕋^{I_v} ⊗_R B)`, and
+   `𝕋^{I_v} ⊗_R B → (𝕋 ⊗_R B)^{I_v}` need not be surjective (Check). It is stable when `𝕋^{I_v}`
+   is a direct summand of `𝕋` with `(𝕋 ⊗_R B)^{I_v} = 𝕋^{I_v} ⊗_R B` for every finitely generated
+   `B`, for instance when `I_v` acts trivially, or through a finite quotient of order prime to `p`,
+   whose averaging idempotent projects onto the invariants.
+4. The simple condition `U(L)` of §2.22a has flat quotient exactly when `C¹_v(𝕋)/Z¹_L` is flat.
+   This module contains `H¹(C_v(𝕋))/L`, with quotient `C¹_v(𝕋)/Z¹ ≅ B²`, a submodule of the flat
+   module `C²_v(𝕋)`. So a nonzero element of `H¹(C_v(𝕋))/L` killed by a nonzerodivisor `f` of `R`
+   prevents flatness, and then `U(L) ⊗_R R/f → C_v(𝕋 ⊗_R R/f)` is not injective (Check). Over a
+   discrete valuation ring `U(L)` has flat quotient exactly when `H¹(C_v(𝕋))/L` is torsion-free.
+   The base change of `U(L)` for arbitrary `L` is §2A.8.
+
+*Proof sketch.* Tensor `0 → U^n → C^n → (C/U)^n → 0` with `B`: `Tor₁((C/U)^n, B) = 0` gives
+injectivity and exactness, and the long `Tor` sequence makes `U^n` flat; base change of a flat
+quotient is flat. For (α), a finite flat resolution `F → B` is K-flat (DerivedModuleAlgebra §0.2),
+and the total complex of the bounded exact complex `Cone(F → B) ⊗ X` is acyclic, its columns
+`Cone(F → B) ⊗ X^n` being exact. For (β), write `Z^m` for the cycles of `X`; for `n > e` one has
+`H^n(X ⊗ B′) ≅ Tor₁(Z^{n+2}, B′)`, so `Z^m` is flat for `m ≥ e + 3`, and then for `m ≥ e` by
+`0 → Z^m → X^m → Z^{m+1} → 0`. Hence the truncation `τ_{≤e}X` is a bounded-above complex of flat
+modules, which is K-flat (DerivedModuleAlgebra §0.2), and `X/τ_{≤e}X` is acyclic with flat terms
+and flat cycles, so `0 → τ_{≤e}X → X → X/τ_{≤e}X → 0` stays exact, and its quotient acyclic, after
+`⊗ B`. The cohomology of (b) is read off its terms, and the comparison with `U(L)` is the triangle
+of §2.23 for `U(L) ⊆ U`. In (d), the quotient in degree zero is `𝕋/𝕋^{I_v}`, flat exactly when it
+is free; if `𝕋^{I_v}` is a direct summand, it is free, ArithmeticGaloisDuality §D7.3 identifies
+`U ⊗ B → C_v(𝕋) ⊗ B` with the injective map `C(G_v/I_v, 𝕋^{I_v} ⊗_R B) → C(G_v, 𝕋 ⊗_R B)`, and
+so the quotient has no `Tor₁` with finitely generated modules and is flat. (Kings–Loeffler–Zerbes
+(arXiv v6), Remark 11.2.5, p. 55 (arXiv v6), for the failure in (d).) *Needs:* §2.21 (Selmer
+complex as a mapping fibre); §2.22 (The `H⁰` correction before the classical Selmer kernel); §2.22a
+(Simple local conditions and classical Selmer structures); §2.23 (Primitive, imprimitive and
+strict condition-change triangles); §2.6 (From `V` to `T` and `W`; saturation); §2.7 (The
+unramified condition); §2.8 (Greenberg's local condition); §2A.5 (Derived coefficient change for
+Selmer comparisons); ArithmeticGaloisDuality §D7.3 (*Cochain tensor comparison for profinite
+groups*; *Cohomological finiteness and perfect amplitude*); DerivedModuleAlgebra §0.2 (Derived
+tensor products on module derived categories).
+
+**Checks.**
+
+- Over `R = k[x]/(x²)`, the complex `X = (R →x R →x R → ⋯)` in degrees `≥ 0` is quasi-isomorphic
+  to `k[0]`; its termwise reduction `X ⊗_R k` has `H^n = k` for every `n ≥ 0`, while
+  `k ⊗^L_R X ≃ k ⊗^L_R k` has `H^{−n} = Tor_n^R(k, k) = k` for every `n ≥ 0`. Here (α) and (β) both
+  fail, and this bounded-below complex of flat modules is not K-flat.
+- For `ℓ ≠ p`, let `G_{ℚ_ℓ}` act on `𝕋 = ℤ_p²` through its tame quotient, a Frobenius lift by
+  `diag(ℓ, 1)` and a topological generator of the `ℤ_p(1)`-quotient of inertia by `[[1, p], [0, 1]]`.
+  Then `𝕋^{I} = ℤ_p e₁` but `(𝕋/p)^{I} = 𝔽_p²`. The reduction of the unramified condition has
+  `H⁰ = (𝔽_p e₁)^{Frob}`, which misses `e₂ ∈ H⁰(ℚ_ℓ, 𝕋/p)`; it is neither the unramified condition of
+  `𝕋/p` nor simple.
+- (c) with `𝕋⁺ = 0` is the strict condition, with `H¹`-image `0`, whereas §2.8 with `F⁺ = 0`
+  gives the unramified condition.
+- `R = ℤ_p`, `𝕋 = ℤ_p` with trivial action at a finite place, `z` the unramified homomorphism with
+  `z(Frob) = 1` and `L = pℤ_p[z]`: `pz ∈ Z¹_L` is nonzero in `Z¹_L/p` but zero in `C¹/p`, so
+  `U(L) ⊗ 𝔽_p → C_v(𝔽_p)` is not injective.
+
+### 2A.7 The module co-representing Selmer groups in the lowest degree
+
+**The module co-representing Selmer groups in the lowest degree.** Statements (a)–(e) concern an
+arbitrary complex of flat modules; items 1–4 and 8 are their instances for Selmer complexes, and
+items 5–7 are further statements on those. Let `R` be a complete Noetherian local ring with maximal
+ideal `𝔪` and finite residue field `k` of characteristic `p`, Artinian rings included, and `C` a
+complex of flat `R`-modules with `H⁰(C ⊗_R k) = 0` and `H¹(C ⊗_R k)` finite. Put
+`F(B) = H¹(C ⊗_R B)` for an `R`-module `B`. The ring `R` is a `ℤ_p`-algebra, as `p ∈ 𝔪` and `R` is
+complete (in equal characteristic through `𝔽_p`), and a finite `R`-module, killed by a power of `𝔪`,
+has `p`-power order. For an `R`-module `N` let `D(N) = Hom_{ℤ_p}(N, ℚ_p/ℤ_p)`, with the module
+structure `(rλ)(n) = λ(rn)` and no involution; for finite `N` it is the Pontryagin dual
+`Hom(N, ℚ/ℤ)` of the underlying finite group. By adjunction `D(N) = Hom_R(N, D(R))`, and for
+Artinian `R` the module `D(R)` is an injective hull of `k`, so that `D` is the Matlis duality of
+DerivedModuleAlgebra §1.M.1 over `R`. For finite `N` the group `D(N)` is the dual of §2.10, but over
+a group ring `R` of an abelian group the module structure of §2.10 is that of `D` twisted by the
+involution `ι : γ ↦ γ^{−1}`, and with it the formula for `Q` in (c) gives `Q^ι` in place of `Q`
+(Check).
+
+- (a) For finite-length `B`, `H⁰(C ⊗_R B) = 0`, and `F` is an `R`-linear left exact functor on
+  finite-length modules.
+- (b) `length_R F(B) ≤ length_R(B) · dim_k F(k)` for finite-length `B`.
+- (c) There are a finitely generated `R`-module `Q` and an isomorphism `F(B) ≅ Hom_R(Q, B)`
+  natural in finite-length `B`, and the pair of `Q` and this natural isomorphism is unique up to
+  unique isomorphism. Then `Hom_R(Q, k) = F(k)`, so `Q` needs exactly `dim_k F(k)` generators. For
+  Artinian `R`, which is then finite, `Q ≅ D(F(D(R)))`. In general `Q = lim_n Q_n`, with `Q_n` the
+  module for `C ⊗_R R/𝔪^n` over `R/𝔪^n`, `Q_{n+1}/𝔪^n Q_{n+1} = Q_n` and `Q/𝔪^n Q = Q_n`.
+- (d) For a local homomorphism `R → R′` of complete Noetherian local rings with finite residue
+  fields of characteristic `p`, `C ⊗_R R′` is a complex of flat `R′`-modules satisfying the two
+  conditions above over `R′`, and its module is `R′ ⊗_R Q`.
+- (e) For an `R`-module `B` that is a filtered colimit of finite-length modules, `H⁰(C ⊗_R B) = 0`
+  and `F(B) ≅ Hom_R(Q, B)`, naturally in `B`, extending the isomorphism of (c).
+
+Let `𝕋` be a finite free `R`-module with continuous action of `G_{F,S}`, and `U_v ⊆ C_v(𝕋)`
+local conditions with flat quotient (§2A.6) at the places of `S`, in a specified diagram; over a
+discrete valuation ring these include the simple conditions `U(L_v)` of §2.22a with
+`H¹(C_v(𝕋))/L_v` torsion-free (§2A.6, item 4). Let `C_f` be the Selmer complex of §2.21 for these
+data. Its terms are flat, and for finitely generated `B` the complex `C_f(B) = C_f ⊗_R B` is the
+Selmer complex of `𝕋 ⊗_R B` with the conditions `U_v ⊗_R B`; so `B ↦ C_f(B)` is exact termwise.
+Put `Sel(B) = H¹(C_f(B))`, and assume `H⁰(C_f(k)) = 0`. When every `U_v` contains every cochain of
+degree `≤ 0` (in the ordinary diagram, every `0`-cochain), `H⁰(C_f(B)) = H⁰(G_{F,S}, 𝕋 ⊗_R B)`,
+and the assumption reads `H⁰(G_{F,S}, 𝕋 ⊗_R k) = 0`; this holds if some element of `G_{F,S}` acts
+on `𝕋 ⊗_R k` as a scalar different from `1`. Then `Sel(k)` is finite (item 2), so `C = C_f`
+satisfies the hypotheses of (a)–(e), with `F = Sel`, and, for finite-length `R`-modules `B`:
+
+1. `H⁰(C_f(B)) = 0`, and `Sel` is an `R`-linear left exact functor, by (a).
+2. `Sel(k)` is finite, and `length_R Sel(B) ≤ length_R(B) · dim_k Sel(k)`, by (b).
+3. There is a finitely generated `R`-module `Q` with `Sel(B) ≅ Hom_R(Q, B)` naturally in `B`; the
+   pair `(Q, Sel ≅ Hom_R(Q, −))` is unique up to unique isomorphism, and by (c) `Q` needs exactly
+   `dim_k Sel(k)` generators, `Q = D(Sel(D(R)))` for Artinian `R`, with the dual `D` defined
+   above, and `Q = lim_n Q_n` in general.
+4. For a local homomorphism `R → R′` with `R′` finitely generated as an `R`-module, the module for
+   `(𝕋 ⊗_R R′, U_v ⊗_R R′)` (§2A.6) is `R′ ⊗_R Q`, by (d).
+5. For a ring homomorphism `x : R → O′/a`, `O′` a discrete valuation ring with finite residue field
+   and uniformizer `π`, and `a` a nonzero ideal of `O′`,
+   `length_{O′} Sel(O′/a) = length_{O′}((O′/a) ⊗_R Q)`; call this length `ℓ`. The ideal of `O′/a`
+   generated by `x(Fitt⁰_R(Q))` is `π^{min(ℓ, v(a))}O′/a`: whether `R` is Artinian or not, this
+   image of the initial Fitting ideal over `R` determines `min(ℓ, v(a))` and nothing more. The
+   length itself is given by Fitting ideals over a ring with a point to `O′` (an Artinian `R` has no
+   ring homomorphism to `O′` when `O′` has characteristic zero): if `x` is induced by a surjection
+   of commutative rings `R̃ → R` with kernel `I` and a ring homomorphism `x̃ : R̃ → O′` with
+   `x̃(I) ⊆ a`, then `ℓ = min_{j≥0}(j·v(a) + v(x̃(Fitt^j_{R̃}(Q))))`, with `Q` regarded as an
+   `R̃`-module. Here `v` is the valuation of ideals of `O′` of PadicMeasuresIwasawaAlgebras §6.5a,
+   whose statements *Points with values in O′/a* and *Homomorphisms into O′/a at a point* give
+   these two facts.
+6. `Sel(B)` is not `H¹(C_f) ⊗_R B` in general: for a nonzerodivisor `f ∈ R`, `Sel(R/f)` is an
+   extension of `H²(C_f)[f]` by `H¹(C_f)/f`, so `H²(C_f)` measures the difference, while `Q`
+   commutes with base change exactly (Check).
+7. Assume moreover `(P)`, `H^i(C_f(k)) = 0` for every `i < 0` (automatic in the ordinary diagram),
+   and that every `U_v` satisfies (β) of §2A.6 and is perfect, so that `C_f` is perfect as in §2A.5
+   (the global complex and the local complexes at the finite places are perfect under `(P)` by
+   ArithmeticGaloisDuality §D7.3 (*Cohomological finiteness and perfect amplitude*); at an
+   archimedean place `(P)` makes the modified complex acyclic and the ordinary one quasi-isomorphic
+   to `𝕋^{G_v}[0]`, a direct summand of `𝕋` because `2` is invertible in `R` when `G_v` is not
+   trivial; `U_v` is perfect for instance when `C_v(𝕋)/U_v` is one finite free module in degree one,
+   or `U_v = C(G_v, 𝕋⁺)` as in §2A.6 (c)).
+   Then `C_f(B) ≃ C_f ⊗^L_R B` for every `R`-module `B`, `C_f` is quasi-isomorphic to a complex of
+   finite free modules in degrees `[1, b]` for some `b`, and `Q ≅ H^{−1}(RHom_R(C_f, R))`.
+8. Let `B` be an `R`-module that is a filtered colimit of finite-length modules, for instance
+   `Frac(O′)/O′` through a ring homomorphism `x : R → O′` to a discrete valuation ring with finite
+   residue field. Then `C_f ⊗_R B` is the Selmer complex of `𝕋 ⊗_R B` with the conditions
+   `U_v ⊗_R B`, formed with the cochains of ArithmeticGaloisDuality §D7.3 (*Continuous cochains in
+   the derived category*) of the ind-admissible module `𝕋 ⊗_R B`; `H⁰(C_f ⊗_R B) = 0`, and
+   `Sel(B) = H¹(C_f ⊗_R B) ≅ Hom_R(Q, B)` naturally in `B`, by (e). So items 1 and 3 hold for these
+   `B`, and item 4 for the `R′`-modules that are filtered colimits of finite-length `R′`-modules;
+   the other items are not extended to them. For `B = Frac(O′)/O′`,
+   `length_{O′} Sel(Frac(O′)/O′) = length_{O′}(O′ ⊗_x Q) = v(x(Fitt⁰_R(Q)))`, both sides being
+   infinite exactly when `O′ ⊗_x Q` is not torsion (PadicMeasuresIwasawaAlgebras §6.5a, *Structure
+   and lengths at a point* and *Homomorphisms into O′/a at a point*).
+
+Items 5 and 6, like (a)–(e), use only that `C_f` is a complex of flat modules with
+`H⁰(C_f ⊗ k) = 0` and `H¹(C_f ⊗ k)` finite. When every `U_v` is cut out in degree one (§2A.6 (b)),
+`Sel(B)` is the classical Selmer group of `𝕋 ⊗_R B` for the conditions
+`L_v(B) = (U¹_v ⊗_R B ∩ Z¹)/B¹`, with `Z¹` and `B¹` those of `C_v(𝕋 ⊗_R B)` (§2.22).
+
+*Proof sketch.* No source is cited for this section; each statement is proved here. (a): flatness
+makes `0 → C ⊗ B′ → C ⊗ B → C ⊗ B″ → 0` exact for every short exact sequence of modules; induction
+on length through `0 → k → B → B/k → 0` and the long exact sequence give `H⁰(C ⊗ B) = 0` and left
+exactness. (b): the same induction, as `F(B) → F(B/k)` has kernel `F(k)`. (c): for Artinian `R`
+the finite-length modules are the finite ones, on which `D` is exact, `R`-linear and satisfies
+biduality (§2.10); so `G(N) = D(F(D(N)))` is right exact and `R`-linear on finite modules, and a
+finite presentation gives `G(N) = G(R) ⊗_R N`. With the adjunction `D(M ⊗_R N) = Hom_R(M, D(N))`,
+`F(B) = D(G(D(B))) = D(G(R) ⊗_R D(B)) = Hom_R(G(R), D(D(B))) = Hom_R(G(R), B)`: `Q = G(R)`. For
+`B` killed by `𝔪^n`, `Hom_{R/𝔪^{n+1}}(Q_{n+1}, B) = Hom(Q_{n+1}/𝔪^n, B)`, whence
+`Q_{n+1}/𝔪^n = Q_n`; lifting generators of `Q_1` and using that all `Q_n` are finite, the limit is
+finitely generated with `Q/𝔪^n Q = Q_n`. Uniqueness of the pair: over each `R/𝔪^n` the Yoneda
+lemma gives a unique isomorphism between the modules `Q/𝔪^n Q` of two such pairs compatible with
+the natural isomorphisms, these isomorphisms are compatible in `n`, and `Q = lim_n Q/𝔪^n Q`. The
+number of generators is Nakayama's lemma for `Hom_R(Q, k) = F(k)`. (d): `C ⊗_R k′` is
+`(C ⊗_R k) ⊗_k k′`, which gives the two conditions; a finite-length `R′`-module `B′` is finite,
+hence of finite length over `R`, and `(C ⊗_R R′) ⊗_{R′} B′ = C ⊗_R B′`, so
+`H¹((C ⊗_R R′) ⊗_{R′} B′) = Hom_R(Q, B′) = Hom_{R′}(R′ ⊗_R Q, B′)`; conclude by uniqueness. (e):
+every element of `B` is killed by a power of `𝔪`, so `B` is the filtered union of its finitely
+generated submodules `B_i`, which have finite length. Tensor products commute with filtered
+colimits, and so does cohomology, filtered colimits being exact; so
+`H^j(C ⊗ B) = colim_i H^j(C ⊗ B_i)`, which is `0` for `j = 0` and `colim_i Hom_R(Q, B_i)` for
+`j = 1`, and the last is `Hom_R(Q, B)` because `Q` is finitely presented, `R` being Noetherian.
+
+Items 1–4 are (a)–(d) for `C = C_f`. 1: if `U_v` contains all cochains of degree `≤ 0`, then
+`H^j(U_v ⊗ B)` maps bijectively to `H^j(C_v(𝕋 ⊗ B))` for `j ≤ 0`, and the fibre sequence gives
+`H⁰(C_f(B))`. 2: in the fibre sequence `Sel(k)` maps to `H¹(G_{F,S}, 𝕋 ⊗ k)`, which is finite by
+ArithmeticGaloisDuality §R02.3.1 (*Finiteness of `H¹(G_{K,S}, M)`*); the kernel is built from
+`⊕_v H⁰(C_v(𝕋 ⊗ k))` and the kernels of `H¹(U_v ⊗ k) → H¹(C_v(𝕋 ⊗ k))`, which are quotients of
+`H⁰((C_v/U_v) ⊗ k)`, all finite because the terms of degree zero are finite. 4: `C_f ⊗_R R′` is the
+Selmer complex of the base-changed data by §2A.6, item 1. 5:
+`Sel(O′/a) = Hom_R(Q, O′/a) = Hom_{O′}((O′/a) ⊗_R Q, O′/a)`, and a finitely generated `O′`-module
+`N` killed by `a` has `length Hom_{O′}(N, O′/a) = length N` (PadicMeasuresIwasawaAlgebras §6.5a,
+*Quotients by a and homomorphisms into O′/a*, (i) and (iii)). The Fitting statements are §6.5a,
+*Points with values in O′/a*, for `(R, x, Q)` and, for the lift, for `R = R̃/I` with the finitely
+generated `R̃`-module `Q = Q/IQ`, whose length is given by (ii) of *Homomorphisms into O′/a at a
+point*. An Artinian `R` has characteristic `p^n` for some `n`, so it has no ring homomorphism to a
+domain of characteristic zero. 6: the long exact sequence of `0 → C_f →f C_f → C_f(R/f) → 0`. 7: (β)
+for the `U_v`, with the vanishing above degree two of the cohomology of `C_v(𝕋 ⊗ B′)` and, under
+`(P)`, of `G_{F,S}` with coefficients `𝕋 ⊗ B′` (ArithmeticGaloisDuality §D7.3 (*Cohomological
+finiteness and perfect amplitude*); at archimedean places `(P)` makes the cohomology vanish in
+positive degrees), bounds the degrees of `H^n(C_f ⊗ B′)` uniformly, so (β) of §2A.6 holds for `C_f`;
+then `H^i(k ⊗^L C_f) = 0` for `i ≤ 0`, and ArithmeticGaloisDuality §D7.1 (*Residual criterion for
+perfect amplitude*) gives a finite free model `P` in degrees `[1, b]`, for which
+`H¹(P ⊗ B) = Hom_R(coker((P²)^* → (P¹)^*), B)` and `H^{−1}(Hom_R(P, R)) = coker((P²)^* → (P¹)^*)`,
+with `(−)^* = Hom_R(−, R)`. 8: the ind-admissible complex of `𝕋 ⊗_R B` is by definition the colimit
+of the complexes of its finitely generated stable submodules, among which the `𝕋 ⊗_R B_i` are
+cofinal, `𝕋 ⊗ B_i → 𝕋 ⊗ B` being injective as `𝕋` is free;
+`C_cts(G, 𝕋) ⊗_R B_i = C_cts(G, 𝕋 ⊗_R B_i)` for `G = G_{F,S}` and for the `G_v` by
+ArithmeticGaloisDuality §D7.3 (*Cochain tensor comparison for profinite groups*); the complete Tate
+cochains are copies of `𝕋` in each degree; and `U_v ⊗ B → C_v(𝕋) ⊗ B` is injective because
+`C_v(𝕋)/U_v` is flat. Item 4 for such `R′`-modules is (e) over `R′` with (d). For `B = Frac(O′)/O′`,
+the union of the finite modules `π^{−n}O′/O′`,
+`Hom_R(Q, Frac(O′)/O′) = Hom_{O′}(O′ ⊗_x Q, Frac(O′)/O′)` has the length of `O′ ⊗_x Q`, which is
+`v(x(Fitt⁰_R(Q)))` (PadicMeasuresIwasawaAlgebras §6.5a, *Homomorphisms into O′/a at a point* and
+*Structure and lengths at a point*). *Needs:* §2A.6 (Local conditions with flat quotient and their
+base change); §2A.5 (Derived coefficient change for Selmer comparisons); §2.21 (Selmer complex as a
+mapping fibre); §2.22 (The `H⁰` correction before the classical Selmer kernel); §2.22a (Simple local
+conditions and classical Selmer structures); §2.10 (Pontryagin duals with the contragredient
+action); ArithmeticGaloisDuality §R02.3.1 (*Finiteness of `H¹(G_{K,S}, M)`*);
+ArithmeticGaloisDuality §D7.1 (*Residual criterion for perfect amplitude*); ArithmeticGaloisDuality
+§D7.3 (*Cochain tensor comparison for profinite groups*; *Cohomological finiteness and perfect
+amplitude*; *Continuous cochains in the derived category*); DerivedModuleAlgebra §1.M.1 (*Matlis
+duality for arithmetic coefficients*); PadicMeasuresIwasawaAlgebras §6.5a (*Quotients by a and
+homomorphisms into O′/a*; *Structure and lengths at a point*; *Homomorphisms into O′/a at a point*;
+*Points with values in O′/a*).
+
+**Checks.**
+
+- Over the `O` of the Conventions, with uniformizer `λ`, the complex `C = [O →λ O]` in degrees one
+  and two has `H⁰(C ⊗ k) = 0`, `H¹(C ⊗ B) = B[λ] = Hom_O(O/λ, B)` and `Q = O/λ`, while
+  `H¹(C) ⊗ B = 0`: the kernel of a fixed equation does not commute with `⊗`, its co-representing
+  module does. For the integers `O′` of a finite extension with uniformizer `π′` and ramification
+  index `e`, `Q′ = O′/λO′ = O′ ⊗_O Q`, and at `x : O → O′/π′^n` both sides of item 5 have length
+  `min(n, e)`. At the inclusion `x : O → O′`, `F(Frac(O′)/O′) = (Frac(O′)/O′)[λ] = π′^{−e}O′/O′`
+  has length `e = length(O′ ⊗_O Q) = v(x(Fitt⁰_O(Q)))`, the formula of item 8 for this complex.
+- The same complex in degrees zero and one has `H⁰(C ⊗ k) = k`, and `B ↦ H¹(C ⊗ B) = B/λB` is not
+  left exact, as `O/λ → O/λ²`, `1 ↦ λ`, becomes zero; so it has no co-representing module.
+- For `p` odd and `R = (ℤ/p²)[⟨γ⟩]`, `γ` of order `p`, the complex `C = [R → R]` in degrees one and
+  two, the map being multiplication by `γ − 1 − p`, has `F(B) = B[γ − 1 − p] = Hom_R(Q, B)` with
+  `Q = R/(γ − 1 − p)`. Its twist by the involution is `Q^ι = R/(γ^{−1} − 1 − p) = R/(γ − 1 + p)`, as
+  `(1 + p)^{−1} = 1 − p` in `ℤ/p²`. The map `x : R → ℤ/p²`, `γ ↦ 1 + p`, is a ring homomorphism, as
+  `(1 + p)^p = 1` in `ℤ/p²`; at it `F(ℤ/p²) = ℤ/p²` and `(ℤ/p²) ⊗_R Q = ℤ/p²` have length `2`, while
+  `(ℤ/p²) ⊗_R Q^ι = ℤ/(2p, p²) = ℤ/p` has length `1`. So `Q^ι` is not `Q`, and the dual in (c) is
+  `D`, not the dual of §2.10 with its involution.
+
+### 2A.8 Base change of simple conditions and of classical Selmer groups
+
+**Base change of simple conditions and of classical Selmer groups.** Let `R` be a complete
+Noetherian local ring with finite residue field of characteristic `p`, `M` a finite free `R`-module
+with continuous action of `G_{F,S}`, `L_v ⊆ H¹(C_v(M))` submodules for `v ∈ S`, and
+`C_f = RΓ_f(M; L)` the Selmer complex of the simple structure `(U(L_v))` of §2.22a in a specified
+diagram.
+
+*The principal case.* Let `f ∈ R` be a nonzerodivisor, `M̄ = M/fM`, and `L̄_v ⊆ H¹(C_v(M̄))` the
+image of `L_v` (forward propagation, §2.5). Every term of `U(L_v)` and of `C_f` is a submodule of a
+flat module, so `f` acts on it injectively, and `R/f ⊗^L_R −`, the cone of multiplication by `f`, is
+reduction modulo `f`; reduction maps `U(L_v)/f` to `U(L̄_v)` over `C_v(M̄) = C_v(M)/f`. No
+perfectness is needed. Then:
+
+1. The cone `Q_v` of `R/f ⊗^L_R U(L_v) → U(L̄_v)` is `(H¹(C_v(M))/L_v)[f]` placed in degree zero.
+   Hence the reduced condition is simple exactly when `H¹(C_v(M))/L_v` has no `f`-torsion, and it
+   is then `U(L̄_v)`.
+2. The sequences
+   `0 → Sel_L(M)/f → H¹(R/f ⊗^L_R C_f) → H²(C_f)[f] → 0` and
+   `H⁰(G_{F,S}, M̄) → ⊕_v (H¹(C_v(M))/L_v)[f] → H¹(R/f ⊗^L_R C_f) → Sel_{L̄}(M̄) → 0`
+   are exact, and `H^j(R/f ⊗^L_R C_f) ≅ H^j(RΓ_f(M̄; L̄))` for `j ≥ 2`. So the kernel of
+   `Sel_L(M)/f → Sel_{L̄}(M̄)` is a subquotient of `⊕_v (H¹(C_v(M))/L_v)[f]` and its cokernel a
+   quotient of `H²(C_f)[f]`.
+3. If no `H¹(C_v(M))/L_v` has `f`-torsion: `0 → Sel_L(M)/f → Sel_{L̄}(M̄) → H²(C_f)[f] → 0`, with
+   `H²(C_f)` described by §2.23a.
+
+*The general statement.* Let `R → R′` be a local homomorphism of complete Noetherian local rings
+with finite residue fields of characteristic `p`, `M′ = M ⊗_R R′`, and assume, as in §2A.5, that
+the base-change maps `R′ ⊗^L_R C(G_{F,S}, M) → C(G_{F,S}, M′)` and `R′ ⊗^L_R C_v(M) → C_v(M′)` are
+quasi-isomorphisms; by §2A.6 this holds when `R′` is finitely generated as an `R`-module and `(P)`
+holds; at the finite places `(P)` is not needed. Nothing is assumed on the local conditions. Let
+`L′_v ⊆ H¹(C_v(M′))` be the `R′`-submodule generated by the image of `L_v`. The coefficient map
+carries `U(L_v)` into `U(L′_v)` over `C_v(M) → C_v(M′)`; its adjoint for derived extension and
+restriction of scalars (DerivedModuleAlgebra §0.2) is a morphism `R′ ⊗^L_R U(L_v) → U(L′_v)` in
+`D(R′)`, determined by it, over the base-change map of `C_v`, and for a K-flat model
+`F_v → U(L_v)` it is the morphism of complexes `R′ ⊗_R F_v → U(L′_v)`. Its cone `Q_v` has
+cohomology only in degrees `≤ 0`; `H⁰(Q_v)` is an extension of `ker(R′ ⊗_R L_v → H¹(C_v(M′)))` by
+`coker(H⁰(R′ ⊗^L_R U(L_v)) → H⁰(C_v(M′)))`; and `Q_v` is acyclic exactly when `R′ ⊗^L_R U(L_v)` is
+simple. There is a triangle
+
+```text
+R′ ⊗^L_R RΓ_f(M; L) → RΓ_f(M′; L′) → ⊕_{v∈S} Q_v → R′ ⊗^L_R RΓ_f(M; L)[1],
+```
+
+so `H¹(R′ ⊗^L_R C_f) → Sel_{L′}(M′)` is onto with kernel the image of `⊕_v H⁰(Q_v)`, and
+`H^j(R′ ⊗^L_R C_f) ≅ H^j(RΓ_f(M′; L′))` for `j ≥ 2`. The natural map
+`R′ ⊗_R Sel_L(M) → Sel_{L′}(M′)` is the composite of the edge map `R′ ⊗_R H¹(C_f) → H¹(R′ ⊗^L_R C_f)`
+with this surjection. Its failure to be bijective has two sources: the edge map, a global term, and
+the complexes `Q_v`, local terms. Under `(P)`, `H^b(C_f) = 0` for `b ≥ 4`; if moreover `C_f` is
+perfect (for instance when `R` is regular), the `Tor` spectral sequence of ArithmeticGaloisDuality
+§D7.1, as in §2A.5, shows that the edge map is bijective once `Tor_a^R(R′, H^b(C_f)) = 0` for
+`(a, b) = (1, 2), (2, 2), (2, 3), (3, 3)`. For a specialization `Λ → R′` of the kind in §3.9, `Q_v`
+is the local correction complex there for the pair `U(L_v)`, `U(L′_v)` with the comparison map
+above.
+
+*Proof sketch.* Principal case. In degrees `≤ 0`, `U(L_v)/f` and `U(L̄_v)` coincide; their `H⁰` are
+extensions of `L_v[f]` and of `H¹(C_v(M))[f]` by `H⁰(C_v(M))/f`, and on `H¹` the map is
+`L_v/fL_v → L̄_v`, onto with kernel `(L_v ∩ fH¹)/fL_v`. So the cone has only `H⁰`, an extension of
+`(L_v ∩ fH¹)/fL_v` by `H¹[f]/L_v[f]`; sending a cycle `(a, b)` of the cone, with lifts
+`z ∈ Z¹_{L_v}` of `a` and `b̃` of `b`, to the class of `y` with `z + db̃ = fy` identifies it with
+`(H¹/L_v)[f]`. Item 2 is the long exact sequence of `0 → C_f →f C_f → C_f/f → 0` with §2.22a, and,
+as `C_f/f` is the Selmer complex of `M̄` with the conditions `U(L_v)/f` (ArithmeticGaloisDuality
+§D7.3), that of the triangle of §2.23 for the morphism of conditions `U(L_v)/f → U(L̄_v)` over
+`C_v(M̄)`, with `H⁰` and `H¹` of simple structures from §2.22a; item 3 follows. General statement:
+derived extension of scalars is exact, so it carries the fibre of §2.21 to the fibre of the
+base-changed data, and with the global and local maps quasi-isomorphisms and the identity on
+`R′ ⊗_R F_v` the five lemma identifies `R′ ⊗^L_R C_f` with the Selmer complex of `M′` for the
+conditions `R′ ⊗_R F_v`; the triangle of §2.23 does the rest. As `U(L_v)` has no cohomology above
+degree one, `R′ ⊗^L_R U(L_v)` has none above degree one and `R′ ⊗_R L_v` in degree one, which
+gives the degrees of `Q_v`. The edge map is that of the spectral sequence of §2A.5 in total degrees
+zero and one. (Kings–Loeffler–Zerbes (arXiv v6), the paragraph after the triangles
+(11.2.2a)–(11.2.2b) and Remark 11.2.5, p. 55 (arXiv v6), state only that the Selmer complex
+commutes with derived base change of the conditions and that the base change of the unramified
+condition need not be unramified; the comparisons above are not stated there.)
+*Needs:* §2.22a (Simple local conditions and classical Selmer structures); §2.23a (Selmer complexes
+of simple structures: `H²` and the change of conditions); §2.23 (Primitive, imprimitive and strict
+condition-change triangles); §2.21 (Selmer complex as a mapping fibre); §2.5 (Propagating local
+conditions); §2A.5 (Derived coefficient change for Selmer comparisons); §2A.6 (Local conditions
+with flat quotient and their base change); DerivedModuleAlgebra §0.2 (Derived tensor products on
+module derived categories); ArithmeticGaloisDuality §D7.1 (*Derived tensor, perfect amplitude and
+`Tor`*); ArithmeticGaloisDuality §D7.3 (*Cochain tensor comparison for profinite groups*;
+*Cohomological finiteness and perfect amplitude*).
+
+**Checks.**
+
+- `F = ℚ`, `S = {p, ∞}`, `p` odd, `R = M = ℤ_p` with trivial action, `f = p`, ordinary diagram,
+  `L_∞ = 0`. Here `H¹(G_{ℚ,S}, ℤ_p) = ℤ_p ψ`, with `ψ` the cyclotomic character followed by the
+  projection `ℤ_p^× → 1 + pℤ_p` and an isomorphism `1 + pℤ_p ≅ ℤ_p`;
+  `H¹(ℚ_p, ℤ_p)` is free with basis `ψ|`, `χ`, where `χ` is unramified with `χ(Frob) = 1`; and
+  `H²(G_{ℚ,S}, ℤ_p) = 0`. For `L_p = ℤ_p(ψ| + pχ)`, `H¹(ℚ_p, ℤ_p)/L_p ≅ ℤ_p` is torsion-free,
+  `Sel_L(ℤ_p) = 0`, `H²(C_f) = coker(ℤ_p ψ → H¹(ℚ_p, ℤ_p)/L_p) ≅ ℤ/p`, and `L̄_p = 𝔽_p ψ̄|`, so
+  `Sel_{L̄}(𝔽_p) = 𝔽_p ψ̄`. Item 3 reads `0 → 0 → 𝔽_p → 𝔽_p → 0`: the reduced class `ψ̄` lifts to no
+  class of `Sel_L(ℤ_p)`.
+- Same data with `L_p = pℤ_p χ`: `(H¹(ℚ_p, ℤ_p)/L_p)[p] = 𝔽_p`, so `Q_p ≃ 𝔽_p[0]` and the reduced
+  condition is not simple. `Sel_L(ℤ_p) = 0 = Sel_{L̄}(𝔽_p)`, as `L̄_p = 0`, while `H²(C_f) ≅ ℤ/p` and
+  `H¹(𝔽_p ⊗^L C_f) ≅ 𝔽_p`, which the first sequence of item 2 sees as `H²(C_f)[p]` and the second as
+  the image of the local term.
+
 ### Examples
 
-Over `F = 𝔽_q(t)` with `M = 𝔽_p`, `p ∤ q(q − 1)`, and unramified conditions everywhere, the Greenberg–Wiles difference is `1`, coming from the constant degree-`p` extension; over `ℚ` the same choice gives `0`, because the real place contributes `−1` (§2A.2). At a real place in characteristic two the unipotent `u = [[1,1],[0,1]]` gives `Ĥ⁰(G_v, ad) = 0` but `Ĥ⁰(G_v, ad⁰) ≅ k`, so the trace-zero and full adjoint tangent comparisons have different archimedean terms and `1/2` cannot split off the scalars (§2A.4). Reducing a Selmer complex over `ℤ_p` modulo `p` gives `0 → H¹(C_f)/p → H¹(C′_f) → H²(C_f)[p] → 0`, so `p`-torsion in `H²` enlarges the mod-`p` `H¹` beyond the ordinary tensor (§2A.5).
+Over `F = 𝔽_q(t)` with `M = 𝔽_p`, `p ∤ q(q − 1)`, and unramified conditions everywhere, the Greenberg–Wiles difference is `1`, coming from the constant degree-`p` extension; over `ℚ` the same choice gives `0`, because the real place contributes `−1` (§2A.2). At a real place in characteristic two the unipotent `u = [[1,1],[0,1]]` gives `Ĥ⁰(G_v, ad) = 0` but `Ĥ⁰(G_v, ad⁰) ≅ k`, so the trace-zero and full adjoint tangent comparisons have different archimedean terms and `1/2` cannot split off the scalars (§2A.4). Reducing a Selmer complex over `ℤ_p` modulo `p` gives `0 → H¹(C_f)/p → H¹(C′_f) → H²(C_f)[p] → 0`, so `p`-torsion in `H²` enlarges the mod-`p` `H¹` beyond the ordinary tensor (§2A.5). For `F = ℚ`, `S = {p, ∞}`, `p` odd and trivial `ℤ_p`, a classical condition at `p` with torsion-free quotient can have zero Selmer group over `ℤ_p` while the reduced condition has a mod-`p` Selmer line, the difference being `H²(C_f)[p]` (§2A.8). Over a discrete valuation ring the complex `[O →λ O]` in degrees one and two gives `B ↦ B[λ]`, co-represented by `O/λ` although its integral `H¹` is zero (§2A.7).
 
 ### Dependencies
 
-Layer 2, together with ArithmeticGaloisDuality §R02.3.1 (*Localisation maps and the modified local groups*); ArithmeticGaloisDuality §R02.4.5 (*Function-field arithmetic finiteness and Euler characteristic*; *Prime-to-characteristic function-field Poitou–Tate duality*); ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*); ArithmeticGaloisDuality §D7.1 (*Derived tensor, perfect amplitude and `Tor`*); ArithmeticGaloisDuality §D7.3 (*Nakamura cochain tensor comparisons*; *Cohomological finiteness and perfect amplitude*); ArithmeticGaloisDuality §D7.5 (*Continuous cochains with compact support*; *Duality when `p = 2` and `K` has real places*); ArithmeticGaloisDuality §§D7.7.1, D7.7.3, D7.7.4; ArithmeticGaloisDuality §D8.1 (*Trace-zero adjoint duality without division by `n`*; *First-order Galois cocycle comparison*).
+Layer 2, together with ArithmeticGaloisDuality §R02.3.1 (*Localisation maps and the modified local groups*; *Finiteness of `H¹(G_{K,S}, M)`*); ArithmeticGaloisDuality §R02.4.5 (*Function-field arithmetic finiteness and Euler characteristic*; *Prime-to-characteristic function-field Poitou–Tate duality*); ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*); ArithmeticGaloisDuality §D7.1 (*Derived tensor, perfect amplitude and `Tor`*; *Residual criterion for perfect amplitude*); ArithmeticGaloisDuality §D7.3 (*Nakamura cochain tensor comparisons*; *Cohomological finiteness and perfect amplitude*; *Cochain tensor comparison for profinite groups*; *Continuous cochains in the derived category*); DerivedModuleAlgebra §0.2 (Derived tensor products on module derived categories); DerivedModuleAlgebra §1.M.1 (*Matlis duality for arithmetic coefficients*); ArithmeticGaloisDuality §D7.5 (*Continuous cochains with compact support*; *Duality when `p = 2` and `K` has real places*); ArithmeticGaloisDuality §§D7.7.1, D7.7.3, D7.7.4; ArithmeticGaloisDuality §D8.1 (*Trace-zero adjoint duality without division by `n`*; *First-order Galois cocycle comparison*); PadicMeasuresIwasawaAlgebras §6.5a (*Quotients by a and homomorphisms into O′/a*; *Structure and lengths at a point*; *Homomorphisms into O′/a at a point*; *Points with values in O′/a*).
 
 ## Layer 3: Iwasawa cohomology, control and determinants
 
@@ -2520,12 +3011,12 @@ Euler-system arguments for the cyclotomic main conjecture use the completed unit
 This roadmap owns:
 
 - local completion and tensor comparisons, the p-adic Kummer identification for fields and S-units, coefficient-limit hypotheses, weak semisimplicity and integral lifting (Layer 0);
-- compact, rational and discrete Selmer data and Selmer groups, propagation of local conditions along coefficient maps, unramified, Greenberg and finite conditions at bad primes, Pontryagin duals and coranks, dual Selmer structures, Poitou–Tate for Selmer groups, Selmer-specific adapters to the supplied mapping fibres and their `H⁰` correction, extensions to the coefficient complexes of §2.21, lattice changes and descent of vanishing, with the abelian Kummer/Sha adapters, finiteness and all-place Kummer annihilators of §2.12a (Layer 2);
-- arithmetic compact-support identification and Selmer-complex `H¹` with its `H⁰` correction, function-field Greenberg–Wiles, comparison with deformation tangents, determinant tangent fibres and derived coefficient change (Layer 2A);
+- compact, rational and discrete Selmer data and Selmer groups, propagation of local conditions along coefficient maps, unramified, Greenberg and finite conditions at bad primes, Pontryagin duals and coranks, dual Selmer structures, Poitou–Tate for Selmer groups, Selmer-specific adapters to the supplied mapping fibres and their `H⁰` correction, simple local conditions, over the coefficients of §2.21 and over finite free modules on complete Noetherian local rings, with their dictionary to classical Selmer structures and the `H²` and change-of-condition sequences of their Selmer complexes, extensions to the coefficient complexes of §2.21, lattice changes and descent of vanishing, with the abelian Kummer/Sha adapters, finiteness and all-place Kummer annihilators of §2.12a (Layer 2);
+- arithmetic compact-support identification and Selmer-complex `H¹` with its `H⁰` correction, function-field Greenberg–Wiles, comparison with deformation tangents, determinant tangent fibres and derived coefficient change, local conditions with flat quotient and their base change, the module co-representing Selmer groups with finite-length and discrete torsion coefficients, and the base change of simple conditions and of classical Selmer groups (Layer 2A);
 - Iwasawa algebras of `ℤ_p^d × Δ` with their coordinates, involution and twists, the general profinite and coefficient extensions of supplied arithmetic Iwasawa cochains, Selmer-specific Shapiro, descent, control and duality comparisons, universal norms, semilocal descent, Iwasawa Selmer adapters with derived specialization, determinant lines, the étale `K(π,1)` comparison for `Spec 𝒪_{F,S}` and the `j_*` convention, local cofreedom, and Greenberg's structure theorems (Layer 3);
 - the cohomological Cassels–Tate pairing for `Ш(A/K) × Ш(A∨/K)` and its divisible radicals (§4.29), the small-weight crystalline realization, the Bloch–Kato conditions and their integral and finite variants, archimedean realizations with Gamma factors and Greenberg criticality, the cyclotomic unit–class-group dictionary, the main-conjecture propositions, global finite Selmer reductions, and the parity theorems of §§4.28–4.29 (Layer 4).
 
-IntegralIwasawaTheory §§2.0, 10.0–10.3 supplies the common finite p-primary and finite-free compact number-field constructions and their actual arithmetic maps. NoncommutativeAndEquivariantIwasawa §F.4 supplies the number-field lattice Selmer mapping fibres, Iwasawa cochains and control with their errors, and on the same domain the module-level local conditions, Selmer groups, their contragredient duals and the basic étale comparison. IntegralIwasawaTheory §§2.1–2.3 and 2.7 supply the cyclotomic class, unit and p-ramified towers with their reciprocity sequence. The contracts below identify these common instances; this roadmap retains its more general coefficient and profinite-group extensions and its Selmer-specific comparisons. ArithmeticGaloisDuality supplies continuous cochains with compact and rational coefficients and their limits (its Layer R02.1), the Hochschild–Serre spectral sequence and descent (Layer R02.2), restricted ramification, `G_{K,S}` and the S-idele class formation (Layer R02.3), local and global Tate duality, Poitou–Tate and the Euler characteristic (Layer R02.4), the Greenberg–Wiles formula (Layer R02.5) and the derived continuous cochains with compact support and their duality, including the complete Tate correction at real places when `p = 2` (Layer D7). This roadmap consumes those statements and does not restate them. Layer 2A here owns the arithmetic Selmer comparisons, function-field Greenberg–Wiles, deformation tangent comparisons, determinant tangent fibres and derived coefficient change.
+IntegralIwasawaTheory §§2.0, 10.0–10.3 supplies the common finite p-primary and finite-free compact number-field constructions and their actual arithmetic maps. NoncommutativeAndEquivariantIwasawa §F.4 supplies the number-field lattice Selmer mapping fibres, Iwasawa cochains and control with their errors, and on the same domain the module-level local conditions, Selmer groups, their contragredient duals and the basic étale comparison. IntegralIwasawaTheory §§2.1–2.3 and 2.7 supply the cyclotomic class, unit and p-ramified towers with their reciprocity sequence. The contracts below identify these common instances; this roadmap retains its more general coefficient and profinite-group extensions and its Selmer-specific comparisons. ArithmeticGaloisDuality supplies continuous cochains with compact and rational coefficients and their limits (its Layer R02.1), the Hochschild–Serre spectral sequence and descent (Layer R02.2), restricted ramification, `G_{K,S}` and the S-idele class formation (Layer R02.3), local and global Tate duality, Poitou–Tate and the Euler characteristic (Layer R02.4), the Greenberg–Wiles formula (Layer R02.5) and the derived continuous cochains with compact support and their duality, including the complete Tate correction at real places when `p = 2` (Layer D7). This roadmap consumes those statements and does not restate them. Layer 2A here owns the arithmetic Selmer comparisons, function-field Greenberg–Wiles, deformation tangent comparisons, determinant tangent fibres and derived coefficient change, with the flat-quotient conditions, the co-representing module and the base change of simple conditions.
 
 Already in the libraries and only cited: Mathlib's `AdicCompletion` with `AdicCompletion.map`, `AdicCompletion.map_id`, `AdicCompletion.map_comp` and `AdicCompletion.ofTensorProduct_bijective_of_finite_of_isNoetherian`; Mathlib's `Submodule.orthogonalBilin` with `Submodule.mem_orthogonalBilin`, `Submodule.orthogonalBilin_antitone`, `Submodule.orthogonalBilin_bot` and `Submodule.orthogonalBilin_top_eq_ker`; Mathlib's perfect pairings `LinearMap.IsPerfPair` (both curried maps bijective); Mathlib's `PontryaginDual`, `PadicComplex`, `BDeRhamPlus`, `BDeRham`, `Complex.Gammaℝ`, `Complex.Gammaℂ` and `cyclotomicCharacter`; Tau Ceti's finite-level Kummer theory (`TauCeti.kummerMap_surjective`, `TauCeti.kummerIso`, `TauCeti.kummerIso_res`, `TauCeti.kummerIso_norm`, the coefficient transition `TauCeti.kummerCoeffPow` with `explicitCoeff1_kummerCoeffPow_kummerMap` and `explicitCoeff1_kummerCoeffPow_surjective`), finiteness of local power classes (`TauCeti.finiteIndex_range_powMonoidHom`), the all-degree discrete Shapiro isomorphism (`TauCeti.ContinuousCohomology.shapiroIso`, `TauCeti.ContinuousCohomology.shapiroIsoTopRep`), the completed group algebra `TauCeti.completedGroupAlgebra`, and the Hodge carriers `TauCeti.Hodge.HodgeStructureOn` with `dual`, `tateTwist`, `prod`, `hodgeNumber` and `TauCeti.Hodge.tate`. Tau Ceti's `TauCeti.FiniteBilinearModule.orthogonalComplement` treats a finite module paired with itself into `ℚ/ℤ`; ArithmeticGaloisDuality §D7.7.1 supplies finite pairings of two independent `ℤ/n`-modules into `ℤ/n`. Tau Ceti's `TauCeti.instModulePadicCharacterContragredient` supplies the algebraic contragredient action on p-adic characters; §2.10 adds the continuous p-primary and completed-Iwasawa versions by comparison with PadicLocalLanglandsForGL2Qp §0.3.
 
@@ -2540,7 +3031,7 @@ Completion: `AdicCompletion`, `AdicCompletion.of`, `AdicCompletion.map` (with `m
 
 S-unit finite generation and valuation maps use `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`. HeightsAndUnits §4.2 supplies the rank and fundamental systems; ArithmeticGaloisDuality §R02.3.0c supplies the finite-generation module, cardinality and reindexing adapters and the completion comparison used in §0.9.
 
-At the pinned commit: the Kummer theory of `TauCeti.FieldTheory.GaloisCohomology.Kummer` (`TauCeti.kummerClassMap`, `TauCeti.kummerClassMap_injective`, `TauCeti.kummerMap_surjective`, `TauCeti.kummerIso`, `TauCeti.kummerIso_res`, `TauCeti.kummerIso_norm`, `TauCeti.kummerCoeffPow`, `explicitCoeff1_kummerCoeffPow_kummerMap`, `explicitCoeff1_kummerCoeffPow_surjective`) and `TauCeti.powerClassQuotient`; `TauCeti.finiteIndex_range_powMonoidHom` (finite index of n-th powers in a local field, `n ≠ 0` in `K`); the Shapiro maps `TauCeti.ContinuousCohomology.shapiroMap`, `shapiroIso` and `shapiroIsoTopRep`; inflation–restriction `TauCeti.ContCohomology.explicitInfRes_exact`; `TauCeti.completedGroupAlgebra` with `lift`, `map`, `domCongr`, `domCongr_of`, `continuous_map`, `map_id`, `map_comp`, the product decomposition and `powerSeriesCoordinate`; the local cyclotomic character `TauCeti.localCyclotomicCharacter`; the Hodge carriers `TauCeti.Hodge.Conjugation`, `TauCeti.Hodge.HodgeStructureOn` (`piece`, `hodgeNumber`, `finite_setOf_hodgeNumber_ne_zero`, `dual`, `finrank_dual_piece`, `tateTwist`, `prod`, `prod_piece`), `TauCeti.Hodge.latticeConjugation`, `TauCeti.Hodge.isBaseChange_tateLatticeMap`, `TauCeti.Hodge.tate` and `TauCeti.Hodge.tate_hodgeNumber`.
+At the pinned commit: the Kummer theory of `TauCeti.FieldTheory.GaloisCohomology.Kummer` (`TauCeti.kummerClassMap`, `TauCeti.kummerClassMap_injective`, `TauCeti.kummerMap_surjective`, `TauCeti.kummerIso`, `TauCeti.kummerIso_res`, `TauCeti.kummerIso_norm`, `TauCeti.kummerCoeffPow`, `explicitCoeff1_kummerCoeffPow_kummerMap`, `explicitCoeff1_kummerCoeffPow_surjective`) and `TauCeti.powerClassQuotient`; `TauCeti.finiteIndex_range_powMonoidHom` (finite index of n-th powers in a local field, `n ≠ 0` in `K`); the Shapiro maps `TauCeti.ContinuousCohomology.shapiroMap`, `shapiroIso` and `shapiroIsoTopRep`; inflation–restriction `TauCeti.ContCohomology.explicitInfRes_exact`; `TauCeti.completedGroupAlgebra` with `lift`, `map`, `domCongr`, `domCongr_of`, `continuous_map`, `map_id`, `map_comp`, the product decomposition and `powerSeriesCoordinate`; the local cyclotomic character `TauCeti.localCyclotomicCharacter`; the Hodge carriers `TauCeti.Hodge.Conjugation`, `TauCeti.Hodge.HodgeStructureOn` (`piece`, `hodgeNumber`, `finite_setOf_hodgeNumber_ne_zero`, `dual`, `finrank_dual_piece`, `tateTwist`, `prod`, `prod_piece`), `TauCeti.Hodge.latticeConjugation`, `TauCeti.Hodge.isBaseChange_tateLatticeMap`, `TauCeti.Hodge.tate` and `TauCeti.Hodge.tate_hodgeNumber`. At Tau Ceti `2a9233e5`: `TauCeti.ContinuousCohomology.TopSelmerStructure` with `localization`, `toSelmerData` and `mem_selmerModule_toSelmerData_iff` (`TauCeti/RepresentationTheory/Homological/ContCohomology/SelmerStructure/Continuous/Basic.lean`), the library carrier of a family of local conditions on continuous `H¹`; §2.22a reads its families of local conditions through it.
 
 ### From TauCetiRoadmap.ProfiniteCohomology
 
@@ -2596,7 +3087,7 @@ Consume §0.3 (*Coefficient-linear duality and the residual ramification diction
 
 ### From ArithmeticGaloisDuality
 
-Layer R02.1: §R02.1.2 (*Tate's inverse-limit theorem*; *Continuous sections of coefficient surjections*; *Long exact sequences for continuous cohomology*, including the period coefficients `V ⊗ B_cris` and `V ⊗ B_dR`, which have continuous sections by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P3), §R02.1.3 (*Rationalisation of lattice cohomology*; *The sequence `T → V → W` and the torsion of `H¹(T)`*). Layer R02.2: §R02.2.1 (*The Hochschild–Serre spectral sequence*), §R02.2.2 (*The five-term sequence and the transgression*), §R02.2.3 (*Restriction and corestriction descent for finite index*; *Inflation–restriction for compact and rational coefficients*). Layer R02.3: §R02.3.1 (*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*; *Finiteness of `H¹(G_{K,S}, M)`*; *Localisation maps and the modified local groups*), §R02.3.3 (*The S-idele classes as a quotient of the idele classes*; *The Kummer sequence for S-units*). Layer R02.4: §R02.4.2 (*Unramified classes are exact annihilators*; *Restricted products of local cohomology and `Ш^r_S`*), §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*), §R02.4.4 (*Finiteness of Galois cohomology with restricted ramification*; *Cohomological dimension of `G_{K,S}`*; *High-degree cohomology of the S-units*; *Tate's global Euler characteristic formula*). Function fields: §R02.4.5 (*Prime-to-characteristic function-field Poitou–Tate duality*; *Function-field arithmetic finiteness and Euler characteristic*). Layer R02.5: §R02.5.1 (*The Greenberg–Wiles formula*). Layer D7: §D7.1 (*Derived tensor, perfect amplitude and `Tor`*), §D7.3 (*Nakamura cochain tensor comparisons*; *Admissible compact and cofinite coefficients*; *Continuous cochains in the derived category*; *Cohomological finiteness and perfect amplitude*; *Compact Shapiro and projection formulas*, the complete finite-type extension of the discrete Shapiro isomorphism), §D7.4 (*Derived local Tate duality*), §D7.5 (*Continuous cochains with compact support*; *Derived Poitou–Tate duality*; *Duality after localising the coefficients*; *Duality when `p = 2` and `K` has real places*; *Euler–Poincaré characteristic with compact support*), §D7.6 (*Poitou–Tate for lattices and rational coefficients*; *Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*). Sections D7.7.1–D7.7.6 supply perfect pairings, coefficient-compatible Tate pairings, derived orthogonal complements, global mapping-fibre duality, ordinary annihilators and nonsingular torsion classes for Layers 2–4. Sections R02.3.0a–R02.3.0c supply multiplicative completion, global units and S-units. Section R02.2.3a supplies procyclic `H¹`. Section D8.1 supplies *Trace-zero adjoint duality without division by `n`* and *First-order Galois cocycle comparison*. These are used with the hypotheses stated there; condition `(P)` is imposed wherever the derived statements require it.
+Layer R02.1: §R02.1.2 (*Tate's inverse-limit theorem*; *Continuous sections of coefficient surjections*; *Long exact sequences for continuous cohomology*, including the period coefficients `V ⊗ B_cris` and `V ⊗ B_dR`, which have continuous sections by FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.P3), §R02.1.3 (*Rationalisation of lattice cohomology*; *The sequence `T → V → W` and the torsion of `H¹(T)`*). Layer R02.2: §R02.2.1 (*The Hochschild–Serre spectral sequence*), §R02.2.2 (*The five-term sequence and the transgression*), §R02.2.3 (*Restriction and corestriction descent for finite index*; *Inflation–restriction for compact and rational coefficients*). Layer R02.3: §R02.3.1 (*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*; *Finiteness of `H¹(G_{K,S}, M)`*; *Localisation maps and the modified local groups*), §R02.3.3 (*The S-idele classes as a quotient of the idele classes*; *The Kummer sequence for S-units*). Layer R02.4: §R02.4.2 (*The defined local Tate pairing*; *Unramified classes are exact annihilators*; *Restricted products of local cohomology and `Ш^r_S`*), §R02.4.3 (*Poitou–Tate duality and the nine-term exact sequence*), §R02.4.4 (*Finiteness of Galois cohomology with restricted ramification*; *Cohomological dimension of `G_{K,S}`*; *High-degree cohomology of the S-units*; *Tate's global Euler characteristic formula*). Function fields: §R02.4.5 (*Prime-to-characteristic function-field Poitou–Tate duality*; *Function-field arithmetic finiteness and Euler characteristic*). Layer R02.5: §R02.5.1 (*The Greenberg–Wiles formula*). Layer D7: §D7.1 (*Derived tensor, perfect amplitude and `Tor`*; *Residual criterion for perfect amplitude*), §D7.3 (*Cochain tensor comparison for profinite groups*, termwise base change and flatness of continuous cochains of a finite free module for every profinite group; *Nakamura cochain tensor comparisons*; *Admissible compact and cofinite coefficients*; *Continuous cochains in the derived category*; *Cohomological finiteness and perfect amplitude*; *Compact Shapiro and projection formulas*, the complete finite-type extension of the discrete Shapiro isomorphism), §D7.4 (*Derived local Tate duality*), §D7.5 (*Continuous cochains with compact support*; *Derived Poitou–Tate duality*; *Duality after localising the coefficients*; *Duality when `p = 2` and `K` has real places*; *Euler–Poincaré characteristic with compact support*), §D7.6 (*Poitou–Tate for lattices and rational coefficients*; *Local abelian-variety duality and gerbe evaluation*; *Self-dual isogenies and their local index*). Sections D7.7.1–D7.7.6 supply perfect pairings, coefficient-compatible Tate pairings, derived orthogonal complements, global mapping-fibre duality, ordinary annihilators and nonsingular torsion classes for Layers 2–4. The duality step of §2.23a applies §§D7.7.3–D7.7.4 with the cup product followed by the truncation `τ_{≥2}` of the local target, as in Nekovář 6.2.1.2 (p. 138), which is zero on `U(L_v) ⊗ U(L_v^⊥)` and so has zero nullhomotopy; the untruncated product need not be nullhomotopic, as for `M = 𝔽_p` with trivial action at a finite place `v` with `μ_p ⊂ F_v` it induces on `H⁰` the nonzero evaluation `𝔽_p ⊗ μ_p → μ_{p^∞}`. Sections R02.3.0a–R02.3.0c supply multiplicative completion, global units and S-units. Section R02.2.3a supplies procyclic `H¹`. Section D8.1 supplies *Trace-zero adjoint duality without division by `n`* and *First-order Galois cocycle comparison*. These are used with the hypotheses stated there; condition `(P)` is imposed wherever the derived statements require it.
 
 ### From SchemeAndStackFoundations
 
@@ -2604,11 +3095,11 @@ Layer R02.1: §R02.1.2 (*Tate's inverse-limit theorem*; *Continuous sections of 
 
 ### From PadicMeasuresIwasawaAlgebras
 
-§1.7 (comparison of integral measures with the completed group algebra), §4.1 (pseudo-null modules and pseudo-isomorphism), §4.2 (the structure theorem and its consequences: reflexive modules over a regular local ring of dimension two are free, and a finitely generated `Λ`-module has projective dimension at most one iff it has no nonzero finite submodule), §4.4 (generator change and Iwasawa invariants), §4.6 (characteristic ideals, their transport along semilinear equivalences, and the isotypic decomposition over `Λ(H × ℤ_p)`), §5.1 (determinant lines of perfect complexes, their multiplicativity, base change and the trivialization of an acyclic complex), §6.1 (the sharp involution of a finite group ring), §6.3 (quadratic presentations and the initial Fitting ideal).
+§1.7 (comparison of integral measures with the completed group algebra), §4.1 (pseudo-null modules and pseudo-isomorphism), §4.2 (the structure theorem and its consequences: reflexive modules over a regular local ring of dimension two are free, and a finitely generated `Λ`-module has projective dimension at most one iff it has no nonzero finite submodule), §4.4 (generator change and Iwasawa invariants), §4.6 (characteristic ideals, their transport along semilinear equivalences, and the isotypic decomposition over `Λ(H × ℤ_p)`), §5.1 (determinant lines of perfect complexes, their multiplicativity, base change and the trivialization of an acyclic complex), §6.1 (the sharp involution of a finite group ring), §6.3 (quadratic presentations and the initial Fitting ideal), §6.5a (Fitting ideals and lengths over discrete valuation rings: the lengths of quotients by `a` and of homomorphisms into `O′/a` and into `Frac(O′)/O′` at a point, and what the initial Fitting ideal over a ring with values in `O′/a` determines), used in §2A.7.
 
 ### From DerivedModuleAlgebra
 
-§1.T.1 supplies `lim` and `lim¹`, the Mittag–Leffler criterion, the six-term exact sequence and the Milnor sequence for towers of complexes. §S.1 supplies the spectral sequence of a first-quadrant double complex.
+§1.T.1 supplies `lim` and `lim¹`, the Mittag–Leffler criterion, the six-term exact sequence and the Milnor sequence for towers of complexes. §S.1 supplies the spectral sequence of a first-quadrant double complex. §0.2 supplies the derived tensor product with its K-flat models, K-flatness of bounded-above complexes of flat modules, and the adjunction between derived extension and restriction of scalars, used in §§2A.6 and 2A.8. §1.M.1 supplies Matlis duality, with which §2A.7 identifies its dual `D` over Artinian rings.
 
 ### From PerfectoidTowers
 
@@ -2640,6 +3131,7 @@ Locators use the editions below. For Rubin's draft, PDF page is printed page plu
 - Ashay A. Burungale; Ye Tian, [A rank zero p-converse to a theorem of Gross–Zagier, Kolyvagin and Rubin](https://arxiv.org/abs/2506.03465v2). arXiv:2506.03465v2 (11 October 2025); Annals of Mathematics 203 (2026).
 - David Burns; Matthias Flach, [Motivic L-functions and Galois module structures](https://gdz.sub.uni-goettingen.de/id/PPN235181684_0305). Mathematische Annalen 305 (1996), 65–102; equation (1.9), p. 73, Proposition 1.20 and the ordinary/Tate comparison, pp. 78–80.
 - Jan Nekovář, Selmer complexes. Astérisque 310 (2006), Numdam open-access PDF (568 PDF pages; printed page = PDF page − 9).
+- Guido Kings; David Loeffler; Sarah Livia Zerbes, [Rankin–Eisenstein classes and explicit reciprocity laws](https://arxiv.org/abs/1503.02888v6). arXiv:1503.02888v6 (21 November 2023); published in Cambridge Journal of Mathematics 5 (2017), no. 1, 1–122. Locators use the arXiv v6 pagination.
 - Y. Liu; Y. Tian; L. Xiao; W. Zhang; X. Zhu, [On the Beilinson–Bloch–Kato conjecture for Rankin–Selberg motives](https://doi.org/10.1007/s00222-021-01088-4). Inventiones Mathematicae 228 (2022), 107–375; version of record.
 - Ralph Greenberg, [On the structure of Selmer groups](https://warwick.ac.uk/fac/sci/maths/people/staff/david_loeffler/jhc70/greenberg.pdf). Author preprint, 29 pages; use PDF pagination.
 - F. Castella; G. Grossi; J. Lee; C. Skinner, [On the anticyclotomic Iwasawa theory of rational elliptic curves at Eisenstein primes](https://web.math.ucsb.edu/~castella/Eisenstein.pdf). Author preprint dated 10 August 2021, 34 pages; published Inventiones Mathematicae 227 (2022).
