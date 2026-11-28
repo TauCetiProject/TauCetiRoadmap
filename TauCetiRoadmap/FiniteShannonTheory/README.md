@@ -80,9 +80,10 @@ with the following basic theory, for `p` a distribution (`0 ≤ p`,
   distribution (the forward direction is the target here; the
   characterisation of equality is Layer 2's `mutualInfo_eq_zero_iff` applied
   to a pair, not a target of this layer).
-- `entropy_eq_zero_of_forall` and support invariance: `entropy p` depends
-  only on the values of `p` on its support; adjoining zero-mass points does
-  not change it, and reindexing by an equivalence `α ≃ β` transports it.
+- `entropy_eq_zero_of_forall`: a distribution supported on a single point
+  has entropy `0`. Support invariance: `entropy p` depends only on the
+  values of `p` on its support; adjoining zero-mass points does not change
+  it, and reindexing by an equivalence `α ≃ β` transports it.
 - Computations: on `Fin 2`, `entropy ![p, 1 - p] = Real.binEntropy p`
   (agreement with Mathlib's binary entropy), and the entropy of a product
   distribution splits, `entropy (fun z => q z.1 * r z.2) =
