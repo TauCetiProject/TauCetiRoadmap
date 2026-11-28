@@ -43,13 +43,14 @@ Tau Ceti's local-field library and the Local fields and ramification roadmap sup
 tower, and the ramification filtrations and Herbrand functions of Galois extensions.
 [Ramification of complete discretely valued fields](../RamificationOfCompleteDiscretelyValuedFields/README.md)
 supplies the Herbrand function of a separable extension that need not be Galois. The ramification
-polygon is one of Tau Ceti's Newton polygons. Layers 5 and 6 rest on Tau Ceti's formalization of
+polygon is one of Tau Ceti's Newton polygons. §4.3 and Layers 5 and 6 rest on Tau Ceti's formalization of
 Serre's mass formula, which realizes the [Mass formula](../MassFormula/README.md) roadmap; Layer 5
 is the count by discriminant that roadmap leaves outside its scope.
 
 Layer 0 fixes the invariants of the canonical tower, and Layer 1 builds the ramification polygon
 and its residual polynomials. Layer 2 proves the two theorems on breaks, and Layer 3 treats the
-Galois closure and the hidden slopes. Layer 4 develops indices of inseparability and jump sets.
+Galois closure and the hidden slopes. Layer 4 develops indices of inseparability and jump sets,
+and proves Pagano's mass formula distributing Serre's mass among jump sets.
 Layer 5 proves Ore's and Krasner's theorems, independently of Layers 1–4. Layer 6 builds on
 Layers 1–3 and 5 to construct the families, and Layer 7 the Galois root discriminant, using
 Number-field arithmetic. `Suggested.lean` states the headline theorems expressible in the present
@@ -1125,6 +1126,180 @@ modules, strict presentation and relation-vector comparison are constructions of
   `(I={1,3},β(1)=2,β(3)=1)` and `ρ²(1)=4<ρ(3)=5`.
 - In `ℚ_3(∛3)`, no primitive cube root of unity exists, so the field jump set is absent.
 
+### 4.3 Pagano's mass formula for unit filtrations
+
+Fix a prime `p`, integers `f ≥ 1` and `n ≥ 1`, and put `e=(p−1)n`, `q=p^f`, `ρ=ρ_{e,p}`
+(`ρ(i)=min(pi,i+e)`), with `T`, `e*`, `T*` and `M=M_ρ^{f−1}⊕M*_ρ` as in §4.2. Here
+`e*=pe/(p−1)`, `ρ(n)=e*`, and `|T|=e`. The base `K` is a finite extension of `ℚ_p`
+(`FinitePadicExtension K p`) that contains a primitive `p`-th root of unity, with
+`absoluteRamificationIndex K p = p−1` and `q` residue elements. Such a `K` is isomorphic to
+`ℚ_{p^f}(ζ_p)`, so no choice is involved. Every `L∈σ_K(n)` (Tau Ceti's
+`totallyRamifiedOfDegree K n`) has `v_L(p)=e`, residue degree `f` over `ℚ_p` and `ζ_p∈L`.
+Its jump set `(I_L,β_L)` of §4.2 is therefore defined, and it is invariant under
+`K`-isomorphism. For `S⊆σ_K(n)` closed under `K`-isomorphism, the **mass** is
+`mass_K(S)=(1/n)Σ_{L∈S}q^{−c(L)}`, with `c` the wild exponent `IntermediateField.wildExponent`.
+Tau Ceti's orbit count `ncard_isomorphic_mul_natCard_algEquiv` gives
+`mass_K(S)=Σ 1/(#Aut_K(L)·q^{c(L)})` over a set of representatives of the classes in `S`.
+Serre's first mass formula `tsum_one_div_natCard_residueField_pow_wildExponent` gives
+`mass_K(σ_K(n))=1`. Summing over subfields avoids choosing representatives.
+
+Of the names this section introduces, `Suggested.lean` declares only
+`measure_eisensteinSet_setOf_exists_rootCount_pos`. The others (`jumpSet_mass_eq_haar`,
+`jumpSet_admissible`, `card_rootsOfUnity_pPow`, `top_mem_jumpSet_iff`, `haar_eq_shootingGame`,
+`wildExponent_tower`, `mem_jumpSet_top_iff`, `jumpSet_realizable`) are proposed names: the
+jump-set statements are not statable at the pins.
+
+An extended `ρ`-jump set `(I,β)` is **admissible** when `I≠∅` and `ρ^{β(min I)}(min I)=e*`.
+The main theorem, `jumpSet_mass_eq_haar`, says that for every admissible `(I,β)`
+
+```text
+mass_K{L∈σ_K(n) : (I_L,β_L)=(I,β)} = μ_Haar(I,β) = μ*(I,β),
+```
+
+where `μ_Haar` is the Haar measure of the filtered orbit of `v_(I,β)` and `μ*` is the law of
+Pagano's shooting game, both defined below. In words, a totally ramified degree-`n` extension of
+`K`, drawn with Serre's weights, has a given jump set with the same probability as a Haar-random
+relation vector of `M`. Pagano, Theorems 1.7–1.8, pp.7–8, and Theorem 9.1, p.51, pagano lines 313 and 2267.
+
+**(a) Admissibility and the torsion.** Let `K'` be a finite extension of `ℚ_p` containing
+`ζ_p`, with `e'=v_{K'}(p)`. Prove `jumpSet_admissible`: `p−1∣e'`, and `(I_{K'},β_{K'})` is an
+admissible extended `ρ_{e',p}`-jump set (Pagano, Theorem 1.6 (1)⇒(2), p.7, from Proposition 5.1,
+p.36, and Theorem 3.38, p.30). Prove `card_rootsOfUnity_pPow`: the `p`-power roots of unity of
+`K'` form a cyclic group of order `p^{β_{K'}(max I_{K'})}` (Proposition 3.42, p.31). Prove
+`top_mem_jumpSet_iff`: if `ζ_{p^j}` generates `μ_{p^∞}(K')`, then `e'*∈I_{K'}` if and only if
+`K'(ζ_{p^{j+1}})/K'` is unramified (Proposition 5.5, p.37).
+*Needs:* §4.2; Tau Ceti `RootsOfUnity/`, `IsUnramified`.
+
+**(b) The Haar side.** `M` is a finite product of `ef+1` copies of `ℤ_p`. Equip it with the
+product of the Haar probability measures on the factors (Mathlib `PadicInt`, `Measure.pi`). For
+`v∈pM`, let `filtOrd v` be the extended jump set whose `v_(I,β)` lies in the orbit of `v` under
+the filtered automorphisms of `M`. It is computed by the minimal-pair rule of §4.2 from the
+valuations of the coordinates of `v` (Pagano, Theorem 3.37, p.29). Prove the following:
+- each fibre `filtOrd⁻¹(I,β)` with `I≠∅` is open in `pM` (Pagano, p.8); the fibre over `∅` is
+  `{0}`, which is not;
+- the fibre is nonempty, since it contains `v_(I,β)`;
+- the union `Adm` of the fibres over admissible jump sets has positive finite measure.
+
+Define `μ_Haar(I,β)=vol(filtOrd⁻¹(I,β))/vol(Adm)`. This is a probability measure on the
+admissible jump sets, and `μ_Haar(I,β)>0` for every admissible `(I,β)`.
+
+**(c) The shooting game.** For `x≥1`, let `v_ρ(x)=max{m≥0 : x∈ρ^m(ℕ_{>0})}`, and let
+`N(x,y]=#{m≥0 : x<ρ^m(e*)≤y}`. The state space `S*` consists of the pairs `(x,ℓ)` with `x≥1`
+and either `ℓ=v_ρ(x)` (first kind) or `x=ρ^ℓ(e*)` (second kind). A point `x` can carry one
+state of each kind. The game started at `r` has initial state `(r,v_ρ(r))`. From `(x,ℓ)` the chain moves to a state
+`(y,ℓ')` with `y>x`, with probability
+
+```text
+(q−1) q^{−(y−x)} p^{−N(x,y]}      if (y,ℓ') is of the first kind,
+(p−1) q^{−(y−x−1)} p^{−N(x,y]}    if (y,ℓ') is of the second kind,
+```
+
+and with probability `0` to every other state. Prove that these probabilities sum to `1`. One
+proof is the walk that, at each `y=x+1,x+2,…`, first tosses a `(p−1)/p` coin at the points
+`ρ^m(e*)`, stopping in the second kind on success, and then tosses a `(q−1)/q` coin, stopping in
+the first kind on success (Pagano, §7, pp.45–49). The path measure is Mathlib's
+`ProbabilityTheory.Kernel.trajMeasure` for the time-homogeneous kernel. For a path
+`(x_k,ℓ_k)_{k≥0}`, a **record** is an index `k` with `ℓ_k<ℓ_j` for all `j<k`. Its shooting point
+is `s_k=ρ^{−ℓ_k}(x_k)∈T` for the first kind and `s_k=e*` for the second, and
+`β(s_k)=ℓ_k+1`. Prove that the records of every path with strictly increasing positions give an extended
+`ρ`-jump set (Proposition 7.1, p.46). The other paths form a set of measure zero and are sent to
+the empty jump set (p.47), so the map to jump sets is defined on every path. Define `μ*` as the push-forward to jump sets of the path measure of the game started at `n`.
+Prove that `μ*(I,β)>0` exactly for the admissible `(I,β)` (p.49).
+
+**(d) Haar equals shooting.** Prove `haar_eq_shootingGame`: `μ_Haar(I,β)=μ*(I,β)` for every
+admissible `(I,β)` (Proposition 8.1, p.50). The proof fixes a filtered basis of `M` and the
+nonzero Teichmüller representatives. It then reduces an admissible `v` step by step, removing
+the leading term `π^{v(z)}b_z` of minimal weight at each step. The resulting map `G` from
+`Adm` to paths has `G_*μ_Haar=μ*` and preserves jump sets.
+
+**(e) Mass as Eisenstein volume.** Prove `measure_eisensteinSet_setOf_exists_rootCount_pos`
+for every nonarchimedean local `K`, `n>0`, and `S⊆σ_K(n)` closed under `K`-isomorphism. For a
+Haar measure normalized on the integer box, the set of `a∈eisensteinSet K n` whose polynomial
+has a root in some member of `S` has volume `vol(eisensteinSet K n)·mass_K(S)`.
+- The roots of a separable Eisenstein polynomial generate `K`-conjugate members of `σ_K(n)`, so
+  almost everywhere the set is `{a : Σ_{L∈S} rootCount_L(a) = n}`.
+- The equality then follows from `ae_tsum_rootCount_eq`, `IntermediateField.lintegral_rootCount`,
+  `measure_eisensteinSet` and `d(L)+1=c(L)+n`.
+
+This is Serre's first proof in the form Pagano's Theorem 1.8 uses. Taking `S` to be a jump-set
+fibre shows that Theorems 1.7 and 1.8 are equivalent.
+
+**(f) Masses in towers.** Let `F∈σ_K(m)` and `m∣d`, and let `L∈σ_K(d)` contain `F`. The fixed
+separable closure of `K` serves as one of `F`. Prove `wildExponent_tower`:
+`c(L/K)=c(L/F)+(d/m)c(F/K)`, from Tau Ceti's `differentExponent_tower` and `f(F/K)=1`.
+Prove that `L↦L` is a bijection from `{L∈σ_K(d) : F⊆L}` to `σ_F(d/m)`. Conclude that for every `S` inside
+that set, closed under `F`-isomorphism, `mass_K(S)=q^{−(d/m)c(F/K)}·mass_F(S)/m`. In particular,
+conditioned on `F⊆L`, the mass over `K` is the mass over `F`. When `F/K` is Galois,
+`{L : F⊆L}` is closed under `K`-isomorphism (Pagano, p.54).
+
+**(g) The cyclotomic fields.** For `j≥1`, put `K_j=K(ζ_{p^j})` inside the separable closure.
+The compositum of `K_{j+1}` and the unramified degree-`p` extension of `K_j` is Galois over
+`K_j` with group `C_p×C_p`. Its `p+1` degree-`p` subextensions are the unramified one, the field
+`K_j^{(p)}=K_{j+1}`, and `p−1` further totally ramified fields `K_j^{(1)},…,K_j^{(p−1)}`, listed
+in any order. Prove the following:
+- the fields `K_j^{(1)},…,K_j^{(p)}` have the same wild exponent over `K_j`, because their
+  characters differ by unramified characters;
+- no `L∈σ_{K_j}(d)` contains two of them.
+
+Prove `mem_jumpSet_top_iff` (Proposition 5.6, p.37): for `L∈σ_K(n)`, `e*∈I_L` and
+`β_L(e*)=j` if and only if `L` contains exactly one of `K_j^{(1)},…,K_j^{(p−1)}`. Also give the
+units `u_1,u_2` of `K_j^{(i)}` with `u_1^p u_2=ζ_{p^j}`, `v(u_1−1)=1`, `v(u_2−1)=p·v(p)/(p−1)`
+(valuations of `K_j^{(i)}`) and `u_2` not a `p`-th power (Corollary 5.7, p.38, with Corollary 3.41, p.30; §9.2, p.55).
+
+**(h) Eisenstein polynomials as shooting games.** Put `e_j=e/(p^j(p−1))` for
+`0≤j≤v_p(n)`. Let `S_stop(r)` be the game started at `r`, in the quotient of its path space that
+remembers a path only while its position is below `e*`, with the quotient law (pp.49–50). Let `g∈Eis(e_j,K_{j+1})` have constant term
+`a_0`. Put `g̃=((1−ζ_{p^{j+1}})/a_0)g+ζ_{p^{j+1}}`, a polynomial with constant term `1`, of
+degree at most `e_j`, that represents `ζ_{p^{j+1}}` in `F_g=K_{j+1}[x]/(g)`. Define `g_0=g̃`.
+While the weight `w(g_m)=min_i(e_j v(b_i)+i)` of `g_m=1+Σb_ix^i` is below `e*`, choose the
+unique `i_m∈T`, `b_m≥0` and Teichmüller `ε_m` with `(1+ε_m x^{i_m})^{p^{b_m}}g_m` of larger
+weight. Let `g_{m+1}` be its reduction modulo `g` to degree at most `e_j`. Define
+`σ_j(g)=(w(g_m),b_m)_m∈S_stop(e_j)`. Define `σ_{j_1,j_2}` on `Eis(e_{j_1+1},K_{j_1+1}^{(j_2)})` in
+the same way, with `u_1` in place of `ζ_{p^{j+1}}`, and with the cut-off and stopped game of §9.2,
+p.54. Prove
+the following (§9.3, pp.55–57):
+- **(P.1)** The record set of `σ_j(g)` is `{i∈I_{F_g} : ρ^{β_{F_g}(i)−(j+1)}(i)<e*}`, with
+  `β_{F_g}=β_{σ_j(g)}+j` on it; here `v_{F_g}(p)=e`. The analogous statement holds for `σ_{j_1,j_2}`, which in addition puts
+  `e*` in `I` with `β(e*)=j_1+1`.
+- **(P.2)** `σ_j` and `σ_{j_1,j_2}` push the normalized Haar measure on Eisenstein polynomials
+  forward to the law of the corresponding stopped game. The coefficients of `g̃` expand in Teichmüller digits that are
+  independent and uniform.
+
+**(i) The theorem.** Prove `jumpSet_mass_eq_haar` by induction on `j`, as in §9.1.2,
+pp.53–54:
+- `σ_0` and (e) settle the jump sets with `min β=1` and `e*∉I`.
+- The complementary event splits by (g) into the `p` equal-mass events `K_1^{(i)}⊆L`. On the
+  game side it splits by the identity `(p−1)μ*(S*_{≥j+1})=μ*(S*_{=j,*})` (Remark 7.6, p.50).
+- By (f), conditioning on `K_1^{(i)}⊆L` passes to Eisenstein polynomials over `K_1^{(i)}`
+  (handled by `σ_{0,i}`) or over `K_2` (where the induction continues).
+
+Prove `jumpSet_realizable` (Theorem 1.6 (2)⇒(1), Theorem 5.4): every admissible `(I,β)` is
+`(I_L,β_L)` for some `L∈σ_K(n)`, because its mass `μ*(I,β)` is positive.
+*Needs:* §§4.2, 4.3(a)–(h); Tau Ceti's mass formula and Eisenstein region (the supplier row);
+`teichmullerLift` (`Teichmuller.lean`); Mathlib `ProbabilityTheory.Kernel.trajMeasure`,
+`Measure.pi`, `PadicInt`, `IsPrimitiveRoot`.
+
+**Checks.**
+
+- `p=2`, `f=1`, `n=2`, `K=ℚ_2`. Then `e=2`, `ρ(1)=2`, `ρ(2)=4`, `T={1,3}`, `e*=4`, and the admissible
+  jump sets are `({1},β(1)=2)`, `({1,3},2,1)` and `({1,4},2,1)`. As sets these are
+  `A={1,2},{1,3},{1,4}`. The jump set `({1},2)` belongs to `ℚ_2(i)` (`#μ_{2^∞}=4`). The jump set
+  `({1,4},2,1)` belongs to `ℚ_2(√3)`, since `ℚ_2(√3,i)∋√−3` is unramified over `ℚ_2(√3)`. The
+  jump set `({1,3},2,1)` belongs to `ℚ_2(√±2)` and `ℚ_2(√±6)`. The masses are `1/4`, `1/4` and
+  `4·1/8=1/2`.
+  - On the Haar side, `v=(x_1,x_3,x_4)∈2ℤ_2³` is admissible if and only if `v_2(x_1)=2`. Then
+    `v_2(x_3)=1` gives `{1,3}` (`1/2`). `v_2(x_3)≥2` with `v_2(x_4)=1` gives `{1,4}` (`1/4`).
+    The remaining case gives `{1}` (`1/4`).
+  - In the game, from `(2,1)` the first shot is from `1`, recording `β(1)=2`. A first-kind
+    stop at `3` has probability `1/2`. A second-kind stop at `4` has probability `1/4`.
+    Otherwise there are no further records.
+  - All three sides agree.
+- If `p∤n`, then `n∈T`, and `({n},n↦1)` is the only admissible jump set. Every `L∈σ_K(n)` has
+  it, and `#μ_{p^∞}(L)=p`. For `p=3`, `K=ℚ_3(ζ_3)` and `n=2`, the ramified quadratic extensions
+  of `K` all have this jump set and total mass `1`.
+- The total of `μ*` over the admissible jump sets is `1`. With the main theorem this recovers
+  `mass_K(σ_K(n))=1`, Serre's formula.
+
 ### Examples
 
 For `X⁴−2`, the inseparability indices are `8,4,0`; the polygon slopes give rams
@@ -1133,7 +1308,8 @@ For `X⁴−2`, the inseparability indices are `8,4,0`; the polygon slopes give 
 ### Dependencies
 
 Layer 1 and the canonical tower for indices; LocalFieldsRamification Layer 1
-and the filtered-unit constructions of §4.2 for jump sets.
+and the filtered-unit constructions of §4.2 for jump sets; §4.2, Tau Ceti's mass formula and
+Eisenstein region, and Mathlib's `ProbabilityTheory.Kernel.trajMeasure` for §4.3.
 
 ## Layer 5: Krasner's count by degree and discriminant
 
@@ -1964,12 +2140,14 @@ Tau Ceti NewtonPolygon (pin) ───────┘        │          │   
                                            Layer 4    Layer 5      Layer 7
 Tau Ceti MassFormula (pin) ──────────────────────────► Layer 5 ──► Layer 6 ◄── Layers 1–3
 NumberFieldArithmetic L5–6 ───────────────────────────────────────► Layer 7
+Tau Ceti MassFormula (pin), Mathlib trajMeasure ──► Layer 4 (4.3)
 ```
 
 Layer 0 first. Layer 1 needs Layer 0 and Tau Ceti's Newton polygons. Layer 2 needs Layers 0–1,
 the Tau Ceti Herbrand package and RamificationOfCompleteDiscretelyValuedFields §4a.2; 2.1–2.3 can be built in
-parallel with Layer 1 and meet it at 2.5. Layer 3 needs Layer 2. Layer 4 needs Layers 1–2 (4.1) and only Local fields and ramification Layer 1
-(4.2), so 4.2 is independent of everything else here. Layer 5 needs Layer 0 and Tau Ceti's mass formula, not
+parallel with Layer 1 and meet it at 2.5. Layer 3 needs Layer 2. Layer 4 needs Layers 1–2 (4.1), only Local fields and ramification Layer 1
+(4.2), and §4.2, Tau Ceti's mass formula and Mathlib's Ionescu-Tulcea trajectory measure (4.3);
+so 4.2 is independent of everything else here. Layer 5 needs Layer 0 and Tau Ceti's mass formula, not
 Layers 1–4. Layer 6 needs Layers 1–3 and 5. Layer 7 needs 3.3 and Number-field arithmetic and is
 otherwise independent of Layers 4–6.
 
@@ -1996,7 +2174,9 @@ otherwise independent of Layers 4–6.
   groups of the closure as subgroups, the automorphism group, the **Galois splitting model**
   predicate, and the intrinsic **label prefix** `p.f.e.c` (Layer 3).
 - The **indices of inseparability** with their well-definedness and their relation to the polygon,
-  and the **jump set** of a `p`-adic field containing `ζ_p` (Layer 4).
+  the **jump set** of a `p`-adic field containing `ζ_p`, its admissibility and realizability, the
+  Haar and shooting-game measures on jump sets, and **Pagano's mass formula** for unit filtrations
+  over `ℚ_{p^f}(ζ_p)` (Layer 4).
 - **Krasner's count** of the totally ramified extensions of given degree and discriminant, Ore's
   conditions, the finiteness of extensions of bounded discriminant and the consistency with Serre's
   Theorem 1 (Layer 5).
@@ -2107,6 +2287,9 @@ Monge's count.
 - The Serre–Odlyzko bounds on root discriminants and the largest ramified prime of a number field:
   the zeros-of-`L`-functions and number-field roadmaps; Layer 7 defines the Galois root discriminant
   and proves its local factorization, and states no analytic lower bound.
+- Pagano's §6 (upper jumps of cyclic extensions) and §§10–12 (jump sets read off Eisenstein
+  coefficients, filtered inclusions of principal units, jump sets under field extensions): not
+  targets of this roadmap. §4.3 owns his Theorems 1.6–1.8 and the results they rest on.
 - Serre's mass formula itself, the Eisenstein region and Haar measure on coefficient space:
   Tau Ceti's `TauCeti/NumberTheory/LocalField/MassFormula/` at the pin, which realizes
   [Mass formula](../MassFormula/README.md).
@@ -2201,6 +2384,8 @@ The suppliers, with what is taken from each:
   `padicValNat`, `padicValRat`, `Nat.factorization`.
 - `Multiset`, `Multiset.count`, `Multiset.sort`, `Multiset.sub`, `Multiset.le_iff_count`;
   `Finset.inf'`; `Nat.find`; `MeasureTheory.Measure.addHaar` and the API Tau Ceti's mass formula uses.
+- `PadicInt`, `MeasureTheory.Measure.pi`, `ProbabilityTheory.Kernel.trajMeasure`
+  (`Mathlib/Probability/Kernel/IonescuTulcea/Traj.lean`) and `IsPrimitiveRoot`, for §4.3.
 
 ### From Tau Ceti
 
@@ -2224,7 +2409,7 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
 | roots of unity | `RootsOfUnity/Basic.lean`, `RootsOfUnity/Torsion.lean` |
 | lower convex envelopes, faces, slope data (outside the local-field prefix) | `TauCeti.lowerConvexEnvelope` (`TauCeti/Analysis/Convex/Sequence/Envelope.lean`), `TauCeti.IsFiniteFace` (`…/Sequence/Face.lean`), `TauCeti.FiniteSlopeData` (`…/Sequence/SlopeData/Basic.lean`), `TauCeti.IsLowerConvexEnvelope.exists_rat_eq_and_den_dvd_of_isFiniteFace` (`…/Sequence/Rationality.lean`: a face of positive width with integral endpoint heights has rational slope whose denominator divides its width) |
 | Newton polygons (outside the local-field prefix) | `Polynomial.newtonPolygon` (`TauCeti/NumberTheory/NewtonPolygon/Basic.lean`); `Polynomial.newtonSlopes`, `Polynomial.card_newtonSlopes`, `Polynomial.newtonSlopes_eq_slopeMultiset`, `Polynomial.count_newtonSlopes_of_isFiniteFace`, `Polynomial.den_dvd_card_newtonSlopes` (`…/NewtonPolygon/Slopes.lean`); `Polynomial.newtonPolygon_mul`, `Polynomial.newtonSlopes_mul` (`…/NewtonPolygon/Mul.lean`); `Polynomial.newtonSlopes_eq_map_roots_map`, `Polynomial.card_filter_roots_le_addValuation` (`…/NewtonPolygon/Roots.lean`); `Polynomial.den_dvd_of_forall_mem_newtonSlopes_eq` (`…/NewtonPolygon/Ramification.lean`: the slope denominator of a pure polynomial divides the ramification index) |
-| Serre's mass formula and its inputs | `totallyRamifiedOfDegree`, `IntermediateField.discriminantExponent`, `IntermediateField.wildExponent`, `IntermediateField.discriminantExponent_eq`, `IntermediateField.wildExponent_eq_zero_iff`, `IntermediateField.discriminantExponent_eq_of_algEquiv` (`MassFormula/Basic.lean`); `IsRepresentativeSet`, `exists_isRepresentativeSet` (`MassFormula/Representative.lean`); `ncard_isomorphic_mul_natCard_algEquiv` (`MassFormula/Orbit.lean`); `eisensteinSet`, `mem_eisensteinSet_iff_exists_isEisensteinAt`, `measure_eisensteinSet` (`MassFormula/Eisenstein/Region.lean`); `IntermediateField.rootCount_eq_sum_ite_of_eisenstein` (`MassFormula/RootCount.lean`), `IntermediateField.measure_image_setOf_exists_aeval_monicOfCoeff_eq_zero_le_addVal` (`MassFormula/Fibre.lean`), `IntermediateField.lintegral_rootCount` (`MassFormula/Integral.lean`); `tsum_one_div_natCard_residueField_pow_wildExponent`, `IsRepresentativeSet.tsum_one_div_natCard_algEquiv_mul_natCard_residueField_pow_wildExponent`, `infinite_totallyRamifiedOfDegree_iff` (`MassFormula/Main.lean`); `exists_mem_totallyRamifiedOfDegree_discriminantExponent_eq` (`MassFormula/Infinite.lean`); `countable_totallyRamifiedOfDegree` (`MassFormula/Countable.lean`); `tsum_rootCount_eq_of_separable`, `aemeasurable_rootCount_restrict_eisensteinSet` (`MassFormula/RootCount.lean`); `exists_card_aroots_eq` (`RootCount/Basic.lean`); `Polynomial.exists_isRoot_addVal_eval_eq`, `Polynomial.existsUnique_isRoot_addVal_lt` (`TauCeti/RingTheory/DiscreteValuationRing/Hensel.lean`); `MeasureTheory.Measure.measure_image_mulVec_integerBox` (`TauCeti/MeasureTheory/Group/LocalFieldScaling.lean`) |
+| Serre's mass formula and its inputs | `totallyRamifiedOfDegree`, `IntermediateField.discriminantExponent`, `IntermediateField.wildExponent`, `IntermediateField.discriminantExponent_eq`, `IntermediateField.wildExponent_eq_zero_iff`, `IntermediateField.discriminantExponent_eq_of_algEquiv` (`MassFormula/Basic.lean`); `IsRepresentativeSet`, `exists_isRepresentativeSet` (`MassFormula/Representative.lean`); `ncard_isomorphic_mul_natCard_algEquiv` (`MassFormula/Orbit.lean`); `eisensteinSet`, `mem_eisensteinSet_iff_exists_isEisensteinAt`, `measure_eisensteinSet` (`MassFormula/Eisenstein/Region.lean`); `IntermediateField.rootCount_eq_sum_ite_of_eisenstein` (`MassFormula/RootCount.lean`), `IntermediateField.measure_image_setOf_exists_aeval_monicOfCoeff_eq_zero_le_addVal` (`MassFormula/Fibre.lean`), `IntermediateField.lintegral_rootCount` (`MassFormula/Integral.lean`); `ae_tsum_rootCount_eq` (`MassFormula/RootCount.lean`); `IntermediateField.rootCount` (`TauCeti/FieldTheory/IntermediateField/RootCount.lean`); `integerBox` (`TauCeti/MeasureTheory/Group/LocalFieldScaling.lean`); `tsum_one_div_natCard_residueField_pow_wildExponent`, `IsRepresentativeSet.tsum_one_div_natCard_algEquiv_mul_natCard_residueField_pow_wildExponent`, `infinite_totallyRamifiedOfDegree_iff` (`MassFormula/Main.lean`); `exists_mem_totallyRamifiedOfDegree_discriminantExponent_eq` (`MassFormula/Infinite.lean`); `countable_totallyRamifiedOfDegree` (`MassFormula/Countable.lean`); `tsum_rootCount_eq_of_separable`, `aemeasurable_rootCount_restrict_eisensteinSet` (`MassFormula/RootCount.lean`); `exists_card_aroots_eq` (`RootCount/Basic.lean`); `Polynomial.exists_isRoot_addVal_eval_eq`, `Polynomial.existsUnique_isRoot_addVal_lt` (`TauCeti/RingTheory/DiscreteValuationRing/Hensel.lean`); `MeasureTheory.Measure.measure_image_mulVec_integerBox` (`TauCeti/MeasureTheory/Group/LocalFieldScaling.lean`) |
 | non-Galois Herbrand function (roadmap contract) | RamificationOfCompleteDiscretelyValuedFields §4a.2: `ψ_{L/K}`, `φ_{L/K}`, independence of the Galois closure, tower law, integral formula; the finite-level subgroup identity `TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields.subgroupOf_upperRamificationGroup` (its `Suggested.lean`) |
 
 ## References
@@ -2278,8 +2463,10 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
 - H. Miki, *On the ramification numbers of cyclic p-extensions over local fields*,
   J. reine angew. Math. 328 (1981), 99–115: Lemma 17, pp.111–112, and the invariant on p.112.
 - C. Pagano, *Jump sets in local fields*, arXiv:1810.09975v1: §1.2, pp.3–4, and
-  Theorems 1.4–1.5, p.6. These are the preprint locators; the published paper is
-  J. Algebra 592 (2022), 1–50.
+  Theorems 1.4–1.5, p.6 (§4.2); Theorems 1.6–1.8, pp.7–8, Theorems 3.37–3.38 and
+  Proposition 3.42, pp.29–31, Propositions 5.1, 5.5–5.6 and Corollary 5.7, pp.36–38, §7,
+  pp.45–50, Proposition 8.1, p.50, and §9, pp.51–57 (§4.3). These are the preprint locators;
+  the published paper is J. Algebra 593 (2022), 398–476.
 - J.-P. Serre, *Une « formule de masse » pour les extensions totalement ramifiées de degré donné
   d'un corps local*, C. R. Acad. Sci. Paris 286 (1978), 1031–1036: consumed through Tau Ceti's
   mass formula at the pin.
