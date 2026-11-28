@@ -1,0 +1,177 @@
+import Mathlib
+
+/-!
+# Optimal stopping: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib, each with `sorry`, together with the few definitions their
+statements need, each with a real body.
+
+Every headline of the README is stated here: the Snell envelope is a supermartingale and the
+least supermartingale dominating the reward on the horizon; it bounds the conditional expected
+reward of every stopping time and is attained by the first time it meets the reward; its mean
+at time zero is the value of the stopping problem; the threshold rules of the secretary problem
+have the classical winning probability, the best threshold rule is optimal among all stopping
+times of the relative ranks, and the optimal value and the optimal threshold divided by the
+number of candidates both tend to `1/e`; the prophet inequality with the threshold half the
+expected maximum, and the sharpness of the constant `2`.
+-/
+
+open MeasureTheory ProbabilityTheory Filter Topology
+open scoped ENNReal
+
+namespace TauCetiRoadmap.OptimalStopping
+
+variable {Ω : Type*} {m0 : MeasurableSpace Ω}
+
+/-! ## Layer 1: the Snell envelope -/
+
+/-- 1.1. The Snell envelope of the reward `Z` with horizon `N`: `U N = Z N`,
+`U n = max (Z n) (μ[U (n + 1) | 𝓕 n])` for `n < N`, and `U n = Z N` for `n ≥ N`. -/
+noncomputable def snellEnvelope (μ : Measure Ω) (𝓕 : Filtration ℕ m0) (Z : ℕ → Ω → ℝ) (N : ℕ)
+    (n : ℕ) : Ω → ℝ :=
+  if n < N then fun ω => max (Z n ω) (μ[snellEnvelope μ 𝓕 Z N (n + 1) | 𝓕 n] ω) else Z N
+termination_by N - n
+
+/-- 1.3. The first time `k` in `[n, N]` at which the Snell envelope equals the reward (the time
+`N` if there is none, which happens only when `n > N`). -/
+noncomputable def optimalStoppingTime (μ : Measure Ω) (𝓕 : Filtration ℕ m0) (Z : ℕ → Ω → ℝ)
+    (N n : ℕ) : Ω → WithTop ℕ :=
+  fun ω => ((hittingBtwn (fun k ω => snellEnvelope μ 𝓕 Z N k ω - Z k ω) {0} n N ω : ℕ) :
+    WithTop ℕ)
+
+/-- 1.1. The Snell envelope of an adapted reward that is integrable up to the horizon is a
+supermartingale. -/
+theorem snellEnvelope_supermartingale {μ : Measure Ω} [IsProbabilityMeasure μ]
+    {𝓕 : Filtration ℕ m0} {Z : ℕ → Ω → ℝ} {N : ℕ}
+    (hZ : ∀ n ≤ N, StronglyMeasurable[𝓕 n] (Z n)) (hint : ∀ n ≤ N, Integrable (Z n) μ) :
+    Supermartingale (snellEnvelope μ 𝓕 Z N) 𝓕 μ := by
+  sorry
+
+/-- 1.1. Every supermartingale that dominates the reward almost surely on `[0, N]` dominates
+the Snell envelope almost surely on `[0, N]`. -/
+theorem snellEnvelope_le_of_supermartingale {μ : Measure Ω} [IsProbabilityMeasure μ]
+    {𝓕 : Filtration ℕ m0} {Z V : ℕ → Ω → ℝ} {N : ℕ} (hint : ∀ n ≤ N, Integrable (Z n) μ)
+    (hV : Supermartingale V 𝓕 μ) (hZV : ∀ n ≤ N, Z n ≤ᵐ[μ] V n) :
+    ∀ n ≤ N, snellEnvelope μ 𝓕 Z N n ≤ᵐ[μ] V n := by
+  sorry
+
+/-- 1.3. For every stopping time `τ` with `n ≤ τ ≤ N`, the conditional expectation given `𝓕 n`
+of the reward at `τ` is at most the Snell envelope at `n`. -/
+theorem condExp_stoppedValue_le_snellEnvelope {μ : Measure Ω} [IsProbabilityMeasure μ]
+    {𝓕 : Filtration ℕ m0} {Z : ℕ → Ω → ℝ} {N n : ℕ}
+    (hZ : ∀ k ≤ N, StronglyMeasurable[𝓕 k] (Z k)) (hint : ∀ k ≤ N, Integrable (Z k) μ)
+    {τ : Ω → WithTop ℕ} (hτ : IsStoppingTime 𝓕 τ) (hnτ : ∀ ω, (n : WithTop ℕ) ≤ τ ω)
+    (hτN : ∀ ω, τ ω ≤ N) :
+    μ[stoppedValue Z τ | 𝓕 n] ≤ᵐ[μ] snellEnvelope μ 𝓕 Z N n := by
+  sorry
+
+/-- 1.3. The first time from `n` on at which the Snell envelope meets the reward is a stopping
+time, and the conditional expectation given `𝓕 n` of the reward at that time is the Snell
+envelope at `n`. -/
+theorem condExp_stoppedValue_optimalStoppingTime {μ : Measure Ω} [IsProbabilityMeasure μ]
+    {𝓕 : Filtration ℕ m0} {Z : ℕ → Ω → ℝ} {N : ℕ}
+    (hZ : ∀ k ≤ N, StronglyMeasurable[𝓕 k] (Z k)) (hint : ∀ k ≤ N, Integrable (Z k) μ)
+    (n : ℕ) :
+    IsStoppingTime 𝓕 (optimalStoppingTime μ 𝓕 Z N n) ∧
+      μ[stoppedValue Z (optimalStoppingTime μ 𝓕 Z N n) | 𝓕 n] =ᵐ[μ] snellEnvelope μ 𝓕 Z N n := by
+  sorry
+
+/-- 1.4. The value of the stopping problem with horizon `N`, the largest expected reward of a
+stopping time bounded by `N`, is the mean of the Snell envelope at time `0`. -/
+theorem isGreatest_integral_stoppedValue {μ : Measure Ω} [IsProbabilityMeasure μ]
+    {𝓕 : Filtration ℕ m0} {Z : ℕ → Ω → ℝ} {N : ℕ}
+    (hZ : ∀ n ≤ N, StronglyMeasurable[𝓕 n] (Z n)) (hint : ∀ n ≤ N, Integrable (Z n) μ) :
+    IsGreatest {x | ∃ τ : Ω → WithTop ℕ, IsStoppingTime 𝓕 τ ∧ (∀ ω, τ ω ≤ N) ∧
+      μ[stoppedValue Z τ] = x} (μ[snellEnvelope μ 𝓕 Z N 0]) := by
+  sorry
+
+/-! ## Layer 2: the secretary problem -/
+
+/-- 2.1. The relative ranks `R 0, …, R (n - 1)` of `n` candidates in a uniformly random order:
+they are independent and `R i` is uniform on `{0, …, i}` (rank `0` is relatively best). -/
+def IsRelativeRanks (μ : Measure Ω) (n : ℕ) (R : ℕ → Ω → ℕ) : Prop :=
+  iIndepFun (fun i : Fin n => R i) μ ∧ ∀ i < n, ∀ k ≤ i, μ {ω | R i ω = k} = ((i : ℝ≥0∞) + 1)⁻¹
+
+/-- 2.1. The filtration generated by the relative ranks. -/
+noncomputable def rankFiltration (R : ℕ → Ω → ℕ) (hR : ∀ i, Measurable (R i)) :
+    Filtration ℕ m0 :=
+  Filtration.natural R fun i => (hR i).stronglyMeasurable
+
+/-- 2.1. The reward for stopping at `i`: `1` if candidate `i` is relatively best and no later
+candidate among the first `n` is, which says that candidate `i` is the best of all; else `0`. -/
+noncomputable def secretaryReward (n : ℕ) (R : ℕ → Ω → ℕ) : ℕ → Ω → ℝ := fun i ω =>
+  if i < n ∧ R i ω = 0 ∧ ∀ j ∈ Finset.Ioo i n, R j ω ≠ 0 then 1 else 0
+
+/-- 2.2. The threshold rule with threshold `r`: pass over the first `r - 1` candidates and stop at
+the first relatively best one after them, or at the last candidate if there is none. -/
+noncomputable def thresholdRule (n r : ℕ) (R : ℕ → Ω → ℕ) : Ω → WithTop ℕ :=
+  fun ω => ((hittingBtwn R {0} (r - 1) (n - 1) ω : ℕ) : WithTop ℕ)
+
+/-- 2.2. The winning probability of the threshold rule `r`: `1/n` for `r = 1` and
+`(r - 1)/n · Σ_{k=r}^{n} 1/(k - 1)` for `r ≥ 2`. -/
+noncomputable def thresholdWinProb (n r : ℕ) : ℝ :=
+  if r = 1 then 1 / n else ((r : ℝ) - 1) / n * ∑ k ∈ Finset.Icc r n, 1 / ((k : ℝ) - 1)
+
+/-- 2.3. The optimal threshold: the least `r ≥ 1` with `Σ_{k=r+1}^{n} 1/(k - 1) ≤ 1`. -/
+noncomputable def secretaryThreshold (n : ℕ) : ℕ :=
+  sInf {r : ℕ | 1 ≤ r ∧ ∑ k ∈ Finset.Icc (r + 1) n, 1 / ((k : ℝ) - 1) ≤ 1}
+
+/-- 2.3. The optimal winning probability of the secretary problem with `n` candidates. -/
+noncomputable def secretaryValue (n : ℕ) : ℝ :=
+  thresholdWinProb n (secretaryThreshold n)
+
+/-- 2.2. The threshold rule `r`, for `1 ≤ r ≤ n`, selects the best candidate with probability
+`thresholdWinProb n r`. -/
+theorem integral_stoppedValue_thresholdRule {μ : Measure Ω} [IsProbabilityMeasure μ]
+    {n r : ℕ} {R : ℕ → Ω → ℕ} (hR : ∀ i, Measurable (R i)) (hlaw : IsRelativeRanks μ n R)
+    (hr : 1 ≤ r) (hrn : r ≤ n) :
+    μ[stoppedValue (secretaryReward n R) (thresholdRule n r R)] = thresholdWinProb n r := by
+  sorry
+
+/-- 2.3. For `n ≥ 1` candidates, `secretaryValue n` is the largest probability of selecting the
+best candidate over all stopping times of the relative ranks that stop before `n`; the threshold
+rule with threshold `secretaryThreshold n` attains it. -/
+theorem secretary_isGreatest {μ : Measure Ω} [IsProbabilityMeasure μ] {n : ℕ}
+    {R : ℕ → Ω → ℕ} (hR : ∀ i, Measurable (R i)) (hlaw : IsRelativeRanks μ n R) (hn : 1 ≤ n) :
+    IsGreatest {x | ∃ τ : Ω → WithTop ℕ, IsStoppingTime (rankFiltration R hR) τ ∧
+      (∀ ω, τ ω < n) ∧ μ[stoppedValue (secretaryReward n R) τ] = x} (secretaryValue n) ∧
+      μ[stoppedValue (secretaryReward n R) (thresholdRule n (secretaryThreshold n) R)] =
+        secretaryValue n := by
+  sorry
+
+/-- 2.4. The optimal winning probability tends to `1/e`. -/
+theorem tendsto_secretaryValue :
+    Tendsto secretaryValue atTop (𝓝 (Real.exp (-1))) := by
+  sorry
+
+/-- 2.4. The optimal threshold divided by the number of candidates tends to `1/e`. -/
+theorem tendsto_secretaryThreshold_div :
+    Tendsto (fun n : ℕ => (secretaryThreshold n : ℝ) / n) atTop (𝓝 (Real.exp (-1))) := by
+  sorry
+
+/-! ## Layer 3: the prophet inequality -/
+
+/-- 3.1. The prophet inequality with a single threshold: for independent integrable `X 0, …, X n`
+with `X n ≥ 0` almost surely, the rule that stops at the first `i ≤ n` with `X i` above half the
+expected maximum, or at `n`, earns at least half the expected maximum. -/
+theorem prophet_inequality {μ : Measure Ω} [IsProbabilityMeasure μ] {n : ℕ}
+    {X : ℕ → Ω → ℝ} (hind : iIndepFun (fun i : Fin (n + 1) => X i) μ)
+    (hint : ∀ i ≤ n, Integrable (X i) μ) (hnn : 0 ≤ᵐ[μ] X n) :
+    let M : Ω → ℝ := fun ω => (Finset.range (n + 1)).sup' Finset.nonempty_range_add_one
+      (fun i => X i ω)
+    μ[M] ≤ 2 * μ[stoppedValue X
+      (fun ω => ((hittingBtwn X (Set.Ioi (μ[M] / 2)) 0 n ω : ℕ) : WithTop ℕ))] := by
+  sorry
+
+/-- 3.2. The constant `2` cannot be lowered: for every `c < 2` there are two independent
+nonnegative random variables on `Bool` whose expected maximum exceeds `c` times the expected
+reward of every stopping time of their natural filtration bounded by `1`. -/
+theorem prophet_inequality_sharp (c : ℝ) (hc : c < 2) :
+    ∃ (μ : Measure Bool) (X : ℕ → Bool → ℝ) (hX : ∀ i, StronglyMeasurable (X i)),
+      IsProbabilityMeasure μ ∧ iIndepFun (fun i : Fin 2 => X i) μ ∧ (∀ i ω, 0 ≤ X i ω) ∧
+      ∀ τ : Bool → WithTop ℕ, IsStoppingTime (Filtration.natural X hX) τ → (∀ ω, τ ω ≤ 1) →
+        c * μ[stoppedValue X τ] < μ[fun ω => max (X 0 ω) (X 1 ω)] := by
+  sorry
+
+end TauCetiRoadmap.OptimalStopping
