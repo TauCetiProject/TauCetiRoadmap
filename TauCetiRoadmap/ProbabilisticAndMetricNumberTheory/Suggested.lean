@@ -15,7 +15,8 @@ pinned Mathlib and Tau Ceti APIs. The weighted GCD-graph compression theorem
 is not statable on a native pinned carrier: weighted GCD graphs with prime
 valuation metadata and their quality are absent. Its construction and theorem
 are README targets. The signatures below cover the additive limit laws,
-polynomial Haar-mixture limits, discrepancy, normality, metric and Hausdorff
+polynomial Haar-mixture limits, single-scale inverse theorems for Weyl sums of
+polynomial phases, discrepancy, normality, metric and Hausdorff
 approximation, pointwise and Gauss dynamics, lattice quotients with Howe–Moore,
 Moore ergodicity and Mahler's criterion, and multiplicative correlations.
 Simple definitions specify only the objects occurring in these signatures.
@@ -285,6 +286,57 @@ theorem uniformDistribution_mod_one_tfae (u : ℕ → ℝ) :
           (fun i => Int.fract (u i) ∈ Set.Ico a b)).card : ℝ) / (n + 1)) atTop (𝓝 (b - a)),
       ∀ k : ℤ, k ≠ 0 → Tendsto (fun n : ℕ => ((n + 1 : ℕ) : ℂ)⁻¹ *
         ∑ i ∈ Finset.range (n + 1), fourier k (u i : UnitAddCircle)) atTop (𝓝 0)] := by
+  sorry
+
+/-! ### §2.5a Single-scale Weyl sums of polynomial phases -/
+
+/-- The polynomial phase `n ↦ ∑_{j ≤ s} n ^ j • α j` on the circle (README §2.5a). -/
+def circlePolynomial (s : ℕ) (α : ℕ → UnitAddCircle) (n : ℕ) : UnitAddCircle :=
+  ∑ j ∈ Finset.range (s + 1), (n ^ j) • α j
+
+/-- A large unweighted sum has many large lag correlations (README §2.5a; Tao, Higher order
+Fourier analysis, Exercise 1.1.20, in exponential-sum form). -/
+theorem weyl_sum_lag_count (N H : ℕ) (δ : ℝ) (b : ℕ → ℂ) (hb : ∀ n, ‖b n‖ ≤ 1)
+    (hδ : 0 < δ) (hH : 1 ≤ H) (hHN : (H : ℝ) ≤ δ ^ 2 * N / 4)
+    (hsum : δ * N ≤ ‖∑ n ∈ Finset.range N, b n‖) :
+    3 / 20 * δ ^ 2 * H - 1 / 2 ≤
+      (((Finset.Ico 1 H).filter fun h => δ ^ 2 * N / 4 ≤
+        ‖∑ n ∈ Finset.range (N - h), b (n + h) * starRingEnd ℂ (b n)‖).card : ℝ) := by
+  sorry
+
+/-- **Vinogradov's lemma** (README §2.5a; Tao, Higher order Fourier analysis, Lemma 1.1.14). -/
+theorem vinogradov_lemma : ∃ C : ℝ, 0 < C ∧ ∀ (α : UnitAddCircle) (ε δ : ℝ) (N : ℕ),
+    0 < ε → ε < 1 / 100 → 100 * ε < δ → δ < 1 → 100 / δ ≤ N →
+    δ * N ≤ (((Finset.Icc (-(N : ℤ)) N).filter fun n => ‖n • α‖ ≤ ε).card : ℝ) →
+    ∃ q : ℕ, 0 < q ∧ (q : ℝ) ≤ C / δ ∧ ‖q • α‖ ≤ C * ε * q / (δ * N) := by
+  sorry
+
+/-- A large linear Weyl sum forces a small frequency (README §2.5a). -/
+theorem weyl_sum_linear_inverse (N : ℕ) (δ : ℝ) (α β : UnitAddCircle) (hN : 0 < N)
+    (hδ : 0 < δ)
+    (hsum : δ * N ≤ ‖∑ n ∈ Finset.range N, fourier 1 (n • α + β)‖) :
+    ‖α‖ ≤ 1 / (2 * δ * N) := by
+  sorry
+
+/-- **The leading-coefficient inverse theorem for Weyl sums.** If the Weyl sum of a polynomial
+phase of degree at most `s` has size `δ N`, a positive integer `q ≤ C δ^(-C)` brings the top
+coefficient within `C δ^(-C) / N ^ s` of an integer (README §2.5a; Tao, Higher order Fourier
+analysis, Exercise 1.1.21). -/
+theorem weyl_sum_leading_coefficient_inverse (s : ℕ) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (N : ℕ) (δ : ℝ) (α : ℕ → UnitAddCircle), 0 < N → 0 < δ →
+      δ * N ≤ ‖∑ n ∈ Finset.range N, fourier 1 (circlePolynomial s α n)‖ →
+      ∃ q : ℕ, 0 < q ∧ (q : ℝ) ≤ C * δ ^ (-C) ∧
+        ‖q • α s‖ ≤ C * δ ^ (-C) / (N : ℝ) ^ s := by
+  sorry
+
+/-- **The coefficient inverse theorem for Weyl sums.** One positive integer `q ≤ C δ^(-C)`
+controls every non-constant coefficient at its own scale (README §2.5a; Tao, Higher order
+Fourier analysis, Lemma 1.1.16). -/
+theorem weyl_sum_coefficients_inverse (s : ℕ) :
+    ∃ C : ℝ, 0 < C ∧ ∀ (N : ℕ) (δ : ℝ) (α : ℕ → UnitAddCircle), 0 < N → 0 < δ →
+      δ * N ≤ ‖∑ n ∈ Finset.range N, fourier 1 (circlePolynomial s α n)‖ →
+      ∃ q : ℕ, 0 < q ∧ (q : ℝ) ≤ C * δ ^ (-C) ∧
+        ∀ j ∈ Finset.Icc 1 s, ‖q • α j‖ ≤ C * δ ^ (-C) / (N : ℝ) ^ j := by
   sorry
 
 end Equidistribution
