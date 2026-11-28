@@ -32,7 +32,10 @@ Néron model is an extension of an abelian variety by a torus. For every discret
 valuation ring of the integral closure of `R` in `K'` lying over `R`. Grothendieck's monodromy
 criterion says that over a henselian discrete valuation ring, with `ℓ ≠ char k`, `A` is semistable
 exactly when inertia acts unipotently on `T_ℓ(A)`; each inertia element `σ` then satisfies
-`(σ − 1)² = 0`.
+`(σ − 1)² = 0`. For a smooth projective geometrically connected curve over `K`, nodal
+reduction of the curve makes its Jacobian semistable; when the genus is at least two and the
+residue field is perfect the converse holds, so the curve has a stable model exactly when its
+Jacobian is semistable (the Deligne–Mumford criterion).
 
 The special fibre is usually disconnected. Its connected components over a separable closure of
 the residue field `k`, with their Galois action, form a finite étale group `Φ_A` over `k`, the
@@ -65,8 +68,8 @@ proves uniqueness, extension and the group law, constructs models locally and gl
 extracts the differential lattice. Layer 2 builds the identity component, the component group,
 the Chevalley decomposition and the toric character lattice, and compares the elliptic
 equation-level objects with the model. Layer 3 defines semistability, proves the Tate-module
-filtration, the Picard–Néron identity comparison, semistable reduction after a finite
-extension and then Grothendieck's criterion, and
+filtration, the Picard–Néron identity comparison, the curve–Jacobian criterion, semistable
+reduction after a finite extension and then Grothendieck's criterion, and
 compares the formal identity model with the Raynaud extension and the rigid uniformisation.
 Layer 4 builds the graph and monodromy theory of a regular semistable curve, the integral pairing of
 any semistable abelian variety, the component group as its cokernel, Grothendieck's pairing, the
@@ -945,8 +948,8 @@ modifications; Tau Ceti's character lattices, `kerReduction` and
 
 Semistability is a property of the identity component of the special fibre: it is semi-abelian.
 This layer defines the predicate, proves what survives isogeny and base change, builds the
-toric–finite filtration of the Tate module, establishes the Picard identity comparison and
-semistable reduction after a finite extension, and then proves Grothendieck's monodromy criterion, and compares the formal completion of the
+toric–finite filtration of the Tate module, establishes the Picard identity comparison, the
+curve–Jacobian criterion and semistable reduction after a finite extension, and then proves Grothendieck's monodromy criterion, and compares the formal completion of the
 semistable identity model with the Raynaud extension and the rigid uniformisation. Throughout,
 `R` is a discrete valuation ring with fraction field `K` and residue field `k`, `A` an abelian
 variety over `K` with Néron model `M` (Layer 1), identity model `M⁰` and component group `Φ_A`
@@ -1308,6 +1311,92 @@ of this target. *Needs:* 1.4, 3.3, 3.8.
   integer degree components even for a smooth curve and cannot be the Néron model of its
   Jacobian. For `n > 1`, the split `Iₙ` case also refutes the full mapping property for `Pic⁰`.
 
+### 3.9a The curve–Jacobian criterion
+
+Let `R` be a discrete valuation ring with fraction field `K` and residue field `k`, `C` a smooth
+projective geometrically connected curve of genus `g` over `K`, `J = Jac(C)` (JacobianChallenge
+Layers D–E) and `N` the Néron model of `J` over `R`. Prove `CurveJacobianCriterion`:
+
+- `forward`: if `C` has nodal reduction over `R` (StableReduction Layer 7's `HasNodalReduction`,
+  a proper at-worst-nodal model), then `J` is semistable over `R` (3.1), for every `R` and in
+  every genus;
+- `converse`: if `g ≥ 2`, `k` is perfect and `J` is semistable over `R`, then `C` has a stable
+  model over `R`, a proper model that is a `StableFamily` of StableReduction Layer 3, unique up to
+  unique isomorphism by StableReduction Layer 8.
+
+So for `g ≥ 2` and perfect `k`, a stable model, nodal reduction and semistability of `J` are
+equivalent (Deligne–Mumford, Proposition 2.3, pp. 88–89, and Theorem 2.4 with its proof,
+pp. 89–92). The converse carries the residue-field hypothesis under which the sources state it:
+Deligne–Mumford assume `k` algebraically closed throughout their §2 (p. 87), and
+[Stacks, Remark 55.18.2, tag 0CEK](https://stacks.math.columbia.edu/tag/0CEK) records the
+equivalence for perfect `k`. No step of the route below uses that `k` is perfect; the hypothesis
+is kept only because the sources state the converse under it.
+
+For the forward direction, the singular points of the total space of a nodal model lie at nodes
+of the special fibre, where it is étale-locally `uv = πⁿ` (StableReduction Layer 1), and
+StableReduction Layer 4's blowups resolve them. The result is a regular proper model whose
+special fibre is geometrically reduced with at worst ordinary double points, so 3.8 makes its
+`Pic⁰` semi-abelian, 3.9 identifies that with `N⁰`, and `SemistableReduction.iff_identity` gives
+semistability of `J`. No residue-field or genus hypothesis enters.
+
+For the converse, follow the descent in the proof of Deligne–Mumford (pp. 91–92), with
+StableReduction supplying the stable model after a finite extension that they obtain from the
+case of a rational point. StableReduction Layers 7–8 give a finite separable `K'/K` and stable
+models of `C_{K'}` over the localisations of the integral closure `R̃` of `R` in `K'` at all its
+maximal ideals; glued along `C_{K'}` they form a stable curve `C̃` over `Spec R̃`, and `R̃` is
+finite and flat over `R` (Mathlib `IsIntegralClosure.finite`). The fibrewise identity component
+`Pic⁰_{C̃/R̃}` of its relative Picard space (the suppliers of 3.8) is identified by pullback with
+that of the regular resolution of `C̃` (StableReduction Layer 4), whose exceptional curves form
+chains of rational curves. Over each localisation of `R̃`, 3.9 identifies the latter with the
+Néron identity model of `J_{K'}`, which by 3.3, as `J` is semistable, is the base change of `N⁰`;
+so `Pic⁰_{C̃/R̃} ≅ N⁰ ×_R R̃`. Over `S'' = Spec(R̃ ⊗_R R̃)`, the isomorphisms between the two
+pullbacks of `C̃` that act as the identity on their `Pic⁰`, both identified with `N⁰ ×_R S''`,
+form a closed subscheme `T` of the Isom scheme, which is finite and unramified over `S''`
+(SchemeAndStackFoundations §4.15, `isom_stable_curves`). By `StablePicardFaithful` below, `T` is
+radicial over `S''`, so `T → S''` is a closed immersion
+([Stacks, Lemma 41.7.2, tag 04XV](https://stacks.math.columbia.edu/tag/04XV)). It contains the
+generic fibre `Spec(K' ⊗_K K')`, over which the canonical identification of the two pullbacks of
+`C_{K'}` acts trivially on `J`, and that fibre is schematically dense because `S''` is flat over
+`R`. Hence `T = S''`: the canonical descent datum extends over `S''`, satisfies the cocycle
+condition because it does on the schematically dense generic fibre of the triple product, and is
+effective by fppf descent of stable curves (SchemeAndStackFoundations §4.15, `Mbar.isStack`).
+The descended curve is a stable model of `C` over `R`.
+
+Part of this target is `StablePicardFaithful`: an automorphism of a stable curve over an
+algebraically closed field that acts trivially on its `Pic⁰`, the line bundles of degree zero on
+every component (3.8's `multidegree`), is the identity (Deligne–Mumford, Theorem 1.13 and
+Lemmas 1.14–1.17, pp. 85–87). Their proof treats a smooth curve, an irreducible curve and an
+automorphism fixing every component and node, and reduces to the last case by a fixed-point
+count on the dual graph. For the smooth case of genus at least two, in place of their
+Lefschetz–Weil count: if an automorphism `τ ≠ 1` acts trivially on the Jacobian and `τP ≠ P`,
+then for every point `Q ≠ P` the divisors `Q + τP` and `τQ + P` are distinct and linearly
+equivalent, so each `Q + τP` lies in a `g¹_2`; a curve of genus at least two has at most one
+`g¹_2`, and only one of its divisors contains `τP`.
+*Needs:* 3.1, 3.3, 3.8, 3.9; StableReduction Layers 1 and 4 (the normal form of nodes and their
+resolution), Layer 3 (stable curves), Layer 7 (`HasNodalReduction` and nodal reduction after a
+finite separable extension at every place) and Layer 8 (stabilization and uniqueness of stable
+models); SchemeAndStackFoundations §4.15 (`isom_stable_curves`, `Mbar.isStack`);
+AlgebraicModuliForArithmeticGeometry §7.6.1 and ComplexComparisonPartII §C3.2d.2 and
+§§C3.2f.1–C3.2f.2 (the Picard space of `C̃`); JacobianChallenge Layers D–E; Mathlib
+`IsIntegralClosure.finite`.
+
+**Checks.**
+
+- Over `ℤ_p` with `p ≥ 5`, the genus-two curve `y² = (x² − p)(x − 1)(x − 2)(x − 3)` has the
+  model given by this equation and the usual chart at infinity. It is regular and stable: its
+  special fibre is irreducible with one node, at the origin, where the model is étale-locally
+  `uv = p`, and its normalisation is the elliptic curve `y² = (x − 1)(x − 2)(x − 3)`. The forward
+  direction and 3.8 give `J` semistable with toric rank `1` and abelian rank `1`, so
+  `g = t + a = 2`.
+- (non-example, genus one) Over `ℚ_p`, let `C` be a torsor without rational point under an
+  elliptic curve `E` with good reduction; one exists because Tate local duality makes
+  `H¹(ℚ_p, E)` dual to the nonzero group `E(ℚ_p)`. Then `Jac(C) = E` is semistable, but `C` has
+  no nodal model: by the forward argument its resolved special fibre would have as `Pic⁰` the
+  reduction of `E`, hence be a tree of smooth curves with one component of genus one, and
+  contracting the rational components would give a smooth model. Its special fibre has an
+  `𝔽_p`-point by Lang's theorem, which Hensel's lemma lifts to a point of `C(ℚ_p)`. So the
+  converse needs `g ≥ 2`.
+
 ### 3.10 Semistable reduction after a finite separable extension
 
 Let `R` be a discrete valuation ring. Prove `FiniteSeparableSemistableExtension`: there
@@ -1329,9 +1418,10 @@ StableReduction Layer 7's curve-reduction existence theorem and Layer 4's resolu
 a regular semistable model; a section is obtained by a further finite separable extension when
 needed. The semi-abelian Picard identity fibre of 3.8 and its Néron comparison 3.9 make the
 Jacobian semistable. Products and isogeny invariance (3.1–3.2) then give the assertion for `A`.
-Only the curve-reduction existence theorem is consumed here; the later curve–Jacobian criterion,
-which consumes this roadmap, is not an input. The integral closure of `R` in `K'` is a finite
-`R`-module because `K'/K` is finite separable and `R` is a Noetherian integrally closed domain
+Only the curve-reduction existence theorem is consumed here; the passage from it to a semistable
+Jacobian is the argument of the forward direction of the curve–Jacobian criterion 3.9a, and the
+converse of 3.9a is not an input. The integral closure of `R` in `K'` is a finite `R`-module
+because `K'/K` is finite separable and `R` is a Noetherian integrally closed domain
 (the trace-form lattice argument, Mathlib `IsIntegralClosure.finite`), and it is a semilocal
 Dedekind domain (Mathlib `IsIntegralClosure.isDedekindDomain`); check each maximal ideal. No
 excellence of `R` enters, in agreement with Conrad, §4, p. 8, where the whole section is stated
@@ -1566,12 +1656,15 @@ A4.1 for the Tate-module carrier, A4.8 for polarised formal effectivity and A6.5
 reducibility;
 EtaleCohomologyFoundations §F.3a for arbitrary henselian-trait inertia, the residue
 Galois action and tame characters;
-SchemeAndStackFoundations §§0.12–0.14 and §§4.7–4.13 for henselisation and formal geometry;
+SchemeAndStackFoundations §§0.12–0.14 and §§4.7–4.13 for henselisation and formal geometry, and
+§4.15 for Isom schemes and descent of stable curves;
 Mathlib's Zariski main theorem and `IsIntegralClosure.finite` (finite integral closure in a
 finite separable extension);
 RigidAnalyticGeometry §§6.1–6.2 and §§8.1–8.3
 and AdicSpacesPartIII F0 and R2.3 for analytic and formal carriers; EllipticCurves Layer 4 for the Tate curve; StableReduction Layers
-4 and 7 for curve existence and regular resolution; JacobianChallenge Layers D–F for Jacobians;
+1, 3–5, 7 and 8 for nodes and their resolution, stable curves, regular models, nodal reduction
+after a finite separable extension, and stabilization with uniqueness of stable models;
+JacobianChallenge Layers D–F for Jacobians;
 AlgebraicModuliForArithmeticGeometry §§7.6.1 and 7.9 for the Picard sheaf and group-space components;
 ComplexComparisonPartII §C3.2d.2 and §§C3.2f.1–C3.2f.2 for Picard representability and identity components.
 
@@ -2589,7 +2682,7 @@ criteria (Serre–Tate 1968, §1, Thm 1; §2, Thm 2 and corollaries). *Needs:* 1
 ### 5.2 Good reduction is isogeny invariant
 
 Let `R` be a discrete valuation ring. Prove `GoodIsogeny`: isogenous abelian
-varieties over `K` have good reduction over `R` simultaneously (Conrad, Proposition 4.1, pp. 8–9, and pp. 9–10, stated for an arbitrary discrete valuation ring). An isogeny induces an
+varieties over `K` have good reduction over `R` simultaneously (Conrad, Proposition 4.1(1), pp. 8–9, stated for an arbitrary discrete valuation ring, with 3.2 and `good` and `toric_zero` of 3.1). An isogeny induces an
 isomorphism of the rational Tate modules `V_ℓ(A) ≅ V_ℓ(B)` even when `ℓ` divides its degree,
 inertia acts trivially on the torsion-free lattice `T_ℓ(A)` if and only if it does on `V_ℓ(A)`,
 and 5.1 applies; for a non-henselian `R` the abelian-scheme model descends from the henselisation
@@ -3043,8 +3136,7 @@ conductor–discriminant theorem.
 
 ### 5.3e Ogg's formula and the conductor–discriminant theorem
 
-**Ogg's formula.** Prove that for `p ≥ 5`, `v(Δ_min) = f(E) + m − 1` (Darmon–Diamond–Taylor 2007,
-§2.2, Rem. 2.14, p. 58). Prove Saito's conductor–discriminant formula: for `R` a complete discrete
+**Ogg's formula.** Prove Saito's conductor–discriminant formula: for `R` a complete discrete
 valuation ring with perfect residue field of characteristic `p`, `C/K` smooth projective geometrically
 connected of genus `≥ 1` with minimal regular model `X/R`,
 `Art(X/R) := χ(X_K̄) − χ(X_k̄) − Sw(H¹_ét(C_K̄, ℚ_ℓ))` (`ℓ ≠ p`) and Deligne's discriminant `Δ_{X/R}`,
@@ -3939,14 +4031,14 @@ Let `K` be a function field of one variable over a perfect field `k`, `C` a smoo
 geometrically integral curve of genus `g > 1` over `K`, `J = Jac(C)`, `N ≥ 3` prime to `char K`
 (`N = 3` if `char K ≠ 3`, else `N = 4`), and `K' = K(J[N])`. Prove `YuanFullLevelExtension`:
 `J ×_K K'` is semistable at every valuation of `K'` trivial on `k` (3.12 at the valuations prime
-to `N`); `C ×_K K'` is semistable at those valuations by the curve–Jacobian criterion of
-StableReduction Layer 7. Here the residue fields at these places are finite over
-the perfect constant field. Deligne–Mumford, §2, Theorem 2.4, pp. 87–90, states the
-criterion with algebraically closed residue field; passage to a strict henselisation and
-descent of the stable model give this perfect-residue-field form; and `[K' : K] < N^{4g²}` because `Gal(K'/K)` injects into `GSp_{2g}(ℤ/N)`,
-whose order is less than `N^{4g²}` (Yuan, Lemma 4.9 and the full-level paragraph, p. 75,
-where `J` is the Jacobian of `C`). No height lower bound is asserted. *Needs:* 3.12;
-StableReduction Layer 7; `ArithmeticGaloisRepresentations:§§6.1–6.2`,
+to `N`); at those valuations `C ×_K K'` has nodal reduction (StableReduction Layer 7's
+`HasNodalReduction`), indeed a stable model, by the converse of the curve–Jacobian criterion
+3.9a, whose perfect-residue-field hypothesis holds because the residue fields at these places
+are finite over the perfect constant field `k`; and `[K' : K] < N^{4g²}` because `Gal(K'/K)`
+injects into `GSp_{2g}(ℤ/N)`, whose order is less than `N^{4g²}` (Yuan, Lemma 4.9 and the
+full-level paragraph, p. 75, where `J` is the Jacobian of `C`). No height lower bound is
+asserted. *Needs:* 3.9a, 3.12; StableReduction Layer 7 (`HasNodalReduction`);
+`ArithmeticGaloisRepresentations:§§6.1–6.2`,
 `AbelianSchemesAndArithmeticModuli:A3` (the Galois action on `J[N]` preserves the Weil pairing).
 
 **Checks.**
@@ -4015,8 +4107,6 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
 - **SelmerIwasawaCohomology** §4.26: `AbelianVariety.deRham`, `PadicComparison` and
   finite-extension descent from 5.3, and the Raynaud uniformisation of 3.13–3.14,
   for its elliptic tangent, exponential and Kummer comparison on the shared `D_dR`.
-- **StableReduction** Layer 7 (the curve–Jacobian criterion): local existence 1.7, the
-  semistable predicate 3.1 and the Picard–Néron comparison 3.9.
 - **NeronModelsAndSemistableAbelianVarieties Part II** and **JacobianChallenge Part II**: the
   component groups and configurations of Layer 2, the Picard theory of Layer 4 and the stable
   Picard scheme 4.13.
@@ -4139,9 +4229,10 @@ The roadmap owns:
   Kodaira fibre configurations and geometric component groups by type;
 - the semistable reduction predicate and its invariance under isogeny and identity-model base
   change; the toric–finite filtration of the Tate module, Weil orthogonality, unipotence of
-  inertia, Grothendieck's monodromy criterion, semistable reduction after a finite separable
-  extension, and the full-level criterion; the Raynaud extension and the polarised rigid
-  uniformisation with its lattice and valuation pairing;
+  inertia, the curve–Jacobian criterion of Deligne–Mumford with the faithful action of
+  automorphisms of a stable curve on its `Pic⁰`, Grothendieck's monodromy criterion, semistable
+  reduction after a finite separable extension, and the full-level criterion; the Raynaud
+  extension and the polarised rigid uniformisation with its lattice and valuation pairing;
 - the degree-zero Picard scheme of a regular semistable curve over a discrete valuation ring,
   the normalisation sequence, the dual-multigraph adapters for the supplied integral cycle
   lattice and its identification with the toric characters, the Picard–Néron identity comparison,
@@ -4177,15 +4268,16 @@ It leaves to other roadmaps, and consumes from them:
   discriminant, the Tate module of an elliptic curve with its Galois action and Weil pairing,
   the three equation-level Néron–Ogg–Shafarevich statements, and the point count over finite
   fields. That roadmap excludes Néron models by design; this roadmap owns the comparisons.
-- **StableReduction** (Tau Ceti), Layers 0–7: models over a discrete valuation ring with
+- **StableReduction** (Tau Ceti), Layers 0–8: models over a discrete valuation ring with
   their generic-fibre markings (`TauCeti.Model`), nodes, normalisation and the dual graph with
   its Betti number, stable curves, blow-ups and intersection theory on arithmetic surfaces,
   regular and minimal models with their components and multiplicities, numerical types and the
-  numerical Picard group `TauCeti.NumericalType.Pic` with its degree map and torsion, semistable
-  reduction of curves and the curve–Jacobian criterion. Layer 5 supplies the minimal regular
-  model; `KodairaConfiguration` in 2.8 here identifies its fibre with the configuration
-  attached to EllipticCurves' `ReductionSymbol`. This roadmap also owns the smooth-locus
-  and component-group comparisons.
+  numerical Picard group `TauCeti.NumericalType.Pic` with its degree map and torsion, the
+  predicate `HasNodalReduction` with nodal reduction of curves after a finite separable
+  extension, and stabilization with the uniqueness of stable models. Layer 5 supplies the
+  minimal regular model; `KodairaConfiguration` in 2.8 here identifies its fibre with the
+  configuration attached to EllipticCurves' `ReductionSymbol`. This roadmap also owns the
+  smooth-locus and component-group comparisons.
 - **FreeGroupsAndLimitGroups**, §2.2a
   ([finite cycle spaces and independent cycles](../FreeGroupsAndLimitGroups/README.md#22a-finite-cycle-spaces-and-independent-cycles)):
   signed integral incidence and its kernel, binary cycles, spanning forests and their count,
@@ -4496,9 +4588,11 @@ nodes and branches, the dual graph with loops, valence and `b₁`. Layer 3: stab
 blow-ups, strict transforms, intersection multiplicities and the resolution of `xy = π^n`.
 Layer 5: regular and minimal proper models of a positive-genus curve, their uniqueness,
 components, multiplicities, `div(π) = Σ m_i C_i`, adjunction and the genus formula. Layer 6: `NumericalType`,
-its Picard group, degree map and torsion. Layer 7: semistable reduction of curves after a finite
-separable extension and the curve–Jacobian criterion with its residue-field hypotheses. All over
-an arbitrary discrete valuation ring unless stated.
+its Picard group, degree map and torsion. Layer 7: the predicate `HasNodalReduction` (a proper
+at-worst-nodal model) and nodal reduction of curves after a finite separable extension,
+simultaneously at every place of the integral closure. Layer 8: stabilization of nodal models of
+genus at least two, and existence and uniqueness up to unique isomorphism of the stable model over
+a discrete valuation ring. All over an arbitrary discrete valuation ring unless stated.
 
 ### From `TauCetiRoadmap.ProfiniteCohomology`
 
@@ -4807,7 +4901,10 @@ formulas are consumed from FreeGroupsAndLimitGroups §2.2a.
 - L. Illusie, *Grothendieck and vanishing cycles*, Annales de la Faculté des Sciences de
   Toulouse 30 (2021): Theorem 4.1 and footnote 12, p. 95; §4.3, pp. 97–98.
 - P. Deligne and D. Mumford, *The irreducibility of the space of curves of given genus*,
-  Publ. Math. IHÉS 36 (1969): §2, Theorem 2.4, pp. 87–90.
+  Publ. Math. IHÉS 36 (1969), 75–109;
+  [public text](https://www.numdam.org/item/PMIHES_1969__36__75_0.pdf): §1, Theorem 1.13 and
+  Lemmas 1.14–1.17, pp. 85–87; §2, standing hypotheses, p. 87, Proposition 2.3, pp. 88–89, and
+  Theorem 2.4 with its proof, pp. 89–92, for 3.9a.
 - J.-M. Fontaine, *Sur certains types de représentations p-adiques du groupe de Galois d'un corps
   local; construction d'un anneau de Barsotti–Tate*, Annals of Mathematics 115 (1982), 529–577;
   and *Le corps des périodes p-adiques*, Astérisque 223 (1994), 59–111;
