@@ -404,6 +404,7 @@ body:
         - LovaszThetaFunction
         - LubinTateFormalModulesAndQuasiCanonicalLifts
         - MaassForms
+        - MalliavinSteinAndFourthMoment
         - MappingClassGroupsAndCanonicalRepresentations
         - MarkovChainMixing
         - MarkovChainsAndRenewal
