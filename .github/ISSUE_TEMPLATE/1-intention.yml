@@ -568,6 +568,7 @@ body:
         - RigidAnalyticGeometry
         - RobustnessCertificates
         - RootSystemsPartII
+        - RungePhenomenonAndLebesgueConstants
         - SNumbers
         - SamplingAndDiscreteFourierAnalysis
         - SatoTateGroups
