@@ -1,0 +1,371 @@
+/-
+Copyright (c) 2026 The Tau Ceti contributors. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+-/
+import Mathlib
+import TauCeti.Probability.Process.EmpiricalMeasure
+
+/-!
+# Polynomial orbits on nilmanifolds and Host–Kra cube groups: target signatures
+
+`README.md` is the roadmap; this file is not the roadmap and is not exhaustive. The statements
+here suggest Lean forms for the roadmap's headline theorems, so that contributors and reviewers
+converge on names and signatures; discharging all of them finishes neither a layer nor the
+roadmap. Each is statable against the pinned Mathlib and Tau Ceti, with `sorry`, and every
+definition has its real body.
+
+The headline theorems are:
+
+* Layer 0: the Host–Kra cube group is filtered, the Leibman square is its one-dimensional case,
+  and cube configurations of polynomial sequences lie in it;
+* Layer 1: weight components of a compact torus action, and density of weight vectors;
+* Layer 2: existence and uniqueness of the invariant probability on a nilmanifold;
+* Layer 4: existence and uniqueness of the invariant probability on a cube nilmanifold;
+* Layer 5: the ineffective single-scale theorem and Leibman's equidistribution criterion;
+* Layer 6: cube equidistribution for sequences of polynomials irrational at scale `N`;
+* Layer 7: topological polynomial recurrence for nilpotent group actions, and its colouring form.
+
+Not stated here: sequential factorisation, the limit laws and the orbit-closure theorem
+(Layer 6.2–6.4), whose statements need the sub-nilmanifold Haar measures of README 2.3 as
+carriers; and the multiparameter forms of Layer 5.4.
+
+The first section prototypes objects of the roadmap NilmanifoldsAndNilsequences, which owns them
+(filtrations of groups, polynomial maps, face elements and Host–Kra cube groups, rational
+filtrations; horizontal characters are prototyped with the nilmanifold hypotheses). They are
+written out only so that the signatures below elaborate; that roadmap's declarations replace them.
+
+Conventions: groups are multiplicative, `⁅a, b⁆ = a * b * a⁻¹ * b⁻¹`; vertices of the cube
+`{0,1}^ι` are `Finset ι`; characters take values in `ℝ/ℤ`, `G →* Multiplicative UnitAddCircle`.
+A filtration is *full* when its levels `0` and `1` are `⊤`.
+-/
+
+open MeasureTheory Filter Topology
+open scoped commutatorElement
+
+namespace TauCetiRoadmap.PolynomialOrbitsAndCubeGroups
+
+/-! ### Prototypes of supplier objects (NilmanifoldsAndNilsequences)
+
+Copied in the shapes of that roadmap's `Suggested.lean`, whose declarations replace them. -/
+
+section Supplier
+
+/-- An `I`-filtration of a group: antitone subgroups with `⁅G_i, G_j⁆ ≤ G_{i+j}`, no condition on
+`G_0` (NilmanifoldsAndNilsequences 0.1; README Convention 2). -/
+structure GroupFiltration (I G : Type*) [AddCommMonoid I] [PartialOrder I] [Group G] where
+  /-- The layer `G_i`. -/
+  layer : I → Subgroup G
+  antitone : Antitone layer
+  commutator_le : ∀ i j, ⁅layer i, layer j⁆ ≤ layer (i + j)
+
+/-- An `I`-filtration of an additive commutative group (NilmanifoldsAndNilsequences 0.1). -/
+structure AddGroupFiltration (I H : Type*) [AddCommMonoid I] [PartialOrder I]
+    [AddCommGroup H] where
+  /-- The layer `H_i`. -/
+  layer : I → AddSubgroup H
+  antitone : Antitone layer
+
+variable {I G H : Type*} [AddCommMonoid I] [PartialOrder I] [Group G] [AddCommGroup H]
+
+/-- The derivative `∂_h g n = g (n + h) * (g n)⁻¹`. -/
+def deriv (h : H) (g : H → G) : H → G := fun n => g (n + h) * (g n)⁻¹
+
+/-- Iterated derivatives, applied right to left. -/
+def iterDeriv (g : H → G) : List H → H → G
+  | [] => g
+  | h :: l => deriv h (iterDeriv g l)
+
+/-- Polynomial maps between filtered groups (NilmanifoldsAndNilsequences 0.2). -/
+def IsPolynomialMap (HF : AddGroupFiltration I H) (GF : GroupFiltration I G) (g : H → G) :
+    Prop :=
+  ∀ l : List (I × H), (∀ p ∈ l, p.2 ∈ HF.layer p.1) → ∀ n ∈ HF.layer 0,
+    iterDeriv g (l.map Prod.snd) n ∈ GF.layer (l.map Prod.fst).sum
+
+/-- The weighted filtration of `ℤ^σ` (NilmanifoldsAndNilsequences, Convention 4). -/
+def weightedFiltration {σ : Type*} [DecidableEq σ] (w : σ → ℕ) :
+    AddGroupFiltration ℕ (σ → ℤ) where
+  layer i := if i = 0 then ⊤ else AddSubgroup.closure {x | ∃ a, i ≤ w a ∧ x = Pi.single a 1}
+  antitone := sorry
+
+/-- `K_i = G_{i+1} · ∏_{0<j<i} ⁅G_j, G_{i−j}⁆`, with `Horiz_i(G) = G_i / K_i`
+(NilmanifoldsAndNilsequences 0.5). -/
+def horizKernel (GF : GroupFiltration ℕ G) (i : ℕ) : Subgroup G :=
+  GF.layer (i + 1) ⊔ ⨆ j ∈ Finset.Ioo 0 i, ⁅GF.layer j, GF.layer (i - j)⁆
+
+/-- The face element: `g` at the vertices `v ⊇ D`, `1` elsewhere
+(NilmanifoldsAndNilsequences 0.3; README 0.1). -/
+def face {ι : Type*} [DecidableEq ι] (D : Finset ι) : G →* (Finset ι → G) where
+  toFun g v := if D ⊆ v then g else 1
+  map_one' := by funext v; simp
+  map_mul' g h := by funext v; dsimp; split_ifs <;> simp
+
+/-- The Host–Kra cube group of the shifted filtration `G^{+k}`, generated by `face D (G_{|D|+k})`
+(the abstract cube group of NilmanifoldsAndNilsequences 0.3; README 0.1). -/
+def hkCube (F : GroupFiltration ℕ G) (ι : Type*) [DecidableEq ι] (k : ℕ) :
+    Subgroup (Finset ι → G) :=
+  ⨆ D : Finset ι, (F.layer (D.card + k)).map (face D)
+
+/-- A Mal'cev presentation of degree `s` and dimension `d` (NilmanifoldsAndNilsequences 2.4):
+second-kind coordinates in which a full filtration is cut out by weights, `Γ = coord⁻¹(ℤ^d)`, and
+the product is a triangular rational polynomial map. -/
+structure MalcevPresentation (G : Type*) [Group G] [TopologicalSpace G] (d s : ℕ) where
+  /-- The Mal'cev coordinate map `ψ`. -/
+  coord : G ≃ₜ (Fin d → ℝ)
+  /-- The filtration `G_•`. -/
+  filtration : GroupFiltration ℕ G
+  /-- The weight of each coordinate. -/
+  weight : Fin d → ℕ
+  weight_mono : Monotone weight
+  one_le_weight : ∀ l, 1 ≤ weight l
+  weight_le : ∀ l, weight l ≤ s
+  layer_eq : ∀ i, (filtration.layer i : Set G) = coord ⁻¹' {t | ∀ l, weight l < i → t l = 0}
+  /-- The lattice `Γ`. -/
+  lattice : Subgroup G
+  mem_lattice : ∀ x, x ∈ lattice ↔ ∀ l, ∃ z : ℤ, coord x l = z
+  /-- The product polynomials `P_l`. -/
+  mulPoly : Fin d → MvPolynomial (Fin 2 × Fin d) ℚ
+  coord_mul : ∀ x y l, coord (x * y) l =
+    MvPolynomial.aeval (fun v : Fin 2 × Fin d => (![coord x, coord y] v.1) v.2) (mulPoly l)
+  weightedTotalDegree_le : ∀ l,
+    (mulPoly l).weightedTotalDegree (fun v : Fin 2 × Fin d => weight v.2) ≤ weight l
+  triangular : ∀ l, ∀ v ∈ (mulPoly l - MvPolynomial.X (0, l) - MvPolynomial.X (1, l)).vars,
+    v.2 < l
+
+end Supplier
+
+/-! ### Conveniences of this roadmap -/
+
+section Conveniences
+
+variable {G : Type*} [Group G]
+
+/-- `g ∈ poly(ℤ, G_•)` for a sequence `ℤ → G`, through the degree filtration on `Unit → ℤ`. -/
+def IsPolySeq (F : GroupFiltration ℕ G) (g : ℤ → G) : Prop :=
+  IsPolynomialMap (weightedFiltration fun _ : Unit => 1) F fun n => g (n ())
+
+end Conveniences
+
+/-! ### Layer 0: cube groups and Leibman squares -/
+
+section Layer0
+
+variable {G ι : Type*} [Group G] [DecidableEq ι]
+
+theorem face_commutator (D D' : Finset ι) (g h : G) :
+    ⁅face D g, face D' h⁆ = face (D ∪ D') ⁅g, h⁆ := by
+  sorry
+
+/-- The levels of the cube group form a filtration of it (README 0.1). -/
+theorem commutator_hkCube_le (F : GroupFiltration ℕ G) (j k : ℕ) :
+    ⁅hkCube F ι j, hkCube F ι k⁆ ≤ hkCube F ι (j + k) := by
+  sorry
+
+/-- The Leibman square: for one coordinate, `hkCube F Unit k = G_k ×_{G_{k+1}} G_k`, read at the
+vertices `∅` and `Finset.univ` (README 0.4). -/
+theorem mem_hkCube_unit_iff (F : GroupFiltration ℕ G) (k : ℕ) (x : Finset Unit → G) :
+    x ∈ hkCube F Unit k ↔
+      x ∅ ∈ F.layer k ∧ x Finset.univ ∈ F.layer k ∧
+        (x ∅)⁻¹ * x Finset.univ ∈ F.layer (k + 1) := by
+  sorry
+
+/-- Cube configurations of a polynomial sequence lie in the cube group (README 0.5). -/
+theorem cubeConfiguration_mem_hkCube [Fintype ι] (F : GroupFiltration ℕ G) {g : ℤ → G}
+    (hg : IsPolySeq F g) (b₀ : ℤ) (b : ι → ℤ) :
+    (fun v : Finset ι => g (b₀ + ∑ i ∈ v, b i)) ∈ hkCube F ι 0 := by
+  sorry
+
+end Layer0
+
+/-! ### Layer 1: Fourier analysis of compact torus actions -/
+
+section Layer1
+
+variable {d X : Type*} [Fintype d] [TopologicalSpace X] [CompactSpace X] [T2Space X]
+  [AddAction (UnitAddTorus d) X] [ContinuousVAdd (UnitAddTorus d) X]
+
+/-- Haar probability on `T^d`: the product of the normalized measures on `ℝ/ℤ`. -/
+noncomputable def torusHaarMeasure (d : Type*) [Fintype d] : Measure (UnitAddTorus d) :=
+  Measure.pi fun _ => AddCircle.haarAddCircle
+
+/-- The weight-`k` component `F_k x = ∫ F (t +ᵥ x) conj (e (k · t)) dt` (README 1.1). -/
+noncomputable def weightComponent (k : d → ℤ) (F : C(X, ℂ)) (x : X) : ℂ :=
+  ∫ t, F (t +ᵥ x) * (starRingEnd ℂ) (UnitAddTorus.mFourier k t) ∂torusHaarMeasure d
+
+/-- `F` has weight `k`: `F (t +ᵥ x) = e (k · t) F x` (README 1.1). -/
+def HasTorusWeight (k : d → ℤ) (F : X → ℂ) : Prop :=
+  ∀ t x, F (t +ᵥ x) = UnitAddTorus.mFourier k t * F x
+
+theorem hasTorusWeight_weightComponent (k : d → ℤ) (F : C(X, ℂ)) :
+    HasTorusWeight k (weightComponent k F) := by
+  sorry
+
+theorem continuous_weightComponent (k : d → ℤ) (F : C(X, ℂ)) :
+    Continuous (weightComponent k F) := by
+  sorry
+
+/-- Functions of some weight span a dense subspace of `C(X, ℂ)` (README 1.2). -/
+theorem dense_span_hasTorusWeight :
+    Dense (Submodule.span ℂ {F : C(X, ℂ) | ∃ k : d → ℤ, HasTorusWeight k F} :
+      Set C(X, ℂ)) := by
+  sorry
+
+end Layer1
+
+/-! ### Layers 2–6: nilmanifolds
+
+A nilmanifold is presented by a Mal'cev presentation `P` (README Convention 4): `G ⧸ P.lattice`,
+with the full rational filtration `P.filtration` of degree at most `s`. -/
+
+section Nilmanifold
+
+variable {G : Type*} [Group G] [TopologicalSpace G] {d s : ℕ} (P : MalcevPresentation G d s)
+  [MeasurableSpace (G ⧸ P.lattice)] [BorelSpace (G ⧸ P.lattice)]
+
+/-- The invariant probability on a nilmanifold exists and is unique (README 2.1). -/
+theorem existsUnique_smulInvariant_probabilityMeasure :
+    ∃! μ : ProbabilityMeasure (G ⧸ P.lattice),
+      SMulInvariantMeasure G (G ⧸ P.lattice) (μ : Measure (G ⧸ P.lattice)) := by
+  sorry
+
+variable (Γ : Subgroup G)
+
+/-- A horizontal character `G → ℝ/ℤ`: continuous, trivial on `Γ` (prototype of
+NilmanifoldsAndNilsequences 4.4; README Convention 6). -/
+def IsHorizontalCharacter (η : G →* Multiplicative UnitAddCircle) : Prop :=
+  Continuous η ∧ ∀ γ ∈ Γ, η γ = 1
+
+/-- A level-`j` character of `(G_•, Γ)`: the pull-back to `G_j` of a character of the torus
+`Horiz_j(G)/Horiz_j(Γ)` of NilmanifoldsAndNilsequences 0.5 (README 3.2). -/
+def IsLevelCharacter (F : GroupFiltration ℕ G) (j : ℕ)
+    (ξ : F.layer j →* Multiplicative UnitAddCircle) : Prop :=
+  Continuous ξ ∧ (∀ γ : F.layer j, (γ : G) ∈ Γ → ξ γ = 1) ∧
+    ∀ x : F.layer j, (x : G) ∈ horizKernel F j → ξ x = 1
+
+/-- The sequence of polynomials with Taylor coefficients `a N j ∈ G_j` is irrational at scales
+`L N` (README 3.2). -/
+def IsIrrationalAt (F : GroupFiltration ℕ G) (s : ℕ) (a : ℕ → ∀ j, F.layer j) (L : ℕ → ℝ) :
+    Prop :=
+  ∀ j, 1 ≤ j → j ≤ s → ∀ ξ : F.layer j →* Multiplicative UnitAddCircle, ξ ≠ 1 →
+    IsLevelCharacter Γ F j ξ →
+      Tendsto (fun N => L N ^ j * ‖(ξ (a N j)).toAdd‖) atTop atTop
+
+/-- The polynomial `n ↦ ∏_{j ≤ s} (a j) ^ binom(n, j)`, product in increasing `j`. -/
+def taylorSeq (F : GroupFiltration ℕ G) (s : ℕ) (a : ∀ j, F.layer j) (n : ℤ) : G :=
+  ((List.range (s + 1)).map fun j => ((a j : G) ^ (Ring.choose n j))).prod
+
+/-- **The ineffective single-scale theorem** (README 5.2), in the binomial basis. -/
+theorem exists_finset_horizontalCharacter_of_discrepancy (μ : ProbabilityMeasure (G ⧸ P.lattice))
+    [SMulInvariantMeasure G (G ⧸ P.lattice) (μ : Measure (G ⧸ P.lattice))]
+    (K : Set C(G ⧸ P.lattice, ℂ)) (hK : IsCompact K) (δ : ℝ) (hδ : 0 < δ) :
+    ∃ U : Finset (G →* Multiplicative UnitAddCircle),
+      (∀ η ∈ U, η ≠ 1 ∧ IsHorizontalCharacter P.lattice η) ∧
+      ∃ A : ℝ, 0 < A ∧ ∀ N : ℕ, 0 < N → ∀ g : ℤ → G, IsPolySeq P.filtration g →
+        (∃ f ∈ K, δ ≤ ‖(N : ℂ)⁻¹ * ∑ n ∈ Finset.range N, f (g n : G ⧸ P.lattice) -
+          ∫ x, f x ∂(μ : Measure (G ⧸ P.lattice))‖) →
+        ∃ η ∈ U, ∃ α : ℕ → ℝ,
+          (∀ n : ℤ, (η (g n)).toAdd =
+            ((∑ j ∈ Finset.range (s + 1), α j * (Ring.choose n j : ℝ) : ℝ) : UnitAddCircle)) ∧
+          ∀ j, 1 ≤ j → j ≤ s → ‖(α j : UnitAddCircle)‖ ≤ A / (N : ℝ) ^ j := by
+  sorry
+
+/-- The subgroup `[G, G]Γ`, whose quotient is the horizontal torus. -/
+abbrev horizSubgroup : Subgroup G := commutator G ⊔ Γ
+
+/-- **Leibman's theorem** (README 5.3): for a polynomial sequence `g` for any filtration of
+finite degree, equidistribution on the nilmanifold, equidistribution of the horizontal
+projection, absence of a nontrivial horizontal character constant along `g`, and total
+equidistribution are equivalent. `μ` and `ν` are the invariant probabilities of 2.1. -/
+theorem leibman_equidistributed_tfae (F : GroupFiltration ℕ G) (t : ℕ)
+    (ht : F.layer (t + 1) = ⊥) {g : ℤ → G} (hg : IsPolySeq F g)
+    [MeasurableSpace (G ⧸ horizSubgroup P.lattice)] [BorelSpace (G ⧸ horizSubgroup P.lattice)]
+    (μ : ProbabilityMeasure (G ⧸ P.lattice))
+    [SMulInvariantMeasure G (G ⧸ P.lattice) (μ : Measure (G ⧸ P.lattice))]
+    (ν : ProbabilityMeasure (G ⧸ horizSubgroup P.lattice))
+    [SMulInvariantMeasure G (G ⧸ horizSubgroup P.lattice) (ν : Measure _)] :
+    List.TFAE
+      [Tendsto (TauCeti.Probability.empiricalMeasure fun n : ℕ => (g n : G ⧸ P.lattice))
+         atTop (𝓝 μ),
+       Tendsto (TauCeti.Probability.empiricalMeasure
+         fun n : ℕ => (g n : G ⧸ horizSubgroup P.lattice)) atTop (𝓝 ν),
+       ∀ η : G →* Multiplicative UnitAddCircle, IsHorizontalCharacter P.lattice η → η ≠ 1 →
+         ¬ ∃ c, ∀ n : ℤ, η (g n) = c,
+       ∀ q r : ℕ, 0 < q → Tendsto (TauCeti.Probability.empiricalMeasure
+         fun n : ℕ => (g (q * n + r) : G ⧸ P.lattice)) atTop (𝓝 μ)] := by
+  sorry
+
+/-! #### Cube nilmanifolds -/
+
+variable {ι : Type*} [Fintype ι] [DecidableEq ι]
+
+/-- The product lattice `Γ^ι` in the arrays `Finset ι → G`. -/
+def latticeArrays (ι : Type*) : Subgroup (Finset ι → G) :=
+  Subgroup.pi Set.univ fun _ => Γ
+
+/-- The cube nilmanifold `HK^ι(G_•) ⧸ (Γ^ι ∩ HK^ι(G_•))` (README 4.1). -/
+abbrev CubeNil (F : GroupFiltration ℕ G) (ι : Type*) [DecidableEq ι] :=
+  hkCube F ι 0 ⧸ (latticeArrays Γ ι).subgroupOf (hkCube F ι 0)
+
+/-- The canonical map from the cube nilmanifold to `(G ⧸ Γ)^{Finset ι}` (README 4.2). -/
+def hkCubeToArray (F : GroupFiltration ℕ G) : CubeNil Γ F ι → (Finset ι → G ⧸ Γ) :=
+  Quotient.lift (fun x v => ((x : Finset ι → G) v : G ⧸ Γ)) (by
+    intro x y hxy
+    funext v
+    have h := (QuotientGroup.leftRel_apply).mp hxy
+    rw [Subgroup.mem_subgroupOf, latticeArrays, Subgroup.mem_pi] at h
+    exact QuotientGroup.eq.mpr (by simpa using h v (Set.mem_univ _)))
+
+/-- The cube nilmanifold carries a unique invariant probability (README 4.2). -/
+theorem existsUnique_hkCube_invariant [MeasurableSpace (CubeNil P.lattice P.filtration ι)]
+    [BorelSpace (CubeNil P.lattice P.filtration ι)] :
+    ∃! μ : ProbabilityMeasure (CubeNil P.lattice P.filtration ι),
+      SMulInvariantMeasure (hkCube P.filtration ι 0) (CubeNil P.lattice P.filtration ι)
+        (μ : Measure _) := by
+  sorry
+
+/-- **Cube equidistribution for irrational sequences** (README 6.1): averages over the box
+`[0, N]^{1+ι}` of a continuous test along the cube configurations of `taylorSeq _ s (a N)`
+converge to its integral against the cube measure. -/
+theorem tendsto_cubeAverage_of_isIrrationalAt [MeasurableSpace (CubeNil P.lattice P.filtration ι)]
+    [BorelSpace (CubeNil P.lattice P.filtration ι)]
+    (μ : ProbabilityMeasure (CubeNil P.lattice P.filtration ι))
+    [SMulInvariantMeasure (hkCube P.filtration ι 0) (CubeNil P.lattice P.filtration ι)
+      (μ : Measure _)]
+    (a : ℕ → ∀ j, P.filtration.layer j)
+    (ha : IsIrrationalAt P.lattice P.filtration s a fun N => N)
+    (f : C(Finset ι → G ⧸ P.lattice, ℂ)) :
+    Tendsto (fun N : ℕ => ((N + 1 : ℕ) : ℂ)⁻¹ ^ (1 + Fintype.card ι) *
+        ∑ b : Fin (N + 1) × (ι → Fin (N + 1)), f fun v =>
+          ((taylorSeq P.filtration s (a N) (b.1 + ∑ i ∈ v, (b.2 i : ℤ)) : G) : G ⧸ P.lattice))
+      atTop (𝓝 (∫ y, f (hkCubeToArray P.lattice P.filtration y) ∂(μ : Measure _))) := by
+  sorry
+
+end Nilmanifold
+
+/-! ### Layer 7: PET induction and polynomial recurrence -/
+
+section Layer7
+
+variable {G : Type*} [Group G]
+
+/-- **Topological polynomial recurrence** (README 7.3): for a minimal action of a fully filtered
+group on a compact space by homeomorphisms and finitely many polynomial sequences vanishing at
+`0`, every nonempty open set returns to itself along all of them at arbitrarily large times. -/
+theorem exists_smul_mem_of_isMinimal {X : Type*} [TopologicalSpace X] [CompactSpace X]
+    [MulAction G X] [ContinuousConstSMul G X] [MulAction.IsMinimal G X]
+    (F : GroupFiltration ℕ G) (s : ℕ) (h0 : F.layer 0 = ⊤) (h1 : F.layer 1 = ⊤)
+    (hs : F.layer (s + 1) = ⊥) (P : Finset (ℤ → G)) (hP : ∀ p ∈ P, IsPolySeq F p ∧ p 0 = 1)
+    {U : Set X} (hU : IsOpen U) (hne : U.Nonempty) (N : ℕ) :
+    ∃ n : ℕ, N < n ∧ ∃ x ∈ U, ∀ p ∈ P, p n • x ∈ U := by
+  sorry
+
+/-- **Polynomial van der Waerden in fully filtered groups** (README 7.4). -/
+theorem exists_monochromatic_polynomial {C : Type*} [Finite C]
+    (F : GroupFiltration ℕ G) (s : ℕ) (h0 : F.layer 0 = ⊤) (h1 : F.layer 1 = ⊤)
+    (hs : F.layer (s + 1) = ⊥) (P : Finset (ℤ → G)) (hP : ∀ p ∈ P, IsPolySeq F p ∧ p 0 = 1)
+    (χ : G → C) (N : ℕ) :
+    ∃ n : ℕ, N < n ∧ ∃ a : G, ∀ p ∈ P, χ (p n * a) = χ a := by
+  sorry
+
+end Layer7
+
+end TauCetiRoadmap.PolynomialOrbitsAndCubeGroups
