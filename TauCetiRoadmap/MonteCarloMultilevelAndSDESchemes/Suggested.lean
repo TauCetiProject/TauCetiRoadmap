@@ -188,7 +188,9 @@ theorem multilevelEstimator_mean_and_meanSquareError (P : Measure Ω) [IsProbabi
 
 /-- **2.2** Optimal sample sizes. Every positive real allocation with `∑ V l / N l ≤ ε²` costs at
 least `ε⁻² (∑ √(V l C l))²`, and the allocation `N l = ε⁻² √(V l / C l) ∑ √(V k C k)` has
-variance exactly `ε²` and attains this cost. -/
+variance exactly `ε²` and attains this cost. By `multilevelEstimator_mean_and_meanSquareError`,
+`∑ V l / N l` is the variance of `multilevelEstimator` with sample sizes `N l`, so this is the
+least cost of a multilevel estimator of variance at most `ε²`, with real sample sizes. -/
 theorem multilevel_cost_ge_and_optimal (L : ℕ) (V C : ℕ → ℝ) (hV : ∀ l ≤ L, 0 < V l)
     (hC : ∀ l ≤ L, 0 < C l) {ε : ℝ} (hε : 0 < ε) :
     (∀ N : ℕ → ℝ, (∀ l ≤ L, 0 < N l) →
