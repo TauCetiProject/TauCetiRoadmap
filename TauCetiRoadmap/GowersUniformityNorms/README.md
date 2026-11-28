@@ -709,8 +709,8 @@ directions `H j ∗ (H i).neg` by `μ` at the cost of the bad-pair mass.
 GowersInverseTheorem and NilsequenceEquidistribution, the quasi-polynomial inverse theorem for
 the Gowers norms on `ZMod N` of Leng, Sah and Sawhney, consume Layer 3 (inductive formula,
 nesting, Gowers–Cauchy–Schwarz, phase invariance, pullback, many large derivatives, the
-correlation identity), Layer 4 (Fourier control of `U^2`, multipliers and cosets) and Layer 6.
-NilmanifoldsAndNilsequences consumes Layer 6 for Gowers norms of functions on integer boxes.
+correlation identity), Layer 4 (Fourier control of `U^2`, multipliers and cosets) and Layer 6
+(Gowers norms of functions on integer boxes).
 Szemerédi-type counting arguments consume Layer 5, and arithmetic-regularity and density-increment
 arguments with several subgroups consume Layer 7.
 
