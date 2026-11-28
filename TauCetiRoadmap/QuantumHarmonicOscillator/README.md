@@ -431,7 +431,70 @@ Hermite basis; 3.2 needs 3.1, OrnsteinUhlenbeckSemigroup 1.2 and Tau Ceti's trac
 This layer gives `e^{−itH}` as an integral operator on `(0, π)` and the exact rotation of position
 and momentum. It is meant for consumers working with the oscillator propagator (fractional Fourier
 transforms, the metaplectic action of rotations at the Archimedean place) and for coherent-state
-dynamics.
+dynamics. It begins with the growth of the Schwartz seminorms of the Hermite functions and the
+convergence of Hermite expansions in Schwartz space, which 4.2 uses and which other consumers
+need on their own.
+
+### 4.0 Hermite functions in Schwartz space
+
+Here `hₙ` is `TauCeti.hermiteSchwartzMap n`, the `n`-th Hermite function as an element of the real
+Schwartz space `𝓢(ℝ, ℝ)`, and `p_{k,m}(f) = sup_x |x|ᵏ |f⁽ᵐ⁾(x)|` is Mathlib's
+`SchwartzMap.seminorm ℝ k m`.
+
+Prove `exists_seminorm_hermiteSchwartzMap_le`: for all natural numbers `k`, `m` there are a real
+`C ≥ 0` and a natural number `N` with `p_{k,m}(hₙ) ≤ C (1 + n)ᴺ` for every `n`.
+
+Prove `exists_hermiteSchwartzMap_le_of_continuous`: for every continuous seminorm `p` on
+`𝓢(ℝ, ℝ)` there are a real `C ≥ 0` and a natural number `N` with `p(hₙ) ≤ C (1 + n)ᴺ` for every
+`n`.
+
+Prove `hasSum_hermiteSchwartzMap_expansion`: for every `f ∈ 𝓢(ℝ, ℝ)`, the series
+`Σₙ (∫ hₙ f) hₙ` converges to `f` in the topology of `𝓢(ℝ, ℝ)`, unconditionally.
+
+(All three proved here. After the pins of this roadmap, Tau Ceti proved the first two, with the
+same names and statements, in `TauCeti/Analysis/SpecialFunctions/Hermite/Function/Schwartz/`,
+together with the uniform bound of step (a) as `TauCeti.hermiteFunction_sq_le`. They are not at the
+pins, so they are targets here; once the pin includes them, the first two are discharged by
+citation and only the third remains.)
+
+Route. (a) `hₙ(x)² ≤ 2(n + 1)` for every `x`. The function `hₙ²` tends to `0` at `−∞` and has the
+integrable derivative `2hₙhₙ′`, so `hₙ(x)² = ∫_(−∞)^x 2hₙhₙ′ ≤ ∫ (hₙ² + hₙ′²) = ‖hₙ‖₂² + ‖hₙ′‖₂²`,
+by `2uv ≤ u² + v²`. Here `‖hₙ‖₂ = 1`, and `‖hₙ′‖₂² ≤ ‖hₙ′‖₂² + ‖x hₙ‖₂² = ⟪hₙ, (−d²/dx² + x²) hₙ⟫
+= 2n + 1` (integration by parts and `TauCeti.hermiteFunction_oscillator`). (b) Say that a
+continuous linear map `T` of `𝓢(ℝ, ℝ)` has degree `N` along `(hₙ)` if
+`sup_x |(T hₙ)(x)| ≤ C (1 + n)ᴺ` for some `C` and every `n`. By (a) the identity has degree `1`,
+with `C = √2`. If `T` has degree `N` with constant `C`, then `T ∘ x` and `T ∘ d/dx` have degree
+`N + 1`: by `TauCeti.mul_hermiteFunction` and `TauCeti.deriv_hermiteFunction`,
+`x hₙ = √(n/2) hₙ₋₁ + √((n+1)/2) hₙ₊₁` and `hₙ′ = √(n/2) hₙ₋₁ − √((n+1)/2) hₙ₊₁` (the first term
+absent for `n = 0`), both square roots are at most `1 + n`, and
+`C nᴺ + C (2 + n)ᴺ ≤ C (1 + 2ᴺ)(1 + n)ᴺ`. (c) The operator `f ↦ xᵏ f⁽ᵐ⁾` is the identity composed
+on the right with `x` (`k` times) and then with `d/dx` (`m` times), so it has degree `1 + k + m`,
+which is the first statement. (d) A continuous seminorm on `𝓢(ℝ, ℝ)` is at most a constant times
+a finite sum of the `p_{k,m}` (`Seminorm.bound_of_continuous` with `schwartz_withSeminorms`),
+which gives the second. (e) For the third, let `cₙ = ∫ hₙ f`. The operator
+`N = (−d²/dx² + x² − 1)/2` maps Schwartz space into itself, is symmetric there, and `N hₙ = n hₙ`,
+so `(n + 1)ʲ cₙ = ∫ hₙ (N + 1)ʲ f` and `|cₙ| ≤ ‖(N + 1)ʲ f‖₂ (n + 1)^(−j)` for every `j`. With the
+first statement, `Σ |cₙ| p_{k,m}(hₙ) < ∞` for all `k`, `m`. Schwartz space is complete and its
+topology is given by the countable family `p_{k,m}`, so the series is unconditionally convergent
+there, to some `g`. As `‖u‖₂ ≤ (π/2)^(1/2) sup |(1 + x²) u(x)|`, it also converges to `g` in
+`L²(ℝ)`, where its sum is `f` (`TauCeti.hasSum_hermiteFunctionLp_expansion`); two continuous
+functions equal almost everywhere are equal, so `g = f`.
+
+**Checks.**
+
+- `n = 0`: `h₀(x)² = π^(−1/2) e^{−x²} ≤ π^(−1/2) < 2`, and
+  `p_{1,0}(h₀) = π^(−1/4) e^{−1/2}`, attained at `x = ±1`.
+- Polynomial growth cannot be replaced by a bound uniform in `n`: `‖x hₙ‖₂² = n + ½` by the
+  three-term relation, and `‖x hₙ‖₂ ≤ (π/2)^(1/2) (p_{1,0}(hₙ) + p_{3,0}(hₙ))`, so
+  `p_{1,0}(hₙ) + p_{3,0}(hₙ) ≥ (2/π)^(1/2) (n + ½)^(1/2)`.
+- The bound of step (a) is not sharp (Cramér's inequality gives `|hₙ| ≤ π^(−1/4)`), and the route
+  does not need a sharp one.
+- In the third statement, `f = h₃` has `cₙ = 0` for `n ≠ 3` and `c₃ = 1`.
+
+*Needs:* Tau Ceti `TauCeti.hermiteSchwartzMap`, `TauCeti.mul_hermiteFunction`,
+`TauCeti.deriv_hermiteFunction`, `TauCeti.hermiteFunction_oscillator`,
+`TauCeti.hasSum_hermiteFunctionLp_expansion`; Mathlib `SchwartzMap.seminorm`,
+`Seminorm.bound_of_continuous`, `schwartz_withSeminorms`.
 
 ### 4.1 Mehler's kernel for the unitary group
 
@@ -505,25 +568,29 @@ differentiate the covariance on smooth vectors to pass from the Weyl operators t
 and convert the normalisations back. The statement here is that unbounded form for `Q = x`,
 `P = −i d/dx`, proved directly from the Hermite expansion.
 
-Route. (i) Coefficients of a Schwartz function decay rapidly. `N = (−d²/dx² + x² − 1)/2` maps
-Schwartz space into itself and is symmetric there, and `N hₙ = n hₙ`
-(`TauCeti.hermiteFunction_oscillator`), so `(n + 1)ᵏ cₙ = ⟪hₙ, (N + 1)ᵏ ψ⟫` and
+Route. Throughout, `hₙ` is taken in the complex Schwartz space `𝓢(ℝ, ℂ)` as the image of
+`TauCeti.hermiteSchwartzMap n ∈ 𝓢(ℝ, ℝ)` under `SchwartzMap.postcompCLM Complex.ofRealCLM`
+(composition with the inclusion `ℝ → ℂ`). Every Schwartz seminorm is unchanged by this map,
+because the inclusion is a real-linear isometry, so `‖(ofReal ∘ f)⁽ᵐ⁾(x)‖ = |f⁽ᵐ⁾(x)|`; and the
+class of the image in `L2` is `TauCeti.hermiteFunctionLp ℂ n`. (Tau Ceti's
+`TauCeti.twoPiHermiteSchwartzMap` is a complex Schwartz Hermite function with a different scaling
+and is not used.) (i) Coefficients of a Schwartz function decay rapidly.
+`N = (−d²/dx² + x² − 1)/2` maps Schwartz space into itself and is symmetric there, and
+`N hₙ = n hₙ` (`TauCeti.hermiteFunction_oscillator`), so `(n + 1)ᵏ cₙ = ⟪hₙ, (N + 1)ᵏ ψ⟫` and
 `|cₙ| ≤ ‖(N + 1)ᵏ ψ‖₂ (n + 1)^(−k)` for every `k`. (ii) Schwartz seminorms of `hₙ` grow
-polynomially. By `TauCeti.mul_hermiteFunction` and `TauCeti.deriv_hermiteFunction`,
-`x^α (d/dx)^β hₙ` is a sum of at most `2^(α+β)` terms `c hₘ` with `m ≤ n + α + β` and
-`|c| ≤ (n + α + β + 1)^((α+β)/2)` (each of the `α + β` steps splits a term in two and multiplies
-its coefficient by at most `√((n + α + β + 1)/2)`); and `|hₘ(x)|² ≤ ‖hₘ‖₂ ‖hₘ′‖₂ ≤ (2m + 1)^(1/2)`
-(integrating `(hₘ²)′ = 2hₘhₘ′`, which is integrable, gives
-`2hₘ(x)² = ∫_(−∞)^x 2hₘhₘ′ − ∫_x^∞ 2hₘhₘ′ ≤ 2‖hₘ‖₂‖hₘ′‖₂`; and
-`‖hₘ′‖₂² ≤ ⟪hₘ, (−d²/dx² + x²) hₘ⟫ = 2m + 1`). So `sup |x^α hₙ^(β)(x)|` is at most a polynomial in
-`n`. (iii) Hence, with `|cₙ|` decaying faster than every power, `Σ e^{−it(n+½)} cₙ hₙ` converges
+polynomially: this is `exists_seminorm_hermiteSchwartzMap_le` (4.0), transferred to the complex
+`hₙ` by the equality of seminorms above. (iii) Hence, with `|cₙ|` decaying faster than every power,
+`Σ e^{−it(n+½)} cₙ hₙ` converges
 absolutely in every Schwartz seminorm. Its sum `φ`, defined pointwise, is smooth with termwise
 derivatives (uniform convergence of every derivative series) and is a Schwartz function, and the
 partial sums tend to `φ` in every seminorm. As `‖g‖₂ ≤ (π/2)^(1/2) sup |(1 + x²) g(x)|`, they also
 tend to `φ` in `L2`, while they tend to `U ψ` there by `TauCeti.hasSum_hermiteFunctionLp_expansion`
-and continuity of `U`; so the class of `φ` is `U ψ`. (Tau Ceti has no statement that Hermite
-expansions of Schwartz functions converge in the Schwartz topology; ThetaKernelsForUnitaryDualPairs
-uses this fact in the route of §3.45, and steps (i)–(iii) prove what is needed here.) (iv) `Q` and `P` are continuous on Schwartz space, so `Q φ` and `P φ` are the termwise series.
+and continuity of `U`; so the class of `φ` is `U ψ`. (At `t = 0`, applied to the real and
+imaginary parts of `ψ`, steps (i)–(iii) are `hasSum_hermiteSchwartzMap_expansion` of 4.0, the
+convergence of Hermite expansions in the Schwartz topology, which ThetaKernelsForUnitaryDualPairs
+uses in the route of §3.45; for `t ≠ 0` the same steps are run with the phases
+`e^{−it(n+½)}`, of modulus `1`.) (iv) `Q` and `P` are continuous on Schwartz space, so `Q φ` and
+`P φ` are the termwise series.
 Their `hₘ`-coefficients are `√((m+1)/2) e^{−it(m+3/2)} c_(m+1) + √(m/2) e^{−it(m−½)} c_(m−1)` and
 the analogous ones for `P`. The coefficients of `cos t · Qψ + sin t · Pψ` are
 `⟪Q hₘ, ψ⟫ cos t + ⟪P hₘ, ψ⟫ sin t` (both operators are symmetric on Schwartz space), and
@@ -541,10 +608,11 @@ multiplying by `e^{−it(m+½)}` gives the same numbers, because `cos t − i si
 - `t = π`: `U f(x) = −i f(−x)` (from `e^{−iπ(n+½)} = −i(−1)ⁿ` and `TauCeti.hermiteFunction_neg`),
   and the rotation reads `U*QU = −Q`, `U*PU = −P`.
 
-*Needs:* Tau Ceti `TauCeti.hermiteFunction_oscillator`, `TauCeti.mul_hermiteFunction`,
+*Needs:* 4.0; Tau Ceti `TauCeti.hermiteFunction_oscillator`, `TauCeti.mul_hermiteFunction`,
 `TauCeti.deriv_hermiteFunction`, `TauCeti.hasSum_hermiteFunctionLp_expansion`,
-`TauCeti.hermiteSchwartzMap` (`hₙ` as a Schwartz function); Mathlib `SchwartzMap.smulLeftCLM`,
-`SchwartzMap.derivCLM`, `SchwartzMap.toLp`. The third Check uses
+`TauCeti.hermiteSchwartzMap` (`hₙ` as a real Schwartz function); Mathlib
+`SchwartzMap.postcompCLM` (with `Complex.ofRealCLM`, to pass to `𝓢(ℝ, ℂ)`),
+`SchwartzMap.smulLeftCLM`, `SchwartzMap.derivCLM`, `SchwartzMap.toLp`. The third Check uses
 `TauCeti.hermiteFunction_neg`.
 
 ### Examples
@@ -557,7 +625,8 @@ multiplying by `e^{−it(m+½)}` gives the same numbers, because `cos t − i si
 
 ### Dependencies
 
-4.1 and 4.2 need Tau Ceti's Hermite basis and ladder identities only; neither needs Layers 1–3.
+4.0 and 4.1 need Tau Ceti's Hermite basis and ladder identities only; 4.2 needs 4.0; none of them
+needs Layers 1–3.
 
 ## Scope and ownership
 
@@ -565,8 +634,11 @@ Owned here: Dirac's ladder theorem and the vacuum towers on an inner product spa
 Rellich–Dixmier theorem in Hilbert-basis form (Layer 2), the equivalence of the
 Ornstein–Uhlenbeck semigroup with `e^{−t(H − ½)}` under the ground-state transform, Mehler's heat
 kernel with the trace norm and diagonal integral of `e^{−tH}` (Layer 3), Mehler's kernel of
-`e^{−itH}` on `(0, π)` and the exact rotation of position and momentum on Schwartz space (Layer 4).
-None of these is stated by a roadmap on main or by a pinned library. The metaplectic operator of a
+`e^{−itH}` on `(0, π)`, the exact rotation of position and momentum on Schwartz space, and the
+polynomial growth of the Schwartz seminorms of the Hermite functions with the convergence of
+Hermite expansions in Schwartz space (Layer 4). None of these is stated by a roadmap on main or by
+a pinned library; 4.0 says which of them Tau Ceti has proved since the pins. The metaplectic
+operator of a
 rotation, covariant with the Weyl operators, belongs to MetaplecticAutomorphicForms (§§1.3, 2.4c),
 and ThetaKernelsForUnitaryDualPairs §3.45(ii) gives its action in the Fock model; 4.2 states how
 its own statement relates to them.
@@ -616,6 +688,8 @@ and an occupation basis. Nothing here is taken from it.
   `integral_gaussian`.
 - `SchwartzMap.smulLeftCLM` (multiplication by a function of temperate growth),
   `SchwartzMap.derivCLM`, `SchwartzMap.toLp`; `MemLp`, `eLpNorm`, `Lp`.
+- `SchwartzMap.seminorm`, `schwartz_withSeminorms`, `Seminorm.bound_of_continuous` (4.0),
+  `SchwartzMap.postcompCLM`, `Complex.ofRealCLM` (4.2).
 
 ### From Tau Ceti
 

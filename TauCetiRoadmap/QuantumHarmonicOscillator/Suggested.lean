@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.Analysis.SpecialFunctions.Hermite.Function.Lp
+import TauCeti.Analysis.SpecialFunctions.Hermite.Function.Schwartz
 import TauCeti.Analysis.OperatorIdeal.Nuclear.Basic
 
 /-!
@@ -215,6 +216,29 @@ theorem heat_eq_mehlerHeatKernel {t : ℝ} (ht : 0 < t) (T : L2 →L[ℂ] L2)
   sorry
 
 /-! ## Layer 4: the unitary group -/
+
+/-- 4.0 Polynomial growth of the Schwartz seminorms of the Hermite functions: for each seminorm
+`p_{k,m}(f) = sup_x |x|ᵏ |f⁽ᵐ⁾(x)|` there are `C ≥ 0` and `N` with `p_{k,m}(hₙ) ≤ C (1 + n)ᴺ` for
+every `n`. -/
+theorem exists_seminorm_hermiteSchwartzMap_le (k m : ℕ) :
+    ∃ C : ℝ, ∃ N : ℕ, 0 ≤ C ∧
+      ∀ n : ℕ, SchwartzMap.seminorm ℝ k m (TauCeti.hermiteSchwartzMap n) ≤ C * (1 + n) ^ N := by
+  sorry
+
+/-- 4.0 Polynomial growth of every continuous seminorm of real Schwartz space along the Hermite
+functions. -/
+theorem exists_hermiteSchwartzMap_le_of_continuous (p : Seminorm ℝ (SchwartzMap ℝ ℝ))
+    (hp : Continuous p) :
+    ∃ C : ℝ, ∃ N : ℕ, 0 ≤ C ∧
+      ∀ n : ℕ, p (TauCeti.hermiteSchwartzMap n) ≤ C * (1 + n) ^ N := by
+  sorry
+
+/-- 4.0 The Hermite expansion of a real Schwartz function converges to it in the topology of
+Schwartz space: `f = Σₙ (∫ hₙ f) hₙ`. -/
+theorem hasSum_hermiteSchwartzMap_expansion (f : SchwartzMap ℝ ℝ) :
+    HasSum (fun n : ℕ => (∫ x, TauCeti.hermiteFunction n x * f x) • TauCeti.hermiteSchwartzMap n)
+      f := by
+  sorry
 
 /-- 4.1 Mehler's kernel of `e^{-itH}` for `0 < t < π`, with the branch of the square root fixed:
 `e^{-iπ/4} (2π sin t)^{-1/2} exp(i((x² + y²) cos t - 2xy) / (2 sin t))`. -/
