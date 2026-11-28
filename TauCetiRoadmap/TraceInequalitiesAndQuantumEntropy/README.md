@@ -722,7 +722,9 @@ The roadmap is complete when Tau Ceti proves all of the following.
   [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md), Section D9.
 - The operator Jensen inequality for isometries (Davis's criterion):
   OperatorMonotoneFunctionsAndMatrixMeans, Section 2.1. Trace superadditivity
-  `Tr f(A) + Tr f(B) ≤ Tr f(A + B)` is not a target here either.
+  `Tr f(A) + Tr f(B) ≤ Tr f(A + B)`, for `f` convex on `[0, ∞)` with `f(0) ≤ 0` and `A`, `B`
+  positive semidefinite, is not a target here either: it is the Rotfel'd–Thompson majorization
+  of EigenvalueAndSingularValueInequalities, Section 4.1, summed against the convex `f`.
 - Golden–Thompson and the concavity of `A ↦ Tr exp(H + log A)`:
   [RandomMatrices](../RandomMatrices/README.md), Section 2.6. Lieb's concavity of 2.2 is the other
   theorem of Lieb's paper and is owned here.
