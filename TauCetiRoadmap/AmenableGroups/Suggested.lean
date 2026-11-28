@@ -27,10 +27,16 @@ here and not restated:
 - Tarski's alternative for the left regular action of a discrete group (README §8.3):
   `TauCeti.amenable_iff_not_paradoxical_univ`.
 
-The remaining headline, the characterization of amenable locally compact Hausdorff groups by
-invariant means on Haar `L∞` (README §7.5), is stated below with `sorry`. The pinned Tau Ceti
-proves its reverse implication (`TauCeti.Amenable.of_lpTop`) and the case of a discrete group
-(`TauCeti.amenable_iff_exists_lpTop_invariant`), not the forward implication in general.
+The remaining headlines are stated below with `sorry`:
+
+- the characterization of amenable locally compact Hausdorff groups by invariant means on Haar
+  `L∞` (README §7.5). The pinned Tau Ceti proves its reverse implication
+  (`TauCeti.Amenable.of_lpTop`) and the case of a discrete group
+  (`TauCeti.amenable_iff_exists_lpTop_invariant`), not the forward implication in general;
+- the Markov–Kakutani theorem (README §9.2), its form for solvable groups (README §9.3), Day's
+  fixed point theorem (README §9.4), the amenability of solvable groups (README §9.5) and the
+  invariant probability measures of actions on compact spaces (README §9.6). The pinned Tau Ceti
+  has none of Layer 9.
 
 A further §7.6 target records that the correspondence
 `PositiveLinearMap.addContentLpTopEquiv` between positive functionals on `L∞` and contents is
@@ -39,6 +45,10 @@ addition and a pointwise order on `AddContent`, which the pins lack, so monotoni
 values. Additivity, the content of `M + M'` at each set being the sum of the contents, follows
 from the pinned evaluation lemmas `LinearMap.toAddContentLpTop_apply` and
 `LinearMap.toAddContentLpTop_of_not_measurableSet` and is not restated here.
+
+In Layer 9 a map `T : K → K` on a convex set `K` is *affine* when it preserves two-point convex
+combinations; the hypotheses `haff` below spell this out, and README §9.1 identifies it with
+Mathlib's `Convexity.IsAffineMap` for the convex-space structure of `K`.
 -/
 
 namespace TauCetiRoadmap.AmenableGroups
@@ -71,6 +81,99 @@ theorem le_iff_addContentLpTopEquiv_le {α : Type*} [MeasurableSpace α] (μ : M
     (∀ φ : Lp ℝ ∞ μ, 0 ≤ φ → M φ ≤ M' φ) ↔
       ∀ s, (PositiveLinearMap.addContentLpTopEquiv μ M).1 s ≤
         (PositiveLinearMap.addContentLpTopEquiv μ M').1 s := by
+  sorry
+
+/-! ## Layer 9: fixed points of affine actions -/
+
+section FixedPoint
+
+universe u v
+
+variable {E : Type v} [AddCommGroup E] [Module ℝ E] [TopologicalSpace E]
+  [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] [T2Space E] {K : Set E}
+
+/-- **The Markov–Kakutani theorem.** A commuting family of continuous affine self-maps of a
+nonempty compact convex subset `K` of a Hausdorff real topological vector space has a common
+fixed point. No local convexity is assumed, and the maps need not be invertible (README §9.2;
+Markov 1936, Kakutani 1938). -/
+theorem exists_forall_isFixedPt_of_commute (hK : IsCompact K) (hKc : Convex ℝ K)
+    (hne : K.Nonempty) {ι : Type*} (T : ι → K → K) (hT : ∀ i, Continuous (T i))
+    (haff : ∀ i (x y : K) (a b : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a + b = 1),
+      (T i ⟨a • (x : E) + b • (y : E), hKc x.2 y.2 ha hb hab⟩ : E) =
+        a • (T i x : E) + b • (T i y : E))
+    (hcomm : ∀ i j, Function.Commute (T i) (T j)) :
+    ∃ x : K, ∀ i, Function.IsFixedPt (T i) x := by
+  sorry
+
+/-- **Solvable groups.** A solvable group acting on a nonempty compact convex subset `K` of a
+Hausdorff real topological vector space by continuous affine maps has a fixed point. The group
+carries no topology (README §9.3). -/
+theorem exists_forall_smul_eq_of_isSolvable {G : Type*} [Group G] [Group.IsSolvable G]
+    (hK : IsCompact K) (hKc : Convex ℝ K) (hne : K.Nonempty) [MulAction G K]
+    [ContinuousConstSMul G K]
+    (haff : ∀ (g : G) (x y : K) (a b : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a + b = 1),
+      ((g • (⟨a • (x : E) + b • (y : E), hKc x.2 y.2 ha hb hab⟩ : K) : K) : E) =
+        a • ((g • x : K) : E) + b • ((g • y : K) : E)) :
+    ∃ x : K, ∀ g : G, g • x = x := by
+  sorry
+
+/-- **Day's fixed point theorem, forward direction.** An amenable topological group acting on a
+nonempty compact convex subset `K` of a Hausdorff locally convex real space by affine maps, with
+the action map `G × K → K` jointly continuous, has a fixed point. The space may lie in any
+universe (README §9.4). -/
+theorem exists_forall_smul_eq_of_amenable {G : Type u} [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [TauCeti.Amenable G] [LocallyConvexSpace ℝ E]
+    (hK : IsCompact K) (hKc : Convex ℝ K) (hne : K.Nonempty) [MulAction G K]
+    [ContinuousSMul G K]
+    (haff : ∀ (g : G) (x y : K) (a b : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a + b = 1),
+      ((g • (⟨a • (x : E) + b • (y : E), hKc x.2 y.2 ha hb hab⟩ : K) : K) : E) =
+        a • ((g • x : K) : E) + b • ((g • y : K) : E)) :
+    ∃ x : K, ∀ g : G, g • x = x := by
+  sorry
+
+end FixedPoint
+
+/-- **Day's fixed point theorem.** A topological group `G` is amenable exactly when every jointly
+continuous affine action of `G` on a nonempty compact convex subset of a Hausdorff locally convex
+real space has a fixed point. The spaces range over the universe of `G`, which contains the weak-*
+dual of `UCB G` used by the reverse implication (README §9.4). -/
+theorem amenable_iff_forall_exists_smul_eq (G : Type u) [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] :
+    TauCeti.Amenable G ↔
+      ∀ (E : Type u) [AddCommGroup E] [Module ℝ E] [TopologicalSpace E]
+        [IsTopologicalAddGroup E] [ContinuousSMul ℝ E] [LocallyConvexSpace ℝ E] [T2Space E]
+        (K : Set E) (hKc : Convex ℝ K), IsCompact K → K.Nonempty →
+        ∀ [MulAction G K] [ContinuousSMul G K],
+          (∀ (g : G) (x y : K) (a b : ℝ) (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a + b = 1),
+            ((g • (⟨a • (x : E) + b • (y : E), hKc x.2 y.2 ha hb hab⟩ : K) : K) : E) =
+              a • ((g • x : K) : E) + b • ((g • y : K) : E)) →
+          ∃ x : K, ∀ g : G, g • x = x := by
+  sorry
+
+/-- **Solvable groups are amenable**, with every group topology (README §9.5). -/
+theorem Amenable.of_isSolvable (G : Type*) [Group G] [TopologicalSpace G]
+    [IsTopologicalGroup G] [Group.IsSolvable G] : TauCeti.Amenable G := by
+  sorry
+
+/-- **Invariant measures for amenable groups.** A jointly continuous action of an amenable
+topological group on a nonempty compact Hausdorff space preserves some regular Borel probability
+measure (README §9.6). -/
+theorem exists_regular_smulInvariantMeasure_of_amenable {G X : Type*} [Group G]
+    [TopologicalSpace G] [IsTopologicalGroup G] [TauCeti.Amenable G] [TopologicalSpace X]
+    [CompactSpace X] [T2Space X] [Nonempty X] [MeasurableSpace X] [BorelSpace X]
+    [MulAction G X] [ContinuousSMul G X] :
+    ∃ μ : ProbabilityMeasure X, (μ : Measure X).Regular ∧
+      SMulInvariantMeasure G X (μ : Measure X) := by
+  sorry
+
+/-- **Invariant measures for solvable groups.** An action of a solvable group on a nonempty
+compact Hausdorff space by homeomorphisms preserves some regular Borel probability measure. The
+group carries no topology (README §9.6). -/
+theorem exists_regular_smulInvariantMeasure_of_isSolvable {G X : Type*} [Group G]
+    [Group.IsSolvable G] [TopologicalSpace X] [CompactSpace X] [T2Space X] [Nonempty X]
+    [MeasurableSpace X] [BorelSpace X] [MulAction G X] [ContinuousConstSMul G X] :
+    ∃ μ : ProbabilityMeasure X, (μ : Measure X).Regular ∧
+      SMulInvariantMeasure G X (μ : Measure X) := by
   sorry
 
 end TauCetiRoadmap.AmenableGroups

@@ -25,15 +25,25 @@ The headline theorems are these.
   measure on `G`, then `G` is amenable if and only if `L∞(G, μ)` carries a positive linear
   functional that takes the value `1` at the constant function `1` and is invariant under left
   translation.
+- *Day's fixed point theorem.* A topological group `G` is amenable if and only if every action of
+  `G` by affine maps on a nonempty compact convex subset `K` of a Hausdorff locally convex real
+  space, with `G × K → K` jointly continuous, has a fixed point.
+- *The Markov–Kakutani theorem.* A family of pairwise commuting continuous affine self-maps of a
+  nonempty compact convex subset of a Hausdorff real topological vector space has a common fixed
+  point; so does a solvable group acting by continuous affine maps. Neither statement needs local
+  convexity, and the solvable group carries no topology.
 
 Along the way the roadmap proves that no discrete group containing the free group on two
-generators is amenable, that finite, abelian and compact groups are amenable, and that amenability
-of discrete groups passes to subgroups, quotients, extensions, finite products, directed unions and
-directed colimits.
+generators is amenable, that finite, abelian, solvable and compact groups are amenable, that
+amenability of discrete groups passes to subgroups, quotients, extensions, finite products,
+directed unions and directed colimits, and that a jointly continuous action of an amenable group,
+or an action of a solvable group by homeomorphisms, on a nonempty compact Hausdorff space preserves
+a regular Borel probability measure.
 
 The roadmap is written on Mathlib's Følner filters, finitely additive contents, piecewise
-translations with finitely many pieces, Hall's marriage theorem, Hahn–Banach separation, and Haar
-measure with its modular character. The roadmap
+translations with finitely many pieces, Hall's marriage theorem, Hahn–Banach separation, Haar
+measure with its modular character, von Neumann bounded sets, convex spaces and the
+Riesz–Markov–Kakutani theorem. The roadmap
 [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) supplies the
 normalized Haar probability of a compact group, which makes every compact group amenable. In the
 other direction, [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) and
@@ -47,8 +57,10 @@ finitely additive probabilities, and treats finite groups. Layer 3 develops equi
 paradoxical sets and decomposes the free group. Layer 4 proves the closure properties of discrete
 amenability. Layer 5 proves Følner's theorem, Layer 6 the amenability of `ℤ` and of abelian
 groups, Layer 7 the characterization of amenable locally compact groups by invariant means on Haar
-`L∞`, and Layer 8 Tarski's alternative. Euclidean Banach–Tarski, Property (T), and constructions of
-nonamenable groups without nonabelian free subgroups are outside the roadmap.
+`L∞`, Layer 8 Tarski's alternative, and Layer 9 the Markov–Kakutani theorem, its solvable form,
+Day's fixed point theorem and invariant measures on compact spaces. Euclidean Banach–Tarski,
+Property (T), and constructions of nonamenable groups without nonabelian free subgroups are outside
+the roadmap.
 
 ## Conventions
 
@@ -100,9 +112,18 @@ nonamenable groups without nonabelian free subgroups are outside the roadmap.
    `Borel(G × G) = Borel(G) ⊗ Borel(G)`, installs a product-measurable multiplication instance
    without proving it, or infers global `InnerRegular` from `Regular`.
 8. **Names.** Declarations of Mathlib and of the Tau Ceti library are cited by their full names.
-   The one headline statement of `Suggested.lean` that the pinned Tau Ceti does not prove lives in
-   `TauCetiRoadmap.AmenableGroups` and is cited by its short name. Targets with no declaration are
-   described in prose.
+   The headline statements of `Suggested.lean` that the pinned Tau Ceti does not prove, that of
+   §7.5 and those of Layer 9, live in `TauCetiRoadmap.AmenableGroups` and are cited by their short
+   names. Targets with no declaration are described in prose.
+9. **Affine actions.** In Layer 9, `E` is a Hausdorff real topological vector space,
+   `[AddCommGroup E] [Module ℝ E] [TopologicalSpace E] [IsTopologicalAddGroup E]
+   [ContinuousSMul ℝ E] [T2Space E]`, and is locally convex, `[LocallyConvexSpace ℝ E]`, only where
+   this is stated. Convexity of `K : Set E` is Mathlib's `Convex ℝ K`. A map `T : K → K` is
+   *affine* when `T (a • x + b • y) = a • T x + b • T y` in `E` for all `x, y ∈ K` and `a, b ≥ 0`
+   with `a + b = 1`; it need not extend to an affine map of `E`. An action of a group `G` on `K` by
+   continuous affine maps is `[MulAction G K] [ContinuousConstSMul G K]` with every `g • ·` affine,
+   and it is jointly continuous when `G` is a topological group and `[ContinuousSMul G K]`. §9.1
+   identifies this notion of affine map with Mathlib's `Convexity.IsAffineMap`.
 
 ## Layer 1: UCB, means and transport
 
@@ -1228,6 +1249,207 @@ Theorem 7, specialized to the left regular action; its relative-subset clause is
 target. Its §III.1, Theorem 35, gives the matching method; the one-sided Hall theorem in Mathlib
 suffices for the injection used here.
 
+## Layer 9: fixed points of affine actions
+
+Standing hypotheses as in Convention 9: `E` is a Hausdorff real topological vector space and `K` a
+nonempty compact convex subset of `E`. Local convexity enters only in Day's theorem (§9.4) and in
+what is deduced from it.
+
+### 9.1 Affine self-maps of a compact convex set
+
+A map `T : K → K` is affine when it preserves two-point convex combinations (Convention 9).
+*Needs:* Mathlib `Convex`, `Convexity.IsConvexSet`, `Convexity.IsAffineMap`,
+`Convexity.ConvexSpace.subtype`.
+
+- Comparison with Mathlib's convex spaces. Let `E` carry a convex-space structure given by
+  weighted sums, `[Convexity.ConvexSpace ℝ E] [Convexity.IsModuleConvexSpace ℝ E]` (for instance
+  `Convexity.ConvexSpace.ofModule`). Then `Convexity.IsConvexSet ℝ s ↔ Convex ℝ s` for every
+  `s : Set E`, and for convex `K` with the structure `Convexity.ConvexSpace.subtype`, a map
+  `T : K → K` satisfies `Convexity.IsAffineMap ℝ T` exactly when it is affine in the sense of
+  Convention 9. Mathlib proves the binary consequences of `IsConvexSet` and `IsAffineMap`
+  (`Convexity.IsConvexSet.convexCombPair_mem`, `Convexity.IsAffineMap.map_convexCombPair`, with
+  `Convexity.convexCombPair_eq_sum`); the converses, from two points to all finite convex
+  combinations, are the targets.
+- An affine `T` preserves every finite convex combination of points of `K`. The restriction to `K`
+  of a continuous affine map `E →ᴬ[ℝ] E`, in particular of a continuous linear map `E →L[ℝ] E`,
+  that maps `K` into `K` is a continuous affine self-map of `K`, and continuous affine self-maps
+  are closed under composition.
+- For a continuous affine `T`, the fixed-point set `{x : K | T x = x}` is closed, because `E` is
+  Hausdorff, hence compact, and its image in `E` is convex. A self-map of `K` that commutes with
+  `T` maps this set into itself.
+- Averages: for `x ∈ K` and `n : ℕ`, the Cesàro average `A_n x = (n + 1)⁻¹ • ∑_(i ≤ n) T^[i] x`
+  lies in `K`, and `T (A_n x) − A_n x = (n + 1)⁻¹ • (T^[n + 1] x − x)` in `E`.
+- For an action of a group `G` on `K` by continuous affine maps and a normal subgroup `N`, the set
+  of points of `K` fixed by every element of `N` is compact, has convex image in `E`, and is mapped
+  into itself by every element of `G`.
+
+**Checks.**
+- On `K = [0, 1] ⊆ ℝ`, `T x = 1 − x` is affine with fixed point `1/2`; the averages of `x = 0` are
+  `1/2` for odd `n` and `n / (2(n + 1))` for even `n`, and tend to `1/2`.
+- `x ↦ x²` is a continuous self-map of `[0, 1]` that is not affine: it sends the midpoint of `0` and
+  `1` to `1/4`, not to `1/2`.
+
+### 9.2 The Markov–Kakutani theorem
+
+**Theorem (Markov–Kakutani).** A family `(T_i)_(i ∈ ι)` of continuous affine self-maps of `K` that
+commute pairwise, `T_i ∘ T_j = T_j ∘ T_i`, has a common fixed point
+(`exists_forall_isFixedPt_of_commute`, stated with Mathlib's `Function.Commute` and
+`Function.IsFixedPt`). The index type is arbitrary, possibly empty or uncountable, and the maps need
+not be invertible: the theorem concerns commutative monoids of maps, not only abelian groups. Local
+convexity is not assumed (Markov 1936; Kakutani 1938). *Needs:* §9.1; Mathlib
+`IsCompact.exists_mapClusterPt`, `IsCompact.isVonNBounded`,
+`Bornology.IsVonNBounded.smul_tendsto_zero`, `IsCompact.inter_iInter_nonempty`.
+
+Route. For one map `T`, a cluster point `z ∈ K` of the averages `A_n x` exists by compactness. The
+differences `T (A_n x) − A_n x` lie in `(n + 1)⁻¹ • (K − K)`, and `K − K` is compact, hence von
+Neumann bounded, so they tend to `0`; continuity of `T` at `z` and the Hausdorff property give
+`T z = z`. For a finite subfamily, induct on its size: the common fixed-point set of the earlier
+maps is nonempty, compact and convex (§9.1) and is mapped into itself by the next map, which
+therefore has a fixed point in it. For the whole family, the common fixed-point sets of the finite
+subfamilies are closed subsets of the compact `K` with the finite intersection property.
+
+**Checks.**
+- Commutation cannot be dropped: on `[0, 1]`, `T x = x/2` and `S x = (x + 1)/2` are affine with the
+  single fixed points `0` and `1`, and `S (T x) = x/4 + 1/2` while `T (S x) = x/4 + 1/4`.
+- Compactness cannot be dropped: `x ↦ x + 1` is a continuous affine self-map of the closed convex
+  set `[0, ∞)` with no fixed point.
+
+### 9.3 Solvable groups
+
+**Theorem.** If a group `G` with `[Group.IsSolvable G]` acts on `K` by continuous affine maps,
+`[MulAction G K] [ContinuousConstSMul G K]` with the affine condition of Convention 9, then some
+`x ∈ K` has `g • x = x` for every `g ∈ G` (`exists_forall_smul_eq_of_isSolvable`). The group carries
+no topology, and `E` need not be locally convex. *Needs:* §§9.1–9.2; Mathlib `derivedSeries`,
+`derivedSeries_succ`, `Group.IsSolvable`.
+
+Route. Write `G⁽ᵏ⁾` for `derivedSeries G k`, a normal subgroup of `G`; solvability gives `n` with
+`G⁽ⁿ⁾ = ⊥`. By downward induction on `k ≤ n`, the set `F_k` of points of `K` fixed by every element
+of `G⁽ᵏ⁾` is nonempty: `F_n = K`. If `F_(k+1)` is nonempty, it is compact, convex and mapped into
+itself by `G` (§9.1). Since `G⁽ᵏ⁺¹⁾ = ⁅G⁽ᵏ⁾, G⁽ᵏ⁾⁆`, any `a, b ∈ G⁽ᵏ⁾` satisfy
+`a b = b a (a⁻¹ b⁻¹ a b)` with the last factor in `G⁽ᵏ⁺¹⁾`, so `a` and `b` act on `F_(k+1)` by
+commuting maps, and the Markov–Kakutani theorem for the elements of `G⁽ᵏ⁾` acting on `F_(k+1)`
+gives a point of `F_k`. Then `F_0` is the fixed-point set of `G`.
+
+**Checks.**
+- The symmetric group `S₃`, which is solvable, permutes the coordinates of `ℝ³` and preserves the
+  standard simplex; its only fixed point there is `(1/3, 1/3, 1/3)`.
+- Solvability cannot be dropped: the free group `F₂`, discrete, acts on its means by the action of
+  §9.4, continuously and affinely on a nonempty compact convex subset of a Hausdorff locally convex
+  space, and a fixed point would be a left-invariant mean, which `TauCeti.not_amenable_freeGroup`
+  excludes.
+
+### 9.4 Day's fixed point theorem
+
+**Theorem (Day).** A topological group `G` is amenable if and only if, for every Hausdorff locally
+convex real space `E`, every nonempty compact convex `K ⊆ E` and every action of `G` on `K` by
+affine maps whose action map `G × K → K` is jointly continuous (`[ContinuousSMul G K]`), some point
+of `K` is fixed by all of `G` (`amenable_iff_forall_exists_smul_eq`). The forward implication holds
+for `E` in every universe (`exists_forall_smul_eq_of_amenable`); the reverse implication uses one
+space in the universe of `G`, the weak-* dual of `UCB(G)` (Day 1961; BDHV, §G.1).
+*Needs:* §§1.2–1.4, §9.1; Mathlib `geometric_hahn_banach_compact_closed`,
+`geometric_hahn_banach_point_point`, `IsCompact.eventually_forall_of_forall_eventually`,
+`WeakBilin.locallyConvexSpace`.
+
+- *The means as a `G`-space.* `G` acts on the means by `(g • m)(f) = m(L_(g⁻¹) f)`, a left action
+  by Convention 3, whose fixed points are exactly the left-invariant means
+  (`TauCeti.Mean.isLeftInvariant_iff`). Through `TauCeti.Mean.toWeakDual` the means are a nonempty
+  compact convex subset of `WeakDual ℝ (UCB G)` (`TauCeti.Mean.isCompact_range_toWeakDual`, and
+  `TauCeti.Mean.convex_range_toContinuousLinearMap` transported along the linear identification of
+  the strong and weak-* duals), which is Hausdorff and locally convex. Each `g` acts by the
+  restriction of a continuous linear map, and the action map is jointly continuous: means are
+  `1`-Lipschitz (`TauCeti.Mean.lipschitzWith`) and `g ↦ L_g f` is norm-continuous
+  (`TauCeti.UCB.continuous_leftTranslation_apply`). This gives the reverse implication.
+- *Orbit functions.* For `x₀ ∈ K` and a continuous affine `a : K → ℝ`, the function
+  `g ↦ a(g • x₀)` lies in `UCB(G)`: it is bounded by compactness, and
+  `sup_g |a(u g • x₀) − a(g • x₀)| ≤ sup_(y ∈ K) |a(u • y) − a(y)|`, which tends to `0` as `u → 1`
+  by joint continuity and compactness of `K`.
+- *Barycenters.* For a mean `m` and `x₀ ∈ K` there is `x ∈ K` with `a(x) = m(g ↦ a(g • x₀))` for
+  every continuous affine `a : K → ℝ`. For finitely many `a_1, …, a_r`, the image of `K` under
+  `(a_1, …, a_r)` is compact and convex in `ℝ^r`, and a point outside it would be separated by a
+  linear form `λ`; but `b = ∑ λ_j a_j` is continuous affine and `m(g ↦ b(g • x₀)) ≤ sup_K b`
+  (`TauCeti.Mean.apply_le_of_forall_le`). The finite intersection property in `K` concludes.
+- *Forward implication.* If `m` is left invariant and `x` is a barycenter, then for every `h ∈ G`
+  and every continuous linear functional `φ` on `E`, applying the barycenter identity to `φ|_K` and
+  to the continuous affine `y ↦ φ(h • y)` gives `φ(h • x) = m(L_(h⁻¹) F) = m(F) = φ(x)` with
+  `F(g) = φ(g • x₀)`. Continuous linear functionals separate the points of a Hausdorff locally
+  convex space (`geometric_hahn_banach_point_point`), so `h • x = x`.
+
+**Checks.**
+- For a finite group `G` with the normalized counting mean of §2.5, the barycenter of the orbit of
+  `x₀` is `|G|⁻¹ ∑_g g • x₀`. For `ZMod 2` swapping the coordinates of the segment from `(1, 0)` to
+  `(0, 1)` in `ℝ²`, it is `(1/2, 1/2)`, the only fixed point.
+
+### 9.5 Solvable groups are amenable
+
+Every solvable group is amenable with every group topology (the instance
+`TauCeti.Amenable.of_isSolvable`, for `[Group.IsSolvable G]`; `Amenable.of_isSolvable` in
+`Suggested.lean`): apply §9.3 to the action of `G` on
+its means from §9.4, whose maps are continuous, so that a fixed point is a left-invariant mean.
+For a commutative group the same argument with §9.2 in place of §9.3 is a proof of
+`TauCeti.Amenable.of_commGroup` (§6.3) that bypasses Følner sets; it is a proof route, not a
+separate target. The discrete case also follows from §4.3 and §6.3 by induction on the derived
+length, and the general case from it by `TauCeti.Amenable.of_discrete`. *Needs:* §§9.3–9.4.
+
+**Checks.**
+- `S₃`, the affine group of §1.1 and the group of invertible upper-triangular real `2 × 2`
+  matrices are solvable, hence amenable. `SL₂(ℤ)` contains `F₂`, so it is not amenable (§4.7)
+  and hence not solvable.
+
+### 9.6 Invariant probability measures on compact spaces
+
+Let `X` be a nonempty compact Hausdorff space with its Borel σ-algebra and `G` a group acting on
+`X`.
+
+- If `G` is an amenable topological group and the action is jointly continuous,
+  `[ContinuousSMul G X]`, some regular Borel probability measure on `X` is invariant
+  (`exists_regular_smulInvariantMeasure_of_amenable`, with Mathlib's `ProbabilityMeasure`,
+  `MeasureTheory.Measure.Regular` and `MeasureTheory.SMulInvariantMeasure`).
+- If `G` is solvable, carries no topology and acts by homeomorphisms, `[ContinuousConstSMul G X]`,
+  the same conclusion holds (`exists_regular_smulInvariantMeasure_of_isSolvable`).
+- If moreover the action is minimal (`[MulAction.IsMinimal G X]`), every invariant probability
+  measure charges every nonempty open set (Mathlib
+  `MeasureTheory.measure_isOpen_pos_of_smulInvariant_of_compact_ne_zero`).
+
+Route. The positive linear functionals `Λ` on `C(X, ℝ)` with `Λ 1 = 1` form a nonempty (evaluation
+at a point) weak-* closed subset of the closed unit ball of `WeakDual ℝ C(X, ℝ)`, hence a compact
+convex set (`WeakDual.isCompact_closedBall`), on which `g` acts by `Λ ↦ (f ↦ Λ(f ∘ (g⁻¹ • ·)))`, the
+restriction of a weak-* continuous linear map. The action map is jointly continuous when the action
+on `X` is, because `g ↦ f ∘ (g⁻¹ • ·)` is then norm-continuous by compactness of `X`. §9.4, or §9.3
+for solvable `G`, gives an invariant `Λ`. On the compact space `X` every continuous function has
+compact support, so `Λ` is a positive functional on `C_c(X, ℝ)`. Its Riesz measure
+`RealRMK.rieszMeasure` is a regular probability measure representing `Λ`
+(`RealRMK.integral_rieszMeasure`), and its push-forward by the homeomorphism `g • ·` is regular
+(`MeasureTheory.Measure.Regular.map`) and represents the same functional, so the two are equal by
+`RealRMK.integralPositiveLinearMap_inj`. *Needs:* §§9.3–9.4;
+Mathlib `WeakDual.isCompact_closedBall`, `RealRMK.rieszMeasure`, `RealRMK.integral_rieszMeasure`,
+`RealRMK.integralPositiveLinearMap_inj`, `MeasureTheory.Measure.Regular.map`.
+
+**Checks.**
+- The affine group of §1.1, which is solvable, acts on the one-point compactification
+  `ℝ ∪ {∞}` of the line by `t ↦ at + b` and `∞ ↦ ∞`. Its only invariant probability measure is
+  `δ_∞`: an invariant probability measure gives `ℝ` a translation-invariant finite measure, which is
+  `0`. The action is not minimal, and `δ_∞` does not charge the open set `ℝ`.
+- An irrational rotation of the circle generates a copy of `ℤ` acting minimally, and its invariant
+  probability measure is the normalized Haar measure, which charges every nonempty open set.
+
+### Examples
+
+Commuting column-stochastic matrices acting on the probability vectors of the standard simplex,
+which have a common stationary vector by §9.2; actions of solvable groups on compact spaces, which
+preserve a probability measure by §9.6; the means of an abelian or solvable group, on which the
+fixed points of §§9.2–9.3 are invariant means.
+
+### Dependencies
+
+Layers 1–4 and 6: §9.5 is compared with §§2.4, 4.3 and 6.3, and the Checks of §§9.3 and 9.5 use
+Layers 3 and 4. Mathlib `Convex`,
+`Convexity.IsAffineMap`, von Neumann boundedness, Hahn–Banach separation in locally convex spaces,
+`WeakDual` and the Riesz–Markov–Kakutani theorem. Tau Ceti `TauCeti/GroupTheory/Amenable/Mean.lean`,
+`Basic.lean`, `WeakStar.lean` and `TauCeti/Topology/Algebra/Group/UCB/Translation.lean`.
+
+References: Markov (1936) and Kakutani (1938) for §9.2; Day (1961) and
+[BDHV](https://perso.univ-rennes1.fr/bachir.bekka/KazhdanTotal.pdf), §G.1, for §9.4.
+
 ## Downstream consumers
 
 - [VonNeumannAlgebras](../VonNeumannAlgebras/README.md): Layers 5–7, in particular the kernels
@@ -1259,8 +1481,11 @@ the Følner, Reiter and Følner-sequence characterizations (Layer 5); amenabilit
 abelian groups (Layer 6); the characterization of amenable locally compact Hausdorff groups by
 invariant means on Haar `L∞`, the smoothing theory behind it, Baire representatives, the
 correspondence with Borel contents and its completion, and the comparison with BDHV's local
-conventions (Layer 7); and Tarski's alternative for the left regular action of a discrete group
-(Layer 8).
+conventions (Layer 7); Tarski's alternative for the left regular action of a discrete group
+(Layer 8); and fixed points of affine actions on compact convex sets, namely the Markov–Kakutani
+theorem in Hausdorff topological vector spaces, its form for solvable groups, Day's fixed point
+theorem, the amenability of solvable groups and the invariant probability measures of amenable and
+solvable actions on compact Hausdorff spaces (Layer 9).
 
 **Already in the library.** The Tau Ceti library implements most of the roadmap, under the names
 used above and listed under the supplier contracts: all of Layers 1, 3, 4, 6 and 8; Layer 2 except
@@ -1272,16 +1497,34 @@ smoothing of §7.4, the Borel-content correspondence of §7.6, the local convent
 compact groups of §7.8, the reverse implication of §7.5 with its independence of the Haar measure,
 and the discrete case. The remaining targets are those §§2.3, 2.5, 5.1, 5.3 and 7.2 state as
 targets, the pointwise formula and the approximate identity of §7.3, the forward implication of
-§7.5, and the completion and the additivity and monotonicity of §7.6. The proof routes described above for results already in the
-library are proof sketches, not separate targets.
+§7.5, the completion and the additivity and monotonicity of §7.6, and all of Layer 9. The proof
+routes described above for results already in the library are proof sketches, not separate
+targets.
 
 **Owned elsewhere and consumed here.**
 
 - Normalized Haar probability of a compact group, with its invariance: RepresentationTheory/CompactGroups
   §0.1, consumed through Tau Ceti's `TauCeti.haarProb` in §7.8.
 - Følner filters, finitely additive contents, piecewise translations, Hall's theorem, Hahn–Banach
-  separation, Haar measure and the modular character: Mathlib, as listed under the supplier
-  contracts.
+  separation, Haar measure and the modular character, von Neumann boundedness, convex spaces and
+  the Riesz–Markov–Kakutani theorem: Mathlib, as listed under the supplier contracts.
+
+**Neighbouring fixed-point and invariant-measure theory.**
+
+- [ClassicalErgodicTheory](../ClassicalErgodicTheory/README.md) §0.6 identifies Radon probabilities
+  on a compact Hausdorff space with normalized positive functionals and topologizes them, §5.1
+  proves Krylov–Bogolyubov for one continuous map, and §7.4 builds invariant probabilities of
+  actions of countably infinite discrete amenable groups on compact metrizable spaces as limits of
+  Følner averages, for its variational principle. §9.6 here proves existence for every amenable
+  topological group acting jointly continuously and every solvable group acting by homeomorphisms,
+  on every compact Hausdorff space, through Mathlib's Riesz–Markov–Kakutani theorem directly; it
+  states nothing about the topology on probability measures.
+- The Ryll-Nardzewski fixed-point theorem for weakly compact convex subsets of Banach spaces belongs
+  to the roadmap AlmostPeriodicityAndBohrSets (§10.1), and Kakutani's fixed-point theorem for
+  set-valued maps in finite dimension to the roadmap KakutaniFixedPointAndContinuousGames; neither
+  is used here, and Layer 9 concerns single-valued affine maps only.
+- Day's fixed point theorem for amenable semigroups, and fixed-point characterizations of other
+  notions of amenability, are outside the roadmap.
 
 **Outside the roadmap.** Euclidean Banach–Tarski, Property (T), and constructions of nonamenable
 groups without nonabelian free subgroups. The [amenability design discussion](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Amenability.20of.20actions.2Fgroups.html)
@@ -1324,6 +1567,20 @@ are related subjects, not inputs of this roadmap.
   `MeasureTheory.Measure.modularCharacterFun_pos`,
   `MeasureTheory.Measure.map_right_mul_eq_modularCharacterFun_smul` (for inner regular Haar
   measures) and `MeasureTheory.Measure.isMulLeftInvariant_eq_smul_of_regular` (§7.2).
+- `Convex`, `Function.Commute`, `Function.IsFixedPt`, `Group.IsSolvable`, `derivedSeries`,
+  `derivedSeries_succ`; the convex spaces `Convexity.ConvexSpace`, `Convexity.ConvexSpace.ofModule`,
+  `Convexity.ConvexSpace.subtype`, `Convexity.IsModuleConvexSpace`, `Convexity.IsConvexSet`,
+  `Convexity.IsAffineMap`, with `Convexity.IsConvexSet.convexCombPair_mem`,
+  `Convexity.IsAffineMap.map_convexCombPair` and `Convexity.convexCombPair_eq_sum` (§9.1).
+- `IsCompact.exists_mapClusterPt`, `IsCompact.isVonNBounded`,
+  `Bornology.IsVonNBounded.smul_tendsto_zero`, `IsCompact.inter_iInter_nonempty` (§9.2).
+- `LocallyConvexSpace`, `WeakBilin.locallyConvexSpace`, `geometric_hahn_banach_compact_closed`,
+  `geometric_hahn_banach_point_point`, `IsCompact.eventually_forall_of_forall_eventually` (§9.4).
+- `ProbabilityMeasure`, `MeasureTheory.Measure.Regular`, `MeasureTheory.Measure.Regular.map`,
+  `MeasureTheory.SMulInvariantMeasure`, `MulAction.IsMinimal`,
+  `MeasureTheory.measure_isOpen_pos_of_smulInvariant_of_compact_ne_zero`, and the
+  Riesz–Markov–Kakutani theorem `RealRMK.rieszMeasure`, `RealRMK.integral_rieszMeasure`,
+  `RealRMK.integralPositiveLinearMap_inj` (§9.6).
 
 ### From Tau Ceti
 
@@ -1440,6 +1697,21 @@ recorded in the sections above.
   `TauCeti.exists_injective_mul_of_not_amenable`. `GroupTheory/Amenable/Tarski.lean`:
   `TauCeti.amenable_iff_not_paradoxical_univ`, `TauCeti.hasFoelnerSets_iff_not_paradoxical_univ`
   (Layer 8).
+- For Layer 9, among the declarations above: `TauCeti.Mean.toWeakDual`,
+  `TauCeti.Mean.isCompact_range_toWeakDual`, `TauCeti.Mean.convex_range_toContinuousLinearMap`,
+  `TauCeti.Mean.lipschitzWith`, `TauCeti.Mean.apply_le_of_forall_le`,
+  `TauCeti.Mean.isLeftInvariant_iff`, `TauCeti.UCB.continuous_leftTranslation_apply`,
+  `TauCeti.Amenable.of_discrete`, `TauCeti.not_amenable_freeGroup` and
+  `TauCeti.Amenable.of_commGroup` (§§9.3–9.5).
+
+## Provenance
+
+The Markov–Kakutani theorem for commuting continuous linear maps of a Hausdorff topological vector
+space, its form for solvable groups acting linearly, and the existence of invariant probability
+measures for actions of solvable groups on compact Hausdorff spaces by homeomorphisms were
+formalized in openai/math (Apache-2.0, commit `adc7f124`). Layer 9 generalizes them to affine
+self-maps of the compact convex set; Day's theorem and the amenable case of §9.6 have no formal
+precursor there. That code is a cited source, not a specification.
 
 ## References
 
@@ -1466,5 +1738,11 @@ recorded in the sections above.
   [Amenable Groups discussion](https://leanprover-community.github.io/archive/stream/113489-new-members/topic/Amenable.20Groups.html).
   Both pull requests are by the same author; reuse of their code requires the author's agreement,
   or a licence permitting it and a plan discussed on the Lean Zulip.
+- A. Markov, *Quelques théorèmes sur les ensembles abéliens*, Doklady Akademii Nauk SSSR **10**
+  (1936), 311–314.
+- S. Kakutani, *Two fixed-point theorems concerning bicompact convex sets*, Proceedings of the
+  Imperial Academy (Tokyo) **14** (1938), 242–245.
+- Mahlon M. Day, [*Fixed-point theorems for compact convex sets*](https://doi.org/10.1215/ijm/1255631582),
+  Illinois Journal of Mathematics **5** (1961), 585–590.
 - The [Mathlib pull request defining `Equidecomp.Equipartition`](https://github.com/leanprover-community/mathlib4/pull/30330),
   whose names and shapes the equipartitions of §3.1 follow.
