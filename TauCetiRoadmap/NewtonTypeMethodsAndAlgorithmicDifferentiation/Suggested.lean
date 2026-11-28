@@ -26,7 +26,7 @@ times.
 
 Local copies. `newtonMap`, `newtonSeq` and `kantorovichRadius` are verbatim copies of the
 definitions of NewtonAndQuasiNewtonMethods, §§1.1 and 2.1. The upstream theorems consumed in the
-README (that roadmap's 1.3, 1.4, 2.1, 2.2 and 4.1, and Tau Ceti's Moore–Penrose inverse) are named
+README (that roadmap's 1.2, 2.1, 2.2 and 4.1, and Tau Ceti's Moore–Penrose inverse) are named
 there, not restated here.
 
 Five headlines are proved here outright as sanity checks: `broydenUpdate_apply_self`,

@@ -212,7 +212,7 @@ completeness is needed.
   `ρ = ‖x₀ - x⋆‖ < 2 / ω` and `B(x⋆, ρ) ⊆ D`, then every iterate lies in `D` with
   `‖x_{k+1} - x⋆‖ ≤ (ω / 2) ‖x_k - x⋆‖²`; when `x₀ ≠ x⋆` every `x_{k+1}` lies in `B(x⋆, ρ)`; and
   `x_k → x⋆` (Deuflhard–Hohmann, Theorem 4.10, pp. 88–89; Deuflhard, Theorem 2.3, p. 50).
-  Route: with `h = x⋆ - x_k`, `x_{k+1} - x⋆ = -g(1)` for
+  Route: with `h = x⋆ - x_k`, `x_{k+1} - x⋆ = g(1)` for
   `g(t) = f'(x_k)⁻¹ (f(x_k + t h) - f(x_k) - t f'(x_k) h)`. The condition at the pair
   `(x_k, x_k + t h)` gives `‖g'(t)‖ ≤ ω t ‖h‖²`, and the mean value inequality gives
   `‖g(1)‖ ≤ (ω / 2) ‖h‖²`; no integral, hence no completeness, is needed.
@@ -288,7 +288,8 @@ step `k` the least acceptable `j` and moves to `x_k - 2⁻ⁱ d_k` for some `i �
   points.
 
 **Checks.**
-- `Dh(x)(-d) = -2 h(x)` at a random point of a planar cubic system: both sides `-4.6141`.
+- For `f(a, b) = (a + a³ - 2, b + b³ + a)` at `x = (1.3, -0.7)`: `f(x) = (1.497, 0.257)` and
+  both sides of `Dh(x)(-d) = -2 h(x)` equal `-1153529/250000 = -4.614116`.
 - For `f = arctan` from `x₀ = 3`, undamped Newton diverges (`-9.49`, `124`, …), while the damped
   method takes `j = 2`, `i = 2` at the first step and full steps thereafter, converging to `0`.
 - When `Df(x)` is not invertible, `newtonDir f x = 0` and `j = 0` passes trivially; the
@@ -325,8 +326,10 @@ continuous linear equivalence, and `f` has derivative `f'` on a ball about `x⋆
   `A e_{k+1} = r_k + o(e_k)` with `‖r_k‖ ≤ η_k ‖f(x_k)‖` and `f(x_k) = A e_k + o(e_k)`.
 
 **Checks.**
-- For a planar system with `η_k = 1/2` and random residual directions of the allowed size, the
-  weighted errors contract by at most `0.75 = t` at every step and reach `2e-9`.
+- For the system of the Checks of 3.1, with zero `x⋆ = (1, -0.6823)`, `x₀ = x⋆ + (0.05, -0.04)`,
+  `η_k = 1/2` and each step leaving the residual `η_k f(x_k)` of the largest allowed size (or that
+  residual turned by a right angle), the weighted errors `‖A(x_k - x⋆)‖` contract by at most `0.519`
+  (`0.507`) per step, within `t = 0.75`, and `‖x_{30} - x⋆‖` is `6.5e-11` (`5.8e-11`).
 - (negative control) With `η_k = 1` the step `s = 0` is admissible, so no convergence theorem can
   allow `η̄ ≥ 1`.
 - (negative control) For `f(x) = x² - 2` from `x₀ = 2` with the constant forcing term `η = 0.1`,
@@ -359,9 +362,10 @@ and (11.28), pp. 279–280); `broydenSeq` iterates it.
   `1 + ⟪s, B⁻¹ u⟫ = ⟪s, B⁻¹ y⟫ / ‖s‖²`.
 
 **Checks.**
-- On 2000 random `4 × 4` instances the least-change inequality holds against random `X` with
-  `X s = y`.
-- On 500 random `3 × 3` instances `det B₊ = det B · ⟪s, B⁻¹ y⟫ / ‖s‖²`.
+- For `B = [[2, 1], [1, 3]]`, `s = (1, 1)`, `y = (1, -1)`: `B₊ = [[1, 0], [-3/2, 1/2]]`,
+  `B₊ s = y`, and `‖B₊ - B‖ = √58 / 2 = ‖y - B s‖ / ‖s‖`, the least value of `‖X - B‖` over `X`
+  with `X s = y`, since `‖X - B‖ ≥ ‖(X - B) s‖ / ‖s‖`.
+- In the same example `det B₊ = 1/2 = det B · ⟪s, B⁻¹ y⟫ / ‖s‖² = 5 · (1/5) / 2`.
 - (negative control) `B = 1` on `ℝ²`, `s = e₁`, `y = e₂`: `⟪s, B⁻¹ y⟫ = 0` and
   `B₊ = [[0, 0], [1, 1]]` is singular, so a Broyden step can lose invertibility away from `x⋆`.
 - (negative control) With `s = 0` the update returns `B`, so `B₊ s = 0`, which differs from any
@@ -506,9 +510,11 @@ of register states at which every step's arguments lie in its domain.
   Proposition 2.1, p. 23). Route: induction on the list, with `Function.update` and composition.
 
 **Checks.**
-- A five-step program on four registers with aliasing (`v₀ ← v₀ · v₀`), in-place overwriting
-  (`v₂ ← tan v₂`) and a division `v₁ ← v₀ / v₃`: its domain is the set of states where the
-  argument of `tan` is not an odd multiple of `π / 2` and the divisor is nonzero, an open set.
+- The five-step program `v₂ ← v₀ · v₁`, `v₂ ← tan v₂`, `v₃ ← v₁ - v₂`, `v₀ ← v₀ · v₀`,
+  `v₁ ← v₀ / v₃` on four registers has aliasing (`v₀ ← v₀ · v₀`), in-place overwriting
+  (`v₂ ← tan v₂`) and a division: its domain is the set of states where the argument of `tan` is
+  not an odd multiple of `π / 2` and the divisor is nonzero, an open set. At
+  `v = (0.7, 1.3, 0, 0)` it returns `(0.49, 35.9485, 1.2864, 0.01363)`.
 - (negative control) An elemental with a closed domain such as `[0, ∞)` for `√` would not be
   differentiable at the boundary; the structure requires an open domain.
 - (negative control) Execution reads the overwritten state: `run` of `v₀ ← v₀ + v₁`,
@@ -537,10 +543,10 @@ each at the register state before its step.
   Route: the two preceding headlines.
 
 **Checks.**
-- For the four-register program with aliasing and overwriting, at `v = (0.7, 1.3, 0, 0)`, the
-  forward sweep agrees with central differences to relative accuracy `1.3e-7`, and
-  `⟨x̄, ẋ⟩ = ⟨ȳ, ẏ⟩ = -2807.6995` for random `ẋ`, `ȳ`.
-- (negative control) Omitting the reset `v̄_out ← 0` gives `-4527.58` instead: with overwriting
+- For the five-step program of the Checks of 7.1 at `v = (0.7, 1.3, 0, 0)` with
+  `ẋ = ȳ = (1, 1, 1, 1)`, the forward sweep agrees with central differences to relative accuracy
+  `1.0e-7`, and `⟨x̄, ẋ⟩ = ⟨ȳ, ẏ⟩ = 11470.6747`.
+- (negative control) Omitting the reset `v̄_out ← 0` gives `23823.1528` instead: with overwriting
   the reset is what makes the sweep the transpose.
 - (negative control) For the single aliasing step `v₀ ← v₀ · v₀` at `v₀ = 3`, the tangent step
   gives `v̇₀ ← 6 v̇₀` and the adjoint step `v̄₀ ← 6 v̄₀`, adding `3 v̄₀` once for each argument; an
@@ -583,9 +589,10 @@ over a trace `P`, and `runtime w W` weights them. Admissible weights (`IsRuntime
 - The bounds come from per-elemental ratios; at `w = (1, 1, 1, 2)` the multiplication has
   `runtime` `4` for evaluation, `10` for the tangent, `16` for the gradient, `4 + 6p` and
   `6 + 10q` for the vector modes.
-- Over a grid of admissible weights the ratios range over `(2, 5/2]`, `(1 + p, 1 + 3p/2]`,
-  `(7/2, 4]` and `(3/2 + 2q, 3/2 + 5q/2]` (for `p = q = 3`: `(4, 5.5]` and `(7.5, 9]`), so the
-  printed intervals of Griewank–Walther contain the ranges and their upper ends are attained.
+- Over a grid of admissible weights the ratios of a multiplication range over `(2, 5/2]`,
+  `(1 + p, 1 + 3p/2]`, `(7/2, 4]` and `(3/2 + 2q, 3/2 + 5q/2]` (for `p = q = 3`: `(4, 5.5]` and
+  `(7.5, 9]`), so the printed intervals of Griewank–Walther contain the ranges and their upper
+  ends are attained.
 - (negative control) Without `μ ≥ π` the gradient ratio of a multiplication tends to `5` as
   `μ → 0`, so the cheap gradient bound `4` needs that constraint.
 - (negative control) For `p = 0` the vector tangent table still charges two nonlinear operations
@@ -662,9 +669,8 @@ Ownership boundaries.
   the damped Newton method for equations, with the step chosen by the test on `‖f‖²`.
 - Mathlib owns the implicit function theorem, which gives the solution curve and tangent equation
   of 6.1, and the algebraic Newton map of polynomials.
-- The open roadmap HypergradientsAndBilevelOptimization (PR #2991), §1.1, differentiates
-  parametrized fixed points; it owns no result of this roadmap, and Layer 7 does not differentiate
-  through solvers.
+- HypergradientsAndBilevelOptimization, §1.1, differentiates parametrized fixed points; it owns
+  no result of this roadmap, and Layer 7 does not differentiate through solvers.
 - Newton's method for minimization, line searches and trust regions belong to optimization;
   Newton methods with interval data and verified enclosures belong to interval analysis. Both
   consume this roadmap.
