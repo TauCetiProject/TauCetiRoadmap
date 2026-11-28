@@ -56,6 +56,7 @@ body:
         - AnalyticToricGeometryPartII
         - AnticyclotomicLocalUnits
         - ApproximationGuarantees
+        - ApproximationSpaces
         - ArakelovGeometryAndAbelianHeights
         - ArakelovGeometryAndAbelianHeightsPartII
         - ArcTopologyAndDescent
@@ -121,6 +122,7 @@ body:
         - ClassFieldTheory
         - ClassicalAdicEtaleCohomology
         - ClassicalAdicEtaleCohomologyPartII
+        - ClassicalApproximationSpaces
         - ClassicalArithmeticCompletion
         - ClassicalErgodicTheory
         - ClassicalGroupsPartII
