@@ -329,7 +329,7 @@ proximal headline, as in Rockafellar–Wets' Thm 12.35. Proximal maps: for `(a) 
 Moreau–Yosida approximations and of resolvent steps under Γ-convergence, with moving base points
 `z n → z`, give the convergence of envelopes and of proximal points (the resolvent steps, which
 are unique by FirstOrderOptimization 3.2, so that convergence of subsequences is convergence).
-Their equicoercivity hypothesis holds for all large `n` by Rockafellar–Wets, Ex 7.32(c), p. 265,
+Their equicoercivity hypothesis holds for all large `n` by Rockafellar–Wets, Ex 7.32(c), p. 266,
 since the penalized functions are convex and epi-converge to a level-bounded limit, and the
 finitely many remaining terms are each coercive. For `(c) ⇒ (a)`, Rockafellar–Wets' argument
 (Thm 7.37, pp. 268–269): by the compactness of 2.1 every subsequence has an epi-convergent
@@ -843,10 +843,15 @@ regular normals of norm about `1`, whose limits are the required `v`. Mordukhovi
 for necessity, a nonzero `w` with `(0, -w)` a limiting normal to the graph contradicts the
 linear openness of 4.1 through the extremal principle. Sufficiency is an adaptation of
 Mordukhovich's proof (Thm 4.1, pp. 378–381, with Thm 4.5, pp. 382–383) to finite dimension. If
-linear openness fails for the modulus `k`, Ekeland's principle applied to `(x, y) ↦ ‖y - z k‖` on
-the graph near a point violating it gives a point `(x̃ k, ỹ k)` of the graph, tending to
-`(x₀, y₀)`, with `ỹ k ≠ z k`, at which `‖y - z k‖ + ‖(x, y) - (x̃ k, ỹ k)‖ / k` plus the indicator
-of the graph has a local minimum. Fermat's rule 5.2 and the sum rule 5.3 give a limiting normal
+linear openness fails for the modulus `k`, fix a closed ball `B` about `(x₀, y₀)` on which the
+graph is closed, and let `G` be the intersection of the graph with `B`; `G` is complete and its
+indicator is lower semicontinuous on the whole space, and at points interior to `B` the limiting
+normals to `G` are those to the graph. Ekeland's principle applied to `(x, y) ↦ ‖y - z k‖` on `G`
+near a point violating linear openness gives a point `(x̃ k, ỹ k)` of `G`, tending to `(x₀, y₀)`
+and so interior to `B` for large `k`, with `ỹ k ≠ z k`, at which
+`‖y - z k‖ + ‖(x, y) - (x̃ k, ỹ k)‖ / k` plus the indicator of `G` has a local minimum. Fermat's
+rule 5.2 and the sum rule 5.3, whose two summands are lower semicontinuous, give a limiting
+normal
 `(a k, -w k)` to the graph at `(x̃ k, ỹ k)` with `‖a k‖ ≤ 1/k` and `‖w k‖ ≥ 1 - 1/k`; the
 qualification of 5.3 holds because the first summand is Lipschitz, so that its horizon
 subdifferential is `{0}` by the first half of the Lipschitz route below, which does not use the
