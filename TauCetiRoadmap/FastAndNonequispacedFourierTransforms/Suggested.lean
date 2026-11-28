@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Analysis.Sobolev.Circle.Basic
 
 /-!
 # Fast and nonequispaced Fourier transforms: target signatures
@@ -20,6 +21,10 @@ Mathlib's `Matrix.circulant v`, with entry `v (i - j)`; the cyclic shift is
 `periodicCoeff u n = (2π)⁻¹ ∫₀^{2π} exp (-i n x) u x dx`, Mathlib's `fourierCoeffOn` on
 `[0, 2π]`. Arithmetic cost is counted by `mulVecCost`, a pair (real multiplications, real
 additions) attached to a matrix read as a sparse matrix-vector product.
+
+The periodic Sobolev norm `fourierSobolevNorm` has the weights `1 + |k|^(2l)`; it is equivalent
+to the norm of Tau Ceti's `TauCeti.CircleSobolev`, with the weights `(1 + |k|)^(2l)`, by
+`fourierSobolevNorm_comparable_circleSobolev`.
 
 Local copy. `dftMatrix` is a verbatim copy of the definition of SamplingAndDiscreteFourierAnalysis
 (its 2.1). It lives in this roadmap's namespace under its short name.
@@ -303,6 +308,17 @@ def fourierSobolevNorm (l : ℕ) (u : ℝ → ℂ) : ℝ≥0∞ :=
   (∑' k : ℤ, ((1 + (‖(k : ℂ)‖₊ : ℝ≥0∞) ^ (2 * l)) * (‖periodicCoeff u k‖₊ : ℝ≥0∞) ^ 2)) ^
     (1 / 2 : ℝ)
 
+/-- 5.3 Comparison with Tau Ceti's Sobolev space on the circle: `u` has finite norm
+`‖u‖_l` exactly when its Fourier coefficients form an element `a` of `CircleSobolev l ℂ`, and
+then `‖u‖_l ≤ √2 ‖a‖` and `‖a‖ ≤ 2^l ‖u‖_l`. -/
+theorem fourierSobolevNorm_comparable_circleSobolev (l : ℕ) (u : ℝ → ℂ) :
+    (fourierSobolevNorm l u < ∞ ↔
+        ∃ a : TauCeti.CircleSobolev l ℂ, a.coeff = periodicCoeff u) ∧
+      ∀ a : TauCeti.CircleSobolev l ℂ, a.coeff = periodicCoeff u →
+        fourierSobolevNorm l u ≤ ENNReal.ofReal (Real.sqrt 2 * ‖a‖) ∧
+          ENNReal.ofReal ‖a‖ ≤ 2 ^ l * fourierSobolevNorm l u := by
+  sorry
+
 /-- 5.3 For a `2π`-periodic `u` of class `C^m`, `|u|_m² = (2π)⁻¹ ∫₀^{2π} |u^{(m)}|²`. -/
 theorem fourierSobolevSeminorm_sq_eq_integral (m : ℕ) (u : ℝ → ℂ) (hu : ContDiff ℝ m u)
     (hper : Periodic u (2 * π)) :
@@ -459,15 +475,20 @@ def companionMatrix {K : ℕ} (q : Fin K → ℂ) : Matrix (Fin K) (Fin K) ℂ :
   Matrix.of fun i j => if j.val + 1 = K then -q i else if i.val = j.val + 1 then 1 else 0
 
 /-- 7.2 The matrix pencil: for `L + M ≤ N`, `H(0) C(q) = H(1)` with `C(q)` the
-companion matrix of `q = X^{N-L-M} ∏ⱼ (X - zⱼ)`, and every node `zⱼ` is an eigenvalue of the
-pencil `z H(0) - H(1)`. -/
+companion matrix of `q = X^(N-L-M) ∏ⱼ (X - zⱼ)`, and every node `zⱼ` is an eigenvalue of the
+pencil `z H(0) - H(1)`. The second conjunct has content only for `L + M = N`: for `L + M < N`
+every `z` is an eigenvalue, through the common kernel of `H 0` and `H 1`. For `L + M = N`,
+`M ≤ L`, distinct nodes and nonzero weights, the third conjunct says that the eigenvalues are
+exactly the nodes. -/
 theorem hankel_mul_companionMatrix {M N L : ℕ} (z c : Fin M → ℂ) (hLN : L + M ≤ N) :
     let h : ℕ → ℂ := fun k => ∑ j, c j * z j ^ k
     let H : ℕ → Matrix (Fin L) (Fin (N - L)) ℂ :=
       fun s => Matrix.of fun l m => h (s + l.val + m.val)
     let q : Fin (N - L) → ℂ := fun i => (X ^ (N - L - M) * ∏ j, (X - C (z j))).coeff i.val
     H 0 * companionMatrix q = H 1 ∧
-      ∀ j, ∃ v : Fin (N - L) → ℂ, v ≠ 0 ∧ z j • (H 0 *ᵥ v) = H 1 *ᵥ v := by
+      (∀ j, ∃ v : Fin (N - L) → ℂ, v ≠ 0 ∧ z j • (H 0 *ᵥ v) = H 1 *ᵥ v) ∧
+      (L + M = N → M ≤ L → Injective z → (∀ j, c j ≠ 0) → ∀ ζ : ℂ,
+        (∃ v : Fin (N - L) → ℂ, v ≠ 0 ∧ ζ • (H 0 *ᵥ v) = H 1 *ᵥ v) ↔ ∃ j, ζ = z j) := by
   sorry
 
 /-- 7.2 The square pencil: `det (ζ H(0) - H(1)) = det H(0) ∏ⱼ (ζ - zⱼ)` for the `M × M` Hankel
@@ -506,5 +527,7 @@ end Layer7
 #check @Matrix.vandermonde
 #check @Matrix.det_vandermonde_ne_zero_iff
 #check @Matrix.rank
+#check @TauCeti.CircleSobolev
+#check @TauCeti.CircleSobolev.norm_sq_eq_tsum
 
 end TauCetiRoadmap.FastAndNonequispacedFourierTransforms
