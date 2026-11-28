@@ -49,12 +49,14 @@ and the comparison with ℤ_p⟦Γ⟧, and Layer 2 the Mahler–Amice calculus. 
 pseudo-measures, the fractions z with ([g] − 1)z integral for every g, and their values at
 characters. Layer 3a makes those on ℤ_pˣ functions on its character space, with at most a simple
 pole at the trivial character. Layer 4 is the theory of Λ-modules, Layer 5 the determinants, and
-Layer 6 the coefficient orders and Fitting ideals.
+Layer 6 the coefficient orders and Fitting ideals, with the lengths that Fitting ideals compute at
+points with values in discrete valuation rings.
 
 `README.md` is normative. [`Suggested.lean`](Suggested.lean) records the end theorems and layer
 milestones that can be stated against the pinned libraries; it is not exhaustive. Every target below
-states its hypotheses and source; a closing *Lean:* note names the declaration of `Suggested.lean`
-that carries it, and a target without that note is specified here only.
+states its hypotheses and its source, or says that this roadmap's register has no source for it; a
+closing *Lean:* note names the declaration of `Suggested.lean` that carries it, and a target without
+that note is specified here only.
 
 ## How to read the build
 
@@ -74,10 +76,11 @@ preparation and delivers the ring theory of O⟦T⟧,
 the structure theorem for Iwasawa modules, the Iwasawa coordinate over O, the characteristic ideals
 and the growth formulas. Layer 5 delivers determinant lines of perfect complexes with their rational
 trivialization and specialization, and topological Nakayama. Layer 6 delivers the coefficient-order
-algebra of Dasgupta–Kakde. Each subsection opens with its references and the library declarations it
-is built on; each definition gives its API as named lemmas and its checks as a `**Checks.**` list of
-discriminating instances, the *Lean:* note saying which of them are `example`s of `Suggested.lean`;
-every layer ends with its examples and its dependencies.
+algebra of Dasgupta–Kakde and, in §6.5a, the lengths that zeroth and higher Fitting ideals compute
+at points with values in discrete valuation rings. Each subsection opens with its references and
+the library declarations it is built on; each definition gives its API as named lemmas and its
+checks as a `**Checks.**` list of discriminating instances, the *Lean:* note saying which of them
+are `example`s of `Suggested.lean`; every layer ends with its examples and its dependencies.
 
 ## Conventions
 
@@ -3197,8 +3200,12 @@ The ring theory of coefficient orders used by integral Brumer–Stark and Euler-
 the setting of Dasgupta–Kakde: character group rings O[G] with their evaluation at characters, the
 lattice and unit theory, the sharp involution and the contragredient dual; quadratic presentations
 and the comparison of their Fitting ideals; higher Fitting ideals, their chain and their behaviour
-under extensions and fibre products; compound matrices and higher adjugates; exterior powers and the
-annihilator of a cokernel; and transposed presentations. The initial Fitting ideal itself is §4.5.
+under extensions and fibre products; in §6.5a, the Fitting ideals of a quotient by an ideal over an
+arbitrary commutative ring, the classification of finitely generated modules over a discrete
+valuation ring by their Fitting ideals, and the lengths that Fitting ideals compute at points of an
+arbitrary commutative ring with values in discrete valuation rings; compound matrices and higher
+adjugates; exterior powers and the annihilator of a cokernel; and transposed presentations. The
+initial Fitting ideal itself is §4.5.
 The layer states no Gorenstein property and no duality theorem (see Scope and ownership): the
 contragredient dual below is a module structure on Hom_R(M, R), and nothing is asserted about its
 exactness or about biduality. The generic compound-matrix and higher-adjugate algebra is stated in
@@ -3693,8 +3700,8 @@ free module, Fitt^i(R^n) = 0 for i < n and R for i ≥ n (`fittingIdeal_eq_bot_o
 ≤ 𝔭 iff k < the dimension of the fibre at 𝔭), base change along any ring map
 (`fittingIdeal_baseChange`, with no flatness hypothesis) and its localisation form
 (`fittingIdeal_eq_map` with `IsLocalizedModule.isBaseChange`); Fitt^0 is the initial Fitting ideal
-of §4.5. The statements of §6.2 and §6.6 are made on that declaration. The one statement of this
-subsection is the translation to matrices that Dasgupta–Kakde's arguments read off.
+of §4.5. The statements of §6.2, §6.5a and §6.6 are made on that declaration. The one statement of
+this subsection is the translation to matrices that Dasgupta–Kakde's arguments read off.
 
 **Fitting ideals in matrix form.** For a presentation R^m →A R^n → M → 0 with relation matrix A (the
 columns of A generate the kernel of the surjection R^n → M), prove that Fitt^i_R(M) is the ideal
@@ -3711,6 +3718,275 @@ check as an `example`.
 - Fitt⁰(R/(a)) = (a) and Fitt^i(R/(a)) = R for i ≥ 1, read off the 1×1 matrix (a).
 - R/(a) ⊕ R/(b) has Fitt⁰ = (ab), Fitt¹ = (a, b) and Fitt² = R, read off the diagonal matrix diag(a,
   b); a definition taking the (n − i)×(n − i) minors of the wrong index would give Fitt¹ = (ab).
+
+### 6.5a Fitting ideals and lengths over discrete valuation rings
+
+References: Stacks, Section 15.8 (Tag 07Z6): Lemma 15.8.2 (Tag 07Z8) and Definition 15.8.3 (Tag
+07Z9), the Fitting ideals of a finite module, read off a presentation with any set of relations;
+Lemma 15.8.4 (Tag 07ZA), parts (1), (2), (3) and (8): Fit_n(M) = R when M is generated by n
+elements, direct sums, base change along any ring map, and Fit_0(R/I) = I. Built on Tau Ceti
+`fittingIdeal_baseChange`, `fittingIdeal_eq_minorsIdealOfSet`, `fittingIdeal_prod_add_finrank` and
+`fittingIdeal_le_iff_lt_finrank`, and on Mathlib `Module.length`,
+`IsDiscreteValuationRing.length_quotient_pow_maximalIdeal`, `Module.equiv_free_prod_directSum`,
+`LinearMap.liftBaseChangeEquiv` and `RingHom.toAlgebra`.
+
+The subsection has three parts. The first is over an arbitrary commutative ring: the Fitting ideals
+of a quotient by an ideal. The second is intrinsic to a discrete valuation ring: its finitely
+generated modules are classified by their Fitting ideals, and lengths are read off them. The third
+transports the second along a ring homomorphism from an arbitrary commutative ring to a discrete
+valuation ring, by the base change of Fitting ideals. The Dasgupta–Kakde setting of this layer is
+not used.
+
+Standing assumptions: P is a commutative ring and Q a finitely generated P-module, with no
+noetherian or finite-presentation hypothesis; O′ is a discrete valuation ring (a local principal
+ideal domain that is not a field) with uniformizer π and fraction field Frac(O′), of any
+characteristic and with any residue field, and v is its normalised valuation, v(π) = 1 and v(0) =
+∞, Mathlib's `IsDiscreteValuationRing.addVal` with values in ℕ ∪ {∞}. A point of P with values in
+O′ is a ring homomorphism x : P → O′; no relation between P and O′ is assumed beyond x, and O′ ⊗_x
+Q = O′ ⊗_{P,x} Q is the base change along it. A point is used through the P-algebra structure
+`RingHom.toAlgebra x` on O′, whose structure map is x (`RingHom.algebraMap_toAlgebra`), so that
+`fittingIdeal_baseChange`, stated along `algebraMap`, applies to it as it stands; no base change
+along a ring homomorphism is stated separately. The valuation of an ideal J of O′ is v(J) =
+min{v(d) : d ∈ J}, the valuation of any generator of J (Mathlib's order isomorphism
+`IsDiscreteValuationRing.idealOrderIsoENat` from the ideals of O′ to ℕ ∪ {∞} with the reversed
+order); so v(0) = ∞, v(π^kO′) = k, v(J + J′) = min(v(J), v(J′)) and v(bJ) = v(b) + v(J) for b ∈ O′.
+For an ideal I of P, I^j is the j-th power of I, the ideal generated by the products of j elements
+of I, with I⁰ = P; and v(x(I)) is the valuation of the ideal of O′ generated by x(I), which equals
+min{v(x(d)) : d ∈ I}, since that ideal consists of the sums Σ_k b_k·x(d_k) with b_k ∈ O′ and d_k ∈
+I. Lengths are lengths of O′-modules, `Module.length` over O′ with values in ℕ ∪ {∞}, written
+length(−). A module Z over O′/a, for a ∈ O′, is an O′-module through O′ → O′/a, and its length over
+O′/a equals its length over O′, because the two rings have the same submodules of Z. Fitt^j_P(Q) is
+Tau Ceti's `TauCeti.fittingIdeal P Q j`, the initial Fitting ideal of §4.5 for j = 0 and the higher
+Fitting ideal of §6.5 for j ≥ 1. It is defined for finitely generated Q, and finite presentation is
+not needed anywhere below: the base change `fittingIdeal_baseChange` holds for finitely generated
+modules along every ring homomorphism. The Fitting ideals, their base change and their values on
+direct sums are in Stacks, Section 15.8. For the statements below on quotients by an ideal, on the
+classification over a discrete valuation ring and on lengths, this roadmap's register has no
+source: they are standard commutative algebra, and each carries a complete proof sketch.
+
+First part, over an arbitrary commutative ring.
+
+**The Fitting ideals of a quotient by an ideal.** For an ideal I of P, finitely generated or not,
+and k ≥ 0, prove that Fitt^k_P(Q/IQ) = Σ_{j≥0} I^j·Fitt^{j+k}_P(Q). The sum is finite: if Q is
+generated by n elements, then Fitt^i_P(Q) = P for i ≥ n (`fittingIdeal_eq_top_of_surjective`), so
+for k ≥ n the term j = 0 is P, and for k < n every term with j > n − k lies in I^{n−k} =
+I^{n−k}·Fitt^n_P(Q). In particular, for c ∈ P and Q_c = Q/cQ, the case I = cP and k = 0 is
+Fitt⁰_P(Q_c) = Σ_{j≥0} c^j·Fitt^j_P(Q), with c⁰ = 1; this is the form the second and third parts
+use. Proof: choose generators q_1, …, q_n of Q and a family S of vectors of P^n generating the
+kernel K of P^n → Q, finite when Q is finitely presented and arbitrary otherwise. By the matrix form
+of §6.5, with `fittingIdeal_eq_minorsIdealOfSet` and the same translation from functionals to
+coordinates when S is infinite, Fitt^i_P(Q) is generated by the (n − i)×(n − i) minors of the
+matrices whose columns are vectors of S, and is P for i ≥ n. The images of q_1, …, q_n generate
+Q/IQ, and the kernel of P^n → Q/IQ is K + I·P^n, generated by S together with the vectors a·e_i for
+a ∈ I and 1 ≤ i ≤ n. For k ≥ n both sides are P. For k < n, Fitt^k_P(Q/IQ) is generated by the (n −
+k)×(n − k) minors of the matrices with columns in that family. Take such a minor, on a set U of n −
+k rows, with n − k − j columns from S and j columns a_1·e_{i_1}, …, a_j·e_{i_j}. It is 0 unless i_1,
+…, i_j are distinct and lie in U: a column a·e_i restricts to 0 on U when i ∉ U, and two columns
+a·e_i and a′·e_i are multiples of the same vector. Otherwise Laplace expansion along those j columns
+gives ±a_1⋯a_j times the (n − k − j)×(n − k − j) minor of the S-columns on the rows U ∖ {i_1, …,
+i_j}, an element of I^j·Fitt^{j+k}_P(Q). Conversely, for 0 ≤ j ≤ n − k, a_1, …, a_j ∈ I and an (n −
+k − j)×(n − k − j) minor μ of S-columns on a set U₀ of rows, there are j rows i_1, …, i_j outside
+U₀, because n − #U₀ = k + j ≥ j, and the minor on the rows U₀ ∪ {i_1, …, i_j} of the same S-columns
+together with a_1·e_{i_1}, …, a_j·e_{i_j} is ±a_1⋯a_j·μ; for j = n − k the minor μ is the empty one,
+equal to 1. The products a_1⋯a_j·μ generate I^j·Fitt^{j+k}_P(Q). Hence Fitt^k_P(Q/IQ) =
+Σ_{j=0}^{n−k} I^j·Fitt^{j+k}_P(Q). *Needs:* Fitting ideals in matrix form (§6.5), Tau Ceti
+`fittingIdeal_eq_minorsIdealOfSet` and `fittingIdeal_eq_top_of_surjective`.
+
+**Checks.**
+- Q = P/(b) and I = cP: Q/IQ = P/(b, c) has Fitt⁰ = (b, c) = (b) + c·Fitt¹_P(Q), the 1×1 minors of
+  (b | c); and for k = 1 both sides are P, the term j = 0 being Fitt¹_P(P/(b)) = P.
+- Q = P² and any I: Q/IQ = (P/I)² has Fitt⁰ = I² and Fitt¹ = I, the terms j = 2 and j = 1, since
+  Fitt⁰_P(P²) = Fitt¹_P(P²) = 0. The plausible guess Fitt⁰_P(Q) + I for Fitt⁰ is wrong, for
+  instance (4) ≠ (2) for P = ℤ and I = (2).
+- I^j is the power of the ideal, not the ideal generated by the j-th powers of generators: for P =
+  ℤ[X, Y], I = (X, Y) and Q = P², the ideal Fitt⁰_P((P/I)²) = I² contains XY, the determinant of
+  the matrix with columns X·e_1 and Y·e_2, and XY ∉ (X², Y²).
+
+Second part, over a discrete valuation ring.
+
+**Fitting ideals classify modules over a discrete valuation ring.** Let Y be a finitely generated
+O′-module, and write Y ≅ O′^r × ∏_{i=1}^{s} O′/π^{e_i}O′ with e_1 ≥ ⋯ ≥ e_s ≥ 1, by the structure
+theorem (`Module.equiv_free_prod_directSum`; every irreducible element of O′ is associated to π).
+Prove that Fitt^j_{O′}(Y) = 0 for j < r, that Fitt^j_{O′}(Y) = π^{e_{j−r+1} + ⋯ + e_s}O′ for r ≤ j
+≤ r + s (for j = r + s the sum is empty and the ideal is O′), and that Fitt^j_{O′}(Y) = O′ for j ≥
+r + s. So v(Fitt^j_{O′}(Y)) is ∞ for j < r, the sum of the r + s − j smallest exponents for r ≤ j ≤
+r + s, and 0 for j ≥ r + s. Prove the consequence, that the Fitting ideals determine Y up to
+isomorphism: r is the number of j with Fitt^j_{O′}(Y) = 0, r + s is the least j with Fitt^j_{O′}(Y)
+= O′, and e_i = v(Fitt^{r+i−1}_{O′}(Y)) − v(Fitt^{r+i}_{O′}(Y)) for 1 ≤ i ≤ s. So the integers r, s
+and e_1 ≥ ⋯ ≥ e_s are determined by Y, and two finitely generated O′-modules are isomorphic if and
+only if they have the same Fitting ideal Fitt^j_{O′} for every j ≥ 0. Proof: the torsion part
+Y_tors = ∏_i O′/π^{e_i}O′ is presented by the diagonal matrix diag(π^{e_1}, …, π^{e_s}). A minor of
+a diagonal matrix on rows U and columns T is 0 unless U = T, and is then the product of the
+diagonal entries in T. So by the matrix form of §6.5, for j ≤ s the ideal Fitt^j_{O′}(Y_tors) is
+generated by the elements π^{Σ_{i∈T} e_i}, T running over the subsets of {1, …, s} with s − j
+elements, and the least exponent is e_{j+1} + ⋯ + e_s, the sum of the s − j smallest. Then
+Fitt^j_{O′}(Y) = Fitt^{j−r}_{O′}(Y_tors) for j ≥ r (`fittingIdeal_prod_add_finrank`), and
+Fitt^j_{O′}(Y) = 0 exactly for j < r, by the fibre criterion `fittingIdeal_le_iff_lt_finrank` at
+the prime 0 of the domain O′: its residue field is Frac(O′), and Frac(O′) ⊗_{O′} Y ≅ Frac(O′)^r,
+because π is invertible in Frac(O′) and π^{e_i} kills O′/π^{e_i}O′. For the consequence:
+v(Fitt^j_{O′}(Y)) − v(Fitt^{j+1}_{O′}(Y)) = e_{j−r+1} ≥ 1 for r ≤ j < r + s, so the ideals are
+nonzero and strictly increasing from j = r to j = r + s, where they reach O′. *Needs:* Fitting
+ideals in matrix form (§6.5), Tau Ceti `fittingIdeal_prod_add_finrank` and
+`fittingIdeal_le_iff_lt_finrank`, Mathlib `Module.equiv_free_prod_directSum`.
+
+**Checks.**
+- Y = O′ × O′/π³ × O′/π (r = 1, s = 2, exponents 3 and 1): the Fitting ideals for j = 0, 1, 2, 3
+  are 0, (π⁴), (π) and O′, with valuations ∞, 4, 1 and 0; they give back r = 1, r + s = 3, e_1 = 4 −
+  1 = 3 and e_2 = 1 − 0 = 1.
+- O′/π² and (O′/π)² have the same Fitt⁰ = (π²) and the same length 2, but Fitt¹ is O′ for the first
+  and (π) for the second: the initial Fitting ideal alone does not classify.
+- Y = 0: every Fitt^j is O′, and r = s = 0.
+
+**Lengths over a discrete valuation ring.** For a finitely generated O′-module Y prove that
+length(Y) = v(Fitt⁰_{O′}(Y)): Fitt⁰_{O′}(Y) = π^{length(Y)}O′ when Y is torsion, and when Y is not
+torsion both sides are ∞, with Fitt⁰_{O′}(Y) = 0. Proof: this is the case j = 0 of the previous
+statement. With Y ≅ O′^r × ∏_{i=1}^{s} O′/π^{e_i}O′, the module Y is torsion iff r = 0, and
+Fitt⁰_{O′}(Y) is 0 for r ≥ 1 and π^{Σ_i e_i}O′ for r = 0. Length is additive on finite products,
+length(O′/π^eO′) = e (`IsDiscreteValuationRing.length_quotient_pow_maximalIdeal`), and length(O′) =
+∞ because πO′ ⊋ π²O′ ⊋ ⋯ is an infinite chain. Prove along the way that for torsion Y the ideal
+π^{length(Y)}O′ is the characteristic ideal of §4.6 with A = O′, a noetherian normal factorial
+domain whose only height-one prime is πO′, at which the localisation of Y is Y. When the residue
+field k′ of O′ is finite, #Z = (#k′)^{length(Z)} for a finitely generated torsion O′-module Z,
+because #(O′/π^eO′) = (#k′)^e and both sides are multiplicative on finite products; and
+for the cokernel Z of a square matrix with nonzero determinant the statement agrees with the PID
+input of §6.3 over O′, #Z = #(O′/(det)); the length form needs no finiteness of k′. *Needs:*
+Fitting ideals classify modules over a discrete valuation ring, the initial Fitting ideal (§4.5),
+`charIdeal` (§4.6), Mathlib `Module.equiv_free_prod_directSum` and
+`IsDiscreteValuationRing.length_quotient_pow_maximalIdeal`. *Lean:*
+`TauCeti.length_eq_idealOrderIsoENat_fittingIdeal_zero`, for the equality length(Y) =
+v(Fitt⁰_{O′}(Y)), with v read off `IsDiscreteValuationRing.idealOrderIsoENat`; the torsion
+criterion and the statements proved along the way are specified here only.
+
+**Checks.**
+- Y = (O′/π)²: Fitt⁰ = (π²) and the length is 2, while the annihilator (π) has valuation 1; the
+  length is read off the Fitting ideal, not the annihilator.
+- Y = O′ × O′/π: Y is not torsion, Fitt⁰ = 0 and the length is ∞.
+- Y = 0: Fitt⁰ = O′, and both sides are 0.
+
+**Quotients by a and homomorphisms into O′/a.** Let Y be a finitely generated O′-module, Y ≅ O′^r
+× ∏_{i=1}^{s} O′/π^{e_i}O′ with e_1 ≥ ⋯ ≥ e_s ≥ 1, and let a ∈ O′ be nonzero, m = v(a). Prove: (i)
+Hom_{O′}(Y, O′/a) and Y/aY have the same length r·m + Σ_i min(e_i, m), which is finite; (ii) that
+length equals min_{j≥0} (j·m + v(Fitt^j_{O′}(Y))), attained at j = r + #{i : e_i > m}; (iii) if aY
+= 0, it equals length(Y) = v(Fitt⁰_{O′}(Y)); (iv) Hom_{O′}(Y, Frac(O′)/O′) has length length(Y) =
+v(Fitt⁰_{O′}(Y)), infinite exactly when Y is not torsion. The hypothesis aY = 0 of (iii) cannot be
+dropped (first check), and (iv) is not a case of (i): for Y not torsion its length is infinite,
+while the length in (i) is finite for every nonzero a (fourth check). Proof of (i): O′/a =
+O′/π^mO′; Hom_{O′}(O′, O′/π^mO′) = O′/π^mO′, and
+Hom_{O′}(O′/π^eO′, O′/π^mO′) is the π^e-torsion π^{max(m−e, 0)}O′/π^mO′ ≅ O′/π^{min(e, m)}O′, while
+Y/aY ≅ (O′/π^mO′)^r × ∏_i O′/π^{min(e_i, m)}O′. Proof of (ii): by the Fitting ideals of a quotient
+by an ideal, over O′ with I = aO′ and k = 0, Fitt⁰_{O′}(Y/aY) = Σ_j a^j·Fitt^j_{O′}(Y); its
+valuation is min_j (j·m + v(Fitt^j_{O′}(Y))), and it is the length of Y/aY by the previous
+statement. By the classification, the term for r ≤ j ≤ r + s is j·m + e_{j−r+1} + ⋯ + e_s, and
+passing from j to j + 1 changes it by m − e_{j−r+1}, which is negative exactly when e_{j−r+1} > m;
+since the exponents decrease, the least term is at j = r + #{i : e_i > m}, with value r·m + Σ_i
+min(e_i, m). The terms with j < r are ∞ and those with j > r + s are not smaller than the term j =
+r + s. (iii) is (ii) with Y/aY = Y. Proof of (iv): Hom_{O′}(O′, Frac(O′)/O′) = Frac(O′)/O′ has the
+infinite chain of submodules π^{−1}O′/O′ ⊊ π^{−2}O′/O′ ⊊ ⋯, so its length is ∞; and
+Hom_{O′}(O′/π^eO′, Frac(O′)/O′) is the π^e-torsion π^{−e}O′/O′ of Frac(O′)/O′, isomorphic to
+O′/π^eO′ by multiplication by π^e, of length e. Hom from a finite product is the product of the
+Homs, so the length is ∞ for r ≥ 1 and Σ_i e_i for r = 0, which is length(Y) = v(Fitt⁰_{O′}(Y)) by
+the statement on lengths. *Needs:* the Fitting ideals of a quotient by an ideal, Fitting ideals
+classify modules over a discrete valuation ring, lengths over a discrete valuation ring.
+
+**Checks.**
+- Y = O′/π² and a = π: Hom_{O′}(Y, O′/π) ≅ O′/π has length 1 while Y has length 2; a does not kill
+  Y, and the formula of (ii) gives min(0 + 2, 1 + 0) = 1.
+- Y = O′ × O′/π³ × O′/π and a = π²: the terms for j = 0, 1, 2, 3 are ∞, 2 + 4, 4 + 1 and 6 + 0; the
+  least, 5, is at j = 2 = r + #{i : e_i > 2}, and the length is 2 + 2 + 1 = 5.
+- Y = O′/π²: Hom_{O′}(Y, Frac(O′)/O′) = π^{−2}O′/O′ ≅ O′/π² has length 2 = v(Fitt⁰_{O′}(Y)), while
+  Y ⊗_{O′} Frac(O′)/O′ = 0 because Frac(O′)/O′ is divisible: for these coefficients the
+  homomorphisms and the tensor product do not have the same length, unlike in (i).
+- Y = O′: Hom_{O′}(Y, Frac(O′)/O′) = Frac(O′)/O′ has length ∞ = v(0) = v(Fitt⁰_{O′}(O′)), while
+  Hom_{O′}(Y, O′/a) = O′/a has length v(a) < ∞ for every nonzero a.
+
+Third part, along a homomorphism to a discrete valuation ring.
+
+**Structure and lengths at a point.** For a point x : P → O′ and Y = O′ ⊗_x Q prove that
+Fitt^j_{O′}(Y) is the ideal of O′ generated by x(Fitt^j_P(Q)), for every j ≥ 0
+(`fittingIdeal_baseChange`), so that the valuations v(x(Fitt^j_P(Q))), j ≥ 0, determine the
+O′-module Y up to isomorphism, by the classification: its free rank r is the number of j with
+x(Fitt^j_P(Q)) = 0, r + s is the least j with v(x(Fitt^j_P(Q))) = 0, and its exponents are e_i =
+v(x(Fitt^{r+i−1}_P(Q))) − v(x(Fitt^{r+i}_P(Q))) for 1 ≤ i ≤ s. In particular length(O′ ⊗_x Q) =
+v(x(Fitt⁰_P(Q))) = min{v(x(d)) : d ∈ Fitt⁰_P(Q)}; both sides are ∞ exactly when x vanishes on
+Fitt⁰_P(Q), that is, when O′ ⊗_x Q is not torsion. If Q has a quadratic presentation with matrix φ,
+then Fitt⁰_P(Q) = (det φ) (§6.3) and the length is v(x(det φ)), the valuation of the determinant of
+the matrix x(φ) over O′: every element of (det φ) is b·det φ with b ∈ P, and v(x(b)·x(det φ)) ≥
+v(x(det φ)).
+*Needs:* Fitting ideals classify modules over a discrete valuation ring, lengths over a discrete
+valuation ring, the Fitting ideal of a quadratic presentation (§6.3), Tau Ceti
+`fittingIdeal_baseChange`.
+
+**Checks.**
+- Λ = ℤ_p⟦T⟧, Q = Λ/(T) and, for u ∈ pℤ_p, the point x_u : Λ → ℤ_p, F ↦ F(u): ℤ_p ⊗_{x_u} Q =
+  ℤ_p/(u) has length v_p(u), infinite exactly at u = 0, where x_0 kills Fitt⁰_Λ(Q) = (T).
+- P = ℤ_p[T], Q = P/(T) × P/(T²) and the point T ↦ u of ℤ_p: Fitt⁰_P(Q) = (T³), Fitt¹_P(Q) = (T)
+  and Fitt²_P(Q) = P. For u ≠ 0 with t = v_p(u) ≥ 1 the valuations are 3t, t and 0, so r = 0, e_1 =
+  2t and e_2 = t, in agreement with ℤ_p ⊗_x Q = ℤ_p/(u) × ℤ_p/(u²); for u = 0 the point kills
+  Fitt⁰ and Fitt¹, so r = 2, in agreement with ℤ_p ⊗_x Q = ℤ_p².
+
+**Homomorphisms into O′/a at a point.** Let x : P → O′ be a point, Y = O′ ⊗_x Q and a ∈ O′
+nonzero, with O′/a a P-module through x. Prove: (i) Hom_P(Q, O′/a) ≅ Hom_{O′}(Y, O′/a) as
+O′-modules, and this module has the same length as Y/aY = (O′/a) ⊗_x Q; (ii) that length is finite
+and equals min_{j≥0} (j·v(a) + v(x(Fitt^j_P(Q)))), attained at some j ≤ n whenever Q is generated
+by n elements; (iii) if aY = 0, it equals length(Y) = v(x(Fitt⁰_P(Q))); (iv) with Frac(O′)/O′ a
+P-module through x as well, Hom_P(Q, Frac(O′)/O′) ≅ Hom_{O′}(Y, Frac(O′)/O′) as O′-modules, and
+its length is length(Y) = v(x(Fitt⁰_P(Q))), infinite exactly when x vanishes on Fitt⁰_P(Q). Proof:
+the isomorphisms of (i) and (iv) are the extension-of-scalars adjunction
+(`LinearMap.liftBaseChangeEquiv`), Hom_P(Q, N) ≅ Hom_{O′}(Y, N) for every O′-module N made a
+P-module through x, finitely generated or not; it is O′-linear. The rest is the statement on
+quotients by a, applied to Y, with v(Fitt^j_{O′}(Y)) = v(x(Fitt^j_P(Q))) by base change
+(`fittingIdeal_baseChange`). If Q is generated by n elements, so is Y; then Fitt^n_{O′}(Y) = O′, so
+r + s ≤ n, and the minimum is attained at some j ≤ r + s. *Needs:* quotients by a and homomorphisms
+into O′/a, structure and lengths at a point, Tau Ceti `fittingIdeal_baseChange`, Mathlib
+`LinearMap.liftBaseChangeEquiv`. *Lean:* (ii) is `TauCeti.isLeast_length_baseChange_quotient_smul`,
+for the length of Y/aY, with the point the structure map of an algebra; the other items are
+specified here only.
+
+**Checks.**
+- P = ℤ_p[T], Q = P/(T²), the point T ↦ p of ℤ_p and a = p: Y = ℤ_p/(p²), and Hom_P(Q, ℤ_p/(p)) is
+  the set of z ∈ ℤ_p/(p) with p²·z = 0, all of ℤ_p/(p), of length 1; the formula of (ii) gives
+  min(0 + 2, 1 + 0) = 1, with Fitt⁰_P(Q) = (T²) and Fitt¹_P(Q) = P.
+- P = ℤ_p[T], Q = P/(T) × P, generated by two elements, the point T ↦ p of ℤ_p and a = p²:
+  Fitt⁰_P(Q) = 0, Fitt¹_P(Q) = (T) and Fitt²_P(Q) = P, so the terms for j = 0, 1, 2 are ∞, 2 + 1 and
+  4 + 0; the least, 3, is at j = 1 ≤ 2, and Y/aY = ℤ_p/(p) × ℤ_p/(p²) has length 3.
+
+**Points with values in O′/a.** Let a ∈ O′ be nonzero, P̄ a commutative ring, x̄ : P̄ → O′/a a ring
+homomorphism, Q̄ a finitely generated P̄-module and ℓ = length((O′/a) ⊗_{x̄} Q̄), which is finite.
+Prove that the ideal of O′/a generated by x̄(Fitt⁰_{P̄}(Q̄)) is π^{min(ℓ, v(a))}O′/aO′: it
+determines min(ℓ, v(a)) and nothing more. If P̄ = P/I and x̄ is induced by a point x : P → O′ with
+x(I) ⊆ aO′, and Q̄ = Q/IQ for a finitely generated P-module Q, then (O′/a) ⊗_{x̄} Q̄ ≅ (O′/a) ⊗_x Q,
+whose length ℓ is given exactly by (ii) of the previous statement. Proof: Z = (O′/a) ⊗_{x̄} Q̄ is a
+finitely generated O′-module killed by a, so Z ≅ (O′/a) ⊗_{O′} Z; by base change from P̄ and from
+O′, the ideal of O′/a generated by x̄(Fitt⁰_{P̄}(Q̄)) is Fitt⁰_{O′/a}(Z), the image of Fitt⁰_{O′}(Z)
+= π^ℓO′, and that image is (π^ℓO′ + aO′)/aO′ = π^{min(ℓ, v(a))}O′/aO′. The isomorphism is the
+transitivity of base change along P → P/I → O′/a. *Needs:* lengths over a discrete valuation ring,
+homomorphisms into O′/a at a point, Tau Ceti `fittingIdeal_baseChange`.
+
+**Checks.**
+- P̄ = O′/a with v(a) ≥ 1 and x̄ the identity: the P̄-modules P̄ and P̄² both have Fitt⁰_{P̄} = 0,
+  but O′-lengths v(a) and 2·v(a). Over P = O′ with I = aO′, the lifts Q = O′ and Q = O′² give, by
+  (ii), min(∞, v(a)) = v(a) and min(∞, ∞, 2·v(a)) = 2·v(a), and Fitt⁰_{O′}(Q/aQ) is (a) and (a²).
+
+**One element for all points.** For c ∈ P, every d ∈ Fitt⁰_P(Q_c) = Σ_j c^j·Fitt^j_P(Q), every
+discrete valuation ring O′ and every point x : P → O′, prove that length(O′ ⊗_x Q_c) ≤ v(x(d)); and
+that for every point x₀ : P → O′ there is d ∈ Fitt⁰_P(Q_c) with equality at x₀, which may be taken
+of the form c^j·f with f ∈ Fitt^j_P(Q). So one element of Fitt⁰_P(Q_c), chosen sharp at one point,
+bounds the length at every point of every discrete valuation ring; where the length is infinite,
+every d gives equality. Proof: by the statement on structure and lengths at a point, applied to
+Q_c, the length at x is the least value of v(x(d)) over d ∈ Fitt⁰_P(Q_c), and a least value is
+attained because ℕ ∪ {∞} is well ordered. By the case I = cP, k = 0 of the Fitting ideals of a
+quotient by an ideal and the rules for v, this least value at x₀ is min_j (j·v(x₀(c)) +
+v(x₀(Fitt^j_P(Q)))), with 0·∞ = 0; for j attaining it and f ∈ Fitt^j_P(Q) with v(x₀(f)) =
+v(x₀(Fitt^j_P(Q))), the element d = c^j·f lies in c^j·Fitt^j_P(Q) ⊆ Fitt⁰_P(Q_c) and gives
+equality. When x(c) ≠ 0, O′ ⊗_x Q_c = Y/x(c)Y with Y = O′ ⊗_x Q, and the value agrees with (ii) of
+the statement on homomorphisms into O′/a at a point, for a = x(c). *Needs:* the Fitting ideals of a
+quotient by an ideal, structure and lengths at a point, homomorphisms into O′/a at a point.
+
+**Checks.**
+- P = ℤ_p[T], Q = P/(T) and c = p: Q_c = P/(p, T) and Fitt⁰_P(Q_c) = (T) + p·P = (p, T). At the
+  point T ↦ 0 of ℤ_p the length of ℤ_p/(p) is 1, attained by d = p (j = 1, f = 1), while d = T gives
+  the bound ∞; at T ↦ 1 the length is 0, attained by d = T (j = 0), while d = p gives the bound 1.
+  The sharp element depends on the point, and each bound holds at both.
 
 ### 6.6 Fitting ideals of extensions and fibre products
 
@@ -3791,8 +4067,12 @@ image of ⋀^r (§6.4), the initial Fitting ideal (§4.5). *Lean:*
 
 ### Dependencies
 
-Layer 4 (`charIdempotent`, `charIdempotent_mul`, `sum_charIdempotent` of §4.6; the initial Fitting
-ideal `TauCeti.fittingIdeal R M 0` of §4.5). Mathlib `HasEnoughRootsOfUnity`, `Monoid.exponent`,
+Layer 4 (`charIdempotent`, `charIdempotent_mul`, `sum_charIdempotent` and `charIdeal` of §4.6; the
+initial Fitting ideal `TauCeti.fittingIdeal R M 0` of §4.5). Mathlib `RingHom.toAlgebra` with
+`RingHom.algebraMap_toAlgebra`, `Module.length`, `IsDiscreteValuationRing.addVal`,
+`IsDiscreteValuationRing.idealOrderIsoENat`,
+`IsDiscreteValuationRing.length_quotient_pow_maximalIdeal`, `Module.equiv_free_prod_directSum`,
+`LinearMap.liftBaseChangeEquiv` (§6.5a), `HasEnoughRootsOfUnity`, `Monoid.exponent`,
 `MonoidAlgebra.mapDomainAlgHom`, `CommGroup.card_monoidHom_of_hasEnoughRootsOfUnity`,
 `CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity`, `AlgHom.rangeRestrict_surjective`,
 `HopfAlgebra.antipodeAlgHom`, `Module.compHom`, `Module.Dual`, `Module.dualProdDualEquivDual`,
@@ -3838,6 +4118,8 @@ every consumer of minors.
 | AlgebraicVectorBundles, Layer 0C | §5.1 `projectiveDeterminant`, `projectiveDeterminantMap` and their base-change API | Supply the associated-sheaf identification on Spec A and its gluing and pullback comparisons. The identification respects all equal-rank maps, identities, composition, the locally constant rank and parity, and arbitrary base change. The ordinary invertible-sheaf functor forgets the grading after comparing Koszul symmetry. |
 | SelmerIwasawaCohomology, §§3.9 and 3.14 | §5.1 `detLine_cone`, `detLine_baseChange` and the rational trivialization | Retain finite-projective cone/fibre presentations of perfect Selmer and local-error complexes and the comparison quasi-isomorphisms and homotopies. Apply multiplicativity to their induced coherent cone maps through specialization. Ordinary triangle isomorphisms over arbitrary, possibly nonreduced coefficient rings do not supply this naturality. |
 | [MassFormula #226](https://github.com/TauCetiProject/TauCetiRoadmap/pull/226), Layer 2, The index of an image lattice | §6.3 `natCard_quotient_range_toLin'_of_det_ne_zero` in `TauCeti/LinearAlgebra/FreeModule/CardQuotient.lean` | Use `Matrix.toLin'_apply' A` to identify `Matrix.toLin' A` with `Matrix.mulVecLin A` on the same coordinates; associated determinants generate the same ideal. Derive `card_quotient_range` from this generic input and the DVR residue-ring cardinality q^k. MassFormula supplies the Haar scaling law. |
+| ShortGRH/SelmerBoundsForAnticyclotomicTwists, §2.1 (c) and (d) | §6.5a homomorphisms into O′/a at a point, (i) and (ii), with (ii) as `isLeast_length_baseChange_quotient_smul`; structure and lengths at a point; one element for all points | Present Sel(x) as the kernel of A(x) on (O′/ℓ^M)^k, which is Hom_{O′}(Y, O′/ℓ^M) for Y = O′ ⊗ Q along the point O[X_σ] → O′ given by e and evaluation at x, Q being the quotient of O[X_σ]^k by the rows of A, possibly infinitely many. With c = ℓ^M, Fitt⁰(Q/ℓ^M Q) is generated by the maximal minors of the matrix made of the rows of A and of ℓ^M·1. For a discrete valuation ring O′ of characteristic 0, in which ℓ^M ≠ 0, the length of Sel(x) is the least valuation at that point of an element of Fitt⁰(Q/ℓ^M Q), which gives (c); an element attaining the least value at x₀ bounds the length at every point of every such ring, which gives (d). |
+| RiemannHypothesisForDirichletLFunctions/SelmerLengthBoundsAndLocalLifting, §3.23 | §6.5a homomorphisms into O′/a at a point, (iv), with structure and lengths at a point for a quadratic presentation | Write the kernel of sp_u(Φ) on (E′/O′)^{n_Q} as Hom_Λ(𝔐_Q, E′/O′), where 𝔐_Q = Λ^{n_Q}/(rows of Φ) is the cokernel of the transpose of Φ and Λ acts on E′/O′ = Frac(O′)/O′ through sp_u. Since Fitt⁰_Λ(𝔐_Q) = (det Φ) (§6.3), the length is v′(sp_u(det Φ)) = v′(𝐅((u_j − 1)_j)), infinite exactly when 𝐅((u_j − 1)_j) = 0. |
 
 ## Scope and ownership
 
@@ -3865,7 +4147,14 @@ The roadmap owns:
 - the coefficient-order algebra of Dasgupta–Kakde: character group rings with their lattices, units,
   locality and completeness, the sharp involution, the contragredient dual and the transpose of a
   presentation, quadratic presentations, compound matrices and higher adjugates, the Fitting ideals
-  of extensions and fibre products, and the exterior-power annihilation lemma (Layer 6).
+  of extensions and fibre products, and the exterior-power annihilation lemma; and the Fitting
+  ideals of a quotient Q/IQ over an arbitrary commutative ring, the classification of finitely
+  generated modules over a discrete valuation ring by their Fitting ideals, and the lengths that
+  Fitting ideals compute at points of an arbitrary commutative ring with values in discrete
+  valuation rings (Layer 6). The normalised length over rank-one valuation rings of mixed
+  characteristic, read off Fitt⁰, is AInfCohomology §AI.6.7 (Normalized length over a rank-one
+  valuation ring); its case of a discrete valuation ring with uniformizer p is a case of the
+  lengths over a discrete valuation ring of §6.5a.
 
 It does not construct any p-adic L-function (no Bernoulli, Eisenstein or zeta arithmetic, no
 Kubota–Leopoldt measure), no Coleman norm or trace operator and no Coleman map, no locally analytic
@@ -3983,7 +4272,7 @@ roadmap layer refers to that layer's stated development.
 | measures | `AbstractMeasure`, written D(X,R): the continuous R-linear dual of C(X,R) for compact X and a normed commutative ring R, with `map`, `dirac`, `toCLMEquiv`, `amiceTransform`, `coeff_amiceTransform`, `amiceTransformEquiv`, `injective_amiceTransform`, `monoidAlgebraHom`, `WeakTopology`, `StrongTopology`, and the Mahler basis `mahler`, `PadicInt.mahlerEquiv`, `PadicInt.hasSum_mahler`; the operator calculus of Layers 0 and 2 is built on this carrier |
 | the measure algebra (`Mathlib/NumberTheory/Padics/Measure/Monoid.lean`, in the pinned Mathlib) | `AbstractMeasure.convolveFunRight` and its five lemmas, the `Mul`, `One`, `Ring`, `Algebra R` and `CommRing` instances on `D(G,R)` with `mul_def`, `mul_apply`, `dirac_mul_dirac`, `one_def`, `one_apply`, `prodMk'`, and `diracHom` with `diracHom_apply`; the right-handed orientation (μ ⋆ ν)(f) = μ(x ↦ ν(y ↦ f(xy))) is the library's |
 | power series and polynomials | `PowerSeries` with `coeff`, `map`, `expand`, `subst`, `derivative`, `exp`, `binomialSeries`, `HasEval`, `aeval`, `aeval_unique`, `WithPiTopology`, `exists_isWeierstrassFactorization`, `weierstrassDistinguished`, `weierstrassUnit` and `IsWeierstrassFactorization.unique`; `Polynomial`, `Polynomial.IsDistinguishedAt.algEquivQuotient`, `Polynomial.Monic.free_quotient`, `Polynomial.Monic.finite_quotient`, `MvPowerSeries`; the Mahler derivation, φ, ψ, residue averaging and the cyclotomic polynomials ω_n, ξ_n are defined on these |
-| algebra, p-adics and topology | `MonoidAlgebra` with its Hopf structure and its antipode `HopfAlgebra.antipodeAlgHom`, `LocalizedModule`, `IsFractionRing` (no domain hypothesis), the `Div (Submodule R A)` instance with `Submodule.mem_div_iff_forall_mul_mem`, `Module.length`, `PrimeSpectrum`, `IsRegularLocalRing`, `UniqueFactorizationMonoid`, `IsDiscreteValuationRing`, `Module.FinitePresentation`, `Module.rankAtStalk`, `Matrix.adjugate`, `exteriorPower`, `HasEnoughRootsOfUnity`, `HomologicalComplex`, `ModuleCat`; `PadicInt`, `PadicInt.toZModPow`, `PadicInt.toZMod`, `PadicInt.ker_toZMod`, `PadicInt.norm_le_pow_iff_mem_span_pow`, `PadicComplex`, `ZMod.unitsMap`, `QuotientGroup.quotientKerEquivOfSurjective`, `LocallyConstant`, `WeakDual`, `DenseRange.equalizer`, `Topology.IsClosedEmbedding`, `IsLocalizedModule.isBaseChange` |
+| algebra, p-adics and topology | `MonoidAlgebra` with its Hopf structure and its antipode `HopfAlgebra.antipodeAlgHom`, `LocalizedModule`, `IsFractionRing` (no domain hypothesis), the `Div (Submodule R A)` instance with `Submodule.mem_div_iff_forall_mul_mem`, `Module.length`, `PrimeSpectrum`, `IsRegularLocalRing`, `UniqueFactorizationMonoid`, `IsDiscreteValuationRing` with `addVal`, `idealOrderIsoENat` and `length_quotient_pow_maximalIdeal`, `Module.FinitePresentation`, `Module.equiv_free_prod_directSum`, `LinearMap.liftBaseChangeEquiv`, `RingHom.toAlgebra` with `RingHom.algebraMap_toAlgebra`, `Module.rankAtStalk`, `Matrix.adjugate`, `exteriorPower`, `HasEnoughRootsOfUnity`, `HomologicalComplex`, `ModuleCat`; `PadicInt`, `PadicInt.toZModPow`, `PadicInt.toZMod`, `PadicInt.ker_toZMod`, `PadicInt.norm_le_pow_iff_mem_span_pow`, `PadicComplex`, `ZMod.unitsMap`, `QuotientGroup.quotientKerEquivOfSurjective`, `LocallyConstant`, `WeakDual`, `DenseRange.equalizer`, `Topology.IsClosedEmbedding`, `IsLocalizedModule.isBaseChange` |
 
 ### From Tau Ceti
 
@@ -4019,7 +4308,8 @@ the relative singular subscheme Sing(f) needs them, with no ring-level interface
 ring-level carrier for both roadmaps is Tau Ceti's `TauCeti.fittingIdeal R M k`, which already
 handles every index k with presentation independence, base change and the basic formulas; §4.5 and
 Layer 6 extend that one API (annihilator containment, products, quadratic presentations, extensions,
-transposes) and never re-plan it.
+transposes, quotients by an ideal, the classification over a discrete valuation ring, lengths at
+points with values in discrete valuation rings) and never re-plan it.
 
 ### Shared with TauCetiRoadmap.AlgebraicVectorBundles, layer 0C, and TauCetiRoadmap.GlobalNumberFields
 
