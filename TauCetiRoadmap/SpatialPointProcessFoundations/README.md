@@ -924,7 +924,7 @@ theory on `ℝ^d` are here; specific models and their statistics are downstream.
   `E d` is noncompact. The mixing statement of §7.4 is written out as a limit, so
   `Suggested.lean` needs no copy.
 
-## Beyond this roadmap (a roadmap for a roadmap; do not implement)
+## Beyond this roadmap
 
 No Tau Ceti roadmap owns these topics; each is material for a further roadmap built on this one.
 

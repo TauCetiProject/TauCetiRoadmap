@@ -525,7 +525,7 @@ theorem factorialMomentMeasure_restrict_eq_tsum_janossyMeasure {P : Measure Ω}
   sorry
 
 /-- 3.2 (stated after §4.1, which it uses): a reduced Palm kernel into point measures satisfies
-the factorial-count-moment form on disjoint relatively compact windows. -/
+the factorial-count-moment form on relatively compact windows, disjoint or not. -/
 theorem IsReducedPalmKernel.lintegral_factorialCountMoment {P : Measure Ω}
     {N : Ω → PointMeasure S} (hN : Measurable N) {Q : Kernel S (PointMeasure S)}
     (hQ : IsReducedPalmKernel P (fun ω => (N ω : Measure S))
