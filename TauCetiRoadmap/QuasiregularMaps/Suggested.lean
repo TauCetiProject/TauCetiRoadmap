@@ -28,8 +28,13 @@ oriented Riemannian manifolds, or into one, and needs the continuous Sobolev cla
 `W^{1,n}_loc(M, N)` of maps between manifolds with its weak differential `Df`, its operator norm
 `‖Df‖` and its oriented Jacobian `J_f`. Neither Mathlib nor Tau Ceti has that class at the pins
 (Tau Ceti's Sobolev spaces are Euclidean, and its manifold Sobolev inequality is for scalar
-`C¹` functions); the README consumes it from SobolevMapsBetweenManifolds.
+`C¹` functions); the README consumes it from SobolevMapsBetweenManifolds. The definitions these
+statements are about, `K`-quasiregular maps between manifolds and their outer distortion
+(README §2.1–§2.2) and quasiregularly elliptic manifolds (README §7.1), need the same class and
+are not stated either.
 
+* for `n ≥ 1` and every map `f : M → N`, `f` is `K`-quasiregular if and only if `1 ≤ K` and
+  `K_O(f) ≤ K` (README §2.3);
 * the comparison `K_I(f) ≤ K_O(f)^{n−1}`, `K_O(f) ≤ K_I(f)^{n−1}` for quasiregular maps
   between manifolds (README §3.2);
 * a non-degenerate orientation-preserving simplicial map of `C¹`-triangulated manifolds with
@@ -54,7 +59,7 @@ namespace TauCetiRoadmap.QuasiregularMaps
 /-- The **minimal stretch** `ℓ(A)` of a linear map `A : V → W` between finite-dimensional real
 inner product spaces: the smallest of the `n = dim V` singular values, Mathlib's
 `LinearMap.singularValues` at the zero-based index `n − 1`. For `V ≠ 0` it is the minimum of
-`|A v|` over unit vectors `v`, the quantity `ℓ(T)` of MartioRickmanVaisala1969 line 127; for
+`|A v|` over unit vectors `v`, the quantity `ℓ(T)` of MartioRickmanVaisala1969 2.1, p. 7; for
 `V = 0` the index is `0` and the value is `0`. -/
 def minimalStretch {V W : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V]
     [FiniteDimensional ℝ V] [NormedAddCommGroup W] [InnerProductSpace ℝ W]
@@ -68,9 +73,8 @@ finite-dimensional real inner product space of dimension `n` with Lebesgue measu
 open. A map `f` is `K`-quasiregular on `Ω` when `1 ≤ K`, `f` is continuous on `Ω`, and `f` has a
 weak derivative `Du` on `Ω` with `‖Du‖ⁿ` locally integrable on `Ω` and
 `‖Du(x)‖ⁿ ≤ K · det Du(x)` for almost every `x ∈ Ω`. The norm is the operator norm. This is the
-definition of HeikkilaPankka2025 lines 22–27 and Prywes2019 lines 22–26 on the flat oriented
-manifold `Ω`, and MartioRickmanVaisala1969 Definition 2.20 (lines 409–412) with `W^{1,n}_loc` in
-place of `ACLⁿ`
+definition of HeikkilaPankka2025 §1, p. 1, and Prywes2019 §1, p. 1, on the flat oriented
+manifold `Ω`, and MartioRickmanVaisala1969 Definition 2.20 with `W^{1,n}_loc` in place of `ACLⁿ`
 (`isQuasiregularOn_iff_isACLpOn`). -/
 def IsQuasiregularOn {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
     [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
@@ -84,8 +88,8 @@ def IsQuasiregularOn {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E
 /-! ## Layer 3: inner, maximal and Hilbert–Schmidt distortion -/
 
 /-- **Outer distortion bounds inner distortion** (MartioRickmanVaisala1969 (2.25),
-line 438, second inequality, `K_I(f) ≤ K_O(f)^{n−1}`; README §3.2, Euclidean form). If `f` is `K`-quasiregular on
-`Ω ⊆ E`, `n = dim E`, then for every weak derivative `Du` of `f` on `Ω`,
+second inequality, `K_I(f) ≤ K_O(f)^{n−1}`; README §3.2, Euclidean form). If `f` is
+`K`-quasiregular on `Ω ⊆ E`, `n = dim E`, then for every weak derivative `Du` of `f` on `Ω`,
 `det Du(x) ≤ K^{n−1} ℓ(Du(x))ⁿ` for almost every `x ∈ Ω`. -/
 theorem IsQuasiregularOn.det_le_pow_mul_minimalStretch_pow {E : Type*} [NormedAddCommGroup E]
     [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
@@ -97,12 +101,12 @@ theorem IsQuasiregularOn.det_le_pow_mul_minimalStretch_pow {E : Type*} [NormedAd
   sorry
 
 /-- **Inner distortion bounds outer distortion** (MartioRickmanVaisala1969 (2.25),
-line 438, first inequality, `K_O(f) ≤ K_I(f)^{n−1}`; README §3.2, Euclidean form). If `f` is quasiregular on
+first inequality, `K_O(f) ≤ K_I(f)^{n−1}`; README §3.2, Euclidean form). If `f` is quasiregular on
 `Ω ⊆ E`, `n = dim E`, `1 ≤ K`, and some weak derivative `Du` of `f` on `Ω` satisfies the inner
 inequality `det Du(x) ≤ K ℓ(Du(x))ⁿ` almost everywhere on `Ω`, then `f` is
 `K^{n−1}`-quasiregular on `Ω`. The quasiregularity of `f` is needed: the projection
 `(x₁, …, xₙ) ↦ (x₁, …, x_{n−1}, 0)` satisfies the inner inequality with `K = 1` and is not
-quasiregular (MartioRickmanVaisala1969 lines 423–425). -/
+quasiregular (MartioRickmanVaisala1969 2.20, p. 14). -/
 theorem IsQuasiregularOn.of_det_le_mul_minimalStretch_pow {E : Type*} [NormedAddCommGroup E]
     [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
     {K K' : ℝ} {Ω : Opens E} {f : E → E} (hf : IsQuasiregularOn K' Ω f) (hK : 1 ≤ K)
@@ -114,7 +118,7 @@ theorem IsQuasiregularOn.of_det_le_mul_minimalStretch_pow {E : Type*} [NormedAdd
 
 /-! ## Layer 5: `ACL^p` maps and the classical definition -/
 
-/-- The **formal derivative** of `u : ℝⁿ → F` at `x` (MartioRickmanVaisala1969 lines 118–121):
+/-- The **formal derivative** of `u : ℝⁿ → F` at `x` (MartioRickmanVaisala1969 2.1, p. 7):
 the linear map sending the `i`-th standard basis vector `eᵢ` to the
 partial derivative `∂ᵢu(x)`, Mathlib's `lineDeriv ℝ u x eᵢ`. Where a partial derivative does not
 exist, `lineDeriv` is `0`; for an `ACL` map into finite-dimensional `F`, this happens only
@@ -126,7 +130,7 @@ def formalDeriv {n : ℕ} {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
     (EuclideanSpace.basisFun (Fin n) ℝ).toBasis.constr ℝ fun i =>
       lineDeriv ℝ u x (EuclideanSpace.single i (1 : ℝ))
 
-/-- **`ACL` maps** (MartioRickmanVaisala1969 Definition 2.16, lines 332–340; README §5.1). A
+/-- **`ACL` maps** (MartioRickmanVaisala1969 Definition 2.16; README §5.1). A
 map `u : ℝⁿ → F` is `ACL` on the open set `Ω` when it is continuous on `Ω` and, for every closed
 coordinate box `Q = Π_j [a_j, b_j] ⊆ Ω` with `a_j < b_j` and every coordinate `i`, for almost
 every `x ∈ Q` the function `t ↦ u(x + (t − xᵢ) eᵢ)`, the restriction of `u` to the segment of `Q`
@@ -143,7 +147,7 @@ def IsACLOn {n : ℕ} {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
           AbsolutelyContinuousOnInterval
             (fun t : ℝ => u (x + (t - x i) • EuclideanSpace.single i (1 : ℝ))) (a i) (b i)
 
-/-- **`ACL^p` maps** (MartioRickmanVaisala1969 Definition 2.16, lines 339–340; README §5.1). An `ACL`
+/-- **`ACL^p` maps** (MartioRickmanVaisala1969 Definition 2.16; README §5.1). An `ACL`
 map is `ACL^p` on `Ω` when its formal derivative, equivalently each of its partial derivatives,
 lies in `L^p` on every compact subset of `Ω`. -/
 def IsACLpOn {n : ℕ} {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
@@ -185,7 +189,7 @@ theorem ae_hasLineDerivAt_of_hasWeakFDerivOn {n : ℕ} {F : Type*} [NormedAddCom
   sorry
 
 /-- **Agreement with Martio–Rickman–Väisälä** (MartioRickmanVaisala1969 Definition 2.20 and
-(2.21), lines 409–411; README §5.3). For an open `G ⊆ ℝⁿ`, `f : ℝⁿ → ℝⁿ` and `1 ≤ K`, `f` is
+(2.21); README §5.3). For an open `G ⊆ ℝⁿ`, `f : ℝⁿ → ℝⁿ` and `1 ≤ K`, `f` is
 `K`-quasiregular on `G` in the Sobolev sense if and only if `f` is `ACLⁿ` on `G` and its formal
 derivative satisfies `‖f'(x)‖ⁿ ≤ K · det f'(x)` for almost every `x ∈ G`. -/
 theorem isQuasiregularOn_iff_isACLpOn {n : ℕ} {K : ℝ} (hK : 1 ≤ K)
