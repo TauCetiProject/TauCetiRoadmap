@@ -341,20 +341,20 @@ namespace FloatingPointFormat
 
 variable (F : FloatingPointFormat)
 
-/-- **Fast2Sum** (§4.2): exact for radix at most `3` when the exponent of `a` is at least that of
-`b` and `a + b` does not overflow. -/
+/-- **Fast2Sum** (§4.2): exact for radix at most `3` when `b = 0` or the exponent of `a` is at
+least that of `b` (so `|b| ≤ |a|` suffices), and `a + b` does not overflow. -/
 theorem fastTwoSum_add {rnd : ℝ → ℝ} (h : F.IsRoundToNearest rnd) (hβ : F.radix ≤ 3)
-    {a b : ℝ} (ha : a ∈ F.numbers) (hb : b ∈ F.numbers) (he : F.exponent b ≤ F.exponent a)
+    {a b : ℝ} (ha : a ∈ F.numbers) (hb : b ∈ F.numbers)
+    (he : b = 0 ∨ F.exponent b ≤ F.exponent a)
     (hab : |a + b| ≤ F.maxFinite) :
     (fastTwoSum rnd a b).1 + (fastTwoSum rnd a b).2 = a + b := by
   sorry
 
-/-- **2Sum** (§4.2): exact in every radix when nothing overflows and, unless `β = 2`, the inputs
-and the six exact results are zero or normal. -/
+/-- **2Sum** (§4.2): exact in every radix when none of the six exact results overflows, with or
+without underflow. -/
 theorem twoSum_add {rnd : ℝ → ℝ} (h : F.IsRoundToNearest rnd) {a b : ℝ}
     (ha : a ∈ F.numbers) (hb : b ∈ F.numbers)
-    (hΩ : ∀ z ∈ twoSumArgs rnd a b, |z| ≤ F.maxFinite)
-    (hunder : F.radix = 2 ∨ ∀ z ∈ a :: b :: twoSumArgs rnd a b, z = 0 ∨ F.minNormal ≤ |z|) :
+    (hΩ : ∀ z ∈ twoSumArgs rnd a b, |z| ≤ F.maxFinite) :
     (twoSum rnd a b).1 + (twoSum rnd a b).2 = a + b := by
   sorry
 

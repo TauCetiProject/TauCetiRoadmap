@@ -36,8 +36,8 @@ The nearest roadmaps analyse algorithms in exact arithmetic and leave rounding o
 [IterativeMethodsForLinearSystems](../IterativeMethodsForLinearSystems/README.md),
 [EigenvalueIterations](../EigenvalueIterations/README.md) and
 [OneStepMethodsForODEs](../OneStepMethodsForODEs/README.md), whose bounds for perturbed steps
-accept the rounding errors bounded here. The roadmap ConditioningAndPerturbation (open pull request
-#2807) supplies the perturbation theory of linear systems that backward error bounds are
+accept the rounding errors bounded here. The roadmap ConditioningAndPerturbation supplies the
+perturbation theory of linear systems that backward error bounds are
 combined with; nothing passes between it and this roadmap directly.
 
 Suggested home: `TauCeti/Numerics/FloatingPoint/`.
@@ -78,9 +78,12 @@ These are fixed for every target. A statement that departs from them is a differ
   greatest `k` with `β ^ k ≤ |x|`) and `quantum x = β ^ (exponent x - p + 1)`;
   `integralSignificand x = ⌊x / quantum x⌋`. For a nonzero number these are the exponent,
   unit in the last place and integral significand of its normalized representation (1.1). At
-  `x = 0` the value `exponent 0 = max emin 0` is a junk value. It occurs only in the hypotheses
-  of Fast2Sum and of the exact product error, where the statements stay true at a zero argument:
-  Fast2Sum with `a = 0` and a product with a zero factor are exact.
+  `x = 0` the value `exponent 0 = max emin 0` is a junk value, which can exceed the exponent of
+  a small nonzero number (in `(2, 3, -2, 2)`, `exponent 0 = 0 > -2 = exponent (1/4)`). It occurs
+  only in the hypotheses of Fast2Sum and of the exact product error. Fast2Sum takes `b = 0` as a
+  separate case, so that `|b| ≤ |a|` implies its hypothesis; with `a = 0` the junk hypothesis can
+  hold, and the conclusion stays true because Fast2Sum with `a = 0` is exact. In the product
+  condition the junk value only excludes or admits a zero factor, whose error is `0`.
 - **Rounding functions.** `RoundingMode` has the constructors `nearest`, `down`, `up`,
   `towardZero`. The directed roundings are maps `ℝ → EReal` with values in
   `extendedNumbers = 𝔽 ∪ {⊥, ⊤}`, so that `RD x = ⊥` for `x < -Ω` and `RU x = ⊤` for `x > Ω`:
@@ -230,7 +233,7 @@ p. 28; p. 28–29]; [H, Theorem 2.2, p. 42; Theorem 2.3, p. 43]; [R, (2.3), p. 3
   `0 < x < α` under `RD` (the Checks of 2.1).
 - **Relative plus absolute error** (`IsRounding.exists_relative_add_absolute`). For `|x| ≤ Ω`,
   `∘ x = x (1 + ε) + η` with `|ε| ≤ u`, `|η| ≤ β ^ emin u` and `ε η = 0` [M, pp. 28–29;
-  R, (2.3), p. 302].
+  R, (2.3), p. 302, in the inverse form `x = ∘ x (1 + ε) + η` and for binary64].
 
 **Checks.**
 
@@ -253,9 +256,9 @@ Sources: [M, (2.6)–(2.7), p. 28; Theorem 4.2, p. 102]; [H, (2.4), p. 44; (2.5)
 - **The standard model for addition and subtraction** (`IsRounding.hasRelativeError_add`). For
   `a, b ∈ numbers` with `|a + b| ≤ Ω`, the rounded sum is finite and satisfies both
   `HasRelativeError u (a + b) y` and `HasRelativeError u y (a + b)`, also when `a + b` is below
-  the normal range [M, (2.6)–(2.7), p. 28 with Theorem 4.2; R, (2.4), p. 302]. Subtraction is the
-  case `-b ∈ numbers`. Route: `IsRounding.relativeError` on the normal range, Hauser and
-  `IsRounding.monotone_and_eq` below it.
+  the normal range [M, (2.6)–(2.7), p. 28 with Theorem 4.2; R, (2.4), p. 302, for the second
+  model]. Subtraction is the case `-b ∈ numbers`. Route: `IsRounding.relativeError` on the
+  normal range, Hauser and `IsRounding.monotone_and_eq` below it.
 - **The standard model for the other operations.** For `a, b, c ∈ numbers` and an exact result
   `a * b`, `a / b` (`b ≠ 0`), `√a` (`a > 0`) or `a * b + c` in the normal range, the rounded
   result satisfies both relative-error models with the unit roundoff of the mode, and
@@ -265,7 +268,7 @@ Sources: [M, (2.6)–(2.7), p. 28; Theorem 4.2, p. 102]; [H, (2.4), p. 44; (2.5)
 **Checks.**
 
 - Hauser in `(2, 3, -2, 2)`: `5/16 - 1/4 = 1/16 = α` is a number; every pair of numbers with sum
-  below `1/4` sums exactly (exhaustive, see notes).
+  below `1/4` sums exactly (exhaustive).
 - Negative control (a product can underflow inexactly): in `(2, 3, -2, 2)`,
   `(1/4)(3/16) = 3/64` rounds to nearest as `1/16`, with relative error `1/3 > u = 1/8`; the
   standard model for `×` needs the exact result in the normal range.
@@ -305,20 +308,27 @@ Sources: [M, Lemma 4.1, p. 101; §4.3, p. 103; (4.2), p. 111]; [H, Theorem 2.5, 
 ### 4.2 Error-free transformations
 
 Sources: [M, Theorem 4.3 and Algorithm 4.3, p. 104; Algorithm 4.4, p. 108; Algorithm 4.8,
-p. 112]; [H, (4.7), p. 93]; [R, Algorithm 3.1 and Theorem 3.2, p. 305].
+p. 112]; [H, (4.7), p. 93]; [R, Algorithm 3.1, Theorem 3.2, Algorithm 3.3 and Theorem 3.4,
+p. 305].
 
 - **The algorithms** (`fastTwoSum`, `twoSum`, `twoSumArgs`, `twoMultFMA`). Fast2Sum computes
   `s = RN(a + b)`, `t = RN(b - RN(s - a))`; 2Sum computes `s = RN(a + b)`, `a' = RN(s - b)`,
   `b' = RN(s - a')`, `t = RN(RN(a - a') + RN(b - b'))`, and `twoSumArgs` lists its six exact
   results; 2MultFMA computes `r₁ = RN(x₁ x₂)`, `r₂ = RN(x₁ x₂ - r₁)` with one fused
   multiply-add. They are defined for any `rnd : ℝ → ℝ`.
-- **Fast2Sum** (`fastTwoSum_add`). For `β ≤ 3`, `a, b ∈ numbers` with
+- **Fast2Sum** (`fastTwoSum_add`). For `β ≤ 3`, `a, b ∈ numbers` with `b = 0` or
   `exponent b ≤ exponent a` (for instance `|b| ≤ |a|`) and `|a + b| ≤ Ω`, `s + t = a + b`
-  [M, Theorem 4.3, p. 104].
+  [M, Theorem 4.3, p. 104; R, Theorem 3.4, p. 305, in binary64 under `|b| ≤ |a|`]. For `b ≠ 0`,
+  `|b| ≤ |a|` gives `exponent b ≤ exponent a` because `Int.log` is monotone; for `b = 0`, `s = a`
+  and `t = 0`.
 - **2Sum** (`twoSum_add`). In every radix, if the six exact results have absolute value at most
-  `Ω` and, unless `β = 2`, the inputs and the six exact results are zero or normal, then
-  `s + t = a + b` [M, p. 108: Knuth in every radix without underflow, Boldo et al. in radix 2 with
-  underflow; R, Theorem 3.2, p. 305].
+  `Ω`, then `s + t = a + b`, with or without underflow [M, p. 108: Knuth in every radix without
+  underflow, Boldo et al. in radix 2 with underflow; R, Theorem 3.2, p. 305, for any two
+  binary64 numbers]. Route for underflow in radix `β > 2`: each of the six operations adds or
+  subtracts two numbers, so a result below `β ^ emin` is a number (Hauser's lemma, 3.2) and is
+  not rounded, and on `[β ^ emin, Ω]` the rounding agrees with that of the same precision with an
+  unbounded exponent range. The computation is therefore the one in that unbounded range, where
+  Knuth's theorem applies.
 - **2MultFMA** (`twoMultFMA_add`). Under the hypotheses of `IsRounding.mul_sub_mem_numbers`,
   `r₁ + r₂ = x₁ x₂` [M, Algorithm 4.8, p. 112]. Route: `r₂ = RN(x₁ x₂ - r₁)` is exact by 4.1 and
   `IsRounding.monotone_and_eq`.
@@ -327,7 +337,8 @@ p. 112]; [H, (4.7), p. 93]; [R, Algorithm 3.1 and Theorem 3.2, p. 305].
 
 - Fast2Sum and 2Sum are exact for all pairs of numbers of `(2, 3, -2, 2)` and `(3, 3, -2, 1)`
   satisfying the hypotheses (exhaustive).
-- Negative control (`β ≤ 3` is needed): in decimal with `p = 2`, `a = 0.98`, `b = 0.97` give
+- Negative control (`β ≤ 3` is needed), with ties to even: in decimal with `p = 2`, `a = 0.98`,
+  `b = 0.97` give
   `s = 2.0`, `RN(s - a) = 1.0`, `t = -0.03`, and `s + t = 1.97 ≠ 1.95`; in radix `4` with `p = 2`,
   `a = b = 15/64` give `s + t = 31/64 ≠ 30/64`.
 - 2MultFMA is exact for all pairs of `(2, 3, -2, 2)` satisfying the exponent condition.
@@ -362,7 +373,8 @@ p. 166]; [R, Theorem 2.1, p. 303].
   `u = 1/200`, `n < 40` (exact rationals).
 - Negative control (the condition on the product rule): at `u = 0.1`, `γ_1 γ_6 = 1/6 > γ_1 = 1/9`.
 - Negative control (index `k + 2j`): with `k = 0`, `j = 1`, `1/(1 - γ_1) - 1 = u/(1 - 2u)`, which
-  exceeds `γ_{k+j} = γ_1` and equals `γ_{k+2j} = γ_2`.
+  exceeds `γ_{k+j} = γ_1` and is within `γ_{k+2j} = γ_2 = 2u/(1 - 2u)` (at `u = 1/10`: `1/8`,
+  `1/9`, `1/4`).
 
 ## Layer 6: sums and polynomials
 
@@ -380,7 +392,7 @@ p. 177; (5.13), p. 178; (5.5), p. 168; Theorem 5.1, p. 171; p. 172]; [R, Theorem
   `0, …, n` and depth `n`; `balanced r` has leaves `0, …, 2 ^ r - 1` and depth `r`.
 - **Backward error** (`SumTree.exists_eval_eq_sum_mul`). For a scheme on `n` terms under the
   standard model with `(n - 1) u < 1`, `depth ≤ n - 1` and the computed sum is
-  `∑ xᵢ (1 + εᵢ)` with `|εᵢ| ≤ γ_depth` [H, p. 90; R, (2.5), p. 303].
+  `∑ xᵢ (1 + εᵢ)` with `|εᵢ| ≤ γ_depth` [H, p. 90].
 - **Forward error** (`SumTree.abs_eval_sub_sum_le`). `|Ŝ - S| ≤ γ_depth ∑ |xᵢ|`, hence
   `≤ γ_{n-1} ∑ |xᵢ|` [M, (5.5), p. 168; R, (2.5), p. 303].
 - **Pairwise summation.** For `2 ^ r` terms summed pairwise, `|Ŝ - S| ≤ γ_r ∑ |xᵢ|`
@@ -452,7 +464,8 @@ Theorem 5.7, p. 182]; [R, Algorithm 3.5, p. 305; Theorem 3.6, p. 306].
 - **Kahan's compensated summation** (`exists_kahanSum_eq_sum_mul`). There is an absolute
   constant `C` such that, with correct rounding to nearest in any format, terms in `numbers`, no
   overflow and `n u ≤ 1/2`, the computed sum is `∑ (1 + μᵢ) xᵢ` with `|μᵢ| ≤ 2u + C n u²`;
-  hence `|Ŝ - S| ≤ (2u + C n u²) ∑ |xᵢ|` [H, (4.8), p. 93; M, (5.14), p. 180; both after Knuth].
+  hence `|Ŝ - S| ≤ (2u + C n u²) ∑ |xᵢ|` [H, (4.8), p. 93, and (4.9), p. 94; M, (5.14), p. 180;
+  both after Knuth].
   The constant is quantified before the format and the data: a bound with a hidden dependence on
   `n` would be weaker.
 - **Cascaded summation** (`abs_cascadedSum_sub_sum_le`). With correct rounding to nearest, terms
@@ -468,20 +481,27 @@ of underflow, and Ogita, Rump and Oishi state theirs for binary arithmetic, whic
 adds and subtracts two numbers at a time. Such a result below `β ^ emin` is a number (Hauser's
 lemma), so it is not rounded at all, and on the normal range the rounding agrees with that of the
 same precision with an unbounded exponent range. The computation is therefore the one in that
-unbounded range, to which the analyses apply; there the 2Sum steps of cascaded summation are
-exact by Knuth's theorem in every radix [M, p. 108].
+unbounded range, to which the analyses apply, as for 2Sum in 4.2; the 2Sum steps of cascaded
+summation are exact by `twoSum_add`.
+
+Tie rule: [M] states (5.14) and Theorems 5.6–5.7 for its round-to-nearest functions, which break
+ties to even or away from zero [M, p. 23], and Priest proves his theorem for faithful arithmetic
+with further properties [M, p. 181, footnote 9]. The three statements here take any tie rule, as
+2Sum does; the Checks test Kahan's and Priest's algorithms under six tie rules.
 
 **Checks.**
 
 - Kahan with correct rounding to nearest, 6000 random sums of up to 40 terms each in
   `(β, p) = (2, 6), (3, 4), (10, 3), (16, 3)`: the error never exceeds `2u ∑ |xᵢ|` (largest
-  ratios `1.27`, `1.38`, `1.09`, `0.96`).
+  ratios to `u ∑ |xᵢ|`: `1.27`, `1.38`, `1.09`, `0.96`). With the tie rules even, away, toward
+  zero, down, up and an arbitrary one, in `(2, 6)`, `(3, 5)`, `(4, 4)` and `(10, 4)`, the
+  largest ratio to `u ∑ |xᵢ|` is `1.65`, and Priest's error stays below `0.51 · 2u |S|`.
 - Negative control (correct rounding is needed for the constant `2`): under the standard model
   alone, with `x = (1, 1)` and the eight rounding factors `1 + u`, `1 - u`, `1 - u`, `1 + u`,
   `1 + u`, `1 + u`, `1 - u`, `1 - u` in order, Kahan's recursion returns `2 + 5u + O(u²)`, so
-  some `|μᵢ|` is at least `5u/2`. For `n = 3` equal terms the worst choice of signs gives the
-  coefficient `8/3`. The rounding of `s - t`, exact under correct rounding in the cases that
-  matter, carries the extra `u`.
+  some `|μᵢ|` is at least `5u/2`. For `n = 3` the first-order coefficient is `8/3` at
+  `x = (1, 1, 1)` and reaches `3` at `x = (1, 1, 0)`. The rounding of `s - t`, exact under
+  correct rounding in the cases that matter, carries the extra `u`.
 - Priest's example [M, p. 180]: in binary with `p` bits, the terms `2 ^ (p + 1)`,
   `2 ^ (p + 1) - 2` and four times `-(2 ^ p - 1)` have sum `2`; Kahan's algorithm returns `3`, and
   Priest's algorithm on the sorted terms returns `2` (computed for `p = 6, 10, 24`).
@@ -527,8 +547,8 @@ Not owned (consumed or out of scope):
   of matrix algorithms, which builds on this roadmap.
 - Interval arithmetic, outward-rounded interval operations and enclosure theorems belong to
   interval arithmetic and verified enclosures, which builds on this roadmap.
-- Condition numbers and perturbation theory of linear systems belong to ConditioningAndPerturbation
-  (open pull request #2807), which excludes rounding.
+- Condition numbers and perturbation theory of linear systems belong to ConditioningAndPerturbation,
+  which excludes rounding.
 
 Boundary in one sentence: everything about a single format, its rounding functions and
 algorithms on scalars and lists of scalars is here; anything indexed by matrices is not.
@@ -591,9 +611,6 @@ Related formalizations in other systems:
   real-valued model.
 - Harrison's floating-point theory in HOL Light and the Isabelle AFP entry IEEE Floating Point
   formalize IEEE 754 encodings.
-- No open Mathlib pull request concerns floating-point formats, rounding or rounding error
-  analysis (GitHub search for "floating point", "rounding error", "Sterbenz" and "unit roundoff",
-  2026-11-27).
 
 ## References
 
