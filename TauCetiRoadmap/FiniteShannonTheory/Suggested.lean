@@ -110,9 +110,19 @@ theorem entropy_map_le [DecidableEq γ] {p : α → ℝ} (hp0 : ∀ x, 0 ≤ p x
     entropy (fun c => ∑ a ∈ Finset.univ.filter (fun a => f a = c), p a)
       ≤ entropy p := by sorry
 
+/-- Layer 2: data processing in the first coordinate: applying a
+function to one variable does not increase mutual information. -/
+theorem mutualInfo_map_fst_le [DecidableEq γ] {p : α × β → ℝ}
+    (hp0 : ∀ z, 0 ≤ p z) (hp1 : ∑ z, p z = 1) (f : α → γ) :
+    mutualInfo (fun z : γ × β =>
+      ∑ a ∈ Finset.univ.filter (fun a => f a = z.1), p (a, z.2))
+      ≤ mutualInfo p := by sorry
+
 /-- Layer 2: mutual information as a `klFun` sum, matching the label-level
-identity `TauCeti.labelEntropy_add_sub_pair_eq_sum_klFun`. -/
-theorem mutualInfo_eq_sum_klFun {p : α × β → ℝ} :
+identity `TauCeti.labelEntropy_add_sub_pair_eq_sum_klFun` (whose measure
+hypothesis is that the total mass is `0` or `1`; here the mass is `1`). -/
+theorem mutualInfo_eq_sum_klFun {p : α × β → ℝ} (hp0 : ∀ z, 0 ≤ p z)
+    (hp1 : ∑ z, p z = 1) :
     mutualInfo p = ∑ z, (marginal₁ p z.1 * marginal₂ p z.2) *
       InformationTheory.klFun (p z / (marginal₁ p z.1 * marginal₂ p z.2)) := by
   sorry
@@ -172,6 +182,16 @@ theorem mutualInfo_eq_labelEntropy_gap {p : α × β → ℝ}
     mutualInfo p = TauCeti.labelEntropy (distMeasure p) Prod.fst
       + TauCeti.labelEntropy (distMeasure p) Prod.snd
       - TauCeti.labelEntropy (distMeasure p) id := by sorry
+
+/-- Layer 3 identification, stated in this section because it consumes
+`distMeasure`: for `q` of full support, the finite divergence is
+Mathlib's `klDiv` of the two mass measures, via Tau Ceti's
+`klDiv_eq_sum_klFun_singleton`. -/
+theorem relEntropy_eq_klDiv {p q : α → ℝ} (hp0 : ∀ x, 0 ≤ p x)
+    (hq0 : ∀ x, 0 ≤ q x) (hp1 : ∑ x, p x = 1) (hq1 : ∑ x, q x = 1)
+    (hqsupp : ∀ x, q x ≠ 0) :
+    (InformationTheory.klDiv (distMeasure p) (distMeasure q)).toReal
+      = relEntropy p q := by sorry
 
 end Bridges
 
