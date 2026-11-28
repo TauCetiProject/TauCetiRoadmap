@@ -49,6 +49,14 @@ everything that this needs, read from the READMEs:
   needs; its items are those units. Roadmaps under `Completed/` are known to the reader,
   so that their citations are read as citations, but they are never members or items,
   and a citation of one needs nothing.
+- An optional key `exclude_layers`, a list of layer titles, sets layers of the root's roadmaps
+  outside the goal: a layer under the root whose heading's title, what follows `Layer k` and the
+  colon, full stop or dash after it, equals one of the strings (case counts) is no part of the
+  goal, nor is any unit in its text, and what they need is not followed, so that a unit of another
+  roadmap that only they need is not in the goal either. A unit of the goal that needs one of them
+  is an error: the check fails, and `--fix` and `--stats` name it. Only a statement of dependency
+  creates a need, so a section of such a layer named elsewhere in the text (a paragraph that
+  relates a result to the standard theory) is no error.
 - An item is named `<Roadmap>.<id>` (`<Roadmap>.Layer<k>` for a layer) from its README
   alone, so that a citation added or removed elsewhere never renames it: by the id its
   heading or label starts with (the other ids of the line, such as `(A1.1)`, are aliases
@@ -71,14 +79,16 @@ dependency that survives: none is left out because another need implies it, sinc
 be done (merged, or ticked) out of order. `serves:` names the roadmaps under the root whose
 units need the item directly.
 
-Regeneration keeps what an operator records in the target list: an item's mark (`[x]`,
-`[~]`) and the clauses of its trailing group the generator does not write (`partial: #N`),
-by slug, the clauses placed before `needs:`. Check mode compares the file with what
-generation from the READMEs and that recorded state gives, so a change that only ticks
-items passes. A slug that is no longer an item loses its state, and `--fix` and `--stats`
-name it.
+The umbrella file's `description`, `goal`, `root` and `exclude_layers` are written by hand and
+kept as they are. Regeneration also keeps what an operator records in the target list: an
+item's mark (`[x]`, `[~]`) and the clauses of its trailing group the generator does not write
+(`partial: #N`), by slug, the clauses placed before `needs:`. Check mode compares the file
+with what generation from the READMEs and that recorded state gives, so a change that only
+ticks items passes. A slug that is no longer an item loses its state, and `--fix` and
+`--stats` name it.
 
-    python3 .github/scripts/gen_umbrella.py           # check: exit 1 if a file is stale
+    python3 .github/scripts/gen_umbrella.py           # check: exit 1 if a file is stale, or if
+                                                      # a goal needs a unit of an excluded layer
     python3 .github/scripts/gen_umbrella.py --fix     # write the files
     python3 .github/scripts/gen_umbrella.py --stats   # counts and problems; writes nothing
 
@@ -1736,6 +1746,7 @@ ITEM_LINE = re.compile(r"^\s*-\s*\[([ xX~])\]\s*(.*?)\s*$")
 ITEM_SLUG = re.compile(r"`([^`]+)`")
 ITEM_CLAUSES = re.compile(r"\(([^()]*)\)\s*$")
 OWN_CLAUSES = ("serves", "needs")        # the clauses the generator writes
+LAYER_TITLE_STRIP = " \t:.—–-"           # what separates a layer's title from its id, and ends it
 
 
 def read_state(path: pathlib.Path) -> dict[str, tuple[str, list[str]]]:
@@ -1777,6 +1788,7 @@ class Goal:
         self.targets_name = f"{self.stem}-targets.md"
         self.state = read_state(path.with_name(self.targets_name))
         self.family = self.family_order()
+        self.excluded_spans = self.find_excluded_layers()
         self.build()
         live = set(self.slug.values())
         # a slug that is no longer an item loses what was recorded for it
@@ -1796,6 +1808,38 @@ class Goal:
             pos = index.find(f"{n}/README.md")
             return (1, pos, n) if pos >= 0 else (2, 0, n)
         return sorted(names, key=rank)
+
+    def find_excluded_layers(self) -> dict[Roadmap, list[tuple[int, int, str, str]]]:
+        """For each roadmap of the family, (heading line, last line, id, title) of every layer whose
+        heading's title is one of `exclude_layers`: the text after `Layer k` and the colon, full stop
+        or dash after it, compared as written. Its text runs to the next heading of the same or a
+        higher level."""
+        titles = set(self.config.get("exclude_layers", ()))
+        out: dict[Roadmap, list[tuple[int, int, str, str]]] = {}
+        if not titles:
+            return out
+        for name in self.family:
+            rm = self.tree.roadmaps[name]
+            heads = rm.heading_rows()
+            for i, (no, lvl) in enumerate(heads):
+                label = HEADING.match(rm.readme.lines[no - 1]).group(2)
+                own = own_label(label)
+                m = _id_at_start(label, own[1], True, False) if own and own[0] == "layer" else None
+                if m is None:
+                    continue
+                title = label.lstrip()[m.end():].strip(LAYER_TITLE_STRIP)
+                if title not in titles:
+                    continue
+                end = next((nxt - 1 for nxt, nl in heads[i + 1:] if nl <= lvl), len(rm.readme.lines))
+                out.setdefault(rm, []).append((no, end, own[1], title))
+        return out
+
+    def excluded(self, u: Unit) -> bool:
+        """Whether the unit lies in the text of a layer that `exclude_layers` sets outside the goal."""
+        return any(a <= u.line <= b for a, b, _i, _t in self.excluded_spans.get(u.roadmap, ()))
+
+    def excluded_layer_of(self, u: Unit) -> tuple[int, int, str, str]:
+        return next(s for s in self.excluded_spans[u.roadmap] if s[0] <= u.line <= s[1])
 
     def order(self, u: Unit) -> tuple:
         """The fixed total order that breaks cycles: area (the root's last), roadmap, end of the
@@ -1881,10 +1925,16 @@ class Goal:
         def work(v: Unit) -> list[Unit]:
             """The items a need of `v` stands for: `v` itself, unless it is a layer with sections,
             which no pull request completes as such (it is done when its sections are): then every
-            section in it, and so on through the layers nested in it."""
+            section in it, and so on through the layers nested in it. A layer outside the goal
+            (`exclude_layers`) nested in a layer that is not stands for nothing."""
             if v not in expanded:
                 parts = v.roadmap.contents(v) if v.kind == "layer" else []
-                expanded[v] = list(dict.fromkeys(w for p in parts for w in work(p))) if parts else [v]
+                if parts:
+                    keep_excluded = self.excluded(v)
+                    expanded[v] = list(dict.fromkeys(w for p in parts for w in work(p)
+                                                     if keep_excluded or not self.excluded(w)))
+                else:
+                    expanded[v] = [v]
             return expanded[v]
 
         all_keys: dict[Unit, dict] = collections.defaultdict(lambda: collections.defaultdict(set))
@@ -1892,10 +1942,14 @@ class Goal:
         self.without_needs: collections.Counter = collections.Counter()
         self.own_layer = 0
         self.set_aside: dict[tuple[str, int], tuple] = {}       # clauses whose references create no need
+        self.excluded_needs: list[tuple[Unit, Ref]] = []         # needs of a unit outside the goal
         edge_rank: dict[tuple[Unit, Unit], int] = {}
         roots = list(dict.fromkeys(w for name in self.family
                                    for u in sorted(tree.roadmaps[name].units().values(), key=lambda u: u.line)
-                                   for w in work(u)))
+                                   for w in work(u) if not self.excluded(w)))
+        # the items the layers outside the goal would have been
+        self.excluded_items = len({w for rm in self.excluded_spans for u in rm.units().values()
+                                   if self.excluded(u) for w in work(u)})
         deps: dict[Unit, list[Unit]] = {}
         met: dict[int, Ref] = {}                  # refs that create no dependency, by identity
         queue, seen = list(reversed(roots)), set(roots)
@@ -1912,6 +1966,9 @@ class Goal:
                     continue
                 if r.target in mine:
                     self.own_layer += 1                   # a unit never needs the layer it is in
+                    continue
+                if self.excluded(r.target):               # an error: reported, not followed
+                    self.excluded_needs.append((u, r))
                     continue
                 if work(r.target) == [r.target]:
                     all_keys[r.target][r.key].add(rm.name)
@@ -2023,6 +2080,17 @@ class Goal:
         self.slug = {u: s for s, u in slugs.items()}
         self.duplicates = sum(n - 1 for rm in {u.roadmap for u in self.units} for n in rm.leading().values() if n > 1)
 
+    def excluded_problems(self) -> list[str]:
+        """Each need of a unit of the goal on a unit of a layer outside it, as an error to report."""
+        out = []
+        for u, r in self.excluded_needs:
+            line = r.where.rsplit(":", 1)[1]
+            _a, _b, ident, title = self.excluded_layer_of(r.target)
+            out.append(f"{UMBRELLA_DIR}/{self.path.name}: {u.roadmap.rel}/README.md:{line}: {self.slug[u]} needs "
+                       f"{r.what}, in {r.target.roadmap.name} Layer {ident} ({title}), which `exclude_layers` "
+                       f"sets outside the goal")
+        return list(dict.fromkeys(out))
+
     # --- the files ---
 
     def members(self) -> list[str]:
@@ -2108,11 +2176,14 @@ class Goal:
 
     def toml_text(self) -> str:
         stem, root = self.stem, self.root
+        excluding = "exclude_layers" in self.config
+        by_hand = "`description`, `goal`, `root` and `exclude_layers`" if excluding else \
+            "`description`, `goal` and `root`"
         header = [
             f"The umbrella {stem}, for `tauceti work --roadmap-only {stem}`: the roadmap areas that the "
             f"roadmaps under {ROADMAP_DIR}/{root}/ need.",
-            f"Generated by {SCRIPT} from the roadmaps' READMEs; do not edit it by hand. Only `description`, "
-            f"`goal` and `root` are written by hand: the generator reads them and keeps them as they are. "
+            f"Generated by {SCRIPT} from the roadmaps' READMEs; do not edit it by hand. Only {by_hand} are "
+            f"written by hand: the generator reads them and keeps them as they are. "
             f"It is regenerated once a day, and at once when the umbrella's own files or the generator change.",
             f"A member is an area, a top-level directory of {ROADMAP_DIR}/, that contains a unit the goal "
             f"needs. The goal needs every section of the roadmaps under {ROADMAP_DIR}/{root}/ and, "
@@ -2120,7 +2191,10 @@ class Goal:
             f"when it has none, what the Dependencies subsection of its layer cites. A need of a layer that "
             f"has sections is a need of each of its sections; a layer counts as a unit only when it has none, "
             f"and then needs what the *Needs:* lines in it and its own Dependencies subsection name. "
-            f"Roadmaps under {COMPLETED_DIR}/ are never members.",
+            f"Roadmaps under {COMPLETED_DIR}/ are never members."
+            + (f" A layer under {ROADMAP_DIR}/{root}/ whose heading's title is one of `exclude_layers` is outside "
+               f"the goal with every unit in it, and what they need is not followed; a unit of the goal that "
+               f"needs one of them is an error of the check." if excluding else ""),
             "`sections` lists the units of a member that the goal needs, in README order, with "
             "the roadmap's name in front in an area of several roadmaps. The root's area has no `sections`: "
             "all of it is in scope. `targets` is the target list that orders the work, item by item.",
@@ -2134,6 +2208,8 @@ class Goal:
             if key in self.config:
                 out.append(f"{key} = {toml_string(self.config[key])}")
         out.append(f"root = {toml_string(root)}")
+        if excluding:
+            out.append("exclude_layers = [" + ", ".join(map(toml_string, self.config["exclude_layers"])) + "]")
         out.append(f"targets = {toml_string(self.targets_name)}")
         by_area = collections.defaultdict(list)
         for u in sorted(self.units, key=self.file_order):
@@ -2147,7 +2223,7 @@ class Goal:
         text = "\n".join(out) + "\n"
         back = tomllib.loads(text)
         assert [a["name"] for a in back["area"]] == self.members() and back["root"] == root
-        assert all(back.get(k) == self.config[k] for k in ("description", "goal") if k in self.config)
+        assert all(back.get(k) == self.config[k] for k in ("description", "goal", "exclude_layers") if k in self.config)
         return text
 
     def files(self) -> list[tuple[pathlib.Path, str]]:
@@ -2207,6 +2283,17 @@ class Goal:
             for cyc in (first, self.cycle_through(rest[0], inside) if rest else []):
                 if cyc:
                     out.append("      cycle: " + " -> ".join(self.slug[u] for u in cyc))
+        if "exclude_layers" in self.config:
+            spans = [(rm, s) for rm in sorted(self.excluded_spans, key=lambda rm: rm.rel)
+                     for s in self.excluded_spans[rm]]
+            problems = self.excluded_problems()
+            out.append(f"  layers outside the goal (exclude_layers): {len(spans)} in {len(self.excluded_spans)} "
+                       f"roadmaps, standing for {self.excluded_items} items; needs of them from the goal, not "
+                       f"followed (errors): {len(problems)}")
+            for rm, (no, _end, ident, title) in spans:
+                out.append(f"    {rm.rel}/README.md:{no}: Layer {ident}: {title}")
+            for p in problems:
+                out.append(f"    error: {p}")
         out.append(f"  citations of completed roadmaps met: {self.completed}")
         why = collections.Counter(self.tree.why(r) for r in self.unresolved)
         out.append(f"  ids not resolved (on *Needs:* and *Prerequisites:* lines and in Dependencies subsections): "
@@ -2252,6 +2339,9 @@ def load_config(path: pathlib.Path) -> dict | None:
     for key in ("root", "description", "goal"):
         if key in config and not isinstance(config[key], str):
             raise SystemExit(f"{UMBRELLA_DIR}/{path.name}: `{key}` must be a string")
+    layers = config.get("exclude_layers", [])
+    if not isinstance(layers, list) or not all(isinstance(t, str) and t for t in layers):
+        raise SystemExit(f"{UMBRELLA_DIR}/{path.name}: `exclude_layers` must be a list of layer titles")
     return config
 
 
@@ -2275,6 +2365,10 @@ def main(argv: list[str]) -> int:
     gone = [f"{UMBRELLA_DIR}/{g.targets_name}: {slug} [{mark}]" + (f" ({'; '.join(kept)})" if kept else "")
             + " is no longer an item; what the file recorded for it is dropped"
             for g in goals for slug, mark, kept in g.vanished]
+    excluded = [p for g in goals for p in g.excluded_problems()]
+    if mode == "--fix":
+        for line in excluded:
+            print(f"error: {line}", file=sys.stderr)
     if mode in ("--stats", "--fix"):
         for line in gone:
             print(line, file=sys.stderr)
@@ -2315,6 +2409,13 @@ def main(argv: list[str]) -> int:
         for d in drift:
             print(f"  - {d}")
         print(f"\nThey are generated, not edited by hand. Run\n  python3 {SCRIPT} --fix\nto regenerate them.")
+    if excluded:
+        print(("\n" if drift else "") + "A unit of an umbrella's goal needs a unit of a layer that the umbrella's "
+              "`exclude_layers` sets outside the goal:\n")
+        for p in excluded:
+            print(f"  - {p}")
+        print("\nThe goal must not depend on such a layer: name what the unit needs outside it.")
+    if drift or excluded:
         return 1
     print("Umbrellas in sync: " + (", ".join(f"{g.stem} ({len(g.members())} members, {len(g.units)} items)"
                                              for g in goals) or "none has a `root` key") + ".")
