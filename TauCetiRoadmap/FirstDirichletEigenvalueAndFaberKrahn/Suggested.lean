@@ -6,7 +6,8 @@ import TauCeti.Analysis.BoundedVariation.Perimeter
 # The first Dirichlet eigenvalue and Faber–Krahn: target signatures
 
 This file is not the roadmap: `README.md` is the definitive specification. It states the
-roadmap's definitions with real bodies and its theorems with `sorry`.
+roadmap's definitions with real bodies and its theorems with `sorry`; every headline theorem of
+the README is statable at the pins and is stated here.
 
 The first Dirichlet eigenvalue of an open set `Ω` of a finite-dimensional real inner product
 space is the infimum of the Rayleigh quotients `∫ ‖∇φ‖² / ∫ φ²` of the nonzero test functions

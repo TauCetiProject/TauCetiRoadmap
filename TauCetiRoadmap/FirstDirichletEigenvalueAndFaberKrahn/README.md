@@ -6,8 +6,8 @@ the infimum `λ₁(Ω)` of the Rayleigh quotients `∫ ‖∇φ‖² / ∫ φ²`
 `φ` with compact support in `Ω`. It takes values in `[0, ∞]`, is `∞` exactly for the empty set,
 and needs no boundedness or regularity of `Ω`. On every nonempty open set of a Euclidean space
 on which the Tau Ceti library constructs the first Dirichlet eigenvalue of `−Δ` on `H¹₀(Ω)` (a
-coercive energy form, as on every bounded set), it is that eigenvalue, and the roadmap proves this
-agreement first. Its headline theorems are:
+coercive energy form, as on every bounded set of positive dimension), it is that eigenvalue, and
+the roadmap proves this agreement first. Its headline theorems are:
 
 - **Faber–Krahn.** For every open set `Ω` and every radius `r` with `vol(B(0, r)) = vol(Ω)`,
   `λ₁(B(0, r)) ≤ λ₁(Ω)`: among open sets of a given volume, balls have the least principal
@@ -111,7 +111,8 @@ the compact `K + B̄(0, δ)`, so `∫ u_ε² → ∫ u² > 0`. Hence `u_ε ≠ 0
 `EuclideanSpace ℝ ι`, and take any boundedness datum `hcoeff` and coercivity datum `hcoercive` for
 the energy form of `−Δ` (coefficients `a = 1`, `b = 0`, `c = 0`) on `H¹₀(Ω)`. Then
 `λ₁(Ω) = ENNReal.ofReal (TauCeti.PDE.firstDirichletEigenvalue hcoeff hcoercive)`. Boundedness of
-`Ω` is not assumed; coercivity holds on every bounded `Ω`, and also, for instance, on slabs.
+`Ω` is not assumed; coercivity holds on every bounded `Ω` in positive dimension, and also, for
+instance, on slabs.
 
 *Route.* For `φ ∈ 𝓓(Ω, ℝ)`, `W1p.ofTestFunctionₗ φ ∈ H¹₀(Ω)` has value `φ` and gradient `∇φ`
 almost everywhere on `Ω` (`TauCeti.W1p.value_ofTestFunctionₗ_ae`,
@@ -126,8 +127,11 @@ of the test functions (`TauCeti.coe_w1p0Submodule`), and the value and the energ
 on `W^{1,2}(Ω)`, so `C ‖u‖² ≤ a(u, u)` on all of `H¹₀(Ω)` and `C ≤ μ`.
 
 **Checks.**
-- On a nonempty bounded `Ω` the right side is positive (Tau Ceti
-  `TauCeti.PDE.firstDirichletEigenvalue_pos`), so `λ₁(Ω) > 0` there.
+- On a nonempty bounded `Ω` of positive dimension a coercivity datum exists and the right side is
+  positive (Tau Ceti `TauCeti.PDE.firstDirichletEigenvalue_pos`), so `λ₁(Ω) > 0` there.
+- Positive dimension is needed for that: for `ι` empty and `Ω` the one-point space, which is
+  nonempty, open and bounded, the constant `1` is a test function with Rayleigh quotient `0`, so
+  `λ₁(Ω) = 0`; every gradient vanishes, the energy form is `0`, and no coercivity datum exists.
 - Coercivity is a real hypothesis: on the whole space `λ₁ = 0` (Layer 2), and no coercivity datum
   exists there, since coercivity would give `C ∫ u² ≤ ∫ ‖∇u‖²` on `H¹₀` with some `C > 0`.
 - Nonemptiness is needed: for `Ω = ∅` the left side is `∞` and the right side is finite.
