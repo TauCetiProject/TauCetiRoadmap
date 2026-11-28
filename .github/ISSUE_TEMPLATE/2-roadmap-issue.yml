@@ -241,6 +241,7 @@ body:
         - ExplicitPrimeCounting
         - ExplicitZetaBounds
         - ExponentialCone
+        - ExponentialSumsAndCircleMethodPartII
         - FactorRigidity
         - FaltingsFinitenessAndIsogenyTheorems
         - FaltingsFinitenessAndIsogenyTheoremsPartII
