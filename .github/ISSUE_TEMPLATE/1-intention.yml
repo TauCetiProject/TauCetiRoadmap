@@ -152,6 +152,7 @@ body:
         - ComplexTori
         - ComputabilityTheory
         - ComputationalNumberTheory
+        - ConditioningAndPerturbation
         - ConformalMappingPartII
         - CongruenceSpectralGap
         - ContinuousTimeMarkovChains
@@ -365,6 +366,7 @@ body:
         - KTheoryFiniteLocalFields
         - KTheoryLowDegrees
         - KacMoody
+        - KakutaniFixedPointAndContinuousGames
         - KalmanFiltering
         - KatoEulerSystems
         - KernelsAndSpectralMethods
@@ -460,6 +462,7 @@ body:
         - OperatorKTheory
         - OperatorMonotoneFunctionsAndMatrixMeans
         - OperatorTheory
+        - OptimalControlAndHamiltonJacobi
         - OptimalTransport
         - Orbifolds
         - OrdinaryAutomorphicFormsAndModularityLifting
@@ -500,6 +503,7 @@ body:
         - PolynomialGaloisGroupsPartIII
         - PolynomialInterpolationAndBestApproximation
         - PopulationDynamics
+        - PositiveDefiniteSequencesAndToeplitzForms
         - PositiveMass
         - PositiveScalarCurvature
         - PotentialAutomorphyDworkMotivesPartII
