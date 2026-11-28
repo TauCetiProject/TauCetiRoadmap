@@ -610,6 +610,7 @@ body:
         - SpecialFunctionsHigherSpheres
         - SpecialFunctionsHypergeometric
         - SpecialFunctionsJacobiElliptic
+        - SpecialFunctionsLame
         - SpecialFunctionsLegendre
         - SpecialFunctionsMathieu
         - SpecialFunctionsMotionGroupsBessel
