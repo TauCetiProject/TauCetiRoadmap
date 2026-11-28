@@ -57,6 +57,11 @@ theorem entropy_fin_two (p : ℝ) :
 theorem entropy_equiv (e : α ≃ β) (p : β → ℝ) :
     entropy (p ∘ e) = entropy p := by sorry
 
+/-- Layer 1: adjoining zero-mass points does not change entropy. -/
+theorem entropy_sum_elim_zero (p : α → ℝ) (q : β → ℝ)
+    (hq : ∀ b, q b = 0) :
+    entropy (Sum.elim p q) = entropy p := by sorry
+
 /-- Layer 2: first marginal of a joint distribution. -/
 def marginal₁ (p : α × β → ℝ) : α → ℝ := fun a => ∑ b, p (a, b)
 
