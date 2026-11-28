@@ -224,7 +224,7 @@ For each model, specify a concrete extended algebra `A`, prove the extended-alge
 - `V(x) = (x² − 1)²` on `ℝ`: `V'' ≥ −4`, so `CD(−4, ∞)`. The gradient bound holds with growth `e^{4t}`, and the triple is still full.
 - The two-point chain of §1.2 and the interval of Layer 3 are the non-examples.
 
-*Needs:* Layers 5–8; OrnsteinUhlenbeckSemigroup §§1.1–1.3 and 2.1 (the kernel semigroup); Mathlib `AddCircle.haarAddCircle`, `ProbabilityTheory.stdGaussian`, `Polynomial.hermite`, `MeasureTheory.Measure.toSphere`, `LipschitzWith.ae_differentiableAt`; Tau Ceti `MeasureTheory.Measure.PoincareInequality`, `MeasureTheory.Measure.LogSobolevInequality`; PDE §5.1 (E20).
+*Needs:* Layers 5–8; OrnsteinUhlenbeckSemigroup §§1.1, 1.3 and 2.1 (the kernel semigroup); Mathlib `AddCircle.haarAddCircle`, `ProbabilityTheory.stdGaussian`, `Polynomial.hermite`, `MeasureTheory.Measure.toSphere`, `LipschitzWith.ae_differentiableAt`; Tau Ceti `MeasureTheory.Measure.PoincareInequality`, `MeasureTheory.Measure.LogSobolevInequality`; PDE §5.1 (E20).
 
 ## Layer 10: Bobkov and Gaussian isoperimetric inequalities under curvature
 
@@ -328,7 +328,7 @@ The operator theory used throughout belongs to OneParameterSemigroups, OperatorT
 
 ### From Tau Ceti
 
-File paths under `TauCeti/`. The declarations of `Analysis/Semigroups/Generation/Form.lean`, `MeasureTheory/Integral/Entropy.lean`, `Probability/Distributions/Gaussian/IsoperimetricProfile.lean` and `Probability/Concentration/Poincare/{LogSobolev, CompactSupport, Gaussian/Basic, Gaussian/LogSobolevSharpness}.lean` are consumed from Tau Ceti; `Suggested.lean` uses none of them, and restates the Gaussian isoperimetric profile with the formula of `TauCeti.Probability.gaussianIsoperimetricProfile`.
+File paths under `TauCeti/`. The declarations of `Analysis/Semigroups/Generation/Form.lean`, `MeasureTheory/Integral/Entropy.lean`, `Probability/Distributions/Gaussian/IsoperimetricProfile.lean` and `Probability/Concentration/Poincare/{LogSobolev, CompactSupport, Gaussian/Basic, Gaussian/LogSobolevSharpness}.lean` are consumed from Tau Ceti after the pinned commit; `Suggested.lean` uses none of them, and restates the Gaussian isoperimetric profile with the formula of `TauCeti.Probability.gaussianIsoperimetricProfile`.
 
 - `TauCeti.Semigroups.StronglyContinuousSemigroup`, `TauCeti.Semigroups.ContractionSemigroup` (`Analysis/Semigroups/Basic.lean`); `StronglyContinuousSemigroup.generator` and `isClosed_generator` (`Analysis/Semigroups/Generator/`); `StronglyContinuousSemigroup.expShift` (`Analysis/Semigroups/ExponentialShift.lean`), all in the namespace `TauCeti.Semigroups`.
 - `TauCeti.hessianOperator`, `TauCeti.fderiv_gradient` (`Analysis/Calculus/Morse/Linearization.lean`, at the pinned commit).
