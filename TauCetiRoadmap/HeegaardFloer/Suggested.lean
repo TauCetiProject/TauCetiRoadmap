@@ -3,8 +3,6 @@ module
 import Mathlib
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Geometry.Symplectic.StandardCompatible
-import TauCeti.Topology.Compactification.OnePoint.ProjectiveLine
-import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
 import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 
 /-!
@@ -12,8 +10,8 @@ import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace.Basic
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned Mathlib and Tau Ceti APIs. The native statements
-below cover sharp finite-dimensional Sard, Banach-manifold Sard–Smale, Darboux normal forms, sphere triple
-normalization, nonsqueezing and the compact Lagrangian holomorphic-disc theorem.
+below cover sharp finite-dimensional Sard, Banach-manifold Sard–Smale, Darboux normal forms,
+nonsqueezing and the compact Lagrangian holomorphic-disc theorem.
 
 The following headlines require constructions specified in the README before their
 full statements can be expressed at the pins:
@@ -140,23 +138,6 @@ theorem exists_standardDarbouxChart [FiniteDimensional ℝ E] [BoundarylessManif
   sorry
 
 end Darboux
-
-section ClosedSphereAutomorphisms
-
-open scoped MatrixGroups
-
-variable [dec : DecidableEq ℂ]
-
-/-- F2.6a uses the native PSL action and fixed ordered triple (0,1,infinity). -/
-theorem sphereAut_existsUnique_map_triple (x y z : OnePoint ℂ)
-    (hxy : x ≠ y) (hxz : x ≠ z) (hyz : y ≠ z) :
-    ∃! g : PSL(2, ℂ),
-      g • ((0 : ℂ) : OnePoint ℂ) = x ∧
-      g • ((1 : ℂ) : OnePoint ℂ) = y ∧
-      g • (OnePoint.infty : OnePoint ℂ) = z := by
-  sorry
-
-end ClosedSphereAutomorphisms
 
 section Nonsqueezing
 
