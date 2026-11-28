@@ -517,8 +517,9 @@ under the closed semigroup it generates in the invertible group).
 - **Furstenberg** (`lyapunovExponent_zero_gt_iid`): for `d ≥ 2`, if the support of `ν` is strongly
   irreducible and the semigroup it generates (`Subsemigroup.closure` of `Measure.support`) is
   unbounded after normalising each element to determinant `±1`, then almost surely
-  `λ_0 > (1/d) ∫ log |det g| dν`. Benoist and Quint, Thm 4.31 with (4.13)–(4.14), p. 70; Viana,
-  Thm 6.11, p. 105 (for `SL(2, ℝ)`).
+  `λ_0 > (1/d) ∫ log |det g| dν`. Benoist and Quint, Thm 4.31, p. 70, for `GL(V)`: the right
+  side is their `δ_μ` of (4.13)–(4.14), and the unboundedness hypothesis is theirs for the image
+  of `Γ_μ` in the projective linear group; Viana, Thm 6.11, p. 105 (for `SL(2, ℝ)`).
 - **Positivity on `SL(d, ℝ)`** (prose target, the case `det = 1`): `λ_0 > 0`. Benoist and Quint,
   Cor 4.32, p. 71.
 - **Furstenberg's formula** (prose target): for strongly irreducible `ν`,
