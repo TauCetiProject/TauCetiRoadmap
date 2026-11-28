@@ -1,6 +1,7 @@
 module
 
 public import Mathlib
+public import TauCeti.Analysis.InnerProductSpace.Spectrum
 public import TauCeti.Analysis.OperatorIdeal.ApproximationNumber.Compact
 public import TauCeti.Analysis.OperatorIdeal.ApproximationNumber.MinMax
 public import TauCeti.Analysis.PositiveDefinite.Kernel.MeanEmbedding
@@ -29,7 +30,8 @@ consumed are Mathlib's `RKHS`, `RKHS.kernel`, `RKHS.eval`, `RKHS.equiv`, `RKHS.O
 `MeasureTheory.Measure.pi`, `eVariationOn`, `iteratedFDerivWithin`, `Nat.digits`, `Nat.nth`,
 `Nat.totient`, `Int.fract`, and Tau Ceti's `ContinuousLinearMap.singularValue` (approximation
 numbers, zero-based) with its min–max formula
-`ContinuousLinearMap.singularValue_eq_iInf_nnnorm_comp_orthogonal`, and Tau Ceti's operator form
+`ContinuousLinearMap.singularValue_eq_iInf_nnnorm_comp_orthogonal`, Tau Ceti's spectral theorem
+`ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`, and Tau Ceti's operator form
 `TauCeti.positiveDefiniteKernelOperator` of a scalar kernel, with the Kolmogorov space and kernel
 mean embeddings of `TauCeti.Analysis.PositiveDefinite.Kernel`. The `#check` block at the end lists
 every upstream name the README cites.
@@ -37,8 +39,10 @@ every upstream name the README cites.
 Bold headlines of the README not stated here: the integration bounds for Halton, Hammersley and
 `(t, s)`-sequence points (2.4), each the composition of a discrepancy bound with
 `koksmaHlawka`; the component bounds of the hierarchical expansion (6.1), which need the
-hierarchical series of a function; and the interpolation property of the sparse-grid
-interpolant (6.2), a Check.
+hierarchical series of a function; the complexity of the `d`-fold tensor power of a compact
+operator (4.4), which needs the `d`-fold completed tensor power as a family of types and follows
+from `encard_singularValue_completion_mapL` by induction; and the interpolation property of the
+sparse-grid interpolant for functions zero on the boundary (6.2), a Check.
 
 Prior formalization (README): the lean-NASC modules NASC/MonteCarlo.lean and
 NASC/ModelReduction.lean state some of these targets with `sorry`.
@@ -68,7 +72,8 @@ def localDiscrepancy (P : Fin n → Fin s → ℝ) (x : Fin s → ℝ) : ℝ :=
 def starDiscrepancy (P : Fin n → Fin s → ℝ) : ℝ≥0∞ :=
   ⨆ x ∈ Icc (0 : Fin s → ℝ) 1, ENNReal.ofReal |localDiscrepancy P x|
 
-/-- The star discrepancy is at most `1` (1.1). -/
+/-- The star discrepancy is at most `1` (1.1): a range lemma of `starDiscrepancy`, kept as a
+sanity check of the definition. -/
 theorem starDiscrepancy_le_one (P : Fin n → Fin s → ℝ) : starDiscrepancy P ≤ 1 := by
   sorry
 
@@ -152,7 +157,8 @@ section LowDiscrepancy
 def radicalInverse (b i : ℕ) : ℝ :=
   ∑ k : Fin (b.digits i).length, ((b.digits i).get k : ℝ) * ((b : ℝ)⁻¹) ^ (k.val + 1)
 
-/-- The radical inverse lies in `[0, 1)` (2.1). -/
+/-- The radical inverse lies in `[0, 1)` (2.1): a range lemma of `radicalInverse`, kept as a
+sanity check of the definition. -/
 theorem radicalInverse_mem_Ico {b : ℕ} (hb : 2 ≤ b) (i : ℕ) : radicalInverse b i ∈ Ico 0 1 := by
   sorry
 
@@ -499,6 +505,26 @@ eigenvalues `λ`: the number of multi-indices with `∏ λ_{jₖ} > ε²` (4.4).
 def tensorComplexity (lam : ℕ → ℝ) (d : ℕ) (ε : ℝ) : ℕ∞ :=
   {j : Fin d → ℕ | ε ^ 2 < ∏ k, lam (j k)}.encard
 
+section TensorProducts
+
+variable {H₁ K₁ H₂ K₂ : Type*}
+  [NormedAddCommGroup H₁] [InnerProductSpace ℝ H₁] [CompleteSpace H₁]
+  [NormedAddCommGroup K₁] [InnerProductSpace ℝ K₁] [CompleteSpace K₁]
+  [NormedAddCommGroup H₂] [InnerProductSpace ℝ H₂] [CompleteSpace H₂]
+  [NormedAddCommGroup K₂] [InnerProductSpace ℝ K₂] [CompleteSpace K₂]
+
+/-- **Singular values of a tensor product** (4.4): for compact `S` and `T` between Hilbert
+spaces, the completion of `S ⊗ T` on the Hilbert tensor product is compact, and its approximation
+numbers above `ε` are as many as the pairs `(i, j)` with `aᵢ(S) aⱼ(T) > ε`. -/
+theorem encard_singularValue_completion_mapL (S : H₁ →L[ℝ] K₁) (T : H₂ →L[ℝ] K₂)
+    (hS : IsCompactOperator S) (hT : IsCompactOperator T) :
+    IsCompactOperator (TensorProduct.mapL S T).completion ∧
+      ∀ ε : ℝ, {n : ℕ | ε < ((TensorProduct.mapL S T).completion.singularValue n : ℝ)}.encard =
+        {p : ℕ × ℕ | ε < (S.singularValue p.1 : ℝ) * (T.singularValue p.2 : ℝ)}.encard := by
+  sorry
+
+end TensorProducts
+
 /-- **Curse of dimensionality for `λ₁ = λ₂ = 1`** (4.4). -/
 theorem two_pow_le_tensorComplexity {lam : ℕ → ℝ} (h₀ : lam 0 = 1) (h₁ : lam 1 = 1) :
     (∀ d : ℕ, ∀ ε ∈ Ioo (0 : ℝ) 1, (2 ^ d : ℕ∞) ≤ tensorComplexity lam d ε) ∧
@@ -701,7 +727,7 @@ theorem sparseGrid_energy_error_le (n : ℕ) (u : (Fin d → ℝ) → ℝ)
 
 end SparseGrids
 
-/-! ## Upstream declarations named in the README -/
+/-! The upstream declarations named in the README, pinned by `#check`. -/
 
 #check @RKHS
 #check @RKHS.kernel
@@ -719,6 +745,10 @@ end SparseGrids
 #check @ContinuousLinearMap.singularValue_eq_iInf_nnnorm_comp_orthogonal
 #check @ContinuousLinearMap.isCompactOperator_iff_tendsto_singularValue
 #check @IsCompactOperator
+#check @ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector
+#check @TensorProduct.mapL
+#check @ContinuousLinearMap.completion
+#check @UniformSpace.Completion
 #check @MeasureTheory.Measure.pi
 #check @unitInterval
 #check @eVariationOn

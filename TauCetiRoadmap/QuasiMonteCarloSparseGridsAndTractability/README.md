@@ -21,9 +21,10 @@ such problems grows only polynomially with the dimension:
   tractability; for a bounded operator between Hilbert spaces the minimal error with `n`
   arbitrary functionals is its `n`th approximation number, attained by the truncated singular
   expansion for compact operators, so tractability is a property of the singular values: the
-  Novak–Woźniakowski criterion, the curse of dimensionality of tensor products whose two largest
-  eigenvalues are `1`, and the equivalence of polynomial tractability with polynomial decay of the
-  eigenvalues when the largest is below `1`;
+  Novak–Woźniakowski criterion; for tensor products of a compact operator, whose singular values
+  are the products of the factors' singular values, the curse of dimensionality when the two
+  largest eigenvalues are `1`, and the equivalence of polynomial tractability with polynomial
+  decay of the eigenvalues when the largest is below `1`;
 - the tractability of integration with function values in weighted Sobolev spaces with product
   weights `γⱼ`: strongly polynomially tractable exactly when `∑ γⱼ < ∞`, polynomially tractable
   exactly when `∑_{j ≤ s} γⱼ = O(log s)`;
@@ -34,12 +35,14 @@ such problems grows only polynomially with the dimension:
 
 The roadmap is a synthesis of Dick, Kuo and Sloan's survey of quasi-Monte Carlo methods, of
 Caflisch's survey of Monte Carlo and quasi-Monte Carlo integration, of Novak and Woźniakowski's
-monograph on tractability, and of Bungartz and Griebel's survey of sparse grids (see
-[References](#references)); it follows none of them section by section. Headlines that restate
+monograph on tractability, and of Bungartz and Griebel's survey of sparse grids, with two
+primary papers for the tractability lower bounds of Layer 5 (see [References](#references)); it
+follows none of them section by section. Headlines that restate
 a source result cite a theorem, definition, section or equation number with its printed page;
 corollaries and adaptations carry a proof route.
 
-It builds on Mathlib's reproducing kernel Hilbert spaces, product measures and variation, and on
+It builds on Mathlib's reproducing kernel Hilbert spaces, product measures, variation and tensor
+products of inner product spaces, and on
 Tau Ceti's approximation numbers of bounded operators, whose min–max formula is the minimal
 error of Layer 4, and Tau Ceti's Kolmogorov space and kernel mean embeddings of a positive
 semidefinite kernel, which realize the weighted spaces of Layer 3. Two roadmaps on main border
@@ -100,8 +103,9 @@ These are fixed for every target. A statement that departs from them is a differ
   (3.16), p. 176]. The star discrepancy `starDiscrepancy` is a supremum in `ℝ≥0∞` over `x` in the
   closed cube; it lies in `[0, 1]` (`starDiscrepancy_le_one`), so it is never the junk value of an
   unbounded real supremum. ProbabilisticAndMetricNumberTheory §2.7 uses strict cuts `[0, t)` and
-  samples in `[0, 1)`; for such samples the two one-dimensional star discrepancies agree (a Check
-  of 1.1).
+  samples in `[0, 1)`; for nonempty such samples the two one-dimensional star discrepancies agree
+  (a Check of 1.1). For the empty sample they differ: here `D* = 1`, since the counting term is
+  `0`, while §2.7 sets the discrepancy of the empty sample to `0`.
 - **Derivatives.** Mixed derivatives are `iteratedFDerivWithin` on the closed cube applied to
   standard basis vectors, under a `ContDiffOn` hypothesis on the cube, so that the derivative at a
   boundary point is the one-sided one. The face point `(y_u; 1)` is `facePoint u y`, with the
@@ -161,10 +165,10 @@ These are fixed for every target. A statement that departs from them is a differ
   `D* = 1/2`.
 - The midpoints `(2i + 1)/(2n)`, `i < n`, in one dimension: `D* = 1/(2n)` (computed for
   `n = 1, 2, 5`).
-- Agreement with ProbabilisticAndMetricNumberTheory §2.7: for samples in `[0, 1)` in one dimension,
-  the supremum with closed cuts `[0, x]` equals the supremum with strict cuts `[0, t)`, since the
-  closed count at `x` is the limit from the right of the strict count and the strict count at `t`
-  is the limit from the left of the closed count.
+- Agreement with ProbabilisticAndMetricNumberTheory §2.7: for nonempty samples in `[0, 1)` in one
+  dimension, the supremum with closed cuts `[0, x]` equals the supremum with strict cuts `[0, t)`,
+  since the closed count at `x` is the limit from the right of the strict count and the strict count
+  at `t` is the limit from the left of the closed count.
 - Negative control: the two conventions differ in the local discrepancy on the faces `x_j = 1`,
   where the Hlawka–Zaremba identity of 1.2 evaluates it. For `s = 2`, the single point `(0, 1)`
   and `f(x, y) = x`, the error is `Qₙ(f) − I(f) = −1/2`; the right side of the identity is `−1/2`
@@ -192,8 +196,10 @@ These are fixed for every target. A statement that departs from them is a differ
 
 - `s = 1`: the identity reads `Qₙ(f) − I(f) = −∫₀¹ f'(x) Δ_P(x) dx`, which is [DKS, (3.2),
   p. 165] with the sign of the error reversed.
-- `s = 2`, five random points and `f(x, y) = x²y + sin(x + 2y)`: both sides of the identity equal
-  `−0.0798651` to seven digits, and `|Qₙ(f) − I(f)| = 0.0799 ≤ D* V = 0.694`.
+- `s = 2`, the five points `(0.1, 0.7)`, `(0.3, 0.2)`, `(0.5, 0.9)`, `(0.8, 0.4)`, `(0.95, 0.05)`
+  and `f(x, y) = x²y + sin(x + 2y)`: both sides of the identity equal `−0.0103829` to seven
+  digits, `D* = 0.36` (approached as `x` increases to `(0.8, 0.7)`), `V(f) = 1.9688`, and
+  `|Qₙ(f) − I(f)| = 0.0104 ≤ D* V = 0.709`.
 - Negative control: dropping `0 < n` is wrong: for `n = 0` the rule is `0` and the identity fails
   for `f ≡ 1`, where the left side is `−1` and every mixed derivative vanishes.
 
@@ -235,9 +241,9 @@ These are fixed for every target. A statement that departs from them is a differ
 - `s = 1`, `f` the indicator of `[1/2, 1]`, so `V_HK(f) = 1`: for the single point `{1/4}` the
   error is `1/2` and `D* = 3/4`; for `{1/2}` the error is `1/2` and `D* = 1/2`, so the bound is
   attained.
-- `hardyKrauseVariation_fin_one` against ProbabilisticAndMetricNumberTheory §2.7: for samples in
-  `[0, 1)`, `koksmaHlawka` at `s = 1` is its Koksma inequality, with the same star discrepancy by
-  the Check of 1.1.
+- `hardyKrauseVariation_fin_one` against ProbabilisticAndMetricNumberTheory §2.7: for nonempty
+  samples in `[0, 1)`, `koksmaHlawka` at `s = 1` is its Koksma inequality, with the same star
+  discrepancy by the Check of 1.1.
 - Negative control: the Vitali variation alone is not enough: `f(x, y) = x` has Vitali variation
   `0` on `[0,1]²` (every alternating cell sum vanishes) but is not integrated exactly by the
   point `(0, 0)`; its Hardy–Krause variation is `1`, from the face `y = 1`.
@@ -484,8 +490,13 @@ These are fixed for every target. A statement that departs from them is a differ
   (`exists_linear_algorithmError_eq_singularValue`): for compact `S` between Hilbert spaces some
   linear algorithm attains `aₙ(S)`, namely `Aₙ f = ∑_{i ≤ n} ⟪f, eᵢ⟫ S eᵢ` for orthonormal
   eigenvectors `eᵢ` of `S*S` with the `n` largest eigenvalues [NW, Corollary 4.12, p. 119].
-  Route: Tau Ceti's spectral theorem for the compact self-adjoint `S*S`, and
-  `ContinuousLinearMap.isCompactOperator_iff_tendsto_singularValue`.
+  Route: Tau Ceti's spectral theorem `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
+  for the compact symmetric `S*S` gives a Hilbert basis of eigenvectors with eigenvalues `≥ 0`,
+  not ordered; since `S*S` is compact, only finitely many basis vectors have an eigenvalue above
+  any `t > 0`, so `n` of them with the `n` largest eigenvalues, counted with multiplicity, can be
+  chosen. The error of `Aₙ` is the square root of the largest remaining eigenvalue, which is
+  `aₙ(S)` by the min–max formula; `ContinuousLinearMap.isCompactOperator_iff_tendsto_singularValue`
+  gives `aₙ(S) → 0`.
 - **Information complexity of a compact operator** (`informationComplexity_closedBall_eq`): for
   compact `S` between Hilbert spaces, `n(ε) = min{n | aₙ(S) ≤ ε}`, which is
   `min{n | λₙ₊₁ ≤ ε²}` in the one-based eigenvalues [NW, p. 157]. Route: the two previous
@@ -546,17 +557,37 @@ These are fixed for every target. A statement that departs from them is a differ
   `n(d, ε) = #{j | j < 1/ε}` is `1, 9, 33` at `ε = 0.5, 0.1, 0.03`, below the bound
   `(1 + π²/6) ε^{−2}`.
 - Negative control: `λ_{d,j} = 1` for `j ≤ d` and `0` after: `n(d, ε) = d`, polynomially but not
-  strongly polynomially tractable; the criterion holds with `q₁ = 1` and fails with `q₁ = 0`
-  for every `C₁`, since the tail from `⌈C₁⌉` contains `d − ⌈C₁⌉ + 1` ones.
+  strongly polynomially tractable. The criterion holds with `q₁ = 1` (empty tail), and also with
+  `q₁ = 0`, `τ = 1`, `q₂ = 1` (`C₂ = 1` for `C₁ = 1`); the strong criterion (`q₁ = q₂ = 0`) fails
+  for every `C₁` and `τ`, since for `d ≥ ⌈C₁⌉` the tail from `⌈C₁⌉` contains `d − ⌈C₁⌉ + 1` ones.
 
 ### 4.4 Tensor product problems
 
 - **Tensor complexity** (`tensorComplexity`): for one-dimensional eigenvalues `λ₁ ≥ λ₂ ≥ … ≥ 0`
-  (zero-based `lam 0 ≥ lam 1 ≥ …` in Lean), the `d`-fold tensor product has the eigenvalues
-  `λ_{j₁} ⋯ λ_{j_d}`, and its absolute-error complexity is the number of multi-indices with
-  `λ_{j₁} ⋯ λ_{j_d} > ε²` [NW, p. 157 with §5.2, p. 176]. The Hilbert tensor product of operators
-  has no carrier in Mathlib or Tau Ceti, so the targets are stated through this count; for an
-  implemented tensor product, 4.1 identifies its complexity with the count.
+  (zero-based `lam 0 ≥ lam 1 ≥ …` in Lean), the number of multi-indices `(j₁, …, j_d)` with
+  `λ_{j₁} ⋯ λ_{j_d} > ε²` [NW, p. 157 with §5.2, p. 176].
+- **Singular values of a tensor product** (`encard_singularValue_completion_mapL`): the Hilbert
+  tensor product of Hilbert spaces `H₁` and `H₂` is the completion of Mathlib's algebraic tensor
+  product `H₁ ⊗[ℝ] H₂` with its inner product, and `S ⊗ T` is the completion of
+  `TensorProduct.mapL S T` (`ContinuousLinearMap.completion`). For compact `S : H₁ →L[ℝ] K₁` and
+  `T : H₂ →L[ℝ] K₂` between Hilbert spaces, `S ⊗ T` is compact and, for every real `ε`, the number
+  of `n` with `aₙ(S ⊗ T) > ε` equals the number of pairs `(i, j)` with `aᵢ(S) aⱼ(T) > ε`; that
+  is, the singular values of `S ⊗ T` are the products of those of `S` and `T`, with multiplicity
+  [NW, §5.2, p. 176]. Route: the spectral theorem of 4.1 for `S*S` and `T*T` gives Hilbert bases
+  `eᵢ` and `fⱼ`; the `eᵢ ⊗ fⱼ` form a Hilbert basis of the completion and are eigenvectors of
+  `(S ⊗ T)*(S ⊗ T)` with eigenvalues `aᵢ(S)² aⱼ(T)²`; `S ⊗ T` is the norm limit of the finite-rank
+  operators `Sₘ ⊗ Tₘ` built from truncated expansions, hence compact, and the min–max formula gives
+  the count.
+- **Complexity of a tensor power** (no Lean name): for a compact `S : H →L[ℝ] K` between Hilbert
+  spaces, let `S₁ = S` on `H^{⊗1} = H` and `S_{d+1} = S_d ⊗ S` from the completion `H^{⊗(d+1)}` of
+  `H^{⊗d} ⊗[ℝ] H` to the corresponding completion `K^{⊗(d+1)}`. For `d ≥ 1` and `ε ≥ 0`, the
+  absolute-error complexity of `S_d` on the unit ball with `Λ^all` is
+  `tensorComplexity (fun j ↦ aⱼ(S)²) d ε`. Route: by `informationComplexity_closedBall_eq` and the
+  antitonicity of approximation numbers it is the number of `n` with `aₙ(S_d) > ε`; by
+  `encard_singularValue_completion_mapL` and induction on `d` this is the number of multi-indices
+  with `a_{j₁}(S) ⋯ a_{j_d}(S) > ε`, which for `ε ≥ 0` is the count of `tensorComplexity`. The two
+  theorems below are stated for the count; with this statement they are statements about the tensor
+  powers `S_d`.
 - **Curse of dimensionality** (`two_pow_le_tensorComplexity`): if `λ₁ = λ₂ = 1`, then
   `n(d, ε) ≥ 2^d` for all `d` and `ε ∈ (0, 1)`, and the problem is not weakly tractable [NW,
   Theorem 5.5, pp. 176–177]. Route: the `2^d` multi-indices in `{1, 2}^d` have product `1`.
@@ -566,12 +597,20 @@ These are fixed for every target. A statement that departs from them is a differ
 
 **Checks.**
 
-- `λ₁ = λ₂ = 1`, `λⱼ = (j + 1)^{−2}/2` after: the count at `ε = 0.9` is exactly `2^d` for
-  `d ≤ 7` (computed).
-- `λⱼ = (j + 1)^{−2}/2`, `λ₁ = 1/2 < 1`: at `ε = 0.1` the counts for `d = 1, …, 8` are
-  `7, 8, 7, 5, 1, 1, 0, 0`, bounded in `d`, as strong tractability requires.
-- Negative control: `λ₁ = 1`, `λ₂ = 1/2`, `λⱼ = 0` after: the counts are `2^d` for small `ε`,
-  so the hypothesis `λ₁ < 1` of the equivalence cannot be dropped although `λₙ = O(n^{−r})`.
+- In the zero-based indexing of Lean, `lam 0 = lam 1 = 1` and `lam j = (j + 1)^{−2}/2` for
+  `j ≥ 2`: the count at `ε = 0.9` is exactly `2^d` for `d ≤ 7` (computed).
+- `lam j = (j + 1)^{−2}/2` for all `j`, so `lam 0 = 1/2 < 1`: at `ε = 0.1` the counts for
+  `d = 1, …, 8` are `7, 8, 7, 5, 1, 1, 0, 0`, bounded in `d`, as strong tractability requires.
+- `encard_singularValue_completion_mapL` for diagonal `S` and `T` with singular values `1, 1/2`
+  and `1/2, 1/3` (then `0`): the products are `1/2, 1/3, 1/4, 1/6`, so the counts at
+  `ε = 0.3, 0.2, 0.1` are `2, 3, 4`, and at `ε = 1/3` the count is `1`, the strict inequality
+  excluding the product equal to `ε`.
+- Negative control: `lam 0 = 1`, `lam 1 = 1/2`, `lam j = 0` after, which decays faster than any
+  power: a multi-index with `k` entries `1` and the others `0` has product `2^{−k}`, so the count
+  at `ε` is `∑_{k < 2 log₂(1/ε)} C(d, k)`, which is `1 + d` at `ε = 1/2` and
+  `1 + d + C(d, 2) + C(d, 3)`, of degree `3` in `d`, at `ε = 1/4`. No single exponent `q` serves
+  every `ε`, so the problem is not polynomially tractable, and the hypothesis `lam 0 < 1` of the
+  equivalence cannot be dropped although `lam n = O(n^{−r})` for every `r`.
 
 ## Layer 5: tractability of integration in weighted spaces
 
@@ -588,30 +627,37 @@ The weights are `γⱼ > 0`, the anchor is `c ∈ [0, 1]`, and `Hₛ` is any rep
 space with the anchored kernel, respectively the unanchored kernel with product weights.
 
 - **Strong polynomial tractability, anchored** (`isStronglyPolynomiallyTractable_anchored_iff`):
-  iff `∑ⱼ γⱼ < ∞` [DKS, Theorem 4.5, p. 187].
+  iff `∑ⱼ γⱼ < ∞` [DKS, Theorem 4.5, p. 187; NW01].
 - **Polynomial tractability, anchored** (`isPolynomiallyTractable_anchored_iff`): iff there is
-  `C` with `∑_{j < s} γⱼ ≤ C log(s + 1)` for all `s ≥ 1` [DKS, Theorem 4.6, p. 187]. The source's
-  condition that the upper limit of `∑_{j ≤ s} γⱼ / log(s + 1)` is finite is equivalent, since
-  `log(s + 1) > 0` for `s ≥ 1`; the explicit constant avoids a real upper limit of an unbounded
-  sequence.
+  `C` with `∑_{j < s} γⱼ ≤ C log(s + 1)` for all `s ≥ 1` [DKS, Theorem 4.6, p. 187; NW01]. The
+  source's condition that the upper limit of `∑_{j ≤ s} γⱼ / log(s + 1)` is finite is
+  equivalent, since `log(s + 1) > 0` for `s ≥ 1`; the explicit constant avoids a real upper limit
+  of an unbounded sequence.
 - **Strong polynomial tractability, unanchored**
   (`isStronglyPolynomiallyTractable_unanchored_iff`) and **polynomial tractability, unanchored**
   (`isPolynomiallyTractable_unanchored_iff`): the same two characterizations [DKS, Theorems 4.5
-  and 4.6, p. 187].
+  and 4.6, p. 187; SW02].
 - Route for the upper bounds: by 3.2 and the averaging argument, some point set has
   `e(P)² ≤ n⁻¹ ∏ⱼ (1 + 2B γⱼ)` with `B = (c² − c + 1/2)/2` (anchored) or `1/12` (unanchored),
   hence `e(P) ≤ n^{−1/2} exp(B ∑_{j < s} γⱼ)` [DKS, Lemma 4.2, p. 184]; so
   `n(s, ε) ≤ ε^{−2} exp(2B ∑_{j<s} γⱼ) + 1`, which is bounded by `C ε^{−2}` when `∑ γⱼ < ∞` and by
-  `C ε^{−2} s^{2BC'}` when `∑_{j<s} γⱼ ≤ C' log(s + 1)`. Route for the lower bounds: by Smolyak's
-  theorem [NW, Theorem 4.7, p. 115] linear rules `∑ aᵢ f(tᵢ)` are optimal among all algorithms
-  with the same nodes, for a linear functional on a balanced convex set. For the anchored kernel,
-  which is nonnegative, [DKS, Lemma 4.3, p. 185] with the weighted rule in place of the
-  equal-weight one gives `e² ≥ e₀² (1 − n κ_s²)`, with `κ_s → 0` exactly when `∑ γⱼ = ∞` and
-  `κ_s` decaying like `exp(−c ∑_{j<s} γⱼ)`; since `e₀ ≥ 1` (the kernel is at least `1`), this
-  bound for the normalized error also bounds the absolute one. The unanchored kernel is not
-  nonnegative, and [DKS, p. 185] refers its lower bound to Sloan and Woźniakowski; a route is to
-  split its one-dimensional kernel into a part supported on `[0, 1/2]²` and one on `[1/2, 1]²`
-  (decomposable kernels) and argue on each part as for a nonnegative kernel.
+  `C ε^{−2} s^{2BC'}` when `∑_{j<s} γⱼ ≤ C' log(s + 1)`.
+- Route for the lower bounds: [DKS, Theorems 4.5 and 4.6] admit every algorithm that uses `n`
+  function values, nonlinear ones and rules with negative weights included [DKS, §4.5, p. 186],
+  and [DKS, §4.7, p. 190] attributes their necessity parts to [NW01] for the anchored space and
+  for decomposable kernels, and to [SW02] for the unanchored space. By Smolyak's theorem [NW,
+  Theorem 4.7, p. 115] linear rules `∑ aᵢ f(tᵢ)` with real weights are optimal among all
+  algorithms with the same nodes, for a linear functional on a balanced convex set; for fixed
+  nodes the best weights give `e² = e₀² − ‖Π h‖²`, with `h` the representer of `Iₛ` in `Hₛ` and
+  `Π` the orthogonal projection onto the span of the `K(·, tᵢ)`. The elementary bound
+  `e² ≥ e₀² (1 − n κ_s²)` of [DKS, Lemma 4.3, p. 185] drops the off-diagonal terms of the formula
+  of 3.2, which needs `aᵢ aₗ K(tᵢ, tₗ) ≥ 0`: it covers equal-weight and nonnegative-weight rules
+  in the anchored space, whose kernel is nonnegative, and not rules with weights of both signs.
+  The general case is the argument of [NW01] and [SW02], which bounds `‖Π h‖²` for every choice
+  of `n` nodes and shows that a normalized error `ε < 1` forces `n` to be unbounded in `s` when
+  `∑ γⱼ = ∞`, and to grow faster than every power of `s` when `∑_{j<s} γⱼ / log(s + 1)` is
+  unbounded. Since `e₀ ≥ 1` for both kernels (`e₀² = ∏ⱼ (1 + γⱼ ∫∫ η_c) ≥ 1` anchored, `e₀ = 1`
+  unanchored), a lower bound for the normalized error also bounds the absolute one.
 
 **Checks.**
 
@@ -646,7 +692,7 @@ space with the anchored kernel, respectively the unanchored kernel with product 
   identity is local, so the boundary values are not needed (for `u = x²` in one variable,
   `v_{l,1} = −4^{−l}`, equal in modulus to the bound).
 - Each such `u` that is zero on the boundary of the cube is the sum of its hierarchical
-  components u_l = ∑_{i ∈ I_l} v_{l,i} φ_{l,i}, uniformly on the cube, with
+  components `uₗ = ∑_{i ∈ I_l} v_{l,i} φ_{l,i}`, uniformly on the cube, with
   `‖u_l‖_∞ ≤ 2^{−d} 2^{−2|l|₁} |u|_{2,∞}`, `‖u_l‖₂ ≤ 3^{−d} 2^{−2|l|₁} |u|_{2,2}` and
   `‖u_l‖_E ≤ (2 · 12^{(d−1)/2})⁻¹ 2^{−2|l|₁} (∑ⱼ 4^{lⱼ})^{1/2} |u|_{2,∞}` [BG, (3.19), p. 158;
   Lemma 3.4, (3.27), p. 161]. These are the steps of 6.3 and carry no Lean name.
@@ -674,7 +720,7 @@ space with the anchored kernel, respectively the unanchored kernel with product 
   geometric sum `d − 1` times.
 - **Asymptotic dimension** (`isBigO_finrank_sparseGridSpace`):
   `dim V_n^{(1)} = 2^n (n^{d−1}/(d − 1)! + O(n^{d−2}))`, which is `O(h_n^{−1} |log₂ h_n|^{d−1})` for
-  h_n = 2^{−n} [BG, Lemma 3.6, (3.62)–(3.63), p. 173].
+  the mesh `2^{−n} = h_n` [BG, Lemma 3.6, (3.62)–(3.63), p. 173].
 - **Full grid** (`finrank_fullGridSpace`): `dim V_n^{(∞)} = (2^n − 1)^d` [BG, (3.31), p. 163].
 
 **Checks.**
@@ -684,8 +730,12 @@ space with the anchored kernel, respectively the unanchored kernel with product 
   `1, 5, 17, 49, 129` for `n = 1, …, 5`, against `1, 9, 49, 225, 961` for the full grid.
 - `d = 3`: `dim/2^n − n²/2 = −4.0, −9.0, −19.0, −39.0` at `n = 10, 20, 40, 80`, linear in `n`
   as `O(n^{d−2})` says.
-- The interpolant interpolates: `u_n^{(1)}(x_{l,i}) = u(x_{l,i})` at every sparse-grid point,
-  and `u_n^{(1)} ∈ V_n^{(1)}`.
+- For `u` zero on the boundary of the cube the interpolant interpolates:
+  `u_n^{(1)}(x_{l,i}) = u(x_{l,i})` at every sparse-grid point `x_{l,i} = i/2^l`, `l` a sparse
+  level and `i ∈ I_l` (computed for `u = ∏ⱼ xⱼ(1 − xⱼ) exp(∑ⱼ xⱼ)` and `(d, n)` equal to
+  `(1, 4)`, `(2, 3)` and `(3, 2)`, at `15`, `17` and `7` points); and `u_n^{(1)} ∈ V_n^{(1)}`
+  for every `u`. Without the boundary condition interpolation fails: for `u ≡ 1` every surplus is
+  `1 − 1/2 − 1/2 = 0`, so the interpolant is `0` (the negative control of 6.3).
 - Negative control: `d = 0` would give dimension `1` (the constants on a point) against the
   formula's `2^n − 1`; the hypothesis `d ≥ 1` is used.
 
@@ -746,13 +796,14 @@ targets of the layers above.
    the component-by-component bounds.
 4. **Complexity.** Algorithms with linear information, minimal errors, information complexity,
    polynomial, strong polynomial and weak tractability, the optimality of the truncated singular
-   expansion, the Novak–Woźniakowski criterion and the tensor-product dichotomies.
+   expansion, the Novak–Woźniakowski criterion, the singular values and complexity of tensor
+   products of compact operators, and the tensor-product dichotomies.
 5. **Tractability of integration** in the weighted anchored and unanchored spaces with product
    weights.
 6. **Sparse grids.** The hierarchical hat basis, surplus bounds, the sparse-grid and full-grid
    spaces and their dimensions, and the `L^∞`, `L²` and energy errors of sparse-grid interpolation.
 
-The numbers are those of the layers below, and k.n names subsection `n` of Layer `k`.
+The numbers are those of the layers above, and k.n names subsection `n` of Layer `k`.
 
 **Not owned here.**
 - The one-dimensional star discrepancy with strict cuts, its basic API, the Erdős–Turán
@@ -767,13 +818,20 @@ The numbers are those of the layers below, and k.n names subsection `n` of Layer
   (Tau Ceti).
 - The excess of one law over another in
   [FiniteSamplingDiscrepancy](../FiniteSamplingDiscrepancy/README.md), and the combinatorial
-  discrepancy of set systems in the open roadmap CombinatorialDiscrepancy, are different notions
-  sharing the word.
-- One-dimensional quadrature rules, Peano kernels and composite rules belong to the open roadmap
-  QuadratureRulesAndPeanoKernels, which excludes multidimensional and quasi-Monte Carlo rules.
-- Monte Carlo estimators, variance reduction and multilevel Monte Carlo, Kolmogorov widths and
-  reduced bases, and polynomial chaos belong to the Monte Carlo and model-reduction roadmaps of
-  the same numerical-analysis family.
+  discrepancy of set systems in the roadmap CombinatorialDiscrepancy, are different
+  notions sharing the word.
+- One-dimensional quadrature rules, Peano kernels and composite rules belong to the roadmap
+  QuadratureRulesAndPeanoKernels, which excludes multidimensional and quasi-Monte Carlo
+  rules.
+- Crude and multilevel Monte Carlo estimators belong to the roadmap
+  MonteCarloMultilevelAndSDESchemes, Layers 1–2, which in turn leaves quasi-Monte Carlo
+  rules, discrepancy and sparse grids to this roadmap; importance sampling, control, antithetic
+  and stratified variates to
+  [ImportanceSamplingAndVarianceReduction](../ImportanceSamplingAndVarianceReduction/README.md).
+- Kolmogorov widths, greedy reduced bases and polynomial chaos expansions are not targets here;
+  they consume Layer 4 (Downstream consumers).
+- The Hilbert tensor product is used here only through the completion of Mathlib's algebraic
+  tensor product (4.4); its general theory is not a target.
 
 Boundary in one sentence: deterministic and randomly shifted equal-weight rules on the unit cube
 with their discrepancy and kernel error theory, worst-case complexity with linear information,
@@ -792,6 +850,10 @@ higher-order sparse grids are not.
 - **Arithmetic:** `Nat.digits`, `Nat.nth` with `Nat.nth_prime_zero_eq_two`, `Nat.totient`,
   `Int.fract`, `Polynomial.bernoulli`, `Set.encard`, `Fintype.piFinset`, `Module.finrank`.
 - **Operators:** `IsCompactOperator`.
+- **Tensor products:** the inner product on the algebraic tensor product `E ⊗[𝕜] F` and
+  `TensorProduct.mapL` (`Mathlib/Analysis/InnerProductSpace/TensorProduct.lean`), the inner
+  product on `UniformSpace.Completion` (`Mathlib/Analysis/InnerProductSpace/Completion.lean`) and
+  `ContinuousLinearMap.completion` (`Mathlib/Topology/Algebra/LinearMapCompletion.lean`).
 
 ### From Tau Ceti
 
@@ -799,6 +861,10 @@ higher-order sparse grids are not.
   (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/Basic.lean`), the min–max formula
   `ContinuousLinearMap.singularValue_eq_iInf_nnnorm_comp_orthogonal` (`…/MinMax.lean`) and
   `ContinuousLinearMap.isCompactOperator_iff_tendsto_singularValue` (`…/Compact.lean`).
+- **Spectral theorem:** `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
+  (`TauCeti/Analysis/InnerProductSpace/Spectrum.lean`), a Hilbert basis of eigenvectors of a
+  compact symmetric operator, with no ordering of the eigenvalues; used in the routes of 4.1
+  and 4.4.
 - **Positive semidefinite kernels:** `TauCeti.positiveDefiniteKernelOperator`,
   `TauCeti.posSemidef_positiveDefiniteKernelOperator` and `Matrix.PosSemidef.KolmogorovSpace`
   (`TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`);
@@ -822,7 +888,7 @@ the maximum mean discrepancy between two laws with the supremum of `∫ f dμ �
 unit ball of the Kolmogorov space, for integrable feature maps, used in the route of 3.2 with
 `μ` the volume of the cube and `ν` the empirical law of the points.
 
-## Beyond this roadmap (a roadmap for a roadmap; do not implement)
+## Beyond this roadmap
 
 No Tau Ceti roadmap owns these topics; each is material for a further roadmap built on this one.
 
@@ -861,3 +927,7 @@ cited source, not the specification.
 - [NW] E. Novak, H. Woźniakowski, *Tractability of Multivariate Problems, Volume I: Linear
   Information*, EMS Tracts in Mathematics 6, European Mathematical Society, 2008, Chapters 4–5.
 - [BG] H.-J. Bungartz, M. Griebel, Sparse grids, *Acta Numerica* 13 (2004), 147–269, §3.
+- [NW01] E. Novak, H. Woźniakowski, Intractability results for integration and discrepancy,
+  *J. Complexity* 17 (2001), 388–441.
+- [SW02] I. H. Sloan, H. Woźniakowski, Tractability of integration in non-periodic and periodic
+  weighted tensor product Hilbert spaces, *J. Complexity* 18 (2002), 479–499.
