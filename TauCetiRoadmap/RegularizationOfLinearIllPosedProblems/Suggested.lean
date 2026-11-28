@@ -64,7 +64,8 @@ structure IsSingularSystem {ι : Type*} (K : X →L[𝕜] Y) (σ : ι → ℝ) (
   adjoint_apply_g : ∀ i, adjoint K (g i) = (σ i : 𝕜) • e i
   apply_eq_zero : ∀ x, (∀ i, ⟪e i, x⟫_𝕜 = 0) → K x = 0
 
-/-- **Existence of a singular system for a compact operator** (1.1). -/
+/-- **Existence of a singular system for a compact operator** (1.1): the compact Schmidt series
+of BanachSpaceTheory §4.5, read as an unordered singular system. -/
 theorem IsCompactOperator.exists_isSingularSystem {K : X →L[𝕜] Y}
     (hK : IsCompactOperator K) :
     ∃ (s : Set X) (σ : s → ℝ) (g : s → Y), s.Countable ∧
@@ -75,7 +76,7 @@ theorem IsCompactOperator.exists_isSingularSystem {K : X →L[𝕜] Y}
 example := @ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector
 
 /-- Tau Ceti: approximation numbers, which are the singular values of a compact operator in
-nonincreasing order. -/
+nonincreasing order (BanachSpaceTheory §4.5). -/
 example := @ContinuousLinearMap.singularValue
 
 variable {ι : Type*} {K : X →L[𝕜] Y} {σ : ι → ℝ} {e : ι → X} {g : ι → Y}
@@ -410,6 +411,16 @@ theorem isBigO_tikhonov_sub_iff (x : X) :
 `x = 0`. -/
 theorem eq_zero_of_isLittleO_tikhonov_sub (x : X)
     (h : (fun α : ℝ ↦ ‖tikhonov K α (K x) - x‖) =o[𝓝[>] 0] fun α ↦ α) : x = 0 := by
+  sorry
+
+/-- **Saturation for noisy data** (4.2): for compact `K` of infinite rank and any positive
+parameter choice `α(δ, yᵟ)`, a bound `E δ` on the error over all data with `‖yᵟ - K x‖ ≤ δ`
+that is `o(δ^{2/3})` forces `x = 0`. -/
+theorem eq_zero_of_isLittleO_tikhonov_noisy (hK : IsCompactOperator K)
+    (hinf : ¬ FiniteDimensional 𝕜 (LinearMap.range (K : X →ₗ[𝕜] Y))) (x : X)
+    (α : ℝ → Y → ℝ) (hα : ∀ δ yδ, 0 < α δ yδ) (E : ℝ → ℝ)
+    (hE : ∀ δ > 0, ∀ yδ : Y, ‖yδ - K x‖ ≤ δ → ‖tikhonov K (α δ yδ) yδ - x‖ ≤ E δ)
+    (ho : E =o[𝓝[>] 0] fun δ ↦ δ ^ (2 / 3 : ℝ)) : x = 0 := by
   sorry
 
 /-! ### Morozov's discrepancy principle -/

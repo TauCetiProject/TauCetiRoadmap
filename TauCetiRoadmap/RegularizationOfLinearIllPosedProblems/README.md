@@ -35,8 +35,10 @@ it follows none of them section by section. Headlines that restate a source resu
 theorem, definition or equation number with its printed page; corollaries and adaptations carry
 a proof route.
 
-The roadmap rests on Tau Ceti's spectral theory of compact self-adjoint operators, which gives
-the singular systems; on Tau Ceti's continuous functional calculus for bounded self-adjoint
+The roadmap rests on the compact Schmidt series of
+[BanachSpaceTheory](../BanachSpaceTheory/README.md), built from Tau Ceti's spectral theory of
+compact self-adjoint operators, which gives the singular systems of compact operators; on Tau
+Ceti's continuous functional calculus for bounded self-adjoint
 operators on real and complex Hilbert spaces and its finite-dimensional Moore–Penrose inverse,
 both targets of the
 PolarDecomposition roadmap of [OperatorTheory](../OperatorTheory/PolarDecomposition/README.md),
@@ -102,7 +104,8 @@ These are fixed for every target. A statement that departs from them is a differ
   multiplicity" is several indices with the same `σ`. Series over `ι` are `HasSum`, never `tsum`,
   because `tsum` of a non-summable family is `0`. The approximation numbers
   `ContinuousLinearMap.singularValue K n` of Tau Ceti are, for compact `K`, the nonincreasing
-  rearrangement of the `σ i`, padded by zeros.
+  rearrangement of the `σ i`, padded by zeros: this is the identity `sₙ = aₙ(K)` of
+  BanachSpaceTheory §4.5, read through the existence statement of 1.1.
 - **Schemes along a filter.** A scheme is a family `R : κ → Y →L[𝕜] X` with a filter `l` on the
   parameter type `κ`: `𝓝[>] 0` on `ℝ` for Tikhonov regularization and the cut-off, `atTop` on
   `ℕ` for the Landweber iteration. A parameter choice is a function `α : ℝ → Y → κ` of
@@ -123,7 +126,8 @@ These are fixed for every target. A statement that departs from them is a differ
   `K : U →L[ℝ] V`. Functionals are `J : U → EReal`, *convex* when the real epigraph
   `{p : U × ℝ | J p.1 ≤ p.2}` is convex and *proper* when `∀ u, J u ≠ ⊥` and some value is
   finite, as in ConvexAnalysisAndDuality's Conventions. Subgradients are
-  `TauCeti.subdifferential (topDualPairing ℝ U).flip J u ⊆ StrongDual ℝ U`, which is empty
+  `TauCeti.subdifferential dualPairing J u ⊆ StrongDual ℝ U`, with
+  `dualPairing = (topDualPairing ℝ U).flip`, the pairing `u, p ↦ p u`; this set is empty
   unless `J u` is finite. The adjoint of `K` applied to `v ∈ V` is the functional
   `adjointFunctional K v = ⟪v, K ·⟫`; `ContinuousLinearMap.adjoint` is for Hilbert spaces only.
   Noise is measured by the norm, `‖fᵟ - f‖ ≤ δ`.
@@ -143,12 +147,17 @@ These are fixed for every target. A statement that departs from them is a differ
   cases at once.
 - **Existence for compact operators** (`IsCompactOperator.exists_isSingularSystem`). A compact
   `K` has a singular system indexed by a countable set of vectors, with `σ → 0` along the
-  cofinite filter [Kr, Theorem 15.16, p. 309]. Route: Tau Ceti's
-  `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector` for the compact self-adjoint
-  `adjoint K ∘L K`; keep the eigenvectors with nonzero eigenvalue `λ`, put `σ = √λ` and
-  `g = σ⁻¹ • K e`; completeness is the vanishing of `K` on the eigenspace of `0`; `σ → 0` is
-  `IsCompactOperator.tendsto_singularValue` or the countability of nonzero eigenvalues of a
-  compact operator.
+  cofinite filter [Kr, Theorem 15.16, p. 309]. The compact Schmidt series is BanachSpaceTheory
+  §4.5, which builds it from Tau Ceti's
+  `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector` applied to `adjoint K ∘L K`:
+  orthonormal `(eⱼ)` and `(fⱼ)` with `sⱼ > 0` nonincreasing, `fⱼ = sⱼ⁻¹ K eⱼ`,
+  `K x = ∑ sⱼ ⟪eⱼ, x⟫ fⱼ` vanishing on the kernel, and `sⱼ → 0` in the infinite-rank case.
+  What is owned here is the reading of that series as an `IsSingularSystem` in the unordered form
+  of the Conventions. Route: index by the set `{eⱼ}`; `adjoint K fⱼ = sⱼ eⱼ` because `eⱼ` is
+  an eigenvector of `adjoint K ∘L K` with eigenvalue `sⱼ²`; completeness is the expansion at a
+  vector orthogonal to every `eⱼ`; and `σ → 0` along the cofinite filter is `sⱼ → 0`, since
+  for an infinite index set the cofinite filter is `atTop` in the enumeration `j ↦ eⱼ` (for a
+  finite one it is `⊥`).
 - **The singular value expansion** (`IsSingularSystem.hasSum_apply`). `K x = ∑ σᵢ ⟪eᵢ, x⟫ gᵢ`,
   `‖K x‖² = ∑ σᵢ² |⟪eᵢ, x⟫|²`, the kernel of `K` is the orthogonal complement of the span of the
   `eᵢ`, and every `x` orthogonal to the kernel is `∑ ⟪eᵢ, x⟫ eᵢ` [Kr, Theorem 15.16, p. 309];
@@ -319,9 +328,10 @@ These are fixed for every target. A statement that departs from them is a differ
   `x†ₙ = 1/n` and `n ≤ 4000` the approximation error is `0.28`, `0.087`, `0.023` and the noise
   bound `δ / (2√α)` is `0.05`, `0.005`, `0.0005` at `δ = 10⁻², 10⁻⁴, 10⁻⁶`. So the hypothesis
   that the choice ignores `δ` cannot be dropped.
-- Negative control for the uniformity in `IsRegularParameterChoice`: the constant choice
-  `α ≡ α₀ > 0` is not regular even for `K = id`, since at `yᵟ = y` the error is
-  `α₀ / (α₀ + 1) ‖y‖`.
+- Negative control for the hypothesis `α δ → l` of the a priori choice: for the Tikhonov family
+  of 4.1 with `K = id` on `𝕜`, where `R_α = 1 / (1 + α)`, the constant choice `α ≡ α₀ > 0` has
+  propagated noise `δ / (1 + α₀) → 0` but does not tend to `0⁺`, and it is not regular: at
+  `yᵟ = y` the error is `α₀ / (α₀ + 1) ‖y‖`.
 
 ### 3.2 Spectral filters and the cut-off
 
@@ -408,9 +418,17 @@ These are fixed for every target. A statement that departs from them is a differ
   point `z` satisfies `K*K z = x`, because `K*K (α + K*K)⁻¹ x = x - α (α + K*K)⁻¹ x → x`.
 - **Saturation** (`eq_zero_of_isLittleO_tikhonov_sub`). `‖R_α K x - x‖ = o(α)` forces `x = 0`.
   Route: `‖x‖ ≤ (α + ‖K‖²) ‖(α + K*K)⁻¹ x‖` and `‖(α + K*K)⁻¹ x‖ = α⁻¹ ‖R_α K x - x‖ → 0`.
-- Consequently no source condition with `ν > 1` improves on the rate `O(α)`. The noisy form, that
-  for compact `K` with infinite-dimensional range an error `o(δ^{2/3})` uniformly over the data
-  forces `x† = 0`, is [EHN, Proposition 5.3, p. 120]; both are targets in prose.
+- **Saturation for noisy data** (`eq_zero_of_isLittleO_tikhonov_noisy`). Let `K` be compact with
+  infinite-dimensional range, let `α(δ, yᵟ) > 0` be any parameter choice, and let `E` bound the
+  error: `‖R_{α(δ, yᵟ)} yᵟ - x‖ ≤ E δ` for every `δ > 0` and all data with `‖yᵟ - K x‖ ≤ δ`. If
+  `E δ = o(δ^{2/3})` as `δ → 0⁺`, then `x = 0` [EHN, Proposition 5.3 with (5.20), p. 120, where
+  the data set is the larger `‖Q (y - yᵟ)‖ ≤ δ`, `Q` the projection onto the closure of the
+  range; its proof uses only data with `‖yᵟ - y‖ ≤ δ`]. No orthogonality of `x` to the kernel is
+  assumed: the Tikhonov solutions lie in the closed subspace `(ker K)ᗮ`, so an error that tends to
+  `0` forces `x` into it. The bound function `E` replaces a supremum over the data, which could
+  be infinite.
+- Remark: by saturation, `‖R_α K x - x‖` is not `o(α)` for `x = (K*K)^ν w ≠ 0`, so no source
+  condition with `ν > 1` gives a better rate than `O(α)`.
 
 **Checks.**
 
@@ -423,6 +441,9 @@ These are fixed for every target. A statement that departs from them is a differ
   is not in `R(K*K)`, it is `28`, `157`, `883`, `4.9·10³`, growing like `α^{-3/4}`.
 - Negative control: the rate bound fails at `ν = 2` with constant `1`: for `K = id` on `𝕜`,
   `w = 1`, the error is `α / (α + 1)`, not `≤ α²` for small `α`.
+- Negative control for infinite-dimensional range in the noisy saturation: for `K = id` on `𝕜`,
+  `x = 1` and `α(δ, yᵟ) = δ`, the error `|yᵟ / (1 + δ) - 1| = |yᵟ - 1 - δ| / (1 + δ)` is at most
+  `2δ = o(δ^{2/3})`, although `x ≠ 0`.
 
 ### 4.3 Morozov's discrepancy principle
 
@@ -600,8 +621,9 @@ These are fixed for every target. A statement that departs from them is a differ
 The roadmap is complete when Tau Ceti proves every statement of `Suggested.lean` and the prose
 targets of the layers above.
 
-1. **Singular systems and Picard.** Singular systems, their existence for compact operators,
-   the expansion, the adjoint and Gram systems, finite rank, and Picard's criterion.
+1. **Singular systems and Picard.** Singular systems, their existence for compact operators
+   read off the Schmidt series of BanachSpaceTheory §4.5, the expansion, the adjoint and Gram
+   systems, finite rank, and Picard's criterion.
 2. **The generalized inverse.** Least-squares solutions, the Moore–Penrose generalized inverse
    of a bounded operator as a closed, densely defined linear partial map, the normal equation,
    minimal norm, the Moore–Penrose equations, boundedness exactly for closed range, the Picard
@@ -610,17 +632,22 @@ targets of the layers above.
    error splitting, unboundedness, Bakushinskii's theorem, spectral filters and the cut-off.
 4. **Tikhonov.** The Tikhonov operator and functional, norm bounds, the scheme property, the
    filter series, a priori convergence, rates under source conditions `0 < ν ≤ 1`, the converse
-   at `ν = 1`, saturation, and Morozov's discrepancy principle with its regularity and rate.
+   at `ν = 1`, saturation for exact and for noisy data, and Morozov's discrepancy principle with
+   its regularity and rate.
 5. **Landweber.** Iterates and filter, noise amplification, the scheme property, a priori and
    discrepancy stopping.
 6. **Bregman.** Bregman distances, the source condition, the optimality condition, the Bregman
    error estimate and the quadratic case.
 
-The numbers are those of the layers below, and k.n names subsection `n` of Layer `k`.
+The numbers are those of the layers above, and k.n names subsection `n` of Layer `k`.
 
 **Not owned here.**
-- The spectral theorem for compact self-adjoint operators, approximation numbers and their
-  convergence for compact operators: Tau Ceti.
+- The spectral theorem for compact self-adjoint operators and approximation numbers: Tau Ceti.
+- The compact Schmidt series (ordered singular values with multiplicity, the orthonormal
+  families, the expansion and `sⱼ → 0`) and the identity `sₙ = aₙ(K)` with the approximation
+  numbers: BanachSpaceTheory §4.5. Here 1.1 reads that series as an unordered singular system;
+  the predicate `IsSingularSystem`, the expansion for an arbitrary singular system, the adjoint
+  and Gram systems, finite rank and Picard's criterion are owned here.
 - The continuous functional calculus for bounded self-adjoint operators over `RCLike 𝕜`, and the
   finite-dimensional singular system and Moore–Penrose inverse: Tau Ceti, as targets PD-A10 and
   PD-C07–PD-C28 of the PolarDecomposition roadmap of
@@ -636,11 +663,17 @@ The numbers are those of the layers below, and k.n names subsection `n` of Layer
   Hilbert C*-module belong to [HilbertModules](../HilbertModules/README.md) §2.8. Here 2.1–2.2
   treat the generally unbounded `K†` of a bounded operator between Hilbert spaces over `RCLike 𝕜`
   as a linear partial map; the closed-range case of 2.2 over `ℂ` is the case `A = ℂ` there.
+- Least-squares solutions of a linear map between finite-dimensional real inner product spaces
+  (the predicate, the normal equations, the solution set `b + ker X` and the solution of least
+  norm) belong to [GaussianLinearModels](../GaussianLinearModels/README.md) §1.1. Here 2.1 is the
+  statement for a bounded operator between Hilbert spaces over `RCLike 𝕜`, where a least-squares
+  solution exists only on the domain `R(K) + R(K)⊥` of `K†`; on finite-dimensional real spaces
+  `IsLeastSquaresSolution` is the least-squares predicate of that section.
 - Condition numbers and perturbation of least-squares problems in finite dimension belong to the
-  roadmap ConditioningAndPerturbation (PR #2807); this roadmap has no finite-dimensional
+  roadmap ConditioningAndPerturbation; this roadmap has no finite-dimensional
   conditioning statement.
-- Gaussian measures, the Bayesian posterior and the maximum a posteriori estimator belong to the
-  Bayesian inverse problems roadmap of the same family, which consumes Layer 4.
+- Gaussian measures, the Bayesian posterior and the maximum a posteriori estimator: no Tau Ceti
+  roadmap owns them, and this roadmap states no result about them.
 
 Boundary in one sentence: linear regularization of bounded operators between Hilbert spaces, and
 the convex variational estimate in Banach spaces, are here; nonlinear operators, statistical
@@ -667,8 +700,7 @@ noise models and finite-dimensional conditioning are not.
   `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
   (`TauCeti/Analysis/InnerProductSpace/Spectrum.lean`): a compact self-adjoint operator has a
   Hilbert basis of eigenvectors.
-- **Approximation numbers:** `ContinuousLinearMap.singularValue` and
-  `IsCompactOperator.tendsto_singularValue`
+- **Approximation numbers:** `ContinuousLinearMap.singularValue`
   (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/Compact.lean`).
 - **Functional calculus over `RCLike 𝕜`:** the instance
   `ContinuousFunctionalCalculus ℝ (E →L[𝕜] E) IsSelfAdjoint`
@@ -681,6 +713,14 @@ noise models and finite-dimensional conditioning are not.
 - **Subdifferentials:** `TauCeti.subdifferential` and
   `TauCeti.apply_le_apply_of_mem_subdifferential`
   (`TauCeti/Analysis/Convex/Subdifferential.lean`).
+
+### From BanachSpaceTheory
+
+[BanachSpaceTheory](../BanachSpaceTheory/README.md) §4.5 supplies the compact Schmidt series of a
+compact operator between complete real or complex Hilbert spaces: orthonormal `(eⱼ)`, `(fⱼ)`,
+`sⱼ > 0` nonincreasing with multiplicity, `fⱼ = sⱼ⁻¹ K eⱼ`, the expansion
+`K x = ∑ sⱼ ⟪eⱼ, x⟫ fⱼ` vanishing on the kernel, `sⱼ → 0` in the infinite-rank case, and
+`sₙ = aₙ(K)` for Tau Ceti's approximation numbers (1.1 and the Conventions).
 
 ### From ConvexAnalysisAndDuality
 
@@ -737,3 +777,6 @@ with `sorry`. Its modules are a cited source, not the specification.
   Numerica* 27 (2018), 1–111, §§3–6.
 - [Ha] P. C. Hansen, *Rank-Deficient and Discrete Ill-Posed Problems: Numerical Aspects of Linear
   Inversion*, SIAM, 1998, Chapters 3–4.
+
+Locators into [BB] are those of the Acta Numerica printing; the arXiv version (1801.09922v1)
+numbers definitions, lemmas and examples in separate sequences and its equations differently.
