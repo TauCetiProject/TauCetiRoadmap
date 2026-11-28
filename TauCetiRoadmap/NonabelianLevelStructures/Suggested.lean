@@ -1,0 +1,293 @@
+module
+
+import Mathlib
+import TauCeti.Algebra.AlgebraicGroup.SpecialLinear.Basic
+
+/-!
+# Nonabelian level structures on elliptic curves: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
+definitions they need.
+
+A surjection `φ : F₂ → G` from the free group on `a, b` is recorded by its generating pair
+`(u, v) = (φ a, φ b)`. Precomposition with the automorphisms `a ↦ a, b ↦ a b` and
+`a ↦ b a, b ↦ b` of `F₂` is the pair of permutations `nielsenRight` and `nielsenLeft`; their
+abelianizations generate `SL₂(ℤ)`, so together with the inner automorphisms of `F₂` they generate
+the orientation-preserving automorphism group `Aut⁺(F₂)`. Inner automorphisms of `F₂` act by
+simultaneous conjugation, so the image of a `positiveNielsenGroup`-orbit in the quotient by
+simultaneous conjugation and the central move `γ₋ᵢ : (u, v) ↦ (u⁻¹, v⁻¹)` is the
+`Out⁺(F₂)`-orbit of the class of `φ` in `Epi^ext(F₂, G)/⟨γ₋ᵢ⟩` (README §3.1).
+
+Headline theorems stated here:
+
+* `combinatorial_congruence`: Chen's combinatorial congruence (README §3.3).
+* `simple_group_congruence`: the congruence for nonabelian finite simple groups other than
+  `PSL₂(𝔽_q)` (README §4.2).
+* `integral_trace_coordinates`: the integral trace-coordinate isomorphism
+  `R[x, y, z] ≅ 𝒪(SL₂ × SL₂)^{GL₂}` over every commutative ring `R` (README §5.1), stated on Tau
+  Ceti's coordinate Hopf algebra of `SL₂`. A function is invariant when its values at all pairs of
+  points with values in every `R`-algebra `S` are unchanged by simultaneous conjugation by
+  `GL₂(S)`; testing at the universal point shows that this is invariance under the coaction of the
+  group scheme `GL₂`, not merely under the group `GL₂(R)`.
+* `sl2_cusp_automorphism_central`: for an absolutely irreducible subgroup `G` of `SL₂(𝔽_q)` whose
+  image in `PSL₂(𝔽_q)` is not dihedral, `G` contains the centre of `SL₂(𝔽_q)` and every cusp
+  automorphism group `A(G, u, h)` is that centre (README §6.6); over `𝔽₂` no subgroup is both.
+  This is the finite-group form of the computation of the vertical automorphisms of
+  `SL₂(𝔽_q)`-level structures; the geometric form is named below.
+
+Headline theorems that are not statable at the pins:
+
+* The classification of the cusps of the elliptic admissible-cover stack by the invariant set
+  `I(G)` and the computation of their vertical automorphism groups (README §§1.8, 2.2–2.3): the
+  admissible-cover stack, its cusp fibre and its automorphism groupoid are missing.
+* The representability criterion for the rigidified compactified level stack over the
+  compactified elliptic stack (README §2.3), and its consequence for absolutely irreducible
+  non-dihedral subgroups of `SL₂(𝔽_q)`, that the vertical automorphism groups of the
+  admissible-cover stack are the centre and the compactified level stack is representable over
+  the elliptic stack (README §6.6): stacks, rigidification and representable morphisms of stacks
+  are missing.
+* The two geometric components of the trace `−2` level stack of `SL₂(𝔽_p)`, their degree
+  `p(p ± 3)` over the `j`-line and their genus formula (README §§7.1–7.3): the level stack, its
+  coarse curve and its genus are missing.
+* Finiteness of the `j`-invariants over a number field admitting a rational point on a trace
+  `−2` level component (README §7.4): the coarse level curve and its rational points are missing.
+* The symmetric or alternating geometric monodromy of the projective absolute level curve and
+  the noncongruence of the associated subgroups of `SL₂(ℤ)` (README §§7.6, 7.7): the monodromy
+  group of a finite cover of the `j`-line and the identification `Out⁺(F₂) ≅ SL₂(ℤ)` are missing.
+* Cofinality of elliptic nonabelian levels among finite étale covers of `𝓜(1)` over `ℚ̄`
+  (README §0.7), and the Galois correspondence between those covers and finite `SL₂(ℤ)`-sets on
+  which it rests (README §0.3): the elliptic moduli stack and its finite étale covers are missing.
+-/
+
+open scoped commutatorElement TensorProduct
+
+namespace TauCetiRoadmap.NonabelianLevelStructures
+
+universe u
+
+/-! ## Layer 3: the combinatorial congruence -/
+
+/-- The positive Nielsen transvection `(u, v) ↦ (u, u v)`: precomposition of the surjection
+`a ↦ u, b ↦ v` with the automorphism `a ↦ a, b ↦ a b` of `F₂`, whose abelianization is
+`[[1, 1], [0, 1]]`. -/
+def nielsenRight (G : Type*) [Group G] : Equiv.Perm (G × G) :=
+  Equiv.prodShear (Equiv.refl G) Equiv.mulLeft
+
+/-- The positive Nielsen transvection `(u, v) ↦ (v u, v)`: precomposition with the automorphism
+`a ↦ b a, b ↦ b` of `F₂`, whose abelianization is `[[1, 0], [1, 1]]`. -/
+def nielsenLeft (G : Type*) [Group G] : Equiv.Perm (G × G) :=
+  (Equiv.prodComm G G).trans
+    ((Equiv.prodShear (Equiv.refl G) Equiv.mulLeft).trans (Equiv.prodComm G G))
+
+/-- The group of permutations of pairs generated by the two positive Nielsen transvections. -/
+def positiveNielsenGroup (G : Type*) [Group G] : Subgroup (Equiv.Perm (G × G)) :=
+  Subgroup.closure {nielsenRight G, nielsenLeft G}
+
+/-- The group of permutations of pairs generated by simultaneous conjugation and the central
+Nielsen move `γ₋ᵢ : (u, v) ↦ (u⁻¹, v⁻¹)`. Its orbits on generating pairs are the points of
+`Epi^ext(F₂, G)/⟨γ₋ᵢ⟩`. -/
+def exteriorInversionGroup (G : Type*) [Group G] : Subgroup (Equiv.Perm (G × G)) :=
+  (MulAction.toPermHom (ConjAct G) (G × G)).range ⊔ Subgroup.zpowers (Equiv.inv (G × G))
+
+/-- The `Out⁺(F₂)`-orbit of the class of the pair `(u, v)` in `Epi^ext(F₂, G)/⟨γ₋ᵢ⟩`: the image of
+its `positiveNielsenGroup`-orbit in the quotient by `exteriorInversionGroup`. -/
+def coarseNielsenOrbit {G : Type*} [Group G] (u v : G) :
+    Set (MulAction.orbitRel.Quotient (exteriorInversionGroup G) (G × G)) :=
+  (fun x => (Quotient.mk (MulAction.orbitRel (exteriorInversionGroup G) (G × G)) x)) ''
+    MulAction.orbit (positiveNielsenGroup G) (u, v)
+
+open Classical in
+/-- Chen's integer `m′_c`: the least positive integer killing the group
+`A_{G,u,h} ∩ ⟨[u⁻¹, h⁻¹]⟩` for every generating pair `(u, h)` with `[u, h]` conjugate to `c`, where
+`A_{G,u,h}` consists of the elements centralizing `u` and `h⁻¹ u⁻¹ h` whose commutator with `h`
+is a power of `u`. It is the least common multiple of the orders of the elements of these groups,
+and equals `1` when there is no such pair (Chen, Theorem 4.10.5(b)). -/
+noncomputable def cuspVerticalExponent {G : Type*} [Group G] [Fintype G] (c : G) : ℕ :=
+  (Finset.univ.filter fun x : G => ∃ u h : G,
+      Subgroup.closure ({u, h} : Set G) = ⊤ ∧ IsConj ⁅u, h⁆ c ∧
+      x ∈ Subgroup.zpowers ⁅u⁻¹, h⁻¹⁆ ∧
+      x ∈ Subgroup.centralizer ({u, h⁻¹ * u⁻¹ * h} : Set G) ∧
+      ⁅x, h⁆ ∈ Subgroup.zpowers u).lcm orderOf
+
+/-- Chen's integer `d′_c = |C_G(⟨c⟩)/⟨c⟩|` (Chen, Theorem 4.10.5(a)). -/
+noncomputable def centralizerQuotientOrder {G : Type*} [Group G] (c : G) : ℕ :=
+  Nat.card (Subgroup.centralizer ({c} : Set G)) / orderOf c
+
+/-- **Chen's combinatorial congruence.** Let `G` be a finite group and `(u, v)` a generating pair,
+with commutator `c = [u, v]`. Then `|c| / gcd(|c|, m′_c d′_c)` divides the cardinality of the
+`Out⁺(F₂)`-orbit of the class of `(u, v)` in `Epi^ext(F₂, G)/⟨γ₋ᵢ⟩`. It follows from the coarse
+degree congruence for the elliptic admissible-cover stack and the cusp automorphism computation
+(Chen, Theorem 4.10.5 and the paragraph after it, pp. 386–387). -/
+theorem combinatorial_congruence {G : Type*} [Group G] [Fintype G] (u v : G)
+    (hgen : Subgroup.closure ({u, v} : Set G) = ⊤) :
+    orderOf ⁅u, v⁆ /
+        Nat.gcd (orderOf ⁅u, v⁆) (cuspVerticalExponent ⁅u, v⁆ * centralizerQuotientOrder ⁅u, v⁆) ∣
+      (coarseNielsenOrbit u v).ncard := by
+  sorry
+
+/-! ## Layer 4: group-theoretic bounds -/
+
+/-- **The simple-group congruence.** Let `G` be a nonabelian finite simple group not isomorphic to
+`PSL₂(K)` for any finite field `K`, let `(u, v)` be a generating pair, `ℓ` a prime and
+`r = v_ℓ(|[u, v]|)`. If `|G| ≤ ℓ^{3(r+1)}`, that is `ℓ^{r+1} ≥ |G|^{1/3}`, then `ℓ^{⌈r/2⌉}` divides
+the cardinality of the `Out⁺(F₂)`-orbit of the class of `(u, v)` in `Epi^ext(F₂, G)/⟨γ₋ᵢ⟩`
+(Chen, Corollary 4.12.5(b), p. 391). -/
+theorem simple_group_congruence {G : Type u} [Group G] [Fintype G] [IsSimpleGroup G]
+    (hnonab : ∃ a b : G, a * b ≠ b * a)
+    (hPSL : ∀ (K : Type u) [Field K] [Finite K],
+      IsEmpty (G ≃* Matrix.ProjectiveSpecialLinearGroup (Fin 2) K))
+    (ℓ : ℕ) (hℓ : ℓ.Prime) (u v : G) (hgen : Subgroup.closure ({u, v} : Set G) = ⊤)
+    (hlarge : Nat.card G ≤ (ℓ ^ ((orderOf ⁅u, v⁆).factorization ℓ + 1)) ^ 3) :
+    ℓ ^ (((orderOf ⁅u, v⁆).factorization ℓ + 1) / 2) ∣ (coarseNielsenOrbit u v).ncard := by
+  sorry
+
+/-! ## Layer 5: rank-two trace coordinates -/
+
+/-- The coordinate Hopf algebra `𝒪(SL₂)` over a commutative ring `R`: Tau Ceti's quotient of
+`𝒪(GL₂)` by the ideal generated by the generic determinant minus one. -/
+noncomputable abbrev SL2Coord (R : Type u) [CommRing R] :=
+  TauCeti.SpecialLinear.coordinateHopfAlgebra R 2
+
+/-- The coordinate ring `𝒪(SL₂ × SL₂) = 𝒪(SL₂) ⊗_R 𝒪(SL₂)` of pairs of determinant-one
+`2 × 2` matrices over `R`. -/
+noncomputable abbrev SL2PairCoord (R : Type u) [CommRing R] :=
+  SL2Coord R ⊗[R] SL2Coord R
+
+/-- Evaluation at the `S`-valued point `(A, B)` of `SL₂ × SL₂`, for an `R`-algebra `S`: the
+`R`-algebra map `𝒪(SL₂ × SL₂) → S` whose restrictions to the two tensor factors are the points of
+`SL₂` attached to `A` and to `B` by `TauCeti.SpecialLinear.pointsMulEquiv`. -/
+noncomputable def evalSL2Pair (R : Type u) [CommRing R] {S : Type u} [CommRing S] [Algebra R S]
+    (A B : Matrix.SpecialLinearGroup (Fin 2) S) : SL2PairCoord R →ₐ[R] S :=
+  Algebra.TensorProduct.productMap
+    ((TauCeti.SpecialLinear.pointsMulEquiv (R := R) (A := S) 2).symm A).ofConv
+    ((TauCeti.SpecialLinear.pointsMulEquiv (R := R) (A := S) 2).symm B).ofConv
+
+/-- Conjugation `A ↦ P A P⁻¹` of a determinant-one matrix by an invertible matrix `P`. -/
+def conjSL2 {S : Type u} [CommRing S] (P : Matrix.GeneralLinearGroup (Fin 2) S)
+    (A : Matrix.SpecialLinearGroup (Fin 2) S) : Matrix.SpecialLinearGroup (Fin 2) S :=
+  ⟨(P : Matrix (Fin 2) (Fin 2) S) * A * (P⁻¹ : Matrix.GeneralLinearGroup (Fin 2) S), by
+    rw [Matrix.det_mul, Matrix.det_mul, A.2, mul_one, ← Matrix.det_mul, ← Units.val_mul,
+      mul_inv_cancel, Units.val_one, Matrix.det_one]⟩
+
+/-- The three trace coordinates `tr A`, `tr B`, `tr AB` on `SL₂ × SL₂`: the traces of the generic
+determinant-one matrices of the two factors and of their product. -/
+noncomputable def traceCoordinates (R : Type u) [CommRing R] : Fin 3 → SL2PairCoord R :=
+  let M := (TauCeti.GeneralLinear.genericMatrix R 2).map
+    (TauCeti.SpecialLinear.coordinateMap R 2).hom
+  let A := M.map (Algebra.TensorProduct.includeLeft : SL2Coord R →ₐ[R] SL2PairCoord R)
+  let B := M.map (Algebra.TensorProduct.includeRight : SL2Coord R →ₐ[R] SL2PairCoord R)
+  ![A.trace, B.trace, (A * B).trace]
+
+/-- The trace-coordinate map `R[x, y, z] → 𝒪(SL₂ × SL₂)`, sending `x, y, z` to `tr A, tr B, tr AB`. -/
+noncomputable def integralTraceMap (R : Type u) [CommRing R] :
+    MvPolynomial (Fin 3) R →ₐ[R] SL2PairCoord R :=
+  MvPolynomial.aeval (traceCoordinates R)
+
+/-- A function `f` on `SL₂ × SL₂` over `R` is invariant under simultaneous conjugation by the group
+scheme `GL₂` when, for every `R`-algebra `S`, every `P ∈ GL₂(S)` and all `A, B ∈ SL₂(S)`, its
+values at `(P A P⁻¹, P B P⁻¹)` and at `(A, B)` agree. Taking for `S` the universal algebra
+`𝒪(GL₂) ⊗_R 𝒪(SL₂ × SL₂)`, which lies in the universe of `R`, identifies this with the equalizer
+of the conjugation coaction and `f ↦ f ⊗ 1`; invariance under `GL₂(R)` alone is weaker. -/
+def IsGL2ConjugationInvariant (R : Type u) [CommRing R] (f : SL2PairCoord R) : Prop :=
+  ∀ (S : Type u) [CommRing S] [Algebra R S] (P : Matrix.GeneralLinearGroup (Fin 2) S)
+    (A B : Matrix.SpecialLinearGroup (Fin 2) S),
+    evalSL2Pair R (conjSL2 P A) (conjSL2 P B) f = evalSL2Pair R A B f
+
+/-- The trace coordinates evaluate at `(A, B)` to `(tr A, tr B, tr AB)`, and each of them is
+invariant under simultaneous conjugation. -/
+example (R : Type u) [CommRing R] {S : Type u} [CommRing S] [Algebra R S]
+    (A B : Matrix.SpecialLinearGroup (Fin 2) S) :
+    (evalSL2Pair R A B (traceCoordinates R 0) = (A : Matrix (Fin 2) (Fin 2) S).trace ∧
+      evalSL2Pair R A B (traceCoordinates R 1) = (B : Matrix (Fin 2) (Fin 2) S).trace ∧
+      evalSL2Pair R A B (traceCoordinates R 2) = ((A : Matrix (Fin 2) (Fin 2) S) * B).trace) ∧
+    ∀ i, IsGL2ConjugationInvariant R (traceCoordinates R i) := by
+  let M := (TauCeti.GeneralLinear.genericMatrix R 2).map
+    (TauCeti.SpecialLinear.coordinateMap R 2).hom
+  have hL : ∀ {T : Type u} [CommRing T] [Algebra R T] (A B : Matrix.SpecialLinearGroup (Fin 2) T),
+      (M.map (Algebra.TensorProduct.includeLeft : SL2Coord R →ₐ[R] SL2PairCoord R)).map
+        (evalSL2Pair R A B) = (A : Matrix (Fin 2) (Fin 2) T) := by
+    intro T _ _ A B
+    ext i j
+    rw [Matrix.map_apply, Matrix.map_apply, Algebra.TensorProduct.includeLeft_apply, evalSL2Pair,
+      Algebra.TensorProduct.productMap_left_apply,
+      TauCeti.SpecialLinear.ofConv_pointsMulEquiv_symm_genericMatrix]
+  have hR : ∀ {T : Type u} [CommRing T] [Algebra R T] (A B : Matrix.SpecialLinearGroup (Fin 2) T),
+      (M.map (Algebra.TensorProduct.includeRight : SL2Coord R →ₐ[R] SL2PairCoord R)).map
+        (evalSL2Pair R A B) = (B : Matrix (Fin 2) (Fin 2) T) := by
+    intro T _ _ A B
+    ext i j
+    rw [Matrix.map_apply, Matrix.map_apply, Algebra.TensorProduct.includeRight_apply, evalSL2Pair,
+      Algebra.TensorProduct.productMap_right_apply,
+      TauCeti.SpecialLinear.ofConv_pointsMulEquiv_symm_genericMatrix]
+  have key : ∀ {T : Type u} [CommRing T] [Algebra R T] (φ : SL2PairCoord R →ₐ[R] T)
+      (X : Matrix (Fin 2) (Fin 2) (SL2PairCoord R)), φ X.trace = (X.map φ).trace := by
+    intro T _ _ φ X
+    simp [Matrix.trace]
+  have hev : ∀ {T : Type u} [CommRing T] [Algebra R T] (A B : Matrix.SpecialLinearGroup (Fin 2) T),
+      evalSL2Pair R A B (traceCoordinates R 0) = (A : Matrix (Fin 2) (Fin 2) T).trace ∧
+      evalSL2Pair R A B (traceCoordinates R 1) = (B : Matrix (Fin 2) (Fin 2) T).trace ∧
+      evalSL2Pair R A B (traceCoordinates R 2) = ((A : Matrix (Fin 2) (Fin 2) T) * B).trace := by
+    intro T _ _ A B
+    refine ⟨?_, ?_, ?_⟩
+    · simp only [traceCoordinates, Matrix.cons_val_zero]
+      rw [key, hL]
+    · simp only [traceCoordinates, Matrix.cons_val_one, Matrix.cons_val_zero]
+      rw [key, hR]
+    · simp only [traceCoordinates, Matrix.cons_val_two, Matrix.tail_cons, Matrix.head_cons]
+      rw [key, Matrix.map_mul, hL, hR]
+  refine ⟨hev A B, fun i T _ _ P A B => ?_⟩
+  have hc : ∀ X : Matrix.SpecialLinearGroup (Fin 2) T,
+      ((conjSL2 P X : Matrix.SpecialLinearGroup (Fin 2) T) : Matrix (Fin 2) (Fin 2) T) =
+        (P : Matrix (Fin 2) (Fin 2) T) * X * (P⁻¹ : Matrix.GeneralLinearGroup (Fin 2) T) :=
+    fun _ => rfl
+  fin_cases i
+  · simp only [Fin.zero_eta, (hev _ _).1, hc, Matrix.trace_units_conj]
+  · simp only [Fin.mk_one, (hev _ _).2.1, hc, Matrix.trace_units_conj]
+  · simp only [Fin.reduceFinMk, (hev _ _).2.2, hc]
+    rw [show (P : Matrix (Fin 2) (Fin 2) T) * A * (P⁻¹ : Matrix.GeneralLinearGroup (Fin 2) T) *
+        ((P : Matrix (Fin 2) (Fin 2) T) * B * (P⁻¹ : Matrix.GeneralLinearGroup (Fin 2) T)) =
+        (P : Matrix (Fin 2) (Fin 2) T) * (A * B) * (P⁻¹ : Matrix.GeneralLinearGroup (Fin 2) T) by
+      simp only [Matrix.mul_assoc, Units.inv_mul_cancel_left], Matrix.trace_units_conj]
+
+/-- **The integral trace-coordinate isomorphism.** For every commutative ring `R`, the map
+`R[x, y, z] → 𝒪(SL₂ × SL₂)` sending `x, y, z` to `tr A, tr B, tr AB` is injective, and its image
+is the subalgebra of functions invariant under simultaneous conjugation by the group scheme
+`GL₂`. Hence `R[x, y, z] ≅ 𝒪(SL₂ × SL₂)^{GL₂}` and the rank-two `SL₂` character scheme is
+`𝔸³_R`; since the statement holds for every `R` and the trace coordinates are compatible with the
+base change of coordinate rings, formation of the invariants commutes with every ring map `R → S`
+(Chen, Theorem 5.2.1, pp. 395–396, and Appendix 6.2, Theorem 6.2.2, pp. 426–427). -/
+theorem integral_trace_coordinates (R : Type u) [CommRing R] :
+    Function.Injective (integralTraceMap R) ∧
+      ∀ f : SL2PairCoord R,
+        f ∈ (integralTraceMap R).range ↔ IsGL2ConjugationInvariant R f := by
+  sorry
+
+/-! ## Layer 6: SL₂ level structures -/
+
+/-- **Cusp automorphisms of `SL₂(𝔽_q)`-level structures are central.** Let `K` be a finite field
+and `G ≤ SL₂(K)` a subgroup that is absolutely irreducible (its `K`-span is all of `M₂(K)`) and not
+dihedral (its image in `PSL₂(K)` is isomorphic to no dihedral group; `DihedralGroup n` has order
+`2n`, so the Klein four group `DihedralGroup 2` is excluded). Over `𝔽₂` no subgroup satisfies both
+hypotheses, since `SL₂(𝔽₂) ≅ DihedralGroup 3` and its proper subgroups are cyclic. Then `G`
+contains the centre of `SL₂(K)`, and for every generating pair `(u, h)` of `G` every element `a` of the cusp automorphism group `A(G, u, h)`, that is, every `a ∈ G` centralizing `u`
+and `h⁻¹ u⁻¹ h` with `[a, h] ∈ ⟨u⟩`, is central in `SL₂(K)`. So `A(G, u, h) = Z(G) = Z(SL₂(K))`,
+the twist period of every cusp is `|u|`, and the compactified level stack of `G` is representable
+over the compactified elliptic stack (Chen, Theorem 5.3.2, pp. 405–406, and Proposition
+6.4.1(a), pp. 428–429). -/
+theorem sl2_cusp_automorphism_central {K : Type*} [Field K] [Finite K]
+    (G : Subgroup (Matrix.SpecialLinearGroup (Fin 2) K))
+    (habs : Submodule.span K
+      ((fun g : Matrix.SpecialLinearGroup (Fin 2) K => (g : Matrix (Fin 2) (Fin 2) K)) '' G) = ⊤)
+    (hdih : ∀ n : ℕ, IsEmpty
+      (G.map (QuotientGroup.mk' (Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) K))) ≃*
+        DihedralGroup n)) :
+    Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) K) ≤ G ∧
+      ∀ u h a : G, Subgroup.closure ({u, h} : Set G) = ⊤ →
+        a ∈ Subgroup.centralizer ({u, h⁻¹ * u⁻¹ * h} : Set G) →
+        ⁅a, h⁆ ∈ Subgroup.zpowers u →
+        (a : Matrix.SpecialLinearGroup (Fin 2) K) ∈
+          Subgroup.center (Matrix.SpecialLinearGroup (Fin 2) K) := by
+  sorry
+
+end TauCetiRoadmap.NonabelianLevelStructures
