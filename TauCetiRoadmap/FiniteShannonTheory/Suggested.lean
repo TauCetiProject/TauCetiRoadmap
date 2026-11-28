@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.InformationTheory.LabelEntropy
+import TauCeti.InformationTheory.PartitionEntropy
 
 /-!
 # Finite Shannon theory: target signatures
@@ -36,6 +37,12 @@ theorem entropy_nonneg {p : α → ℝ} (hp0 : ∀ x, 0 ≤ p x) (hp1 : ∑ x, p
 
 theorem entropy_point_mass [DecidableEq α] (a : α) :
     entropy (fun x => if x = a then (1 : ℝ) else 0) = 0 := by sorry
+
+/-- Layer 1: a distribution supported on a single point has entropy
+`0`. -/
+theorem entropy_eq_zero_of_forall {p : α → ℝ} (hp0 : ∀ x, 0 ≤ p x)
+    (hp1 : ∑ x, p x = 1) (a : α) (hsupp : ∀ x, x ≠ a → p x = 0) :
+    entropy p = 0 := by sorry
 
 theorem entropy_uniform {p : α → ℝ} (hp : ∀ x, p x = (Fintype.card α : ℝ)⁻¹) :
     entropy p = Real.log (Fintype.card α) := by sorry
@@ -92,6 +99,12 @@ theorem condEntropy_le_entropy {p : α × β → ℝ} (hp0 : ∀ z, 0 ≤ p z)
 theorem mutualInfo_nonneg {p : α × β → ℝ} (hp0 : ∀ z, 0 ≤ p z)
     (hp1 : ∑ z, p z = 1) :
     0 ≤ mutualInfo p := by sorry
+
+/-- Layer 2: subadditivity, the form of `mutualInfo_nonneg` read through
+the definition of `mutualInfo`. -/
+theorem entropy_le_entropy_marginal_add {p : α × β → ℝ}
+    (hp0 : ∀ z, 0 ≤ p z) (hp1 : ∑ z, p z = 1) :
+    entropy p ≤ entropy (marginal₁ p) + entropy (marginal₂ p) := by sorry
 
 /-- Layer 2: mutual information is symmetric in the two coordinates. -/
 theorem mutualInfo_comm {p : α × β → ℝ} :
@@ -187,6 +200,14 @@ theorem mutualInfo_eq_labelEntropy_gap {p : α × β → ℝ}
     mutualInfo p = TauCeti.labelEntropy (distMeasure p) Prod.fst
       + TauCeti.labelEntropy (distMeasure p) Prod.snd
       - TauCeti.labelEntropy (distMeasure p) id := by sorry
+
+/-- Layer 4 bridge: distribution entropy is the real form of the
+countable partition entropy of the identity label. -/
+theorem entropy_eq_countablePartitionEntropy {p : α → ℝ}
+    (hp0 : ∀ x, 0 ≤ p x) (hp1 : ∑ x, p x = 1) :
+    entropy p
+      = (TauCeti.countablePartitionEntropy (distMeasure p) id).toReal := by
+  sorry
 
 /-- Layer 3 identification, stated in this section because it consumes
 `distMeasure`: for `q` of full support, the finite divergence is
