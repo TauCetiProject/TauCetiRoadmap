@@ -127,10 +127,14 @@ These conventions are owned here and copied verbatim by the other numerical-anal
 
 **Checks.**
 - `A = [[3, 0], [4, 0]]`: spectral norm `5`, `ℓ∞` operator norm `4`, Frobenius norm `5`, largest
-  entry `4`. The three norms are distinct instances, and the entrywise sup norm differs from all
-  of them on `[[1, 1], [1, 1]]`, where it is `1` and the spectral norm is `2`.
-- `κ(diag(1, 1/2)) = 2` and the singular values are `1, 1/2`; for the singular matrix
-  `diag(1, 0)` Tau Ceti's `κ` is `0`, which is why the headline assumes `IsUnit A`.
+  entry `4`. The identity matrix of order `2` separates the spectral norm `1` from the Frobenius
+  norm `√2`, and the entrywise sup norm differs from the spectral norm on `[[1, 1], [1, 1]]`,
+  where it is `1` and the spectral norm is `2`.
+- `κ(diag(1, 1/2)) = 2` and the singular values are `1, 1/2`.
+- At the singular matrix `diag(1, 0)` both sides of the headline are the junk value `0`: `κ` is
+  `0` at non-units and `σ₀ / σ₁ = 1 / 0 = 0`. The identity therefore holds at every singular
+  matrix too; the headline keeps `IsUnit A`, as the Conventions ask of every statement about `κ`,
+  so that it reads as the mathematical statement.
 - Negative control for the spectral radius: `[[0, −2], [2, 0]]` has eigenvalues `±2i`, complex
   spectral radius `2` equal to its spectral norm, and no real eigenvalue.
 
@@ -144,8 +148,9 @@ These conventions are owned here and copied verbatim by the other numerical-anal
   `λ - A` is singular.
 - **The operator form** (`isEigenvalueEnumeration_iff_map_univ`), a proved Check: the multiset
   `Multiset.map α univ.val` of EigenvalueAndSingularValueInequalities (Conventions) is the
-  multiset of `List.ofFn α`, so the two conventions agree; one step from Mathlib's
-  `Fin.univ_val_map`.
+  multiset of `List.ofFn α`; one step from Mathlib's `Fin.univ_val_map`. With Mathlib's
+  `Matrix.charpoly_toLin'`, which identifies the characteristic polynomial of the linear map of
+  `A` with that of `A`, the enumerations of the two conventions agree.
 - **Determinant and trace** (`IsEigenvalueEnumeration.prod_eq_det_and_sum_eq_trace`), a proved
   Check: the product of an enumeration is `det A` and its sum is `trace A` [TB, (24.8), p. 186];
   one step from Mathlib's expressions of determinant and trace by the roots of the characteristic
@@ -153,9 +158,9 @@ These conventions are owned here and copied verbatim by the other numerical-anal
 - **Spectral radius from an enumeration** (`IsEigenvalueEnumeration.spectralRadius_eq_iSup`):
   `ρ(A) = max_i |α i|`, and `0` for `n = 0`. Route: `IsEigenvalueEnumeration.range_eq_spectrum`
   and the definition of the spectral radius as a supremum over the spectrum.
-- **Hermitian matrices** (`isEigenvalueEnumeration_eigenvalues₀`): the decreasing eigenvalues of a
-  Hermitian matrix, read in `ℂ`, enumerate its spectrum. Route: the spectral theorem gives a
-  unitary diagonalization, so the characteristic polynomial is `∏ (X − λᵢ)`.
+- **Hermitian matrices** (`isEigenvalueEnumeration_eigenvalues₀`), a proved Check: the decreasing
+  eigenvalues of a Hermitian matrix, read in `ℂ`, enumerate its spectrum; one step from Mathlib's
+  `Matrix.IsHermitian.roots_charpoly_eq_eigenvalues₀` and `Fin.univ_val_map`.
 
 **Checks.**
 - `A = [[2, i], [−i, 2]]` is Hermitian with eigenvalues `3, 1` in decreasing order; their product
@@ -364,7 +369,8 @@ is weak: equality is allowed.
   `2`, so the column hypothesis of the last headline cannot be replaced by the row one.
 - `[[1, 1], [−1, 1]]` is dominant by rows and by columns and attains the growth factor `2`.
 - Negative control for the first headline: `[[0, 0], [1, 1]]` is dominant by rows, singular, and
-  has no LU factorization; [H, Theorem 9.8] omits the nonsingularity of `A`.
+  has no LU factorization; [H, Theorem 9.8, p. 181] in the 1996 edition cited here omits the
+  nonsingularity of `A`, with dominance defined by the weak inequalities.
 - An exhaustive search over the 80,294 matrices of orders `2` and `3` with entries in
   `{−2, …, 2}` that are dominant by rows or by columns, 17,894 of them singular, finds no failure
   of dominance of the trailing parts, of the growth bound, or of the column pivot property; a
@@ -552,8 +558,10 @@ definitions `IsChordal` and `IsPerfectEliminationOrder` are those of
 graph that is larger than `j` [DRS, §4.1, p. 397]. A vertex without larger neighbours is a root.
 
 - **Liu's theorem** (`transGen_isEtreeParent_of_adj`). An edge `{i, k}` of the filled graph with
-  `i < k` makes `k` a proper ancestor of `i` [DRS, §4.1, p. 397]. Route: induction on `k − i`
-  with Parter's rule: `k` and the parent of `i` are larger neighbours of `i`, hence adjacent.
+  `i < k` makes `k` a proper ancestor of `i`. [DRS, §4.1, p. 397] states it, after Liu (1990),
+  for the edges of `G`, that is for aₖᵢ ≠ 0; the filled graph contains `G`, so this form is
+  stronger. Route: induction on `k − i` with Parter's rule: `k` and the parent of `i` are larger
+  neighbours of `i`, hence adjacent.
 - **Row subtrees** (`rowStructure_iff`). The structure of row `k` of the factor, `k` together with
   the smaller neighbours of `k` in the filled graph, is the union of the tree paths from the
   smaller neighbours of `k` in `G` up to `k` [DRS, §4.2.1, p. 399]. Route: the fill-path theorem
@@ -621,6 +629,10 @@ Left to other roadmaps:
 - the perturbation theory of linear systems and the distance to singularity, backward errors,
   and the inclusion of eigenvalues (ConditioningAndPerturbation, Layers 1–3);
 - the Moore–Penrose inverse and minimum norm solutions (Tau Ceti and GaussianLinearModels §1.1);
+- least squares for bounded operators between Hilbert spaces and the generalized inverse as a
+  partial map (RegularizationOfLinearIllPosedProblems §2.1, whose normal-equation
+  characterization has the first equivalence of 6.1 as its matrix case); this roadmap owns the
+  matrix form with the projector, rank and QR statements;
 - positive definite completions of chordal patterns
   ([EigenvalueAndSingularValueInequalities](../EigenvalueAndSingularValueInequalities/README.md)
   Layer 7);
@@ -638,9 +650,10 @@ Left to other roadmaps:
 - The scoped norms `Matrix.Norms.L2Operator`, `Matrix.Norms.Operator`, `Matrix.Norms.Frobenius`,
   with `Matrix.l2_opNorm_def` and `Matrix.linfty_opNNNorm_def`.
 - `spectralRadius` and `spectralRadius_le_nnnorm`; `Matrix.det_eq_prod_roots_charpoly`,
-  `Matrix.trace_eq_sum_roots_charpoly`, `Fin.univ_val_map`.
+  `Matrix.trace_eq_sum_roots_charpoly`, `Fin.univ_val_map`, `Matrix.charpoly_toLin'`.
 - `LinearMap.singularValues`, decreasing (`LinearMap.singularValues_antitone`);
-  `Matrix.IsHermitian.eigenvalues₀`.
+  `Matrix.IsHermitian.eigenvalues₀` and `Matrix.IsHermitian.roots_charpoly_eq_eigenvalues₀`
+  (the roots of the characteristic polynomial are the eigenvalues, read in `ℂ`).
 - `Submodule.starProjection`, `LinearMap.adjoint`,
   `ContinuousLinearMap.forall_norm_sub_apply_le_iff_adjoint_apply_sub_eq_zero`.
 - `SimpleGraph.fromRel`, `SimpleGraph.Walk`, `SimpleGraph.map`, `Relation.TransGen`,
@@ -667,6 +680,14 @@ Left to other roadmaps:
 ### From [IterativeMethodsForLinearSystems](../IterativeMethodsForLinearSystems/README.md)
 
 - Conventions: the spectral radius of a real matrix is that of its complexification, in `ℝ≥0∞`.
+
+### From EigenvalueAndSingularValueInequalities
+
+- [EigenvalueAndSingularValueInequalities](../EigenvalueAndSingularValueInequalities/README.md),
+  Conventions: the complex eigenvalues of an operator are the roots of `LinearMap.charpoly` with
+  multiplicity, enumerated by `α : Fin n → ℂ` with `Multiset.map α univ.val` equal to the roots.
+  `IsEigenvalueEnumeration` is its matrix form (1.2). Layer 7 there (positive definite
+  completions) is a boundary, not an input.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 

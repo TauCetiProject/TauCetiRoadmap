@@ -32,11 +32,12 @@ Every use of `⁻¹` on a matrix carries a determinant or unit hypothesis.
 `GaussianLinearModels` §1.1 owns `IsLeastSquares`; they appear here as verbatim local copies whose
 docstrings name their owners.
 
-Seven declarations are proved here: they close in one step from Mathlib or Tau Ceti, or from a
+Eight declarations are proved here: they close in one step from Mathlib or Tau Ceti, or from a
 target of this file, and are Checks rather than targets (`l2OpNorm_eq_singularValues_zero`,
 `spectralRadius_map_le_l2OpNorm`, `spectralRadius_map_le_linftyOpNorm`,
 `isEigenvalueEnumeration_iff_map_univ`, `IsEigenvalueEnumeration.prod_eq_det_and_sum_eq_trace`,
-`isLeastSquaresSolution_iff_isLeastSquares`, `le_filledGraph`).
+`isEigenvalueEnumeration_eigenvalues₀`, `isLeastSquaresSolution_iff_isLeastSquares`,
+`le_filledGraph`).
 
 Bold headlines of the README not stated here: the transport of the factorization of a matrix to
 its conjugate transpose (§2.1), the matrix form of the reordering theorem and the equality of fill
@@ -155,13 +156,17 @@ theorem IsEigenvalueEnumeration.spectralRadius_eq_iSup {n : ℕ} {A : Matrix (Fi
     spectralRadius ℂ A = ⨆ i, (‖α i‖₊ : ℝ≥0∞) := by
   sorry
 
-/-- 1.2: the decreasing eigenvalues of a Hermitian matrix, read in `ℂ`, enumerate its
-spectrum. -/
+/-- Check of the conventions (1.2): the decreasing eigenvalues of a Hermitian matrix, read in
+`ℂ`, enumerate its spectrum; one step from Mathlib's
+`Matrix.IsHermitian.roots_charpoly_eq_eigenvalues₀`. -/
 theorem isEigenvalueEnumeration_eigenvalues₀ {n : ℕ} {A : Matrix (Fin n) (Fin n) ℂ}
     (hA : A.IsHermitian) :
     IsEigenvalueEnumeration A
       (fun i ↦ (hA.eigenvalues₀ (Fin.cast (Fintype.card_fin n).symm i) : ℂ)) := by
-  sorry
+  unfold IsEigenvalueEnumeration
+  rw [hA.roots_charpoly_eq_eigenvalues₀, Fin.univ_val_map]
+  congr 1
+  simp [Fintype.card_fin]
 
 /-! ## Layer 2: LU factorization and elimination without pivoting -/
 
@@ -322,8 +327,8 @@ def entryMax {m n : ℕ} (A : Matrix (Fin m) (Fin n) 𝕜) : ℝ≥0 :=
   Finset.univ.sup fun ij : Fin m × Fin n ↦ ‖A ij.1 ij.2‖₊
 
 /-- 4.1: the growth factor of a sequence of reduced matrices of `A`: the largest modulus of an
-entry of any of them, divided by that of `A`. It is the junk value `0` for `A = 0`, which every
-statement excludes. -/
+entry of any of them, divided by that of `A`. It is the junk value `0` for `A = 0`, which the
+equalities about it exclude and the upper bounds tolerate. -/
 def growthFactor {n : ℕ} (A : Matrix (Fin n) (Fin n) 𝕜)
     (B : Fin (n + 1) → Matrix (Fin n) (Fin n) 𝕜) : ℝ≥0 :=
   (Finset.univ.sup fun k ↦ entryMax (B k)) / entryMax A
@@ -655,6 +660,8 @@ end Sparse
 #check @LDL.lower_conj_diag
 #check @LinearMap.singularValues_antitone
 #check @Fin.univ_val_map
+#check @Matrix.IsHermitian.roots_charpoly_eq_eigenvalues₀
+#check @Matrix.charpoly_toLin'
 #check @LinearMap.adjoint
 #check @Submodule.starProjection
 #check @ContinuousLinearMap.forall_norm_sub_apply_le_iff_adjoint_apply_sub_eq_zero
