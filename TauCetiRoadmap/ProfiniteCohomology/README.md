@@ -89,15 +89,55 @@ with their hypotheses and normalizations.
   (`continuousSMul_iff_stabilizer_isOpen`); state and use both forms. The categorical form is
   `TopRep k G` for canonical-facing statements, and the translation between the two is a Layer 1
   target modelled on the pin's discrete `Rep.ofDistribMulAction`.
-- **Scalars.** The primary coefficient ring is `ℤ`: the explicit theory is stated for
-  `DistribMulAction G M`, and the canonical statements are stated against `TopRep ℤ G`. A
-  `TopRep k G` refinement for a ring `k` requires a genuine `Module k M` structure on the
-  coefficients, **including** `[ContinuousSMul k M]`, and a restriction-of-scalars compatibility
-  theorem. Discreteness of `M` does not make scalar multiplication continuous when `k` has a
-  nondiscrete topology: a nonzero real vector space with the discrete topology is the basic
-  counterexample, since `r ↦ r • v` pulls `{0}` back to the non-open `{0} ⊆ ℝ`. State that
-  refinement only where the continuous `k`-action exists, and never add a `Module k` hypothesis to
-  a statement about profinite groups that does not need it.
+- **Cohomology objects.** For a topological group `G` and a discrete `G`-module `M`, `Hⁱ(G, M)` is
+  Mathlib's `continuousCohomology i (TauCeti.ofDiscreteModule ℤ G M)`. For a discrete
+  `X : TopRep R G` this is the object of its carrier `X.V`, and `continuousCohomology i X` is
+  reached from it through `TauCeti.ContCohomology.ofDiscreteModuleRestrictScalarsIntEquiv`; for
+  an `X : TopRep R G` that is not discrete, `Hⁱ(G, X)` is `continuousCohomology i X`. Every
+  statement about `Hⁱ(G, M)` in this roadmap, and in a roadmap that cites it, is a statement about
+  this object. The explicit groups `H0`, `H1`, `H2` of Layer 2 are its description in low degrees,
+  reached through the comparisons of Layer 3: `H0` and `H1` for every topological group, `H2` for
+  locally compact `G` (3.2). An explicit degree-two statement over a group that is not locally
+  compact is a statement about `H2` alone. Each operation on the explicit side has a transport
+  lemma identifying it with the canonical one, in the layer where both sides are first available
+  (3.4).
+  The explicit degree-0 and degree-1 formulas (invariants, and crossed homomorphisms modulo
+  principal ones) are the primary computational interface. Explicit degree-2 cochains are used where a particular cochain is the
+  content of the statement: the transgression (Layer 5), the factor set of a group extension and
+  its class (Layer 11), the Evens graph cocycle (Layer 13) and the defining systems of Massey
+  products (ProfiniteCohomologyPartII). A result that holds in every degree is stated for the
+  canonical object (Layers 10 and 12), and its explicit degree-2 form is that statement read
+  through Layer 3. The definitions and formal identities of Layer 2, including the cocycle counts
+  of 2.1, hold for every topological module, and for coefficients that are not discrete the
+  explicit group is the object of the statement. The one theorem about cohomology groups proved
+  for such coefficients is Layer 11's class-module theorem, over a finite discrete group, where
+  the topology of the coefficients plays no part. Nonabelian `H⁰` and `H¹`, in the roadmaps that
+  use them, are a separate cocycle-level notion and are not instances of this one.
+- **Coefficient rings.** The coefficient ring takes no part in the definition of cohomology. The
+  explicit theory is stated for `DistribMulAction G M` and the canonical statements against
+  `TopRep ℤ G`, and for `X : TopRep R G` the additive group of `continuousCohomology i X` is the
+  cohomology of the underlying additive representation
+  (`TauCeti.ContCohomology.restrictScalarsIntIso`), which for a discrete `X` is
+  `TauCeti.ofDiscreteModule ℤ G X.V`
+  (`TauCeti.ContCohomology.ofDiscreteModuleRestrictScalarsIntEquiv`). So the `ℤ`-object of
+  *Cohomology objects* is the cohomology whichever ring acts on the coefficients. When a discrete
+  `M` carries `[Module R M] [SMulCommClass G R M]`, the `R`-module structure on `Hⁱ(G, M)` is an
+  instance on that same object, obtained from functoriality in the coefficients: `r` acts as the
+  coefficient map of the equivariant endomorphism `m ↦ r • m` (1.7). For a discrete
+  `X : TopRep R G` it agrees with the `R`-module structure of `continuousCohomology i X` under the
+  equivalence above. The instance is stated for discrete coefficients only; for an
+  `X : TopRep R G` that is not discrete, the `R`-module structure is that of
+  `continuousCohomology i X`. Every named operation (the maps of compatible pairs, restriction,
+  inflation, corestriction, connecting maps, cup products, and the comparisons of Layer 3) is
+  `R`-linear when both sides carry such a structure; for an operation that is natural in the
+  coefficients, this is its
+  naturality applied to `m ↦ r • m`. An object of `TopRep R G` needs more than the instance does:
+  it requires `[ContinuousSMul R M]`, and discreteness of `M` does not make scalar multiplication
+  continuous when `R` has a nondiscrete topology. A nonzero real vector space with the discrete
+  topology is the basic counterexample, since `r ↦ r • v` pulls `{0}` back to the non-open
+  `{0} ⊆ ℝ`. State a `TopRep R G` form only where the continuous `R`-action exists. No roadmap
+  introduces a separate `R`-linear cohomology, and no statement about cardinality, finiteness or
+  group structure carries a `Module R` hypothesis that it does not use.
 - **Universes.** The group and its coefficient modules live in one universe; the coefficient
   **ring** lives in another, so that a small ring such as `ZMod n` in `Type 0` is usable over a
   Galois group in any universe. The first half is forced by the pin: the canonical resolution is
@@ -129,10 +169,17 @@ with their hypotheses and normalizations.
 
   Cochains are **not normalized**: `f 1 = 0` in degree 1 and the degree-2 normalizations are
   lemmas (`cocycles₁_map_one`, `cocycles₂_map_one_fst/snd`), never definitional conditions.
-- **Cohomology presentation.** `H¹(G,M) = Z¹/B¹` and `H²(G,M) = Z²/B²` as quotients of additive
-  subgroups of the function spaces, with `Z¹ = C¹ ⊓ ker d¹`, `B¹ = range d⁰` (automatically
-  continuous), `Z² = C² ⊓ ker d²`, and `B² = d¹(C¹)`, the image of the **continuous** 1-cochains.
-  `H⁰(G,M)` is the invariant subgroup `M^G` itself, not a quotient.
+- **Explicit presentation (API).** The explicit groups are `H1 G M = Z¹/B¹` and
+  `H2 G M = Z²/B²`, quotients of additive subgroups of the function spaces, with
+  `Z¹ = C¹ ⊓ ker d¹`, `B¹ = range d⁰` (automatically continuous), `Z² = C² ⊓ ker d²`, and
+  `B² = d¹(C¹)`, the image of the **continuous** 1-cochains. `H0 G M` is the invariant subgroup
+  `M^G` itself, not a quotient. They present the object of *Cohomology objects* and do not define
+  it.
+- **Counting.** Statements of cardinality, length, rank and Euler characteristic are made for
+  cohomology classes and for subgroups of `Hⁱ(G, M)`, not for cocycles, so that they keep their
+  meaning for coefficients that are not finite, such as finitely generated `ℤ_p`-modules and
+  `(ℚ_p/ℤ_p)^r`. A count of cocycles is a corollary of the statement for classes, through
+  *Cocycle counts from class counts* (2.1).
 - **Functoriality is by compatible pairs**, in the direction of Mathlib's discrete
   `groupCohomology.cochainsMap` and of `ContinuousCohomology.cochainsMap`: a continuous
   homomorphism `φ : H →ₜ* G` together with an `H`-equivariant continuous map from the restricted
@@ -536,6 +583,30 @@ same statements one level up. Tau Ceti has the equations as `TauCeti.ContinuousC
 a target of this layer: its one law, that the cochain map of `r • f` at `φ = id` is `r` times the
 cochain map of `f`, is `cochainsMap_smul` at `φ = id`.
 
+**The coefficient-ring action.** Let `M` be a discrete `G`-module with
+`[Module R M] [SMulCommClass G R M]`; no topology on the ring `R` is used. Each `r : R` gives the
+equivariant additive endomorphism `m ↦ r • m` of `M`, hence an endomorphism of
+`TauCeti.ofDiscreteModule ℤ G M` (`TauCeti.ofDiscreteModuleMap`), and `r` acts on
+`continuousCohomology n (TauCeti.ofDiscreteModule ℤ G M)` as its
+`TauCeti.ContinuousCohomology.coeffMap`. The targets are: this action as a global `Module R`
+instance of low priority (so that at `R = ℤ` scalar multiplication keeps resolving to the
+`ℤ`-module structure of the object), the module axioms being `map_id`, `map_comp`, `map_add` and
+`map_zero`; its agreement with the `ℤ`-module structure of the object at `R = ℤ`; `R`-linearity
+of `map φ f n` for a compatible pair whose coefficient map is `R`-linear, and so of restriction,
+inflation and coefficient maps; and,
+for a discrete `X : TopRep R G`, `R`-linearity of
+`TauCeti.ContCohomology.ofDiscreteModuleRestrictScalarsIntEquiv X n`, which identifies the
+instance with the `R`-module structure of `continuousCohomology n X`. This is the structure of
+Conventions, *Coefficient rings*.
+
+**Checks.**
+
+- For trivial `C₂` on `𝔽₄`, `H¹` is `Hom(C₂, 𝔽₄)`, of dimension one over `𝔽₄` and two over
+  `𝔽₂`; the action of `𝔽₄` is by post-composition.
+- For trivial `C₂` on `M = R = ℤ[i]`, `H²` is `ℤ[i]/2`, with four elements, and `i` sends the
+  class of `1` to the class of `i ≠ 1`. The `R`-module structure on `ℤ[i]/2` through the ring map
+  `ℤ[i] → 𝔽₂`, `i ↦ 1`, would fix the class of `1`.
+
 The API for the carrier includes:
 
 - The constructors are `TopRep.of` from an unbundled continuous representation,
@@ -624,6 +695,30 @@ trivial-action characterizations are Tau Ceti's, in `ContCohomology/LowDegree.le
 - For `G = 1`, the unnormalized differentials on `M` are `d⁰ = 0`, `d¹ = id`, `d² = 0`, hence `H⁰ = M` and `H¹ = H² = 0`.
 - For `C₂` acting by sign on `ℤ`, `d⁰(1)(s) = −2`, so `B¹ = 2ℤ` and `H¹ = ℤ/2`; reversing the sign changes the cochain value to `2`.
 - For trivial coefficients on `ℤ_p`, `H¹(ℤ_p, ℤ/p^k)` has `p^k` elements (one when `k = 0`), and `H¹(ℤ_p, ℤ) = 0`; both values also hold abstractly. Discrete `ℚ` gives continuous `H¹ = 0`, while an abstract map taking `1` to `1` exists by extending `1` to a `ℚ`-basis of `ℚ_p`.
+
+**Cocycle counts from class counts.** For a subgroup `W ≤ Z¹(G, M)` and an additive map `π` on
+`Z¹(G, M)` with kernel `B¹(G, M)`, such as the class map `TauCeti.ContCohomology.H1pi` or, for
+discrete `M`, its composite with `TauCeti.ContCohomology.explicitH1AddEquivContinuousCohomology`,
+```
+Nat.card W = Nat.card π(W) · Nat.card (W ⊓ B¹),
+```
+and in particular `Nat.card W = Nat.card π(W) · Nat.card B¹` when `B¹ ≤ W`. The differential `d⁰`
+induces `M ⧸ H⁰(G, M) ≃+ B¹`, so
+`Nat.card B¹ · Nat.card H⁰ = Nat.card M` and
+`Nat.card Z¹ · Nat.card H⁰ = Nat.card H¹ · Nat.card M`. All four equations hold for every
+topological `G`-module `M`, with `Nat.card` zero on infinite types. Every count of cocycles in a
+roadmap that cites this one is derived from a statement for classes through these equations
+(Conventions, *Counting*).
+
+*Needs:* the complex above.
+
+**Checks.**
+
+- Trivial `C₂` on `𝔽₂`: `Z¹ = H¹` has two elements and `B¹ = 0`.
+- `C₂` acting by sign on `ℤ/3`: `Z¹ = B¹` has three elements, `H¹ = 0` and `H⁰ = 0`, so
+  `3 · 1 = 1 · 3`. With `W = B¹` the first equation reads `3 = 1 · 3`; a count that took
+  `Nat.card W` to be `Nat.card π(W)` would give `1`.
+- The zero subgroup `W` gives `1 = 1 · 1`.
 
 ### 2.2 Compatible-pair functoriality
 
@@ -841,7 +936,12 @@ in), and no total disconnectedness. Only the operations that exist by this layer
 are transported here; the connecting maps are transported in Layer 10 against its `TauCeti.ContCohomology.DiscreteShortExact.delta`,
 corestriction in Layer 10, the Kummer class in Layer 9 and the cups in Layer 12, each
 in the layer where both sides are first available. The table in Scope and ownership lists all of them, and every
-entry on it is a milestone.
+entry on it is a milestone. For a discrete `M` with `[Module R M] [SMulCommClass G R M]`, the
+explicit groups `H0`, `H1` and `H2` carry the `R`-module structure induced by `m ↦ r • m` on
+cochains, and the comparisons of 3.2 are `R`-linear for it and for the coefficient-ring action of
+1.7. At `R = ZMod n` the pin already has `TauCeti.instModuleH1` and
+`TauCeti.ContCohomology.instModuleZModH2`, defined from `n`-torsion; a target is that the structure
+induced on cochains is theirs, so that it replaces them rather than adding a second one beside them.
 
 The chain-level correspondence between inhomogeneous and homogeneous cochains is
 classical and is displayed above; what has to be watched is the hypothesis. `ContinuousMap.curry`
@@ -889,6 +989,9 @@ descents `TauCeti.ContCohomology.descendZ1` and
 For profinite `G` and discrete `M`; the theorem most computations use (NSW (1.2.5),
 Ribes-Zalesskii Cor. 6.5.6(a), Koch Thm. 3.16; Serre, *Local Fields* X §3 takes it as the
 *definition*, so the three textbooks present the three descriptions Layers 2 to 4 relate).
+Under Layer 3's comparison, the degree-two colimit theorem of this layer is the degree-two case of
+the canonical colimit theorem of 10.1, through the agreement of systems stated there; a roadmap
+citing the colimit description in degree two states its result for the canonical object.
 
 
 ### 4.1 The system
@@ -1239,7 +1342,11 @@ the compatibility of corestriction with the connecting maps.
 For open `U ≤ G`, with `[Fintype (G ⧸ U.toSubgroup)]` carried on every finite-sum declaration.
 Compactness of `G` may synthesize this instance, but openness alone never may: the trivial subgroup
 of an infinite discrete group is open and can have infinite index. Everything is built through the
-transversal formulas of Conventions.
+transversal formulas of Conventions. Under Layer 3's comparison, the degree-two corestriction of
+this layer is the all-degree `TauCeti.ContinuousCohomology.corestriction` of 10.5
+(`TauCeti.ContinuousCohomology.explicitH2AddEquivContinuousCohomology_corestriction`), and its
+transitivity, `cor ∘ res` and Mackey identities in degree two are the degree-two cases of the
+identities of 10.5; a roadmap citing them in degree two states its result for the canonical map.
 
 Tau Ceti supplies most of this layer at the pin. The transversal calculus is `TauCeti.lWord` with `TauCeti.lWord_mem`, `lWord_mul_lWord`,
 `transversal_mul_lWord` and `continuous_lWord`. In `TauCeti.ContCohomology`, the corestrictions
@@ -1657,7 +1764,11 @@ The inputs for this layer are Mathlib: `groupCohomology.IsCocycle₁`, `IsCocycl
 This roadmap: Layers 2, 5 and 6.
 
 On the explicit model, relative to an equivariant pairing as fixed in Conventions. Discreteness of `M` and
-`N` makes every cochain-level continuity automatic.
+`N` makes every cochain-level continuity automatic. Under Layer 3's comparison, the shapes of
+total degree two are bidegrees of Layer 12's graded cup (`explicitIso_cup02`,
+`TauCeti.ContCohomology.explicitIso_cup` and `explicitIso_cup20`), and their associativity, graded
+commutativity and compatibilities are the corresponding cases of Layer 12's; a roadmap citing a
+product of total degree two states its result for the canonical cup.
 
 
 ### 8.1 The six low-degree shapes
@@ -3653,6 +3764,11 @@ total-disconnectedness hypotheses of the declaration it names: `[CompactSpace G]
 carry standing hypotheses of Conventions (a topological group `G` acting continuously on a
 topological module) that the named declaration does not need: Tau Ceti's
 `TauCeti.ContCohomology.Z2`, for one, needs only a multiplication on `G`.
+The explicit names `Z2`, `H2` and `H2pi` are read as the degree-two description of the canonical
+object (Conventions, *Cohomology objects*): for discrete coefficients over a compact group, a
+consumer states its result for `continuousCohomology 2` of `ofDiscreteModule` and passes to `H2`
+through `explicitH2IsoContinuousCohomology` and `discreteH2Equiv`, using cochains where a
+particular cochain is the content of its statement.
 The cup product, `degreeCast` and `coeffMap` take values in
 `(TauCeti.ContinuousCohomology.continuousCohomologyFunctor R G n).obj X`, which is
 `continuousCohomology n X` by definition.
@@ -3665,7 +3781,11 @@ The cup product, `degreeCast` and `coeffMap` take values in
   `abelianizationProPClass_generates`. The last is NSW (3.6.4) in degree two as 11.8 states it: for
   a prime `p`, a profinite `G` with `scd_p G ≤ 2` and an open normal subgroup `V`, the class
   `u_{G/V}(p)` generates `H²(G ⧸ V, V^ab(p))`, and that group has order `p ^ v_p(#(G ⧸ V))`. Its
-  conclusion is that of `TauCeti.abelianizationProPClass_generates`.
+  conclusion is that of `TauCeti.abelianizationProPClass_generates`. Here `H2` is the object of
+  the statement and not a description of `continuousCohomology 2`: `u_{G/V}(p)` is the class of a
+  factor set, and `V^ab(p)` carries its profinite topology, so `explicitH2IsoContinuousCohomology`,
+  which is for discrete coefficients, does not apply to it. This is the exception named in
+  Conventions, *Cohomology objects*.
 - ClassFieldTheory reads `TopRep` (Mathlib's `TopRep` with coefficient modules in the universe of
   `G`), `coeffMap` (`TauCeti.ContinuousCohomology.coeffMap`), `TopPairing` (`TauCeti.TopPairing`),
   `cup` (Tau Ceti's bilinear `TauCeti.TopPairing.cup` applied to its two arguments),
@@ -3760,7 +3880,9 @@ No arrow in these consumer contracts is an input to the present roadmap.
 The remaining targets, which the pinned Tau Ceti does not implement, are the independence of the
 dimension invariants from the extra coefficient universe with the comparison of canonical
 cohomology objects beneath it (11.2); the `R`-linear functor instance on
-`TauCeti.ContinuousCohomology.continuousCochainsFunctor` (1.7); the agreement of the explicit
+`TauCeti.ContinuousCohomology.continuousCochainsFunctor` and the coefficient-ring action on the
+`ℤ`-object (1.7), with the `R`-linearity of the comparisons of Layer 3 (3.4); the cocycle counts
+from class counts (2.1); the agreement of the explicit
 finite-quotient transitions with `TauCeti.finiteLevelTransition` under the comparisons with
 `groupCohomology`, in degrees `0, 1, 2` (4.2); the explicit degree-one transport of conjugation
 through corestriction (6.5);
@@ -3777,24 +3899,29 @@ contracts, not replanned.
    named restriction and inflation maps and the dictionary from the unbundled classes into its
    category (Layer 1).
 3. The explicit inhomogeneous complex in degrees `0, 1, 2` over an arbitrary topological group,
-   with functoriality by compatible pairs and the three named instances (Layer 2).
+   with functoriality by compatible pairs and the three named instances, and the passage from
+   counts of classes to counts of cocycles (Layer 2).
 4. The comparison isomorphisms: explicit against canonical, in degrees `0, 1` for every
    topological group and in degree `2` for locally compact groups, and as isomorphisms in
    `TopModuleCat ℤ` for compact groups; and continuous against Mathlib's discrete
    `groupCohomology` for discrete groups (Layer 3).
 5. The description of `Hⁱ(G, M)` as a colimit over finite quotients, in low degrees explicitly
-   and in all degrees canonically (Layers 4 and 10).
+   and in all degrees canonically (Layers 4 and 10). The explicit degree-two form is the canonical
+   one read through Layer 3.
 6. Long exact sequences, inflation-restriction, and the five-term sequence with an explicit
-   transgression (Layer 5).
+   transgression (Layer 5). The nodes of the explicit long exact sequence in degree two are those
+   of the all-degree sequence of Layer 10 read through Layer 3; the transgression is a statement
+   about cochains.
 7. Change of groups: restriction, corestriction, conjugation, transitivity, `cor ∘ res`, and the
    Mackey double-coset formula (Layer 6), and their all-degree forms (Layer 10), together with
    the descent of a vanishing restriction from a closed subgroup to an open subgroup containing it
-   (Layer 10).
+   (Layer 10). The explicit degree-two forms are the all-degree ones read through Layer 3.
 8. Coinduced discrete modules over closed subgroups, Shapiro's lemma, acyclicity, and dimension
    shifting (Layers 7 and 10).
 9. Cup products in the six low-degree shapes with associativity, graded commutativity, and the
    restriction, inflation, projection and connecting-map compatibilities (Layer 8), together with
-   the graded all-bidegree product (Layer 12).
+   the graded all-bidegree product (Layer 12). The shapes of total degree two are bidegrees of the
+   graded product read through Layer 3.
 10. Cohomological dimension `TauCeti.cohomologicalDimensionAt`, `TauCeti.cohomologicalDimension`, `TauCeti.strictCohomologicalDimensionAt` with their dévissage and closed-subgroup
     theory, the `p`-primary torsion of the cohomology of `p`-primary coefficients, the criterion
     computing `TauCeti.strictCohomologicalDimensionAt` from `TauCeti.cohomologicalDimensionAt`, and the class module of a group of strict

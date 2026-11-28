@@ -236,7 +236,7 @@ ArithmeticGaloisDuality §§R02.3.0a–R02.3.0c supply completion and units. The
 
 ### 2.1 Compact and rational Selmer data
 
-Extend the general discrete Selmer interface of TauCetiRoadmap.EllipticCurves Layer 7 to compact lattice `T` and rational `V` cohomology, and compare coefficient propagation on `A=V/T` with that interface. Selmer data over a commutative ring `R` indexed by a set of places `ι`: a global R-module `H` (for example `H¹(G_{K,Σ}, M)`), local R-modules `H_v` (for example `H¹(K_v, M)`), R-linear localisation maps `res_v : H → H_v`, and local conditions `L_v ⊆ H_v` (R-submodules). Modifications replace the conditions: relaxed `(L_v = H_v)` on a set of places, strict `(L_v = 0)` on a set of places.
+Extend the general discrete Selmer interface of TauCetiRoadmap.EllipticCurves Layer 7 to compact lattice `T` and rational `V` cohomology, and compare coefficient propagation on `A=V/T` with that interface. Selmer data over a commutative ring `R` indexed by a set of places `ι`: a global R-module `H` (for example `H¹(G_{K,Σ}, M)`), local R-modules `H_v` (for example `H¹(K_v, M)`), R-linear localisation maps `res_v : H → H_v`, and local conditions `L_v ⊆ H_v` (R-submodules). Modifications replace the conditions: relaxed `(L_v = H_v)` on a set of places, strict `(L_v = 0)` on a set of places. Where the global and local modules are Galois cohomology groups, they are Mathlib's `continuousCohomology` of the coefficient object with its `R`-module structure (ProfiniteCohomology Conventions, *Cohomology objects* and *Coefficient rings*); no separate `R`-linear cohomology is introduced.
 
 The module-theoretic diagram admits compact and rational cohomology through ArithmeticGaloisDuality Layer R02.1, with coefficient-change maps to `A=V/T`.
 

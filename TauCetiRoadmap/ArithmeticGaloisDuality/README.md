@@ -67,7 +67,10 @@ last derives the numerical inputs of Taylor–Wiles and Khare–Wintenberger pat
   homogeneous continuous cochains, compared with explicit inhomogeneous cochains
   `C^•_cts(G, M)` by ProfiniteCohomology Layer 3 for discrete `M` and by PerfectoidTowers §P9.0 for
   compact
-  and rational coefficients. No third cohomology theory is introduced.
+  and rational coefficients. No third cohomology theory is introduced. A module structure over a
+  coefficient ring is an instance on this object (ProfiniteCohomology Conventions, *Coefficient
+  rings*), and a dimension `hⁱ` is `Module.finrank k` of the same object. Orders, lengths and
+  dimensions are those of groups of classes (ProfiniteCohomology Conventions, *Counting*).
 - **Towers.** Inverse systems are indexed by `ℕ`. `lim` and `lim¹` are the kernel and cokernel of
   `1 − shift`, `(a_n) ↦ (a_n − φ_n(a_{n+1}))`. A `lim¹` term is carried explicitly in every
   comparison until a Mittag-Leffler argument removes it.
@@ -6232,6 +6235,35 @@ ramification* (Layer R02.4); *The Galois group `G_{K,S}` of the maximal extensio
   positive rationals with all valuations even, modulo squares, and is `0`. The right side is
   `(2/2) · (2/2) · (2/2) = 1`, the last two factors from `v = 2` and `v = ∞`.
 
+**Cocycle form.** In the setting of *The Greenberg–Wiles formula*, write `Z¹` and `B¹` for the
+continuous 1-cocycles and 1-coboundaries of ProfiniteCohomology Layer 2. Let
+`𝓛_v ⊆ Z¹(G_v, M)` be the preimage of `L_v` and `𝓛_v^⊥ ⊆ Z¹(G_v, M^*)` that of `L_v^⊥`, and let
+`Z¹_L(F, M) ⊆ Z¹(G_F, M)` be the cocycles whose restriction to `G_v` lies in `𝓛_v` for every `v`,
+which is the preimage of `H¹_L(F, M)`; likewise `Z¹_{L^⊥}(F, M^*)`. Since `𝓛_v ⊇ B¹(G_v, M)` and
+`Z¹_L(F, M) ⊇ B¹(G_F, M)`, ProfiniteCohomology §2.1 (*Cocycle counts from class counts*) gives
+
+```text
+#𝓛_v = #L_v · #M / #H⁰(G_v, M),      #Z¹_L(F, M) = #H¹_L(F, M) · #M / #H⁰(G_F, M),
+```
+
+and the same for `M^*`. As `#M^* = #M`, the formula becomes
+
+```text
+#Z¹_L(F, M) / #Z¹_{L^⊥}(F, M^*) = ∏_v #𝓛_v / #M,
+```
+
+where all but finitely many factors are `1`. A statement that counts Selmer cocycles is derived
+from *The Greenberg–Wiles formula* through this corollary. *Needs:* *The Greenberg–Wiles
+formula*; ProfiniteCohomology §2.1 (*Cocycle counts from class counts*).
+
+**Checks.**
+
+- `F = ℚ`, `M = 𝔽_p` with `p` odd and `L` as in the second check of *The Greenberg–Wiles
+  formula*: `Z¹_L(ℚ, 𝔽_p) = 0`, and `Z¹_{L^⊥}(ℚ, μ_p) = B¹(G_ℚ, μ_p)` has `p` elements, since
+  `H⁰(G_ℚ, μ_p) = 0`; the left side is `1/p`. At a finite `v`, `#𝓛_v = p · p / p = p`, so the
+  factor is `1`, and `𝓛_∞ = B¹(G_ℝ, 𝔽_p) = 0`, so the real place gives `1/p`, the right side.
+- For `M = 0` every term is `1`.
+
 **Greenberg–Wiles dimensions and the strict–relaxed bound.** Let `k` be any finite field of
 characteristic `p`, `F` a number field, `M` a finite-dimensional continuous `k`-linear
 `G_F`-module and `M^* = Hom_k(M, k)(1)`. Let `L_v` be `k`-linear local conditions, unramified
@@ -6376,6 +6408,7 @@ ClassFieldTheory Layer 13.
 - EllipticCurves: Layer 7 *Selmer structures, the Selmer group, and Sha*.
 - Earlier targets: §§D7.7.1–D7.7.2 (perfect pairings and dual local conditions).
 - TauCetiRoadmap ClassFieldTheory: Layers 5, 13.
+- TauCetiRoadmap ProfiniteCohomology: Layer 2.
 
 ## Layer D8: Adjoint coefficients and first-order lifts
 
