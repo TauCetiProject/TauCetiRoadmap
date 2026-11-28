@@ -522,30 +522,31 @@ theorem chainCoord_eq_zero_of_isSpanFirstOrder {n p : ℕ} {L : ℝ}
   sorry
 
 /-- 4.2 The lower bound for smooth convex functions (Nesterov, Theorem 2.1.7): for
-`2 k + 1 ≤ n` and every `x₀` there is a smooth convex `f` with `L`-Lipschitz gradient and a
-minimizer `x⋆` such that every span method from `x₀` has
-`f (x k) - f x⋆ ≥ 3 L ‖x₀ - x⋆‖² / (32 (k + 1)²)` and `‖x k - x⋆‖² ≥ ‖x₀ - x⋆‖² / 8`. -/
+`2 k + 1 ≤ n`, every `x₀` and every `R > 0` there is a smooth convex `f` with `L`-Lipschitz
+gradient and a minimizer `x⋆` with `‖x₀ - x⋆‖ = R` such that every span method from `x₀` has
+`f (x k) - f x⋆ ≥ 3 L R² / (32 (k + 1)²)` and `‖x k - x⋆‖² ≥ R² / 8`. The prescribed distance
+keeps the statement from being met by a function minimized at `x₀`. -/
 theorem exists_lowerBound_smoothConvex {n k : ℕ} (hkn : 2 * k + 1 ≤ n) (L : ℝ≥0)
-    (x₀ : EuclideanSpace ℝ (Fin n)) :
+    (x₀ : EuclideanSpace ℝ (Fin n)) {R : ℝ} (hR : 0 < R) :
     ∃ f : EuclideanSpace ℝ (Fin n) → ℝ, ContDiff ℝ ∞ f ∧ ConvexOn ℝ univ f ∧
-      LipschitzWith L (∇ f) ∧ ∃ xs, (∀ y, f xs ≤ f y) ∧
+      LipschitzWith L (∇ f) ∧ ∃ xs, ‖x₀ - xs‖ = R ∧ (∀ y, f xs ≤ f y) ∧
         ∀ x : ℕ → EuclideanSpace ℝ (Fin n), x 0 = x₀ → IsSpanFirstOrder f x →
-          3 * L * ‖x₀ - xs‖ ^ 2 / (32 * (k + 1) ^ 2) ≤ f (x k) - f xs ∧
-            ‖x₀ - xs‖ ^ 2 / 8 ≤ ‖x k - xs‖ ^ 2 := by
+          3 * L * R ^ 2 / (32 * (k + 1) ^ 2) ≤ f (x k) - f xs ∧
+            R ^ 2 / 8 ≤ ‖x k - xs‖ ^ 2 := by
   sorry
 
 /-- 4.2 The lower bound for strongly convex functions on `ℓ²` (Nesterov, Theorem 2.1.13): for
-`0 < μ ≤ L` and every `x₀` there is a smooth `μ`-strongly convex `f` with `L`-Lipschitz gradient
-and minimizer `x⋆` such that every span method from `x₀` has, with
-`q = (√(L/μ) - 1)/(√(L/μ) + 1)`, `‖x k - x⋆‖² ≥ q^(2k) ‖x₀ - x⋆‖²` and
-`f (x k) - f x⋆ ≥ μ/2 q^(2k) ‖x₀ - x⋆‖²` for every `k`. -/
+`0 < μ ≤ L`, every `x₀` and every `R > 0` there is a smooth `μ`-strongly convex `f` with
+`L`-Lipschitz gradient and a minimizer `x⋆` with `‖x₀ - x⋆‖ = R` such that every span method
+from `x₀` has, with `q = (√(L/μ) - 1)/(√(L/μ) + 1)`, `‖x k - x⋆‖² ≥ q^(2k) R²` and
+`f (x k) - f x⋆ ≥ μ/2 q^(2k) R²` for every `k`. -/
 theorem exists_lowerBound_strongConvex {μ : ℝ} {L : ℝ≥0} (hμ : 0 < μ) (hμL : μ ≤ L)
-    (x₀ : lp (fun _ : ℕ => ℝ) 2) :
+    (x₀ : lp (fun _ : ℕ => ℝ) 2) {R : ℝ} (hR : 0 < R) :
     ∃ f : lp (fun _ : ℕ => ℝ) 2 → ℝ, ContDiff ℝ ∞ f ∧ StrongConvexOn univ μ f ∧
-      LipschitzWith L (∇ f) ∧ ∃ xs, (∀ y, f xs ≤ f y) ∧
+      LipschitzWith L (∇ f) ∧ ∃ xs, ‖x₀ - xs‖ = R ∧ (∀ y, f xs ≤ f y) ∧
         ∀ x : ℕ → lp (fun _ : ℕ => ℝ) 2, x 0 = x₀ → IsSpanFirstOrder f x → ∀ k : ℕ,
-          ((√(L / μ) - 1) / (√(L / μ) + 1)) ^ (2 * k) * ‖x₀ - xs‖ ^ 2 ≤ ‖x k - xs‖ ^ 2 ∧
-            μ / 2 * ((√(L / μ) - 1) / (√(L / μ) + 1)) ^ (2 * k) * ‖x₀ - xs‖ ^ 2 ≤
+          ((√(L / μ) - 1) / (√(L / μ) + 1)) ^ (2 * k) * R ^ 2 ≤ ‖x k - xs‖ ^ 2 ∧
+            μ / 2 * ((√(L / μ) - 1) / (√(L / μ) + 1)) ^ (2 * k) * R ^ 2 ≤
               f (x k) - f xs := by
   sorry
 
