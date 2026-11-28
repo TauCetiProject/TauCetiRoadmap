@@ -236,11 +236,19 @@ def finiteRootedTreeSetoid : Setoid {t : _root_.RootedTree.{0} // Finite t} wher
   iseqv := ⟨fun _ ↦ ⟨OrderIso.refl _⟩, fun ⟨e⟩ ↦ ⟨e.symm⟩, fun ⟨e⟩ ⟨e'⟩ ↦ ⟨e.trans e'⟩⟩
 
 /-- 2.1: Butcher trees are the isomorphism classes of finite Mathlib rooted trees, by a bijection
-that sends the order to the number of elements. -/
+that sends the order to the number of elements and is the canonical one: the class of
+`[t₁, …, t_m]` is that of a tree whose root has `m` immediate subtrees, the `i`-th in the class
+of `tᵢ`. -/
 theorem exists_equiv_finiteRootedTree :
     ∃ e : ButcherTree ≃ Quotient finiteRootedTreeSetoid,
-      ∀ (t : ButcherTree) (t' : {t : _root_.RootedTree.{0} // Finite t}),
-        e t = Quotient.mk _ t' → t.order = Nat.card t'.1 :=
+      (∀ (t : ButcherTree) (t' : {t : _root_.RootedTree.{0} // Finite t}),
+        e t = Quotient.mk _ t' → t.order = Nat.card t'.1) ∧
+      ∀ (m : ℕ) (ch : Fin m → OrderedTree) (t' : {t : _root_.RootedTree.{0} // Finite t}),
+        e (ButcherTree.mk (.node m ch)) = Quotient.mk _ t' →
+          ∃ r : Fin m ≃ t'.1.subtrees, ∀ i,
+            e (ButcherTree.mk (ch i)) =
+              Quotient.mk _ ⟨((r i : SubRootedTree t'.1) : _root_.RootedTree.{0}),
+                by have := t'.2; exact Subtype.finite⟩ :=
   sorry
 
 /-- 2.2: `σ(t) ν(t) = ∏ (children)!`, where `ν(t)` counts the orderings of `t`. -/
@@ -660,7 +668,7 @@ solution, whose defect is `h ^ (p + 1) d(t) + O(h ^ (p + 2))`, has a global erro
 `e_p' = ∂_y f(t, y(t)) e_p + d`. -/
 theorem exists_globalErrorExpansion {f : ℝ → E → E} {Φ : ℝ → E → ℝ → E} {y : ℝ → E}
     {d : ℝ → E} {U : Set (ℝ × E × ℝ)} {t₀ T : ℝ} {p : ℕ}
-    (hf : ContDiff ℝ ∞ (Function.uncurry f)) (hU : IsOpen U)
+    (hU : IsOpen U)
     (hyU : ∀ t ∈ Icc t₀ T, (t, y t, (0 : ℝ)) ∈ U)
     (hΦ : ContDiffOn ℝ ∞ (fun q : ℝ × E × ℝ ↦ Φ q.1 q.2.1 q.2.2) U)
     (hcons : ∀ t u, (t, u, (0 : ℝ)) ∈ U → Φ t u 0 = f t u)
@@ -679,7 +687,7 @@ theorem exists_globalErrorExpansion {f : ℝ → E → E} {Φ : ℝ → E → �
 /-- 8.2: for a symmetric method the expansion of 8.1 contains only even powers of `h`. -/
 theorem exists_globalErrorExpansion_even {f : ℝ → E → E} {Φ : ℝ → E → ℝ → E} {y : ℝ → E}
     {d : ℝ → E} {U : Set (ℝ × E × ℝ)} {t₀ T : ℝ} {p : ℕ}
-    (hf : ContDiff ℝ ∞ (Function.uncurry f)) (hU : IsOpen U)
+    (hU : IsOpen U)
     (hyU : ∀ t ∈ Icc t₀ T, (t, y t, (0 : ℝ)) ∈ U)
     (hΦ : ContDiffOn ℝ ∞ (fun q : ℝ × E × ℝ ↦ Φ q.1 q.2.1 q.2.2) U)
     (hcons : ∀ t u, (t, u, (0 : ℝ)) ∈ U → Φ t u 0 = f t u)
@@ -711,7 +719,7 @@ is a method of order `p + k - 1`: its defect is `O(H ^ (p + k))`. -/
 theorem isBigO_extrapolation {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [CompleteSpace E] {f : ℝ → E → E} {Φ : ℝ → E → ℝ → E} {y : ℝ → E} {d : ℝ → E}
     {U : Set (ℝ × E × ℝ)} {t₀ T : ℝ} {p k : ℕ}
-    (hf : ContDiff ℝ ∞ (Function.uncurry f)) (hU : IsOpen U)
+    (hU : IsOpen U)
     (hyU : ∀ t ∈ Icc t₀ T, (t, y t, (0 : ℝ)) ∈ U)
     (hΦ : ContDiffOn ℝ ∞ (fun q : ℝ × E × ℝ ↦ Φ q.1 q.2.1 q.2.2) U)
     (hcons : ∀ t u, (t, u, (0 : ℝ)) ∈ U → Φ t u 0 = f t u)
@@ -739,5 +747,7 @@ theorem isBigO_extrapolation {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ
 #check @PowerSeries.trunc
 #check @IsIntegralCurveOn
 #check @gronwallBound
+#check @RootedTree.subtrees
+#check @SubRootedTree.coeTree
 
 end TauCetiRoadmap.RungeKuttaOrderTheoryAndBSeries

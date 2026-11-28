@@ -67,7 +67,7 @@ Layer 1 of OneStepMethodsForODEs and the Taylor expansion in `h`; it is placed l
 extrapolated methods are the main consumers of high-order tableaux.
 
 Each numbered target lists its *Needs* and, where useful, **Checks**: sanity tests that a wrong
-convention or a dropped hypothesis would fail. All numbers in the Checks were recomputed.
+convention or a dropped hypothesis would fail.
 
 ## Conventions
 
@@ -113,12 +113,15 @@ These are fixed for every target. A statement that departs from them is a differ
   (`EuclideanSpace ℝ (Fin d)`), every solution `u` near `0` and every stage branch `k` that is
   continuous at `h = 0` and solves the stage equations for `h` near `0`, the local error
   `u(h) − u(0) − h ∑ b_i k_i(h)` is `O(h^(p+1))`. `ButcherTableau.HasLocalOrder p` is the same for
-  non-autonomous fields at every initial time. The dimension is arbitrary, since for scalar
-  equations fewer conditions suffice from order five on (HNW, Exercise II.2.3, p. 154, for
-  `y' = f(x, y)` scalar). The branch formulation avoids the junk value of
-  `ButcherTableau.stages` for implicit tableaux; 3.4 proves that the branch exists and is unique,
-  and for explicit tableaux it is the stage vector itself. OneStepMethodsForODEs'
-  `ButcherTableau.HasOrder` (uniform on intervals) is related to these in 4.4.
+  non-autonomous fields at every initial time. The dimension is arbitrary, since scalar
+  equations need fewer conditions. For a scalar autonomous `f`, the trees `[[•],•]` and `[[•,•]]`
+  of order four have the same elementary differential `f''·(f'f)·f`, so their two conditions
+  merge into one, `(Φ − 1/γ)([[•],•]) + (Φ − 1/γ)([[•,•]])/2 = 0`. For a scalar non-autonomous
+  `y' = f(x, y)` the count drops from order five on (HNW, Exercise II.2.3, p. 154). The branch
+  formulation avoids the junk value of `ButcherTableau.stages` for implicit tableaux; 3.4 proves
+  that the branch exists and is unique, and for explicit tableaux it is the stage vector itself.
+  OneStepMethodsForODEs' `ButcherTableau.HasOrder` (uniform on intervals) is related to these in
+  4.4.
 - **Tree conditions.** `ButcherTableau.TreeConditions p` is `Φ(t) = 1/γ(t)` for every rooted tree
   with `|t| ≤ p` (`p = 0` imposes nothing). It differs from OneStepMethodsForODEs'
   `ButcherTableau.OrderConditions`, which is written with `c` and stops at order four.
@@ -205,8 +208,11 @@ Lipschitz field. This layer treats the local rectangle and produces the solution
   sums and products over `Fin m` are invariant under permutations.
 - **Comparison with Mathlib** (`exists_equiv_finiteRootedTree`): there is a bijection between
   `ButcherTree` and the order-isomorphism classes of finite Mathlib rooted trees
-  (`finiteRootedTreeSetoid`), under which the order is the number of elements. Route: the
-  children of the root are the trees above its covers.
+  (`finiteRootedTreeSetoid`), under which the order is the number of elements, and which is the
+  canonical one: the class of `[t₁, …, t_m]` is that of a tree whose root has `m` immediate
+  subtrees (`RootedTree.subtrees`, the up-sets of the covers of the root), the `i`-th in the
+  class of `tᵢ`. The second conjunct and bijectivity determine the map by induction on the
+  order. Route: the children of the root are the trees above its covers.
 - Basic API: `order ≥ 1`; `density` divides `order !`; `[t₁, …, t_m]` as a function of the
   multiset of the `mk tᵢ`; the only tree of order one is `•`; the order of `[t₁, …, t_m]` is
   `1 + ∑ |tᵢ|` (Butcher 2016, (304a), p. 154).
@@ -270,7 +276,7 @@ Lipschitz field. This layer treats the local rectangle and produces the solution
 
 - `n = 4`: `α = 1, 3, 1, 1` for `[•,•,•]`, `[[•],•]`, `[[•,•]]`, `[[[•]]]`, summing to `6 = 3!`
   (HLW, Table III.1.1, p. 53); `n!/σ = 4, 24, 12, 24`, summing to `64 = 4³`.
-- `n = 1, …, 8`: the two sums are `(n − 1)!` and `n^(n−1)` (recomputed).
+- `n = 1, …, 8`: the two sums are `(n − 1)!` and `n^(n−1)`.
 
 *Needs:* 2.1, 2.3.
 
@@ -452,7 +458,7 @@ Lipschitz field. This layer treats the local rectangle and produces the solution
 
 - Butcher's 6-stage method of order 5 (`c = (0, 1/4, 1/4, 1/2, 3/4, 1)`,
   `b = (7, 0, 32, 12, 32, 7)/90`) satisfies the 17 conditions of order five and fails one of
-  order six (recomputed).
+  order six.
 - `p ≥ 5` is needed: `rk4` has `s = p = 4`.
 
 *Needs:* 4.2, 4.4; OneStepMethodsForODEs §5.4.
@@ -517,7 +523,7 @@ Lipschitz field. This layer treats the local rectangle and produces the solution
 - `s = 1`: the Gauss node is `1/2` (implicit midpoint, order `2`), the Radau IIA node is `1`
   (implicit Euler, order `1`); `s = 2` Lobatto IIIA has nodes `0, 1` (the trapezoidal rule,
   order `2`).
-- Recomputed maximal orders for `s = 1, 2, 3`: Gauss `2, 4, 6`; Radau IIA `1, 3, 5`; Lobatto
+- Maximal orders for `s = 1, 2, 3`: Gauss `2, 4, 6`; Radau IIA `1, 3, 5`; Lobatto
   IIIA (`s = 2, 3`) `2, 4`. Equispaced nodes `0, 1/2, 1` give order `4` (`r = 1`); nodes
   `0, 1/3, 1` give order `3` (`r = 0`).
 
@@ -536,7 +542,7 @@ Lipschitz field. This layer treats the local rectangle and produces the solution
 - `s = 2`: the polynomial system of the eight conditions of order four in
   `a₁₁, a₁₂, a₂₁, a₂₂, b₁, b₂` has exactly the two solutions `a₁₁ = a₂₂ = 1/4`, `b = (1/2, 1/2)`,
   `a₂₁ = 1/4 ± √3/6`, `a₁₂ = 1/2 − a₂₁`: the Gauss method with its two node orderings
-  (recomputed by a Gröbner basis).
+  (by a Gröbner basis).
 
 *Needs (Layer 6):* 4.2–4.4, 5.1; OneStepMethodsForODEs §2.3; Mathlib `Lagrange.basis`,
 `Polynomial.shiftedLegendre`.
@@ -567,8 +573,8 @@ Lipschitz field. This layer treats the local rectangle and produces the solution
 
 **Checks.**
 
-- The exact flow composed with itself: `(e e)(t) = 2^|t|/γ(t)`, the flow over `2h` (recomputed
-  through order six).
+- The exact flow composed with itself: `(e e)(t) = 2^|t|/γ(t)`, the flow over `2h`, on all
+  trees of order at most six.
 
 ### 7.3 Composition of tableaux
 
@@ -581,7 +587,7 @@ Lipschitz field. This layer treats the local rectangle and produces the solution
 **Checks.**
 
 - Random rational tableaux with two and three stages: the weights of the composite agree with
-  the product on all trees of order at most six (recomputed).
+  the product on all trees of order at most six.
 
 ### 7.4 The Butcher group
 
@@ -596,13 +602,13 @@ Lipschitz field. This layer treats the local rectangle and produces the solution
 
 **Checks.**
 
-- The inverse of the exact flow is `(−1)^|t|/γ(t)`, the flow over `−h` (recomputed).
+- The inverse of the exact flow is `(−1)^|t|/γ(t)`, the flow over `−h`.
 - Random rational `a`, `b`, `c` on the trees of order at most six: `(ab)c = a(bc)` when
   `b(∅) = 1`, also for `a(∅) ∈ {2, 0, −1/3}`; with `b(∅) = 3` the two sides differ, so the
-  hypothesis on the middle factor cannot be dropped (recomputed).
-- With `a` the coefficients of explicit Euler and `e` those of the exact flow,
-  `(a e)([•,•]) = 7/3` and `(e a)([•,•]) = 4/3`; on `[•]` and `[[•]]` the two products agree
-  (`3/2` and `2/3`), so a test on trees of order two would miss the non-commutativity.
+  hypothesis on the middle factor cannot be dropped.
+- With `a` the coefficients of explicit Euler and `e` those of the exact flow, the two products
+  agree on `•`, `[•]` and `[[•]]` (values `2`, `3/2` and `2/3`), and through order three only
+  `[•,•]` separates them: `(a e)([•,•]) = 7/3` and `(e a)([•,•]) = 4/3`.
 
 *Needs (Layer 7):* 2.1, 3.1–3.4; Mathlib `List.sections`.
 
@@ -611,7 +617,10 @@ Lipschitz field. This layer treats the local rectangle and produces the solution
 The method is a general increment function `Φ`, smooth on an open set `U ⊆ ℝ × E × ℝ` containing
 `(t, y(t), 0)` for `t ∈ [t₀, T]`, consistent (`Φ(t, u, 0) = f(t, u)` on `U`), with defect
 `h^(p+1) d(t) + O(h^(p+2))` as `h → 0⁺` for each `t ∈ [t₀, T)`. The solution `y` is on
-`[t₀, T]` and `E` is complete.
+`[t₀, T]` and `E` is complete. No smoothness of `f` is assumed beyond this: the slice
+`{(t, u) | (t, u, 0) ∈ U}` is open and contains the graph of `y`, and on it `f = Φ(·, ·, 0)` by
+consistency, so `f` is smooth there, which is all that `y`, `∂_y f(t, y(t))` and the `e_j`
+use.
 
 ### 8.1 Gragg's expansion
 
@@ -704,16 +713,16 @@ Boundaries:
 - SpecialFunctionsOrthogonalPolynomialsGeneral owns Gauss quadrature and its error. The
   quadrature facts used for collocation (exactness of `(b, c)` from `B(p)`, orthogonality of the
   shifted Legendre polynomial) are proved here on the tableaux.
-- QuadratureRulesAndPeanoKernels (open pull request) owns Peano kernels, composite rules and one
+- QuadratureRulesAndPeanoKernels owns Peano kernels, composite rules and one
   Richardson step for quadrature; Layer 8 extrapolates one-step methods, not quadrature rules.
-- LinearMultistepMethods (open pull request) owns multistep methods; nothing here concerns them.
+- LinearMultistepMethods owns multistep methods; nothing here concerns them.
 - [AdaptiveTimeSteppingForODEs](../AdaptiveTimeSteppingForODEs/README.md) owns embedded pairs,
   error indicators and step-size control on adaptive meshes. Layer 8 is about uniform meshes and
   does not consume it.
-- ExponentialIntegrators (open pull request) owns exponential Euler and exponential Runge–Kutta
+- ExponentialIntegrators owns exponential Euler and exponential Runge–Kutta
   methods for semilinear problems and their stiffness-independent error bounds; their order
   conditions are not treated here.
-- WellQuasiOrdersAndKruskal (open pull request) owns labelled plane trees with a list of
+- WellQuasiOrdersAndKruskal owns labelled plane trees with a list of
   children and their homeomorphic embeddings. The ordered trees of 2.1 are a separate carrier:
   unlabelled, with the children indexed by `Fin m`, because the elementary differential at a
   vertex with `m` children evaluates `iteratedFDeriv ℝ m f y` on a family indexed by `Fin m`;
@@ -754,8 +763,10 @@ u_k + (−1)^n v_k; general linear methods.
 - `Lagrange.basis` (`Mathlib/LinearAlgebra/Lagrange.lean`), `Polynomial.shiftedLegendre`
   (`Mathlib/RingTheory/Polynomial/ShiftedLegendre.lean`), `PowerSeries.trunc`, `List.sections`,
   `Quot.out`, `finsum`.
-- `_root_.RootedTree` (`Mathlib/Order/SuccPred/Tree.lean`): rooted trees as orders with a least
-  element and predecessors; compared with `ButcherTree` in 2.1.
+- `_root_.RootedTree`, `RootedTree.subtrees` and `SubRootedTree.coeTree`
+  (`Mathlib/Order/SuccPred/Tree.lean`): rooted trees as orders with a least element and
+  predecessors, their immediate subtrees and the subtree as a rooted tree; compared with
+  `ButcherTree` in 2.1.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -778,8 +789,7 @@ representatives.
 
 The Isabelle Archive of Formal Proofs entry *Ordinary Differential Equations* (Immler and
 Hölzl) contains explicit Runge–Kutta methods used for rigorous enclosures, without the tree
-theory. No Mathlib pull request concerns Butcher trees, B-series or Runge–Kutta order
-conditions.
+theory.
 
 ## References
 
