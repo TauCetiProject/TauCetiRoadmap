@@ -761,15 +761,14 @@ It does not own:
 - **ComplexKahlerGeometry §8.2:** Mal'cev rationality of an arbitrary lattice and Γ-adapted Mal'cev
   bases without height bounds; 2.6 only transports them.
 - **PolynomialOrbitsAndCubeGroups:** cube nilmanifolds `G^{[k]}/Γ^{[k]}`, their Haar measures and
-  rational structure, Mal'cev characters of subnilmanifolds, Leibman's qualitative equidistribution
-  and orbit closures, rational lattice charts and PET induction. Layer 0 here owns only the
-  abstract cube groups of a filtered group.
+  rational structure, the Leibman square `G ×_{G_2} G` with its filtration, Mal'cev characters of
+  subnilmanifolds, Leibman's qualitative equidistribution and orbit closures, rational lattice
+  charts and PET induction. Layer 0 here owns only the abstract cube groups of a filtered group.
 - **NilsequenceEquidistribution and GowersInverseTheorem:** quantitative equidistribution, smooth
-  sequences and the factorisation theorem, the
-  equivalence and symbols of nilcharacters (GTZ, Definition 6.22 and Lemmas E.7–E.8), correlation
+  sequences and the factorisation theorem, the equivalence and symbols of nilcharacters (GTZ, Definition 6.22 and Lemmas E.7–E.8), correlation
   of nilsequences with Gowers-uniform functions, and every construction whose only use is the
-  inverse theorem (square and dilation-pair filtrations, additive-triple restrictions, comparison
-  orbits, integer expansions and their budgets).
+  inverse theorem (square filtrations other than the Leibman square, dilation-pair filtrations,
+  additive-triple restrictions, comparison orbits, integer expansions and their budgets).
 - **GowersUniformityNorms:** Gowers norms on integer boxes and their Freiman transport. No item of
   this roadmap uses a Gowers norm.
 - **ProbabilisticAndMetricNumberTheory §2 and SuccessiveMinima:** equidistribution on tori, Weyl
