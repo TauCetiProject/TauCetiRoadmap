@@ -485,7 +485,7 @@ while `ζ(0) = −1/2` (`riemannZeta_def_of_ne_zero` carries `s ≠ 0` for this 
 
 *Needs:* *invGammaFactor*; L-functions Layer 0 `HasDirichletAgreement`,
 `HasMeromorphicContinuation`, `HasFunctionalEquation.eventuallyEq`, `AnalyticLFunctionData.dual`,
-Layers 3 and 5 for the family comparisons; Mathlib `riemannZeta`, `riemannZeta_zero`.
+L-functions Layers 3 and 5 for the family comparisons; Mathlib `riemannZeta`, `riemannZeta_zero`.
 
 **Checks.**
 
@@ -662,8 +662,8 @@ edge bounds in convexity, not from this estimate.
 *Needs:* Layer 0 *entireCompletion* and `OrderLE`; 1.2 on the positive real axis;
 Mathlib `WeakFEPair.Λ₀`, `WeakFEPair.Λ` in `NumberTheory/LSeries/AbstractFuncEq.lean`; L-functions
 Layer 3 `completedPartialZeta_eq_mellin`, `completedDedekindZeta_eq_sum_completedPartialZeta`,
-`continuousOn_mellinKernel`, `mellinKernel_inv`, `mellinKernel_sub_const_isBigO`; Layer 6
-`completedHeckeLFunction_eq_mellin`, `Grossencharacter.continuousOn_heckeMellinTotal`,
+`continuousOn_mellinKernel`, `mellinKernel_inv`, `mellinKernel_sub_const_isBigO`; L-functions
+Layer 6 `completedHeckeLFunction_eq_mellin`, `Grossencharacter.continuousOn_heckeMellinTotal`,
 `Grossencharacter.heckeMellinTotal_inv`, `Grossencharacter.heckeMellinTotal_sub_const_isBigO`.
 
 **Checks.**
@@ -1161,7 +1161,7 @@ the three clauses are assembled here from 5.5, 3.1 and 4.4, as 6.4 is.
 `TauCeti.LFunctions.AnalyticLFunctionData.HasFunctionalEquation.eventuallyEq`,
 `TauCeti.LFunctions.AnalyticLFunctionData.dual_completed` and the field
 `HasFunctionalEquation.polarOrder_one_sub_conj` (L-functions Layer 0); L-functions Layers 3 and 5,
-and Layer 7 `heckeLFunction_ne_zero_of_one_le_re` at `s = 1` for `Λ₀(0) ≠ 0`.
+and L-functions Layer 7 `heckeLFunction_ne_zero_of_one_le_re` at `s = 1` for `Λ₀(0) ≠ 0`.
 
 **Checks.**
 
@@ -1636,8 +1636,9 @@ transport to `Re s = 0` uses the germ functional equation, including the trivial
 At `K = ℚ`, `riemannZeta_ne_zero_of_one_le_re` supplies the off-pole case.
 
 *Needs:* L-functions Layer 7 `heckeLFunction_ne_zero_of_one_le_re`,
-`meromorphicOrderAt_dedekindZetaC_one_add`; Layer 3 `meromorphicOrderAt_dedekindZetaC_one`;
-Layer 5 `completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
+`meromorphicOrderAt_dedekindZetaC_one_add`; L-functions Layer 3
+`meromorphicOrderAt_dedekindZetaC_one`; L-functions Layer 5
+`completedHeckeLFunction_one_sub_eventuallyEq`; 1.5–1.6.
 
 **Checks.**
 
