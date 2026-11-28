@@ -601,6 +601,7 @@ body:
         - SpecialFunctionsBessel
         - SpecialFunctionsClebschGordan
         - SpecialFunctionsConfluent
+        - SpecialFunctionsCoulomb
         - SpecialFunctionsEiLiErfIncompleteGamma
         - SpecialFunctionsGamma
         - SpecialFunctionsGeneralizedHypergeometric
