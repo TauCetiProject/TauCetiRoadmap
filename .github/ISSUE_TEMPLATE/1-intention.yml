@@ -245,6 +245,7 @@ body:
         - ExplicitPrimeCounting
         - ExplicitZetaBounds
         - ExponentialCone
+        - ExponentialIntegrators
         - ExponentialSumsAndCircleMethodPartII
         - FactorRigidity
         - FaltingsFinitenessAndIsogenyTheorems
@@ -352,6 +353,7 @@ body:
         - InstantonFloerTheory
         - IntegralHeckeAndGaloisDeterminants
         - IntegralIwasawaTheory
+        - IntegralIwasawaTheoryPartII
         - IntegralLattices
         - InteriorPointMethods
         - InverseGaloisAndArithmeticFundamentalGroups
@@ -391,6 +393,7 @@ body:
         - LineSystemsAndSwitching
         - LinearAlgebraMethodInCombinatorics
         - LinearFormsInLogarithms
+        - LinearMultistepMethods
         - LinearSystemsAndControl
         - LocalFieldsRamificationPartII
         - LocalGaloisDeformationRings
@@ -403,6 +406,7 @@ body:
         - LovaszThetaFunction
         - LubinTateFormalModulesAndQuasiCanonicalLifts
         - MaassForms
+        - MappingClassGroupsAndCanonicalRepresentations
         - MarkovChainMixing
         - MarkovChainsAndRenewal
         - MarkovDecisionProcesses
