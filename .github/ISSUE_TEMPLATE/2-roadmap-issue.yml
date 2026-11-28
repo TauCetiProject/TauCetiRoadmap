@@ -314,6 +314,7 @@ body:
         - HabiroCohomologyFoundations
         - HabiroCyclotomicCompletions
         - HabiroNumberFields
+        - HabiroRings
         - HalfIntegralWeightModularForms
         - HamiltonJacobiAndConservationLaws
         - HamiltonianCycles
