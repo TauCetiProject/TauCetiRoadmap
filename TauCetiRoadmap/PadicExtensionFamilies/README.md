@@ -2279,7 +2279,7 @@ The local-field module prefix is `TauCeti/NumberTheory/LocalField/…`.
   J. reine angew. Math. 328 (1981), 99–115: Lemma 17, pp.111–112, and the invariant on p.112.
 - C. Pagano, *Jump sets in local fields*, arXiv:1810.09975v1: §1.2, pp.3–4, and
   Theorems 1.4–1.5, p.6. These are the preprint locators; the published paper is
-  J. Algebra 592 (2022), 1–50.
+  J. Algebra 593 (2022), 398–476.
 - J.-P. Serre, *Une « formule de masse » pour les extensions totalement ramifiées de degré donné
   d'un corps local*, C. R. Acad. Sci. Paris 286 (1978), 1031–1036: consumed through Tau Ceti's
   mass formula at the pin.
