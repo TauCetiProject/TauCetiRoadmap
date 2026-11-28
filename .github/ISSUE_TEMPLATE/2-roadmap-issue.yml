@@ -255,6 +255,7 @@ body:
         - FiniteGroupExtensionSplitting
         - FiniteGroupInvariants
         - FiniteSamplingDiscrepancy
+        - FinitenessAndDualityOfGroups
         - FirstOrderOptimization
         - FlagVarieties
         - FlowMatching
