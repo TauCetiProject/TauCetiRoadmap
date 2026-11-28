@@ -536,6 +536,7 @@ body:
         - RandomGraphs
         - RandomMatrices
         - RandomProjectionsAndSketching
+        - RandomWalksOnFiniteGroups
         - RandomizedSmoothing
         - Rank24LatticeConstructions
         - RationalHomotopyModels
@@ -656,6 +657,7 @@ body:
         - TemperleyLiebOperatorAlgebras
         - TensorProductCombinatorics
         - ThetaSeries
+        - ThresholdFunctionsAndMargins
         - TopologicalCombinatorics
         - TopologicalDataAnalysis
         - TopologicalKTheory
